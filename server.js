@@ -132,7 +132,7 @@ async function groundRewrites(session, feedback, traces) {
         system, user: JSON.stringify({ resume_text: session.inputs.resume_text, student_answers: String(answers[t.slot_id] || '').trim(), rewrite: r.stronger_version }, null, 2),
         schemaName: 'rewrite_grounding', schema: groundingSchema,
       });
-      traces.push({ ...trace, grounding_for: t.slot_id, unsupported: data.unsupported_claims });
+      traces.push({ ...trace, grounding_for: t.slot_id, unsupported: data.unsupported_claims, checked_rewrite: r.stronger_version });
       if (data.unsupported_claims.length) r.stronger_version = '';
     } catch (err) {
       traces.push({ grounding_for: t.slot_id, error: err.message });
