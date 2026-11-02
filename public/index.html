@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VMock Interviews · Adaptive prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">VMock Interviews <span class="brand-sub">Adaptive interviewer prototype</span></div>
+    <nav class="topbar-actions">
+      <button class="link-btn" id="pastBtn" type="button">Past sessions</button>
+      <button class="link-btn" id="settingsBtn" type="button">Settings</button>
+    </nav>
+  </header>
+
+  <main id="app">
+    <!-- Setup -->
+    <section id="screen-setup" class="screen" hidden>
+      <div class="setup-grid">
+        <div class="setup-col">
+          <h1 class="screen-title">Set up a practice interview</h1>
+          <p class="lede">The interviewer reads the resume (and the job description, if you add one) and plans its questions before you start.</p>
+
+          <div class="field">
+            <div class="field-head">
+              <label for="resume">Resume</label>
+              <div class="field-tools">
+                <label class="file-btn">Upload PDF<input type="file" id="resumePdf" accept="application/pdf" hidden></label>
+                <select id="resumeSample" aria-label="Load a sample resume"><option value="">Load a sample</option></select>
+              </div>
+            </div>
+            <textarea id="resume" rows="14" placeholder="Paste the resume text here"></textarea>
+          </div>
+
+          <details class="field" id="jdBlock">
+            <summary>Practising for a specific job? Add the job description</summary>
+            <div class="field-head inner">
+              <label for="jd">Job description (optional)</label>
+              <select id="jdSample" aria-label="Load a sample job description"><option value="">Load a sample</option></select>
+            </div>
+            <textarea id="jd" rows="10" placeholder="Paste the job description here"></textarea>
+          </details>
+        </div>
+
+        <div class="setup-col choices">
+          <div class="field">
+            <label for="role">Target role</label>
+            <input id="role" type="text" placeholder="For example: Product Analyst">
+            <p class="hint">Optional if you add a job description.</p>
+          </div>
+
+          <fieldset class="field">
+            <legend>Interview type</legend>
+            <div class="option-list" id="typeOptions">
+              <label class="option"><input type="radio" name="type" value="recruiter_screen"><span><strong>Recruiter screen</strong><em>Broad first conversation: motivation, background, fit.</em></span></label>
+              <label class="option"><input type="radio" name="type" value="hiring_manager" checked><span><strong>Hiring manager</strong><em>Your experience in depth, tied to the role.</em></span></label>
+              <label class="option"><input type="radio" name="type" value="back_your_resume"><span><strong>Back your resume</strong><em>Detailed questions on the lines of your resume.</em></span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field">
+            <legend>Interviewer style</legend>
+            <div class="segmented" id="styleOptions">
+              <label><input type="radio" name="style" value="supportive"><span>Supportive</span></label>
+              <label><input type="radio" name="style" value="balanced" checked><span>Balanced</span></label>
+              <label><input type="radio" name="style" value="probing"><span>Probing</span></label>
+              <label><input type="radio" name="style" value="surprise"><span>Surprise me</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field">
+            <legend>Length</legend>
+            <div class="segmented" id="lengthOptions">
+              <label><input type="radio" name="length" value="short"><span>Short, about 10 min</span></label>
+              <label><input type="radio" name="length" value="standard" checked><span>Standard, about 15 min</span></label>
+            </div>
+          </fieldset>
+
+          <p class="error" id="setupError" role="alert" hidden></p>
+          <button class="primary" id="prepareBtn" type="button">Prepare interview</button>
+          <p class="hint" id="keyHint" hidden>Add your OpenAI key in Settings first.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Planning -->
+    <section id="screen-planning" class="screen center" hidden>
+      <div class="waiting">
+        <div class="pulse" aria-hidden="true"></div>
+        <h2>Preparing your interview</h2>
+        <p>The interviewer is reading the resume and planning its questions. This usually takes under a minute.</p>
+      </div>
+    </section>
+
+    <!-- Pre-brief -->
+    <section id="screen-brief" class="screen center" hidden>
+      <div class="brief">
+        <h2 id="briefTitle"></h2>
+        <ul id="briefList" class="brief-list"></ul>
+        <p class="brief-note">Answer each question in the box below it. Pausing to think is fine, and you can ask the interviewer to repeat or explain a question.</p>
+        <p class="brief-warn" id="briefWarn" hidden></p>
+        <button class="primary" id="startBtn" type="button">Start interview</button>
+      </div>
+    </section>
+
+    <!-- Interview -->
+    <section id="screen-interview" class="screen" hidden>
+      <div class="interview-layout">
+        <div class="interview-main">
+          <div class="thread" id="thread" aria-live="polite"></div>
+          <div class="current" id="current">
+            <div class="speaker">Interviewer</div>
+            <p class="question" id="question"></p>
+          </div>
+          <div class="answer-box" id="answerBox">
+            <label for="answer" class="sr-only">Your answer</label>
+            <textarea id="answer" rows="7" placeholder="Type your answer"></textarea>
+            <div class="answer-bar">
+              <span class="count" id="wordCount">0 words</span>
+              <span class="kbd-hint">Ctrl + Enter to send</span>
+              <button class="primary" id="sendBtn" type="button">Send answer</button>
+            </div>
+            <p class="error" id="turnError" role="alert" hidden></p>
+          </div>
+          <div class="typing" id="typing" hidden>Interviewer is typing</div>
+          <div class="interview-foot">
+            <button class="link-btn" id="endBtn" type="button">End interview</button>
+            <button class="link-btn" id="agendaToggle" type="button" aria-expanded="false">Show the hidden agenda</button>
+          </div>
+        </div>
+        <aside class="agenda" id="agenda" hidden aria-label="Hidden agenda">
+          <h3>Interviewer's notes</h3>
+          <p class="agenda-sub">Hidden from students. For review only.</p>
+          <div id="agendaBody"></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Review -->
+    <section id="screen-review" class="screen" hidden>
+      <div class="review-head">
+        <div>
+          <h1 class="screen-title" id="reviewTitle">Interview complete</h1>
+          <p class="lede" id="reviewLede"></p>
+        </div>
+        <div class="review-actions">
+          <button class="secondary" id="downloadBtn" type="button">Download session JSON</button>
+          <button class="secondary" id="rerunBtn" type="button">Run again with same inputs</button>
+          <button class="primary" id="newBtn" type="button">New interview</button>
+        </div>
+      </div>
+      <div class="tabs" role="tablist">
+        <button role="tab" class="tab" data-tab="reveal" aria-selected="true">Agenda reveal</button>
+        <button role="tab" class="tab" data-tab="planner" aria-selected="false">Planner output</button>
+        <button role="tab" class="tab" data-tab="turns" aria-selected="false">Turn decisions</button>
+        <button role="tab" class="tab" data-tab="transcript" aria-selected="false">Transcript</button>
+      </div>
+      <div class="tab-panel" id="panel-reveal"></div>
+      <div class="tab-panel" id="panel-planner" hidden></div>
+      <div class="tab-panel" id="panel-turns" hidden></div>
+      <div class="tab-panel" id="panel-transcript" hidden></div>
+    </section>
+
+    <!-- Past sessions -->
+    <section id="screen-past" class="screen" hidden>
+      <div class="review-head">
+        <h1 class="screen-title">Past sessions</h1>
+        <button class="secondary" id="pastBackBtn" type="button">Back</button>
+      </div>
+      <div id="pastList"></div>
+    </section>
+  </main>
+
+  <dialog id="settings">
+    <form method="dialog" class="settings-form">
+      <h2>Settings</h2>
+      <div class="field" id="keyField">
+        <label for="apiKey">OpenAI API key</label>
+        <input id="apiKey" type="password" autocomplete="off" placeholder="sk-...">
+        <p class="hint" id="keyStatus"></p>
+      </div>
+      <div class="two">
+        <div class="field">
+          <label for="plannerModel">Planner model</label>
+          <input id="plannerModel" type="text">
+        </div>
+        <div class="field">
+          <label for="plannerEffort">Planner reasoning</label>
+          <select id="plannerEffort"><option>none</option><option>minimal</option><option>low</option><option>medium</option><option>high</option></select>
+        </div>
+      </div>
+      <div class="two">
+        <div class="field">
+          <label for="turnModel">Turn model</label>
+          <input id="turnModel" type="text">
+        </div>
+        <div class="field">
+          <label for="turnEffort">Turn reasoning</label>
+          <select id="turnEffort"><option>none</option><option>minimal</option><option>low</option><option>medium</option><option>high</option></select>
+        </div>
+      </div>
+      <p class="hint">Reasoning is only sent to reasoning models (gpt-5 and o-series). Use a faster model for turns to keep replies quick.</p>
+      <label class="check"><input type="checkbox" id="showAgendaDefault"> Open the hidden agenda during interviews by default</label>
+      <div class="dialog-actions">
+        <button class="secondary" value="cancel" type="submit">Cancel</button>
+        <button class="primary" id="saveSettings" value="save" type="submit">Save settings</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

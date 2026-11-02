@@ -1,0 +1,11 @@
+{
+  "name": "vmock-adaptive-interview-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Prototype of VMock's adaptive AI interviewer: resume- and JD-grounded planning with budgeted follow-ups.",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/run-test.js"
+  }
+}

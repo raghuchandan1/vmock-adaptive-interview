@@ -1,0 +1,25 @@
+Product Analyst (Graduate hire) – Lumen Pay, Bengaluru
+
+About Lumen Pay
+Lumen Pay builds UPI-first payment and credit products for small merchants across India.
+
+What you'll do
+- Analyse product and funnel data to find where merchants drop off during onboarding and activation
+- Build and maintain dashboards that product managers use to make weekly decisions
+- Define success metrics for new features with product managers and measure their impact
+- Design and analyse A/B tests with the experimentation team
+- Present insights clearly to product, design and operations teams
+
+Must have
+- Strong SQL and comfort working with large, messy datasets
+- Experience with a BI tool such as Power BI, Tableau or Looker
+- Structured problem solving: breaking down an ambiguous question into a clear analysis
+- Clear written and verbal communication
+
+Nice to have
+- Python for analysis
+- Exposure to experimentation or A/B testing
+- Interest in fintech or payments
+
+Our values
+Customer obsession, ownership, and candour.

@@ -1,0 +1,33 @@
+ROHAN MEHTA
+Bengaluru | rohan.mehta@example.com | linkedin.com/in/rohanmehta-example
+
+SUMMARY
+Associate Product Manager with 2.5 years in consumer e-commerce, moving from operations analytics into product. Focused on growth, experimentation and checkout.
+
+EXPERIENCE
+Associate Product Manager, Kitecart (March 2023 – Present)
+- Led the launch of a referral programme that increased new-user sign-ups by 30% in the first quarter
+- Owned the checkout redesign end to end, cutting cart abandonment from 71% to 58% across 2 million monthly sessions
+- Ran 14 A/B tests on the product listing page; shipped 5 winners that together lifted conversion by 9%
+- Partnered with engineering, design and marketing to prioritise a 40-item backlog every sprint
+- Introduced an AI-assisted review tagging pipeline that categorises 50,000 customer reviews a month
+
+Product Operations Analyst, Kitecart (March 2022 – February 2023)
+- Built weekly operations dashboards in Looker for the category management team
+- Identified a pricing error pattern that saved the company Rs 2.4 crore annually
+- Worked closely with sellers to improve catalogue quality
+
+Business Analyst, Northline Logistics (August 2019 – June 2021)
+- Analysed delivery route data for 3 regional hubs
+- Automated the monthly SLA report using Python, saving the team 2 days each month
+- Supported the regional head in quarterly business reviews
+
+EDUCATION
+B.Com (Honours), St. Xavier's College, Mumbai (2016 – 2019)
+
+CERTIFICATIONS
+Product Management Fundamentals – online certificate (2022)
+SQL for Data Analysis – online certificate (2021)
+
+SKILLS
+Product discovery, A/B testing, SQL, Looker, Amplitude, Figma (basic), Python (basic), Jira
