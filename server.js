@@ -7,7 +7,7 @@ const path = require('path');
 const crypto = require('crypto');
 
 const { callStructured } = require('./lib/openai');
-const { plannerSchema, turnSchema, feedbackSchema } = require('./lib/schemas');
+const { plannerSchema, turnSchema, feedbackSchema, groundingSchema } = require('./lib/schemas');
 const engine = require('./lib/engine');
 
 const ROOT = __dirname;
@@ -120,6 +120,27 @@ async function answer(id, body) {
   try { return await answerLocked(session, body); } finally { inFlight.delete(id); }
 }
 
+// Second model call per rewrite: a "stronger version" may only contain facts from the resume or the student's
+// answers, plus placeholders. Anything unsupported, or a failed check, removes the rewrite text (fails closed).
+async function groundRewrites(session, feedback, traces) {
+  const answers = engine.candidateTextBySlot(session);
+  const system = readPrompt('grounding');
+  await Promise.all(feedback.topics.flatMap((t) => (t.rework || []).filter((r) => r.stronger_version).map(async (r) => {
+    try {
+      const { data, trace } = await callStructured({
+        apiKey: apiKey(), baseUrl: BASE_URL, model: session.settings.turn_model, reasoningEffort: session.settings.turn_effort,
+        system, user: JSON.stringify({ resume_text: session.inputs.resume_text, student_answers: String(answers[t.slot_id] || '').trim(), rewrite: r.stronger_version }, null, 2),
+        schemaName: 'rewrite_grounding', schema: groundingSchema,
+      });
+      traces.push({ ...trace, grounding_for: t.slot_id, unsupported: data.unsupported_claims });
+      if (data.unsupported_claims.length) r.stronger_version = '';
+    } catch (err) {
+      traces.push({ grounding_for: t.slot_id, error: err.message });
+      r.stronger_version = '';
+    }
+  })));
+}
+
 // Student feedback: one model call after the interview, cached on the session.
 async function feedback(id) {
   const session = getSession(id);
@@ -147,6 +168,7 @@ async function feedback(id) {
       result = await run(`Rewrite without these problems: ${result.shaped.problems.join('; ')}. Give no scores or ratings.`);
       traces.push(result.trace);
     }
+    await groundRewrites(session, result.shaped.feedback, traces);
     session.feedback = result.shaped.feedback;
     session.feedback_trace = traces;
     saveSession(session);

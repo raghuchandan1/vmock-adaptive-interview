@@ -80,7 +80,7 @@ let feedbackCalls = 0;
 function feedbackOutput(input) {
   feedbackCalls += 1;
   const bad = !input.note;
-  const topic = (t) => {
+  const topic = (t, i) => {
     const ans = input.transcript.find((e) => e.role === 'candidate' && e.slot_id === t.slot_id);
     const real = ans ? ans.text.split(/\s+/).slice(0, 4).join(' ') : '';
     return {
@@ -88,7 +88,7 @@ function feedbackOutput(input) {
       ratings: t.rubric.map((r, i) => ({ dimension: r.dimension, level: bad && i === 0 ? 'excellent' : ['good_job', 'on_track', 'needs_work'][i % 3], reason: 'Mock reason.' })),
       what_worked: 'You named a clear starting point.',
       worked_quote: real,
-      rework: [{ quote: bad ? 'I never said this' : real, why: bad ? 'The competency was weak.' : 'It lacks a measurable result.', stronger_version: 'I led the work and moved the metric by X%.' }],
+      rework: [{ quote: bad ? 'I never said this' : real, why: bad ? 'The competency was weak.' : 'It lacks a measurable result.', stronger_version: i === 1 ? 'I used greedy matching to settle balances.' : 'I led the work and moved the metric by X%.' }],
     };
   };
   return {
@@ -109,7 +109,9 @@ http.createServer((req, res) => {
       res.writeHead(400, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify({ error: { message: 'Unrecognized request argument supplied: reasoning_effort' } }));
     }
-    const out = name === 'interview_plan' ? plannerOutput(input) : name === 'interview_feedback' ? feedbackOutput(input) : turnOutput(input);
+    // Grounding check: anything mentioning "greedy" is an unsupported claim.
+    const out = name === 'rewrite_grounding' ? { unsupported_claims: /greedy/i.test(input.rewrite) ? ['greedy matching'] : [] }
+      : name === 'interview_plan' ? plannerOutput(input) : name === 'interview_feedback' ? feedbackOutput(input) : turnOutput(input);
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ choices: [{ message: { content: JSON.stringify(out) }, finish_reason: 'stop' }], usage: { prompt_tokens: 1000, completion_tokens: 200 } }));
   });

@@ -141,9 +141,12 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const { checkAndShapeFeedback } = require('../lib/engine');
   const mk = (stronger) => checkAndShapeFeedback({ overall: 'ok', priorities: [], topics: [{ slot_id: rated[0].slot_id, ratings: [], what_worked: '', worked_quote: '', rework: [{ quote: rated[0].rework[0].quote, why: 'weak', stronger_version: stronger }] }] }, trace).feedback.topics.find((t) => t.slot_id === rated[0].slot_id);
   check(mk('I led the work and moved the metric by X%.').rework.length === 1 && mk('I cut reporting time by 73 percent.').rework.length === 0, 'rewrite is dropped when it contains a number not in the resume or answers');
+  check(rated[0].rework[0].stronger_version.includes('X%') && rated[1] && rated[1].rework[0].stronger_version === '' && rated[1].rework[0].why, 'unsupported rewrite text is removed after the grounding check, supported one is kept');
+  const otherQuote = checkAndShapeFeedback({ overall: '', priorities: [], topics: [{ slot_id: rated[0].slot_id, ratings: [], what_worked: '', worked_quote: '', rework: [{ quote: rated[1].rework[0].quote, why: 'weak', stronger_version: 'I did [x].' }] }] }, trace).feedback.topics.find((t) => t.slot_id === rated[0].slot_id);
+  check(rated[1].rework[0].quote !== rated[0].rework[0].quote ? otherQuote.rework.length === 0 : true, 'a quote taken from a different topic is dropped');
   const fb2 = await post(`/api/sessions/${id}/feedback`, {});
   const saved = await get(`/api/sessions/${id}/trace`);
-  check(fb2.generated_at === fb.generated_at && saved.feedback_trace.length === 2, 'feedback is generated once with one retry, then cached');
+  check(fb2.generated_at === fb.generated_at && saved.feedback_trace.filter((x) => !x.grounding_for).length === 2 && saved.feedback_trace.filter((x) => x.grounding_for).length === 2, 'feedback is generated once with one retry, then cached');
 
   // Rollback on model failure: a session whose turn call errors keeps the transcript unchanged
   const v2 = await post('/api/sessions', { resume_text: resume, jd_text: '', target_role: 'Product Manager', interview_type: 'back_your_resume', style: 'surprise', length: 'short', settings: { turn_model: 'gpt-4.1', turn_effort: 'low' } });

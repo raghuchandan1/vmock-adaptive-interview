@@ -349,7 +349,7 @@
       if (t.what_worked) html += `<p><strong>What worked.</strong> ${esc(t.what_worked)}</p>`;
       for (const r of t.rework) {
         html += `<div class="rework"><div class="q">“${esc(r.quote)}”</div><p>${esc(r.why)}</p>
-          <div class="stronger"><span>A stronger version you could adapt. Fill in your own details.</span>${esc(r.stronger_version)}</div></div>`;
+          ${r.stronger_version ? `<div class="stronger"><span>A stronger version you could adapt. Fill in your own details.</span>${esc(r.stronger_version)}</div>` : ''}</div>`;
       }
       const answers = s.transcript.filter((e) => e.role === 'candidate' && e.slot_id === t.slot_id).map((e) => e.text);
       const quotes = [t.worked_quote, ...t.rework.map((r) => r.quote)];
