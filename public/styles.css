@@ -248,3 +248,33 @@ dialog::backdrop { background: rgba(10, 14, 22, 0.45); }
 @media (prefers-reduced-motion: reduce) {
   .pulse, .typing::after { animation: none; }
 }
+
+/* Feedback tab */
+.ratings { display: grid; gap: 8px; margin: 10px 0 14px; }
+.rating { display: grid; grid-template-columns: 92px 150px 1fr; gap: 10px; align-items: baseline; font-size: 14px; }
+.rating .why { color: var(--ink-soft); }
+.lv { display: inline-block; text-align: center; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+:root { --lv-good-bg: #e3f3e8; --lv-good-ink: #1d6b3a; --lv-mid-bg: #fdf0d9; --lv-mid-ink: #8a5a00; --lv-low-bg: #fbe4e1; --lv-low-ink: #a3281c; --lv-none-bg: #eceff3; }
+@media (prefers-color-scheme: dark) {
+  :root { --lv-good-bg: #1b3a27; --lv-good-ink: #8fd9a8; --lv-mid-bg: #3a2f14; --lv-mid-ink: #f0c36a; --lv-low-bg: #43211f; --lv-low-ink: #f4a39c; --lv-none-bg: #2d3547; }
+}
+.lv-good { background: var(--lv-good-bg); color: var(--lv-good-ink); }
+.lv-mid { background: var(--lv-mid-bg); color: var(--lv-mid-ink); }
+.lv-low { background: var(--lv-low-bg); color: var(--lv-low-ink); }
+.rework { margin: 12px 0; padding: 12px 14px; background: var(--note); border: 1px solid var(--note-line); border-radius: var(--radius-m); }
+.rework .q { font-family: var(--serif); font-size: 16px; margin-bottom: 4px; }
+.rework p { margin: 0 0 8px; color: var(--ink-soft); }
+.stronger { background: var(--card); border-radius: 8px; padding: 10px 12px; font-size: 14px; }
+.stronger span { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft); margin-bottom: 4px; }
+.priorities { padding-left: 22px; }
+.priorities li { margin-bottom: 12px; }
+.priorities li strong, .priorities li span, .priorities li em { display: block; }
+.priorities li span, .priorities li em { color: var(--ink-soft); font-style: normal; }
+.jd-cov { list-style: none; padding: 0; }
+.jd-cov li { margin-bottom: 6px; }
+.jd-covered { background: var(--lv-good-bg); color: var(--lv-good-ink); border-color: transparent; }
+.jd-partly { background: var(--lv-mid-bg); color: var(--lv-mid-ink); border-color: transparent; }
+.jd-not_reached { background: var(--lv-none-bg); color: var(--ink-soft); }
+.your-answer summary { cursor: pointer; color: var(--ink-soft); font-size: 14px; margin-top: 8px; }
+mark { background: #fff0a8; color: #1d2433; border-radius: 2px; }
+@media (max-width: 640px) { .rating { grid-template-columns: 1fr; gap: 2px; } .rating .lv { justify-self: start; } }
