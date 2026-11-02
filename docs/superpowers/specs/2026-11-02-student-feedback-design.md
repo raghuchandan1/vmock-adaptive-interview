@@ -41,3 +41,6 @@ The review screen is currently an internal view ("Hidden from students. For revi
 - `test/mock-openai.js`: feedback response plus scripted bad outputs (invented quote, "7/10", unknown slot id) triggered by answer-text markers.
 - `test/run-flow.js`: assert verbatim quotes, no score strings, no warm-up topic, cached second call, 400 before end, guards fix bad outputs.
 - `npm test`; manual run with a real key.
+
+## v2 update (competitor + VMock review)
+Rubric now varies by question type (behavioural STAR, situational, knowledge, motivation, concern) with Good job / On track / Needs work per dimension, plus "Handling follow-ups" on probed topics. Adds a rework block (verbatim quote, why, stronger version with placeholders), "Work on this next" (title/why/action, max 3), derived JD coverage, a too-short guard (<15 words), and answer highlights. No numeric level or scores. Speech and non-verbal modules are out of scope (text-only).

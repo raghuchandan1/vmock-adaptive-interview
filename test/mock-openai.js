@@ -76,20 +76,25 @@ function turnOutput(p) {
 }
 
 let feedbackCalls = 0;
-// First call returns bad output (invented quote, score, unknown slot) so the guard and one retry are exercised.
+// First call returns bad output (score text, invented quotes, unknown slot, bad level) so the guard and one retry are exercised.
 function feedbackOutput(input) {
   feedbackCalls += 1;
-  const answer = input.transcript.find((t) => t.role === 'candidate' && input.topics.some((x) => x.slot_id === t.slot_id));
-  const real = answer ? answer.text.split(/\s+/).slice(0, 4).join(' ') : '';
   const bad = !input.note;
+  const topic = (t) => {
+    const ans = input.transcript.find((e) => e.role === 'candidate' && e.slot_id === t.slot_id);
+    const real = ans ? ans.text.split(/\s+/).slice(0, 4).join(' ') : '';
+    return {
+      slot_id: t.slot_id,
+      ratings: t.rubric.map((r, i) => ({ dimension: r.dimension, level: bad && i === 0 ? 'excellent' : ['good_job', 'on_track', 'needs_work'][i % 3], reason: 'Mock reason.' })),
+      what_worked: 'You named a clear starting point.',
+      worked_quote: real,
+      rework: [{ quote: bad ? 'I never said this' : real, why: bad ? 'The competency was weak.' : 'It lacks a measurable result.', stronger_version: 'I led the work and moved the metric by X%.' }],
+    };
+  };
   return {
     overall: bad ? 'You scored 7/10 overall.' : 'You gave concrete examples and can tighten the results.',
-    topics: [
-      ...input.topics.slice(0, 2).map((t) => ({ slot_id: t.slot_id, what_worked: 'You named a clear starting point.', what_was_missing: bad ? 'The competency was weak.' : 'The measurable result.', try_instead: 'Finish with the number you moved.', quotes: [real, 'I never said this'] })),
-      { slot_id: 'warmup', what_worked: 'x', what_was_missing: 'x', try_instead: 'x', quotes: [] },
-    ],
-    priorities: ['Lead with the result.', 'Say what you personally did.', 'Name how you measured it.', 'A fourth item.'],
-    _calls: feedbackCalls,
+    topics: [...input.topics.slice(0, 2).map(topic), { slot_id: 'warmup', ratings: [], what_worked: 'x', worked_quote: '', rework: [] }],
+    priorities: ['Lead with the result.', 'Say what you personally did.', 'Name how you measured it.', 'A fourth item.'].map((t) => ({ title: t, why: 'It makes answers verifiable.', action: 'Add one number.' })),
   };
 }
 

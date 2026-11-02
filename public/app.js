@@ -316,19 +316,46 @@
     }
   }
 
+  const LEVEL = { good_job: ['Good job', 'lv-good'], on_track: ['On track', 'lv-mid'], needs_work: ['Needs work', 'lv-low'] };
+  const JD_STATUS = { covered: 'Covered', partly: 'Partly covered', not_reached: 'Not reached' };
+  const RUBRIC_NAME = { behavioural: 'Behavioural question', situational: 'Situational question', knowledge: 'Knowledge question', motivation: 'Motivation question', concern: 'Resume concern' };
+  const reEscape = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  // Escapes the answer, then wraps the verified quotes in <mark>.
+  function highlight(text, quotes) {
+    let html = esc(text);
+    for (const q of quotes.filter(Boolean)) html = html.replace(new RegExp(reEscape(esc(q)), 'i'), (m) => `<mark>${m}</mark>`);
+    return html;
+  }
+
   function renderFeedback(s, fb) {
     let html = `<p class="lede">${esc(fb.overall)}</p>`;
-    for (const t of fb.topics) {
-      const status = OUTCOME[t.outcome] || '';
-      html += `<article class="topic"><h3>${esc(slotLabel({ kind: t.kind, competency_name: t.topic }))}</h3>
-        ${status ? `<div class="meta">${esc(status)}</div>` : ''}
-        ${t.resume_line ? `<div class="line">${esc(t.resume_line)}</div>` : ''}
-        ${t.what_worked ? `<p><strong>What worked.</strong> ${esc(t.what_worked)}</p>` : ''}
-        ${t.what_was_missing ? `<p><strong>What was missing.</strong> ${esc(t.what_was_missing)}</p>` : ''}
-        ${t.try_instead ? `<p><strong>Try this next time.</strong> ${esc(t.try_instead)}</p>` : ''}
-        ${t.quotes.map((q) => `<p class="a">“${esc(q)}”</p>`).join('')}</article>`;
+    if (fb.priorities.length) {
+      html += `<h2 class="section-title">Work on this next</h2><ol class="priorities">${fb.priorities.map((p) => `<li><strong>${esc(p.title)}</strong><span>${esc(p.why)}</span><em>${esc(p.action)}</em></li>`).join('')}</ol>`;
     }
-    if (fb.priorities.length) html += `<h2 class="section-title">Priorities for next time</h2><ol>${fb.priorities.map((p) => `<li>${esc(p)}</li>`).join('')}</ol>`;
+    if (fb.jd_coverage && fb.jd_coverage.length) {
+      html += `<h2 class="section-title">Job description coverage</h2><ul class="jd-cov">${fb.jd_coverage.map((c) => `<li><span class="chip jd-${c.status}">${esc(JD_STATUS[c.status])}</span> ${esc(c.name)}</li>`).join('')}</ul>`;
+    }
+    html += '<h2 class="section-title">By topic</h2>';
+    for (const t of fb.topics) {
+      html += `<article class="topic"><h3>${esc(slotLabel({ kind: t.kind, competency_name: t.topic }))}</h3>
+        <div class="meta">${t.rubric ? `${esc(RUBRIC_NAME[t.rubric])}. ` : ''}${esc(OUTCOME[t.outcome] || '')}</div>
+        ${t.resume_line ? `<div class="line">${esc(t.resume_line)}</div>` : ''}`;
+      if (t.too_short) {
+        html += '<p class="a">Your answers here were too short for useful feedback. Try giving a fuller example next time.</p></article>';
+        continue;
+      }
+      html += `<div class="ratings">${t.ratings.map((r) => `<div class="rating"><span class="lv ${LEVEL[r.level][1]}">${LEVEL[r.level][0]}</span><strong>${esc(r.label)}</strong><span class="why">${esc(r.reason)}</span></div>`).join('')}</div>`;
+      if (t.what_worked) html += `<p><strong>What worked.</strong> ${esc(t.what_worked)}</p>`;
+      for (const r of t.rework) {
+        html += `<div class="rework"><div class="q">“${esc(r.quote)}”</div><p>${esc(r.why)}</p>
+          <div class="stronger"><span>A stronger version you could adapt. Fill in your own details.</span>${esc(r.stronger_version)}</div></div>`;
+      }
+      const answers = s.transcript.filter((e) => e.role === 'candidate' && e.slot_id === t.slot_id).map((e) => e.text);
+      const quotes = [t.worked_quote, ...t.rework.map((r) => r.quote)];
+      if (answers.length) html += `<details class="your-answer"><summary>Your answers, with highlights</summary>${answers.map((a) => `<p class="a">${highlight(a, quotes)}</p>`).join('')}</details>`;
+      html += '</article>';
+    }
     $('panel-feedback').innerHTML = html;
   }
 
