@@ -7,7 +7,7 @@ const path = require('path');
 const crypto = require('crypto');
 
 const { callStructured } = require('./lib/openai');
-const { plannerSchema, turnSchema } = require('./lib/schemas');
+const { plannerSchema, turnSchema, feedbackSchema } = require('./lib/schemas');
 const engine = require('./lib/engine');
 
 const ROOT = __dirname;
@@ -118,6 +118,40 @@ async function answer(id, body) {
   if (inFlight.has(id)) throw httpError(409, 'Your last answer is still being processed. Please wait a moment.');
   inFlight.add(id);
   try { return await answerLocked(session, body); } finally { inFlight.delete(id); }
+}
+
+// Student feedback: one model call after the interview, cached on the session.
+async function feedback(id) {
+  const session = getSession(id);
+  if (!session) throw httpError(404, 'Interview not found.');
+  if (session.status !== 'ended') throw httpError(400, 'Finish the interview to get your feedback.');
+  if (session.feedback) return session.feedback;
+  if (!session.transcript.some((t) => t.role === 'candidate')) throw httpError(400, 'Answer at least one question to get feedback.');
+  if (inFlight.has(id)) throw httpError(409, 'Your feedback is still being written. Please wait a moment.');
+  inFlight.add(id);
+  try {
+    const system = readPrompt('feedback');
+    const run = async (note) => {
+      const payload = engine.buildFeedbackPayload(session);
+      if (note) payload.note = note;
+      const user = JSON.stringify(payload, null, 2);
+      const result = await callStructured({
+        apiKey: apiKey(), baseUrl: BASE_URL, model: session.settings.turn_model, reasoningEffort: session.settings.turn_effort,
+        system, user, schemaName: 'interview_feedback', schema: feedbackSchema,
+      });
+      return { ...result, shaped: engine.checkAndShapeFeedback(result.data, session) };
+    };
+    let result = await run();
+    const traces = [result.trace];
+    if (result.shaped.problems.length) {
+      result = await run(`Rewrite without these problems: ${result.shaped.problems.join('; ')}. Give no scores or ratings.`);
+      traces.push(result.trace);
+    }
+    session.feedback = result.shaped.feedback;
+    session.feedback_trace = traces;
+    saveSession(session);
+    return session.feedback;
+  } finally { inFlight.delete(id); }
 }
 
 async function answerLocked(session, body) {
@@ -233,6 +267,7 @@ const server = http.createServer(async (req, res) => {
         saveSession(s);
         return send(res, 200, engine.publicView(s));
       }
+      if (req.method === 'POST' && parts[3] === 'feedback') return send(res, 200, await feedback(id));
       if (req.method === 'GET' && parts[3] === 'trace') {
         const s = getSession(id);
         if (!s) throw httpError(404, 'Interview not found.');

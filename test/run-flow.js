@@ -1,7 +1,7 @@
 // Drives a full interview through the real server (pointed at the mock OpenAI) and checks the engine's rules.
 const fs = require('fs');
 const path = require('path');
-const { plannerSchema, turnSchema } = require('../lib/schemas');
+const { plannerSchema, turnSchema, feedbackSchema } = require('../lib/schemas');
 
 const BASE = process.env.APP || 'http://localhost:3999';
 let failures = 0;
@@ -29,6 +29,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
 (async () => {
   check(strictOk(plannerSchema) === null, `planner schema is strict-mode valid ${strictOk(plannerSchema) || ''}`);
   check(strictOk(turnSchema) === null, `turn schema is strict-mode valid ${strictOk(turnSchema) || ''}`);
+  check(strictOk(feedbackSchema) === null, `feedback schema is strict-mode valid ${strictOk(feedbackSchema) || ''}`);
 
   const samples = path.join(__dirname, '..', 'samples');
   const resume = fs.readFileSync(path.join(samples, 'resume-rohan-apm.txt'), 'utf8');
@@ -123,6 +124,19 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(trace.interviewer_turns <= trace.max_turns + 1, `stays within the turn limit (${trace.interviewer_turns} of ${trace.max_turns})`);
   check(trace.transcript.every((e) => e.role !== 'interviewer' || e.slot_id), 'every interviewer message is tagged with its topic');
 
+  // Student feedback: guard fixes bad model output, retries once, and the result is cached
+  const fb = await post(`/api/sessions/${id}/feedback`, {});
+  const norm = (x) => String(x).toLowerCase().replace(/[^a-z0-9%]+/g, ' ').replace(/\s+/g, ' ').trim();
+  const answersText = norm(trace.transcript.filter((e) => e.role === 'candidate').map((e) => e.text).join(' '));
+  const fbText = JSON.stringify([fb.overall, fb.topics.map((t) => [t.what_worked, t.what_was_missing, t.try_instead])]);
+  check(fb.topics.length === 2 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.topics.every((t) => t.quotes.length === 1 && answersText.includes(norm(t.quotes[0]))), 'feedback keeps only verbatim quotes');
+  check(!/\d+\s*\/\s*\d+|\bscore|\bband/i.test(fbText), 'feedback has no scores or bands after the retry');
+  check(fb.priorities.length === 3, 'feedback priorities capped at 3');
+  const fb2 = await post(`/api/sessions/${id}/feedback`, {});
+  const saved = await get(`/api/sessions/${id}/trace`);
+  check(fb2.generated_at === fb.generated_at && saved.feedback_trace.length === 2, 'feedback is generated once with one retry, then cached');
+
   // Rollback on model failure: a session whose turn call errors keeps the transcript unchanged
   const v2 = await post('/api/sessions', { resume_text: resume, jd_text: '', target_role: 'Product Manager', interview_type: 'back_your_resume', style: 'surprise', length: 'short', settings: { turn_model: 'gpt-4.1', turn_effort: 'low' } });
   check(v2.pre_brief.style === null && v2.pre_brief.surprise, 'Surprise me hides the style in the pre-brief');
@@ -166,6 +180,8 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const both = await Promise.allSettled([1, 2].map(() => post(`/api/sessions/${v2.id}/answers`, { answer: '[done] Specific answer.' })));
   const refused = both.filter((r) => r.status === 'rejected');
   check(both.filter((r) => r.status === 'fulfilled').length === 1 && refused.length === 1 && /still being processed/.test(refused[0].reason.message), 'concurrent answers: one is processed, the other is refused as in progress');
+
+  check(await post(`/api/sessions/${v2.id}/feedback`, {}).then(() => false, (e) => /Finish the interview/.test(e.message)), 'no feedback before the interview ends');
 
   const { leakCheck } = require('../lib/engine');
   check(['Those are thoughtful questions.', 'Thanks, that clarifies the workflow.', 'That connects clearly to your teaching background.'].every((t) => leakCheck(t).length > 0) && leakCheck('Which decisions in that were yours?').length === 0, 'flags evaluative acknowledgements without flagging a plain question');

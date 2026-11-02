@@ -20,6 +20,8 @@ Two model calls, one code-owned rule engine:
 2. **Turn** (per answer, `prompts/turn.md`): model proposes a decision for the candidate's answer.
 3. **Engine** (`lib/engine.js`): owns all rules so the model cannot break them: follow-up budgets by style (Supportive 1 / Balanced 2 / Probing 3, +1 on claim topics), second-chance topics, pivots only to later pending topics, time rule dropping second chances, then non-must-haves, then must-haves; a second "not sure" in a topic removes follow-ups; up to 2 technical-depth topics. Wording guards (agenda leaks, praise, two asks, leading options, >~60 words) trigger one rewrite of the message. Disallowed model decisions are rejected and re-requested; after a second failure a scripted move-on is used. The turn model receives the full resume and JD.
 
+4. **Feedback** (once, after the interview ends, `prompts/feedback.md`): qualitative student feedback, cached on the session. `checkAndShapeFeedback` in `lib/engine.js` keeps only reached scored topics and verbatim quotes and strips scores and agenda vocabulary (one regenerate, then sentence removal). No numeric scoring.
+
 Other pieces:
 - `server.js`: plain `http` server; REST under `/api/` (`config`, `key`, `samples`, `sessions`, `sessions/:id/answers|end|trace`) plus static files from `public/`.
 - `lib/openai.js`: Chat Completions client with Structured Outputs and retries; reasoning effort is dropped on retry if the model rejects it. `lib/schemas.js`: strict JSON schemas for planner/turn output.

@@ -296,8 +296,40 @@
     renderPlanner(s);
     renderTurns(s);
     renderTranscript(s);
-    selectTab('reveal');
+    selectTab(s.status === 'ended' ? 'feedback' : 'reveal');
     show('review');
+    if (s.status === 'ended') loadFeedback(s); else $('panel-feedback').innerHTML = '<p class="lede">Finish the interview to get your feedback.</p>';
+  }
+
+  async function loadFeedback(s) {
+    const panel = $('panel-feedback');
+    if (s.feedback) return renderFeedback(s, s.feedback);
+    panel.innerHTML = '<p class="lede">Writing your feedback…</p>';
+    const id = state.sessionId;
+    try {
+      const fb = await api(`/api/sessions/${id}/feedback`, { method: 'POST' });
+      if (id === state.sessionId) renderFeedback(s, fb);
+    } catch (err) {
+      if (id !== state.sessionId) return;
+      panel.innerHTML = `<p class="error">${esc(err.message)}</p><button class="secondary" id="retryFeedback" type="button">Try again</button>`;
+      $('retryFeedback').addEventListener('click', () => loadFeedback(s));
+    }
+  }
+
+  function renderFeedback(s, fb) {
+    let html = `<p class="lede">${esc(fb.overall)}</p>`;
+    for (const t of fb.topics) {
+      const status = OUTCOME[t.outcome] || '';
+      html += `<article class="topic"><h3>${esc(slotLabel({ kind: t.kind, competency_name: t.topic }))}</h3>
+        ${status ? `<div class="meta">${esc(status)}</div>` : ''}
+        ${t.resume_line ? `<div class="line">${esc(t.resume_line)}</div>` : ''}
+        ${t.what_worked ? `<p><strong>What worked.</strong> ${esc(t.what_worked)}</p>` : ''}
+        ${t.what_was_missing ? `<p><strong>What was missing.</strong> ${esc(t.what_was_missing)}</p>` : ''}
+        ${t.try_instead ? `<p><strong>Try this next time.</strong> ${esc(t.try_instead)}</p>` : ''}
+        ${t.quotes.map((q) => `<p class="a">“${esc(q)}”</p>`).join('')}</article>`;
+    }
+    if (fb.priorities.length) html += `<h2 class="section-title">Priorities for next time</h2><ol>${fb.priorities.map((p) => `<li>${esc(p)}</li>`).join('')}</ol>`;
+    $('panel-feedback').innerHTML = html;
   }
 
   function selectTab(name) {
@@ -325,7 +357,7 @@
 
   function renderReveal(s) {
     const scored = s.slots.filter((x) => !['warmup', 'candidate_questions'].includes(x.kind));
-    let html = `<p class="lede">Here's what the interviewer was quietly working through, and why each question was asked. In the real product this becomes part of the feedback.</p>`;
+    let html = `<p class="lede">Here's what the interviewer was quietly working through, and why each question was asked. Your personal feedback is in the first tab.</p>`;
     html += `<dl class="kv"><dt>Interviewer style</dt><dd>${esc(cap(s.style))}${s.surprise ? ' (picked at random)' : ''}</dd>
       <dt>Resume read as</dt><dd>${esc(cap(s.plan.candidate.resume_band))} band, ${esc(s.plan.candidate.experience_level)}</dd></dl>`;
     for (const slot of scored) {

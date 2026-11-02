@@ -155,12 +155,14 @@
         </div>
       </div>
       <div class="tabs" role="tablist">
-        <button role="tab" class="tab" data-tab="reveal" aria-selected="true">Agenda reveal</button>
+        <button role="tab" class="tab" data-tab="feedback" aria-selected="true">Your feedback</button>
+        <button role="tab" class="tab" data-tab="reveal" aria-selected="false">How the interview worked</button>
         <button role="tab" class="tab" data-tab="planner" aria-selected="false">Planner output</button>
         <button role="tab" class="tab" data-tab="turns" aria-selected="false">Turn decisions</button>
         <button role="tab" class="tab" data-tab="transcript" aria-selected="false">Transcript</button>
       </div>
-      <div class="tab-panel" id="panel-reveal"></div>
+      <div class="tab-panel" id="panel-feedback"></div>
+      <div class="tab-panel" id="panel-reveal" hidden></div>
       <div class="tab-panel" id="panel-planner" hidden></div>
       <div class="tab-panel" id="panel-turns" hidden></div>
       <div class="tab-panel" id="panel-transcript" hidden></div>
