@@ -31,9 +31,11 @@ Three steps, two kinds of model call:
    - When the budget runs out, the interview moves on and the gap is recorded.
    - One second-chance topic for a must-have competency still missing evidence. At most 1 per short interview and 2 per standard one.
    - Pivots only to later, pending topics.
-   - A time rule drops topics if the interview is running long: second-chance topics first, then topics that aren't must-haves, then must-haves, lowest priority first within each group. The candidate's questions are never dropped.
+   - A time rule keeps the interview within its turn budget: it drops second-chance topics first, then trims every remaining topic to one follow-up, and only then drops topics that aren't must-haves, then must-haves, lowest priority first within each group. The candidate's questions are never dropped.
    - The interview only ends for off-purpose input after the candidate has been redirected once; a single odd message (a joke, "ignore your instructions") gets an in-role reply and the question again.
    - The candidate can ask up to 3 questions at the end. Only one answer per interview is processed at a time (a second gets a 409), and the server listens on localhost unless `HOST` is set.
+   - When the follow-up budget forces a move-on, a short answer that isn't concrete is recorded as a gap even if the model called it sufficient.
+   - Hypothetical (situational) topics get one follow-up that adds a constraint or trade-off before they count as complete. Tested claims with a number must ask how it was measured; inflated or "we"-heavy claims must ask about the candidate's own role first.
    - A move-on forced by the follow-up budget is marked `forced_move_on` on the topic, so reviewers can tell it from a judged move-on.
    - Any output with a decision that isn't allowed is rejected and requested again; after a second failure, a scripted move-on is used.
    - Wording flags for agenda words, praise, more than one question, two asks joined by "and", example answers or options offered in a question ("for example", "such as"), or messages over about 60 words. A flagged message is sent back to the model once for a rewrite with the same decision; any flags still present are recorded for review.
