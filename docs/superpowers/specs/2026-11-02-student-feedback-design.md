@@ -44,3 +44,60 @@ The review screen is currently an internal view ("Hidden from students. For revi
 
 ## v2 update (competitor + VMock review)
 Rubric now varies by question type (behavioural STAR, situational, knowledge, motivation, concern) with Good job / On track / Needs work per dimension, plus "Handling follow-ups" on probed topics. Adds a rework block (verbatim quote, why, stronger version with placeholders), "Work on this next" (title/why/action, max 3), derived JD coverage, a too-short guard (<15 words), and answer highlights. No numeric level or scores. Speech and non-verbal modules are out of scope (text-only).
+
+## v3 update (2026-11-03): rework after student review
+
+**Problem.** Reviewing a real run (session f224acf7), the feedback did not tell the student what went well, what went wrong and what to do next; the questions also felt templated.
+
+Findings:
+- All rewrites were deleted by an over-strict grounding check.
+- The biggest mistakes (a background answer contradicting the resume, a story that drifted from the resume line, no questions at the end) were invisible.
+- "Not sure" topics got only "too short".
+- Project stories were judged on a knowledge rubric ("Accuracy").
+- 4–6 rating rows per topic buried the message.
+
+On questions:
+- Every follow-up opened with "You mentioned…".
+- Openings read the resume bullet back.
+- The motivation follow-up offered an option list.
+- In 5 of 7 short fresher runs the third topic was dropped for time after two technical claims with 3 follow-ups each.
+
+**Research used** (sources in the session report):
+- Feedback should answer where am I going / how am I going / where next (Hattie & Timperley 2007).
+- Feedback should be task-level, not self-level (Kluger & DeNisi 1996).
+- High-information feedback works best (Wisniewski et al. 2020).
+- Exemplars should be shown after the attempt and labelled (To, Panadero & Carless).
+- LLM judges are lenient and verbose: write the evidence before the verdict (Chiang & Lee 2023; Zheng et al. 2023).
+- Probes should be non-leading, ask for the candidate's own role and follow a funnel (OPM structured interview guide; NN/G funnel technique).
+- Probes should respond to the person's own words (Xiao et al. 2020).
+
+**Feedback v3.**
+- At the top: one goal for the next attempt, then up to two more items.
+- Per question:
+  - The question asked and a single verdict.
+  - What went well and what to fix, each with a quote.
+  - How to answer it next time: steps, then the student's own line improved, plus a labelled sample answer only for scenario and technical questions. A sample for a story from their own past would be invented.
+- The rubric checklist is collapsed.
+- "Not sure" topics still get the steps.
+- Other moments: warm-up and background (model) and no questions at the end (derived).
+- Grounding:
+  - Gets the JD.
+  - Ignores flags that are the student's own words.
+  - Removes only the offending sentence.
+
+**Questions.**
+- Freshers get no extra follow-up on technical claims and at most one technical topic.
+- The measurement follow-up is owed before a claim closes, but only required on the last follow-up.
+- The second claim covers a different competency.
+- Openings name the project briefly and vary their frame.
+- Fresher scenarios use everyday words.
+- Follow-ups funnel and vary how they echo the answer, and bring a drifted story back to the resume line.
+- New guards:
+  - Option lists.
+  - Two asks in "Tell me about…".
+  - Comments on the answer.
+  - Repeated "You mentioned" echoes.
+
+**Not done.**
+- No "since your last attempt" comparison. It needs an explicit practise-again link between sessions, not matching on resume text.
+- Ratings are still not validated against coaches.
