@@ -224,6 +224,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
     && leakCheck('What did you do first?').length === 0, 'flags an option list inside a question');
   check(leakCheck('Tell me about a different time you used SQL, including what you personally did and what came of it.').length > 0
     && leakCheck('Your answer focused on a different part of the work. Walk me through the joins.').length > 0
+    && leakCheck('That connection is relevant. How would you compare the groups?').length > 0
     && leakCheck('Tell me about the settlement logic you built.').length === 0, 'flags two asks in a "Tell me about" question and comments on the answer');
 
   // The number check is owed before a claim topic closes, but only required on its last follow-up; freshers get no extra
