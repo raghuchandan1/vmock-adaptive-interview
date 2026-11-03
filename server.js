@@ -129,11 +129,12 @@ async function groundRewrites(session, feedback, traces) {
     try {
       const { data, trace } = await callStructured({
         apiKey: apiKey(), baseUrl: BASE_URL, model: session.settings.turn_model, reasoningEffort: session.settings.turn_effort,
-        system, user: JSON.stringify({ resume_text: session.inputs.resume_text, student_answers: String(answers[t.slot_id] || '').trim(), rewrite: r.stronger_version }, null, 2),
+        system, user: JSON.stringify({ resume_text: session.inputs.resume_text, job_description: session.inputs.jd_text, student_answers: String(answers[t.slot_id] || '').trim(), rewrite: r.stronger_version }, null, 2),
         schemaName: 'rewrite_grounding', schema: groundingSchema,
       });
-      traces.push({ ...trace, grounding_for: t.slot_id, unsupported: data.unsupported_claims, checked_rewrite: r.stronger_version });
-      if (data.unsupported_claims.length) r.stronger_version = '';
+      const kept = engine.applyGrounding(r.stronger_version, data.unsupported_claims, `${session.inputs.resume_text} ${session.inputs.jd_text} ${answers[t.slot_id] || ''}`);
+      traces.push({ ...trace, grounding_for: t.slot_id, unsupported: data.unsupported_claims, checked_rewrite: r.stronger_version, kept });
+      r.stronger_version = kept;
     } catch (err) {
       traces.push({ grounding_for: t.slot_id, error: err.message });
       r.stronger_version = '';

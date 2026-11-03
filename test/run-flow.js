@@ -210,6 +210,20 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(varyOpener(vs, 'Thanks, Rohan. Which part was yours?') === 'Which part was yours?', 'drops a repeated "Thanks, Name." opener');
   check(varyOpener({ transcript: [{ role: 'interviewer', text: 'Walk me through it.' }] }, 'Thanks. Which part was yours?') === 'Thanks. Which part was yours?', 'keeps an opener that is not a repeat');
   check(varyOpener({ transcript: [{ role: 'interviewer', text: 'Understood. Why?' }] }, 'Thanks, Rohan. Which part?') === 'Thanks, Rohan. Which part?', 'keeps a different opener word');
+  const echoed = { transcript: [{ role: 'interviewer', text: 'You mentioned the migration. What did you do first?' }] };
+  check(varyOpener(echoed, 'Got it. You mentioned the pipeline. What did it compare?') === 'Got it. What did it compare?'
+    && varyOpener({ transcript: [{ role: 'interviewer', text: 'Why?' }] }, 'You mentioned the pipeline. What did it compare?') === 'You mentioned the pipeline. What did it compare?',
+  'drops a "You mentioned X." echo only when the last message also opened with one');
+  check(leakCheck('Which part would you contribute to first: analysing drop-offs, building dashboards, or measuring impact?').length > 0
+    && leakCheck('What did you do first?').length === 0, 'flags an option list inside a question');
+
+  // Grounding: the student's own words are a false alarm; a real flag removes only its sentence
+  const { applyGrounding } = require('../lib/engine');
+  check(applyGrounding('I worked on the migration code and [what you did]. I used greedy matching. The result was [what changed].',
+    ['"I worked on the migration code"', 'I used greedy matching'], 'I made sure it was consistent and worked on the migration code')
+    === 'I worked on the migration code and [what you did]. The result was [what changed].', 'grounding keeps the student\'s own words and drops only the invented sentence');
+  check(applyGrounding('I did X.', ['a claim not in the rewrite'], '') === '' && applyGrounding('I used greedy matching.', ['greedy matching'], '') === '',
+    'grounding removes the rewrite when a flag cannot be placed or nothing real is left');
 
   const list = await get('/api/sessions');
   check(list.length >= 2, 'past sessions are listed');
