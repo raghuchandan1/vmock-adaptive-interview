@@ -367,7 +367,7 @@
     const [goal, ...more] = fb.priorities;
     let html = `<p class="lede">${esc(fb.overall)}</p>`;
     if (goal) {
-      html += `<section class="goal"><span>Your goal for the next attempt</span><strong>${esc(goal.title)}</strong><p>${esc(goal.why)}</p><p class="do">${esc(goal.action)}</p></section>`;
+      html += `<section class="goal"><span>Your goal for the next attempt</span><strong>${esc(goal.title)}</strong><p>${esc(goal.why)}</p><p class="plan-label">Your plan for any interview</p><p class="do">${esc(goal.action)}</p></section>`;
     }
     if (more.length) {
       html += `<h2 class="section-title">Also work on</h2><ol class="priorities">${more.map((p) => `<li><strong>${esc(p.title)}</strong><span>${esc(p.why)}</span><em>${esc(p.action)}</em></li>`).join('')}</ol>`;
