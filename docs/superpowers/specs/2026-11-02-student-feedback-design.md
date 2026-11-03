@@ -157,3 +157,61 @@ Reviewed in logged-in accounts:
 - Rewrites grounded in what the student actually said, with brackets for the missing parts.
 - A per-question plan for answering next time.
 - A derived note when the student asked no questions at the end.
+
+## Research: which feedback helps students most, and what VMock lacks (2026-11-03)
+
+Evidence strength: strong / moderate / weak. Sources are in the session report. The main ones:
+- Klehe et al. 2008
+- Tross & Maurer 2008
+- Butler 1988
+- Hoque et al. 2013 (MACH)
+- Smith et al. 2014 (VR-JIT)
+- Fukkink et al. 2011
+- Langer et al. 2018
+- Gollwitzer & Sheeran 2006
+- Andrade 2019
+- Yeager et al. 2014
+- Mueller & Dweck 1998
+- Barrick et al. 2010
+- Bangerter et al. 2014
+- Macnamara et al. 2014
+
+**Gaps worth adding, in order of evidence and value**
+
+1. **What this question tests** (moderate-strong; Klehe 2008, Tross & Maurer 2008).
+   - Show 2-3 plain-language criteria per question on the feedback page.
+   - Show them again before the next attempt.
+   - VMock shows criterion chips only after the attempt.
+   - Never show planned follow-ups or the plan.
+2. **If-then goal** (moderate; Gollwitzer & Sheeran d=.65).
+   - Phrase the next-attempt goal as "When asked about a project, I'll say what I did and one result in the first three sentences."
+   - The student can edit it, and it appears before the next interview.
+3. **Self-check before the reveal** (moderate; Andrade 2019).
+   - One click per question: Strong / OK / Weak, plus "which part did you leave out?".
+   - Then show agreement or difference neutrally. Never grade the self-check.
+4. **Strategy praise and a wise-feedback header** (moderate; Mueller & Dweck, Yeager 2014).
+   - "What went well" names the tactic the student used, not a trait.
+   - One line on top: "This uses the standard recruiters apply. Your answers show you can reach it."
+5. **A comment on the opening** (moderate, correlational; Barrick 2010).
+   - First impressions predict ratings and offers.
+   - Reverses "warm-up not judged": comment lightly on the warm-up and background as a first impression.
+6. **Since your last attempt** (moderate-weak). Parked: topics differ between attempts, so compare criteria and the goal, not questions.
+7. **Harder levels once mastered** (moderate; VR-JIT). Suggest moving up the interviewer style once the goal is met.
+
+**Already covered** by VMock or ours:
+- Specific comments rather than a grade (Butler; MACH).
+- Pointers to exact lines (VR-JIT; Fukkink).
+- Actions and results over background (Bangerter).
+- Named strengths (Petruzziello).
+- Nonverbal delivery (VMock).
+
+**Risks**
+- **Numeric levels next to comments can cancel the comments' benefit** (Butler; strictly, Butler's grades were normative).
+  - Show the verdict after the comments, worded against the criterion.
+  - Never compare students with peers.
+  - Applies to VMock's Level 2/5 and to our per-question verdict pill.
+- **VMock's generic sample pushes background**, which students already overdo. Push actions and results instead.
+- **Video replay without pointers gave no gain** in MACH.
+- **"I"/"we" counts, resume mismatch, questions at the end and quantified results** rest on manager surveys only. Present them as observations, not verdicts.
+- **Practice alone** explains little performance variance (Macnamara), and coaching didn't reduce anxiety. Don't promise either.
+- **Too many items.** Keep the cap of three goals.
