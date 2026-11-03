@@ -1,7 +1,7 @@
 // Drives a full interview through the real server (pointed at the mock OpenAI) and checks the engine's rules.
 const fs = require('fs');
 const path = require('path');
-const { plannerSchema, turnSchema, feedbackSchema } = require('../lib/schemas');
+const { plannerSchema, turnSchema, feedbackSchema, turnSchemaFor, feedbackSchemaFor, groundingSchema } = require('../lib/schemas');
 
 const BASE = process.env.APP || 'http://localhost:3999';
 let failures = 0;
@@ -30,6 +30,18 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(strictOk(plannerSchema) === null, `planner schema is strict-mode valid ${strictOk(plannerSchema) || ''}`);
   check(strictOk(turnSchema) === null, `turn schema is strict-mode valid ${strictOk(turnSchema) || ''}`);
   check(strictOk(feedbackSchema) === null, `feedback schema is strict-mode valid ${strictOk(feedbackSchema) || ''}`);
+  // Per-call schemas: only the decisions allowed this turn, offered pivots, reached topics and known rubric dimensions
+  const tS = turnSchemaFor(['probe', 'move_on'], ['s3']);
+  const fS = feedbackSchemaFor(['s1', 's2'], ['situation', 'followup']);
+  check([tS, fS, turnSchemaFor(['move_on'], []), groundingSchema].every((x) => strictOk(x) === null)
+    && JSON.stringify(tS.properties.decision.enum) === '["probe","move_on"]' && tS.properties.pivot_target_slot_id.enum.includes(null)
+    && turnSchemaFor(['move_on'], []).properties.pivot_target_slot_id.type === 'null'
+    && JSON.stringify(fS.properties.topics.items.properties.slot_id.enum) === '["s1","s2"]'
+    && fS.properties.moments.items.properties.slot_id.enum.includes('background') && fS.properties.priorities.maxItems === 3,
+  'per-call schemas are strict-valid and limit decisions, pivots, topics and dimensions to this call');
+  const { RUBRICS } = require('../lib/engine');
+  const dims = feedbackSchema.properties.topics.items.properties.ratings.items.properties.dimension.enum;
+  check([...Object.values(RUBRICS).flat().map(([k]) => k), 'technical', 'followup'].every((k) => dims.includes(k)), 'the default feedback schema knows every rubric dimension');
 
   const samples = path.join(__dirname, '..', 'samples');
   const resume = fs.readFileSync(path.join(samples, 'resume-rohan-apm.txt'), 'utf8');

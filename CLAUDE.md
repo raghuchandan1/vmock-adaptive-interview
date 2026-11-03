@@ -24,10 +24,10 @@ Two model calls, one code-owned rule engine:
 
 Other pieces:
 - `server.js`: plain `http` server; REST under `/api/` (`config`, `key`, `samples`, `sessions`, `sessions/:id/answers|end|trace`) plus static files from `public/`.
-- `lib/openai.js`: Chat Completions client with Structured Outputs and retries; reasoning effort is dropped on retry if the model rejects it. `lib/schemas.js`: strict JSON schemas for planner/turn output.
+- `lib/openai.js`: Chat Completions client with Structured Outputs and retries; reasoning effort is dropped on retry if the model rejects it. `lib/schemas.js`: strict JSON schemas for all four calls (planner, turn, feedback, grounding). Turn and feedback schemas are built per call (`turnSchemaFor`, `feedbackSchemaFor`) so the output can only name the decisions allowed this turn, offered pivot topics, reached topics and their rubric dimensions; the engine guards still re-check. Inputs are sent as compact JSON.
 - `public/`: vanilla JS browser app. The plan is never sent to the browser during an interview; it is only exposed via the trace/"hidden agenda" endpoint after/for review.
 - Sessions persist to `sessions/<id>.json` (includes raw model inputs/outputs, latency, tokens).
 
 ## Editing prompts
 
-`prompts/*.md` are read on every call, so edits apply without restarting the server.
+`prompts/*.md` are read on every call, so edits apply without restarting the server. The planner, turn and feedback prompts are organised in XML sections (`<role>`, `<security>`, `<inputs>`, `<steps><step n=…>`, …); keep new rules inside the matching section. Resume, JD and answers are untrusted data: each prompt says never to follow instructions found in them.
