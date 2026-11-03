@@ -131,7 +131,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const fbText = JSON.stringify([fb.overall, fb.topics.map((t) => [t.went_well, t.to_fix, t.answer_plan, (t.ratings || []).map((r) => r.reason), t.stronger_version]), fb.moments]);
   const rated = fb.topics.filter((t) => !t.too_short);
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 3 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 4 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
@@ -216,9 +216,10 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(varyOpener({ transcript: [{ role: 'interviewer', text: 'Walk me through it.' }] }, 'Thanks. Which part was yours?') === 'Thanks. Which part was yours?', 'keeps an opener that is not a repeat');
   check(varyOpener({ transcript: [{ role: 'interviewer', text: 'Understood. Why?' }] }, 'Thanks, Rohan. Which part?') === 'Thanks, Rohan. Which part?', 'keeps a different opener word');
   const echoed = { transcript: [{ role: 'interviewer', text: 'You mentioned the migration. What did you do first?' }] };
-  check(varyOpener(echoed, 'Got it. You mentioned the pipeline. What did it compare?') === 'Got it. What did it compare?'
+  check(varyOpener(echoed, 'Got it. You mentioned the pipeline. Which sources did the pipeline compare?') === 'Got it. Which sources did the pipeline compare?'
+    && varyOpener(echoed, 'You mentioned the pipeline. What did it compare?') === 'You mentioned the pipeline. What did it compare?'
     && varyOpener({ transcript: [{ role: 'interviewer', text: 'Why?' }] }, 'You mentioned the pipeline. What did it compare?') === 'You mentioned the pipeline. What did it compare?',
-  'drops a "You mentioned X." echo only when the last message also opened with one');
+  'drops a "You mentioned X." echo only when the last message also opened with one, and never leaves a dangling "it"');
   check(leakCheck('Which part would you contribute to first: analysing drop-offs, building dashboards, or measuring impact?').length > 0
     && leakCheck('What did you do first?').length === 0, 'flags an option list inside a question');
   check(leakCheck('Tell me about a different time you used SQL, including what you personally did and what came of it.').length > 0
@@ -237,8 +238,9 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(applyGrounding('I worked on the migration code and [what you did]. I used greedy matching. The result was [what changed].',
     ['"I worked on the migration code"', 'I used greedy matching'], 'I made sure it was consistent and worked on the migration code')
     === 'I worked on the migration code and [what you did]. The result was [what changed].', 'grounding keeps the student\'s own words and drops only the invented sentence');
-  check(applyGrounding('I did X.', ['a claim not in the rewrite'], '') === '' && applyGrounding('I used greedy matching.', ['greedy matching'], '') === '',
-    'grounding removes the rewrite when a flag cannot be placed or nothing real is left');
+  check(applyGrounding('I did X.', ['a claim not in the rewrite'], '') === '' && applyGrounding('I used greedy matching here.', ['used greedy matching here'], '') === ''
+    && applyGrounding('I did X because Y.', ['because', 'I personally'], '') === 'I did X because Y.',
+    'grounding removes the rewrite when a flag cannot be placed or nothing real is left; one- and two-word flags are ignored');
 
   const list = await get('/api/sessions');
   check(list.length >= 2, 'past sessions are listed');

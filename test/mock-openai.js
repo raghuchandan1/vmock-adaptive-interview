@@ -123,7 +123,7 @@ http.createServer((req, res) => {
       return res.end(JSON.stringify({ error: { message: 'Unrecognized request argument supplied: reasoning_effort' } }));
     }
     // Grounding check: anything mentioning "greedy" is an unsupported claim.
-    const out = name === 'rewrite_grounding' ? { unsupported_claims: /greedy/i.test(input.rewrite) ? ['greedy matching'] : [] }
+    const out = name === 'rewrite_grounding' ? { unsupported_claims: /greedy/i.test(input.rewrite) ? ['used greedy matching to settle balances'] : [] }
       : name === 'interview_plan' ? plannerOutput(input) : name === 'interview_feedback' ? feedbackOutput(input) : turnOutput(input);
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ choices: [{ message: { content: JSON.stringify(out) }, finish_reason: 'stop' }], usage: { prompt_tokens: 1000, completion_tokens: 200 } }));
