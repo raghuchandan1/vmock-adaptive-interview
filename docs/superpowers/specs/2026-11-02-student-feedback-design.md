@@ -101,3 +101,59 @@ On questions:
 **Not done.**
 - No "since your last attempt" comparison. It needs an explicit practise-again link between sessions, not matching on resume text.
 - Ratings are still not validated against coaches.
+
+## Live review of VMock, Huru and Yoodli reports (2026-11-03)
+
+Reviewed in logged-in accounts:
+- **VMock:** mock interview "Analyst, Financial Operations", 5 questions.
+- **Huru:** conversational interview with "Maya".
+- **Yoodli:** "Codebase Review" roleplay.
+
+**VMock today.** One Level out of 5, built from three modules.
+- **Non Verbal:** eye contact, facial expressions, gestures, posture.
+- **Delivery of Speech:** vocal features, pauses, fluency, modulation.
+- **Content Strength:** parameters change with the question type.
+  - Knowledge: Depth & Clarity (Topic Coverage, Advanced Concepts), Practical Application, Industry Insights.
+  - Behavioural: STAR/HSAR, with each part split into chips such as Situation > Context > Background or Impact. Also Learning & Reflection, and Skills.
+  - Situational: Scenario Comprehension (with Impact and Constraints & Assumptions), and Strategy & Decision Making.
+- Each missing chip gets a "To improve…" sentence and a SAMPLE RESPONSE. The sample responses are generic templates ("I would begin by clearly explaining the background of the project…").
+- Each question shows an editable script with highlights.
+- There is a "Re-attempt Interview" button.
+
+**Huru.**
+- A score out of 100, weighted 70% answers and 30% conversation skills.
+- **Conversation skills:** depth under follow-up, listening, consistency and credibility, conciseness and pacing, composure, engagement and close.
+- **Insights:**
+  - talk time, pace, thinking time
+  - fillers, hedging phrases, interruptions
+  - ownership (I vs we %)
+  - a STAR completeness grid per question
+  - job description coverage
+- Three "Work on this next" items.
+- Key moments: strengths, standout moments, and reworked moments with "A stronger version". The stronger versions invent facts, for example "ResNet… 78% to 88%" and "4 years in AI" for a candidate who said almost nothing.
+- Per question: topic, number of follow-ups, and "Too short to score fairly".
+
+**Yoodli.**
+- A percentage score.
+- Rubric: Active Listening out of 5, and STAR out of 5 per element.
+- One strength and two growth areas.
+- Feedback per response, with tone tags and conciseness.
+- Summary and pronunciation.
+- Analytics: word choice (repetition, fillers, weak words, conciseness), listening, delivery.
+- Trends over the last three months.
+
+**Overlap with ours.**
+- STAR per element: all three products.
+- Follow-up handling: Huru and Yoodli.
+- Consistency with the resume: Huru.
+- Job description coverage: Huru.
+- Three things to work on: Huru.
+- Stronger version: Huru.
+- Too short to judge: Huru.
+- Strengths: Yoodli and Huru.
+
+**Only ours.**
+- Questions and feedback built from the student's resume lines.
+- Rewrites grounded in what the student actually said, with brackets for the missing parts.
+- A per-question plan for answering next time.
+- A derived note when the student asked no questions at the end.
