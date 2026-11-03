@@ -72,7 +72,8 @@ function turnOutput(p) {
   }
   const next = p.next_slot;
   const nextQ = next.kind === 'candidate_questions' ? "That's everything from my side. What questions do you have for me?" : (next.planned_opening_question || 'Tell me about another time you handled that, a different example.');
-  return { ...base, decision: 'move_on', slot_summary: 'Mock summary.', utterance: `Thanks. ${nextQ}` };
+  const thin = answer.includes('[thin]'); // a model that wrongly calls a thin answer sufficient
+  return { ...base, evidence_sufficient: thin, missing: thin ? [] : base.missing, decision: 'move_on', slot_summary: 'Mock summary.', utterance: `Thanks. ${nextQ}` };
 }
 
 let feedbackCalls = 0;
