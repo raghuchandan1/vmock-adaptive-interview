@@ -303,7 +303,7 @@
 
   async function loadFeedback(s) {
     const panel = $('panel-feedback');
-    if (s.feedback) return renderFeedback(s, s.feedback);
+    if (s.feedback && s.feedback.version) return renderFeedback(s, s.feedback); // older shapes: the server rewrites them
     panel.innerHTML = '<p class="lede">Writing your feedback…</p>';
     const id = state.sessionId;
     try {
@@ -328,33 +328,51 @@
     return html;
   }
 
+  const MOMENT_NAME = { warmup: 'Warm-up', background: 'Your background', candidate_questions: 'Your questions at the end' };
+  const quoteHtml = (q) => (q ? `<div class="q">“${esc(q)}”</div>` : '');
+
+  // How to answer next time: the steps, then a rewrite of the student's own line or a sample answer.
+  function nextTimeHtml(t) {
+    let html = '';
+    if (t.answer_plan && t.answer_plan.length) html += `<ol class="plan">${t.answer_plan.map((p) => `<li>${esc(p)}</li>`).join('')}</ol>`;
+    if (t.stronger_version) html += `<div class="stronger"><span>Your answer, improved. Fill in the brackets with your own details.</span>${esc(t.stronger_version)}</div>`;
+    if (t.example_answer) html += `<div class="stronger example"><span>Example answer from a sample candidate, to show the approach</span>${esc(t.example_answer)}</div>`;
+    return html ? `<section class="fb-block next"><h4>How to answer it next time</h4>${html}</section>` : '';
+  }
+
   function renderFeedback(s, fb) {
+    const [goal, ...more] = fb.priorities;
     let html = `<p class="lede">${esc(fb.overall)}</p>`;
-    if (fb.priorities.length) {
-      html += `<h2 class="section-title">Work on this next</h2><ol class="priorities">${fb.priorities.map((p) => `<li><strong>${esc(p.title)}</strong><span>${esc(p.why)}</span><em>${esc(p.action)}</em></li>`).join('')}</ol>`;
+    if (goal) {
+      html += `<section class="goal"><span>Your goal for the next attempt</span><strong>${esc(goal.title)}</strong><p>${esc(goal.why)}</p><p class="do">${esc(goal.action)}</p></section>`;
+    }
+    if (more.length) {
+      html += `<h2 class="section-title">Also work on</h2><ol class="priorities">${more.map((p) => `<li><strong>${esc(p.title)}</strong><span>${esc(p.why)}</span><em>${esc(p.action)}</em></li>`).join('')}</ol>`;
+    }
+    html += '<h2 class="section-title">Question by question</h2>';
+    for (const t of fb.topics) {
+      const verdict = t.too_short ? '<span class="lv lv-none">Not enough to judge</span>' : t.verdict ? `<span class="lv ${LEVEL[t.verdict][1]}">${LEVEL[t.verdict][0]}</span>` : '';
+      html += `<article class="topic"><div class="topic-head"><h3>${esc(slotLabel({ kind: t.kind, competency_name: t.topic }))}</h3>${verdict}</div>
+        ${t.question ? `<p class="asked"><span>The question</span>${esc(t.question)}</p>` : ''}`;
+      if (t.too_short) {
+        html += '<p class="a">Your answer here was too short to give feedback on. Use the steps below to prepare this one.</p>';
+      } else {
+        if (t.went_well) html += `<section class="fb-block well"><h4>What went well</h4>${quoteHtml(t.went_well_quote)}<p>${esc(t.went_well)}</p></section>`;
+        if (t.to_fix) html += `<section class="fb-block fix"><h4>What to fix</h4>${quoteHtml(t.to_fix_quote)}<p>${esc(t.to_fix)}</p></section>`;
+      }
+      html += nextTimeHtml(t);
+      if (t.ratings && t.ratings.length) {
+        html += `<details class="checklist"><summary>${esc(RUBRIC_NAME[t.rubric] || 'Checklist')}: what a strong answer covers</summary><div class="ratings">${t.ratings.map((r) => `<div class="rating"><span class="lv ${LEVEL[r.level][1]}">${LEVEL[r.level][0]}</span><strong>${esc(r.label)}</strong><span class="why">${esc(r.reason)}</span></div>`).join('')}</div></details>`;
+      }
+      const answers = s.transcript.filter((e) => e.role === 'candidate' && e.slot_id === t.slot_id).map((e) => e.text);
+      if (answers.length) html += `<details class="your-answer"><summary>Your answers, with highlights</summary>${answers.map((a) => `<p class="a">${highlight(a, [t.went_well_quote, t.to_fix_quote])}</p>`).join('')}</details>`;
+      html += '</article>';
+    }
+    if (fb.moments && fb.moments.length) {
+      html += `<h2 class="section-title">Other moments that matter</h2>${fb.moments.map((m) => `<article class="topic moment"><h3>${esc(MOMENT_NAME[m.slot_id] || '')}</h3>${quoteHtml(m.quote)}<p>${esc(m.note)}</p>${m.tip ? `<p class="do">${esc(m.tip)}</p>` : ''}</article>`).join('')}`;
     }
     if (fb.jd_coverage && fb.jd_coverage.length) {
       html += `<h2 class="section-title">Job description coverage</h2><ul class="jd-cov">${fb.jd_coverage.map((c) => `<li><span class="chip jd-${c.status}">${esc(JD_STATUS[c.status])}</span> ${esc(c.name)}</li>`).join('')}</ul>`;
-    }
-    html += '<h2 class="section-title">By topic</h2>';
-    for (const t of fb.topics) {
-      html += `<article class="topic"><h3>${esc(slotLabel({ kind: t.kind, competency_name: t.topic }))}</h3>
-        <div class="meta">${t.rubric ? `${esc(RUBRIC_NAME[t.rubric])}. ` : ''}${esc(OUTCOME[t.outcome] || '')}</div>
-        ${t.resume_line ? `<div class="line">${esc(t.resume_line)}</div>` : ''}`;
-      if (t.too_short) {
-        html += '<p class="a">Your answers here were too short for useful feedback. Try giving a fuller example next time.</p></article>';
-        continue;
-      }
-      html += `<div class="ratings">${t.ratings.map((r) => `<div class="rating"><span class="lv ${LEVEL[r.level][1]}">${LEVEL[r.level][0]}</span><strong>${esc(r.label)}</strong><span class="why">${esc(r.reason)}</span></div>`).join('')}</div>`;
-      if (t.what_worked) html += `<p><strong>What worked.</strong> ${esc(t.what_worked)}</p>`;
-      for (const r of t.rework) {
-        html += `<div class="rework"><div class="q">“${esc(r.quote)}”</div><p>${esc(r.why)}</p>
-          ${r.stronger_version ? `<div class="stronger"><span>A stronger version you could adapt. Fill in your own details.</span>${esc(r.stronger_version)}</div>` : ''}</div>`;
-      }
-      const answers = s.transcript.filter((e) => e.role === 'candidate' && e.slot_id === t.slot_id).map((e) => e.text);
-      const quotes = [t.worked_quote, ...t.rework.map((r) => r.quote)];
-      if (answers.length) html += `<details class="your-answer"><summary>Your answers, with highlights</summary>${answers.map((a) => `<p class="a">${highlight(a, quotes)}</p>`).join('')}</details>`;
-      html += '</article>';
     }
     $('panel-feedback').innerHTML = html;
   }

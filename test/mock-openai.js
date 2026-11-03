@@ -85,15 +85,28 @@ function feedbackOutput(input) {
     const real = ans ? ans.text.split(/\s+/).slice(0, 4).join(' ') : '';
     return {
       slot_id: t.slot_id,
-      ratings: t.rubric.map((r, i) => ({ dimension: r.dimension, level: bad && i === 0 ? 'excellent' : ['good_job', 'on_track', 'needs_work'][i % 3], reason: 'Mock reason.' })),
-      what_worked: 'You named a clear starting point.',
-      worked_quote: real,
-      rework: [{ quote: bad ? 'I never said this' : real, why: bad ? 'The competency was weak.' : 'It lacks a measurable result.', stronger_version: i === 1 ? 'I used greedy matching to settle balances.' : 'I led the work and moved the metric by X%.' }],
+      ratings: t.rubric.map((r, i) => ({ dimension: r.dimension, reason: 'Mock reason.', level: bad && i === 0 ? 'excellent' : ['good_job', 'on_track', 'needs_work'][i % 3] })),
+      went_well_quote: real,
+      went_well: 'You named a clear starting point.',
+      to_fix_quote: bad ? 'I never said this' : real,
+      to_fix: bad ? 'The competency was weak.' : 'It lacks a measurable result.',
+      answer_plan: ['Start with the problem.', 'Say what you did yourself.', 'End with what changed.'],
+      stronger_version: i === 1 ? 'I used greedy matching to settle balances.' : 'I led the work and moved the metric by X%.',
+      example_answer: 'A sample candidate would first check the data.',
     };
   };
+  const empty = { ratings: [], went_well_quote: '', went_well: 'x', to_fix_quote: '', to_fix: '', answer_plan: [], stronger_version: '', example_answer: '' };
   return {
     overall: bad ? 'You scored 7/10 overall.' : 'You gave concrete examples and can tighten the results.',
-    topics: [...input.topics.slice(0, 2).map(topic), { slot_id: 'warmup', ratings: [], what_worked: 'x', worked_quote: '', rework: [] }],
+    topics: [
+      ...input.topics.filter((t) => t.usable_answer).slice(0, 2).map(topic),
+      ...input.topics.filter((t) => !t.usable_answer).map((t) => ({ slot_id: t.slot_id, ...empty, went_well: '', answer_plan: ['Give one real example.'] })),
+      { slot_id: 'warmup', ...empty },
+    ],
+    moments: [
+      { slot_id: 'background', quote: 'not a real quote', note: 'Your background answer did not match the resume.', tip: 'Keep it consistent.' },
+      { slot_id: 'candidate_questions', quote: '', note: 'Model-written closing note.', tip: '' },
+    ],
     priorities: ['Lead with the result.', 'Say what you personally did.', 'Name how you measured it.', 'A fourth item.'].map((t) => ({ title: t, why: 'It makes answers verifiable.', action: 'Add one number.' })),
   };
 }

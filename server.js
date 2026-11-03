@@ -121,25 +121,25 @@ async function answer(id, body) {
 }
 
 // Second model call per rewrite: a "stronger version" may only contain facts from the resume or the student's
-// answers, plus placeholders. Anything unsupported, or a failed check, removes the rewrite text (fails closed).
+// answers or the JD, plus placeholders. An unsupported claim removes its sentence; a failed check removes the rewrite.
 async function groundRewrites(session, feedback, traces) {
   const answers = engine.candidateTextBySlot(session);
   const system = readPrompt('grounding');
-  await Promise.all(feedback.topics.flatMap((t) => (t.rework || []).filter((r) => r.stronger_version).map(async (r) => {
+  await Promise.all(feedback.topics.filter((t) => t.stronger_version).map(async (t) => {
     try {
       const { data, trace } = await callStructured({
         apiKey: apiKey(), baseUrl: BASE_URL, model: session.settings.turn_model, reasoningEffort: session.settings.turn_effort,
-        system, user: JSON.stringify({ resume_text: session.inputs.resume_text, job_description: session.inputs.jd_text, student_answers: String(answers[t.slot_id] || '').trim(), rewrite: r.stronger_version }, null, 2),
+        system, user: JSON.stringify({ resume_text: session.inputs.resume_text, job_description: session.inputs.jd_text, student_answers: String(answers[t.slot_id] || '').trim(), rewrite: t.stronger_version }, null, 2),
         schemaName: 'rewrite_grounding', schema: groundingSchema,
       });
-      const kept = engine.applyGrounding(r.stronger_version, data.unsupported_claims, `${session.inputs.resume_text} ${session.inputs.jd_text} ${answers[t.slot_id] || ''}`);
-      traces.push({ ...trace, grounding_for: t.slot_id, unsupported: data.unsupported_claims, checked_rewrite: r.stronger_version, kept });
-      r.stronger_version = kept;
+      const kept = engine.applyGrounding(t.stronger_version, data.unsupported_claims, `${session.inputs.resume_text} ${session.inputs.jd_text} ${answers[t.slot_id] || ''}`);
+      traces.push({ ...trace, grounding_for: t.slot_id, unsupported: data.unsupported_claims, checked_rewrite: t.stronger_version, kept });
+      t.stronger_version = kept;
     } catch (err) {
       traces.push({ grounding_for: t.slot_id, error: err.message });
-      r.stronger_version = '';
+      t.stronger_version = '';
     }
-  })));
+  }));
 }
 
 // Student feedback: one model call after the interview, cached on the session.
@@ -147,7 +147,7 @@ async function feedback(id) {
   const session = getSession(id);
   if (!session) throw httpError(404, 'Interview not found.');
   if (session.status !== 'ended') throw httpError(400, 'Finish the interview to get your feedback.');
-  if (session.feedback) return session.feedback;
+  if (session.feedback?.version === engine.FEEDBACK_VERSION) return session.feedback; // older shapes are regenerated
   if (!session.transcript.some((t) => t.role === 'candidate')) throw httpError(400, 'Answer at least one question to get feedback.');
   if (inFlight.has(id)) throw httpError(409, 'Your feedback is still being written. Please wait a moment.');
   inFlight.add(id);
