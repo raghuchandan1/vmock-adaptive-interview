@@ -278,6 +278,10 @@ dialog::backdrop { background: rgba(10, 14, 22, 0.45); }
 .fb-block.well { border-left: 4px solid var(--lv-good-ink); }
 .fb-block.fix { border-left: 4px solid var(--lv-low-ink); }
 .fb-block.next { background: var(--note); border-color: var(--note-line); }
+.own { list-style: none; padding: 0; margin: 8px 0 0; font-size: 14px; }
+.own li { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; border-top: 1px solid var(--line-soft); }
+.own li span:first-child { color: var(--ink-soft); }
+.own-we { color: var(--lv-low-ink); }
 .plan { margin: 4px 0 10px; padding-left: 20px; }
 .plan li { margin-bottom: 4px; }
 .checklist summary { cursor: pointer; color: var(--ink-soft); font-size: 14px; margin-top: 8px; }

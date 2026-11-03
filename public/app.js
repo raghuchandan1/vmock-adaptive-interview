@@ -340,6 +340,25 @@
     return html ? `<section class="fb-block next"><h4>How to answer it next time</h4>${html}</section>` : '';
   }
 
+  const ratingRow = (r) => `<div class="rating"><span class="lv ${LEVEL[r.level][1]}">${LEVEL[r.level][0]}</span><strong>${esc(r.label)}</strong><span class="why">${esc(r.reason)}</span></div>`;
+  const topicName = (t) => slotLabel({ kind: t.kind, competency_name: t.topic });
+
+  // Conversation: what an adaptive interview shows and the existing VMock modules don't measure.
+  function conversationHtml(fb) {
+    let html = '';
+    const followups = fb.topics.flatMap((t) => (t.ratings || []).filter((r) => r.dimension === 'followup').map((r) => ({ ...r, label: topicName(t) })));
+    if (followups.length) html += `<section class="fb-block"><h4>How you handled follow-up questions</h4><div class="ratings">${followups.map(ratingRow).join('')}</div></section>`;
+    const own = fb.topics.filter((t) => t.ownership && t.ownership.i + t.ownership.we > 0);
+    if (own.length) {
+      const teamHeavy = own.filter((t) => t.ownership.we > t.ownership.i);
+      html += `<section class="fb-block"><h4>Talking about your own work</h4>
+        <p>You said “I” ${fb.ownership.i} time${fb.ownership.i === 1 ? '' : 's'} and “we” ${fb.ownership.we} time${fb.ownership.we === 1 ? '' : 's'}.${teamHeavy.length ? ' Interviewers listen for “I” to understand what you did yourself.' : ''}</p>
+        <ul class="own">${own.map((t) => `<li><span>${esc(topicName(t))}</span><span class="${t.ownership.we > t.ownership.i ? 'own-we' : ''}">I ${t.ownership.i} · we ${t.ownership.we}${t.ownership.we > t.ownership.i ? ', mostly about the team' : ''}</span></li>`).join('')}</ul></section>`;
+    }
+    html += (fb.moments || []).map((m) => `<section class="fb-block moment"><h4>${esc(MOMENT_NAME[m.slot_id] || '')}</h4>${quoteHtml(m.quote)}<p>${esc(m.note)}</p>${m.tip ? `<p class="do">${esc(m.tip)}</p>` : ''}</section>`).join('');
+    return html ? `<h2 class="section-title">Conversation</h2>${html}` : '';
+  }
+
   function renderFeedback(s, fb) {
     const [goal, ...more] = fb.priorities;
     let html = `<p class="lede">${esc(fb.overall)}</p>`;
@@ -361,16 +380,15 @@
         if (t.to_fix) html += `<section class="fb-block fix"><h4>What to fix</h4>${quoteHtml(t.to_fix_quote)}<p>${esc(t.to_fix)}</p></section>`;
       }
       html += nextTimeHtml(t);
-      if (t.ratings && t.ratings.length) {
-        html += `<details class="checklist"><summary>${esc(RUBRIC_NAME[t.rubric] || 'Checklist')}: what a strong answer covers</summary><div class="ratings">${t.ratings.map((r) => `<div class="rating"><span class="lv ${LEVEL[r.level][1]}">${LEVEL[r.level][0]}</span><strong>${esc(r.label)}</strong><span class="why">${esc(r.reason)}</span></div>`).join('')}</div></details>`;
+      const content = (t.ratings || []).filter((r) => r.dimension !== 'followup'); // follow-ups are shown under Conversation
+      if (content.length) {
+        html += `<details class="checklist"><summary>${esc(RUBRIC_NAME[t.rubric] || 'Checklist')}: what a strong answer covers</summary><div class="ratings">${content.map(ratingRow).join('')}</div></details>`;
       }
       const answers = s.transcript.filter((e) => e.role === 'candidate' && e.slot_id === t.slot_id).map((e) => e.text);
       if (answers.length) html += `<details class="your-answer"><summary>Your answers, with highlights</summary>${answers.map((a) => `<p class="a">${highlight(a, [t.went_well_quote, t.to_fix_quote])}</p>`).join('')}</details>`;
       html += '</article>';
     }
-    if (fb.moments && fb.moments.length) {
-      html += `<h2 class="section-title">Other moments that matter</h2>${fb.moments.map((m) => `<article class="topic moment"><h3>${esc(MOMENT_NAME[m.slot_id] || '')}</h3>${quoteHtml(m.quote)}<p>${esc(m.note)}</p>${m.tip ? `<p class="do">${esc(m.tip)}</p>` : ''}</article>`).join('')}`;
-    }
+    html += conversationHtml(fb);
     if (fb.jd_coverage && fb.jd_coverage.length) {
       html += `<h2 class="section-title">Job description coverage</h2><ul class="jd-cov">${fb.jd_coverage.map((c) => `<li><span class="chip jd-${c.status}">${esc(JD_STATUS[c.status])}</span> ${esc(c.name)}</li>`).join('')}</ul>`;
     }
