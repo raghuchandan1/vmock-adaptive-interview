@@ -89,7 +89,7 @@ test/                Offline mock of the OpenAI API and end-to-end checks
 ## Known limits of this prototype
 
 - Typed answers only, one per card; no voice.
-- No feedback scoring or rubric yet. The agenda reveal stands in for feedback.
+- No feedback scoring or rubric yet. Students get qualitative feedback only (summary, what worked / was missing / try next time per topic, priorities), written by a third model call after the interview (`prompts/feedback.md`, `POST /api/sessions/:id/feedback`). Quotes are checked verbatim and scores are stripped by `checkAndShapeFeedback`.
 - The resume engine's flags and score band are simulated by the planner prompt.
 - PDF upload reads text only. Scanned or image PDFs need the text pasted in.
 - The web font and PDF reader load from public CDNs. Without internet, the page falls back to system fonts and PDF upload is unavailable.

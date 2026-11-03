@@ -76,6 +76,46 @@ function turnOutput(p) {
   return { ...base, evidence_sufficient: thin, missing: thin ? [] : base.missing, decision: 'move_on', slot_summary: 'Mock summary.', utterance: `Thanks. ${nextQ}` };
 }
 
+let feedbackCalls = 0;
+// First call returns bad output (score text, invented quotes, unknown slot, bad level) so the guard and one retry are exercised.
+function feedbackOutput(input) {
+  feedbackCalls += 1;
+  const bad = !input.note;
+  const topic = (t, i) => {
+    const ans = input.transcript.find((e) => e.role === 'candidate' && e.slot_id === t.slot_id);
+    const real = ans ? ans.text.split(/\s+/).slice(0, 4).join(' ') : '';
+    return {
+      slot_id: t.slot_id,
+      ratings: t.rubric.map((r, i) => ({ dimension: r.dimension, reason: 'Mock reason.', level: bad && i === 0 ? 'excellent' : ['good_job', 'on_track', 'needs_work'][i % 3] })),
+      went_well_quote: real,
+      went_well: 'You named a clear starting point.',
+      to_fix_quote: bad ? 'I never said this' : real,
+      to_fix: bad ? 'The competency was weak.' : 'It lacks a measurable result.',
+      answer_plan: ['Start with the problem.', 'Say what you did yourself.', 'End with what changed.'],
+      stronger_version: i === 1 ? 'I used greedy matching to settle balances.' : 'I led the work and moved the metric by X%.',
+      example_answer: 'A sample candidate would first check the data.',
+      resume_mismatch: i === 0 ? { quote: '', note: 'The resume line says X; the answer described Y.', tip: 'Tell the story behind that line.' } : { quote: '', note: '', tip: '' },
+    };
+  };
+  const empty = { ratings: [], went_well_quote: '', went_well: 'x', resume_mismatch: { quote: '', note: '', tip: '' }, to_fix_quote: '', to_fix: '', answer_plan: [], stronger_version: '', example_answer: '' };
+  return {
+    overall: bad ? 'You scored 7/10 overall.' : 'You gave concrete examples and can tighten the results.',
+    topics: [
+      ...input.topics.filter((t) => t.usable_answer).slice(0, 2).map(topic),
+      ...input.topics.filter((t) => !t.usable_answer).map((t) => ({ slot_id: t.slot_id, ...empty, went_well: '', answer_plan: ['Give one real example.'] })),
+      { slot_id: 'warmup', ...empty },
+    ],
+    moments: [
+      { slot_id: 'background', quote: 'not a real quote', note: 'Your background answer did not match the resume.', tip: 'Keep it consistent.' },
+      { slot_id: 'warmup', quote: '', note: 'Warm-up should not be judged.', tip: '' },
+      { slot_id: 'nope', quote: '', note: 'Unknown topic.', tip: '' },
+      { slot_id: 'candidate_questions', quote: '', note: 'Model-written closing note.', tip: '' },
+    ],
+    next_goal: { title: 'Lead with your own part', why: 'It makes answers verifiable.', when: 'When you are asked about a project', then: bad ? 'say your role, two actions, and the result' : 'say what you did yourself in your first sentence.' },
+    more_priorities: ['Say what you personally did.', 'Name how you measured it.', 'A fourth item.'].map((t) => ({ title: t, why: 'It makes answers verifiable.', action: 'Add one number.' })),
+  };
+}
+
 http.createServer((req, res) => {
   let body = '';
   req.on('data', (c) => { body += c; });
@@ -87,7 +127,9 @@ http.createServer((req, res) => {
       res.writeHead(400, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify({ error: { message: 'Unrecognized request argument supplied: reasoning_effort' } }));
     }
-    const out = name === 'interview_plan' ? plannerOutput(input) : turnOutput(input);
+    // Grounding check: anything mentioning "greedy" is an unsupported claim.
+    const out = name === 'rewrite_grounding' ? { unsupported_claims: /greedy/i.test(input.rewrite) ? ['used greedy matching to settle balances'] : [] }
+      : name === 'interview_plan' ? plannerOutput(input) : name === 'interview_feedback' ? feedbackOutput(input) : turnOutput(input);
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ choices: [{ message: { content: JSON.stringify(out) }, finish_reason: 'stop' }], usage: { prompt_tokens: 1000, completion_tokens: 200 } }));
   });

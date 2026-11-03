@@ -7,7 +7,7 @@ const path = require('path');
 const crypto = require('crypto');
 
 const { callStructured } = require('./lib/openai');
-const { plannerSchema, turnSchema } = require('./lib/schemas');
+const { plannerSchema, turnSchemaFor, feedbackSchemaFor, groundingSchema } = require('./lib/schemas');
 const engine = require('./lib/engine');
 
 const ROOT = __dirname;
@@ -95,7 +95,7 @@ async function createInterview(body) {
     jd_text: inputs.jd_text,
   };
   const system = readPrompt('planner');
-  const user = JSON.stringify(plannerInput, null, 2);
+  const user = JSON.stringify(plannerInput); // compact: indentation only costs tokens
   const { data: plan, trace } = await callStructured({
     apiKey: apiKey(), baseUrl: BASE_URL, model: settings.planner_model, reasoningEffort: settings.planner_effort,
     system, user, schemaName: 'interview_plan', schema: plannerSchema,
@@ -120,13 +120,74 @@ async function answer(id, body) {
   try { return await answerLocked(session, body); } finally { inFlight.delete(id); }
 }
 
+// Second model call per rewrite: a "stronger version" may only contain facts from the resume or the student's
+// answers or the JD, plus placeholders. An unsupported claim removes its sentence; a failed check removes the rewrite.
+async function groundRewrites(session, feedback, traces) {
+  const answers = engine.candidateTextBySlot(session);
+  const system = readPrompt('grounding');
+  await Promise.all(feedback.topics.filter((t) => t.stronger_version).map(async (t) => {
+    try {
+      const { data, trace } = await callStructured({
+        apiKey: apiKey(), baseUrl: BASE_URL, model: session.settings.turn_model, reasoningEffort: session.settings.turn_effort,
+        system, user: JSON.stringify({ resume_text: session.inputs.resume_text, job_description: session.inputs.jd_text, student_answers: String(answers[t.slot_id] || '').trim(), rewrite: t.stronger_version }),
+        schemaName: 'rewrite_grounding', schema: groundingSchema,
+      });
+      const kept = engine.applyGrounding(t.stronger_version, data.unsupported_claims, `${session.inputs.resume_text} ${session.inputs.jd_text} ${answers[t.slot_id] || ''}`);
+      traces.push({ ...trace, grounding_for: t.slot_id, unsupported: data.unsupported_claims, checked_rewrite: t.stronger_version, kept });
+      t.stronger_version = kept;
+    } catch (err) {
+      traces.push({ grounding_for: t.slot_id, error: err.message });
+      t.stronger_version = '';
+    }
+  }));
+}
+
+// Student feedback: one model call after the interview, cached on the session.
+async function feedback(id) {
+  const session = getSession(id);
+  if (!session) throw httpError(404, 'Interview not found.');
+  if (session.status !== 'ended') throw httpError(400, 'Finish the interview to get your feedback.');
+  if (session.feedback?.version === engine.FEEDBACK_VERSION) return session.feedback; // older shapes are regenerated
+  if (!session.transcript.some((t) => t.role === 'candidate')) throw httpError(400, 'Answer at least one question to get feedback.');
+  if (inFlight.has(id)) throw httpError(409, 'Your feedback is still being written. Please wait a moment.');
+  inFlight.add(id);
+  try {
+    const system = readPrompt('feedback');
+    const run = async (note) => {
+      const payload = engine.buildFeedbackPayload(session);
+      if (note) payload.note = note;
+      const user = JSON.stringify(payload);
+      const result = await callStructured({
+        apiKey: apiKey(), baseUrl: BASE_URL, model: session.settings.turn_model, reasoningEffort: session.settings.turn_effort,
+        system, user, schemaName: 'interview_feedback',
+        // Only the topics in this payload and their rubric dimensions can appear in the output.
+        schema: feedbackSchemaFor(payload.topics.map((t) => t.slot_id), [...new Set(payload.topics.flatMap((t) => t.rubric.map((r) => r.dimension)))]),
+      });
+      return { ...result, shaped: engine.checkAndShapeFeedback(result.data, session) };
+    };
+    let result = await run();
+    const traces = [result.trace];
+    if (result.shaped.problems.length) {
+      result = await run(`Rewrite without these problems: ${result.shaped.problems.join('; ')}. Give no scores or ratings.`);
+      traces.push(result.trace);
+    }
+    await groundRewrites(session, result.shaped.feedback, traces);
+    session.feedback = result.shaped.feedback;
+    session.feedback_trace = traces;
+    saveSession(session);
+    return session.feedback;
+  } finally { inFlight.delete(id); }
+}
+
 async function answerLocked(session, body) {
   const system = readPrompt('turn');
   const runTurn = async (payload) => {
-    const user = JSON.stringify(payload, null, 2);
+    const user = JSON.stringify(payload);
     const result = await callStructured({
       apiKey: apiKey(), baseUrl: BASE_URL, model: session.settings.turn_model, reasoningEffort: session.settings.turn_effort,
-      system, user, schemaName: 'interview_turn', schema: turnSchema,
+      system, user, schemaName: 'interview_turn',
+      // The decision can only be one the engine allows this turn, and a pivot only an offered topic.
+      schema: turnSchemaFor(payload.allowed_decisions, payload.pivot_options.map((p) => p.slot_id)),
     });
     return result;
   };
@@ -233,6 +294,7 @@ const server = http.createServer(async (req, res) => {
         saveSession(s);
         return send(res, 200, engine.publicView(s));
       }
+      if (req.method === 'POST' && parts[3] === 'feedback') return send(res, 200, await feedback(id));
       if (req.method === 'GET' && parts[3] === 'trace') {
         const s = getSession(id);
         if (!s) throw httpError(404, 'Interview not found.');

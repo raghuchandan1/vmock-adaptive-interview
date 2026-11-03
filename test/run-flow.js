@@ -1,7 +1,7 @@
 // Drives a full interview through the real server (pointed at the mock OpenAI) and checks the engine's rules.
 const fs = require('fs');
 const path = require('path');
-const { plannerSchema, turnSchema } = require('../lib/schemas');
+const { plannerSchema, turnSchema, feedbackSchema, turnSchemaFor, feedbackSchemaFor, groundingSchema } = require('../lib/schemas');
 
 const BASE = process.env.APP || 'http://localhost:3999';
 let failures = 0;
@@ -29,6 +29,19 @@ const get = async (p) => (await fetch(BASE + p)).json();
 (async () => {
   check(strictOk(plannerSchema) === null, `planner schema is strict-mode valid ${strictOk(plannerSchema) || ''}`);
   check(strictOk(turnSchema) === null, `turn schema is strict-mode valid ${strictOk(turnSchema) || ''}`);
+  check(strictOk(feedbackSchema) === null, `feedback schema is strict-mode valid ${strictOk(feedbackSchema) || ''}`);
+  // Per-call schemas: only the decisions allowed this turn, offered pivots, reached topics and known rubric dimensions
+  const tS = turnSchemaFor(['probe', 'move_on'], ['s3']);
+  const fS = feedbackSchemaFor(['s1', 's2'], ['situation', 'followup']);
+  check([tS, fS, turnSchemaFor(['move_on'], []), groundingSchema].every((x) => strictOk(x) === null)
+    && JSON.stringify(tS.properties.decision.enum) === '["probe","move_on"]' && tS.properties.pivot_target_slot_id.enum.includes(null)
+    && turnSchemaFor(['move_on'], []).properties.pivot_target_slot_id.type === 'null'
+    && JSON.stringify(fS.properties.topics.items.properties.slot_id.enum) === '["s1","s2"]'
+    && fS.properties.moments.items.properties.slot_id.enum.includes('background') && fS.properties.more_priorities.maxItems === 2 && fS.properties.next_goal.required.includes('then'),
+  'per-call schemas are strict-valid and limit decisions, pivots, topics and dimensions to this call');
+  const { RUBRICS } = require('../lib/engine');
+  const dims = feedbackSchema.properties.topics.items.properties.ratings.items.properties.dimension.enum;
+  check([...Object.values(RUBRICS).flat().map(([k]) => k), 'technical', 'followup'].every((k) => dims.includes(k)), 'the default feedback schema knows every rubric dimension');
 
   const samples = path.join(__dirname, '..', 'samples');
   const resume = fs.readFileSync(path.join(samples, 'resume-rohan-apm.txt'), 'utf8');
@@ -115,7 +128,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
     trace = await get(`/api/sessions/${id}/trace`);
     if (trace.status !== 'active') break;
     const slot = trace.slots[trace.current];
-    const answer = slot.kind === 'candidate_questions' ? (trace.candidate_questions_asked >= 1 ? 'no questions' : 'How does the team work?') : '[done] Specific answer.';
+    const answer = slot.kind === 'candidate_questions' ? (trace.candidate_questions_asked >= 1 ? 'no questions' : 'How does the team work?') : '[done] I led the rollout, wrote the spec, aligned sales and engineering on scope, and tracked weekly signups before and after the launch.';
     v = await post(`/api/sessions/${id}/answers`, { answer });
   }
   trace = await get(`/api/sessions/${id}/trace`);
@@ -123,6 +136,48 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(trace.slots.filter((s) => s.kind === 'second_chance').length <= 2, `second chances are capped at 2 for a standard interview (got ${trace.slots.filter((s) => s.kind === 'second_chance').length})`);
   check(trace.interviewer_turns <= trace.max_turns + 1, `stays within the turn limit (${trace.interviewer_turns} of ${trace.max_turns})`);
   check(trace.transcript.every((e) => e.role !== 'interviewer' || e.slot_id), 'every interviewer message is tagged with its topic');
+
+  // Student feedback: guard fixes bad model output, retries once, and the result is cached
+  const fb = await post(`/api/sessions/${id}/feedback`, {});
+  const norm = (x) => String(x).toLowerCase().replace(/[^a-z0-9%]+/g, ' ').replace(/\s+/g, ' ').trim();
+  const answersText = norm(trace.transcript.filter((e) => e.role === 'candidate').map((e) => e.text).join(' '));
+  const fbText = JSON.stringify([fb.overall, fb.topics.map((t) => [t.went_well, t.to_fix, t.answer_plan, (t.ratings || []).map((r) => r.reason), t.stronger_version]), fb.moments]);
+  const rated = fb.topics.filter((t) => !t.too_short);
+  const { rubricFor, rubricKey } = require('../lib/engine');
+  check(fb.version === 8 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
+  check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
+  check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
+  check(rated.every((t) => answersText.includes(norm(t.to_fix_quote)) && (!t.went_well_quote || answersText.includes(norm(t.went_well_quote)))), 'feedback keeps only verbatim quotes (invented quote dropped on retry)');
+  check(fb.topics.every((t) => (['situational', 'knowledge'].includes(t.rubric) ? true : t.example_answer === '')), 'example answers only on scenario and technical questions');
+  check(!/\d+\s*\/\s*\d+|\bscore|\bband/i.test(fbText), 'feedback has no scores or bands after the retry');
+  check(fb.priorities.length === 3 && fb.priorities.every((p) => p.title && p.action), 'feedback priorities are title/why/action, capped at 3');
+  check(rated[0].resume_mismatch && /resume line/.test(rated[0].resume_mismatch.note) && rated[0].to_fix && !fb.moments.some((m) => ['warmup', 'nope', rated[0].slot_id].includes(m.slot_id)), 'a resume mismatch sits on its topic next to a different "what to fix"; moments are background only');
+  check(/^When you are asked about a project, say what you did yourself in your first sentence\.$/.test(fb.priorities[0].action) && fb.priorities.length === 3, 'the goal is assembled as "When …, …." from when/then, and priorities stay capped at 3');
+  check(trace.slots.length && Array.isArray(require('../lib/engine').buildFeedbackPayload(trace).topics[0].interviewer_noted_off_resume_line), 'feedback input carries the interviewer\'s off-resume-line answers per topic');
+  check(fb.moments.some((m) => m.slot_id === 'background' && m.quote === '' && m.note) && !fb.moments.some((m) => m.note === 'Model-written closing note.'), 'moments: invented quote dropped, model may not write the closing-questions moment');
+  check(rated.some((t) => trace.slots.find((x) => x.id === t.slot_id).follow_ups_used > 0 ? t.ratings.some((r) => r.dimension === 'followup') : true), 'probed topics get a follow-up handling dimension');
+  const { checkAndShapeFeedback, topicVerdict } = require('../lib/engine');
+  const { severalActions } = require('../lib/engine');
+  const dup = checkAndShapeFeedback({ overall: 'ok', moments: [], more_priorities: [], next_goal: { title: 'Goal', why: 'w', when: 'you are asked about a project', then: 'say your role, two actions, and the result' },
+    topics: [{ slot_id: rated[0].slot_id, ratings: [], went_well: '', went_well_quote: '', answer_plan: [], stronger_version: 'I [x].', example_answer: '',
+      resume_mismatch: { quote: rated[0].to_fix_quote, note: 'The resume says X; the answer said Y.', tip: 'Tell that story.' }, to_fix_quote: rated[0].to_fix_quote, to_fix: 'Same moment again.' }] }, trace);
+  const dupTopic = dup.feedback.topics.find((t) => t.slot_id === rated[0].slot_id);
+  check(dupTopic.resume_mismatch && dupTopic.to_fix === '' && dupTopic.to_fix_quote === '' && dupTopic.stronger_version === '', 'a "what to fix" that repeats the resume mismatch is dropped');
+  check(dup.problems.some((p) => /next_goal\.then must be ONE action/.test(p)) && severalActions('say your role, two actions, and the result') && !severalActions('say what you did yourself in your first sentence') && severalActions('define the outcome and state how you would compare the old and new') && !severalActions('name the SQL and Python steps you took yourself'), 'a goal with several actions is sent back for a rewrite');
+  const { ownershipCounts } = require('../lib/engine');
+  const oc = ownershipCounts("We launched it, I wrote the spec and my manager and I reviewed our numbers.");
+  check(oc.i === 3 && oc.we === 2 && fb.ownership.i === fb.topics.reduce((n, t) => n + t.ownership.i, 0), 'counts "I" versus "we" per topic and overall');
+  check(topicVerdict([{ dimension: 'a', level: 'good_job' }, { dimension: 'followup', level: 'needs_work' }]) === 'good_job'
+    && topicVerdict([{ dimension: 'a', level: 'needs_work' }, { dimension: 'b', level: 'needs_work' }, { dimension: 'c', level: 'good_job' }]) === 'needs_work'
+    && topicVerdict([{ dimension: 'a', level: 'needs_work' }, { dimension: 'b', level: 'good_job' }]) === 'on_track', 'topic verdict follows the content ratings, not the follow-up row');
+  const topicWith = (slotId, quote, stronger) => checkAndShapeFeedback({ overall: 'ok', priorities: [], moments: [], topics: [{ slot_id: slotId, ratings: [], went_well: '', went_well_quote: '', to_fix: 'weak', to_fix_quote: quote, answer_plan: [], stronger_version: stronger, example_answer: '' }] }, trace).feedback.topics.find((t) => t.slot_id === slotId);
+  check(topicWith(rated[0].slot_id, rated[0].to_fix_quote, 'I led the work and moved the metric by X%.').stronger_version !== '' && topicWith(rated[0].slot_id, rated[0].to_fix_quote, 'I cut reporting time by 73 percent.').stronger_version === '', 'rewrite is dropped when it contains a number not in the resume or answers');
+  check(rated[0].stronger_version.includes('X%') && rated[1] && rated[1].stronger_version === '' && rated[1].to_fix, 'unsupported rewrite text is removed after the grounding check, supported one is kept');
+  check(rated[1].to_fix_quote !== rated[0].to_fix_quote ? topicWith(rated[0].slot_id, rated[1].to_fix_quote, 'I did [x].').stronger_version === '' : true, 'a quote taken from a different topic is dropped, and its rewrite with it');
+  const fb2 = await post(`/api/sessions/${id}/feedback`, {});
+  const saved = await get(`/api/sessions/${id}/trace`);
+  check(fb2.generated_at === fb.generated_at && saved.feedback_trace.filter((x) => !x.grounding_for).length === 2 && saved.feedback_trace.filter((x) => x.grounding_for).length === 2, 'feedback is generated once with one retry, then cached');
 
   // Rollback on model failure: a session whose turn call errors keeps the transcript unchanged
   const v2 = await post('/api/sessions', { resume_text: resume, jd_text: '', target_role: 'Product Manager', interview_type: 'back_your_resume', style: 'surprise', length: 'short', settings: { turn_model: 'gpt-4.1', turn_effort: 'low' } });
@@ -168,6 +223,8 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const refused = both.filter((r) => r.status === 'rejected');
   check(both.filter((r) => r.status === 'fulfilled').length === 1 && refused.length === 1 && /still being processed/.test(refused[0].reason.message), 'concurrent answers: one is processed, the other is refused as in progress');
 
+  check(await post(`/api/sessions/${v2.id}/feedback`, {}).then(() => false, (e) => /Finish the interview/.test(e.message)), 'no feedback before the interview ends');
+
   const { leakCheck } = require('../lib/engine');
   check(['Those are thoughtful questions.', 'Thanks, that clarifies the workflow.', 'That connects clearly to your teaching background.'].every((t) => leakCheck(t).length > 0) && leakCheck('Which decisions in that were yours?').length === 0, 'flags evaluative acknowledgements without flagging a plain question');
 
@@ -184,6 +241,33 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(varyOpener(vs, 'Thanks, Rohan. Which part was yours?') === 'Which part was yours?', 'drops a repeated "Thanks, Name." opener');
   check(varyOpener({ transcript: [{ role: 'interviewer', text: 'Walk me through it.' }] }, 'Thanks. Which part was yours?') === 'Thanks. Which part was yours?', 'keeps an opener that is not a repeat');
   check(varyOpener({ transcript: [{ role: 'interviewer', text: 'Understood. Why?' }] }, 'Thanks, Rohan. Which part?') === 'Thanks, Rohan. Which part?', 'keeps a different opener word');
+  const echoed = { transcript: [{ role: 'interviewer', text: 'You mentioned the migration. What did you do first?' }] };
+  check(varyOpener(echoed, 'Got it. You mentioned the pipeline. Which sources did the pipeline compare?') === 'Got it. Which sources did the pipeline compare?'
+    && varyOpener(echoed, 'You mentioned the pipeline. What did it compare?') === 'You mentioned the pipeline. What did it compare?'
+    && varyOpener({ transcript: [{ role: 'interviewer', text: 'Why?' }] }, 'You mentioned the pipeline. What did it compare?') === 'You mentioned the pipeline. What did it compare?',
+  'drops a "You mentioned X." echo only when the last message also opened with one, and never leaves a dangling "it"');
+  check(leakCheck('Which part would you contribute to first: analysing drop-offs, building dashboards, or measuring impact?').length > 0
+    && leakCheck('What did you do first?').length === 0, 'flags an option list inside a question');
+  check(leakCheck('Tell me about a different time you used SQL, including what you personally did and what came of it.').length > 0
+    && leakCheck('Your answer focused on a different part of the work. Walk me through the joins.').length > 0
+    && leakCheck('That connection is relevant. How would you compare the groups?').length > 0
+    && leakCheck('Tell me about the settlement logic you built.').length === 0, 'flags two asks in a "Tell me about" question and comments on the answer');
+
+  // The number check is owed before a claim topic closes, but only required on its last follow-up; freshers get no extra
+  const { requiredRung, requiredNextRung, budgetFor } = require('../lib/engine');
+  const rs = { interviewer_turns: 0, max_turns: 20, inputs: { interview_type: 'hiring_manager' }, style: 'balanced', plan: { candidate: { experience_level: 'fresher' } } };
+  const numSlot = (used) => ({ kind: 'claim', anchor_text: 'Cut reporting by 6 hours', probe_angle: 'test_claim', anchor_flags: [], rungs_used: [], follow_ups_used: used, budget: 2 });
+  check(requiredRung(rs, numSlot(0)) === 'result' && requiredNextRung(rs, numSlot(0)) === null && requiredNextRung(rs, numSlot(1)) === 'result', 'measurement follow-up is owed from the start but required only as the last follow-up');
+  check(budgetFor('claim', rs, { technical_focus: true }) === 2 && budgetFor('claim', { ...rs, plan: { candidate: { experience_level: 'early' } } }, { technical_focus: true }) === 3, 'technical claim topics get an extra follow-up except for freshers');
+
+  // Grounding: the student's own words are a false alarm; a real flag removes only its sentence
+  const { applyGrounding } = require('../lib/engine');
+  check(applyGrounding('I worked on the migration code and [what you did]. I used greedy matching. The result was [what changed].',
+    ['"I worked on the migration code"', 'I used greedy matching'], 'I made sure it was consistent and worked on the migration code')
+    === 'I worked on the migration code and [what you did]. The result was [what changed].', 'grounding keeps the student\'s own words and drops only the invented sentence');
+  check(applyGrounding('I did X.', ['a claim not in the rewrite'], '') === '' && applyGrounding('I used greedy matching here.', ['used greedy matching here'], '') === ''
+    && applyGrounding('I did X because Y.', ['because', 'I personally'], '') === 'I did X because Y.',
+    'grounding removes the rewrite when a flag cannot be placed or nothing real is left; one- and two-word flags are ignored');
 
   const list = await get('/api/sessions');
   check(list.length >= 2, 'past sessions are listed');
