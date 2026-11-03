@@ -381,7 +381,8 @@
         html += '<p class="a">Your answer here was too short to give feedback on. Use the steps below to prepare this one.</p>';
       } else {
         if (t.went_well) html += `<section class="fb-block well"><h4>What went well</h4>${quoteHtml(t.went_well_quote)}<p>${esc(t.went_well)}</p></section>`;
-        if (t.to_fix) html += `<section class="fb-block fix"><h4>What to fix</h4>${quoteHtml(t.to_fix_quote)}<p>${esc(t.to_fix)}</p></section>`;
+        if (t.resume_mismatch) html += `<section class="fb-block fix"><h4>Doesn't match your resume</h4>${quoteHtml(t.resume_mismatch.quote)}<p>${esc(t.resume_mismatch.note)}</p>${t.resume_mismatch.tip ? `<p class="do">${esc(t.resume_mismatch.tip)}</p>` : ''}</section>`;
+        if (t.to_fix) html += `<section class="fb-block fix"><h4>${t.resume_mismatch ? 'Also fix' : 'What to fix'}</h4>${quoteHtml(t.to_fix_quote)}<p>${esc(t.to_fix)}</p></section>`;
       }
       html += nextTimeHtml(t);
       const content = (t.ratings || []).filter((r) => r.dimension !== 'followup'); // follow-ups are shown under Conversation
@@ -389,7 +390,7 @@
         html += `<details class="checklist"><summary>${esc(RUBRIC_NAME[t.rubric] || 'Checklist')}: what a strong answer covers</summary><div class="ratings">${content.map(ratingRow).join('')}</div></details>`;
       }
       const answers = s.transcript.filter((e) => e.role === 'candidate' && e.slot_id === t.slot_id).map((e) => e.text);
-      if (answers.length) html += `<details class="your-answer"><summary>Your answers, with highlights</summary>${answers.map((a) => `<p class="a">${highlight(a, [t.went_well_quote, t.to_fix_quote])}</p>`).join('')}</details>`;
+      if (answers.length) html += `<details class="your-answer"><summary>Your answers, with highlights</summary>${answers.map((a) => `<p class="a">${highlight(a, [t.went_well_quote, t.to_fix_quote, t.resume_mismatch && t.resume_mismatch.quote])}</p>`).join('')}</details>`;
       html += '</article>';
     }
     html += conversationHtml(fb);

@@ -93,9 +93,10 @@ function feedbackOutput(input) {
       answer_plan: ['Start with the problem.', 'Say what you did yourself.', 'End with what changed.'],
       stronger_version: i === 1 ? 'I used greedy matching to settle balances.' : 'I led the work and moved the metric by X%.',
       example_answer: 'A sample candidate would first check the data.',
+      resume_mismatch: i === 0 ? { quote: '', note: 'The resume line says X; the answer described Y.', tip: 'Tell the story behind that line.' } : { quote: '', note: '', tip: '' },
     };
   };
-  const empty = { ratings: [], went_well_quote: '', went_well: 'x', to_fix_quote: '', to_fix: '', answer_plan: [], stronger_version: '', example_answer: '' };
+  const empty = { ratings: [], went_well_quote: '', went_well: 'x', resume_mismatch: { quote: '', note: '', tip: '' }, to_fix_quote: '', to_fix: '', answer_plan: [], stronger_version: '', example_answer: '' };
   return {
     overall: bad ? 'You scored 7/10 overall.' : 'You gave concrete examples and can tighten the results.',
     topics: [
@@ -105,12 +106,12 @@ function feedbackOutput(input) {
     ],
     moments: [
       { slot_id: 'background', quote: 'not a real quote', note: 'Your background answer did not match the resume.', tip: 'Keep it consistent.' },
-      ...input.topics.filter((t) => t.usable_answer).slice(0, 1).map((t) => ({ slot_id: t.slot_id, quote: '', note: 'The resume line says X; the answer described Y.', tip: 'Tell the story behind that line.' })),
       { slot_id: 'warmup', quote: '', note: 'Warm-up should not be judged.', tip: '' },
       { slot_id: 'nope', quote: '', note: 'Unknown topic.', tip: '' },
       { slot_id: 'candidate_questions', quote: '', note: 'Model-written closing note.', tip: '' },
     ],
-    priorities: ['Lead with the result.', 'Say what you personally did.', 'Name how you measured it.', 'A fourth item.'].map((t) => ({ title: t, why: 'It makes answers verifiable.', action: 'Add one number.' })),
+    next_goal: { title: 'Lead with your own part', why: 'It makes answers verifiable.', when: 'When you are asked about a project', then: bad ? 'say your role, two actions, and the result' : 'say what you did yourself in your first sentence.' },
+    more_priorities: ['Say what you personally did.', 'Name how you measured it.', 'A fourth item.'].map((t) => ({ title: t, why: 'It makes answers verifiable.', action: 'Add one number.' })),
   };
 }
 

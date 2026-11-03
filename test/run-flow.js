@@ -37,7 +37,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
     && JSON.stringify(tS.properties.decision.enum) === '["probe","move_on"]' && tS.properties.pivot_target_slot_id.enum.includes(null)
     && turnSchemaFor(['move_on'], []).properties.pivot_target_slot_id.type === 'null'
     && JSON.stringify(fS.properties.topics.items.properties.slot_id.enum) === '["s1","s2"]'
-    && fS.properties.moments.items.properties.slot_id.enum.includes('background') && fS.properties.priorities.maxItems === 3,
+    && fS.properties.moments.items.properties.slot_id.enum.includes('background') && fS.properties.more_priorities.maxItems === 2 && fS.properties.next_goal.required.includes('then'),
   'per-call schemas are strict-valid and limit decisions, pivots, topics and dimensions to this call');
   const { RUBRICS } = require('../lib/engine');
   const dims = feedbackSchema.properties.topics.items.properties.ratings.items.properties.dimension.enum;
@@ -143,7 +143,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const fbText = JSON.stringify([fb.overall, fb.topics.map((t) => [t.went_well, t.to_fix, t.answer_plan, (t.ratings || []).map((r) => r.reason), t.stronger_version]), fb.moments]);
   const rated = fb.topics.filter((t) => !t.too_short);
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 7 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 8 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
@@ -151,11 +151,19 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(fb.topics.every((t) => (['situational', 'knowledge'].includes(t.rubric) ? true : t.example_answer === '')), 'example answers only on scenario and technical questions');
   check(!/\d+\s*\/\s*\d+|\bscore|\bband/i.test(fbText), 'feedback has no scores or bands after the retry');
   check(fb.priorities.length === 3 && fb.priorities.every((p) => p.title && p.action), 'feedback priorities are title/why/action, capped at 3');
-  check(fb.moments.some((m) => rated.some((t) => t.slot_id === m.slot_id) && /resume line/.test(m.note)) && !fb.moments.some((m) => ['warmup', 'nope'].includes(m.slot_id)), 'resume-mismatch moments are kept for reached topics; warm-up and unknown slots are dropped');
+  check(rated[0].resume_mismatch && /resume line/.test(rated[0].resume_mismatch.note) && rated[0].to_fix && !fb.moments.some((m) => ['warmup', 'nope', rated[0].slot_id].includes(m.slot_id)), 'a resume mismatch sits on its topic next to a different "what to fix"; moments are background only');
+  check(/^When you are asked about a project, say what you did yourself in your first sentence\.$/.test(fb.priorities[0].action) && fb.priorities.length === 3, 'the goal is assembled as "When …, …." from when/then, and priorities stay capped at 3');
   check(trace.slots.length && Array.isArray(require('../lib/engine').buildFeedbackPayload(trace).topics[0].interviewer_noted_off_resume_line), 'feedback input carries the interviewer\'s off-resume-line answers per topic');
   check(fb.moments.some((m) => m.slot_id === 'background' && m.quote === '' && m.note) && !fb.moments.some((m) => m.note === 'Model-written closing note.'), 'moments: invented quote dropped, model may not write the closing-questions moment');
   check(rated.some((t) => trace.slots.find((x) => x.id === t.slot_id).follow_ups_used > 0 ? t.ratings.some((r) => r.dimension === 'followup') : true), 'probed topics get a follow-up handling dimension');
   const { checkAndShapeFeedback, topicVerdict } = require('../lib/engine');
+  const { severalActions } = require('../lib/engine');
+  const dup = checkAndShapeFeedback({ overall: 'ok', moments: [], more_priorities: [], next_goal: { title: 'Goal', why: 'w', when: 'you are asked about a project', then: 'say your role, two actions, and the result' },
+    topics: [{ slot_id: rated[0].slot_id, ratings: [], went_well: '', went_well_quote: '', answer_plan: [], stronger_version: 'I [x].', example_answer: '',
+      resume_mismatch: { quote: rated[0].to_fix_quote, note: 'The resume says X; the answer said Y.', tip: 'Tell that story.' }, to_fix_quote: rated[0].to_fix_quote, to_fix: 'Same moment again.' }] }, trace);
+  const dupTopic = dup.feedback.topics.find((t) => t.slot_id === rated[0].slot_id);
+  check(dupTopic.resume_mismatch && dupTopic.to_fix === '' && dupTopic.to_fix_quote === '' && dupTopic.stronger_version === '', 'a "what to fix" that repeats the resume mismatch is dropped');
+  check(dup.problems.some((p) => /next_goal\.then must be ONE action/.test(p)) && severalActions('say your role, two actions, and the result') && !severalActions('say what you did yourself in your first sentence') && severalActions('define the outcome and state how you would compare the old and new') && !severalActions('name the SQL and Python steps you took yourself'), 'a goal with several actions is sent back for a rewrite');
   const { ownershipCounts } = require('../lib/engine');
   const oc = ownershipCounts("We launched it, I wrote the spec and my manager and I reviewed our numbers.");
   check(oc.i === 3 && oc.we === 2 && fb.ownership.i === fb.topics.reduce((n, t) => n + t.ownership.i, 0), 'counts "I" versus "we" per topic and overall');
