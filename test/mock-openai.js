@@ -105,6 +105,9 @@ function feedbackOutput(input) {
     ],
     moments: [
       { slot_id: 'background', quote: 'not a real quote', note: 'Your background answer did not match the resume.', tip: 'Keep it consistent.' },
+      ...input.topics.filter((t) => t.usable_answer).slice(0, 1).map((t) => ({ slot_id: t.slot_id, quote: '', note: 'The resume line says X; the answer described Y.', tip: 'Tell the story behind that line.' })),
+      { slot_id: 'warmup', quote: '', note: 'Warm-up should not be judged.', tip: '' },
+      { slot_id: 'nope', quote: '', note: 'Unknown topic.', tip: '' },
       { slot_id: 'candidate_questions', quote: '', note: 'Model-written closing note.', tip: '' },
     ],
     priorities: ['Lead with the result.', 'Say what you personally did.', 'Name how you measured it.', 'A fourth item.'].map((t) => ({ title: t, why: 'It makes answers verifiable.', action: 'Add one number.' })),

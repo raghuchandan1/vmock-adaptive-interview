@@ -355,7 +355,11 @@
         <p>You said “I” ${fb.ownership.i} time${fb.ownership.i === 1 ? '' : 's'} and “we” ${fb.ownership.we} time${fb.ownership.we === 1 ? '' : 's'}.${teamHeavy.length ? ' Interviewers listen for “I” to understand what you did yourself.' : ''}</p>
         <ul class="own">${own.map((t) => `<li><span>${esc(topicName(t))}</span><span class="${t.ownership.we > t.ownership.i ? 'own-we' : ''}">I ${t.ownership.i} · we ${t.ownership.we}${t.ownership.we > t.ownership.i ? ', mostly about the team' : ''}</span></li>`).join('')}</ul></section>`;
     }
-    html += (fb.moments || []).map((m) => `<section class="fb-block moment"><h4>${esc(MOMENT_NAME[m.slot_id] || '')}</h4>${quoteHtml(m.quote)}<p>${esc(m.note)}</p>${m.tip ? `<p class="do">${esc(m.tip)}</p>` : ''}</section>`).join('');
+    const momentTitle = (m) => {
+      const t = fb.topics.find((x) => x.slot_id === m.slot_id);
+      return MOMENT_NAME[m.slot_id] || (t ? `Matching your resume: ${topicName(t)}` : '');
+    };
+    html += (fb.moments || []).map((m) => `<section class="fb-block moment"><h4>${esc(momentTitle(m))}</h4>${quoteHtml(m.quote)}<p>${esc(m.note)}</p>${m.tip ? `<p class="do">${esc(m.tip)}</p>` : ''}</section>`).join('');
     return html ? `<h2 class="section-title">Conversation</h2>${html}` : '';
   }
 
