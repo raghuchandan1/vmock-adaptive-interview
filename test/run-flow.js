@@ -222,6 +222,13 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(leakCheck('Which part would you contribute to first: analysing drop-offs, building dashboards, or measuring impact?').length > 0
     && leakCheck('What did you do first?').length === 0, 'flags an option list inside a question');
 
+  // The number check is owed before a claim topic closes, but only required on its last follow-up; freshers get no extra
+  const { requiredRung, requiredNextRung, budgetFor } = require('../lib/engine');
+  const rs = { interviewer_turns: 0, max_turns: 20, inputs: { interview_type: 'hiring_manager' }, style: 'balanced', plan: { candidate: { experience_level: 'fresher' } } };
+  const numSlot = (used) => ({ kind: 'claim', anchor_text: 'Cut reporting by 6 hours', probe_angle: 'test_claim', anchor_flags: [], rungs_used: [], follow_ups_used: used, budget: 2 });
+  check(requiredRung(rs, numSlot(0)) === 'result' && requiredNextRung(rs, numSlot(0)) === null && requiredNextRung(rs, numSlot(1)) === 'result', 'measurement follow-up is owed from the start but required only as the last follow-up');
+  check(budgetFor('claim', rs, { technical_focus: true }) === 2 && budgetFor('claim', { ...rs, plan: { candidate: { experience_level: 'early' } } }, { technical_focus: true }) === 3, 'technical claim topics get an extra follow-up except for freshers');
+
   // Grounding: the student's own words are a false alarm; a real flag removes only its sentence
   const { applyGrounding } = require('../lib/engine');
   check(applyGrounding('I worked on the migration code and [what you did]. I used greedy matching. The result was [what changed].',
