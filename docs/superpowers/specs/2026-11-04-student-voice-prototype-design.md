@@ -60,6 +60,14 @@ The developer page (`/`) with the hidden agenda, planner and turn tabs stays as 
 - Tests: mock `/audio/speech` and `/audio/transcriptions` in `test/mock-openai.js`; `run-flow.js` checks speech,
   transcription and the silence detector.
 
+## Update: browser speech by default
+
+The OpenAI project used for the demo has no access to the audio models (403), so the user asked to use the
+browser's speech when that is easier.
+- `VOICE_PROVIDER=browser` is the default. It uses `speechSynthesis` for questions and Chrome/Edge `SpeechRecognition`, which also gives live captions.
+- The silence detector still decides when an answer ends.
+- `VOICE_PROVIDER=openai` keeps the OpenAI path. Each provider falls back to the other, then to typing.
+
 ## Not in scope
 
-Recording or replay, delivery or speech analysis, hosting, real-time speech-to-speech models, live captions.
+Recording or replay, delivery or speech analysis, hosting, real-time speech-to-speech models. (Live captions: only with the browser provider.)

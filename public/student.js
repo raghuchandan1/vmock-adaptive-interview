@@ -184,33 +184,46 @@
     const canAnswer = ['waiting', 'listening', 'countdown', 'typing'].includes(phase);
     $('typed').hidden = !typing;
     $('liveMeter').parentElement.hidden = typing || !['waiting', 'listening', 'countdown'].includes(phase);
+    $('caption').hidden = typing || !['listening', 'countdown', 'transcribing'].includes(phase) || !$('caption').textContent;
     $('sendBtn').textContent = typing ? 'Send answer' : 'Send now';
     $('sendBtn').disabled = !canAnswer;
     $('modeBtn').textContent = typing ? 'Switch to speaking' : 'Switch to typing';
     if (typing && phase === 'typing') $('typed').focus();
   }
 
+  // The browser's own voice: works with no audio model access. Picks a natural-sounding English voice if there is one.
+  function browserSpeak(text, next) {
+    if (!window.speechSynthesis || !text) { showError('liveError', 'The interviewer\'s voice didn\'t play. Read the question on the right.'); return next(); }
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    const voices = speechSynthesis.getVoices().filter((v) => /^en[-_]/i.test(v.lang));
+    u.voice = voices.find((v) => /natural|neural|online|premium|enhanced/i.test(v.name))
+      || voices.find((v) => /google (us|uk) english|samantha|daniel|serena/i.test(v.name)) || voices[0] || null;
+    u.lang = u.voice ? u.voice.lang : 'en-US';
+    // Chrome sometimes never fires onend on long text; move on after a generous estimate of the speaking time.
+    const watchdog = setTimeout(() => { speechSynthesis.cancel(); spoken(); }, 4000 + text.split(/\s+/).length * 600);
+    let ended = false;
+    const spoken = () => { if (ended) return; ended = true; clearTimeout(watchdog); next(); };
+    u.onend = spoken;
+    u.onerror = spoken;
+    speechSynthesis.speak(u);
+  }
+
   function speakLatest() {
     setPhase('speaking');
     let done = false;
-    let fellBack = false;
     const next = () => { if (done) return; done = true; audio.onended = null; audio.onerror = null; afterSpeech(); };
-    // If the server voice fails (no audio model access, network), the browser's own voice reads the question.
+    const text = $('question').textContent;
+    if (state.tts === 'browser') return browserSpeak(text, next);
+    // The OpenAI voice failed (no audio model access, network): use the browser's voice from now on.
     // onerror and the play() rejection can both fire, so this runs once.
+    let fellBack = false;
     const fallback = () => {
       if (done || fellBack) return;
       fellBack = true;
       audio.onended = null; audio.onerror = null;
-      const text = $('question').textContent;
-      if (!window.speechSynthesis || !text) { showError('liveError', 'The interviewer\'s voice didn\'t play. Read the question on the right.'); return next(); }
-      speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'en-US';
-      u.onend = next;
-      u.onerror = next;
-      // Chrome sometimes never fires onend on long text; move on after a generous estimate of the speaking time.
-      setTimeout(() => { if (!done) { speechSynthesis.cancel(); next(); } }, 4000 + text.split(/\s+/).length * 600);
-      speechSynthesis.speak(u);
+      state.tts = 'browser';
+      browserSpeak(text, next);
     };
     audio.onended = next;
     audio.onerror = fallback;
@@ -224,8 +237,73 @@
     if (state.mode === 'voice' && state.micOk) startListening(); else setPhase('typing');
   }
 
+  const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  // Browser speech recognition (Chrome, Edge). Restarts itself when the browser ends it early on a pause.
+  function startRecognition() {
+    const rec = new Recognition();
+    rec.lang = /^en/i.test(navigator.language) ? navigator.language : 'en-US';
+    rec.continuous = true;
+    rec.interimResults = true;
+    const heard = { final: '', interim: '' };
+    rec.onresult = (e) => {
+      heard.interim = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        if (e.results[i].isFinal) heard.final += `${e.results[i][0].transcript} `; else heard.interim += e.results[i][0].transcript;
+      }
+      $('caption').textContent = `${heard.final}${heard.interim}`.trim();
+      $('caption').hidden = !$('caption').textContent || state.mode === 'type';
+    };
+    rec.onerror = (e) => {
+      if (['not-allowed', 'service-not-allowed', 'network', 'audio-capture', 'language-not-supported'].includes(e.error)) {
+        rec.failed = e.error;
+      }
+    };
+    rec.onend = () => {
+      if (rec.stopping) return rec.resolveStop && rec.resolveStop();
+      if (rec.failed) return recognitionFailed(rec.failed);
+      try { rec.start(); } catch (_) { /* already started */ }
+    };
+    rec.heard = heard;
+    rec.start();
+    state.recognition = rec;
+  }
+
+  function recognitionFailed(reason) {
+    stopListening(true);
+    if (state.config.has_key && window.MediaRecorder) {
+      // Fall back to recording and server transcription.
+      state.stt = 'openai';
+      showError('liveError', 'Speech recognition isn\'t available here, so your answer will be transcribed after you finish.');
+      return startListening();
+    }
+    state.mode = 'type';
+    showError('liveError', `Speech recognition stopped working (${reason}). Please type this answer.`);
+    setPhase('typing');
+  }
+
+  // Stops recognition and returns what was heard.
+  function stopRecognition(discard) {
+    const rec = state.recognition;
+    state.recognition = null;
+    if (!rec) return Promise.resolve(null);
+    rec.stopping = true;
+    const text = () => `${rec.heard.final} ${rec.heard.interim}`.replace(/\s+/g, ' ').trim();
+    if (discard) { try { rec.abort(); } catch (_) { /* ended */ } return Promise.resolve(null); }
+    return new Promise((resolve) => {
+      rec.resolveStop = () => resolve(text());
+      setTimeout(() => resolve(text()), 1500); // the last words are usually finalised on stop; don't wait forever
+      try { rec.stop(); } catch (_) { resolve(text()); }
+    });
+  }
+
   function startListening() {
     stopListening(true);
+    $('caption').textContent = '';
+    if (state.stt === 'browser') {
+      try { startRecognition(); } catch (err) { return recognitionFailed(err.message); }
+      return watchSilence();
+    }
     const tracks = state.stream.getAudioTracks();
     const type = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4'].find((t) => window.MediaRecorder?.isTypeSupported?.(t));
     try {
@@ -238,6 +316,11 @@
     state.chunks = [];
     state.recorder.ondataavailable = (e) => { if (e.data.size) state.chunks.push(e.data); };
     state.recorder.start(1000);
+    watchSilence();
+  }
+
+  // The silence detector decides when the answer is over, for both ways of listening.
+  function watchSilence() {
     const step = createSilenceDetector();
     const started = performance.now();
     setPhase('waiting');
@@ -257,6 +340,7 @@
   function stopListening(discard) {
     clearInterval(state.loop);
     state.loop = null;
+    if (state.recognition) return stopRecognition(discard);
     const rec = state.recorder;
     state.recorder = null;
     if (!rec || rec.state === 'inactive') return Promise.resolve(null);
@@ -267,6 +351,13 @@
   }
 
   async function sendVoice() {
+    if (state.recognition) {
+      showError('liveError', '');
+      setPhase('transcribing');
+      const text = await stopRecognition(false);
+      if (isFillerTranscript(text)) return relisten();
+      return submitAnswer(text);
+    }
     if (!state.recorder) return;
     showError('liveError', '');
     setPhase('transcribing');
@@ -280,6 +371,11 @@
       text = data.text;
     } catch (err) {
       state.sttFailures = (state.sttFailures || 0) + 1;
+      if (state.sttFailures >= 2 && Recognition) {
+        state.stt = 'browser';
+        showError('liveError', 'Switching to your browser\'s speech recognition. Please say that answer once more.');
+        return startListening();
+      }
       if (state.sttFailures >= 2) {
         // Transcription keeps failing (no model access, network): don't make the student repeat themselves again.
         state.mode = 'type';
@@ -388,6 +484,10 @@
   // ---------- Wire up ----------
   async function init() {
     state.config = await api('/api/config');
+    // Browser voice by default: it needs no audio model access. VOICE_PROVIDER=openai uses OpenAI's voices.
+    state.tts = state.config.voice_provider === 'openai' ? 'openai' : 'browser';
+    state.stt = state.config.voice_provider === 'openai' || !Recognition ? 'openai' : 'browser';
+    if (window.speechSynthesis) speechSynthesis.getVoices(); // starts loading the voice list
     state.samples = await api('/api/samples');
     for (const s of state.samples) {
       const opt = document.createElement('option');

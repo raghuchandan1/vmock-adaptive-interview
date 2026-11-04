@@ -80,6 +80,7 @@ body.student.live main { max-width: none; padding: 0; }
 .sv-status { background: var(--sv-card); border: 1px solid var(--line); border-radius: 18px; padding: 12px 16px; font-size: 14px; }
 .sv-status-label { color: var(--accent); font-weight: 600; font-size: 13px; }
 .sv-status[data-phase="countdown"] .sv-status-label { color: var(--warn); }
+.sv-caption { margin: 4px 0 0; color: var(--ink-soft); line-height: 1.5; max-height: 7.5em; overflow-y: auto; }
 .sv-status textarea { width: 100%; margin-top: 8px; resize: vertical; }
 .sv-status .sv-meter { margin-bottom: 2px; }
 .sv-actions { display: flex; align-items: center; gap: 12px; }

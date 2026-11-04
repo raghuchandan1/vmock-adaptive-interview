@@ -90,20 +90,23 @@ test/                Offline mock of the OpenAI API and end-to-end checks
 
 A student-facing version with voice runs at **http://localhost:3000/student**. It has no hidden agenda or developer tabs.
 1. Set up the interview, then allow the camera and microphone while it prepares.
-2. The interviewer speaks each question, using OpenAI `gpt-4o-mini-tts`.
-3. When it finishes, the student answers out loud. The answer is sent after about 3 seconds of quiet, or with **Send now**, and transcribed by `gpt-transcribe` (falling back to `gpt-4o-mini-transcribe`).
+2. The interviewer speaks each question.
+3. When it finishes, the student answers out loud, with live captions. The answer is sent after about 3 seconds of quiet, or with **Send now**.
 4. **Switch to typing** works at any time.
 5. The student gets the same feedback as on the developer page.
 
-The camera is a self-view only: nothing is recorded or uploaded. Audio is sent to OpenAI for transcription and is not stored. Each speech and transcription call is logged on the session as `voice_calls`.
+Two voice providers, set with `VOICE_PROVIDER` in `.env`:
+- **`browser` (default):** the browser's own speech synthesis and speech recognition, so no audio models are needed. Use Chrome or Edge. Chrome sends the microphone audio to Google's speech service to recognise it.
+- **`openai`:** questions are spoken by `gpt-4o-mini-tts`. Answers are recorded and transcribed by `gpt-transcribe`, falling back to `gpt-4o-mini-transcribe`. Your OpenAI project needs access to these models; check *Project settings, Limits, Model access*. Each call is logged on the session as `voice_calls`, without the audio.
+
+The camera is a self-view only: nothing is recorded or uploaded.
 
 Fallbacks:
-- If the speech model fails, the browser's own voice reads the question.
-- If the microphone is blocked, or transcription fails twice in a row, the student types.
+- If the OpenAI voice fails, the browser voice takes over for the rest of the interview.
+- If recognition is unavailable or fails, the page switches to the other provider, then to typing.
+- If the microphone is blocked, the student types.
 
-Your OpenAI project needs access to the audio models. Check *Project settings, Limits, Model access*.
-
-Use Chrome or Edge on the laptop. `localhost` counts as a secure origin, so the microphone works without HTTPS.
+`localhost` counts as a secure origin, so the microphone works without HTTPS.
 
 ## Known limits of this prototype
 

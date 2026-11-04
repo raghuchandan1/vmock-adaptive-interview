@@ -24,6 +24,7 @@ const DEFAULTS = {
   turn_effort: process.env.TURN_REASONING_EFFORT || 'low',
 };
 const VOICE = {
+  provider: process.env.VOICE_PROVIDER === 'openai' ? 'openai' : 'browser', // browser: the page uses the browser's speech
   tts_model: process.env.TTS_MODEL || 'gpt-4o-mini-tts',
   tts_voice: process.env.TTS_VOICE || 'marin',
   stt_model: process.env.STT_MODEL || 'gpt-transcribe',
@@ -330,7 +331,7 @@ const server = http.createServer(async (req, res) => {
     if (parts[0] !== 'api') return serveStatic(req, res);
 
     if (req.method === 'GET' && url.pathname === '/api/config') {
-      return send(res, 200, { has_key: Boolean(apiKey()), key_source: runtimeKey ? 'page' : (process.env.OPENAI_API_KEY ? 'env' : null), defaults: DEFAULTS, base_url: BASE_URL });
+      return send(res, 200, { has_key: Boolean(apiKey()), key_source: runtimeKey ? 'page' : (process.env.OPENAI_API_KEY ? 'env' : null), defaults: DEFAULTS, base_url: BASE_URL, voice_provider: VOICE.provider });
     }
     if (req.method === 'POST' && url.pathname === '/api/key') {
       const body = await readBody(req);
