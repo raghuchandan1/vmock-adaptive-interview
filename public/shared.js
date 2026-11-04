@@ -77,9 +77,13 @@
     return html ? `<h2 class="section-title">Conversation</h2>${html}` : '';
   }
 
+  const verdictHtml = (t) => (t.too_short ? '<span class="lv lv-none">Not enough to judge</span>' : t.verdict ? `<span class="lv ${LEVEL[t.verdict][1]}">${LEVEL[t.verdict][0]}</span>` : '');
+
   function renderFeedback(panel, s, fb) {
     const [goal, ...more] = fb.priorities;
     let html = `<p class="lede">${esc(fb.overall)}</p>`;
+    // Every question with its result, linking down to its section.
+    if (fb.topics.length) html += `<nav class="fb-overview" aria-label="Questions in this interview"><ol>${fb.topics.map((t, i) => `<li><a href="#fb-topic-${i}">${esc(topicName(t))}</a>${verdictHtml(t)}</li>`).join('')}</ol></nav>`;
     if (goal) {
       html += `<section class="goal"><span>Your goal for the next attempt</span><strong>${esc(goal.title)}</strong><p>${esc(goal.why)}</p><p class="plan-label">Your plan for any interview</p><p class="do">${esc(goal.action)}</p></section>`;
     }
@@ -87,9 +91,8 @@
       html += `<h2 class="section-title">Also work on</h2><ol class="priorities">${more.map((p) => `<li><strong>${esc(p.title)}</strong><span>${esc(p.why)}</span><em>${esc(p.action)}</em></li>`).join('')}</ol>`;
     }
     html += '<h2 class="section-title">Question by question</h2>';
-    for (const t of fb.topics) {
-      const verdict = t.too_short ? '<span class="lv lv-none">Not enough to judge</span>' : t.verdict ? `<span class="lv ${LEVEL[t.verdict][1]}">${LEVEL[t.verdict][0]}</span>` : '';
-      html += `<article class="topic"><div class="topic-head"><h3>${esc(slotLabel({ kind: t.kind, competency_name: t.topic }))}</h3>${verdict}</div>
+    fb.topics.forEach((t, i) => {
+      html += `<article class="topic" id="fb-topic-${i}"><div class="topic-head"><h3>${esc(topicName(t))}</h3>${verdictHtml(t)}</div>
         ${t.question ? `<p class="asked"><span>The question</span>${esc(t.question)}</p>` : ''}`;
       if (t.too_short) {
         html += '<p class="a">Your answer here was too short to give feedback on. Use the steps below to prepare this one.</p>';
@@ -106,7 +109,7 @@
       const answers = s.transcript.filter((e) => e.role === 'candidate' && e.slot_id === t.slot_id).map((e) => e.text);
       if (answers.length) html += `<details class="your-answer"><summary>Your answers, with highlights</summary>${answers.map((a) => `<p class="a">${highlight(a, [t.went_well_quote, t.to_fix_quote, t.resume_mismatch && t.resume_mismatch.quote])}</p>`).join('')}</details>`;
       html += '</article>';
-    }
+    });
     html += conversationHtml(fb);
     if (fb.jd_coverage && fb.jd_coverage.length) {
       html += `<h2 class="section-title">Job description coverage</h2><ul class="jd-cov">${fb.jd_coverage.map((c) => `<li><span class="chip jd-${c.status}">${esc(JD_STATUS[c.status])}</span> ${esc(c.name)}</li>`).join('')}</ul>`;

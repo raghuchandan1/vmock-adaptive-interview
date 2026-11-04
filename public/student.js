@@ -33,6 +33,27 @@
   const showError = (id, msg) => { $(id).textContent = msg || ''; $(id).hidden = !msg; };
 
   // ---------- Setup ----------
+  // The resume box: a drop zone that turns into a "loaded" summary; the text box opens only to paste or edit.
+  function setResume(text, name) {
+    $('resume').value = text;
+    state.resumeName = name;
+    updateResume();
+  }
+  function updateResume() {
+    const text = $('resume').value.trim();
+    const words = text ? text.split(/\s+/).length : 0;
+    $('dropEmpty').hidden = Boolean(text);
+    $('dropLoaded').hidden = !text;
+    $('resumeName').textContent = `Resume loaded: ${state.resumeName || 'pasted text'}`;
+    $('resumeWords').textContent = `${words} word${words === 1 ? '' : 's'}`;
+  }
+  async function loadResumeFile(file) {
+    if (!file) return;
+    showError('setupError', '');
+    if (file.type !== 'application/pdf' && !/\.pdf$/i.test(file.name)) return showError('setupError', 'That file isn\'t a PDF. Choose a PDF, or paste the resume text.');
+    try { setResume(await VM.readPdf(file), file.name); } catch (err) { showError('setupError', err.message); }
+  }
+
   function readSetup() {
     const val = (name) => document.querySelector(`input[name="${name}"]:checked`)?.value;
     return { resume_text: $('resume').value, jd_text: $('jd').value, target_role: $('role').value, interview_type: val('type'), style: val('style'), length: val('length') };
@@ -46,6 +67,7 @@
     if (!inputs.target_role.trim() && !inputs.jd_text.trim()) return showError('setupError', 'Add a target role or a job description.');
     if (state.busy) return;
     state.busy = true;
+    const run = state.prepRun = (state.prepRun || 0) + 1; // "Change setup" bumps this so a late plan is ignored
     $('briefBody').hidden = true;
     $('startBtn').disabled = true;
     showError('briefError', '');
@@ -70,26 +92,39 @@
     mark(0);
     const stepTimer = setInterval(() => { if (step < steps.length - 2) mark(++step); }, 5000);
     try {
-      state.view = await api('/api/sessions', { method: 'POST', body: inputs });
-      state.sessionId = state.view.id;
+      const view = await api('/api/sessions', { method: 'POST', body: inputs });
+      if (run !== state.prepRun) return;
+      state.view = view;
+      state.sessionId = view.id;
       clearInterval(stepTimer);
       mark(steps.length - 1); // the short "joining" beat
       setHost('joining', 'Joining the call');
       await new Promise((r) => setTimeout(r, 1200));
+      if (run !== state.prepRun) return;
       mark(steps.length);
       setHost('ready', 'In the call, ready when you are');
       renderBrief(state.view.pre_brief);
       $('briefBody').hidden = false;
       $('startBtn').disabled = false;
     } catch (err) {
+      if (run !== state.prepRun) return;
       setHost('failed', 'Couldn\'t join');
       showError('briefError', `We couldn't prepare the interview. (${err.message})`);
       steps.forEach((li) => { li.className = ''; });
-      setTimeout(() => { stopDevices(); show('setup'); showError('setupError', `We couldn't prepare the interview. Your resume is still here, so you can try again. (${err.message})`); }, 2500);
+      setTimeout(() => { if (run !== state.prepRun) return; stopDevices(); show('setup'); showError('setupError', `We couldn't prepare the interview. Your resume is still here, so you can try again. (${err.message})`); }, 2500);
     } finally {
       clearInterval(stepTimer);
-      state.busy = false;
+      if (run === state.prepRun) state.busy = false;
     }
+  }
+
+  // Leaves the lobby with the inputs still filled in. A plan still being prepared is ignored when it arrives.
+  function backToSetup() {
+    state.prepRun = (state.prepRun || 0) + 1;
+    state.busy = false;
+    state.sessionId = null;
+    stopDevices();
+    show('setup');
   }
 
   function setHost(stateName, text) {
@@ -99,7 +134,7 @@
 
   function renderBrief(b) {
     state.minutes = b.minutes;
-    $('briefTitle').textContent = `Your ${b.interview_type} interview${b.role ? `: ${b.role}${b.company ? ` at ${b.company}` : ''}` : ''}`;
+    $('briefTitle').textContent = `${b.interview_type} interview${b.role ? `: ${b.role}${b.company ? ` at ${b.company}` : ''}` : ''}`;
     const rows = [
       ['Interviewer', b.surprise ? 'You\'ll find out as you go' : `${b.style} style`],
       ['Length', `About ${b.minutes} minutes, ${b.topics} topics`],
@@ -114,6 +149,9 @@
   async function setupDevices() {
     if (state.stream) return;
     $('previewMeterWrap').hidden = false;
+    $('micTry').hidden = true;
+    $('previewOff').textContent = 'Allow camera and mic when your browser asks';
+    $('previewOff').hidden = false;
     const status = $('deviceStatus');
     if (!navigator.mediaDevices?.getUserMedia) { status.textContent = 'This browser can\'t use the microphone here. You can type your answers.'; return useTyping(); }
     const audioOpts = { echoCancellation: true, noiseSuppression: true, autoGainControl: true };
@@ -128,7 +166,10 @@
     }
     state.micOk = state.stream.getAudioTracks().length > 0;
     $('previewVideo').srcObject = state.camOk ? state.stream : null;
+    $('previewOff').textContent = 'Camera off';
     $('previewOff').hidden = state.camOk;
+    $('tryStatus').textContent = 'Hold Space (or this button) and say hello.';
+    $('micTry').hidden = !state.micOk;
     state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const src = state.audioCtx.createMediaStreamSource(state.stream);
     state.analyser = state.audioCtx.createAnalyser();
@@ -138,10 +179,37 @@
     src.connect(state.analyser);
     status.textContent = state.camOk ? 'Camera and mic are on. Say a few words to check the meter moves.' : 'Mic is on (no camera found). Say a few words to check the meter moves.';
     clearInterval(state.previewLoop);
-    state.previewLoop = setInterval(() => setMeter('previewMeter', level()), TICK_MS);
+    state.previewLoop = setInterval(() => {
+      const l = level();
+      setMeter('previewMeter', l);
+      if (state.trying) state.tryPeak = Math.max(state.tryPeak, l);
+    }, TICK_MS);
   }
 
-  function useTyping() { state.micOk = false; state.mode = 'type'; $('previewMeterWrap').hidden = true; }
+  function useTyping() {
+    state.micOk = false;
+    state.mode = 'type';
+    $('previewMeterWrap').hidden = true;
+    $('previewOff').textContent = 'Camera and mic are off';
+    $('previewOff').hidden = false;
+  }
+
+  // Mic practice in the lobby: same gesture as answering, nothing recorded or sent.
+  const HEARD_LEVEL = 0.02;
+  function tryStart() {
+    if (state.trying || !state.micOk) return;
+    if (state.audioCtx && state.audioCtx.state === 'suspended') state.audioCtx.resume();
+    state.trying = true;
+    state.tryPeak = 0;
+    $('tryBtn').classList.add('on');
+    $('tryStatus').textContent = 'Listening…';
+  }
+  function tryEnd() {
+    if (!state.trying) return;
+    state.trying = false;
+    $('tryBtn').classList.remove('on');
+    $('tryStatus').textContent = state.tryPeak >= HEARD_LEVEL ? 'Heard you. Your mic works.' : 'Didn\'t hear anything. Check your mic isn\'t muted, then try again.';
+  }
 
   function level() {
     if (!state.analyser) return 0;
@@ -167,6 +235,7 @@
     $('noVideo').hidden = state.camOk;
     $('liveSub').textContent = `About ${state.minutes} min`;
     $('modeBtn').hidden = !state.micOk;
+    if (!state.micOk) state.mode = 'type'; // e.g. joined before answering the browser's mic prompt
     state.startedAt = Date.now();
     clearInterval(state.timer);
     state.timer = setInterval(tickTimer, 1000);
@@ -178,7 +247,7 @@
 
   function tickTimer() {
     const s = Math.floor((Date.now() - state.startedAt) / 1000);
-    $('timer').textContent = `${String(Math.floor(s / 60)).padStart(2, '0')} : ${String(s % 60).padStart(2, '0')}`;
+    $('timer').textContent = `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')} of about ${state.minutes} min`;
   }
 
   function render() {
@@ -191,8 +260,8 @@
 
   const LABELS = {
     speaking: 'Interviewer is speaking…',
-    ready: 'Your turn. Hold Space (or the button) while you answer, then let go to send.',
-    recording: '🎤 Recording… let go to send',
+    ready: 'Your turn. Click Start answering, or hold Space while you talk.',
+    recording: 'Recording… let go to send',
     transcribing: 'Got it. One moment…',
     thinking: 'Interviewer is thinking…',
     typing: 'Type your answer, then press Send answer',
@@ -205,7 +274,9 @@
     const typing = state.mode === 'type';
     $('statusLabel').textContent = label || LABELS[phase] || '';
     $('status').dataset.phase = phase;
-    $('interviewerTile').classList.toggle('talking', phase === 'speaking');
+    $('interviewerTile').dataset.phase = phase;
+    $('interviewerState').textContent = phase === 'speaking' ? 'Speaking' : ['thinking', 'transcribing'].includes(phase) ? 'Thinking…' : ANSWERING.includes(phase) ? 'Listening' : '';
+    $('status').classList.remove('sv-warn');
     $('typed').hidden = !typing;
     $('liveMeter').parentElement.hidden = typing || phase !== 'recording';
     $('caption').hidden = typing || !['recording', 'transcribing'].includes(phase) || !$('caption').textContent;
@@ -213,7 +284,7 @@
     btn.disabled = !ANSWERING.includes(phase);
     btn.classList.toggle('sv-talk', !typing);
     btn.classList.toggle('on', phase === 'recording');
-    btn.textContent = typing ? 'Send answer' : phase === 'recording' ? (state.toggled ? 'Click to send' : 'Release to send') : 'Hold to talk';
+    btn.textContent = typing ? 'Send answer' : phase === 'recording' ? (state.toggled ? 'Done answering' : 'Release to send') : 'Start answering';
     $('modeBtn').textContent = typing ? 'Switch to speaking' : 'Switch to typing';
     if (typing && phase === 'typing') $('typed').focus();
   }
@@ -322,6 +393,7 @@
   const HOLD_MS = 350;
   const MIN_ANSWER_MS = 700;
   const MAX_ANSWER_MS = 180000;
+  const WARN_MS = 30000;
 
   function pressStart() {
     if (state.mode !== 'voice') return;
@@ -339,7 +411,7 @@
     if (state.phase !== 'recording') return;
     if (state.stopOnRelease || performance.now() - state.pressedAt >= HOLD_MS) return sendVoice();
     state.toggled = true; // a quick tap: keep recording until the next tap
-    setPhase('recording', '🎤 Recording… click the button or tap Space again to send');
+    setPhase('recording', 'Recording. Click Done answering (or tap Space) when you finish.');
   }
 
   // Starts recording with the current provider. Returns false if it couldn't start.
@@ -362,7 +434,12 @@
     state.capturedAt = performance.now();
     state.loop = setInterval(() => {
       setMeter('liveMeter', level());
-      if (performance.now() - state.capturedAt > MAX_ANSWER_MS) sendVoice(); // the length cap
+      const left = MAX_ANSWER_MS - (performance.now() - state.capturedAt);
+      if (left <= 0) return sendVoice('Time\'s up for this answer. Sending it now…'); // the length cap
+      if (left <= WARN_MS && state.phase === 'recording') {
+        $('status').classList.add('sv-warn');
+        $('statusLabel').textContent = `${Math.ceil(left / 1000)} seconds left in this answer`;
+      }
     }, TICK_MS);
     return true;
   }
@@ -392,10 +469,10 @@
     });
   }
 
-  async function sendVoice() {
+  async function sendVoice(label) {
     if (state.phase !== 'recording') return;
     const heldMs = performance.now() - state.capturedAt;
-    setPhase('transcribing');
+    setPhase('transcribing', typeof label === 'string' ? label : undefined);
     const captured = await stopCapture(false);
     if (heldMs < MIN_ANSWER_MS) return retry('That was very short. Hold Space (or the button) for the whole time you are speaking.');
     let text = captured;
@@ -568,16 +645,30 @@
       opt.textContent = s.id.replace(/^(resume|jd)-/, '').replace(/-/g, ' ');
       $(s.kind === 'jd' ? 'jdSample' : 'resumeSample').appendChild(opt);
     }
-    const pick = (box) => (e) => { const s = state.samples.find((x) => x.id === e.target.value); if (s) $(box).value = s.text; e.target.value = ''; };
-    $('resumeSample').addEventListener('change', pick('resume'));
-    $('jdSample').addEventListener('change', (e) => { pick('jd')(e); $('jdDetails').open = true; });
-    $('resumePdf').addEventListener('change', async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      showError('setupError', '');
-      try { $('resume').value = await VM.readPdf(file); } catch (err) { showError('setupError', err.message); }
+    const sample = (e) => state.samples.find((x) => x.id === e.target.value);
+    $('resumeSample').addEventListener('change', (e) => {
+      const s = sample(e);
+      if (s) setResume(s.text, `${e.target.selectedOptions[0].textContent} (sample)`);
       e.target.value = '';
     });
+    $('jdSample').addEventListener('change', (e) => { const s = sample(e); if (s) $('jd').value = s.text; e.target.value = ''; $('jdDetails').open = true; });
+    $('resumePdf').addEventListener('change', (e) => { loadResumeFile(e.target.files[0]); e.target.value = ''; });
+    const drop = $('resumeDrop');
+    drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('over'); });
+    drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+    drop.addEventListener('drop', (e) => { e.preventDefault(); drop.classList.remove('over'); loadResumeFile(e.dataTransfer.files[0]); });
+    const openText = () => { $('resume').hidden = false; $('resume').focus(); };
+    $('pasteBtn').addEventListener('click', openText);
+    $('editResumeBtn').addEventListener('click', openText);
+    $('removeResumeBtn').addEventListener('click', () => { setResume('', ''); $('resume').hidden = true; });
+    $('resume').addEventListener('input', () => updateResume());
+    $('backBtn').addEventListener('click', backToSetup);
+    $('tryBtn').addEventListener('pointerdown', (e) => { e.preventDefault(); try { $('tryBtn').setPointerCapture(e.pointerId); } catch (_) { /* fine without */ } tryStart(); });
+    $('tryBtn').addEventListener('pointerup', tryEnd);
+    $('tryBtn').addEventListener('pointercancel', tryEnd);
+    const lobbySpace = (e) => e.code === 'Space' && !$('screen-brief').hidden && !$('micTry').hidden && !/^(TEXTAREA|INPUT|SELECT|BUTTON)$/.test(e.target.tagName);
+    document.addEventListener('keydown', (e) => { if (!lobbySpace(e)) return; e.preventDefault(); if (!e.repeat) tryStart(); });
+    document.addEventListener('keyup', (e) => { if (!lobbySpace(e)) return; e.preventDefault(); tryEnd(); });
     $('prepareBtn').addEventListener('click', prepare);
     $('startBtn').addEventListener('click', startInterview);
     $('sendBtn').addEventListener('click', sendTyped);

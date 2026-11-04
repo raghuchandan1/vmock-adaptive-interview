@@ -23,16 +23,22 @@
     <p class="lede">The interviewer reads your resume (and the job description, if you add one), then asks questions out loud. Answer by speaking, just like a real interview.</p>
     <div class="setup-grid">
       <div class="setup-col">
-        <div class="field">
-          <div class="field-head">
-            <label for="resume">Resume</label>
-            <div class="field-tools">
-              <label class="file-btn">Upload PDF<input id="resumePdf" type="file" accept="application/pdf" hidden></label>
-              <select id="resumeSample" aria-label="Load a sample resume"><option value="">Load sample</option></select>
+        <fieldset class="field">
+          <legend>Resume</legend>
+          <div class="sv-drop" id="resumeDrop">
+            <div class="sv-drop-body" id="dropEmpty">
+              <strong>Drop your resume PDF here</strong>
+              <span>or <label class="file-btn">choose a file<input id="resumePdf" type="file" accept="application/pdf" hidden></label>, or <button class="link-btn" id="pasteBtn" type="button">paste the text</button></span>
+            </div>
+            <div class="sv-drop-body" id="dropLoaded" hidden>
+              <strong id="resumeName"></strong>
+              <span id="resumeWords"></span>
+              <span><button class="link-btn" id="editResumeBtn" type="button">Edit text</button> <button class="link-btn" id="removeResumeBtn" type="button">Remove</button></span>
             </div>
           </div>
-          <textarea id="resume" rows="14" placeholder="Paste your resume here"></textarea>
-        </div>
+          <textarea id="resume" rows="14" placeholder="Paste your resume here" aria-label="Resume text" hidden></textarea>
+          <p class="hint"><select id="resumeSample" aria-label="Use a sample resume"><option value="">Use a sample resume</option></select></p>
+        </fieldset>
         <details class="field" id="jdDetails">
           <summary>Add a job description (optional)</summary>
           <div class="field-head inner">
@@ -89,6 +95,10 @@
           <div class="sv-meter sv-tile-meter" id="previewMeterWrap" aria-hidden="true"><span id="previewMeter"></span></div>
         </div>
         <p class="hint" id="deviceStatus">Asking for camera and microphone…</p>
+        <div class="sv-try" id="micTry" hidden>
+          <button class="secondary" id="tryBtn" type="button">Hold to try the mic</button>
+          <span id="tryStatus" role="status"></span>
+        </div>
         <p class="hint">Your video is shown only to you. Nothing is recorded or saved.</p>
       </div>
       <div class="sv-host" id="hostCard" data-state="preparing">
@@ -104,10 +114,11 @@
           <h2 id="briefTitle"></h2>
           <ul class="brief-list" id="briefList"></ul>
           <p class="brief-warn" id="briefWarn" hidden></p>
-          <p class="brief-note">The interviewer speaks each question. When they finish, <strong>hold Space</strong> (or press and hold <strong>Hold to talk</strong>) while you answer, and let go to send. You can switch to typing at any time.</p>
+          <p class="brief-note">The interviewer speaks each question. When they finish, click <strong>Start answering</strong>, talk, then click <strong>Done answering</strong>. Or hold Space while you talk and let go to send. You can switch to typing at any time.</p>
         </div>
         <p class="error" id="briefError" role="alert" hidden></p>
         <button class="primary sv-wide" id="startBtn" type="button" disabled>Join interview</button>
+        <button class="link-btn sv-back" id="backBtn" type="button">Change setup</button>
       </div>
     </div>
   </section>
@@ -115,10 +126,17 @@
   <!-- Live interview -->
   <section id="screen-live" class="screen sv-live" hidden>
     <div class="sv-stage">
-      <video id="selfView" autoplay muted playsinline></video>
-      <div class="sv-novideo" id="noVideo" hidden>Your camera is off</div>
-      <div class="sv-interviewer" id="interviewerTile"><span class="sv-avatar">AI</span><span>Interviewer</span></div>
-      <div class="sv-dock"><span class="sv-dot"></span><span id="timer">00 : 00</span></div>
+      <div class="sv-host-tile" id="interviewerTile">
+        <span class="sv-avatar sv-stage-avatar">AI</span>
+        <span class="sv-stage-name">Your interviewer</span>
+        <span class="sv-stage-state" id="interviewerState"></span>
+      </div>
+      <div class="sv-pip">
+        <video id="selfView" autoplay muted playsinline></video>
+        <div class="sv-novideo" id="noVideo" hidden>Camera off</div>
+        <span class="sv-nametag">You</span>
+      </div>
+      <div class="sv-dock"><span class="sv-dot"></span><span id="timer">00:00</span></div>
     </div>
     <aside class="sv-panel">
       <div class="sv-panel-head">

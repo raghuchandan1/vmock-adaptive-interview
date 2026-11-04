@@ -72,12 +72,21 @@ body.student {
 body.student.live main { max-width: none; padding: 0; }
 .sv-live { position: relative; height: calc(100vh - 56px); min-height: 560px; background: var(--sv-stage); }
 .sv-stage { position: absolute; inset: 0 420px 0 0; display: grid; place-items: center; overflow: hidden; }
-.sv-stage video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
-.sv-novideo { color: #9AA3B5; font-size: 15px; }
-.sv-interviewer { position: absolute; top: 18px; left: 18px; display: flex; align-items: center; gap: 10px; background: rgba(0, 0, 0, 0.55); color: #fff; padding: 8px 16px 8px 8px; border-radius: 99px; font-weight: 600; font-size: 14px; }
 .sv-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; font-size: 13px; font-weight: 700; color: #fff; }
-.sv-interviewer.talking .sv-avatar { animation: sv-ring 1.2s ease-out infinite; }
 @keyframes sv-ring { 0% { box-shadow: 0 0 0 0 rgba(108, 158, 232, 0.7); } 100% { box-shadow: 0 0 0 12px rgba(108, 158, 232, 0); } }
+@keyframes sv-ring-big { 0% { box-shadow: 0 0 0 0 rgba(108, 158, 232, 0.55); } 100% { box-shadow: 0 0 0 28px rgba(108, 158, 232, 0); } }
+
+/* The interviewer is the main tile, as in a call; your own camera is the small corner view */
+.sv-host-tile { display: flex; flex-direction: column; align-items: center; gap: 10px; color: #fff; }
+.sv-stage-avatar { width: 128px; height: 128px; font-size: 36px; margin-bottom: 8px; transition: opacity 0.3s; }
+.sv-stage-name { font-weight: 600; font-size: 18px; }
+.sv-stage-state { color: #9AA3B5; font-size: 14px; min-height: 1.4em; }
+.sv-host-tile[data-phase="speaking"] .sv-stage-avatar { animation: sv-ring-big 1.4s ease-out infinite; }
+.sv-host-tile[data-phase="thinking"] .sv-stage-avatar, .sv-host-tile[data-phase="transcribing"] .sv-stage-avatar { opacity: 0.6; }
+.sv-pip { position: absolute; right: 18px; bottom: 18px; width: 240px; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; background: #1c2130; border: 1px solid rgba(255, 255, 255, 0.14); display: grid; place-items: center; }
+.sv-pip video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+.sv-pip .sv-nametag { left: 8px; bottom: 8px; font-size: 12px; padding: 2px 10px; }
+.sv-novideo { position: relative; color: #9AA3B5; font-size: 13px; }
 .sv-dock { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); background: #000; padding: 9px; border-radius: 99px; display: flex; }
 .sv-dock > span:last-child { background: #fff; color: #16233B; border-radius: 99px; padding: 9px 18px; font-weight: 600; font-size: 14px; font-variant-numeric: tabular-nums; }
 .sv-dot { width: 9px; height: 9px; border-radius: 50%; background: #E5484D; align-self: center; margin: 0 10px 0 8px; }
@@ -97,7 +106,7 @@ body.student.live main { max-width: none; padding: 0; }
 .sv-current:empty { display: none; }
 .sv-status { background: var(--sv-card); border: 1px solid var(--line); border-radius: 18px; padding: 12px 16px; font-size: 14px; }
 .sv-status-label { color: var(--accent); font-weight: 600; font-size: 13px; }
-.sv-status[data-phase="countdown"] .sv-status-label { color: var(--warn); }
+.sv-status.sv-warn .sv-status-label { color: var(--warn); }
 .sv-caption { margin: 4px 0 0; color: var(--ink-soft); line-height: 1.5; max-height: 7.5em; overflow-y: auto; }
 .sv-status textarea { width: 100%; margin-top: 8px; resize: vertical; }
 .sv-status .sv-meter { margin-bottom: 2px; }
@@ -110,6 +119,10 @@ body.student.live main { max-width: none; padding: 0; }
   .sv-lobby .sv-preview { aspect-ratio: auto; height: 32vh; }
   .sv-live { height: auto; min-height: 0; }
   .sv-stage { position: relative; inset: auto; height: 38vh; }
+  .sv-stage-avatar { width: 88px; height: 88px; font-size: 26px; }
+  .sv-pip { width: 120px; right: 12px; bottom: auto; top: 12px; }
+  .sv-pip .sv-nametag { display: none; }
+  .sv-dock { bottom: 12px; }
   .sv-panel { position: relative; inset: auto; width: auto; margin: 12px; min-height: 60vh; }
 }
 
@@ -120,5 +133,23 @@ body.student.live main { max-width: none; padding: 0; }
 .sv-status[data-phase="ready"] .sv-status-label { color: var(--ink); }
 
 @media (prefers-reduced-motion: reduce) {
-  .sv-steps li.now::before, .sv-interviewer.talking .sv-avatar, .sv-host .sv-host-avatar, .sv-talk.on { animation: none; }
+  .sv-steps li.now::before, .sv-host-tile .sv-stage-avatar, .sv-host .sv-host-avatar, .sv-talk.on { animation: none; }
 }
+
+/* Resume drop zone */
+.sv-drop { border: 2px dashed var(--line); border-radius: 16px; background: var(--sv-card); padding: 26px 20px; text-align: center; margin-bottom: 10px; }
+.sv-drop.over { border-color: var(--accent); background: var(--accent-wash); }
+.sv-drop-body { display: grid; gap: 4px; justify-items: center; }
+.sv-drop-body strong { font-size: 16px; }
+.sv-drop-body > span { color: var(--ink-soft); font-size: 14px; }
+.sv-drop-body .link-btn { color: var(--accent); font-weight: 600; text-decoration: none; }
+#dropLoaded .link-btn + .link-btn { margin-left: 14px; }
+#resume { margin-bottom: 6px; }
+
+/* Mic practice in the lobby */
+.sv-try { display: flex; align-items: center; gap: 12px; margin: 10px 0 4px; font-size: 14px; color: var(--ink-soft); }
+.sv-try .secondary { user-select: none; -webkit-user-select: none; touch-action: none; white-space: nowrap; }
+.sv-try .secondary.on { border-color: var(--accent); background: var(--accent-wash); color: var(--ink); }
+
+.sv-back { display: block; margin: 12px auto 0; font-size: 14px; }
+.option:has(input:checked) em { color: var(--ink); }
