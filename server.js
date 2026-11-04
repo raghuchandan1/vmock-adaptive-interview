@@ -260,6 +260,7 @@ function listSessions() {
           id: s.id, created_at: s.created_at, status: s.status,
           interview_type: engine.TYPE_LABEL[s.inputs?.interview_type], role: s.plan?.jd?.role_title || s.inputs?.target_role,
           candidate: s.plan?.candidate?.name || null, turns: s.turns?.length || 0,
+          has_feedback: s.feedback?.version === engine.FEEDBACK_VERSION,
         };
       } catch (_) { return null; }
     })

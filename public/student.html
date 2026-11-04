@@ -13,6 +13,7 @@
 <body class="student">
 <header class="topbar sv-top">
   <div class="brand"><span class="sv-logo">vmock</span> <span class="brand-sub">Adaptive interview</span></div>
+  <nav class="topbar-actions"><button class="link-btn" id="pastBtn" type="button">Past interviews</button></nav>
 </header>
 
 <main id="main">
@@ -77,31 +78,36 @@
     </div>
   </section>
 
-  <!-- Preparing, device check and pre-brief -->
+  <!-- Lobby: the interviewer prepares (reads the resume, plans) while the student checks camera and mic -->
   <section id="screen-brief" class="screen" hidden>
-    <div class="sv-brief">
-      <div class="brief">
-        <ol class="sv-steps" id="prepSteps">
-          <li>Reading your resume</li>
-          <li>Matching it to the role</li>
-          <li>Planning the conversation</li>
-          <li>Ready</li>
-        </ol>
+    <div class="sv-lobby">
+      <div class="sv-self">
+        <div class="sv-preview">
+          <video id="previewVideo" autoplay muted playsinline></video>
+          <span class="sv-camoff" id="previewOff" hidden>Camera off</span>
+          <span class="sv-nametag">You</span>
+          <div class="sv-meter sv-tile-meter" id="previewMeterWrap" aria-hidden="true"><span id="previewMeter"></span></div>
+        </div>
+        <p class="hint" id="deviceStatus">Asking for camera and microphone…</p>
+        <p class="hint">Your video is shown only to you. Nothing is recorded or saved.</p>
+      </div>
+      <div class="sv-host" id="hostCard" data-state="preparing">
+        <div class="sv-host-head">
+          <span class="sv-avatar sv-host-avatar">AI</span>
+          <div>
+            <div class="sv-host-name">Your interviewer</div>
+            <div class="sv-presence" id="presence">Preparing for your interview</div>
+          </div>
+        </div>
+        <ol class="sv-steps" id="prepSteps" aria-live="polite"></ol>
         <div id="briefBody" hidden>
           <h2 id="briefTitle"></h2>
           <ul class="brief-list" id="briefList"></ul>
           <p class="brief-warn" id="briefWarn" hidden></p>
-          <p class="brief-note">The interviewer will speak each question. When it finishes, <strong>hold Space</strong> (or press and hold <strong>Hold to talk</strong>) while you answer, and let go to send. You can switch to typing at any time.</p>
+          <p class="brief-note">The interviewer speaks each question. When they finish, <strong>hold Space</strong> (or press and hold <strong>Hold to talk</strong>) while you answer, and let go to send. You can switch to typing at any time.</p>
         </div>
         <p class="error" id="briefError" role="alert" hidden></p>
-      </div>
-      <div class="brief sv-check">
-        <h3>Check your camera and mic</h3>
-        <div class="sv-preview"><video id="previewVideo" autoplay muted playsinline></video><span id="previewOff" hidden>Camera off</span></div>
-        <div class="sv-meter" aria-hidden="true"><span id="previewMeter"></span></div>
-        <p class="hint" id="deviceStatus">Asking for camera and microphone…</p>
-        <p class="hint">Your video is shown only to you. Nothing is recorded or saved.</p>
-        <button class="primary sv-wide" id="startBtn" type="button" disabled>Start interview</button>
+        <button class="primary sv-wide" id="startBtn" type="button" disabled>Join interview</button>
       </div>
     </div>
   </section>
@@ -138,10 +144,19 @@
   <!-- Feedback -->
   <section id="screen-feedback" class="screen" hidden>
     <div class="review-head">
-      <div><h1 class="screen-title">Your feedback</h1></div>
+      <div><h1 class="screen-title">Your feedback</h1><p class="hint" id="feedbackMeta"></p></div>
       <div class="review-actions"><button class="primary" id="newBtn" type="button">New interview</button></div>
     </div>
     <div id="feedbackPanel"></div>
+  </section>
+
+  <!-- Past interviews -->
+  <section id="screen-past" class="screen" hidden>
+    <div class="review-head">
+      <div><h1 class="screen-title">Past interviews</h1><p class="lede">Open a finished interview to read its feedback again.</p></div>
+      <div class="review-actions"><button class="primary" id="pastNewBtn" type="button">New interview</button></div>
+    </div>
+    <div id="pastList"></div>
   </section>
 </main>
 

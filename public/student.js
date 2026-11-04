@@ -27,6 +27,7 @@
   function show(name) {
     document.querySelectorAll('.screen').forEach((s) => { s.hidden = s.id !== `screen-${name}`; });
     document.body.classList.toggle('live', name === 'live');
+    $('pastBtn').hidden = name === 'brief' || name === 'live'; // leaving mid-interview would drop the call
     window.scrollTo({ top: 0 });
   }
   const showError = (id, msg) => { $(id).textContent = msg || ''; $(id).hidden = !msg; };
@@ -48,22 +49,40 @@
     $('briefBody').hidden = true;
     $('startBtn').disabled = true;
     showError('briefError', '');
+    setHost('preparing', 'Preparing for your interview');
     show('brief');
     setupDevices(); // runs while the planner thinks
-    const steps = [...$('prepSteps').children];
-    steps.forEach((li) => { li.className = ''; });
+    // The interviewer's activity, one line per stage of the real work (resume, job description, planner).
+    // The progress is timed, not reported by the server; the last line stays open until the plan arrives.
+    const role = inputs.target_role.trim();
+    const lines = [
+      'Opening your resume',
+      'Reading about your experience',
+      inputs.jd_text.trim() ? 'Reading the job description' : role ? `Thinking about the ${role} role` : 'Thinking about the role',
+      'Planning what to ask you',
+      'Joining the call',
+    ];
+    const list = $('prepSteps');
+    list.replaceChildren(...lines.map((text) => Object.assign(document.createElement('li'), { textContent: text })));
+    const steps = [...list.children];
+    const mark = (n) => steps.forEach((li, i) => { li.className = i < n ? 'done' : i === n ? 'now' : ''; });
     let step = 0;
-    const advance = () => { if (step < steps.length - 1) { if (step) steps[step - 1].className = 'done'; steps[step].className = 'now'; step += 1; } };
-    advance();
-    const stepTimer = setInterval(() => { if (step < steps.length - 1) advance(); }, 6000);
+    mark(0);
+    const stepTimer = setInterval(() => { if (step < steps.length - 2) mark(++step); }, 5000);
     try {
       state.view = await api('/api/sessions', { method: 'POST', body: inputs });
       state.sessionId = state.view.id;
-      steps.forEach((li) => { li.className = 'done'; });
+      clearInterval(stepTimer);
+      mark(steps.length - 1); // the short "joining" beat
+      setHost('joining', 'Joining the call');
+      await new Promise((r) => setTimeout(r, 1200));
+      mark(steps.length);
+      setHost('ready', 'In the call, ready when you are');
       renderBrief(state.view.pre_brief);
       $('briefBody').hidden = false;
       $('startBtn').disabled = false;
     } catch (err) {
+      setHost('failed', 'Couldn\'t join');
       showError('briefError', `We couldn't prepare the interview. (${err.message})`);
       steps.forEach((li) => { li.className = ''; });
       setTimeout(() => { stopDevices(); show('setup'); showError('setupError', `We couldn't prepare the interview. Your resume is still here, so you can try again. (${err.message})`); }, 2500);
@@ -71,6 +90,11 @@
       clearInterval(stepTimer);
       state.busy = false;
     }
+  }
+
+  function setHost(stateName, text) {
+    $('hostCard').dataset.state = stateName;
+    $('presence').textContent = text;
   }
 
   function renderBrief(b) {
@@ -89,6 +113,7 @@
   // ---------- Camera and mic ----------
   async function setupDevices() {
     if (state.stream) return;
+    $('previewMeterWrap').hidden = false;
     const status = $('deviceStatus');
     if (!navigator.mediaDevices?.getUserMedia) { status.textContent = 'This browser can\'t use the microphone here. You can type your answers.'; return useTyping(); }
     const audioOpts = { echoCancellation: true, noiseSuppression: true, autoGainControl: true };
@@ -116,7 +141,7 @@
     state.previewLoop = setInterval(() => setMeter('previewMeter', level()), TICK_MS);
   }
 
-  function useTyping() { state.micOk = false; state.mode = 'type'; }
+  function useTyping() { state.micOk = false; state.mode = 'type'; $('previewMeterWrap').hidden = true; }
 
   function level() {
     if (!state.analyser) return 0;
@@ -487,16 +512,47 @@
 
   async function loadFeedback() {
     const panel = $('feedbackPanel');
-    panel.innerHTML = '<p class="lede">Writing your feedback. This takes about a minute…</p>';
+    panel.innerHTML = `<div class="sv-host sv-host-wait" data-state="left">
+      <div class="sv-host-head"><span class="sv-avatar sv-host-avatar">AI</span><div><div class="sv-host-name">Your interviewer</div><div class="sv-presence">Left the call</div></div></div>
+      <ol class="sv-steps" aria-live="polite"><li class="now">Going over your answers</li><li>Writing your feedback</li></ol>
+      <p class="hint">This takes about a minute.</p></div>`;
+    const steps = panel.querySelectorAll('.sv-steps li');
+    const stepTimer = setTimeout(() => { steps[0].className = 'done'; steps[1].className = 'now'; }, 8000);
     try {
       const session = await api(`/api/sessions/${state.sessionId}/trace`);
+      const role = session.plan?.jd?.role_title || session.inputs?.target_role;
+      $('feedbackMeta').textContent = `${role ? `${role}, ` : ''}${new Date(session.created_at).toLocaleString()}`;
       const fb = await api(`/api/sessions/${state.sessionId}/feedback`, { method: 'POST' });
       VM.renderFeedback(panel, session, fb);
     } catch (err) {
+      clearTimeout(stepTimer);
       panel.innerHTML = `<p class="error">${esc(err.message)}</p><button class="secondary" id="retryFeedback" type="button">Try again</button>`;
       $('retryFeedback').addEventListener('click', loadFeedback);
     }
   }
+
+  // ---------- Past interviews ----------
+  // No accounts in this prototype: lists every finished interview saved on this server.
+  async function openPast() {
+    show('past');
+    const list = $('pastList');
+    list.innerHTML = '<p class="empty">Loading your interviews…</p>';
+    try {
+      const done = (await api('/api/sessions')).filter((x) => x.status === 'ended');
+      list.innerHTML = done.length
+        ? done.map((x) => `<div class="past-row"><div><strong>${esc(x.interview_type || 'Interview')}${x.role ? `: ${esc(x.role)}` : ''}</strong><br><span>${esc(new Date(x.created_at).toLocaleString())}, ${x.turns} answer${x.turns === 1 ? '' : 's'}</span></div><button class="secondary" data-open="${esc(x.id)}" type="button">${x.has_feedback ? 'See feedback' : 'Get feedback'}</button></div>`).join('')
+        : '<p class="empty">No finished interviews yet. Your feedback shows up here after each one.</p>';
+    } catch (err) { list.innerHTML = `<p class="error">${esc(err.message)}</p>`; }
+  }
+
+  function openPastFeedback(id) {
+    state.sessionId = id;
+    $('feedbackMeta').textContent = '';
+    show('feedback');
+    loadFeedback();
+  }
+
+  function newInterview() { state.mode = 'voice'; state.sessionId = null; state.phase = 'idle'; show('setup'); }
 
   // ---------- Wire up ----------
   async function init() {
@@ -533,7 +589,10 @@
     $('modeBtn').addEventListener('click', toggleMode);
     $('endBtn').addEventListener('click', endInterview);
     $('typed').addEventListener('keydown', (e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); sendTyped(); } });
-    $('newBtn').addEventListener('click', () => { state.mode = 'voice'; state.sessionId = null; state.phase = 'idle'; show('setup'); });
+    $('newBtn').addEventListener('click', newInterview);
+    $('pastNewBtn').addEventListener('click', newInterview);
+    $('pastBtn').addEventListener('click', openPast);
+    $('pastList').addEventListener('click', (e) => { const id = e.target.dataset.open; if (id) openPastFeedback(id); });
     if (!state.config.has_key) showError('setupError', 'No OpenAI key found. Add OPENAI_API_KEY to the .env file and restart the server.');
     show('setup');
   }
