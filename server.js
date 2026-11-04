@@ -24,8 +24,8 @@ const DEFAULTS = {
   turn_effort: process.env.TURN_REASONING_EFFORT || 'low',
 };
 const VOICE = {
-  provider: process.env.VOICE_PROVIDER === 'openai' ? 'openai' : 'browser', // browser: the page uses the browser's speech
-  tts_model: process.env.TTS_MODEL || 'gpt-4o-mini-tts',
+  provider: process.env.VOICE_PROVIDER === 'browser' ? 'browser' : 'openai', // browser: the page uses the browser's own speech
+  tts_model: process.env.TTS_MODEL || 'gpt-4o-mini-tts-2025-12-15',
   tts_voice: process.env.TTS_VOICE || 'marin',
   stt_model: process.env.STT_MODEL || 'gpt-transcribe',
 };
@@ -44,6 +44,8 @@ function loadDotEnv(file) {
 }
 
 const apiKey = () => runtimeKey || process.env.OPENAI_API_KEY || '';
+// Speech and transcription can use their own key (a project with access to the audio models).
+const voiceKey = () => process.env.OPENAI_API_TTS_STT_KEY || apiKey();
 const readPrompt = (name) => fs.readFileSync(path.join(ROOT, 'prompts', `${name}.md`), 'utf8');
 
 function saveSession(session) {
@@ -220,7 +222,7 @@ async function speak(id, res) {
   const line = [...session.transcript].reverse().find((t) => t.role === 'interviewer');
   if (!line) throw httpError(404, 'Nothing to say yet.');
   const t0 = Date.now();
-  const upstream = await voice.speech({ apiKey: apiKey(), baseUrl: BASE_URL, model: VOICE.tts_model, voice: VOICE.tts_voice, text: line.text });
+  const upstream = await voice.speech({ apiKey: voiceKey(), baseUrl: BASE_URL, model: VOICE.tts_model, voice: VOICE.tts_voice, text: line.text });
   logVoice(session, { kind: 'tts', model: VOICE.tts_model, voice: VOICE.tts_voice, chars: line.text.length, first_byte_ms: Date.now() - t0 });
   res.writeHead(200, { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'no-store' });
   Readable.fromWeb(upstream.body).on('error', () => res.destroy()).pipe(res);
@@ -235,7 +237,7 @@ async function transcribeAnswer(id, req) {
   if (!audio.length) throw httpError(400, 'No audio received.');
   const t0 = Date.now();
   const { text, model } = await voice.transcribe({
-    apiKey: apiKey(), baseUrl: BASE_URL, model: VOICE.stt_model, audio, contentType: req.headers['content-type'], keywords: voice.keywordsFor(session),
+    apiKey: voiceKey(), baseUrl: BASE_URL, model: VOICE.stt_model, audio, contentType: req.headers['content-type'], keywords: voice.keywordsFor(session),
   });
   logVoice(session, { kind: 'stt', model, bytes: audio.length, latency_ms: Date.now() - t0, text });
   return { text };
@@ -378,7 +380,7 @@ const server = http.createServer(async (req, res) => {
 // Local prototype: unauthenticated endpoints spend the API key, so listen on localhost only unless HOST says otherwise.
 server.listen(PORT, process.env.HOST || 'localhost', () => {
   console.log(`\nVMock adaptive interview prototype running at http://localhost:${PORT}`);
-  console.log(`Student voice interview: http://localhost:${PORT}/student`);
+  console.log(`Student voice interview: http://localhost:${PORT}/student (voice: ${VOICE.provider}${VOICE.provider === 'openai' ? `, ${process.env.OPENAI_API_TTS_STT_KEY ? 'own key' : 'main key'}` : ''})`);
   console.log(`OpenAI key: ${apiKey() ? 'found in environment' : 'not set yet (add it in Settings in the page, or in .env)'}`);
   console.log(`Planner model: ${DEFAULTS.planner_model} (${DEFAULTS.planner_effort})  Turn model: ${DEFAULTS.turn_model} (${DEFAULTS.turn_effort})\n`);
 });

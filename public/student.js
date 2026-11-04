@@ -1,9 +1,8 @@
 /* VMock adaptive interview: student page with voice. The interviewer speaks (server text-to-speech), the student
-   answers out loud, and the answer is sent after a pause (silence.js) and transcribed on the server. */
+   answers out loud with push-to-talk (hold Space or the button), and the answer is transcribed on the server. */
 (() => {
   const $ = (id) => document.getElementById(id);
   const { esc } = VM;
-  const { createSilenceDetector, isFillerTranscript } = Silence;
   const TICK_MS = 50;
 
   const state = {
@@ -167,13 +166,14 @@
 
   const LABELS = {
     speaking: 'Interviewer is speaking…',
-    waiting: '🎤 Listening… start your answer whenever you\'re ready',
-    listening: '🎤 Listening…',
+    ready: 'Your turn. Hold Space (or the button) while you answer, then let go to send.',
+    recording: '🎤 Recording… let go to send',
     transcribing: 'Got it. One moment…',
     thinking: 'Interviewer is thinking…',
     typing: 'Type your answer, then press Send answer',
     ended: 'Interview complete',
   };
+  const ANSWERING = ['ready', 'recording', 'typing'];
 
   function setPhase(phase, label) {
     state.phase = phase;
@@ -181,12 +181,14 @@
     $('statusLabel').textContent = label || LABELS[phase] || '';
     $('status').dataset.phase = phase;
     $('interviewerTile').classList.toggle('talking', phase === 'speaking');
-    const canAnswer = ['waiting', 'listening', 'countdown', 'typing'].includes(phase);
     $('typed').hidden = !typing;
-    $('liveMeter').parentElement.hidden = typing || !['waiting', 'listening', 'countdown'].includes(phase);
-    $('caption').hidden = typing || !['listening', 'countdown', 'transcribing'].includes(phase) || !$('caption').textContent;
-    $('sendBtn').textContent = typing ? 'Send answer' : 'Send now';
-    $('sendBtn').disabled = !canAnswer;
+    $('liveMeter').parentElement.hidden = typing || phase !== 'recording';
+    $('caption').hidden = typing || !['recording', 'transcribing'].includes(phase) || !$('caption').textContent;
+    const btn = $('sendBtn');
+    btn.disabled = !ANSWERING.includes(phase);
+    btn.classList.toggle('sv-talk', !typing);
+    btn.classList.toggle('on', phase === 'recording');
+    btn.textContent = typing ? 'Send answer' : phase === 'recording' ? (state.toggled ? 'Click to send' : 'Release to send') : 'Hold to talk';
     $('modeBtn').textContent = typing ? 'Switch to speaking' : 'Switch to typing';
     if (typing && phase === 'typing') $('typed').focus();
   }
@@ -236,12 +238,16 @@
   function afterSpeech() {
     if (state.phase === 'ended') return; // a cancelled voice still fires its end event
     if (state.view.status === 'ended') return finish();
-    if (state.mode === 'voice' && state.micOk) startListening(); else setPhase('typing');
+    setPhase(state.mode === 'voice' && state.micOk ? 'ready' : 'typing');
   }
+
+  // Transcribers sometimes return filler for near-silence; such a transcript is not an answer.
+  const isFiller = (text) => /^\W*(thank you|thanks( for watching)?|you|bye|okay|ok|uh+|um+|hmm+)?\W*$/i.test(String(text || ''));
 
   const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-  // Browser speech recognition (Chrome, Edge). Restarts itself when the browser ends it early on a pause.
+  // Browser speech recognition (Chrome, Edge), used only when OpenAI transcription isn't available.
+  // Restarts itself when the browser ends it early on a pause.
   function startRecognition() {
     const rec = new Recognition();
     rec.lang = /^en/i.test(navigator.language) ? navigator.language : 'en-US';
@@ -257,13 +263,11 @@
       $('caption').hidden = !$('caption').textContent || state.mode === 'type';
     };
     rec.onerror = (e) => {
-      if (['not-allowed', 'service-not-allowed', 'network', 'audio-capture', 'language-not-supported'].includes(e.error)) {
-        rec.failed = e.error;
-      }
+      if (['not-allowed', 'service-not-allowed', 'network', 'audio-capture', 'language-not-supported'].includes(e.error)) rec.failed = e.error;
     };
     rec.onend = () => {
       if (rec.stopping) return rec.resolveStop && rec.resolveStop();
-      if (rec.failed) return recognitionFailed(rec.failed);
+      if (rec.failed) return sttFailed('browser', rec.failed);
       try { rec.start(); } catch (_) { /* already started */ }
     };
     rec.heard = heard;
@@ -271,132 +275,124 @@
     state.recognition = rec;
   }
 
-  function recognitionFailed(reason) {
-    stopListening(true);
-    state.sttFailed.add('browser');
-    if (state.config.has_key && window.MediaRecorder && !state.sttFailed.has('openai')) {
-      // Fall back to recording and server transcription.
-      state.stt = 'openai';
-      showError('liveError', 'Speech recognition isn\'t available here, so your answer will be transcribed after you finish.');
-      return startListening();
-    }
-    state.mode = 'type';
-    showError('liveError', `Speech recognition stopped working (${reason}). Please type this answer.`);
-    setPhase('typing');
+  // ---------- Push-to-talk ----------
+  // Hold Space or the button to record; let go to send. A quick tap starts recording and the next tap sends,
+  // for anyone who finds holding awkward.
+  const HOLD_MS = 350;
+  const MIN_ANSWER_MS = 700;
+  const MAX_ANSWER_MS = 180000;
+
+  function pressStart() {
+    if (state.mode !== 'voice') return;
+    if (state.phase === 'recording') { state.stopOnRelease = true; return; } // second tap of a tap-to-toggle
+    if (state.phase !== 'ready') return;
+    showError('liveError', '');
+    state.pressedAt = performance.now();
+    state.toggled = false;
+    state.stopOnRelease = false;
+    if (!startCapture()) return;
+    setPhase('recording');
   }
 
-  // Stops recognition and returns what was heard.
-  function stopRecognition(discard) {
-    const rec = state.recognition;
-    state.recognition = null;
-    if (!rec) return Promise.resolve(null);
-    rec.stopping = true;
-    const text = () => `${rec.heard.final} ${rec.heard.interim}`.replace(/\s+/g, ' ').trim();
-    if (discard) { try { rec.abort(); } catch (_) { /* ended */ } return Promise.resolve(null); }
-    return new Promise((resolve) => {
-      rec.resolveStop = () => resolve(text());
-      setTimeout(() => resolve(text()), 1500); // the last words are usually finalised on stop; don't wait forever
-      try { rec.stop(); } catch (_) { resolve(text()); }
-    });
+  function pressEnd() {
+    if (state.phase !== 'recording') return;
+    if (state.stopOnRelease || performance.now() - state.pressedAt >= HOLD_MS) return sendVoice();
+    state.toggled = true; // a quick tap: keep recording until the next tap
+    setPhase('recording', '🎤 Recording… click the button or tap Space again to send');
   }
 
-  function startListening() {
-    stopListening(true);
+  // Starts recording with the current provider. Returns false if it couldn't start.
+  function startCapture() {
     $('caption').textContent = '';
     if (state.stt === 'browser') {
-      try { startRecognition(); } catch (err) { return recognitionFailed(err.message); }
-      return watchSilence();
+      try { startRecognition(); } catch (err) { sttFailed('browser', err.message); return false; }
+    } else {
+      const type = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4'].find((t) => window.MediaRecorder?.isTypeSupported?.(t));
+      try {
+        state.recorder = new MediaRecorder(new MediaStream(state.stream.getAudioTracks()), type ? { mimeType: type } : undefined);
+      } catch (err) {
+        sttFailed('openai', 'recording isn\'t available in this browser');
+        return false;
+      }
+      state.chunks = [];
+      state.recorder.ondataavailable = (e) => { if (e.data.size) state.chunks.push(e.data); };
+      state.recorder.start(1000);
     }
-    const tracks = state.stream.getAudioTracks();
-    const type = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4'].find((t) => window.MediaRecorder?.isTypeSupported?.(t));
-    try {
-      state.recorder = new MediaRecorder(new MediaStream(tracks), type ? { mimeType: type } : undefined);
-    } catch (err) {
-      showError('liveError', 'Recording isn\'t available in this browser, so please type your answer.');
-      useTyping(); $('modeBtn').hidden = true;
-      return setPhase('typing');
-    }
-    state.chunks = [];
-    state.recorder.ondataavailable = (e) => { if (e.data.size) state.chunks.push(e.data); };
-    state.recorder.start(1000);
-    watchSilence();
-  }
-
-  // The silence detector decides when the answer is over, for both ways of listening.
-  function watchSilence() {
-    const step = createSilenceDetector();
-    const started = performance.now();
-    setPhase('waiting');
+    state.capturedAt = performance.now();
     state.loop = setInterval(() => {
-      // Nothing said for 3 minutes: start a fresh recording rather than let an empty one grow.
-      if (state.phase === 'waiting' && performance.now() - started > 180000) return startListening();
-      const l = level();
-      setMeter('liveMeter', l);
-      const r = step(l, performance.now());
-      if (r.state === 'send') return sendVoice();
-      if (r.state === 'countdown') setPhase('countdown', `Sending in ${Math.ceil(r.remainingMs / 1000)}… keep talking to continue`);
-      else if (r.state === 'speaking' && state.phase !== 'listening') setPhase('listening');
+      setMeter('liveMeter', level());
+      if (performance.now() - state.capturedAt > MAX_ANSWER_MS) sendVoice(); // the length cap
     }, TICK_MS);
+    return true;
   }
 
-  // Stops the recorder and returns the recorded audio (or null when discarded).
-  function stopListening(discard) {
+  // Stops recording. Returns the audio Blob (OpenAI) or the heard text (browser), or null when discarded.
+  function stopCapture(discard) {
     clearInterval(state.loop);
     state.loop = null;
-    if (state.recognition) return stopRecognition(discard);
-    const rec = state.recorder;
+    const rec = state.recognition;
+    if (rec) {
+      state.recognition = null;
+      rec.stopping = true;
+      const text = () => `${rec.heard.final} ${rec.heard.interim}`.replace(/\s+/g, ' ').trim();
+      if (discard) { try { rec.abort(); } catch (_) { /* ended */ } return Promise.resolve(null); }
+      return new Promise((resolve) => {
+        rec.resolveStop = () => resolve(text());
+        setTimeout(() => resolve(text()), 1500); // the last words are usually finalised on stop; don't wait forever
+        try { rec.stop(); } catch (_) { resolve(text()); }
+      });
+    }
+    const recorder = state.recorder;
     state.recorder = null;
-    if (!rec || rec.state === 'inactive') return Promise.resolve(null);
+    if (!recorder || recorder.state === 'inactive') return Promise.resolve(null);
     return new Promise((resolve) => {
-      rec.onstop = () => resolve(discard ? null : new Blob(state.chunks, { type: rec.mimeType || 'audio/webm' }));
-      rec.stop();
+      recorder.onstop = () => resolve(discard ? null : new Blob(state.chunks, { type: recorder.mimeType || 'audio/webm' }));
+      recorder.stop();
     });
   }
 
   async function sendVoice() {
-    if (state.recognition) {
-      showError('liveError', '');
-      setPhase('transcribing');
-      const text = await stopListening(false); // also stops the silence loop
-      if (isFillerTranscript(text)) return relisten();
-      return submitAnswer(text);
-    }
-    if (!state.recorder) return;
-    showError('liveError', '');
+    if (state.phase !== 'recording') return;
+    const heldMs = performance.now() - state.capturedAt;
     setPhase('transcribing');
-    const blob = await stopListening(false);
-    if (!blob || blob.size < 1000) return relisten();
-    let text;
-    try {
-      const res = await fetch(`/api/sessions/${state.sessionId}/transcribe`, { method: 'POST', headers: { 'Content-Type': blob.type }, body: blob });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || `Transcription failed (${res.status}).`);
-      text = data.text;
-    } catch (err) {
-      state.sttFailures = (state.sttFailures || 0) + 1;
-      if (state.sttFailures >= 2) state.sttFailed.add('openai');
-      if (state.sttFailures >= 2 && Recognition && !state.sttFailed.has('browser')) {
-        state.stt = 'browser';
-        showError('liveError', 'Switching to your browser\'s speech recognition. Please say that answer once more.');
-        return startListening();
+    const captured = await stopCapture(false);
+    if (heldMs < MIN_ANSWER_MS) return retry('That was very short. Hold Space (or the button) for the whole time you are speaking.');
+    let text = captured;
+    if (captured instanceof Blob) {
+      try {
+        const res = await fetch(`/api/sessions/${state.sessionId}/transcribe`, { method: 'POST', headers: { 'Content-Type': captured.type }, body: captured });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || `Transcription failed (${res.status}).`);
+        text = data.text;
+      } catch (err) {
+        state.sttFailures = (state.sttFailures || 0) + 1;
+        if (state.sttFailures >= 2) return sttFailed('openai', err.message);
+        return retry(`We couldn't hear that answer (${err.message}). Please answer again.`);
       }
-      if (state.sttFailures >= 2) {
-        // Transcription keeps failing (no model access, network): don't make the student repeat themselves again.
-        state.mode = 'type';
-        showError('liveError', `Voice answers aren't working right now (${err.message}). Please type this answer.`);
-        return setPhase('typing');
-      }
-      showError('liveError', `We couldn't hear that answer (${err.message}). Please say it again, or switch to typing.`);
-      return startListening();
+      state.sttFailures = 0;
     }
-    state.sttFailures = 0;
-    if (isFillerTranscript(text)) return relisten();
+    if (isFiller(text)) return retry('Sorry, I didn\'t catch that. Please answer again.');
     submitAnswer(text);
   }
 
-  function relisten() {
-    showError('liveError', 'Sorry, I didn\'t catch that. Please answer again.');
-    startListening();
+  function retry(message) {
+    showError('liveError', message);
+    setPhase('ready');
+  }
+
+  // A transcription provider keeps failing: switch to the other one if it hasn't failed too, else to typing.
+  function sttFailed(provider, reason) {
+    stopCapture(true);
+    state.sttFailed.add(provider);
+    const other = provider === 'openai' ? 'browser' : 'openai';
+    const otherOk = !state.sttFailed.has(other) && (other === 'browser' ? Recognition : state.config.has_key && window.MediaRecorder);
+    if (otherOk) {
+      state.stt = other;
+      return retry(`Voice answers hit a problem (${reason}), so we switched to another way of hearing you. Please answer again.`);
+    }
+    state.mode = 'type';
+    showError('liveError', `Voice answers aren't working right now (${reason}). Please type this answer.`);
+    setPhase('typing');
   }
 
   async function submitAnswer(text) {
@@ -419,28 +415,29 @@
     }
   }
 
-  async function onSend() {
-    if (state.mode === 'type') {
-      const text = $('typed').value.trim();
-      if (!text) return showError('liveError', 'Type an answer before sending.');
-      showError('liveError', '');
-      return submitAnswer(text);
-    }
-    sendVoice();
+  function sendTyped() {
+    if (state.mode !== 'type') return; // in voice mode the button is push-to-talk (pointer events)
+    const text = $('typed').value.trim();
+    if (!text) return showError('liveError', 'Type an answer before sending.');
+    showError('liveError', '');
+    submitAnswer(text);
   }
 
   async function toggleMode() {
     showError('liveError', '');
-    const answering = ['waiting', 'listening', 'countdown', 'typing'].includes(state.phase);
+    const answering = ANSWERING.includes(state.phase);
     if (state.mode === 'voice') {
       state.mode = 'type';
-      await stopListening(true);
+      await stopCapture(true);
       setPhase(answering ? 'typing' : state.phase);
     } else {
       state.mode = 'voice';
-      if (answering) startListening(); else setPhase(state.phase);
+      setPhase(answering ? 'ready' : state.phase);
     }
   }
+
+  // Space is push-to-talk on the live screen, except while typing in a box.
+  const spaceTarget = (e) => e.code === 'Space' && !$('screen-live').hidden && state.mode === 'voice' && !/^(TEXTAREA|INPUT|SELECT)$/.test(e.target.tagName);
 
   async function endInterview() {
     // Two clicks instead of a confirm dialog.
@@ -463,7 +460,7 @@
   async function finish() {
     if (state.phase === 'ended') return;
     setPhase('ended');
-    await stopListening(true);
+    await stopCapture(true);
     audio.pause();
     if (window.speechSynthesis) speechSynthesis.cancel();
     clearInterval(state.timer);
@@ -488,9 +485,9 @@
   // ---------- Wire up ----------
   async function init() {
     state.config = await api('/api/config');
-    // Browser voice by default: it needs no audio model access. VOICE_PROVIDER=openai uses OpenAI's voices.
-    state.tts = state.config.voice_provider === 'openai' ? 'openai' : 'browser';
-    state.stt = state.config.voice_provider === 'openai' || !Recognition ? 'openai' : 'browser';
+    // OpenAI voices by default; VOICE_PROVIDER=browser uses the browser's own speech (Chrome, Edge).
+    state.tts = state.config.voice_provider === 'browser' ? 'browser' : 'openai';
+    state.stt = state.config.voice_provider === 'browser' && Recognition ? 'browser' : 'openai';
     if (window.speechSynthesis) speechSynthesis.getVoices(); // starts loading the voice list
     state.samples = await api('/api/samples');
     for (const s of state.samples) {
@@ -511,10 +508,15 @@
     });
     $('prepareBtn').addEventListener('click', prepare);
     $('startBtn').addEventListener('click', startInterview);
-    $('sendBtn').addEventListener('click', onSend);
+    $('sendBtn').addEventListener('click', sendTyped);
+    $('sendBtn').addEventListener('pointerdown', (e) => { if (state.mode !== 'voice') return; e.preventDefault(); try { $('sendBtn').setPointerCapture(e.pointerId); } catch (_) { /* keeps working without capture */ } pressStart(); });
+    $('sendBtn').addEventListener('pointerup', pressEnd);
+    $('sendBtn').addEventListener('pointercancel', pressEnd);
+    document.addEventListener('keydown', (e) => { if (!spaceTarget(e)) return; e.preventDefault(); if (!e.repeat) pressStart(); });
+    document.addEventListener('keyup', (e) => { if (!spaceTarget(e)) return; e.preventDefault(); pressEnd(); });
     $('modeBtn').addEventListener('click', toggleMode);
     $('endBtn').addEventListener('click', endInterview);
-    $('typed').addEventListener('keydown', (e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); onSend(); } });
+    $('typed').addEventListener('keydown', (e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); sendTyped(); } });
     $('newBtn').addEventListener('click', () => { state.mode = 'voice'; state.sessionId = null; state.phase = 'idle'; show('setup'); });
     if (!state.config.has_key) showError('setupError', 'No OpenAI key found. Add OPENAI_API_KEY to the .env file and restart the server.');
     show('setup');

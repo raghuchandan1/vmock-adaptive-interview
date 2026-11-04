@@ -68,6 +68,12 @@ browser's speech when that is easier.
 - The silence detector still decides when an answer ends.
 - `VOICE_PROVIDER=openai` keeps the OpenAI path. Each provider falls back to the other, then to typing.
 
+## Update: push-to-talk and OpenAI voices (second key)
+
+- The user added `OPENAI_API_TTS_STT_KEY` with audio model access, so OpenAI voices are the default again.
+- Turn-taking changed to push-to-talk (user's choice): hold Space or the button to record, let go to send; a quick tap toggles. The silence detector is removed.
+- The TTS model is pinned to `gpt-4o-mini-tts-2025-12-15`, with conversational interviewer instructions.
+
 ## Not in scope
 
 Recording or replay, delivery or speech analysis, hosting, real-time speech-to-speech models. (Live captions: only with the browser provider.)

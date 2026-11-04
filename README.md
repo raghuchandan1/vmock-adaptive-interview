@@ -91,26 +91,28 @@ test/                Offline mock of the OpenAI API and end-to-end checks
 A student-facing version with voice runs at **http://localhost:3000/student**. It has no hidden agenda or developer tabs.
 1. Set up the interview, then allow the camera and microphone while it prepares.
 2. The interviewer speaks each question.
-3. When it finishes, the student answers out loud, with live captions. The answer is sent after about 3 seconds of quiet, or with **Send now**.
+3. **Push-to-talk:** the student holds **Space** (or presses and holds **Hold to talk**) while answering, and lets go to send. A quick tap starts recording and the next tap sends, for anyone who finds holding awkward. Answers under 0.7 s are ignored, and an answer is capped at 3 minutes.
 4. **Switch to typing** works at any time.
 5. The student gets the same feedback as on the developer page.
 
-Two voice providers, set with `VOICE_PROVIDER` in `.env`:
-- **`browser` (default):** the browser's own speech synthesis and speech recognition, so no audio models are needed. Use Chrome or Edge. Chrome sends the microphone audio to Google's speech service to recognise it.
-- **`openai`:** questions are spoken by `gpt-4o-mini-tts`. Answers are recorded and transcribed by `gpt-transcribe`, falling back to `gpt-4o-mini-transcribe`. Your OpenAI project needs access to these models; check *Project settings, Limits, Model access*. Each call is logged on the session as `voice_calls`, without the audio.
+Voice providers, set with `VOICE_PROVIDER` in `.env`:
+- **`openai` (default):** questions are spoken by `gpt-4o-mini-tts-2025-12-15` (voice `marin`; change with `TTS_VOICE`). Answers are transcribed by `gpt-transcribe`, falling back to `gpt-4o-mini-transcribe`.
+  - Set `OPENAI_API_TTS_STT_KEY` to use a separate key for these calls. The project behind that key needs access to the audio models.
+  - Each call is logged on the session as `voice_calls`, without the audio.
+- **`browser`:** the browser's own speech synthesis and recognition (Chrome or Edge). No audio models are needed, but it sounds robotic, and Chrome sends the microphone audio to Google to recognise it.
 
 The camera is a self-view only: nothing is recorded or uploaded.
 
 Fallbacks:
 - If the OpenAI voice fails, the browser voice takes over for the rest of the interview.
-- If recognition is unavailable or fails, the page switches to the other provider, then to typing.
+- If transcription fails twice, the page switches to the other provider, then to typing.
 - If the microphone is blocked, the student types.
 
 `localhost` counts as a secure origin, so the microphone works without HTTPS.
 
 ## Known limits of this prototype
 
-- On the developer page, typed answers only. Voice is on the student page; it has no live captions (the answer text appears after it is sent) and expects about 8 to 15 s between an answer and the next question.
+- On the developer page, typed answers only. Voice is on the student page: push-to-talk, no live captions with OpenAI transcription (the answer text appears after it is sent), and about 5 to 10 s between an answer and the next question.
 - No feedback scoring or rubric yet. Students get qualitative feedback only (summary, what worked / was missing / try next time per topic, priorities), written by a third model call after the interview (`prompts/feedback.md`, `POST /api/sessions/:id/feedback`). Quotes are checked verbatim and scores are stripped by `checkAndShapeFeedback`.
 - The resume engine's flags and score band are simulated by the planner prompt.
 - PDF upload reads text only. Scanned or image PDFs need the text pasted in.

@@ -72,25 +72,6 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const kw = keywordsFor(vt);
   check(kw.includes('Rohan') && kw.includes('Kitecart') && !kw.includes('Led') && kw.every((k) => !/[<>\r\n]/.test(k)), `resume keywords include names and companies, not line-start verbs (${kw.slice(0, 8).join(', ')})`);
 
-  // Hands-free silence detection
-  const { createSilenceDetector, isFillerTranscript } = require('../public/silence');
-  const runLevels = (levels) => { const step = createSilenceDetector(); let t = 0; const out = []; for (const l of levels) { out.push(step(l, t)); t += 50; } return out; };
-  const quiet = (ms) => Array(ms / 50).fill(0.005);
-  const loud = (ms) => Array(ms / 50).fill(0.1);
-  let r = runLevels([...quiet(300), ...quiet(10000)]);
-  check(r.every((x) => x.state !== 'send' && x.state !== 'countdown'), 'silence before speaking never starts the countdown');
-  r = runLevels([...quiet(300), ...loud(2000), ...quiet(3100)]);
-  check(r.at(-1).state === 'send' && r.some((x) => x.state === 'countdown'), 'an answer is sent after about 3 s of quiet, with a countdown first');
-  r = runLevels([...quiet(300), ...loud(2000), ...quiet(2000), ...loud(500), ...quiet(2000)]);
-  check(!r.some((x) => x.state === 'send'), 'speaking again resets the countdown');
-  r = runLevels([...quiet(300), ...loud(300), ...quiet(5000)]);
-  check(!r.some((x) => x.state === 'send'), 'a short burst (cough, click) is not sent as an answer');
-  r = runLevels([...quiet(300), ...Array(400).fill(0).map((x, i) => (i % 2 ? 0.05 : 0.004))]);
-  check(r.at(-1).state !== 'send', 'continuous speech with tiny gaps is not cut off');
-  const longTalk = createSilenceDetector({ maxMs: 2000 });
-  let last; for (let t = 0; t <= 2000; t += 50) last = longTalk(t < 300 ? 0.005 : 0.1, t);
-  check(last.state === 'send', 'an answer is sent at the length cap');
-  check(isFillerTranscript('Thank you.') && isFillerTranscript('  ') && isFillerTranscript('you') && !isFillerTranscript('Thank you for asking. I led the launch.'), 'filler transcripts are not sent as answers');
 
   let trace = await get(`/api/sessions/${id}/trace`);
   check(trace.plan_trace.note && /reasoning_effort/.test(trace.plan_trace.note), 'retries without reasoning_effort when a model rejects it');
