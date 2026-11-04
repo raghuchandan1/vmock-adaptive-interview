@@ -86,7 +86,12 @@ function feedbackOutput(input) {
     const real = ans ? ans.text.split(/\s+/).slice(0, 4).join(' ') : '';
     return {
       slot_id: t.slot_id,
-      ratings: t.rubric.map((r, i) => ({ dimension: r.dimension, reason: 'Mock reason.', level: bad && i === 0 ? 'excellent' : ['good_job', 'on_track', 'needs_work'][i % 3] })),
+      // found cycles through the three states (plus an invalid one on the first call); every quote is the first answer's
+      // opening words, so the guard must drop it where the element was only given after a follow-up.
+      ratings: t.rubric.map((r, i) => ({
+        dimension: r.dimension, reason: 'Mock reason.', level: bad && i === 0 ? 'excellent' : ['good_job', 'on_track', 'needs_work'][i % 3],
+        found: bad && i === 1 ? 'sometimes' : ['first_answer', 'after_follow_up', 'not_given'][i % 3], quote: real,
+      })),
       went_well_quote: real,
       went_well: 'You named a clear starting point.',
       to_fix_quote: bad ? 'I never said this' : real,

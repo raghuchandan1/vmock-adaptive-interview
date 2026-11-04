@@ -144,7 +144,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const fbText = JSON.stringify([fb.overall, fb.topics.map((t) => [t.went_well, t.to_fix, t.answer_plan, (t.ratings || []).map((r) => r.reason), t.stronger_version]), fb.moments]);
   const rated = fb.topics.filter((t) => !t.too_short);
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 8 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 9 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
@@ -157,6 +157,25 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(trace.slots.length && Array.isArray(require('../lib/engine').buildFeedbackPayload(trace).topics[0].interviewer_noted_off_resume_line), 'feedback input carries the interviewer\'s off-resume-line answers per topic');
   check(fb.moments.some((m) => m.slot_id === 'background' && m.quote === '' && m.note) && !fb.moments.some((m) => m.note === 'Model-written closing note.'), 'moments: invented quote dropped, model may not write the closing-questions moment');
   check(rated.some((t) => trace.slots.find((x) => x.id === t.slot_id).follow_ups_used > 0 ? t.ratings.some((r) => r.dimension === 'followup') : true), 'probed topics get a follow-up handling dimension');
+  // Where each element appeared, its quote, the follow-ups, the recording segment and the JD line.
+  const { followUpsFor, rungDimension, jdLine } = require('../lib/engine');
+  const allRatings = rated.flatMap((t) => t.ratings.map((r) => ({ ...r, t })));
+  check(allRatings.every((r) => r.found === null || ['first_answer', 'after_follow_up', 'not_given'].includes(r.found))
+    && allRatings.every((r) => r.dimension !== 'followup' || r.found === null)
+    && allRatings.every((r) => r.found !== 'after_follow_up' || r.t.follow_ups.length > 0), 'each element says where it appeared (invalid value dropped; "after a follow-up" only when there was one)');
+  const firstAnswerOf = (slotId) => norm((trace.transcript.find((e) => e.role === 'candidate' && e.slot_id === slotId) || {}).text || '');
+  check(allRatings.every((r) => !r.quote || norm(firstAnswerOf(r.t.slot_id) + ' ' + trace.transcript.filter((e) => e.role === 'candidate' && e.slot_id === r.t.slot_id).map((e) => e.text).join(' ')).includes(norm(r.quote)))
+    && allRatings.every((r) => r.found !== 'not_given' || r.quote === '')
+    && allRatings.filter((r) => r.found === 'after_follow_up').every((r) => r.quote === ''), 'element quotes are verbatim from the topic; a first-answer quote is dropped for an element given only after a follow-up');
+  check(fb.topics.every((t) => Array.isArray(t.follow_ups) && t.follow_ups.length === followUpsFor(trace, t.slot_id).length && t.follow_ups.length === trace.slots.find((s) => s.id === t.slot_id).follow_ups_used)
+    && fb.topics.some((t) => t.follow_ups.length > 0), 'each topic lists the interviewer\'s follow-ups, one per follow-up asked');
+  check(fb.topics.flatMap((t) => t.follow_ups.map((f) => ({ f, s: trace.slots.find((x) => x.id === t.slot_id) }))).every(({ f, s }) => f.question && f.at && (f.asked_for === null || rubricFor(s).some(([k]) => k === f.asked_for)) && (f.given === null || typeof f.given === 'boolean'))
+    && fb.topics.flatMap((t) => t.follow_ups).some((f) => f.asked_for && f.asked_for_label), 'each follow-up names the rubric element it asked for, and whether it was given');
+  check(fb.topics.every((t) => t.segment && t.segment.start && t.segment.end && t.segment.start <= t.segment.end), 'each topic has its place in the recording');
+  const claimSlot = trace.slots.find((s) => s.id === 's1');
+  check(rungDimension(claimSlot, 'result') === 'result' && rungDimension(claimSlot, 'setback') === null && rungDimension({ ...claimSlot, technical_focus: true, kind: 'gap', question_type: 'past_behaviour' }, 'technical') === 'depth', 'a follow-up rung maps to an element of the topic\'s own rubric');
+  check(jdLine(trace, { anchor_text: null, competency_id: 'k2' }) === 'Stakeholder management' && jdLine(trace, { anchor_text: 'A resume line', competency_id: 'k2' }) === null && jdLine(trace, { anchor_text: null, competency_id: 'k3' }) === null
+    && fb.topics.every((t) => (t.resume_line ? t.jd_line === null : true)), 'a topic from the job description carries its requirement; resume topics carry their resume line instead');
   const { checkAndShapeFeedback, topicVerdict } = require('../lib/engine');
   const { severalActions } = require('../lib/engine');
   const dup = checkAndShapeFeedback({ overall: 'ok', moments: [], more_priorities: [], next_goal: { title: 'Goal', why: 'w', when: 'you are asked about a project', then: 'say your role, two actions, and the result' },
