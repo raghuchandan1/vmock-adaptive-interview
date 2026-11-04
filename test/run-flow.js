@@ -307,6 +307,25 @@ const get = async (p) => (await fetch(BASE + p)).json();
     && applyGrounding('I did X because Y.', ['because', 'I personally'], '') === 'I did X because Y.',
     'grounding removes the rewrite when a flag cannot be placed or nothing real is left; one- and two-word flags are ignored');
 
+  // "Can you repeat that?": the first time in a topic the question is repeated word for word with no model call;
+  // a second non-answer in the topic moves on.
+  const repSess = await post('/api/sessions', { resume_text: resume, jd_text: jd, target_role: '', interview_type: 'hiring_manager', style: 'balanced', length: 'standard' });
+  await post(`/api/sessions/${repSess.id}/answers`, { answer: 'I enjoy product work most. [done]' });
+  let repView = await post(`/api/sessions/${repSess.id}/answers`, { answer: 'I moved from operations analytics into product at Kitecart. [done]' });
+  const asked = repView.transcript.at(-1).text;
+  let repTrace = await get(`/api/sessions/${repSess.id}/trace`);
+  const topic = repTrace.slots[repTrace.current].id;
+  const callsBefore = repTrace.turns.reduce((n, t) => n + t.calls.length, 0);
+  repView = await post(`/api/sessions/${repSess.id}/answers`, { answer: 'Sorry, can you repeat that?' });
+  repTrace = await get(`/api/sessions/${repSess.id}/trace`);
+  check(repView.transcript.at(-1).text === `Sure. ${asked.replace(/^(Thanks|Got it|Okay|Understood|Right)[.!]\s+/, '')}` && repTrace.turns.at(-1).decision === 'repeat'
+    && repTrace.turns.reduce((n, t) => n + t.calls.length, 0) === callsBefore && repTrace.slots[repTrace.current].id === topic && repTrace.slots[repTrace.current].follow_ups_used === 0,
+  `a first "repeat" says the question again word for word, with no model call or follow-up used (got "${repView.transcript.at(-1).text}")`);
+  repView = await post(`/api/sessions/${repSess.id}/answers`, { answer: 'Not sure, can you say that again?' });
+  repTrace = await get(`/api/sessions/${repSess.id}/trace`);
+  check(repTrace.slots.find((x) => x.id === topic).status === 'done' && repTrace.turns.at(-1).guards.some((g) => /Second "not sure" or "repeat"/.test(g)),
+    'a second "repeat" or "not sure" in the same topic moves on');
+
   const list = await get('/api/sessions');
   check(list.length >= 2, 'past sessions are listed');
 

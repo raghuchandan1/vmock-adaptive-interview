@@ -396,6 +396,10 @@
     let html = '';
     for (const t of s.turns) {
       const o = t.output;
+      if (t.decision === 'repeat') { // engine-only turn: no model call, no evidence check
+        html += `<article class="turn"><div class="turn-head"><strong>Answer ${t.n}: ${esc(t.slot_kind.replace(/_/g, ' '))}</strong><span>repeat (engine, no model call)</span></div><p class="answer">${esc(t.answer)}</p><p class="utter">${esc(o.utterance)}</p></article>`;
+        continue;
+      }
       const e = o.evidence;
       const lastCall = t.calls[t.calls.length - 1];
       const tr = lastCall?.trace || {};
