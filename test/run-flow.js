@@ -275,7 +275,10 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const vs = { transcript: [{ role: 'interviewer', text: 'Thanks, Rohan. What did you decide?' }] };
   check(varyOpener(vs, 'Thanks, Rohan. Which part was yours?') === 'Which part was yours?', 'drops a repeated "Thanks, Name." opener');
   check(varyOpener({ transcript: [{ role: 'interviewer', text: 'Walk me through it.' }] }, 'Thanks. Which part was yours?') === 'Thanks. Which part was yours?', 'keeps an opener that is not a repeat');
-  check(varyOpener({ transcript: [{ role: 'interviewer', text: 'Understood. Why?' }] }, 'Thanks, Rohan. Which part?') === 'Thanks, Rohan. Which part?', 'keeps a different opener word');
+  check(varyOpener({ transcript: [{ role: 'interviewer', text: 'Understood. Why?' }] }, 'Thanks, Rohan. Which part?') === 'Which part?'
+    && varyOpener({ transcript: [{ role: 'interviewer', text: 'Okay. Why?' }, { role: 'interviewer', text: 'What next?' }] }, 'Thanks for clarifying. Which part?') === 'Which part?'
+    && varyOpener({ transcript: [{ role: 'interviewer', text: 'Okay. Why?' }, { role: 'interviewer', text: 'What next?' }, { role: 'interviewer', text: 'And then?' }] }, 'Got it. Which part?') === 'Got it. Which part?',
+  'keeps at most one acknowledgement opener in three messages');
   const echoed = { transcript: [{ role: 'interviewer', text: 'You mentioned the migration. What did you do first?' }] };
   check(varyOpener(echoed, 'Got it. You mentioned the pipeline. Which sources did the pipeline compare?') === 'Got it. Which sources did the pipeline compare?'
     && varyOpener(echoed, 'You mentioned the pipeline. What did it compare?') === 'You mentioned the pipeline. What did it compare?'

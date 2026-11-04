@@ -213,11 +213,27 @@
     speechSynthesis.speak(u);
   }
 
+  // The first message is a greeting plus the warm-up question: say the greeting, pause, then ask the question,
+  // so the question isn't buried at the end of a long paragraph.
   function speakLatest() {
     setPhase('speaking');
+    const t = state.view.transcript;
+    const g = state.view.greeting;
+    if (t.length === 1 && g && t[0].text.startsWith(g) && t[0].text.length > g.length) {
+      const q = t[0].text.slice(g.length).trim();
+      $('question').textContent = g;
+      return speakText(g, 'greeting', () => {
+        $('thread').innerHTML = `<p class="sv-bubble q">${esc(g)}</p>`;
+        $('question').textContent = q;
+        setTimeout(() => { if (state.phase === 'speaking') speakText(q, 'question', afterSpeech); }, 600);
+      });
+    }
+    speakText($('question').textContent, null, afterSpeech);
+  }
+
+  function speakText(text, part, then) {
     let done = false;
-    const next = () => { if (done) return; done = true; audio.onended = null; audio.onerror = null; afterSpeech(); };
-    const text = $('question').textContent;
+    const next = () => { if (done) return; done = true; audio.onended = null; audio.onerror = null; then(); };
     if (state.tts === 'browser') return browserSpeak(text, next);
     // The OpenAI voice failed (no audio model access, network): use the browser's voice from now on.
     // onerror and the play() rejection can both fire, so this runs once.
@@ -231,7 +247,7 @@
     };
     audio.onended = next;
     audio.onerror = fallback;
-    audio.src = `/api/sessions/${state.sessionId}/speech?n=${state.view.transcript.length}`;
+    audio.src = `/api/sessions/${state.sessionId}/speech?n=${state.view.transcript.length}${part ? `&part=${part}` : ''}`;
     audio.play().catch(fallback);
   }
 

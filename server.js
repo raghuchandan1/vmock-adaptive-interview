@@ -216,14 +216,20 @@ function logVoice(session, entry) {
 }
 
 // Speaks the latest interviewer line only, so this route can't be used to voice arbitrary text.
-async function speak(id, res) {
+async function speak(id, res, part) {
   const session = getSession(id);
   if (!session) throw httpError(404, 'Interview not found.');
   const line = [...session.transcript].reverse().find((t) => t.role === 'interviewer');
   if (!line) throw httpError(404, 'Nothing to say yet.');
+  // The first message can be spoken in two parts (greeting, then the warm-up question) with a pause between them.
+  let text = line.text;
+  const greeting = session.opening_greeting;
+  if (part && session.transcript.length === 1 && greeting && text.startsWith(greeting) && text.length > greeting.length) {
+    text = part === 'greeting' ? greeting : text.slice(greeting.length).trim();
+  }
   const t0 = Date.now();
-  const upstream = await voice.speech({ apiKey: voiceKey(), baseUrl: BASE_URL, model: VOICE.tts_model, voice: VOICE.tts_voice, text: line.text });
-  logVoice(session, { kind: 'tts', model: VOICE.tts_model, voice: VOICE.tts_voice, chars: line.text.length, first_byte_ms: Date.now() - t0 });
+  const upstream = await voice.speech({ apiKey: voiceKey(), baseUrl: BASE_URL, model: VOICE.tts_model, voice: VOICE.tts_voice, text });
+  logVoice(session, { kind: 'tts', model: VOICE.tts_model, voice: VOICE.tts_voice, chars: text.length, part: part || null, first_byte_ms: Date.now() - t0 });
   res.writeHead(200, { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'no-store' });
   Readable.fromWeb(upstream.body).on('error', () => res.destroy()).pipe(res);
 }
@@ -355,7 +361,7 @@ const server = http.createServer(async (req, res) => {
         saveSession(s);
         return send(res, 200, engine.publicView(s));
       }
-      if (req.method === 'GET' && parts[3] === 'speech') return await speak(id, res);
+      if (req.method === 'GET' && parts[3] === 'speech') return await speak(id, res, url.searchParams.get('part'));
       if (req.method === 'POST' && parts[3] === 'transcribe') return send(res, 200, await transcribeAnswer(id, req));
       if (req.method === 'POST' && parts[3] === 'feedback') return send(res, 200, await feedback(id));
       if (req.method === 'GET' && parts[3] === 'trace') {
