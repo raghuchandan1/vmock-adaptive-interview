@@ -215,6 +215,10 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(topicVerdict([{ dimension: 'a', level: 'good_job' }, { dimension: 'followup', level: 'needs_work' }]) === 'good_job'
     && topicVerdict([{ dimension: 'a', level: 'needs_work' }, { dimension: 'b', level: 'needs_work' }, { dimension: 'c', level: 'good_job' }]) === 'needs_work'
     && topicVerdict([{ dimension: 'a', level: 'needs_work' }, { dimension: 'b', level: 'good_job' }]) === 'on_track', 'topic verdict follows the content ratings, not the follow-up row');
+  const partly = [{ dimension: 'a', level: 'on_track' }, { dimension: 'b', level: 'on_track' }, { dimension: 'c', level: 'needs_work' }];
+  check(topicVerdict(partly, { dont_know_count: 1, repeat_count: 1 }) === 'needs_work' && topicVerdict(partly, { repeat_count: 2 }) === 'needs_work'
+    && topicVerdict(partly, { dont_know_count: 1 }) === 'on_track' && topicVerdict(partly, {}) === 'on_track',
+  'a topic moved on after two "not sure" or "repeat" answers is needs_work; one non-answer leaves the verdict to the ratings');
   const topicWith = (slotId, quote, stronger) => checkAndShapeFeedback({ overall: 'ok', priorities: [], moments: [], topics: [{ slot_id: slotId, ratings: [], went_well: '', went_well_quote: '', to_fix: 'weak', to_fix_quote: quote, answer_plan: [], stronger_version: stronger, example_answer: '' }] }, trace).feedback.topics.find((t) => t.slot_id === slotId);
   check(topicWith(rated[0].slot_id, rated[0].to_fix_quote, 'I led the work and moved the metric by X%.').stronger_version !== '' && topicWith(rated[0].slot_id, rated[0].to_fix_quote, 'I cut reporting time by 73 percent.').stronger_version === '', 'rewrite is dropped when it contains a number not in the resume or answers');
   check(rated[0].stronger_version.includes('X%') && rated[1] && rated[1].stronger_version === '' && rated[1].to_fix, 'unsupported rewrite text is removed after the grounding check, supported one is kept');
