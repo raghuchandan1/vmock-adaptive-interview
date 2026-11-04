@@ -101,6 +101,7 @@ async function createInterview(body) {
     interviewer_style: resolvedStyle,
     scored_slot_count: engine.SCORED_SLOTS[inputs.length],
     variation_seed: inputs.seed,
+    warmup_angle: engine.warmupAngle(inputs.seed),
     resume_text: inputs.resume_text,
     jd_text: inputs.jd_text,
   };

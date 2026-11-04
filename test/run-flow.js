@@ -54,7 +54,16 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const view = await post('/api/sessions', { resume_text: resume, jd_text: jd, target_role: '', interview_type: 'hiring_manager', style: 'balanced', length: 'standard', settings: { planner_model: 'gpt-5-noeffort', planner_effort: 'medium', turn_model: 'gpt-5-mini', turn_effort: 'low' } });
   const id = view.id;
   check(view.pre_brief.topics === 4, `pre-brief shows 4 topics (got ${view.pre_brief.topics})`);
-  check(view.transcript.length === 1 && /^Hi Rohan, thanks/.test(view.transcript[0].text), 'opening greets the candidate by name');
+  check(view.transcript.length === 1 && /^Hi Rohan,/.test(view.transcript[0].text), 'opening greets the candidate by name');
+  {
+    const { openingText, warmupAngle } = require('../lib/engine');
+    const sess = (seed, type) => ({ plan: { candidate: { name: 'Rohan' }, jd: {} }, inputs: { interview_type: type, length: 'standard', target_role: 'Product Manager', seed }, style: 'balanced' });
+    const types = ['recruiter_screen', 'hiring_manager', 'back_your_resume'];
+    check(types.every((ty) => new Set([1, 2, 3, 4, 5, 6].map((sd) => openingText(sess(sd, ty)))).size === 3)
+      && types.every((ty) => [1, 2, 3].every((sd) => /^Hi Rohan, .*Product Manager role|resume/.test(openingText(sess(sd, ty))) && !/the this role/.test(openingText(sess(sd, ty))))),
+    'the opening greeting varies between sessions (3 wordings per interview type)');
+    check(new Set(Array.from({ length: 24 }, (_, i) => warmupAngle(i))).size === 8, 'the warm-up question angle varies between sessions (8 angles)');
+  }
   check(!('slots' in view) && !('plan' in view), 'public view does not leak the plan');
 
   // Voice: speech speaks the latest interviewer line; transcription takes raw audio and falls back to the older model
@@ -307,20 +316,19 @@ const get = async (p) => (await fetch(BASE + p)).json();
     && applyGrounding('I did X because Y.', ['because', 'I personally'], '') === 'I did X because Y.',
     'grounding removes the rewrite when a flag cannot be placed or nothing real is left; one- and two-word flags are ignored');
 
-  // "Can you repeat that?": the first time in a topic the question is repeated word for word with no model call;
+  // "Can you repeat that?": the first time in a topic the model may only rephrase the same question (no follow-up used);
   // a second non-answer in the topic moves on.
   const repSess = await post('/api/sessions', { resume_text: resume, jd_text: jd, target_role: '', interview_type: 'hiring_manager', style: 'balanced', length: 'standard' });
   await post(`/api/sessions/${repSess.id}/answers`, { answer: 'I enjoy product work most. [done]' });
-  let repView = await post(`/api/sessions/${repSess.id}/answers`, { answer: 'I moved from operations analytics into product at Kitecart. [done]' });
-  const asked = repView.transcript.at(-1).text;
+  await post(`/api/sessions/${repSess.id}/answers`, { answer: 'I moved from operations analytics into product at Kitecart. [done]' });
   let repTrace = await get(`/api/sessions/${repSess.id}/trace`);
   const topic = repTrace.slots[repTrace.current].id;
-  const callsBefore = repTrace.turns.reduce((n, t) => n + t.calls.length, 0);
-  repView = await post(`/api/sessions/${repSess.id}/answers`, { answer: 'Sorry, can you repeat that?' });
+  let repView = await post(`/api/sessions/${repSess.id}/answers`, { answer: 'Sorry, can you repeat that?' });
   repTrace = await get(`/api/sessions/${repSess.id}/trace`);
-  check(repView.transcript.at(-1).text === `Sure. ${asked.replace(/^(Thanks|Got it|Okay|Understood|Right)[.!]\s+/, '')}` && repTrace.turns.at(-1).decision === 'repeat'
-    && repTrace.turns.reduce((n, t) => n + t.calls.length, 0) === callsBefore && repTrace.slots[repTrace.current].id === topic && repTrace.slots[repTrace.current].follow_ups_used === 0,
-  `a first "repeat" says the question again word for word, with no model call or follow-up used (got "${repView.transcript.at(-1).text}")`);
+  const rTurn = repTrace.turns.at(-1);
+  check(rTurn.decision === 'rephrase' && JSON.stringify(rTurn.allowed_decisions) === '["rephrase"]' && /asked to hear your last question again/.test(rTurn.calls[0].payload.note)
+    && repTrace.slots[repTrace.current].id === topic && repTrace.slots[repTrace.current].follow_ups_used === 0,
+  `a first "repeat" asks the same question again in new words, with no follow-up used (got "${repView.transcript.at(-1).text}")`);
   repView = await post(`/api/sessions/${repSess.id}/answers`, { answer: 'Not sure, can you say that again?' });
   repTrace = await get(`/api/sessions/${repSess.id}/trace`);
   check(repTrace.slots.find((x) => x.id === topic).status === 'done' && repTrace.turns.at(-1).guards.some((g) => /Second "not sure" or "repeat"/.test(g)),

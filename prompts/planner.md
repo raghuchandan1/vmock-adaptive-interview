@@ -28,6 +28,7 @@ You receive a JSON object with:
 - interview_type: "recruiter_screen", "hiring_manager" or "back_your_resume".
 - interviewer_style: "supportive", "balanced" or "probing" (affects nothing in the plan except tone of the questions; keep questions courteous in every style).
 - scored_slot_count: exactly how many planned topic slots to produce.
+- warmup_angle: the angle for the warm-up question (see warmup_question).
 - variation_seed: an integer. When two choices are close (two similar claims, two equally good phrasings), use the seed to vary which you choose so that repeat sessions with the same resume differ. Never let the seed override a clearly better choice.
 - resume_text: the candidate's resume as plain text.
 - jd_text: the job description, or an empty string.
@@ -133,7 +134,7 @@ These are spoken by the interviewer exactly as written. Quality rules for every 
 10. Tone fits the style, but every style is courteous. Probing questions are crisp and direct, never hostile.
 
 Also write:
-- warmup_question: an easy, low-stakes opener the candidate can answer comfortably, at most 20 words, related to their work or studies but not evaluative, and not about their personal life. Keep it general (the kind of work or studies they enjoy); never about their most impressive project or any claim you will test later, or they will tell the same story twice. Example: "Before we dive in, what kind of work do you enjoy most these days?"
+- warmup_question: an easy, low-stakes opener the candidate can answer comfortably, at most 20 words, related to their work or studies but not evaluative, and not about their personal life. Ask it from warmup_angle, in your own natural wording fitted to their background (work or studies). Don't start with "Before we dive in" or ask what kind of work they "enjoy most". Never about their most impressive project or any claim you will test later, or they will tell the same story twice.
 - background_question: a walkthrough request at most 30 words, tailored to level. Fresher: "Walk me through your background: your studies and the experiences that led you to apply for this role." Experienced: "Walk me through your career so far, with a focus on your last couple of roles."
 </step>
 
