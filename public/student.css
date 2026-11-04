@@ -1,0 +1,94 @@
+/* Student page: VMock look from the design canvas (Figtree, blue #2C6BC9, dark video stage, light right panel).
+   Loaded after styles.css and overrides its tokens. */
+body.student {
+  --accent: #2C6BC9;
+  --accent-ink: #ffffff;
+  --accent-wash: #DCE8FA;
+  --sans: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: var(--sans);
+  --sv-stage: #101218;
+  --sv-panel: #ECEDF1;
+  --sv-bubble-q: #F7F7F9;
+  --sv-bubble-a: #DCE8FA;
+  --sv-card: #ffffff;
+  --sv-end: #D93A3A;
+  --sv-muted: #5F6A80;
+  font-family: var(--sans);
+  background: var(--paper);
+}
+@media (prefers-color-scheme: dark) {
+  body.student {
+    --accent: #6C9EE8;
+    --accent-ink: #0b1626;
+    --accent-wash: #1d2e4a;
+    --sv-panel: #1c2130;
+    --sv-bubble-q: #242b3b;
+    --sv-bubble-a: #1d2e4a;
+    --sv-card: #151a26;
+    --sv-muted: #9aa3b5;
+  }
+}
+
+.sv-top { height: 56px; padding-top: 0; padding-bottom: 0; }
+.sv-top .sv-logo { font-weight: 700; font-size: 19px; letter-spacing: -0.01em; }
+.sv-wide { width: 100%; padding-top: 12px; padding-bottom: 12px; }
+.student .primary, .student .secondary { border-radius: 12px; }
+
+/* Preparing and pre-brief */
+.sv-brief { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px; max-width: 980px; margin: 0 auto; align-items: start; }
+.sv-steps { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 8px; }
+.sv-steps li { color: var(--ink-faint); padding-left: 28px; position: relative; }
+.sv-steps li::before { content: ""; position: absolute; left: 0; top: 3px; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--line); box-sizing: border-box; }
+.sv-steps li.now { color: var(--ink); font-weight: 600; }
+.sv-steps li.now::before { border-color: var(--accent); border-top-color: transparent; animation: sv-spin 0.9s linear infinite; }
+.sv-steps li.done { color: var(--ink); }
+.sv-steps li.done::before { content: "✓"; border: 0; background: var(--accent); color: var(--accent-ink); font-size: 11px; line-height: 16px; text-align: center; font-weight: 700; }
+@keyframes sv-spin { to { transform: rotate(360deg); } }
+.sv-check h3 { margin: 0 0 12px; font-size: 17px; }
+.sv-preview { aspect-ratio: 16 / 9; background: var(--sv-stage); border-radius: 14px; overflow: hidden; display: grid; place-items: center; color: #9AA3B5; margin-bottom: 12px; }
+.sv-preview video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+.sv-meter { height: 6px; border-radius: 99px; background: var(--line); overflow: hidden; margin: 6px 0 10px; }
+.sv-meter span { display: block; height: 100%; width: 0; background: var(--accent); transition: width 60ms linear; }
+
+/* Live interview: full-bleed dark stage with the panel on the right */
+body.student.live main { max-width: none; padding: 0; }
+.sv-live { position: relative; height: calc(100vh - 56px); min-height: 560px; background: var(--sv-stage); }
+.sv-stage { position: absolute; inset: 0 420px 0 0; display: grid; place-items: center; overflow: hidden; }
+.sv-stage video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+.sv-novideo { color: #9AA3B5; font-size: 15px; }
+.sv-interviewer { position: absolute; top: 18px; left: 18px; display: flex; align-items: center; gap: 10px; background: rgba(0, 0, 0, 0.55); color: #fff; padding: 8px 16px 8px 8px; border-radius: 99px; font-weight: 600; font-size: 14px; }
+.sv-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; font-size: 13px; font-weight: 700; color: #fff; }
+.sv-interviewer.talking .sv-avatar { animation: sv-ring 1.2s ease-out infinite; }
+@keyframes sv-ring { 0% { box-shadow: 0 0 0 0 rgba(108, 158, 232, 0.7); } 100% { box-shadow: 0 0 0 12px rgba(108, 158, 232, 0); } }
+.sv-dock { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); background: #000; padding: 9px; border-radius: 99px; display: flex; }
+.sv-dock > span:last-child { background: #fff; color: #16233B; border-radius: 99px; padding: 9px 18px; font-weight: 600; font-size: 14px; font-variant-numeric: tabular-nums; }
+.sv-dot { width: 9px; height: 9px; border-radius: 50%; background: #E5484D; align-self: center; margin: 0 10px 0 8px; }
+
+.sv-panel { position: absolute; top: 12px; right: 12px; bottom: 12px; width: 396px; background: var(--sv-panel); border-radius: 28px; padding: 20px 18px; display: flex; flex-direction: column; gap: 12px; color: var(--ink); }
+.sv-panel-head { display: flex; align-items: center; gap: 12px; }
+.sv-panel-head > div { flex-grow: 1; }
+.sv-panel-title { font-weight: 700; font-size: 18px; }
+.sv-panel-sub { color: var(--sv-muted); font-size: 14px; }
+.sv-end { background: var(--sv-end); color: #fff; border: 0; border-radius: 12px; padding: 9px 16px; font-weight: 600; font-size: 14.5px; cursor: pointer; }
+.sv-thread { flex: 1 1 auto; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.sv-thread::before { content: ""; margin-top: auto; } /* keeps short threads pinned to the bottom */
+.sv-bubble { margin: 0; border-radius: 18px; padding: 12px 16px; font-size: 14px; line-height: 1.5; white-space: pre-wrap; }
+.sv-bubble.q { background: var(--sv-bubble-q); color: var(--ink-soft); }
+.sv-bubble.a { background: var(--sv-bubble-a); margin-left: 36px; }
+.sv-current { background: var(--sv-card); border: 2px solid var(--accent); border-radius: 18px; padding: 14px 16px; font-size: 16.5px; line-height: 1.45; font-weight: 600; }
+.sv-current:empty { display: none; }
+.sv-status { background: var(--sv-card); border: 1px solid var(--line); border-radius: 18px; padding: 12px 16px; font-size: 14px; }
+.sv-status-label { color: var(--accent); font-weight: 600; font-size: 13px; }
+.sv-status[data-phase="countdown"] .sv-status-label { color: var(--warn); }
+.sv-status textarea { width: 100%; margin-top: 8px; resize: vertical; }
+.sv-status .sv-meter { margin-bottom: 2px; }
+.sv-actions { display: flex; align-items: center; gap: 12px; }
+.sv-mode { color: var(--accent); font-weight: 600; text-decoration: none; flex-grow: 1; text-align: left; }
+.sv-panel .error { margin: 0; font-size: 13px; }
+
+@media (max-width: 860px) {
+  .sv-brief { grid-template-columns: 1fr; }
+  .sv-live { height: auto; min-height: 0; }
+  .sv-stage { position: relative; inset: auto; height: 38vh; }
+  .sv-panel { position: relative; inset: auto; width: auto; margin: 12px; min-height: 60vh; }
+}

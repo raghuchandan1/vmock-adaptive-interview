@@ -57,6 +57,41 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(view.transcript.length === 1 && /^Hi Rohan, thanks/.test(view.transcript[0].text), 'opening greets the candidate by name');
   check(!('slots' in view) && !('plan' in view), 'public view does not leak the plan');
 
+  // Voice: speech speaks the latest interviewer line; transcription takes raw audio and falls back to the older model
+  const sp = await fetch(`${BASE}/api/sessions/${id}/speech`);
+  check(sp.status === 200 && sp.headers.get('content-type') === 'audio/mpeg' && (await sp.text()).startsWith('ID3'), 'speech streams MP3 for the latest question');
+  const sttRes = await fetch(`${BASE}/api/sessions/${id}/transcribe`, { method: 'POST', headers: { 'Content-Type': 'audio/webm;codecs=opus' }, body: Buffer.alloc(4000, 1) });
+  const trBody = await sttRes.json();
+  check(sttRes.status === 200 && trBody.text === 'Transcribed answer.webm with gpt-4o-mini-transcribe. Prompt: yes.', `transcription sends a .webm file and falls back from gpt-transcribe (got ${trBody.text || trBody.error})`);
+  const bad = await fetch(`${BASE}/api/sessions/${id}/transcribe`, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: 'hello' });
+  check(bad.status === 400 && /as audio/.test((await bad.json()).error), 'transcription rejects a non-audio body with a 400');
+  const vt = await get(`/api/sessions/${id}/trace`);
+  check(vt.voice_calls.filter((c) => c.kind === 'tts').length === 1 && vt.voice_calls.some((c) => c.kind === 'stt' && c.model === 'gpt-4o-mini-transcribe' && c.text) && !JSON.stringify(vt.voice_calls).includes('AQEB'),
+    'voice calls are logged on the session without the audio');
+  const { keywordsFor } = require('../lib/voice');
+  const kw = keywordsFor(vt);
+  check(kw.includes('Rohan') && kw.includes('Kitecart') && !kw.includes('Led') && kw.every((k) => !/[<>\r\n]/.test(k)), `resume keywords include names and companies, not line-start verbs (${kw.slice(0, 8).join(', ')})`);
+
+  // Hands-free silence detection
+  const { createSilenceDetector, isFillerTranscript } = require('../public/silence');
+  const runLevels = (levels) => { const step = createSilenceDetector(); let t = 0; const out = []; for (const l of levels) { out.push(step(l, t)); t += 50; } return out; };
+  const quiet = (ms) => Array(ms / 50).fill(0.005);
+  const loud = (ms) => Array(ms / 50).fill(0.1);
+  let r = runLevels([...quiet(300), ...quiet(10000)]);
+  check(r.every((x) => x.state !== 'send' && x.state !== 'countdown'), 'silence before speaking never starts the countdown');
+  r = runLevels([...quiet(300), ...loud(2000), ...quiet(3100)]);
+  check(r.at(-1).state === 'send' && r.some((x) => x.state === 'countdown'), 'an answer is sent after about 3 s of quiet, with a countdown first');
+  r = runLevels([...quiet(300), ...loud(2000), ...quiet(2000), ...loud(500), ...quiet(2000)]);
+  check(!r.some((x) => x.state === 'send'), 'speaking again resets the countdown');
+  r = runLevels([...quiet(300), ...loud(300), ...quiet(5000)]);
+  check(!r.some((x) => x.state === 'send'), 'a short burst (cough, click) is not sent as an answer');
+  r = runLevels([...quiet(300), ...Array(400).fill(0).map((x, i) => (i % 2 ? 0.05 : 0.004))]);
+  check(r.at(-1).state !== 'send', 'continuous speech with tiny gaps is not cut off');
+  const longTalk = createSilenceDetector({ maxMs: 2000 });
+  let last; for (let t = 0; t <= 2000; t += 50) last = longTalk(t < 300 ? 0.005 : 0.1, t);
+  check(last.state === 'send', 'an answer is sent at the length cap');
+  check(isFillerTranscript('Thank you.') && isFillerTranscript('  ') && isFillerTranscript('you') && !isFillerTranscript('Thank you for asking. I led the launch.'), 'filler transcripts are not sent as answers');
+
   let trace = await get(`/api/sessions/${id}/trace`);
   check(trace.plan_trace.note && /reasoning_effort/.test(trace.plan_trace.note), 'retries without reasoning_effort when a model rejects it');
   check(trace.plan_checks.some((c) => /c4 is not an exact quote/.test(c.message)), 'flags a claim that is not quoted from the resume');

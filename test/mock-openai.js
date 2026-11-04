@@ -122,6 +122,26 @@ function feedbackOutput(input) {
 }
 
 http.createServer((req, res) => {
+  // Audio endpoints for the student page: fake MP3 bytes, and a transcript that echoes the form fields sent.
+  if (req.url.endsWith('/audio/speech') || req.url.endsWith('/audio/transcriptions')) {
+    const chunks = [];
+    req.on('data', (c) => chunks.push(c));
+    return req.on('end', () => {
+      const raw = Buffer.concat(chunks).toString('latin1');
+      if (req.url.endsWith('/audio/speech')) {
+        const r = JSON.parse(raw);
+        if (!r.input || !r.voice || !r.model) { res.writeHead(400, { 'Content-Type': 'application/json' }); return res.end(JSON.stringify({ error: { message: 'missing field' } })); }
+        res.writeHead(200, { 'Content-Type': 'audio/mpeg' });
+        return res.end(Buffer.from('ID3fake-mp3-audio'));
+      }
+      const model = (raw.match(/name="model"\r\n\r\n([^\r]+)/) || [])[1];
+      const file = (raw.match(/name="file"; filename="([^"]+)"/) || [])[1];
+      // Simulates an account without gpt-transcribe, so the fallback model is exercised.
+      if (model === 'gpt-transcribe') { res.writeHead(404, { 'Content-Type': 'application/json' }); return res.end(JSON.stringify({ error: { message: 'model not found' } })); }
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ text: `Transcribed ${file} with ${model}. Prompt: ${/name="prompt"/.test(raw) ? 'yes' : 'no'}.` }));
+    });
+  }
   let body = '';
   req.on('data', (c) => { body += c; });
   req.on('end', () => {

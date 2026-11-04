@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VMock Interviews · Adaptive interview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/student.css">
+</head>
+<body class="student">
+<header class="topbar sv-top">
+  <div class="brand"><span class="sv-logo">vmock</span> <span class="brand-sub">Adaptive interview</span></div>
+</header>
+
+<main id="main">
+  <!-- Setup -->
+  <section id="screen-setup" class="screen">
+    <h1 class="screen-title">Set up your interview</h1>
+    <p class="lede">The interviewer reads your resume (and the job description, if you add one), then asks questions out loud. Answer by speaking, just like a real interview.</p>
+    <div class="setup-grid">
+      <div class="setup-col">
+        <div class="field">
+          <div class="field-head">
+            <label for="resume">Resume</label>
+            <div class="field-tools">
+              <label class="file-btn">Upload PDF<input id="resumePdf" type="file" accept="application/pdf" hidden></label>
+              <select id="resumeSample" aria-label="Load a sample resume"><option value="">Load sample</option></select>
+            </div>
+          </div>
+          <textarea id="resume" rows="14" placeholder="Paste your resume here"></textarea>
+        </div>
+        <details class="field" id="jdDetails">
+          <summary>Add a job description (optional)</summary>
+          <div class="field-head inner">
+            <label for="jd">Job description</label>
+            <select id="jdSample" aria-label="Load a sample job description"><option value="">Load sample</option></select>
+          </div>
+          <textarea id="jd" rows="10" placeholder="Paste the job description here"></textarea>
+        </details>
+      </div>
+      <div class="setup-col choices">
+        <div class="field">
+          <label for="role">Target role</label>
+          <input id="role" type="text" placeholder="For example: Product Analyst">
+          <p class="hint">Optional if you add a job description.</p>
+        </div>
+        <fieldset class="field">
+          <legend>Interview type</legend>
+          <div class="option-list">
+            <label class="option"><input type="radio" name="type" value="recruiter_screen"><span><strong>Recruiter screen</strong><em>Broad first conversation: motivation, background, fit.</em></span></label>
+            <label class="option"><input type="radio" name="type" value="hiring_manager" checked><span><strong>Hiring manager</strong><em>Your experience in depth, tied to the role.</em></span></label>
+            <label class="option"><input type="radio" name="type" value="back_your_resume"><span><strong>Back your resume</strong><em>Detailed questions on lines of your resume.</em></span></label>
+          </div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>Interviewer style</legend>
+          <div class="segmented">
+            <label><input type="radio" name="style" value="supportive"><span>Supportive</span></label>
+            <label><input type="radio" name="style" value="balanced" checked><span>Balanced</span></label>
+            <label><input type="radio" name="style" value="probing"><span>Probing</span></label>
+            <label><input type="radio" name="style" value="surprise"><span>Surprise me</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>Length</legend>
+          <div class="segmented">
+            <label><input type="radio" name="length" value="short"><span>Short · about 10 min</span></label>
+            <label><input type="radio" name="length" value="standard" checked><span>Standard · about 15 min</span></label>
+          </div>
+        </fieldset>
+        <p class="error" id="setupError" role="alert" hidden></p>
+        <button class="primary sv-wide" id="prepareBtn" type="button">Prepare interview</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Preparing, device check and pre-brief -->
+  <section id="screen-brief" class="screen" hidden>
+    <div class="sv-brief">
+      <div class="brief">
+        <ol class="sv-steps" id="prepSteps">
+          <li>Reading your resume</li>
+          <li>Matching it to the role</li>
+          <li>Planning the conversation</li>
+          <li>Ready</li>
+        </ol>
+        <div id="briefBody" hidden>
+          <h2 id="briefTitle"></h2>
+          <ul class="brief-list" id="briefList"></ul>
+          <p class="brief-warn" id="briefWarn" hidden></p>
+          <p class="brief-note">The interviewer will speak each question. When it finishes, just start talking. Your answer is sent after you pause for about 3 seconds, or press <strong>Send now</strong>. You can switch to typing at any time.</p>
+        </div>
+        <p class="error" id="briefError" role="alert" hidden></p>
+      </div>
+      <div class="brief sv-check">
+        <h3>Check your camera and mic</h3>
+        <div class="sv-preview"><video id="previewVideo" autoplay muted playsinline></video><span id="previewOff" hidden>Camera off</span></div>
+        <div class="sv-meter" aria-hidden="true"><span id="previewMeter"></span></div>
+        <p class="hint" id="deviceStatus">Asking for camera and microphone…</p>
+        <p class="hint">Your video is shown only to you. Nothing is recorded or saved.</p>
+        <button class="primary sv-wide" id="startBtn" type="button" disabled>Start interview</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live interview -->
+  <section id="screen-live" class="screen sv-live" hidden>
+    <div class="sv-stage">
+      <video id="selfView" autoplay muted playsinline></video>
+      <div class="sv-novideo" id="noVideo" hidden>Your camera is off</div>
+      <div class="sv-interviewer" id="interviewerTile"><span class="sv-avatar">AI</span><span>Interviewer</span></div>
+      <div class="sv-dock"><span class="sv-dot"></span><span id="timer">00 : 00</span></div>
+    </div>
+    <aside class="sv-panel">
+      <div class="sv-panel-head">
+        <div><div class="sv-panel-title">Interview</div><div class="sv-panel-sub" id="liveSub"></div></div>
+        <button class="sv-end" id="endBtn" type="button">End interview</button>
+      </div>
+      <div class="sv-thread" id="thread" aria-live="polite"></div>
+      <div class="sv-current" id="question"></div>
+      <div class="sv-status" id="status" role="status">
+        <div class="sv-status-label" id="statusLabel"></div>
+        <div class="sv-meter" aria-hidden="true"><span id="liveMeter"></span></div>
+        <textarea id="typed" rows="5" placeholder="Type your answer" aria-label="Your answer" hidden></textarea>
+      </div>
+      <p class="error" id="liveError" role="alert" hidden></p>
+      <div class="sv-actions">
+        <button class="link-btn sv-mode" id="modeBtn" type="button">Switch to typing</button>
+        <button class="primary" id="sendBtn" type="button" disabled>Send now</button>
+      </div>
+    </aside>
+  </section>
+
+  <!-- Feedback -->
+  <section id="screen-feedback" class="screen" hidden>
+    <div class="review-head">
+      <div><h1 class="screen-title">Your feedback</h1></div>
+      <div class="review-actions"><button class="primary" id="newBtn" type="button">New interview</button></div>
+    </div>
+    <div id="feedbackPanel"></div>
+  </section>
+</main>
+
+<audio id="voice" preload="none"></audio>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="/shared.js"></script>
+<script src="/silence.js"></script>
+<script src="/student.js"></script>
+</body>
+</html>

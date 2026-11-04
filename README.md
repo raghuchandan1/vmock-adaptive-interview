@@ -86,9 +86,28 @@ test/                Offline mock of the OpenAI API and end-to-end checks
 
 `npm test` starts a mock OpenAI server and runs a full scripted interview through the real server. It checks budgets, second chances, pivots, invalid-output handling, the time rule, Surprise me, plan checks and that the plan never reaches the browser. It makes no real API calls.
 
+## Student voice interview
+
+A student-facing version with voice runs at **http://localhost:3000/student**. It has no hidden agenda or developer tabs.
+1. Set up the interview, then allow the camera and microphone while it prepares.
+2. The interviewer speaks each question, using OpenAI `gpt-4o-mini-tts`.
+3. When it finishes, the student answers out loud. The answer is sent after about 3 seconds of quiet, or with **Send now**, and transcribed by `gpt-transcribe` (falling back to `gpt-4o-mini-transcribe`).
+4. **Switch to typing** works at any time.
+5. The student gets the same feedback as on the developer page.
+
+The camera is a self-view only: nothing is recorded or uploaded. Audio is sent to OpenAI for transcription and is not stored. Each speech and transcription call is logged on the session as `voice_calls`.
+
+Fallbacks:
+- If the speech model fails, the browser's own voice reads the question.
+- If the microphone is blocked, or transcription fails twice in a row, the student types.
+
+Your OpenAI project needs access to the audio models. Check *Project settings, Limits, Model access*.
+
+Use Chrome or Edge on the laptop. `localhost` counts as a secure origin, so the microphone works without HTTPS.
+
 ## Known limits of this prototype
 
-- Typed answers only, one per card; no voice.
+- On the developer page, typed answers only. Voice is on the student page; it has no live captions (the answer text appears after it is sent) and expects about 8 to 15 s between an answer and the next question.
 - No feedback scoring or rubric yet. Students get qualitative feedback only (summary, what worked / was missing / try next time per topic, priorities), written by a third model call after the interview (`prompts/feedback.md`, `POST /api/sessions/:id/feedback`). Quotes are checked verbatim and scores are stripped by `checkAndShapeFeedback`.
 - The resume engine's flags and score band are simulated by the planner prompt.
 - PDF upload reads text only. Scanned or image PDFs need the text pasted in.

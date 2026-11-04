@@ -9,6 +9,8 @@ const crypto = require('crypto');
 const { callStructured } = require('./lib/openai');
 const { plannerSchema, turnSchemaFor, feedbackSchemaFor, groundingSchema } = require('./lib/schemas');
 const engine = require('./lib/engine');
+const voice = require('./lib/voice');
+const { Readable } = require('stream');
 
 const ROOT = __dirname;
 loadDotEnv(path.join(ROOT, '.env'));
@@ -20,6 +22,11 @@ const DEFAULTS = {
   planner_effort: process.env.PLANNER_REASONING_EFFORT || 'medium',
   turn_model: process.env.TURN_MODEL || 'gpt-5-mini',
   turn_effort: process.env.TURN_REASONING_EFFORT || 'low',
+};
+const VOICE = {
+  tts_model: process.env.TTS_MODEL || 'gpt-4o-mini-tts',
+  tts_voice: process.env.TTS_VOICE || 'marin',
+  stt_model: process.env.STT_MODEL || 'gpt-transcribe',
 };
 const SESSIONS_DIR = path.join(ROOT, 'sessions');
 fs.mkdirSync(SESSIONS_DIR, { recursive: true });
@@ -196,6 +203,43 @@ async function answerLocked(session, body) {
   return engine.publicView(session);
 }
 
+// ---------- Voice (student page) ----------
+
+const MAX_AUDIO_BYTES = 10_000_000; // about 3 minutes of compressed audio is well under this
+
+function logVoice(session, entry) {
+  (session.voice_calls = session.voice_calls || []).push({ ...entry, at: new Date().toISOString() });
+  saveSession(session);
+}
+
+// Speaks the latest interviewer line only, so this route can't be used to voice arbitrary text.
+async function speak(id, res) {
+  const session = getSession(id);
+  if (!session) throw httpError(404, 'Interview not found.');
+  const line = [...session.transcript].reverse().find((t) => t.role === 'interviewer');
+  if (!line) throw httpError(404, 'Nothing to say yet.');
+  const t0 = Date.now();
+  const upstream = await voice.speech({ apiKey: apiKey(), baseUrl: BASE_URL, model: VOICE.tts_model, voice: VOICE.tts_voice, text: line.text });
+  logVoice(session, { kind: 'tts', model: VOICE.tts_model, voice: VOICE.tts_voice, chars: line.text.length, first_byte_ms: Date.now() - t0 });
+  res.writeHead(200, { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'no-store' });
+  Readable.fromWeb(upstream.body).on('error', () => res.destroy()).pipe(res);
+}
+
+async function transcribeAnswer(id, req) {
+  const session = getSession(id);
+  if (!session) throw httpError(404, 'Interview not found.');
+  if (session.status !== 'active') throw httpError(400, 'This interview has ended.');
+  if (!/^(audio|video)\//.test(req.headers['content-type'] || '')) throw httpError(400, 'Send the answer as audio.');
+  const audio = await readRaw(req, MAX_AUDIO_BYTES);
+  if (!audio.length) throw httpError(400, 'No audio received.');
+  const t0 = Date.now();
+  const { text, model } = await voice.transcribe({
+    apiKey: apiKey(), baseUrl: BASE_URL, model: VOICE.stt_model, audio, contentType: req.headers['content-type'], keywords: voice.keywordsFor(session),
+  });
+  logVoice(session, { kind: 'stt', model, bytes: audio.length, latency_ms: Date.now() - t0, text });
+  return { text };
+}
+
 function listSessions() {
   return fs.readdirSync(SESSIONS_DIR)
     .filter((f) => f.endsWith('.json'))
@@ -253,11 +297,25 @@ function readBody(req) {
   });
 }
 
+function readRaw(req, limit) {
+  return new Promise((resolve, reject) => {
+    let size = 0;
+    const chunks = [];
+    req.on('data', (c) => {
+      size += c.length;
+      if (size > limit) { reject(httpError(413, 'That recording is too long.')); req.destroy(); return; }
+      chunks.push(c);
+    });
+    req.on('end', () => resolve(Buffer.concat(chunks)));
+    req.on('error', reject);
+  });
+}
+
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json' };
 
 function serveStatic(req, res) {
   const urlPath = decodeURIComponent(new URL(req.url, 'http://x').pathname);
-  const rel = urlPath === '/' ? 'index.html' : urlPath.replace(/^\/+/, '');
+  const rel = urlPath === '/' ? 'index.html' : urlPath === '/student' ? 'student.html' : urlPath.replace(/^\/+/, '');
   const file = path.join(ROOT, 'public', path.normalize(rel));
   if (!file.startsWith(path.join(ROOT, 'public')) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
     return send(res, 404, 'Not found', 'text/plain');
@@ -294,6 +352,8 @@ const server = http.createServer(async (req, res) => {
         saveSession(s);
         return send(res, 200, engine.publicView(s));
       }
+      if (req.method === 'GET' && parts[3] === 'speech') return await speak(id, res);
+      if (req.method === 'POST' && parts[3] === 'transcribe') return send(res, 200, await transcribeAnswer(id, req));
       if (req.method === 'POST' && parts[3] === 'feedback') return send(res, 200, await feedback(id));
       if (req.method === 'GET' && parts[3] === 'trace') {
         const s = getSession(id);
@@ -317,6 +377,7 @@ const server = http.createServer(async (req, res) => {
 // Local prototype: unauthenticated endpoints spend the API key, so listen on localhost only unless HOST says otherwise.
 server.listen(PORT, process.env.HOST || 'localhost', () => {
   console.log(`\nVMock adaptive interview prototype running at http://localhost:${PORT}`);
+  console.log(`Student voice interview: http://localhost:${PORT}/student`);
   console.log(`OpenAI key: ${apiKey() ? 'found in environment' : 'not set yet (add it in Settings in the page, or in .env)'}`);
   console.log(`Planner model: ${DEFAULTS.planner_model} (${DEFAULTS.planner_effort})  Turn model: ${DEFAULTS.turn_model} (${DEFAULTS.turn_effort})\n`);
 });
