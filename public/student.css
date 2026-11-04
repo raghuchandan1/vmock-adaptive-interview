@@ -45,7 +45,6 @@ body.student {
 .sv-host { background: var(--sv-card); border: 1px solid var(--line); border-radius: 20px; padding: 22px 24px; }
 .sv-host-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
 .sv-host-avatar { width: 48px; height: 48px; font-size: 15px; flex-shrink: 0; }
-.sv-host[data-state="preparing"] .sv-host-avatar, .sv-host[data-state="left"] .sv-host-avatar { animation: sv-ring 1.6s ease-out infinite; }
 .sv-host-name { font-weight: 700; font-size: 17px; }
 .sv-presence { display: flex; align-items: center; gap: 8px; color: var(--sv-muted); font-size: 14px; }
 .sv-presence::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--warn); flex-shrink: 0; }
@@ -153,3 +152,6 @@ body.student.live main { max-width: none; padding: 0; }
 
 .sv-back { display: block; margin: 12px auto 0; font-size: 14px; }
 .option:has(input:checked) em { color: var(--ink); }
+/* Segmented choices as inset pills, so labels never sit on the outer border */
+.student .segmented { padding: 4px; gap: 4px; border-radius: 12px; }
+.student .segmented span { border-right: 0; border-radius: 8px; }

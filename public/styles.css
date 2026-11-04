@@ -121,8 +121,7 @@ details.field summary { cursor: pointer; font-weight: 600; color: var(--accent);
 .waiting { text-align: center; max-width: 440px; }
 .waiting h2 { margin: 18px 0 6px; }
 .waiting p { color: var(--ink-soft); }
-.pulse { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); margin: 0 auto; animation: pulse 1.4s ease-in-out infinite; }
-@keyframes pulse { 0%, 100% { opacity: 0.25; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.1); } }
+.pulse { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); margin: 0 auto; }
 
 /* Brief */
 .brief { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-m); padding: 32px 36px; max-width: 560px; width: 100%; }
