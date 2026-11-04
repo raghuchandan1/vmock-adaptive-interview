@@ -96,7 +96,7 @@ A student-facing version with voice runs at **http://localhost:3000/student**. I
 5. The student gets the same feedback as on the developer page.
 
 Voice providers, set with `VOICE_PROVIDER` in `.env`:
-- **`openai` (default):** questions are spoken by `gpt-4o-mini-tts-2025-12-15` (voice `marin`; change with `TTS_VOICE`). Answers are transcribed by `gpt-transcribe`, falling back to `gpt-4o-mini-transcribe`.
+- **`openai` (default):** questions are spoken by `gpt-4o-mini-tts-2025-12-15` (voice `cedar`; `TTS_MODEL=tts-1-hd` with `TTS_VOICE=nova` also sounds good). Answers are transcribed by `gpt-transcribe`, falling back to `gpt-4o-mini-transcribe`.
   - Set `OPENAI_API_TTS_STT_KEY` to use a separate key for these calls. The project behind that key needs access to the audio models.
   - Each call is logged on the session as `voice_calls`, without the audio.
 - **`browser`:** the browser's own speech synthesis and recognition (Chrome or Edge). No audio models are needed, but it sounds robotic, and Chrome sends the microphone audio to Google to recognise it.

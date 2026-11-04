@@ -26,7 +26,7 @@ const DEFAULTS = {
 const VOICE = {
   provider: process.env.VOICE_PROVIDER === 'browser' ? 'browser' : 'openai', // browser: the page uses the browser's own speech
   tts_model: process.env.TTS_MODEL || 'gpt-4o-mini-tts-2025-12-15',
-  tts_voice: process.env.TTS_VOICE || 'marin',
+  tts_voice: process.env.TTS_VOICE || 'cedar',
   stt_model: process.env.STT_MODEL || 'gpt-transcribe',
 };
 const SESSIONS_DIR = path.join(ROOT, 'sessions');
