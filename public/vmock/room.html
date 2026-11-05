@@ -188,43 +188,56 @@
   </section>
 
   <!-- Live interview: a video call -->
-  <section id="screen-live" class="screen sv-live" hidden>
-    <div class="sv-call">
-      <div class="sv-tile" id="interviewerTile">
-        <div class="sv-tile-center">
-          <span class="sv-avatar sv-stage-avatar">AI</span>
-          <span class="sv-stage-state" id="interviewerState"></span>
-        </div>
-        <span class="sv-tile-name">Your interviewer</span>
-        <p class="sv-captions" id="question"></p>
-        <div class="sv-pip">
-          <video id="selfView" autoplay muted playsinline></video>
-          <div class="sv-novideo" id="noVideo" hidden>Camera off</div>
-          <span class="sv-nametag">You</span>
-        </div>
-      </div>
-      <aside class="sv-panel" aria-label="Transcript">
-        <h2 class="sv-panel-title">Transcript</h2>
-        <div class="sv-thread" id="thread" aria-live="polite"></div>
-        <div class="sv-answer" id="status" role="status">
-          <div class="sv-status-label" id="statusLabel"></div>
-          <p class="sv-caption" id="caption" hidden></p>
-          <div class="sv-meter" aria-hidden="true"><span id="liveMeter"></span></div>
-          <textarea id="typed" rows="5" placeholder="Type your answer" aria-label="Your answer" hidden></textarea>
-          <p class="error" id="liveError" role="alert" hidden></p>
-          <button class="primary sv-wide" id="sendBtn" type="button" disabled>Start answering</button>
-        </div>
-      </aside>
+  <section id="screen-live" class="screen rm-live" hidden>
+    <!-- Live call in the recorder's frame: your camera fills the screen, the interviewer and the transcript sit in
+         the side panel, the answer controls at the bottom. student.js drives every id here. -->
+    <div class="rm-stage">
+      <video id="selfView" autoplay muted playsinline></video>
+      <div class="rm-camoff" id="noVideo" hidden>Camera off</div>
     </div>
-    <footer class="sv-dock">
-      <div class="sv-dock-meta"><span id="timer">00:00</span><span class="sv-dock-title" id="liveSub"></span></div>
-      <div class="sv-dock-buttons">
-        <button class="sv-round" id="camBtn" type="button" aria-pressed="true" aria-label="Turn camera off" title="Turn camera off"><svg class="sv-icon on" aria-hidden="true"><use href="#i-cam"/></svg><svg class="sv-icon off" aria-hidden="true"><use href="#i-cam-off"/></svg></button>
-        <button class="sv-round" id="modeBtn" type="button" aria-label="Switch to typing" title="Switch to typing"><svg class="sv-icon keys" aria-hidden="true"><use href="#i-keys"/></svg><svg class="sv-icon mic" aria-hidden="true"><use href="#i-mic"/></svg></button>
-        <button class="sv-end" id="endBtn" type="button">End interview</button>
+
+    <aside class="rm-side rm-live-side" aria-label="Interview">
+      <div class="rm-titlecard">
+        <span class="rm-titleicon" aria-hidden="true"><svg class="ic"><use href="#i-mic"/></svg></span>
+        <div class="rm-titletext">
+          <div class="rm-title" id="liveSub"></div>
+          <div class="rm-titlesub rm-timer" id="timer">00:00</div>
+        </div>
       </div>
-      <div class="sv-dock-hint" id="spaceHint">Hold <kbd>Space</kbd> to talk</div>
-    </footer>
+
+      <div class="rm-card rm-qcard" id="interviewerTile">
+        <div class="rm-host">
+          <span class="rm-host-avatar">AI</span>
+          <div>
+            <div class="rm-host-name">Your interviewer</div>
+            <div class="rm-presence rm-phase" id="interviewerState"></div>
+          </div>
+        </div>
+        <p class="rm-question" id="question"></p>
+      </div>
+
+      <div class="rm-card rm-transcript">
+        <h2 class="rm-brief-h">Transcript</h2>
+        <div class="rm-thread" id="thread" aria-live="polite"></div>
+      </div>
+    </aside>
+
+    <div class="rm-bottom rm-live-bottom">
+      <div class="rm-pill rm-answer" id="status" role="status">
+        <p class="rm-status-label" id="statusLabel"></p>
+        <p class="rm-caption" id="caption" hidden></p>
+        <div class="rm-meter" aria-hidden="true"><span id="liveMeter"></span></div>
+        <textarea class="rm-typed" id="typed" rows="4" placeholder="Type your answer" aria-label="Your answer" hidden></textarea>
+        <p class="rm-error" id="liveError" role="alert" hidden></p>
+      </div>
+      <div class="rm-controls">
+        <button class="rm-round" id="camBtn" type="button" aria-pressed="true" aria-label="Turn camera off" title="Turn camera off"><svg class="ic on" aria-hidden="true"><use href="#i-cam"/></svg><svg class="ic off" aria-hidden="true"><use href="#i-cam-off"/></svg></button>
+        <button class="rm-round" id="modeBtn" type="button" aria-label="Switch to typing" title="Switch to typing"><svg class="ic keys" aria-hidden="true"><use href="#i-keys"/></svg><svg class="ic mic" aria-hidden="true"><use href="#i-mic"/></svg></button>
+        <button class="rm-talk" id="sendBtn" type="button" disabled>Start answering</button>
+        <button class="rm-end" id="endBtn" type="button">End Interview</button>
+      </div>
+      <p class="rm-hint" id="spaceHint">Hold <kbd>Space</kbd> to talk</p>
+    </div>
   </section>
 
   <!-- Feedback -->
