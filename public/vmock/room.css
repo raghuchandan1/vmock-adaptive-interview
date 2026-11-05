@@ -71,13 +71,13 @@ body.vm-room:has(#screen-brief:not([hidden])) main { max-width: none; margin: 0;
 .rm-card[data-state="ready"] .rm-steps { display: none; }
 
 .rm-brief { margin-top: 16px; }
-.rm-brief-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border); border-radius: 10px; }
-.rm-brief-list li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 12px; font-size: 13px; line-height: 20px; }
+.rm-brief-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.rm-brief-list li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; font-size: 13px; line-height: 20px; }
 .rm-brief-list li + li { border-top: 1px solid var(--border); }
 .rm-brief-list li span:first-child { color: var(--muted-ink); flex: none; }
 .rm-brief-list li span:last-child { text-align: right; }
 .rm-warn { margin-top: 12px; padding: 8px 12px; border-radius: 8px; font-size: 13px; line-height: 20px; color: oklch(45% .12 58); background: oklch(96% .04 85); }
-.rm-brief h3 { margin: 16px 0 4px; font-size: 14px; line-height: 20px; font-weight: 600; }
+.rm-brief .rm-brief-h { margin: 16px 0 4px; font-size: 14px; line-height: 20px; font-weight: 600; }
 .rm-brief .brief-note { margin: 0; font-size: 13px; line-height: 20px; color: var(--ink); }
 .rm-brief kbd { font: 600 11px/1 var(--font); padding: 2px 5px; border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 4px; background: #fff; }
 .rm-error { margin: 12px 0 0; font-size: 13px; line-height: 20px; color: oklch(58% .22 27); }
