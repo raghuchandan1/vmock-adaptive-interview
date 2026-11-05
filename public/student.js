@@ -153,6 +153,7 @@
     $('briefList').innerHTML = rows.map(([k, v]) => `<li><span>${esc(k)}</span><span>${esc(v)}</span></li>`).join('');
     $('briefWarn').hidden = !b.mismatch_note;
     $('briefWarn').textContent = b.mismatch_note ? `Heads up: ${b.mismatch_note}` : '';
+    document.dispatchEvent(new CustomEvent('vm:brief', { detail: b })); // lets a page show the plan its own way
   }
 
   // ---------- Camera and mic ----------

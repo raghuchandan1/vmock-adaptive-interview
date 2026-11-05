@@ -135,8 +135,10 @@
       <div class="rm-titlecard">
         <span class="rm-titleicon" aria-hidden="true"><svg class="ic"><use href="#i-mic"/></svg></span>
         <div class="rm-titletext">
+          <div class="rm-eyebrow" id="roomType">Adaptive Interview</div>
           <div class="rm-title" id="briefTitle">Adaptive Interview</div>
-          <div class="rm-titlesub" id="roomSub">Adaptive Interview</div>
+          <div class="rm-titlesub" id="roomCompany" hidden></div>
+          <div class="rm-meta" id="roomSub"></div>
         </div>
       </div>
 
@@ -150,10 +152,12 @@
         </div>
         <ol class="rm-steps" id="prepSteps" aria-live="polite"></ol>
         <div class="rm-brief" id="briefBody" hidden>
-          <ul class="rm-brief-list" id="briefList"></ul>
+          <!-- The plan rows (style, length) are already in the title card, so the list student.js fills stays hidden. -->
+          <ul class="rm-brief-list" id="briefList" hidden></ul>
+          <h2 class="rm-brief-h">What to expect</h2>
+          <ol class="rm-expect" id="roomExpect"></ol>
           <p class="rm-warn" id="briefWarn" hidden></p>
-          <h2 class="rm-brief-h">How to answer</h2>
-          <p class="brief-note">The interviewer speaks each question. When they finish, click <strong>Start answering</strong>, talk, then click <strong>Done answering</strong>. Or hold <kbd>Space</kbd> while you talk and let go to send. You can switch to typing at any time.</p>
+          <p class="brief-note" hidden></p>
         </div>
         <p class="rm-error" id="briefError" role="alert" hidden></p>
         <div class="rm-links">
@@ -200,8 +204,9 @@
       <div class="rm-titlecard">
         <span class="rm-titleicon" aria-hidden="true"><svg class="ic"><use href="#i-mic"/></svg></span>
         <div class="rm-titletext">
+          <div class="rm-eyebrow" id="liveType">Adaptive Interview</div>
           <div class="rm-title" id="liveSub"></div>
-          <div class="rm-titlesub rm-timer" id="timer">00:00</div>
+          <div class="rm-meta rm-timer" id="timer">00:00</div>
         </div>
       </div>
 
@@ -235,8 +240,21 @@
         <button class="rm-round" id="modeBtn" type="button" aria-label="Switch to typing" title="Switch to typing"><svg class="ic keys" aria-hidden="true"><use href="#i-keys"/></svg><svg class="ic mic" aria-hidden="true"><use href="#i-mic"/></svg></button>
         <button class="rm-talk" id="sendBtn" type="button" disabled>Start answering</button>
         <button class="rm-end" id="endBtn" type="button">End Interview</button>
+        <button class="rm-round rm-help" id="tourBtn" type="button" aria-label="How to answer" title="How to answer">?</button>
       </div>
       <p class="rm-hint" id="spaceHint">Hold <kbd>Space</kbd> to talk</p>
+    </div>
+
+    <!-- First-turn tour (VMock-style popover): shown once, the first time it's the student's turn; "?" replays it. -->
+    <div class="rm-tour" id="roomTour" role="dialog" aria-labelledby="tourTitle" aria-describedby="tourBody" hidden>
+      <span class="rm-tour-arrow" aria-hidden="true"></span>
+      <p class="rm-tour-step" id="tourStep"></p>
+      <h2 id="tourTitle"></h2>
+      <p id="tourBody"></p>
+      <div class="rm-tour-foot">
+        <button class="rm-tour-skip" id="tourSkip" type="button">Skip</button>
+        <button class="rm-tour-next" id="tourNext" type="button">Next</button>
+      </div>
     </div>
   </section>
 
@@ -273,13 +291,96 @@
   (() => {
     const TYPE = { recruiter_screen: 'Screening round', hiring_manager: 'Hiring manager round', back_your_resume: 'Resume deep dive' };
     const STYLE = { supportive: 'Friendly style', balanced: 'Standard style', probing: 'Challenging style', surprise: 'Surprise style' };
-    const MIN = { short: 'About 10 min', standard: 'About 15 min' };
+    const MIN = { short: '10 min', standard: '15 min' };
     let s = null;
     try { s = JSON.parse(sessionStorage.getItem('vmock_adaptive_setup') || 'null'); } catch (_) { /* storage blocked */ }
     if (!s) return;
     const type = TYPE[s.interview_type] || 'Adaptive Interview';
-    document.getElementById('briefTitle').textContent = s.target_role ? `${type}: ${s.target_role}` : type;
+    document.getElementById('roomType').textContent = type;
+    document.getElementById('liveType').textContent = type;
+    document.getElementById('briefTitle').textContent = s.target_role || 'Practice interview';
     document.getElementById('roomSub').textContent = [STYLE[s.style], MIN[s.length]].filter(Boolean).join(' · ');
+  })();
+
+  // When the plan arrives: style, length and topic count go in the title card; the lobby lists what will happen.
+  document.addEventListener('vm:brief', (e) => {
+    const b = e.detail || {};
+    const L = window.ROOM_LABELS || {};
+    const style = b.surprise ? 'Surprise style' : `${L[b.style] || b.style} style`;
+    const type = L[b.interview_type] || b.interview_type;
+    // Title card: type as the eyebrow, the role as the title, the company on its own line (student.js's combined
+    // "type: role at company" wraps to four lines in this narrow card). The live call shows the role (#liveSub copies #briefTitle).
+    document.getElementById('roomType').textContent = type;
+    document.getElementById('liveType').textContent = type;
+    document.getElementById('briefTitle').textContent = b.role || 'Practice interview';
+    const company = document.getElementById('roomCompany');
+    company.textContent = b.company ? `at ${b.company}` : '';
+    company.hidden = !b.company;
+    document.getElementById('roomSub').textContent = [style, `${b.minutes} min`, `${b.topics} topics`].join(' · ');
+    const source = b.jd_used ? 'your resume and the job description' : 'your resume';
+    const items = [
+      'A short warm-up question to settle in.',
+      `${b.topics} topics from ${source}. The interviewer follows up on what you say, as in a real interview.`,
+      'Time for your own questions at the end.',
+      'Then your feedback: what went well, what to fix and how to answer next time.',
+    ];
+    const list = document.getElementById('roomExpect');
+    list.replaceChildren(...items.map((t) => Object.assign(document.createElement('li'), { textContent: t })));
+  });
+
+  // First-turn tour: the first time it's the student's turn, point at the answer controls. Shown once per browser
+  // (localStorage, if allowed); the "?" button replays it.
+  (() => {
+    const FINE = matchMedia('(pointer: fine)').matches;
+    const STEPS = [
+      { anchor: 'sendBtn', title: 'Your turn to answer', body: FINE
+        ? 'When the interviewer finishes, click Start answering, talk, then click Done answering. Or hold Space while you talk and let go to send.'
+        : 'When the interviewer finishes, tap Start answering, talk, then tap Done answering.' },
+      { anchor: 'modeBtn', title: 'Prefer typing?', body: 'Switch between speaking and typing here at any time. Your answer is sent the same way.' },
+      { anchor: 'endBtn', title: 'Finish when you like', body: 'End Interview stops the call and takes you to your feedback.' },
+    ];
+    const KEY = 'vmock_room_tour_done';
+    const seen = () => { try { return localStorage.getItem(KEY) === '1'; } catch (_) { return false; } };
+    const markSeen = () => { try { localStorage.setItem(KEY, '1'); } catch (_) { /* fine without */ } };
+    const tour = document.getElementById('roomTour');
+    const live = document.getElementById('screen-live');
+    let step = -1;
+
+    function place() {
+      if (step < 0) return;
+      const a = document.getElementById(STEPS[step].anchor).getBoundingClientRect();
+      const box = live.getBoundingClientRect();
+      const w = tour.offsetWidth;
+      const left = Math.max(12, Math.min(box.width - w - 12, a.left - box.left + a.width / 2 - w / 2));
+      tour.style.left = `${left}px`;
+      tour.style.top = `${a.top - box.top - tour.offsetHeight - 14}px`;
+      tour.style.setProperty('--arrow-x', `${a.left - box.left + a.width / 2 - left}px`);
+    }
+    function show(i) {
+      step = i;
+      if (i >= STEPS.length) return close();
+      const s = STEPS[i];
+      document.getElementById('tourStep').textContent = `${i + 1} of ${STEPS.length}`;
+      document.getElementById('tourTitle').textContent = s.title;
+      document.getElementById('tourBody').textContent = s.body;
+      document.getElementById('tourNext').textContent = i === STEPS.length - 1 ? 'Got it' : 'Next';
+      tour.hidden = false;
+      place();
+    }
+    function close() { step = -1; tour.hidden = true; markSeen(); }
+
+    document.getElementById('tourNext').addEventListener('click', () => show(step + 1));
+    document.getElementById('tourSkip').addEventListener('click', close);
+    document.getElementById('tourBtn').addEventListener('click', () => show(0));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !tour.hidden) close(); });
+    addEventListener('resize', place);
+    // student.js sets data-phase on #status; the first "ready" (or "typing") opens the tour, starting to answer closes it.
+    new MutationObserver(() => {
+      const phase = document.getElementById('status').dataset.phase;
+      if (['recording', 'transcribing', 'thinking', 'ended'].includes(phase) && !tour.hidden) close();
+      else if (['ready', 'typing'].includes(phase) && step < 0 && !seen()) show(0);
+      else if (step >= 0) place();
+    }).observe(document.getElementById('status'), { attributes: true, attributeFilter: ['data-phase'] });
   })();
 
   // Hardware check dialog (the lobby's mic try lives inside it; student.js drives the meter and the try button).

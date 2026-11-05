@@ -38,8 +38,12 @@ body.vm-room:has(#screen-brief:not([hidden])) main { max-width: none; margin: 0;
 }
 .rm-titleicon .ic { width: 18px; height: 18px; }
 .rm-titletext { min-width: 0; }
-.rm-title { font-size: 16px; line-height: 20px; font-weight: 500; }
-.rm-titlesub { margin-top: 2px; font-size: 13px; line-height: 18px; color: var(--muted-ink); }
+.rm-eyebrow { font-size: 11px; line-height: 16px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted-ink); }
+.rm-title { margin-top: 2px; font-size: 16px; line-height: 20px; font-weight: 500; }
+.rm-titlesub { margin-top: 2px; font-size: 13px; line-height: 18px; color: var(--ink); }
+.rm-meta { margin-top: 4px; font-size: 12px; line-height: 16px; color: var(--muted-ink); }
+.rm-meta:empty { display: none; }
+.rm-titleicon { align-self: flex-start; }
 
 .rm-card { padding: 16px; overflow-y: auto; background: oklab(1 0 0 / .95); }
 .rm-host { display: flex; align-items: center; gap: 10px; }
@@ -118,6 +122,36 @@ body.vm-room:has(#screen-brief:not([hidden])) main { max-width: none; margin: 0;
 .rm-join:not(:disabled) { color: #fff; background: var(--primary-ink); }
 .rm-join:not(:disabled):hover { background: oklch(50% .159 250.4); }
 .rm-join:disabled { opacity: .7; cursor: default; }
+
+.rm-brief > .rm-brief-h:first-of-type { margin-top: 0; }
+.rm-expect { margin: 0; padding: 0; list-style: none; counter-reset: rm-expect; display: grid; gap: 10px; }
+.rm-expect li { position: relative; padding-left: 30px; font-size: 13px; line-height: 20px; counter-increment: rm-expect; }
+.rm-expect li::before {
+  content: counter(rm-expect); position: absolute; left: 0; top: 0; width: 20px; height: 20px;
+  display: grid; place-items: center; border-radius: 50%;
+  font-size: 11px; font-weight: 600; color: var(--primary-ink); background: var(--primary-10);
+}
+
+/* ---------- First-turn tour (VMock tour popover) ---------- */
+.rm-tour {
+  position: absolute; z-index: 5; width: 300px; padding: 16px;
+  font-family: var(--font); color: var(--ink); background: #fff;
+  border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 24px rgb(17 17 26 / .18);
+}
+.rm-tour-arrow {
+  position: absolute; bottom: -7px; left: calc(var(--arrow-x, 150px) - 7px); width: 14px; height: 14px;
+  background: #fff; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); transform: rotate(45deg);
+}
+.rm-tour-step { margin: 0; font-size: 12px; line-height: 16px; font-weight: 500; color: var(--primary-ink); }
+.rm-tour h2 { margin: 4px 0 0; font-size: 16px; line-height: 24px; font-weight: 600; }
+.rm-tour p#tourBody { margin: 4px 0 0; font-size: 14px; line-height: 20px; color: var(--muted-ink); }
+.rm-tour-foot { margin-top: 14px; display: flex; justify-content: flex-end; gap: 8px; }
+.rm-tour-skip, .rm-tour-next { height: 32px; padding: 0 12px; border-radius: 8px; font: 500 14px/20px var(--font); }
+.rm-tour-skip { color: var(--muted-ink); }
+.rm-tour-skip:hover { background: var(--chip); color: var(--ink); }
+.rm-tour-next { color: #fff; background: var(--primary-ink); }
+.rm-tour-next:hover { background: oklch(50% .159 250.4); }
+.rm-help { font: 600 16px/1 var(--font); color: var(--muted-ink); }
 
 /* ---------- Hardware check dialog ---------- */
 .rm-dialog {
