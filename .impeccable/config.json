@@ -26,6 +26,15 @@
         ],
         "createdAt": "2026-11-05T12:13:47.020Z",
         "reason": "user confirmed: asked for animation on in-progress steps so the wait doesn't look stuck; pulses only run while preparing, speaking or thinking"
+      },
+      {
+        "rule": "ai-color-palette",
+        "value": "*",
+        "files": [
+          "public/vmock/room.html"
+        ],
+        "createdAt": "2026-11-05T14:59:12.155Z",
+        "reason": "Claude: the purple-blue gradient is VMock's own brand/CareerBuddy gradient (#654498, #006fce, #00b6eb from VMock's CSS); the only other purple is the test-only ?sources=1 outline"
       }
     ]
   }
