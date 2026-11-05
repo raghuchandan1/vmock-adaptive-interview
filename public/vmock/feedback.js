@@ -74,7 +74,7 @@
     const items = (t.ratings || []).filter((r) => r.dimension !== 'followup');
     if (!items.length) return '';
     return `<details class="fb-more"><summary>What a strong answer covers <span class="fb-count">${items.length}</span></summary>
-      <ul class="fb-checks">${items.map((r) => `<li>${chip(r.level)}<strong>${esc(r.label)}</strong><span>${esc(r.reason)}${r.found ? ` <em>${FOUND[r.found]}</em>` : ''}</span></li>`).join('')}</ul></details>`;
+      <ul class="fb-checks">${items.map((r) => `<li>${chip(r.level)}<strong>${esc(r.label)}</strong><span>${esc(r.reason)}${r.found ? ` <em>${FOUND[r.found]}</em>` : ''}${r.quote ? `<q class="fb-rq">${esc(r.quote)}</q>` : ''}</span></li>`).join('')}</ul></details>`;
   }
 
   function followUps(t) {
@@ -114,7 +114,7 @@
     const n = groups.reduce((sum, g) => sum + g.items.length, 0);
     return `<details class="fb-more"><summary>What a strong answer covers <span class="fb-count">${n}</span></summary>
       <div class="fb-groups">${groups.map((g) => `<div class="fb-group"><div class="fb-group-head"><h5>${esc(g.name)}</h5>${chip(moduleLevel(g.items.map((r) => r.level)))}</div>
-        <ul class="fb-checks">${g.items.map((r) => `<li>${chip(r.level)}<strong>${esc(r.label)}</strong><span>${esc(r.reason)}${r.found ? ` <em>${FOUND[r.found]}</em>` : ''}</span></li>`).join('')}</ul></div>`).join('')}</div></details>`;
+        <ul class="fb-checks">${g.items.map((r) => `<li>${chip(r.level)}<strong>${esc(r.label)}</strong><span>${esc(r.reason)}${r.found ? ` <em>${FOUND[r.found]}</em>` : ''}${r.quote ? `<q class="fb-rq">${esc(r.quote)}</q>` : ''}</span></li>`).join('')}</ul></div>`).join('')}</div></details>`;
   }
 
   function nextTime(t, checked) {
@@ -167,7 +167,8 @@
       parts.push(`<div class="fb-card fb-mini"><h3>Talking about your own work</h3>
         <p>You said “I” ${plural(own.i, 'time')} and “we” ${plural(own.we, 'time')}.${own.we > own.i ? ' Interviewers listen for “I” to understand what you did yourself.' : ''}</p>
         <div class="fb-iwe" role="img" aria-label="${pct}% I, ${100 - pct}% we"><span style="width:${pct}%"></span></div>
-        <div class="fb-iwe-legend"><span><i class="i"></i>I · ${own.i}</span><span><i class="we"></i>we · ${own.we}</span></div></div>`);
+        <div class="fb-iwe-legend"><span><i class="i"></i>I · ${own.i}</span><span><i class="we"></i>we · ${own.we}</span></div>
+        <ul class="fb-own">${fb.topics.filter((t) => t.ownership && t.ownership.i + t.ownership.we > 0).map((t) => `<li><span>${esc(topicName(t))}</span><span class="${t.ownership.we > t.ownership.i ? 'we' : ''}">I ${t.ownership.i} · we ${t.ownership.we}${t.ownership.we > t.ownership.i ? ', mostly about the team' : ''}</span></li>`).join('')}</ul></div>`);
     }
     const handled = fb.topics.flatMap((t) => (t.ratings || []).filter((r) => r.dimension === 'followup').map((r) => ({ ...r, name: topicName(t) })));
     if (handled.length && !skipFollowUps) {
@@ -490,8 +491,9 @@
       ...(goal ? [{ module: 'Content Strength', title: goal.title, why: goal.why, action: goal.action, high: true }] : []),
       ...more.slice(0, 1).map((p) => ({ module: 'Content Strength', title: p.title, why: p.why, action: p.action, high: true })),
       ...(weakest && weakest.level !== 'good_job' ? [{ module: weakest.module, title: weakest.name, action: weakest.next }] : []),
-      ...more.slice(1, 2).map((p) => ({ module: 'Content Strength', title: p.title, why: p.why, action: p.action })),
-    ].slice(0, 3);
+      // Every priority our feedback call wrote is kept (up to three), so the list can run to four with the delivery tip.
+      ...more.slice(1).map((p) => ({ module: 'Content Strength', title: p.title, why: p.why, action: p.action })),
+    ];
 
     const tiles = MODULES.map((m) => `<button class="fb-tile" type="button" data-tab="${m.id}">
         <span class="fb-tile-icon" aria-hidden="true"><svg class="ic"><use href="#${m.icon}"/></svg></span>
@@ -505,7 +507,7 @@
       html += `<div class="fb-todo"><h3 class="fb-todo-title"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg>Top things to do next</h3><ol>${todo.map((x, i) => `<li class="${i === 0 ? 'first' : ''}">
           <span class="fb-todo-n">${i + 1}</span>
           <div><div class="fb-todo-meta"><span class="fb-eyebrow">${esc(x.module)}</span>${x.high ? '<span class="fb-impact">High impact</span>' : ''}</div>
-            <strong>${esc(x.title)}</strong>${x.why && i === 0 ? `<p>${esc(x.why)}</p>` : ''}${x.action ? `<p class="fb-try"><strong>Try this:</strong> ${esc(x.action)}</p>` : ''}</div></li>`).join('')}</ol></div>`;
+            <strong>${esc(x.title)}</strong>${x.why ? `<p>${esc(x.why)}</p>` : ''}${x.action ? `<p class="fb-try"><strong>Try this:</strong> ${esc(x.action)}</p>` : ''}</div></li>`).join('')}</ol></div>`;
     }
     html += '</section>';
 

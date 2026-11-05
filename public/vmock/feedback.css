@@ -354,3 +354,11 @@ body.vm-room:has(#screen-feedback:not([hidden])) #pastBtn { display: none; }
   .fb-q-body { padding: 4px 16px 18px; }
   .fb-checks li { grid-template-columns: 1fr; gap: 2px; }
 }
+
+/* Each checklist element's own quote from the answer; I vs we per question. */
+.fb-rq { display: block; margin-top: 4px; padding: 4px 8px; border-radius: 6px; font-style: italic; font-size: 12px; line-height: 18px; color: var(--ink); background: var(--chip); quotes: "“" "”"; }
+.fb-rq::before { content: open-quote; } .fb-rq::after { content: close-quote; }
+.fb-own { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.fb-own li { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; line-height: 20px; }
+.fb-own li span:last-child { flex: none; color: var(--muted-ink); font-variant-numeric: tabular-nums; }
+.fb-own li span.we { color: #a85f00; }
