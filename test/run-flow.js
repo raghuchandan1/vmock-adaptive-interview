@@ -90,7 +90,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
   await post(`/api/sessions/${id}/answers`, { answer: 'I have been working on our checkout experiments.' });
   trace = await get(`/api/sessions/${id}/trace`);
   check(trace.slots[trace.current].id === 'background', 'warm-up moves straight to the background question');
-  check(trace.turns[0].allowed_decisions.join() === 'move_on', 'warm-up only allows move_on');
+  check(trace.turns[0].allowed_decisions.join() === 'move_on,rephrase', 'warm-up allows move_on, or one rephrase for an unrelated answer');
   const turnInterview = trace.turns[0].calls[0].payload.interview;
   const tech = trace.slots.find((s) => s.id === 's2');
   const nonTech = trace.slots.find((s) => s.id === 's1');
@@ -337,6 +337,29 @@ const get = async (p) => (await fetch(BASE + p)).json();
   repTrace = await get(`/api/sessions/${repSess.id}/trace`);
   check(repTrace.slots.find((x) => x.id === topic).status === 'done' && repTrace.turns.at(-1).guards.some((g) => /Second "not sure" or "repeat"/.test(g)),
     'a second "repeat" or "not sure" in the same topic moves on');
+
+  // Warm-up: a "repeat" gets one rephrase; a "not sure" after it moves on without a "Thanks." (the mock opens with one).
+  const wuSess = await post('/api/sessions', { resume_text: resume, jd_text: jd, target_role: '', interview_type: 'hiring_manager', style: 'balanced', length: 'standard' });
+  await post(`/api/sessions/${wuSess.id}/answers`, { answer: 'Sorry, can you repeat that?' });
+  const wuView = await post(`/api/sessions/${wuSess.id}/answers`, { answer: 'Not sure' });
+  const wuTrace = await get(`/api/sessions/${wuSess.id}/trace`);
+  const [wuRep, wuNs] = wuTrace.turns;
+  check(wuRep.decision === 'rephrase' && wuNs.allowed_decisions.join() === 'move_on' && /no real answer to the warm-up/.test(wuNs.calls[0].payload.note)
+    && wuTrace.slots[wuTrace.current].id === 'background' && /^No problem\. /.test(wuView.transcript.at(-1).text),
+  `a warm-up "not sure" moves on with "No problem." instead of "Thanks." (got "${wuView.transcript.at(-1).text}")`);
+
+  // Warm-up rephrase: accepted for an unrelated answer, rejected for a real one however short.
+  const wuOff = await post('/api/sessions', { resume_text: resume, jd_text: jd, target_role: '', interview_type: 'hiring_manager', style: 'balanced', length: 'standard' });
+  await post(`/api/sessions/${wuOff.id}/answers`, { answer: 'banana weather [rephrase] [off]' });
+  await post(`/api/sessions/${wuOff.id}/answers`, { answer: 'gym website client [rephrase]' });
+  const wuOffTrace = await get(`/api/sessions/${wuOff.id}/trace`);
+  check(wuOffTrace.turns[0].decision === 'rephrase' && wuOffTrace.turns[1].allowed_decisions.join() === 'move_on' && wuOffTrace.slots[wuOffTrace.current].id === 'background',
+    'an unrelated warm-up answer gets one rephrase, then the warm-up moves on');
+  const wuReal = await post('/api/sessions', { resume_text: resume, jd_text: jd, target_role: '', interview_type: 'hiring_manager', style: 'balanced', length: 'standard' });
+  await post(`/api/sessions/${wuReal.id}/answers`, { answer: 'gym website client [rephrase]' });
+  const wuRealTrace = await get(`/api/sessions/${wuReal.id}/trace`);
+  check(wuRealTrace.turns[0].guards.some((g) => /Rejected first output: warm-up rephrase/.test(g)) && wuRealTrace.slots[wuRealTrace.current].id === 'background',
+    'a rephrase of a real warm-up answer is rejected and the interview moves on');
 
   const list = await get('/api/sessions');
   check(list.length >= 2, 'past sessions are listed');
