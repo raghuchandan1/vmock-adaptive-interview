@@ -81,6 +81,7 @@ async function createInterview(body) {
     resume_text: String(body.resume_text || '').trim(),
     jd_text: String(body.jd_text || '').trim(),
     target_role: String(body.target_role || '').trim(),
+    domain: String(body.domain || '').trim().slice(0, 100),
     interview_type: body.interview_type,
     style: body.style,
     length: body.length,
@@ -96,7 +97,7 @@ async function createInterview(body) {
   const settings = cleanSettings(body.settings);
   const resolvedStyle = engine.resolveStyle(inputs.style);
   const plannerInput = {
-    target_role: inputs.target_role,
+    target_role: engine.roleWithDomain(inputs.target_role, inputs.domain),
     interview_type: inputs.interview_type,
     interviewer_style: resolvedStyle,
     scored_slot_count: engine.SCORED_SLOTS[inputs.length],

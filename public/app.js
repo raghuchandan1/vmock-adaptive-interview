@@ -104,6 +104,7 @@
       resume_text: $('resume').value,
       jd_text: $('jd').value,
       target_role: $('role').value,
+      domain: $('domain').value,
       interview_type: val('type'),
       style: val('style'),
       length: val('length'),
@@ -262,7 +263,7 @@
     state.trace = await api(`/api/sessions/${state.sessionId}/trace`);
     const s = state.trace;
     state.lastInputs = {
-      resume_text: s.inputs.resume_text, jd_text: s.inputs.jd_text, target_role: s.inputs.target_role,
+      resume_text: s.inputs.resume_text, jd_text: s.inputs.jd_text, target_role: s.inputs.target_role, domain: s.inputs.domain || '',
       interview_type: s.inputs.interview_type, style: s.inputs.style, length: s.inputs.length,
     };
     $('reviewTitle').textContent = s.status === 'ended' ? 'Interview complete' : 'Interview in progress';
