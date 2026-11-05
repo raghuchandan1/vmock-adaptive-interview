@@ -340,7 +340,7 @@
   }
 
   // The first message is a greeting plus the warm-up question: say the greeting, pause, then ask the question,
-  // so the question isn't buried at the end of a long paragraph.
+  // so the question isn't buried at the end of a long paragraph. Only the captions split; the transcript keeps it as one message.
   function speakLatest() {
     setPhase('speaking');
     const t = state.view.transcript;
@@ -349,7 +349,6 @@
       const q = t[0].text.slice(g.length).trim();
       $('question').textContent = g;
       return speakText(g, 'greeting', () => {
-        $('thread').innerHTML = msg('interviewer', g, false, t[0].at) + msg('interviewer', q, true);
         $('question').textContent = q;
         setTimeout(() => { if (state.phase === 'speaking') speakText(q, 'question', afterSpeech); }, 600);
       });
