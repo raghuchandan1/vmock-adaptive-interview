@@ -35,7 +35,7 @@
 
   function header(s, fb) {
     const type = TYPE[s.inputs?.interview_type] || 'Adaptive interview';
-    const role = s.plan?.jd?.role_title || s.inputs?.target_role || 'Practice interview';
+    const role = s.plan?.jd?.role_title || s.inputs?.target_role || (s.inputs?.domain ? `${s.inputs.domain} interview` : 'Practice interview');
     const company = s.plan?.jd?.company;
     const style = s.surprise ? `Surprise style (${STYLE[s.style] || s.style})` : `${STYLE[s.style] || s.style} style`;
     const date = new Date(s.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
@@ -329,7 +329,8 @@
       values.push(v);
       perQ.set(t.slot_id, paramsFrom(v));
     }
-    const overall = paramsFrom(values.length ? average(values) : rawValues(s.id));
+    // No answered question: nothing to measure, so no overall either (the tiles say "Not enough to judge").
+    const overall = values.length ? paramsFrom(average(values)) : null;
     return { perQ, overall };
   }
 
@@ -533,13 +534,13 @@
     const sig = signalsFor(s, fb);
     const level = {
       content: moduleLevel(fb.topics.filter((t) => t.verdict).map((t) => t.verdict)),
-      delivery: moduleLevel(sig.overall.delivery.map((p) => p.level)),
-      nonverbal: moduleLevel(sig.overall.nonverbal.map((p) => p.level)),
+      delivery: sig.overall && moduleLevel(sig.overall.delivery.map((p) => p.level)),
+      nonverbal: sig.overall && moduleLevel(sig.overall.nonverbal.map((p) => p.level)),
     };
     // Top things to do next: our goal and next priority (high impact), then the weakest delivery or on-camera part.
     const [goal, ...more] = fb.priorities || [];
     const order = { needs_work: 0, on_track: 1, good_job: 2 };
-    const weakest = [...sig.overall.delivery.map((p) => ({ ...p, module: 'Delivery of Speech' })), ...sig.overall.nonverbal.map((p) => ({ ...p, module: 'Non Verbal' }))]
+    const weakest = !sig.overall ? null : [...sig.overall.delivery.map((p) => ({ ...p, module: 'Delivery of Speech' })), ...sig.overall.nonverbal.map((p) => ({ ...p, module: 'Non Verbal' }))]
       .filter((p) => p.level).sort((a, b) => order[a.level] - order[b.level])[0];
     const todo = [
       ...(goal ? [{ module: 'Content Strength', title: goal.title, why: goal.why, action: goal.action, high: true }] : []),
@@ -582,8 +583,8 @@
     html += `<div class="fb-tabs" role="tablist" aria-label="Feedback views">${tabs}</div>
       <div class="fb-panel" role="tabpanel" id="fb-panel-questions" aria-labelledby="fb-tab-questions">${byQuestion}</div>
       <div class="fb-panel" role="tabpanel" id="fb-panel-content" aria-labelledby="fb-tab-content" hidden>${content}</div>
-      <div class="fb-panel" role="tabpanel" id="fb-panel-delivery" aria-labelledby="fb-tab-delivery" hidden>${intro('How your voice came across, averaged over your answers.')}<div class="fb-params${V}">${sig.overall.delivery.map(paramCard).join('')}</div><div class="${V.trim()}">${byQuestionGrid(fb, sig, 'delivery')}</div></div>
-      <div class="fb-panel" role="tabpanel" id="fb-panel-nonverbal" aria-labelledby="fb-tab-nonverbal" hidden>${intro('How you came across on camera, averaged over your answers.')}<div class="fb-params${V}">${sig.overall.nonverbal.map(paramCard).join('')}</div><div class="${V.trim()}">${byQuestionGrid(fb, sig, 'nonverbal')}</div></div>`;
+      <div class="fb-panel" role="tabpanel" id="fb-panel-delivery" aria-labelledby="fb-tab-delivery" hidden>${sig.overall ? `${intro('How your voice came across, averaged over your answers.')}<div class="fb-params${V}">${sig.overall.delivery.map(paramCard).join('')}</div>` : EMPTY}<div class="${V.trim()}">${byQuestionGrid(fb, sig, 'delivery')}</div></div>
+      <div class="fb-panel" role="tabpanel" id="fb-panel-nonverbal" aria-labelledby="fb-tab-nonverbal" hidden>${sig.overall ? `${intro('How you came across on camera, averaged over your answers.')}<div class="fb-params${V}">${sig.overall.nonverbal.map(paramCard).join('')}</div>` : EMPTY}<div class="${V.trim()}">${byQuestionGrid(fb, sig, 'nonverbal')}</div></div>`;
     panel.innerHTML = html;
 
     const select = (id, focus) => {
