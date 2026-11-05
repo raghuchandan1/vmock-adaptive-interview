@@ -723,6 +723,9 @@
     $('pastBtn').addEventListener('click', openPast);
     $('pastList').addEventListener('click', (e) => { const id = e.target.dataset.open; if (id) openPastFeedback(id); });
     if (!state.config.has_key) showError('setupError', 'No OpenAI key found. Add OPENAI_API_KEY to the .env file and restart the server.');
+    // ?feedback=<session id> opens that finished interview's feedback directly (a link to past feedback).
+    const pastId = new URLSearchParams(location.search).get('feedback');
+    if (pastId) return openPastFeedback(pastId);
     if (!takeHandoff()) show('setup');
   }
 

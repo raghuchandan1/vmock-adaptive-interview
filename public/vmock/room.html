@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="/styles.css">
 <link rel="stylesheet" href="/student.css">
 <link rel="stylesheet" href="/vmock/room.css">
+<link rel="stylesheet" href="/vmock/feedback.css">
 <script>
   // Labels shown in the lobby, matching the setup wizard's names (the server's labels stay as they are).
   window.ROOM_LABELS = {
@@ -30,6 +31,8 @@
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
   <symbol id="i-lines" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
   <symbol id="i-cam" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10.5l5-3v9l-5-3"/></symbol>
   <symbol id="i-cam-off" viewBox="0 0 24 24"><path d="M16 16v2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h1M10 6h4a2 2 0 0 1 2 2v2.5l5-3v9M3 3l18 18"/></symbol>
   <symbol id="i-keys" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6.5 10h.01M10 10h.01M13.5 10h.01M17 10h.01M7.5 14h9"/></symbol>
@@ -263,12 +266,20 @@
   </section>
 
   <!-- Feedback -->
-  <section id="screen-feedback" class="screen" hidden>
-    <div class="sv-page">
-      <div class="review-head">
-        <div><h1 class="screen-title">Your feedback</h1><p class="hint" id="feedbackMeta"></p></div>
-        <div class="review-actions"><button class="primary" id="newBtn" type="button">New interview</button></div>
-      </div>
+  <!-- Feedback (vmock/feedback.js renders it): which interview, how it went, question by question, across the interview. -->
+  <section id="screen-feedback" class="screen rm-fb-screen" hidden>
+    <div class="fb">
+      <header class="fb-card fb-head">
+        <div>
+          <div class="fb-eyebrow" id="fbType">Feedback</div>
+          <h1 id="fbRole">Your feedback</h1>
+          <p class="fb-meta" id="feedbackMeta"></p>
+        </div>
+        <div class="fb-head-actions">
+          <button class="vm-btn outline sm" id="fbPastBtn" type="button">Past interviews</button>
+          <button class="vm-btn primary sm" id="newBtn" type="button">Practice again</button>
+        </div>
+      </header>
       <div id="feedbackPanel"></div>
     </div>
   </section>
@@ -288,6 +299,7 @@
 <audio id="voice" preload="none"></audio>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="/shared.js"></script>
+<script src="/vmock/feedback.js"></script>
 <script src="/student.js"></script>
 <script>
   // Title card: until the plan arrives (student.js then sets the title from it), show the type and role the student
@@ -440,6 +452,9 @@
       document.getElementById('timeBar').style.width = `${pct}%`;
     }).observe(timer, { childList: true, characterData: true, subtree: true });
   })();
+
+  // Feedback header: "Past interviews" does what the top bar's button does (student.js wires that one).
+  document.getElementById('fbPastBtn').addEventListener('click', () => document.getElementById('pastBtn').click());
 
   // Hardware check dialog (the lobby's mic try lives inside it; student.js drives the meter and the try button).
   (() => {
