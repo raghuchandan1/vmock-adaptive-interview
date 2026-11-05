@@ -274,6 +274,42 @@ body.vm-room:has(#screen-feedback:not([hidden])) #pastBtn { display: none; }
 .fb-sig-target { font-size: 11px; line-height: 14px; color: var(--muted-ink); }
 .fb-signal-card > p { font-size: 13px; line-height: 20px; }
 
+/* Per-question parameter rows (How you sounded / How you looked): name, value, level; open for the tip. */
+.fb-signal-card ul.fb-prows { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr; gap: 2px; }
+.fb-prow > summary {
+  list-style: none; cursor: pointer; padding: 6px 8px; display: grid; grid-template-columns: 1fr auto auto; gap: 8px; align-items: center;
+  border-radius: 8px; font-size: 13px; line-height: 20px;
+}
+.fb-prow > summary::-webkit-details-marker { display: none; }
+.fb-prow > summary:hover { background: #f7f9fc; }
+.fb-prow-name { font-weight: 500; }
+.fb-prow-val { font-size: 12px; color: var(--muted-ink); font-variant-numeric: tabular-nums; }
+.fb-prow > p { margin: 2px 8px 8px; padding: 8px 10px; border-radius: 8px; font-size: 13px; line-height: 20px; background: oklab(0.5549 -0.0533 -0.1494 / .06); }
+
+/* More content checks: VMock's extra content parts inside a question. */
+.fb-extra { padding: 0 14px 14px; display: grid; gap: 12px; }
+.fb-extra-card { padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; display: grid; gap: 10px; }
+.fb-extra-card > p { font-size: 13px; line-height: 20px; }
+.fb-extra-card .fb-better { margin-top: 0; }
+.fb-checked-list { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.fb-checked-list .fb-eyebrow { margin-right: 4px; }
+.fb-skill { padding: 2px 10px; border-radius: 999px; font-size: 12px; line-height: 18px; font-weight: 500; color: var(--primary-ink); background: var(--primary-10); }
+.fb-skill.none { color: var(--muted-ink); background: var(--chip); }
+.fb-res { display: grid; gap: 6px; }
+.fb-res-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; font-size: 13px; line-height: 18px; font-weight: 500; background: #f7f9fc; }
+.fb-res-item .ic { width: 16px; height: 16px; color: var(--primary-ink); }
+.fb-res-item em { margin-left: auto; font-style: normal; font-size: 12px; font-weight: 400; color: var(--muted-ink); }
+
+/* By-question grid in the Delivery and Non Verbal tabs. */
+.fb-grid-card h3 { margin-bottom: 12px; font-size: 15px; line-height: 22px; font-weight: 600; }
+.fb-grid-scroll { overflow-x: auto; }
+.fb-grid { width: 100%; border-collapse: collapse; font-size: 13px; line-height: 20px; }
+.fb-grid th, .fb-grid td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.fb-grid thead th { font-size: 12px; font-weight: 600; color: var(--muted-ink); }
+.fb-grid tbody th { font-weight: 500; max-width: 280px; overflow: hidden; text-overflow: ellipsis; }
+.fb-grid tbody tr:last-child > * { border-bottom: 0; }
+.fb-param-icon.none { color: var(--muted-ink); background: var(--chip); }
+
 /* Content Strength cards across the interview. */
 .fb-elements { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
 .fb-elements li { display: grid; grid-template-columns: 104px 1fr auto; gap: 10px; align-items: center; font-size: 13px; line-height: 20px; }
