@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-05T00:00:00Z",
+  "title": "Design System: VMock Adaptive Interviews (student page)",
+  "extensions": {
+    "colorMeta": {
+      "vmock-blue": { "role": "primary", "displayName": "VMock Blue", "canonical": "#2C6BC9", "tonalRamp": ["#0B2552", "#12376F", "#1C4C93", "#2459A8", "#2C6BC9", "#6C9BE0", "#C2D7F5", "#E8F0FE"] },
+      "blue-wash": { "role": "primary", "displayName": "Blue Wash", "canonical": "#E8F0FE" },
+      "blue-deep-ink": { "role": "primary", "displayName": "Deep Blue Ink", "canonical": "#0B3C82" },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#1F1F1F", "tonalRamp": ["#1F1F1F", "#444746", "#5F6368", "#747775", "#A8ABAF", "#C4C7C5", "#DADCE0", "#F1F3F4"] },
+      "paper": { "role": "neutral", "displayName": "Paper", "canonical": "#FFFFFF" },
+      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "#DADCE0" },
+      "call-ground": { "role": "neutral", "displayName": "Call Ground", "canonical": "#202124", "tonalRamp": ["#202124", "#2D2F31", "#3C4043", "#4D5156", "#5F6368", "#80868B", "#BDC1C6", "#E8EAED"] },
+      "call-tile": { "role": "neutral", "displayName": "Call Tile", "canonical": "#3C4043" },
+      "end-red": { "role": "tertiary", "displayName": "End Red", "canonical": "#D93025", "tonalRamp": ["#5C0F0B", "#8C1D18", "#B3261E", "#D93025", "#E8635A", "#F28B82", "#F6BEB9", "#FCE8E6"] }
+    },
+    "typographyMeta": {
+      "headline": { "displayName": "Headline", "purpose": "Screen titles on setup, feedback and past interviews; 26px under 900px." },
+      "title": { "displayName": "Title", "purpose": "Lobby brief heading." },
+      "captions": { "displayName": "Captions", "purpose": "Live captions on the interviewer tile." },
+      "body": { "displayName": "Body", "purpose": "Default text, fields and buttons (600 for buttons)." },
+      "meta": { "displayName": "Meta", "purpose": "Speaker names and small sentence-case content labels." },
+      "logo": { "displayName": "Logo", "purpose": "The lowercase vmock wordmark in blue." }
+    },
+    "shadows": [
+      { "name": "primary-hover", "value": "0 1px 3px rgba(60, 64, 67, .3)", "purpose": "Primary pill on hover." },
+      { "name": "self-view-lift", "value": "0 2px 6px rgba(0, 0, 0, .35)", "purpose": "Picture-in-picture over the interviewer tile." },
+      { "name": "speaking-outline", "value": "inset 0 0 0 3px #2C6BC9", "purpose": "Active speaker's tile; the system's signature." },
+      { "name": "field-focus", "value": "0 0 0 1px #2C6BC9", "purpose": "Text field focus ring with a blue border." }
+    ],
+    "motion": [
+      { "name": "control-transition", "value": "150ms ease", "purpose": "Background, border and shadow changes on buttons, chips, fields and rows." },
+      { "name": "outline-move", "value": "200ms ease-out", "purpose": "The speaking outline moving between tiles." },
+      { "name": "step-spin", "value": "900ms linear infinite", "purpose": "Current step ring in the lobby; off under reduced motion." }
+    ],
+    "breakpoints": [
+      { "name": "compact", "value": "900px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Pill",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one primary action on a screen: Start interview, Join, Start answering.",
+      "html": "<button class=\"ds-btn-primary\">Start answering</button>",
+      "css": ".ds-btn-primary { background: #2C6BC9; color: #fff; border: 0; border-radius: 999px; padding: 10px 24px; font: 600 15px/20px Figtree, system-ui, sans-serif; cursor: pointer; transition: background-color .15s, box-shadow .15s; } .ds-btn-primary:hover { background: #2459A8; box-shadow: 0 1px 3px rgba(60, 64, 67, .3); } .ds-btn-primary:focus-visible { outline: 2px solid #2C6BC9; outline-offset: 2px; } .ds-btn-primary:disabled { background: #F1F3F4; color: #80868B; box-shadow: none; }"
+    },
+    {
+      "name": "Secondary Pill",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Secondary actions: See feedback, Hold mic.",
+      "html": "<button class=\"ds-btn-secondary\">See feedback</button>",
+      "css": ".ds-btn-secondary { background: #fff; color: #2C6BC9; border: 1px solid #DADCE0; border-radius: 999px; padding: 10px 24px; font: 600 15px/20px Figtree, system-ui, sans-serif; cursor: pointer; transition: background-color .15s; } .ds-btn-secondary:hover { background: #E8F0FE; } .ds-btn-secondary:focus-visible { outline: 2px solid #2C6BC9; outline-offset: 2px; }"
+    },
+    {
+      "name": "Call Dock",
+      "kind": "nav",
+      "refersTo": "button-round",
+      "description": "Round device buttons and the red End interview pill on the dark call.",
+      "html": "<div class=\"ds-dock\"><button class=\"ds-round\" aria-label=\"Turn off camera\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"6\" width=\"13\" height=\"12\" rx=\"2\"/><path d=\"M16 10l5-3v10l-5-3z\"/></svg></button><button class=\"ds-round ds-round-off\" aria-label=\"Turn on camera\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"><rect x=\"3\" y=\"6\" width=\"13\" height=\"12\" rx=\"2\"/><path d=\"M3 3l18 18\"/></svg></button><button class=\"ds-end\">End interview</button></div>",
+      "css": ".ds-dock { display: flex; gap: 12px; align-items: center; background: #202124; padding: 18px 24px; } .ds-round { width: 48px; height: 48px; border-radius: 50%; border: 0; background: #3C4043; color: #E8EAED; display: grid; place-items: center; cursor: pointer; transition: background-color .15s; } .ds-round:hover { background: #4D5156; } .ds-round-off, .ds-round-off:hover { background: #D93025; color: #fff; } .ds-round:focus-visible, .ds-end:focus-visible { outline: 2px solid #8AB4F8; outline-offset: 2px; } .ds-end { background: #D93025; color: #fff; border: 0; height: 48px; padding: 0 26px; border-radius: 999px; font: 600 15px Figtree, system-ui, sans-serif; cursor: pointer; transition: background-color .15s; } .ds-end:hover { background: #B3261E; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input-text",
+      "description": "Target role, job description and typed answers.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Target role\">",
+      "css": ".ds-input { background: #fff; color: #1F1F1F; border: 1px solid #C4C7C5; border-radius: 8px; padding: 12px 14px; font: 400 15px Figtree, system-ui, sans-serif; transition: border-color .15s, box-shadow .15s; } .ds-input::placeholder { color: #747775; } .ds-input:hover { border-color: #5F6368; } .ds-input:focus { outline: none; border-color: #2C6BC9; box-shadow: 0 0 0 1px #2C6BC9; }"
+    },
+    {
+      "name": "Choice Chips",
+      "kind": "chip",
+      "refersTo": "chip-choice",
+      "description": "Single-choice settings (interviewer style, length), Meet filter-chip style.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip\">Supportive</button><button class=\"ds-chip ds-chip-on\" aria-pressed=\"true\">Balanced</button><button class=\"ds-chip\">Probing</button></div>",
+      "css": ".ds-chips { display: flex; flex-wrap: wrap; gap: 8px; } .ds-chip { border: 1px solid #C4C7C5; border-radius: 8px; padding: 7px 16px; font: 500 14px Figtree, system-ui, sans-serif; color: #444746; background: #fff; cursor: pointer; transition: background-color .15s, border-color .15s; } .ds-chip:hover { background: #F8F9FA; } .ds-chip-on, .ds-chip-on:hover { background: #E8F0FE; border-color: #E8F0FE; color: #0B3C82; font-weight: 600; } .ds-chip:focus-visible { outline: 2px solid #2C6BC9; outline-offset: 2px; }"
+    },
+    {
+      "name": "Option Card",
+      "kind": "card",
+      "refersTo": "option-card",
+      "description": "Interview type choice with a title and one-line description.",
+      "html": "<label class=\"ds-option ds-option-on\"><input type=\"radio\" checked><span><strong>Hiring manager</strong><em>Depth on your experience and results.</em></span></label>",
+      "css": ".ds-option { display: flex; gap: 14px; align-items: flex-start; border: 1px solid #DADCE0; border-radius: 12px; padding: 14px 16px; background: #fff; font: 400 15px Figtree, system-ui, sans-serif; color: #1F1F1F; cursor: pointer; transition: border-color .15s, background-color .15s; } .ds-option:hover { background: #F8F9FA; } .ds-option strong { display: block; font-weight: 600; } .ds-option em { font-style: normal; color: #5F6368; font-size: 14px; } .ds-option input { accent-color: #2C6BC9; width: 18px; height: 18px; margin-top: 2px; } .ds-option-on, .ds-option-on:hover { border-color: #2C6BC9; background: #E8F0FE; box-shadow: inset 0 0 0 1px #2C6BC9; } .ds-option-on em { color: #444746; }"
+    },
+    {
+      "name": "Interviewer Tile",
+      "kind": "custom",
+      "refersTo": "call-tile",
+      "description": "Signature: the speaking tile with avatar, state line, captions and the blue speaking outline.",
+      "html": "<div class=\"ds-tile ds-tile-speaking\"><div class=\"ds-tile-center\"><div class=\"ds-avatar\">AI</div><div class=\"ds-state\">Speaking</div></div><p class=\"ds-captions\"><span>Interviewer</span>What has been the most interesting thing you have worked on recently?</p><div class=\"ds-tile-name\">Your interviewer</div></div>",
+      "css": ".ds-tile { position: relative; width: 640px; max-width: 100%; aspect-ratio: 16 / 10; background: #3C4043; border-radius: 12px; overflow: hidden; display: grid; place-items: center; font-family: Figtree, system-ui, sans-serif; box-shadow: inset 0 0 0 0 #2C6BC9; transition: box-shadow .2s ease-out; } .ds-tile-speaking { box-shadow: inset 0 0 0 3px #2C6BC9; } .ds-tile-center { display: grid; justify-items: center; gap: 14px; margin-top: -48px; } .ds-avatar { width: 136px; height: 136px; border-radius: 50%; background: #2C6BC9; color: #fff; display: grid; place-items: center; font-size: 42px; font-weight: 600; } .ds-state { color: #BDC1C6; font-size: 15px; } .ds-captions { position: absolute; left: 24px; right: 24px; bottom: 52px; margin: 0; background: rgba(32, 33, 36, .86); color: #fff; border-radius: 8px; padding: 12px 18px; font-size: 18px; line-height: 1.45; } .ds-captions span { display: block; font-size: 13px; font-weight: 600; color: #BDC1C6; margin-bottom: 2px; } .ds-tile-name { position: absolute; left: 16px; bottom: 14px; font-size: 14px; font-weight: 500; color: #E8EAED; text-shadow: 0 1px 2px rgba(0, 0, 0, .5); }"
+    },
+    {
+      "name": "Transcript Line",
+      "kind": "custom",
+      "refersTo": "transcript-panel",
+      "description": "Flat transcript rows; the current line runs edge to edge in blue wash.",
+      "html": "<div class=\"ds-thread\"><div class=\"ds-msg\"><div class=\"ds-who\">You<time>00:42</time></div><p>I led the pricing analysis for our campus store.</p></div><div class=\"ds-msg ds-msg-now\"><div class=\"ds-who\">Interviewer<time>01:10</time></div><p>What did you personally do in that analysis?</p></div></div>",
+      "css": ".ds-thread { width: 380px; background: #fff; border-radius: 12px; padding: 4px 20px 14px; display: flex; flex-direction: column; gap: 14px; font-family: Figtree, system-ui, sans-serif; } .ds-who { font-size: 13px; font-weight: 600; color: #1F1F1F; } .ds-who time { font-weight: 400; color: #5F6368; margin-left: 8px; font-variant-numeric: tabular-nums; } .ds-msg p { margin: 2px 0 0; font-size: 14.5px; line-height: 1.5; color: #444746; } .ds-msg-now { background: #E8F0FE; margin: 0 -20px; padding: 12px 20px; } .ds-msg-now p { color: #1F1F1F; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Ordinary Call",
+    "overview": "The practice interview is an ordinary video call, made at Google Meet's level of craft, so there is nothing new to learn and all attention goes to answering. Light, Meet-home screens (setup, pre-join lobby, feedback, past interviews) surround a dark call. The look is borrowed on purpose from the category's canon (Meet, Zoom, Teams): pill buttons, round dock buttons, 12px tiles, a white side panel, captions on a translucent dark box.\n\nVMock blue is the only brand voice. It marks the primary action, whose turn it is (the speaking outline), and the current line of the transcript. Everything else is Google-grey neutrals. Density is calm and roomy on the light screens and fixed-to-viewport in the call: the call never scrolls, only the transcript does.\n\nThe world rejects the bespoke \"AI interview product\" look: no glows, no gradients, no chat bubbles on a card, no decorative illustration.",
+    "keyCharacteristics": [
+      "Light screens around a dark call; the call switches the page to a dark color scheme.",
+      "One accent (VMock blue #2C6BC9) for primary action, turn-taking and the current line.",
+      "Figtree for every role; weight (400 / 500 / 600 / 700) carries hierarchy, not a second face.",
+      "Pills for text buttons, circles for icon buttons, 12px for tiles and boxes, 8px for fields and chips.",
+      "Flat surfaces; depth only from the light/dark split and a few small functional shadows.",
+      "Drawn stroke SVG icons (1.8 stroke, round caps), never glyphs."
+    ],
+    "rules": [
+      { "name": "The One Blue Rule", "body": "VMock blue is the only accent. It means \"act here\" or \"this is live now\" (primary action, speaker, current line). Never use it decoratively.", "section": "colors" },
+      { "name": "The One Red Pill Rule", "body": "The only red pill on screen is End interview. Recording is shown as a dark ink pill with a small red dot (#F28B82), so starting an answer never looks like ending the call.", "section": "colors" },
+      { "name": "The One Face Rule", "body": "Figtree for every role. The base stylesheet's serif token is mapped to Figtree on this surface; do not reintroduce a serif for questions or quotes. Quoted student words are set in Figtree italic.", "section": "typography" },
+      { "name": "The Moving Outline Rule", "body": "Whose turn it is is shown by a 3px inset blue outline that moves from the interviewer tile (speaking) to the self-view (recording). It is the system's signature; no other element gets an outline at rest.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do follow the category's canon: if Meet, Zoom or Teams would put a control in a place, put it there.",
+      "Do keep VMock blue (#2C6BC9) for primary action, the speaking outline, the current transcript line and the small brand marks that share its meaning (wordmark, interviewer avatar, links, focus, meters and progress); never as decoration or a background.",
+      "Do use pills for text buttons and 48px circles for icon buttons, with drawn stroke SVG icons (1.8 stroke, round caps).",
+      "Do keep the live call inside the viewport; let only the transcript scroll.",
+      "Do show the question as text (captions and transcript) alongside the voice.",
+      "Do respect reduced motion: no spinner rotation, no outline or button transitions."
+    ],
+    "donts": [
+      "Don't use glows, gradients or chat bubbles on a card; transcript lines are flat rows.",
+      "Don't make any pill red except End interview; recording is an ink pill with a red dot.",
+      "Don't add a second typeface or bring back the base stylesheet's serif on this surface.",
+      "Don't use coloured side stripes on feedback blocks or the goal box; status is a small dot or a level pill.",
+      "Don't use uppercase tracked labels; small labels are sentence case, 13px 600 ink faint.",
+      "Don't apply this system to the developer page at `/`."
+    ]
+  }
+}
