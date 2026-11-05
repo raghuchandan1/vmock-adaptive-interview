@@ -136,7 +136,7 @@
         <span class="rm-titleicon" aria-hidden="true"><svg class="ic"><use href="#i-mic"/></svg></span>
         <div class="rm-titletext">
           <div class="rm-title" id="briefTitle">Adaptive Interview</div>
-          <div class="rm-titlesub">Adaptive Interview</div>
+          <div class="rm-titlesub" id="roomSub">Adaptive Interview</div>
         </div>
       </div>
 
@@ -255,6 +255,20 @@
 <script src="/shared.js"></script>
 <script src="/student.js"></script>
 <script>
+  // Title card: until the plan arrives (student.js then sets the title from it), show the type and role the student
+  // chose in the setup wizard, with the style and length underneath. Read before student.js consumes the handoff.
+  (() => {
+    const TYPE = { recruiter_screen: 'Screening round', hiring_manager: 'Hiring manager round', back_your_resume: 'Resume deep dive' };
+    const STYLE = { supportive: 'Friendly style', balanced: 'Standard style', probing: 'Challenging style', surprise: 'Surprise style' };
+    const MIN = { short: 'About 10 min', standard: 'About 15 min' };
+    let s = null;
+    try { s = JSON.parse(sessionStorage.getItem('vmock_adaptive_setup') || 'null'); } catch (_) { /* storage blocked */ }
+    if (!s) return;
+    const type = TYPE[s.interview_type] || 'Adaptive Interview';
+    document.getElementById('briefTitle').textContent = s.target_role ? `${type}: ${s.target_role}` : type;
+    document.getElementById('roomSub').textContent = [STYLE[s.style], MIN[s.length]].filter(Boolean).join(' · ');
+  })();
+
   // Hardware check dialog (the lobby's mic try lives inside it; student.js drives the meter and the try button).
   (() => {
     const dlg = document.getElementById('hwDialog');

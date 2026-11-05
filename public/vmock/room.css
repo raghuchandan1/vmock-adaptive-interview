@@ -61,8 +61,19 @@ body.vm-room:has(#screen-brief:not([hidden])) main { max-width: none; margin: 0;
   content: ""; position: absolute; left: 0; top: 0; width: 20px; height: 20px; border-radius: 50%;
   border: 1px solid var(--border); background: #fff; box-sizing: border-box;
 }
-.rm-steps li.now { color: var(--ink); }
-.rm-steps li.now::before { border: 1px solid var(--primary-ink); background: radial-gradient(circle, var(--primary-ink) 0 4px, #fff 4.5px); }
+/* The step in progress: a spinning ring around a pulsing dot, so it reads as working, not stuck. */
+.rm-steps li.now { color: var(--ink); font-weight: 500; }
+.rm-steps li.now::before { border: 2px solid var(--primary-10); border-top-color: var(--primary-ink); background: #fff; animation: rm-spin .9s linear infinite; }
+.rm-steps li.now::after {
+  content: ""; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--primary-ink); animation: rm-pulse 1.2s ease-in-out infinite;
+}
+@keyframes rm-spin { to { transform: rotate(360deg); } }
+@keyframes rm-pulse { 50% { transform: scale(.6); opacity: .6; } }
+.rm-card[data-state="preparing"] .rm-presence::before, .rm-card[data-state="joining"] .rm-presence::before { animation: rm-pulse 1.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .rm-steps li.now::before, .rm-steps li.now::after, .rm-card .rm-presence::before { animation: none; }
+}
 .rm-steps li.done { color: var(--ink); }
 .rm-steps li.done::before {
   border: 0;
