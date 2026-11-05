@@ -1,0 +1,623 @@
+<title>Adaptive Interview Integration</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout concept: a developer hand-off doc. Page chrome is themed; every mockup is a fixed "screenshot" of VMock's light UI, so it keeps its own constants. */
+:root{
+  --bg:#F6F7FA; --surface:#FFFFFF; --surface-2:#EEF1F6; --fg:#14213D; --muted:#5B6578; --line:#DCE1EA;
+  --accent:#2C6BC9; --accent-soft:#E3EDFB; --warn:#B4540A; --warn-soft:#FDF0E1; --ok:#1E7A4D; --ok-soft:#E2F4EA; --bad:#B42335; --bad-soft:#FCE8EA;
+  --code-bg:#101A2E; --code-fg:#DCE6F7;
+  --f-body:'Figtree',system-ui,sans-serif; --f-display:'Source Serif 4',Georgia,serif; --f-mono:'JetBrains Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1424; --surface:#151D31; --surface-2:#1C2640; --fg:#E7ECF7; --muted:#9AA6BF; --line:#27324F;
+  --accent:#7FAAF0; --accent-soft:#1D2D4F; --warn:#F0B070; --warn-soft:#3A2A14; --ok:#6FD3A0; --ok-soft:#123226; --bad:#F29AA5; --bad-soft:#3B1A20;
+  --code-bg:#0A1020; --code-fg:#DCE6F7; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1424; --surface:#151D31; --surface-2:#1C2640; --fg:#E7ECF7; --muted:#9AA6BF; --line:#27324F;
+  --accent:#7FAAF0; --accent-soft:#1D2D4F; --warn:#F0B070; --warn-soft:#3A2A14; --ok:#6FD3A0; --ok-soft:#123226; --bad:#F29AA5; --bad-soft:#3B1A20;
+  --code-bg:#0A1020; --code-fg:#DCE6F7; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--f-body);margin:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1160px;margin:0 auto;padding-block:32px 96px}
+h1,h2,h3{text-wrap:balance;line-height:1.2;margin:0}
+h1{font:600 clamp(32px,5vw,48px)/1.1 var(--f-display);letter-spacing:-.01em}
+h2{font:600 28px/1.2 var(--f-display);margin-bottom:6px}
+h3{font-size:17px;font-weight:700;margin-bottom:8px}
+p{margin:0 0 12px;max-width:68ch}
+a{color:var(--accent)}
+code{font-family:var(--f-mono);font-size:.86em;background:var(--surface-2);padding:1px 6px;border-radius:5px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lede{font-size:18px;color:var(--muted);max-width:62ch}
+header.top{padding-bottom:24px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.tag{font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--surface-2);color:var(--muted)}
+.tag.a{background:var(--warn-soft);color:var(--warn)} .tag.n{background:var(--accent-soft);color:var(--accent)} .tag.r{background:var(--ok-soft);color:var(--ok)}
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:6px;overflow-x:auto;padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:8px}
+nav.toc a{white-space:nowrap;text-decoration:none;color:var(--muted);font-size:14px;font-weight:600;padding:6px 12px;border-radius:99px}
+nav.toc a:hover,nav.toc a:focus-visible{background:var(--accent-soft);color:var(--accent);outline:none}
+section{padding-top:56px}
+.sec-head{margin-bottom:24px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+.card h3{margin-top:0}
+ul.tight{margin:0;padding-left:20px} ul.tight li{margin-bottom:6px}
+.decisions{display:grid;gap:12px}
+.dec{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:14px 0;border-top:1px solid var(--line)}
+.dec b{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+@media(max-width:560px){.dec{grid-template-columns:1fr;gap:4px}}
+/* screen blocks */
+.screen{margin:40px 0 0}
+.screen-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:12px}
+.screen-head .n{font:600 13px var(--f-mono);color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:6px}
+.screen-body{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start}
+@media(max-width:980px){.screen-body{grid-template-columns:1fr}}
+.notes{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:14px}
+.notes h4{margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.notes ol{margin:0;padding-left:20px} .notes li{margin-bottom:8px}
+.notes .hr{border-top:1px solid var(--line);margin:12px 0}
+.scroll-x{overflow-x:auto;border-radius:14px}
+/* mock = fixed light VMock UI */
+.mk{--m-bg:#EEF1F6;--m-card:#fff;--m-fg:#16233B;--m-mut:#6B7488;--m-line:#E1E6EE;--m-blue:#2C6BC9;--m-blue-s:#E4EEFB;--m-red:#D94B4B;--m-red-s:#FCE9E9;--m-amb:#E08A1E;--m-amb-s:#FDF1DF;--m-grn:#2E9E6A;--m-grn-s:#E2F5EC;
+  min-width:680px;background:var(--m-bg);color:var(--m-fg);border-radius:14px;border:1px solid var(--line);overflow:hidden;font-size:13.5px;line-height:1.45}
+.mk *{box-sizing:border-box}
+.mk-bar{background:#fff;height:48px;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid var(--m-line)}
+.logo{font-weight:700;font-size:15px;display:flex;align-items:center;gap:6px}
+.logo i{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#E2402F,#3B5BDB);display:inline-block}
+.mk-bar .sp{flex:1}
+.mk-bar .pill{font-size:12px;border:1px solid var(--m-line);border-radius:99px;padding:3px 10px;color:var(--m-mut)}
+.mk-body{padding:20px}
+.mbtn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--m-blue);color:var(--m-blue);background:#fff;border-radius:8px;padding:7px 14px;font:600 13px var(--f-body)}
+.mbtn.p{background:var(--m-blue);color:#fff}
+.mbtn.d{background:#D93A3A;border-color:#D93A3A;color:#fff}
+.mbtn.off{opacity:.45}
+.mc{background:var(--m-card);border:1px solid var(--m-line);border-radius:12px;padding:16px}
+.mchip{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:2px 8px;border-radius:6px}
+.mchip.nw{background:var(--m-red-s);color:var(--m-red)} .mchip.ot{background:var(--m-amb-s);color:var(--m-amb)} .mchip.gj{background:var(--m-grn-s);color:var(--m-grn)} .mchip.new{background:var(--m-blue);color:#fff}
+.mutes{color:var(--m-mut)}
+.serif{font-family:var(--f-display);font-weight:600}
+.pin{position:absolute;width:20px;height:20px;border-radius:50%;background:#E2402F;color:#fff;font:700 11px/20px var(--f-body);text-align:center;box-shadow:0 0 0 3px rgba(226,64,47,.25)}
+.rel{position:relative}
+.steps{display:flex;align-items:center;gap:10px;padding:14px 20px;background:#fff;border-top:1px solid var(--m-line);font-size:13px}
+.steps .s{display:flex;align-items:center;gap:6px;color:var(--m-mut)} .steps .s b{width:22px;height:22px;border-radius:50%;background:var(--m-bg);display:grid;place-items:center;font-size:12px}
+.steps .s.on{color:var(--m-fg);font-weight:600} .steps .s.on b{background:var(--m-blue-s);color:var(--m-blue)} .steps .s.ok b{background:var(--m-grn);color:#fff}
+.steps .ln{width:28px;height:2px;background:var(--m-line)} .steps .sp{flex:1}
+.opt{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--m-line);border-radius:12px;padding:12px 14px;background:#fff;margin-bottom:10px}
+.opt.sel{border-color:var(--m-blue);background:var(--m-blue-s)}
+.radio{width:16px;height:16px;border-radius:50%;border:2px solid var(--m-line);margin-top:2px;flex:none}
+.sel .radio{border-color:var(--m-blue);background:radial-gradient(var(--m-blue) 45%,transparent 50%)}
+.seg{display:inline-flex;border:1px solid var(--m-line);border-radius:10px;overflow:hidden;background:#fff}
+.seg span{padding:7px 14px;font-weight:600;border-right:1px solid var(--m-line)} .seg span:last-child{border:0} .seg .on{background:var(--m-blue);color:#fff}
+.field{margin-bottom:18px} .field label{display:block;font-weight:700;margin-bottom:6px}
+.input{border:1px solid var(--m-line);background:#fff;border-radius:8px;padding:9px 12px;color:var(--m-mut)}
+.input.err{border-color:var(--m-red)}
+.errtxt{color:var(--m-red);font-size:12.5px;margin-top:4px}
+.stage{background:#10131A;color:#9099AA;display:grid;place-items:center;min-height:360px;position:relative;border-radius:0 0 0 14px}
+.live{display:grid;grid-template-columns:1fr 340px}
+.dock{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:8px;background:#05070B;padding:8px;border-radius:99px}
+.dock span{background:#fff;color:#16233B;border-radius:99px;padding:7px 14px;font-weight:600;font-size:12.5px;display:flex;align-items:center;gap:6px}
+.rec{width:8px;height:8px;border-radius:50%;background:#E5484D;display:inline-block}
+.panel{background:#fff;padding:14px;display:flex;flex-direction:column;gap:10px;border-left:1px solid var(--m-line)}
+.msg{border-radius:12px;padding:10px 12px;max-width:92%}
+.msg.i{background:var(--m-bg)} .msg.c{background:var(--m-blue-s);align-self:flex-end}
+.msg.cur{border:1.5px solid var(--m-blue);background:#fff;font-weight:600;font-size:14.5px;max-width:100%}
+.compose{border:1px solid var(--m-line);border-radius:10px;padding:10px;color:var(--m-mut);min-height:66px}
+.who{font-size:11px;font-weight:700;color:var(--m-mut);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.tabs{display:flex;gap:22px;padding:0 20px;background:#fff;border-bottom:1px solid var(--m-line)}
+.tabs span{padding:12px 0;color:var(--m-mut);font-weight:600} .tabs .on{color:var(--m-fg);border-bottom:2px solid var(--m-blue)}
+.rows{display:grid;gap:8px}
+.trow{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:10px 12px;border:1px solid var(--m-line);border-radius:10px;background:#fff}
+.two{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}
+@media(max-width:900px){.two{grid-template-columns:1fr}}
+.quote{border-left:3px solid var(--m-line);padding:2px 0 2px 10px;color:var(--m-mut);font-style:italic;margin:6px 0}
+.blk{border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.blk.g{background:var(--m-grn-s)} .blk.f{background:var(--m-red-s)} .blk.b{background:var(--m-blue-s)} .blk.a{background:var(--m-amb-s)}
+.blk h5{margin:0 0 4px;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.ph{background:#FFF3C4;border-radius:4px;padding:0 3px}
+.qchips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.qchips span{border:1px solid var(--m-line);background:#fff;border-radius:99px;padding:4px 14px;font-weight:600}.qchips .on{border-color:var(--m-blue);background:var(--m-blue-s);color:var(--m-blue)}
+.skel{height:12px;border-radius:6px;background:linear-gradient(90deg,#E6EAF2,#F4F6FA,#E6EAF2);background-size:200% 100%;animation:sh 1.4s linear infinite;margin-bottom:8px}
+@keyframes sh{to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){.skel{animation:none}}
+/* tables + code */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:640px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+pre.code{background:var(--code-bg);color:var(--code-fg);border-radius:12px;padding:16px;overflow-x:auto;font:13px/1.55 var(--f-mono);margin:0 0 16px}
+.m{font:600 12px var(--f-mono);padding:2px 7px;border-radius:5px}
+.m.get{background:var(--ok-soft);color:var(--ok)} .m.post{background:var(--accent-soft);color:var(--accent)}
+.warnbox{background:var(--warn-soft);border:1px solid var(--warn);border-radius:12px;padding:14px 16px;color:var(--fg)}
+.warnbox b{color:var(--warn)}
+.check{list-style:none;padding:0;margin:0} .check li{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)} .check li::before{content:"";flex:none;width:16px;height:16px;border:2px solid var(--line);border-radius:4px;margin-top:4px}
+.mermaid{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;overflow-x:auto}
+footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">VMock · Interview &amp; Offer · Design hand-off</div>
+  <h1 style="margin-top:8px">Adaptive Interview Integration</h1>
+  <p class="lede" style="margin-top:12px">How the adaptive AI interviewer plugs into VMock Studio Conversations: screens, states, and the service contract developers build against.</p>
+  <div class="meta">
+    <span class="tag n">Draft v2</span>
+    <span class="tag">Screens: <a href="https://claude.ai/artifact/WNZWMoeL4DWQYWyncEL77s">design canvas</a></span>
+    <span class="tag">Reference: candidate-uat-us.vmock.dev</span>
+    <span class="tag">Prototype tests: all passing</span>
+    <span class="tag a">Amber tags mark assumptions to confirm</span>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Sections">
+  <a href="#summary">Summary</a><a href="#flow">Flow</a><a href="#screens">Screens</a><a href="#states">States</a><a href="#tech">Integration</a><a href="#api">API</a><a href="#gaps">Production gaps</a><a href="#checklist">Checklist</a>
+</nav>
+
+<!-- ============ SUMMARY ============ -->
+<section id="summary">
+  <div class="sec-head"><div class="eyebrow">1 · Summary</div><h2>What we are adding</h2></div>
+  <p>A practice interview that reads the student's CV and optional job description, then asks follow-up questions based on what they actually answer. Today's Studio interviews play a fixed list of questions. The adaptive interview has a hidden plan, decides each next question during the session, and ends with written, qualitative feedback.</p>
+  <div class="decisions card" style="padding:8px 20px">
+    <div class="dec" style="border-top:0"><b>Where it lives</b><div>Studio Conversations, as a new option in the existing Generate Interview wizard (<code>mode=adaptive</code>). The Home “Interview” card and the Interview &amp; Offer → Interview Practice step already lead there, so they stay unchanged.</div></div>
+    <div class="dec"><b>Inputs</b><div>The student's saved CV and a job description (saved one, pasted text or PDF), reusing the wizard's existing pickers. The service receives plain text only: <code>resume_text</code> and <code>jd_text</code>.</div></div>
+    <div class="dec"><b>Interview</b><div>Voice, video or typed, all feeding the same text answer. The video and delivery analysis already in VMock keep working. This design covers the <b>content</b> of the conversation.</div></div>
+    <div class="dec"><b>Feedback</b><div>Inside the <b>existing</b> feedback page. Non Verbal and Delivery of Speech are unchanged. Content Strength keeps VMock’s question-type rubric, so the <b>Level is calculated as today</b>. The adaptive feedback adds where each rubric element appeared (✓ first answer, ↩ added when the interviewer asked, ✕ still missing), the follow-ups, quotes, and how to answer next time.</div></div>
+    <div class="dec"><b>Out of scope</b><div>The non-verbal, speech, Word Usage &amp; Tone and Level calculations (existing pipeline, run per question segment). Speech-to-text.</div></div>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card"><h3>Assumptions to confirm</h3>
+      <ul class="tight">
+        <li><span class="tag a">Assumption</span> VMock supplies parsed CV text to the service (the wizard's CV picker already has it).</li>
+        <li><span class="tag a">Assumption</span> Voice and video are transcribed by VMock's existing pipeline; the service only receives final text per answer.</li>
+        <li><span class="tag a">Assumption</span> VMock maps the engine’s rubric elements (<code>situation</code>, <code>result</code>, <code>depth</code>…) to its own Content Strength chip names.</li>
+        <li><span class="tag a">Assumption</span> Route is the existing wizard with a mode parameter, not a new product area.</li>
+      </ul></div>
+    <div class="card"><h3>Findings that shaped the design</h3>
+      <ul class="tight">
+        <li>The service <b>requires a CV</b> of 200+ characters. So “Job description only” is hidden in adaptive mode.</li>
+        <li>With no JD, a <b>target role</b> is required. The setup step asks for it only then.</li>
+        <li>The question list must stay <b>hidden</b>. The live screen cannot show the usual “Interview Questions” list.</li>
+        <li>Planning is one blocking call; there are no progress events to stream.</li>
+      </ul></div>
+  </div>
+</section>
+
+<!-- ============ FLOW ============ -->
+<section id="flow">
+  <div class="sec-head"><div class="eyebrow">2 · Flow</div><h2>Student journey</h2></div>
+  <pre class="mermaid">
+flowchart LR
+  A[Home: Interview card<br/>or Interview Practice] --> B[Studio Conversations]
+  B --> C[Generate Interview wizard<br/>mode=adaptive]
+  C --> D[1 Get started<br/>JD + CV or CV only]
+  D --> E[2 Job description<br/>skipped for CV only]
+  E --> F[3 CV]
+  F --> G[4 Interview setup<br/>type, style, length]
+  G --> H[Preparing<br/>POST sessions]
+  H --> I[Pre-brief]
+  I --> J[Live interview<br/>POST answers, repeated]
+  J --> K[End<br/>POST end]
+  K --> L[Feedback<br/>POST feedback]
+  L --> M[Re-attempt]
+  M --> C
+  </pre>
+</section>
+
+<!-- ============ SCREENS ============ -->
+<section id="screens">
+  <div class="sec-head"><div class="eyebrow">3 · Screens</div><h2>Designs</h2><p class="lede" style="font-size:16px">Styled to match the current VMock candidate app. Sample content is illustrative.</p></div>
+
+  <!-- S1 -->
+  <div class="screen">
+    <div class="screen-head"><span class="n">S1</span><h3 style="margin:0">Entry point: Studio Conversations</h3><span class="tag n">New card</span></div>
+    <div class="screen-body">
+      <div class="scroll-x"><div class="mk">
+        <div class="mk-bar"><span class="logo"><i></i>vmock</span><span class="sp"></span><span class="pill">Resume 68</span></div>
+        <div class="mk-body">
+          <div style="text-align:center;margin:6px 0 18px"><div class="serif" style="font-size:26px">Good afternoon, Roshni</div><div class="mutes">Tell me what you're preparing for and we'll get started.</div></div>
+          <div class="mc rel" style="margin-bottom:16px">
+            <span class="pin" style="top:-8px;left:-8px">1</span>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+              <div><div style="display:flex;gap:8px;align-items:center"><b style="font-size:16px">Adaptive interview</b><span class="mchip new">New</span></div>
+              <div class="mutes" style="margin-top:2px">A live conversation that follows up on your answers, based on your CV and the job.</div></div>
+              <span class="mbtn p">Start</span></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><b style="font-size:16px">Conversation Templates</b>
+            <span style="display:flex;gap:8px"><span class="mbtn">Generate Template</span><span class="mbtn">Question Library</span><span class="mbtn">View Previous Attempts</span></span></div>
+          <div class="seg"><span class="on">Mock Interview</span><span>Elevator Pitch</span><span>Technical Interview</span><span>Case Interview</span></div>
+        </div>
+      </div></div>
+      <div class="notes"><h4>Notes</h4><ol>
+        <li>New card above the templates. “Start” opens the wizard with <code>mode=adaptive</code>.</li>
+        <li>The Home “Interview” card and the Interview &amp; Offer → Interview Practice step already land on this page. No change.</li>
+        <li>Past adaptive attempts show in View Previous Attempts with an “Adaptive” label.</li></ol></div>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="screen">
+    <div class="screen-head"><span class="n">S2</span><h3 style="margin:0">Wizard steps 1–3: reused</h3><span class="tag r">Existing UI</span></div>
+    <div class="screen-body">
+      <div class="scroll-x"><div class="mk">
+        <div class="mk-bar"><span class="logo"><i></i>vmock</span><b>Generate Interview</b><span class="pill">Powered by CareerBuddy</span></div>
+        <div class="mk-body" style="max-width:520px;margin:0 auto">
+          <div style="text-align:center;margin-bottom:14px"><b style="font-size:18px">Let's get started!</b><div class="mutes">Choose what your interview questions should be based on.</div></div>
+          <div class="opt sel rel"><span class="pin" style="top:-8px;right:-8px">1</span><span class="radio"></span><div><b>Job description + CV</b> <span class="mchip" style="background:var(--m-blue-s);color:var(--m-blue)">Recommended</span><div class="mutes">Questions tailored to both the role and your experience</div></div></div>
+          <div class="opt"><span class="radio"></span><div><b>CV only</b><div class="mutes">Questions drawn from your own experience and skills</div></div></div>
+          <div class="opt off" style="opacity:.45"><span class="radio"></span><div><b>Job description only</b><div class="mutes">Hidden when the mode is adaptive</div></div></div>
+        </div>
+        <div class="steps"><span class="s on"><b>1</b>Get Started</span><span class="ln"></span><span class="s"><b>2</b>Job description</span><span class="ln"></span><span class="s"><b>3</b>CV</span><span class="ln"></span><span class="s"><b>4</b>Interview setup</span><span class="sp"></span><span class="mbtn p">Next →</span></div>
+      </div></div>
+      <div class="notes"><h4>Notes</h4><ol>
+        <li>“Job description only” is removed for adaptive: the service needs CV text. Alternative: keep it and block Next with a CV prompt (open question).</li>
+        <li>Step 2 (saved JDs list, paste up to 10,000 characters, attach PDF) and step 3 (CV table, Upload CV) are unchanged. “CV only” skips step 2.</li>
+        <li>Step 4 label changes from “Questions” to “Interview setup”.</li></ol></div>
+    </div>
+  </div>
+
+  <!-- S3 -->
+  <div class="screen">
+    <div class="screen-head"><span class="n">S3</span><h3 style="margin:0">Step 4: Interview setup</h3><span class="tag n">New</span></div>
+    <div class="screen-body">
+      <div class="scroll-x"><div class="mk">
+        <div class="mk-bar"><span class="logo"><i></i>vmock</span><b>Generate Interview</b><span class="pill">Powered by CareerBuddy</span></div>
+        <div class="mk-body" style="max-width:600px;margin:0 auto">
+          <div style="margin-bottom:16px"><b style="font-size:20px">Interview setup</b><div class="mutes">Choose how the interviewer should behave. You can change these next time.</div></div>
+          <div class="field rel"><span class="pin" style="top:-6px;right:0">1</span><label>Interview type</label>
+            <div class="opt"><span class="radio"></span><div><b>Recruiter screen</b><div class="mutes">Broad first conversation: motivation, background, fit.</div></div></div>
+            <div class="opt sel"><span class="radio"></span><div><b>Hiring manager</b><div class="mutes">Your experience in depth, tied to the role.</div></div></div>
+            <div class="opt"><span class="radio"></span><div><b>Back your resume</b><div class="mutes">Detailed questions on the lines of your resume.</div></div></div></div>
+          <div class="field rel"><span class="pin" style="top:-6px;right:0">2</span><label>Interviewer style</label><div class="seg"><span>Supportive</span><span class="on">Balanced</span><span>Probing</span><span>Surprise me</span></div></div>
+          <div class="field rel"><span class="pin" style="top:-6px;right:0">3</span><label>Length</label><div class="seg"><span>Short · about 10 min</span><span class="on">Standard · about 15 min</span></div></div>
+          <div class="field rel"><span class="pin" style="top:-6px;right:0">4</span><label>Target role <span class="mutes" style="font-weight:400">(shown only when no job description was added)</span></label><div class="input err">For example: Product Analyst</div><div class="errtxt">Add a target role or go back and add a job description.</div></div>
+        </div>
+        <div class="steps"><span class="s ok"><b>✓</b>Done</span><span class="ln"></span><span class="s on"><b>4</b>Interview setup</span><span class="sp"></span><span class="mbtn">← Back</span><span class="mbtn p">Prepare interview →</span></div>
+      </div></div>
+      <div class="notes"><h4>Notes</h4><ol>
+        <li><code>interview_type</code>: <code>recruiter_screen</code> · <code>hiring_manager</code> · <code>back_your_resume</code>.</li>
+        <li><code>style</code>: <code>supportive</code> · <code>balanced</code> · <code>probing</code> · <code>surprise</code>. Surprise hides the chosen style in the pre-brief.</li>
+        <li><code>length</code>: <code>short</code> (3 topics, 10 min) · <code>standard</code> (4 topics, 15 min).</li>
+        <li><code>target_role</code> required only when <code>jd_text</code> is empty.</li></ol></div>
+    </div>
+  </div>
+
+  <!-- S4 -->
+  <div class="screen">
+    <div class="screen-head"><span class="n">S4</span><h3 style="margin:0">Preparing and pre-brief</h3><span class="tag n">New</span></div>
+    <div class="screen-body">
+      <div class="scroll-x"><div class="mk">
+        <div class="mk-bar"><span class="logo"><i></i>vmock</span><b>Generate Interview</b></div>
+        <div class="mk-body" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="mc rel"><span class="pin" style="top:-8px;left:-8px">1</span><b style="font-size:16px">Preparing your interview</b>
+            <div class="mutes" style="margin:6px 0 14px">This takes a short while. Please keep this page open.</div>
+            <div class="skel" style="width:90%"></div><div class="skel" style="width:70%"></div><div class="skel" style="width:80%"></div>
+            <div class="mutes" style="margin-top:8px">Reading your CV · matching it to the role · planning your conversation</div></div>
+          <div class="mc rel"><span class="pin" style="top:-8px;right:-8px">2</span><b style="font-size:16px">Your Hiring manager interview</b>
+            <ul class="tight" style="margin:10px 0 14px;color:var(--m-fg)">
+              <li>Role: Product Analyst at Acme</li><li>About 15 minutes, 4 topics</li><li>Style: Balanced</li><li>Your job description is being used</li></ul>
+            <div class="blk a" style="margin-bottom:12px"><h5 style="color:var(--m-amb)">Heads up</h5>Your CV is mostly in design roles, so expect questions on how that experience applies.</div>
+            <span class="mbtn p">Start interview</span></div>
+        </div>
+      </div></div>
+      <div class="notes"><h4>Notes</h4><ol>
+        <li>One blocking call (<code>POST /api/sessions</code>). Model calls retry up to 3 times, 150 s timeout each. Show staged copy, not a fake percent. Disable Back and keep the user on the page.</li>
+        <li>Pre-brief comes from <code>pre_brief</code>: <code>interview_type, style (null if surprise), topics, minutes, company, role, jd_used, mismatch_note</code>. Hide any row that is null. Camera and mic checks reuse today's pre-interview screen before Start.</li></ol></div>
+    </div>
+  </div>
+
+  <!-- S5 -->
+  <div class="screen">
+    <div class="screen-head"><span class="n">S5</span><h3 style="margin:0">Live interview</h3><span class="tag n">Changed panel</span></div>
+    <div class="screen-body">
+      <div class="scroll-x"><div class="mk" style="min-width:760px">
+        <div class="mk-bar"><span class="logo"><i></i>vmock</span></div>
+        <div class="live">
+          <div class="stage rel"><span class="pin" style="top:12px;left:12px">1</span>Your video is hidden. Recording is still in progress.
+            <div class="dock"><span>🎥 Interview Video</span><span><i class="rec"></i> 05 : 12 / about 15 min</span></div></div>
+          <div class="panel rel"><span class="pin" style="top:10px;right:-2px;z-index:2">2</span>
+            <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:15px">Interview</b><span class="mbtn d">End Interview</span></div>
+            <div class="msg i"><div class="who">Interviewer</div>Tell me about your background and how you came to apply for this role.</div>
+            <div class="msg c"><div class="who">You</div>I started in video editing, then moved into promo analytics…</div>
+            <div class="msg cur rel"><span class="pin" style="top:-8px;right:-8px">3</span><div class="who">Interviewer</div>Your CV says you cut weekly promo turnaround. What did you do yourself to make that happen?</div>
+            <div class="compose rel"><span class="pin" style="top:-8px;right:-8px">4</span>🎙 Listening… “I built a template library so editors…”</div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="mutes">Switch to typing</span><span class="mbtn p">Send answer</span></div>
+          </div>
+        </div>
+      </div></div>
+      <div class="notes"><h4>Notes</h4><ol>
+        <li>Stage, recording, video toggle and timer are the existing ones.</li>
+        <li>The “Interview Questions” list is replaced by a conversation panel. The plan is <b>never shown</b>, so no upcoming questions or total count. Timer compares to the chosen length only.</li>
+        <li>The current question stays pinned and highlighted. Earlier turns scroll above.</li>
+        <li>Answer by voice (transcript appears live and is editable) or by typing. Send posts the final text (max 20,000 characters).</li>
+        <li class="hr" style="list-style:none;padding:0"></li>
+        <li>While waiting for the next question show “Interviewer is typing”. Lock Send and End until the reply arrives (the server returns 409 for a second answer in flight).</li></ol></div>
+    </div>
+  </div>
+
+  <!-- S6 -->
+  <div class="screen">
+    <div class="screen-head"><span class="n">S6</span><h3 style="margin:0">Ending, and writing feedback</h3></div>
+    <div class="screen-body">
+      <div class="scroll-x"><div class="mk">
+        <div class="mk-body" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="mc"><b style="font-size:16px">End the interview now?</b><div class="mutes" style="margin:6px 0 14px">You will still get feedback on what you have answered so far.</div><span class="mbtn">Keep going</span> <span class="mbtn d">End interview</span></div>
+          <div class="mc rel"><span class="pin" style="top:-8px;right:-8px">1</span><b style="font-size:16px">Writing your feedback</b><div class="mutes" style="margin:6px 0 14px">Reading your answers against your CV and the role.</div><div class="skel" style="width:85%"></div><div class="skel" style="width:60%"></div><div class="skel" style="width:75%"></div></div>
+        </div>
+      </div></div>
+      <div class="notes"><h4>Notes</h4><ol>
+        <li>Natural end: the interviewer's closing message arrives with <code>status: "ended"</code>, then the page moves to feedback automatically. Early end calls <code>POST …/end</code>.</li>
+        <li>Feedback is one call (<code>POST …/feedback</code>) plus a grounding check per rewrite. Cached after the first call, so reopening is instant.</li>
+        <li>Zero answers: the call returns 400 “Answer at least one question to get feedback.” Show the message with a Start again button.</li></ol></div>
+    </div>
+  </div>
+
+  <!-- S7 -->
+  <div class="screen">
+    <div class="screen-head"><span class="n">S7</span><h3 style="margin:0">Feedback: Summary (existing page)</h3><span class="tag r">Existing UI, small additions</span></div>
+    <div class="screen-body">
+      <div class="scroll-x"><div class="mk" style="min-width:760px">
+        <div class="mk-bar"><span class="logo"><i></i>vmock</span><span class="sp"></span><span class="mbtn p">Re-attempt</span><span class="pill">Adaptive interview 1 · Level 2</span></div>
+        <div class="tabs"><span class="on">Summary</span><span>Detailed Feedback</span></div>
+        <div class="mk-body two">
+          <div class="mc rel"><span class="pin" style="top:-8px;left:-8px">1</span>
+            <div class="qchips"><span class="on">Overall</span><span>Q1</span><span>Q2 <b style="color:var(--m-blue)">+2</b></span><span>Q3 <b style="color:var(--m-blue)">+1</b></span><span>Q4</span><span>Q5</span><span style="border:0;margin-left:auto">Level <b>2</b>/5</span></div>
+            <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+              <div class="mc" style="padding:10px"><span class="mchip nw">Needs work</span><b style="display:block;margin:6px 0">Non Verbal</b><div class="mutes">Unchanged</div></div>
+              <div class="mc" style="padding:10px"><span class="mchip ot">On track</span><b style="display:block;margin:6px 0">Delivery of Speech</b><div class="mutes">Unchanged</div></div>
+              <div class="mc rel" style="padding:10px"><span class="pin" style="top:-8px;right:-8px">2</span><span class="mchip ot">On track</span><b style="display:block;margin:6px 0">Content Strength</b>
+                <div class="rows"><div class="trow">STAR/HSAR <span style="color:var(--m-blue)">↩ 1</span></div><div class="trow">Depth &amp; Clarity <span style="color:var(--m-blue)">↩ 1</span></div><div class="trow">Handling follow-ups <span class="mchip new">New</span></div></div></div>
+            </div>
+          </div>
+          <div class="mc rel"><span class="pin" style="top:-8px;right:-8px">3</span><b>How to improve?</b>
+            <div class="mutes" style="margin:6px 0">How it went: two sentences.</div>
+            <div class="blk b"><h5 style="color:var(--m-blue)">Goal for your next attempt</h5><b>When</b> you finish a story, <b>then</b> say what changed and how you know.</div>
+            <div class="mutes">Overall Improvements: content tips mixed with Non Verbal and Delivery tips, each tagged by module.</div>
+            <div class="mutes" style="margin-top:6px">Across the interview: job description coverage · “I” vs “we” · no questions at the end.</div>
+          </div>
+        </div>
+      </div></div>
+      <div class="notes"><h4>Notes</h4><ol>
+        <li>Q chips are the <b>opening questions</b>. A badge shows how many follow-ups each had (<code>topics[].follow_ups.length</code>). Follow-ups never become their own Q.</li>
+        <li>Content Strength uses VMock’s existing question-type rubric rows, so the <b>Level is calculated as today</b>. “↩ n” counts elements given only after a follow-up. “Handling follow-ups” is the one new row (<code>followup</code> rating).</li>
+        <li>How it went is <code>overall</code>. The goal is <code>priorities[0]</code>. <code>priorities[1..2]</code> join the existing Overall Improvements list with no impact tag. Across the interview shows <code>jd_coverage</code>, <code>ownership</code> and <code>moments</code>.</li></ol></div>
+    </div>
+  </div>
+
+  <!-- S8 -->
+  <div class="screen">
+    <div class="screen-head"><span class="n">S8</span><h3 style="margin:0">Feedback: Detailed, one question</h3><span class="tag n">Content Strength tab extended</span></div>
+    <div class="screen-body">
+      <div class="scroll-x"><div class="mk" style="min-width:760px">
+        <div class="tabs"><span>Summary</span><span class="on">Detailed Feedback</span></div>
+        <div class="mk-body">
+          <div class="qchips"><span>Q1</span><span class="on">Q2 +2</span><span>Q3 +1</span><span>Q4</span><span>Q5</span></div>
+          <b style="font-size:15px;display:block">Your CV says you cut weekly promo turnaround. What did you do yourself to make that happen?</b>
+          <div class="mutes rel" style="margin:2px 0 12px">From your CV: “Cut weekly promo turnaround by building a reusable edit workflow” <span class="pin" style="position:static;display:inline-block;margin-left:6px">1</span></div>
+          <div class="two">
+            <div>
+              <div class="rel" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px"><span class="pin" style="top:-10px;left:-10px">2</span>
+                <span class="mchip gj">✓ Situation</span><span class="mchip gj">✓ Your role</span><span class="mchip gj">✓ What you did</span><span class="mchip nw">✕ Result</span><span class="mchip" style="background:var(--m-blue-s);color:var(--m-blue)">↩ Technical reasoning</span></div>
+              <div class="mutes" style="margin-bottom:10px">✓ in your first answer · ↩ added when asked · ✕ still missing</div>
+              <div class="blk f"><h5 style="color:var(--m-red)">Result · Needs work</h5>You never said how much faster the promos got, even when asked.<div class="quote">“Not sure exactly, maybe a day or so.”</div></div>
+              <div class="blk g rel"><span class="pin" style="top:-8px;right:-8px">3</span><h5 style="color:var(--m-grn)">Your first answer</h5>Went well: you named the tool you built. To fix: it ended with “a lot faster” and no measure.</div>
+              <div class="blk b rel"><span class="pin" style="top:-8px;right:-8px">4</span><h5 style="color:var(--m-blue)">Follow-ups</h5>1 “How much faster?” asked for Result: ✕ not given<br>2 “Why templates?” asked for Technical reasoning: ↩ given</div>
+              <div class="blk a"><h5 style="color:var(--m-amb)">Does not match your CV</h5>Your CV says weekly promos; the answer described monthly reports.</div>
+              <div class="blk b"><h5 style="color:var(--m-blue)">Next time</h5>3 steps, then “I <span class="ph">[what you built]</span>, and turnaround dropped from <span class="ph">[before]</span> to <span class="ph">[after]</span>.”</div>
+            </div>
+            <div class="mc rel"><span class="pin" style="top:-8px;right:-8px">5</span><b>Q2 in your recording</b><div class="mutes">03:40–06:55 · markers at Follow-up 1 and 2</div>
+              <div style="margin-top:10px;line-height:1.6">You: <span style="background:#D8F0E3">I built a template library…</span> <span style="background:#FBDADA">It was a lot faster after that.</span><br>Follow-up 2 · You: <span style="background:#DCE8FA">Hiring would take months…</span></div></div>
+          </div>
+        </div>
+      </div></div>
+      <div class="notes"><h4>Notes</h4><ol>
+        <li><code>resume_line</code> for CV questions; <code>jd_line</code> (“From the job description: …”) for questions that came from the JD.</li>
+        <li>Each chip is a <code>ratings[]</code> entry: <code>label</code>, <code>level</code>, <code>reason</code>, and <code>found</code> (<code>first_answer</code> ✓ · <code>after_follow_up</code> ↩ · <code>not_given</code> ✕). Selecting a chip shows its reason and <code>quote</code>. Chip names come from VMock’s rubric through a mapping VMock owns.</li>
+        <li><code>went_well</code> / <code>to_fix</code> with their quotes.</li>
+        <li><code>follow_ups[]</code>: <code>question</code>, <code>at</code>, <code>asked_for</code> + <code>asked_for_label</code>, <code>given</code> (true, false, or null when the follow-up maps to no element).</li>
+        <li><code>segment.start</code> / <code>segment.end</code> cut the recording for this question, follow-ups included. Non Verbal and Delivery run on this segment. Transcript colours: green went well, red to fix, blue added when asked (a rating quote with <code>found: after_follow_up</code>).</li></ol>
+        <div class="hr"></div>
+        <p style="margin:0">Other states: Q1 (background) is not rated and shows <code>moments</code>. A <code>too_short</code> topic shows “Answer too short to check” with the plan only. Scenario and technical questions add VMock’s <b>Sample Response</b> from <code>example_answer</code>.</p></div>
+    </div>
+  </div>
+  <p style="margin-top:24px">Full-size boards for every screen: <a href="https://claude.ai/artifact/WNZWMoeL4DWQYWyncEL77s">Adaptive Interview Screens canvas</a>.</p>
+</section>
+
+<!-- ============ STATES ============ -->
+<section id="states">
+  <div class="sec-head"><div class="eyebrow">4 · States</div><h2>Errors and edge cases</h2><p class="lede" style="font-size:16px">Messages are the exact strings the service returns today. Show them inline, in the product's error style.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Where</th><th>Trigger</th><th>HTTP</th><th>Message shown</th><th>Recovery</th></tr></thead>
+    <tbody>
+      <tr><td>Step 4</td><td>CV text under 200 characters</td><td>400</td><td>Add a resume of at least a few lines (200+ characters).</td><td>Back to step 3</td></tr>
+      <tr><td>Step 4</td><td>No JD and no target role</td><td>400</td><td>Add a target role or paste a job description.</td><td>Inline on the role field</td></tr>
+      <tr><td>Step 4</td><td>CV or JD over 30,000 characters</td><td>400</td><td>The resume or job description is too long. Please trim it to the essentials.</td><td>Back to the step</td></tr>
+      <tr><td>Step 4</td><td>Type, style or length not chosen</td><td>400</td><td>Choose an interview type. / Choose an interviewer style. / Choose a length.</td><td>Defaults are preselected, so this should not happen</td></tr>
+      <tr><td>Preparing</td><td>Model call fails after 3 tries</td><td>5xx</td><td>We could not prepare your interview. Please try again.</td><td>Retry button, keeps all inputs <span class="tag a">Assumption: copy</span></td></tr>
+      <tr><td>Live</td><td>Answer over 20,000 characters</td><td>400</td><td>That answer is too long. Please shorten it.</td><td>Keep the text in the box</td></tr>
+      <tr><td>Live</td><td>Second answer while one is processing</td><td>409</td><td>Your last answer is still being processed. Please wait a moment.</td><td>Lock Send until the reply returns</td></tr>
+      <tr><td>Live</td><td>Student says “not sure”</td><td>200</td><td>None. The interviewer asks at most one follow-up in that topic, and moves on after a second “not sure”.</td><td>No special UI</td></tr>
+      <tr><td>Live</td><td>Session lost (reload, new device)</td><td>404</td><td>Interview not found. Start a new one.</td><td>Reload resumes via <code>GET …/sessions/:id</code> when it still exists</td></tr>
+      <tr><td>Feedback</td><td>Interview not ended</td><td>400</td><td>Finish the interview to get your feedback.</td><td>Return to live screen</td></tr>
+      <tr><td>Feedback</td><td>No answers given</td><td>400</td><td>Answer at least one question to get feedback.</td><td>Start again</td></tr>
+      <tr><td>Feedback</td><td>Generation already running</td><td>409</td><td>Your feedback is still being written. Please wait a moment.</td><td>Poll again after a few seconds</td></tr>
+      <tr><td>Feedback</td><td>A topic answer under 15 words</td><td>200</td><td>Chip “Too short to rate”; plan only, no ratings</td><td>—</td></tr>
+      <tr><td>Feedback</td><td>No question asked at the end</td><td>200</td><td>Moment card: no questions for the interviewer</td><td>—</td></tr>
+    </tbody></table></div>
+</section>
+
+<!-- ============ TECH ============ -->
+<section id="tech">
+  <div class="sec-head"><div class="eyebrow">5 · Integration</div><h2>How the pieces fit</h2><p class="lede" style="font-size:16px">The prototype is a zero-dependency Node service. Developers can keep it as a separate service, or lift <code>lib/engine.js</code>, <code>lib/schemas.js</code> and <code>prompts/</code> into the VMock backend.</p></div>
+  <pre class="mermaid">
+flowchart LR
+  W[VMock web app<br/>wizard, live screen, feedback] -->|session auth| B[VMock backend<br/>CV text, JD text, user id]
+  B -->|server to server| S[Adaptive interview service<br/>routes + engine]
+  S --> P[(Session store)]
+  S -->|planner once<br/>turn per answer<br/>feedback once<br/>grounding per rewrite| L[LLM provider]
+  W -. video, audio .-> V[Existing recording and speech pipeline]
+  V -. final transcript text .-> W
+  </pre>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card"><h3>Four model calls, one rule engine</h3>
+      <ul class="tight">
+        <li><b>Planner</b> (<code>prompts/planner.md</code>): once. CV and JD to claims, competencies, concerns and a slot plan.</li>
+        <li><b>Turn</b> (<code>prompts/turn.md</code>): per answer. Proposes the next move.</li>
+        <li><b>Engine</b> (<code>lib/engine.js</code>): code, not model. Follow-up budgets by style (1 / 2 / 3, +1 on claim topics), pivots, time rule, “not sure” rules, wording guards. A disallowed decision is rejected and re-requested.</li>
+        <li><b>Feedback</b> (<code>prompts/feedback.md</code>): once after the end, then a grounding call per rewrite.</li>
+      </ul></div>
+    <div class="card"><h3>Student never sees the plan</h3>
+      <ul class="tight">
+        <li><code>publicView</code> returns only <code>id, status, pre_brief, transcript</code>.</li>
+        <li>The full session (plan, raw model inputs and outputs, latency, tokens) exists only at the trace endpoint. Keep it staff-only.</li>
+        <li>CV, JD and answers are untrusted text. Every prompt says never to follow instructions found in them.</li>
+        <li>Feedback strips scores and agenda words, keeps only verbatim quotes from the same topic, and drops rewrites with invented numbers.</li>
+      </ul></div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>Limits baked into the code</h3>
+    <div class="tbl" style="border:0"><table style="min-width:520px"><tbody>
+      <tr><td>Scored topics</td><td>short 3 · standard 4 (plus warm-up and closing)</td></tr>
+      <tr><td>Interviewer turn cap</td><td>short 16 · standard 20</td></tr>
+      <tr><td>Planned time</td><td>short 10 min · standard 15 min</td></tr>
+      <tr><td>Input size</td><td>CV or JD up to 30,000 characters · answer up to 20,000 · request body up to 2 MB</td></tr>
+      <tr><td>Model call</td><td>3 attempts, 150 s timeout each. Reasoning effort is dropped on retry if the model rejects it.</td></tr>
+      <tr><td>Defaults</td><td>Turn model <code>gpt-5-mini</code>, effort low. Planner effort medium. Override with <code>PLANNER_MODEL</code>, <code>PLANNER_REASONING_EFFORT</code>, <code>TURN_MODEL</code>, <code>TURN_REASONING_EFFORT</code>, <code>OPENAI_BASE_URL</code>.</td></tr>
+      <tr><td>Feedback version</td><td><code>FEEDBACK_VERSION = 9</code>. Cached feedback with an older version is regenerated.</td></tr>
+    </tbody></table></div></div>
+</section>
+
+<!-- ============ API ============ -->
+<section id="api">
+  <div class="sec-head"><div class="eyebrow">6 · API</div><h2>Contract</h2><p class="lede" style="font-size:16px">Taken from <code>server.js</code> as it runs today. JSON in, JSON out. Errors are <code>{ "error": "message" }</code> with the status above.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Route</th><th>Purpose</th><th>Body</th><th>Returns</th></tr></thead>
+    <tbody>
+      <tr><td><span class="m post">POST</span> <code>/api/sessions</code></td><td>Plan and create an interview</td><td><code>resume_text, jd_text?, target_role?, interview_type, style, length, settings?</code></td><td>Public view</td></tr>
+      <tr><td><span class="m post">POST</span> <code>/api/sessions/:id/answers</code></td><td>Send one answer, get the next message</td><td><code>{ answer }</code></td><td>Public view</td></tr>
+      <tr><td><span class="m post">POST</span> <code>/api/sessions/:id/end</code></td><td>End early</td><td>none</td><td>Public view</td></tr>
+      <tr><td><span class="m post">POST</span> <code>/api/sessions/:id/feedback</code></td><td>Generate or return cached feedback</td><td>none</td><td>Feedback object</td></tr>
+      <tr><td><span class="m get">GET</span> <code>/api/sessions/:id</code></td><td>Resume a session</td><td>none</td><td>Public view</td></tr>
+      <tr><td><span class="m get">GET</span> <code>/api/sessions/:id/trace</code></td><td>Full session with plan</td><td>none</td><td><b>Staff only</b></td></tr>
+      <tr><td><span class="m get">GET</span> <code>/api/sessions</code></td><td>List all sessions</td><td>none</td><td>Prototype only. Scope by user or remove.</td></tr>
+      <tr><td><code>/api/config</code>, <code>/api/key</code>, <code>/api/samples</code></td><td>Prototype settings page</td><td></td><td>Remove. Key comes from server config.</td></tr>
+    </tbody></table></div>
+
+  <h3 style="margin-top:28px">Create</h3>
+<pre class="code">POST /api/sessions
+{
+  "resume_text": "…CV text, 200+ characters…",
+  "jd_text": "…optional job description…",
+  "target_role": "Product Analyst",     // required only when jd_text is empty
+  "interview_type": "hiring_manager",   // recruiter_screen | hiring_manager | back_your_resume
+  "style": "balanced",                  // supportive | balanced | probing | surprise
+  "length": "standard"                  // short | standard
+}
+
+200 → {
+  "id": "…",
+  "status": "active",                   // active | ended
+  "pre_brief": {
+    "interview_type": "Hiring manager", "style": "Balanced", "surprise": false,
+    "topics": 4, "minutes": 15, "company": "Acme", "role": "Product Analyst",
+    "jd_used": true, "mismatch_note": null
+  },
+  "transcript": [ { "role": "interviewer", "text": "Hi, thanks for joining…", "at": "…" } ]
+}</pre>
+  <h3>Answer</h3>
+<pre class="code">POST /api/sessions/:id/answers   { "answer": "I started in video editing…" }
+200 → same shape as create; the last transcript entry is the interviewer's next message.
+      When the interview finishes, status is "ended" and the last message is the closing.
+409 → previous answer still processing</pre>
+  <h3>Feedback object</h3>
+<pre class="code">{
+  "version": 9,
+  "overall": "two sentences",
+  "topics": [{
+    "slot_id": "…", "kind": "…", "topic": "…", "question": "…",
+    "resume_line": "…" | null,               // the CV line the question came from
+    "jd_line": "…" | null,                   // the JD requirement, for questions not based on a CV line
+    "rubric": "behavioural | situational | knowledge | motivation | concern",
+    "segment": { "start": "ISO time", "end": "ISO time" },   // opening question to last answer, follow-ups included
+    "too_short": false,
+    "verdict": "good_job | on_track | needs_work",
+    "ratings": [ {
+      "dimension": "result", "label": "Result", "level": "needs_work", "reason": "…",
+      "found": "first_answer | after_follow_up | not_given" | null,   // null for the followup row
+      "quote": "…verbatim, from a follow-up reply when found is after_follow_up…"
+    } ],
+    "follow_ups": [ {
+      "question": "…", "at": "ISO time", "why": "…",
+      "asked_for": "result" | null, "asked_for_label": "Result" | null,
+      "given": true | false | null
+    } ],
+    "went_well": "…", "went_well_quote": "…verbatim…",
+    "to_fix": "…", "to_fix_quote": "…verbatim…",
+    "resume_mismatch": { "quote": "…", "note": "…", "tip": "…" } | null,
+    "answer_plan": [ "step 1", "step 2" ],
+    "stronger_version": "…[placeholders]…",
+    "example_answer": "…only for scenario and technical…",
+    "ownership": { "i": 3, "we": 5 }
+  }],
+  "moments": [ { "slot_id": "…", "quote": "…", "note": "…", "tip": "…" } ],
+  "ownership": { "i": 0, "we": 0 },
+  "priorities": [ { "title": "…", "why": "…", "action": "…" } ],   // [0] is the goal; its action reads "When …, …."
+  "jd_coverage": [ { "name": "…", "status": "covered | partly | not_reached" } ],
+  "generated_at": "…"
+}</pre>
+  <p class="mutes" style="color:var(--muted)">Levels in the UI: <code>good_job</code> → Good job, <code>on_track</code> → On track, <code>needs_work</code> → Needs work. Chip states: <code>found</code> <code>first_answer</code> → ✓, <code>after_follow_up</code> → ↩, <code>not_given</code> → ✕. The <code>ownership</code> I/we counts show in “Across the interview” and under each question.</p>
+</section>
+
+<!-- ============ GAPS ============ -->
+<section id="gaps">
+  <div class="sec-head"><div class="eyebrow">7 · Production gaps</div><h2>What the prototype does not do yet</h2></div>
+  <div class="warnbox"><b>Not safe to expose as is.</b> These are facts about the current code, found while reading it. The test suite passes (all checks), but it covers the interview logic, not production concerns.</div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card"><h3>Security and access</h3><ul class="tight">
+      <li>No authentication, and no link between a session and a user. Any caller can read any session by id.</li>
+      <li><code>GET /api/sessions</code> lists every session. <code>GET …/trace</code> returns the hidden plan.</li>
+      <li><code>POST /api/key</code> lets any caller replace the model key. Remove it; read the key from server config.</li>
+      <li>No rate limiting on a route that makes paid model calls.</li></ul></div>
+    <div class="card"><h3>State and scaling</h3><ul class="tight">
+      <li>Sessions are JSON files under <code>sessions/</code>, cached in memory. Move to the VMock database, owned by user id.</li>
+      <li>The “one answer at a time” lock is an in-memory set. With more than one instance it needs a shared lock.</li>
+      <li>Sessions store full CV and JD text and raw model output. Confirm retention and privacy policy before storing.</li>
+      <li>Prompts are read from disk on every call (convenient for tuning). Cache them in production.</li></ul></div>
+  </div>
+</section>
+
+<!-- ============ CHECKLIST ============ -->
+<section id="checklist">
+  <div class="sec-head"><div class="eyebrow">8 · Checklist</div><h2>Developer work items</h2></div>
+  <div class="grid2">
+    <div class="card"><h3>Frontend</h3><ul class="check">
+      <li>Adaptive card on Studio Conversations; <code>mode=adaptive</code> on the wizard</li>
+      <li>Hide “Job description only” in adaptive mode</li>
+      <li>Step 4 “Interview setup” with the conditional target role field</li>
+      <li>Preparing state and pre-brief, with camera and mic checks reused</li>
+      <li>Live panel: conversation thread, voice and typed answer, lock while waiting</li>
+      <li>End confirmation and feedback loading state</li>
+      <li>Summary: Q chips with follow-up counts, “↩ n” badges, Handling follow-ups row, How it went, goal, Across the interview</li>
+      <li>Detailed: three-state chips, follow-ups list, CV/JD line, transcript colours, segment timeline</li>
+      <li>Previous Attempts: “Adaptive” label and link to feedback</li></ul></div>
+    <div class="card"><h3>Backend</h3><ul class="check">
+      <li>Add auth; bind each session to a user; drop list and key routes</li>
+      <li>Supply CV text and JD text from existing VMock records</li>
+      <li>Store sessions in the VMock database with retention rules</li>
+      <li>Shared in-flight lock for multi-instance deploys</li>
+      <li>Staff-only trace endpoint</li>
+      <li>Rate limits and cost monitoring on model calls</li>
+      <li>Cut the recording per question with <code>topics[].segment</code>; run Non Verbal, Delivery and Word Usage &amp; Tone per segment</li>
+      <li>Map engine rubric elements to VMock chip names; keep the Level calculation as today</li>
+      <li>Model key and model names from server config</li></ul></div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>Open questions</h3><ul class="tight">
+    <li>Hide “Job description only”, or keep it and require a CV? (Design hides it.)</li>
+    <li>The mapping from the engine’s rubric elements to VMock’s Content Strength chip names (owned by VMock).</li>
+    <li>Does Re-attempt reuse the same CV, JD and setup, or open the wizard? (Prototype supports “run again with same inputs”.)</li>
+    <li>Analytics events for this flow are not defined yet.</li></ul></div>
+</section>
+
+<footer>Source: <code>vmock-adaptive-interview</code> prototype (<code>server.js</code>, <code>lib/engine.js</code>, <code>lib/schemas.js</code>, <code>prompts/</code>) and the VMock UAT candidate app.</footer>
+</div>

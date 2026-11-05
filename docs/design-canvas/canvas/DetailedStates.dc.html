@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Detailed feedback: background and too-short states</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width:1200px;height:760px;box-sizing:border-box;background:#F1F3F8;color:#16233B;font-family:Figtree,system-ui,sans-serif;padding:24px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px">
+  <div style="background:#fff;border:1px solid #E7EAF1;border-radius:20px;overflow:hidden;display:flex;flex-direction:column">
+    <div style="padding:16px 20px;border-bottom:1px solid #E7EAF1">
+      <div style="display:flex;gap:8px;font-size:13.5px"><span style="border:1px solid #2C6BC9;background:#E8F0FC;color:#2C6BC9;border-radius:99px;padding:5px 14px">Q1</span><a href="Detailed.dc.html" style="border:1px solid #DDE2EB;border-radius:99px;padding:5px 14px;color:#16233B;text-decoration:none">Q2</a><span style="border:1px solid #DDE2EB;border-radius:99px;padding:5px 14px">Q3</span></div>
+      <div style="font-size:16px;margin-top:10px">Tell me about your background and how you came to apply for this role.</div>
+    </div>
+    <div style="padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;gap:8px"><b style="font-size:16px">Content Strength</b><span style="background:#EDEFF4;color:#5F6A80;font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px">Not rated</span></div>
+      <div style="color:#5F6A80;font-size:14px;line-height:1.5">Your background walkthrough is not rated. Non Verbal and Delivery of Speech are still checked for this question as usual.</div>
+      <div style="font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#6B7488;margin-top:4px">Worth noting</div>
+      <div style="background:#FEF7EA;border:1px solid #F3D9A8;border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.5">
+        <b>Your walkthrough skipped how you moved into analytics.</b> The interviewer had to guess why you applied.
+        <div style="border-left:3px solid #E9C88A;padding-left:10px;color:#43506A;font-style:italic;font-size:13.5px;margin:8px 0">&ldquo;Then I did some video stuff and now I'm applying here&rdquo;</div>
+        <b>Next time:</b> add one sentence on what made you switch, and link it to this role.
+      </div>
+      <div style="color:#6B7488;font-size:12.5px">Up to 2 notes, only when something here would change your next attempt.</div>
+    </div>
+  </div>
+  <div style="background:#fff;border:1px solid #E7EAF1;border-radius:20px;overflow:hidden;display:flex;flex-direction:column">
+    <div style="padding:16px 20px;border-bottom:1px solid #E7EAF1">
+      <div style="display:flex;gap:8px;font-size:13.5px"><span style="border:1px solid #DDE2EB;border-radius:99px;padding:5px 14px">Q3</span><span style="border:1px solid #DDE2EB;border-radius:99px;padding:5px 14px">Q4</span><span style="border:1px solid #2C6BC9;background:#E8F0FC;color:#2C6BC9;border-radius:99px;padding:5px 14px">Q5</span></div>
+      <div style="font-size:16px;margin-top:10px">Your CV shows a gap in 2023. What were you doing then?</div>
+      <div style="color:#6B7488;font-size:13px;margin-top:4px">From your CV: Jan 2023 &ndash; Sep 2023, no role listed</div>
+    </div>
+    <div style="padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;gap:8px"><b style="font-size:16px">Content Strength</b><span style="background:#EDEFF4;color:#5F6A80;font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px">Answer too short to check</span></div>
+      <div style="color:#5F6A80;font-size:14px;line-height:1.5">Your answer was a few words, so there was not enough to check against the rubric. Here is how to answer it next time.</div>
+      <div style="border-left:3px solid #D5DAE5;padding-left:10px;color:#43506A;font-style:italic;font-size:13.5px">&ldquo;I was just taking a break.&rdquo;</div>
+      <div style="font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#6B7488;margin-top:4px">Next time</div>
+      <ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.6"><li>Say plainly what the gap was for: [the reason].</li><li>Name one thing you did or learned in that time: [what].</li><li>Link it to why you are ready for this role now.</li></ol>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;font-size:12.5px;margin-top:4px"><span style="color:#6B7488">This question is checked for:</span><span style="border:1px solid #E1E6EE;border-radius:8px;padding:3px 8px">Explanation</span><span style="border:1px solid #E1E6EE;border-radius:8px;padding:3px 8px">Ownership</span><span style="border:1px solid #E1E6EE;border-radius:8px;padding:3px 8px">What changed</span></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":760}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

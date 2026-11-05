@@ -1,0 +1,69 @@
+  <!-- S7 -->
+  <div class="screen">
+    <div class="screen-head"><span class="n">S7</span><h3 style="margin:0">Feedback: Summary (existing page)</h3><span class="tag r">Existing UI, small additions</span></div>
+    <div class="screen-body">
+      <div class="scroll-x"><div class="mk" style="min-width:760px">
+        <div class="mk-bar"><span class="logo"><i></i>vmock</span><span class="sp"></span><span class="mbtn p">Re-attempt</span><span class="pill">Adaptive interview 1 · Level 2</span></div>
+        <div class="tabs"><span class="on">Summary</span><span>Detailed Feedback</span></div>
+        <div class="mk-body two">
+          <div class="mc rel"><span class="pin" style="top:-8px;left:-8px">1</span>
+            <div class="qchips"><span class="on">Overall</span><span>Q1</span><span>Q2 <b style="color:var(--m-blue)">+2</b></span><span>Q3 <b style="color:var(--m-blue)">+1</b></span><span>Q4</span><span>Q5</span><span style="border:0;margin-left:auto">Level <b>2</b>/5</span></div>
+            <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+              <div class="mc" style="padding:10px"><span class="mchip nw">Needs work</span><b style="display:block;margin:6px 0">Non Verbal</b><div class="mutes">Unchanged</div></div>
+              <div class="mc" style="padding:10px"><span class="mchip ot">On track</span><b style="display:block;margin:6px 0">Delivery of Speech</b><div class="mutes">Unchanged</div></div>
+              <div class="mc rel" style="padding:10px"><span class="pin" style="top:-8px;right:-8px">2</span><span class="mchip ot">On track</span><b style="display:block;margin:6px 0">Content Strength</b>
+                <div class="rows"><div class="trow">STAR/HSAR <span style="color:var(--m-blue)">↩ 1</span></div><div class="trow">Depth &amp; Clarity <span style="color:var(--m-blue)">↩ 1</span></div><div class="trow">Handling follow-ups <span class="mchip new">New</span></div></div></div>
+            </div>
+          </div>
+          <div class="mc rel"><span class="pin" style="top:-8px;right:-8px">3</span><b>How to improve?</b>
+            <div class="mutes" style="margin:6px 0">How it went: two sentences.</div>
+            <div class="blk b"><h5 style="color:var(--m-blue)">Goal for your next attempt</h5><b>When</b> you finish a story, <b>then</b> say what changed and how you know.</div>
+            <div class="mutes">Overall Improvements: content tips mixed with Non Verbal and Delivery tips, each tagged by module.</div>
+            <div class="mutes" style="margin-top:6px">Across the interview: job description coverage · “I” vs “we” · no questions at the end.</div>
+          </div>
+        </div>
+      </div></div>
+      <div class="notes"><h4>Notes</h4><ol>
+        <li>Q chips are the <b>opening questions</b>. A badge shows how many follow-ups each had (<code>topics[].follow_ups.length</code>). Follow-ups never become their own Q.</li>
+        <li>Content Strength uses VMock’s existing question-type rubric rows, so the <b>Level is calculated as today</b>. “↩ n” counts elements given only after a follow-up. “Handling follow-ups” is the one new row (<code>followup</code> rating).</li>
+        <li>How it went is <code>overall</code>. The goal is <code>priorities[0]</code>. <code>priorities[1..2]</code> join the existing Overall Improvements list with no impact tag. Across the interview shows <code>jd_coverage</code>, <code>ownership</code> and <code>moments</code>.</li></ol></div>
+    </div>
+  </div>
+
+  <!-- S8 -->
+  <div class="screen">
+    <div class="screen-head"><span class="n">S8</span><h3 style="margin:0">Feedback: Detailed, one question</h3><span class="tag n">Content Strength tab extended</span></div>
+    <div class="screen-body">
+      <div class="scroll-x"><div class="mk" style="min-width:760px">
+        <div class="tabs"><span>Summary</span><span class="on">Detailed Feedback</span></div>
+        <div class="mk-body">
+          <div class="qchips"><span>Q1</span><span class="on">Q2 +2</span><span>Q3 +1</span><span>Q4</span><span>Q5</span></div>
+          <b style="font-size:15px;display:block">Your CV says you cut weekly promo turnaround. What did you do yourself to make that happen?</b>
+          <div class="mutes rel" style="margin:2px 0 12px">From your CV: “Cut weekly promo turnaround by building a reusable edit workflow” <span class="pin" style="position:static;display:inline-block;margin-left:6px">1</span></div>
+          <div class="two">
+            <div>
+              <div class="rel" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px"><span class="pin" style="top:-10px;left:-10px">2</span>
+                <span class="mchip gj">✓ Situation</span><span class="mchip gj">✓ Your role</span><span class="mchip gj">✓ What you did</span><span class="mchip nw">✕ Result</span><span class="mchip" style="background:var(--m-blue-s);color:var(--m-blue)">↩ Technical reasoning</span></div>
+              <div class="mutes" style="margin-bottom:10px">✓ in your first answer · ↩ added when asked · ✕ still missing</div>
+              <div class="blk f"><h5 style="color:var(--m-red)">Result · Needs work</h5>You never said how much faster the promos got, even when asked.<div class="quote">“Not sure exactly, maybe a day or so.”</div></div>
+              <div class="blk g rel"><span class="pin" style="top:-8px;right:-8px">3</span><h5 style="color:var(--m-grn)">Your first answer</h5>Went well: you named the tool you built. To fix: it ended with “a lot faster” and no measure.</div>
+              <div class="blk b rel"><span class="pin" style="top:-8px;right:-8px">4</span><h5 style="color:var(--m-blue)">Follow-ups</h5>1 “How much faster?” asked for Result: ✕ not given<br>2 “Why templates?” asked for Technical reasoning: ↩ given</div>
+              <div class="blk a"><h5 style="color:var(--m-amb)">Does not match your CV</h5>Your CV says weekly promos; the answer described monthly reports.</div>
+              <div class="blk b"><h5 style="color:var(--m-blue)">Next time</h5>3 steps, then “I <span class="ph">[what you built]</span>, and turnaround dropped from <span class="ph">[before]</span> to <span class="ph">[after]</span>.”</div>
+            </div>
+            <div class="mc rel"><span class="pin" style="top:-8px;right:-8px">5</span><b>Q2 in your recording</b><div class="mutes">03:40–06:55 · markers at Follow-up 1 and 2</div>
+              <div style="margin-top:10px;line-height:1.6">You: <span style="background:#D8F0E3">I built a template library…</span> <span style="background:#FBDADA">It was a lot faster after that.</span><br>Follow-up 2 · You: <span style="background:#DCE8FA">Hiring would take months…</span></div></div>
+          </div>
+        </div>
+      </div></div>
+      <div class="notes"><h4>Notes</h4><ol>
+        <li><code>resume_line</code> for CV questions; <code>jd_line</code> (“From the job description: …”) for questions that came from the JD.</li>
+        <li>Each chip is a <code>ratings[]</code> entry: <code>label</code>, <code>level</code>, <code>reason</code>, and <code>found</code> (<code>first_answer</code> ✓ · <code>after_follow_up</code> ↩ · <code>not_given</code> ✕). Selecting a chip shows its reason and <code>quote</code>. Chip names come from VMock’s rubric through a mapping VMock owns.</li>
+        <li><code>went_well</code> / <code>to_fix</code> with their quotes.</li>
+        <li><code>follow_ups[]</code>: <code>question</code>, <code>at</code>, <code>asked_for</code> + <code>asked_for_label</code>, <code>given</code> (true, false, or null when the follow-up maps to no element).</li>
+        <li><code>segment.start</code> / <code>segment.end</code> cut the recording for this question, follow-ups included. Non Verbal and Delivery run on this segment. Transcript colours: green went well, red to fix, blue added when asked (a rating quote with <code>found: after_follow_up</code>).</li></ol>
+        <div class="hr"></div>
+        <p style="margin:0">Other states: Q1 (background) is not rated and shows <code>moments</code>. A <code>too_short</code> topic shows “Answer too short to check” with the plan only. Scenario and technical questions add VMock’s <b>Sample Response</b> from <code>example_answer</code>.</p></div>
+    </div>
+  </div>
+  <p style="margin-top:24px">Full-size boards for every screen: <a href="https://claude.ai/artifact/WNZWMoeL4DWQYWyncEL77s">Adaptive Interview Screens canvas</a>.</p>
