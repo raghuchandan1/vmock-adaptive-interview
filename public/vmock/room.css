@@ -309,21 +309,63 @@ body.vm-room.live .topbar.rm-top { display: flex; }
 .rm-tbtn:hover { background: var(--border); }
 .rm-tbtn[aria-expanded="true"] { color: var(--primary-ink); background: var(--primary-10); border-color: transparent; }
 .rm-help { font: 600 16px/1 var(--font); color: var(--muted-ink); }
+/* Space works like the button, so the button shows the key (keyboards only; "sv-talk" = speaking mode, set by
+   student.js). The separate "Hold Space to talk" line under the bar is then redundant. */
+@media (pointer: fine) {
+  .rm-talk.sv-talk:not(.on)::after {
+    content: "Space"; margin-left: 10px; padding: 3px 7px; border-radius: 5px; vertical-align: 1px;
+    font-size: 11px; line-height: 14px; font-weight: 600; color: #fff;
+    background: rgb(255 255 255 / .18); box-shadow: inset 0 -1px 0 rgb(0 0 0 / .18);
+  }
+}
+.rm-call-bottom .rm-hint { display: none; }
 .rm-hint { margin: 0; font-size: 12px; line-height: 16px; color: var(--muted-ink); }
 .rm-hint kbd { font: 600 11px/1 var(--font); padding: 2px 5px; color: var(--ink); background: #fff; border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 4px; }
 
-/* Transcript drawer: chat-style, the interviewer on the left, you on the right. */
-.rm-drawer { width: 360px; flex: none; display: flex; flex-direction: column; background: #fff; border-left: 1px solid var(--border); }
-.rm-drawer-head { padding: 14px 12px 10px 20px; display: flex; align-items: center; justify-content: space-between; }
+/* Transcript drawer: a chat. The interviewer's lines carry a small orb avatar on the left, yours are blue bubbles on
+   the right, the question being asked is tagged "Now", and three dots show while the interviewer is thinking. */
+.rm-drawer { width: 360px; flex: none; display: flex; flex-direction: column; background: #fafbfc; border-left: 1px solid var(--border); }
+.rm-drawer-head { padding: 14px 12px 12px 20px; display: flex; align-items: center; justify-content: space-between; background: #fff; border-bottom: 1px solid var(--border); }
 .rm-drawer-head h2 { margin: 0; font-size: 16px; line-height: 24px; font-weight: 600; }
+.rm-drawer-count { margin-left: 8px; padding: 2px 8px; border-radius: 999px; font-size: 11px; line-height: 16px; font-weight: 600; color: var(--muted-ink); background: var(--chip); vertical-align: 2px; }
 .rm-drawer .rm-dialog-close { position: static; }
-.rm-thread { flex: 1; min-height: 0; overflow-y: auto; padding: 0 20px 20px; display: flex; flex-direction: column; gap: 12px; }
-.rm-thread .sv-msg { max-width: 92%; padding: 10px 12px; border-radius: 12px; background: var(--chip); }
-.rm-thread .sv-msg.is-candidate { align-self: flex-end; background: var(--primary-10); }
-.rm-thread .sv-msg.now { margin: 0; padding: 10px 12px; background: var(--chip); box-shadow: inset 0 0 0 1px var(--primary-ink); }
-.rm-thread .sv-msg .who { font-size: 11px; line-height: 16px; font-weight: 600; color: var(--muted-ink); }
-.rm-thread .sv-msg time { margin-left: 6px; font-weight: 400; font-variant-numeric: tabular-nums; }
-.rm-thread .sv-msg p { margin: 2px 0 0; font-size: 13px; line-height: 20px; color: var(--ink); white-space: pre-wrap; }
+.rm-thread { flex: 1; min-height: 0; overflow-y: auto; padding: 16px 16px 24px; display: flex; flex-direction: column; gap: 14px; scroll-behavior: smooth; }
+
+.rm-thread .sv-msg { position: relative; max-width: 86%; margin: 0 0 0 34px; padding: 0; background: none; border: 0; }
+.rm-thread .sv-msg::before {
+  content: "AI"; position: absolute; left: -34px; top: 18px; width: 26px; height: 26px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 10px; font-weight: 700; color: #fff;
+  background: linear-gradient(135deg, #654498, #006fce 55%, #00b6eb);
+}
+.rm-thread .sv-msg .who { display: flex; align-items: baseline; gap: 6px; margin: 0 0 4px 2px; font-size: 12px; line-height: 16px; font-weight: 600; color: var(--ink); }
+.rm-thread .sv-msg time { margin: 0; font-size: 11px; font-weight: 400; color: var(--muted-ink); font-variant-numeric: tabular-nums; }
+.rm-thread .sv-msg p {
+  margin: 0; padding: 10px 14px; border-radius: 4px 16px 16px 16px;
+  font-size: 14px; line-height: 21px; color: var(--ink); white-space: pre-wrap;
+  background: #fff; border: 1px solid var(--border); box-shadow: 0 1px 2px rgb(17 17 26 / .04);
+}
+.rm-thread .sv-msg.is-candidate { align-self: flex-end; margin: 0; }
+.rm-thread .sv-msg.is-candidate::before { display: none; }
+.rm-thread .sv-msg.is-candidate .who { justify-content: flex-end; margin: 0 2px 4px 0; }
+.rm-thread .sv-msg.is-candidate p { border-radius: 16px 4px 16px 16px; color: #fff; background: var(--primary-ink); border-color: var(--primary-ink); }
+.rm-thread .sv-msg.now { margin: 0 0 0 34px; padding: 0; background: none; box-shadow: none; }
+.rm-thread .sv-msg.now .who::after {
+  content: "Now"; padding: 1px 7px; border-radius: 999px; font-size: 10px; line-height: 14px; font-weight: 600;
+  color: var(--primary-ink); background: var(--primary-10);
+}
+.rm-thread .sv-msg.now p { border-color: oklab(0.5549 -0.0533 -0.1494 / .5); box-shadow: 0 0 0 3px var(--primary-10); }
+
+/* "Typing" dots while the interviewer works on the reply (the thread itself is re-rendered by student.js). */
+.rm-live:has(#status[data-phase="thinking"]) .rm-thread::after {
+  content: ""; flex: none; align-self: flex-start; margin-left: 34px; width: 58px; height: 34px; border-radius: 4px 16px 16px 16px;
+  background:
+    radial-gradient(circle, var(--muted-ink) 3px, transparent 3.5px) 12px 50% / 10px 10px no-repeat,
+    radial-gradient(circle, var(--muted-ink) 3px, transparent 3.5px) 24px 50% / 10px 10px no-repeat,
+    radial-gradient(circle, var(--muted-ink) 3px, transparent 3.5px) 36px 50% / 10px 10px no-repeat,
+    #fff;
+  border: 1px solid var(--border); animation: rm-typing 1.2s ease-in-out infinite;
+}
+@keyframes rm-typing { 50% { opacity: .45; } }
 
 @media (prefers-reduced-motion: reduce) {
   .rm-orb, .rm-orb::before, .rm-orb::after, .rm-talk.on::before { animation: none !important; }

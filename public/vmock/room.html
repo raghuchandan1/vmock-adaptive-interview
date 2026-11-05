@@ -255,7 +255,7 @@
 
     <aside class="rm-drawer" id="transcriptPanel" aria-label="Transcript" hidden>
       <div class="rm-drawer-head">
-        <h2>Transcript</h2>
+        <h2>Transcript<span class="rm-drawer-count" id="transcriptCount" hidden></span></h2>
         <button class="rm-dialog-close" id="transcriptClose" type="button" aria-label="Close transcript"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <div class="rm-thread" id="thread"></div>
@@ -400,6 +400,14 @@
       dispatchEvent(new Event('resize')); // the tour re-places itself
     };
     btn.addEventListener('click', () => setOpen(panel.hidden));
+    // Message count in the drawer header; student.js re-renders the thread on every turn.
+    new MutationObserver(() => {
+      const n = thread.querySelectorAll('.sv-msg').length;
+      const count = document.getElementById('transcriptCount');
+      count.textContent = String(n);
+      count.hidden = !n;
+      if (!panel.hidden) thread.scrollTop = thread.scrollHeight;
+    }).observe(thread, { childList: true });
     document.getElementById('transcriptClose').addEventListener('click', () => setOpen(false));
 
     // #timer reads "mm:ss of about N min" (student.js); the bar shows how much of that time has gone.
