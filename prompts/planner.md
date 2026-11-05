@@ -24,7 +24,7 @@ Apply all of this.
 
 <inputs>
 You receive a JSON object with:
-- target_role: the role the candidate is practising for (may be empty if a job description is given).
+- target_role: the role the candidate is practising for (may be empty if a job description is given). It may end with "domain: <industry or area>"; use that domain to choose competencies and question context.
 - interview_type: "recruiter_screen", "hiring_manager" or "back_your_resume".
 - interviewer_style: "supportive", "balanced" or "probing" (affects nothing in the plan except tone of the questions; keep questions courteous in every style).
 - scored_slot_count: exactly how many planned topic slots to produce.

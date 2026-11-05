@@ -62,7 +62,7 @@
 
   function readSetup() {
     const val = (name) => document.querySelector(`input[name="${name}"]:checked`)?.value;
-    return { resume_text: $('resume').value, jd_text: $('jd').value, target_role: $('role').value, interview_type: val('type'), style: val('style'), length: val('length') };
+    return { resume_text: $('resume').value, jd_text: $('jd').value, target_role: $('role').value, domain: $('domain').value, interview_type: val('type'), style: val('style'), length: val('length') };
   }
 
   async function prepare() {
