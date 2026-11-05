@@ -271,6 +271,7 @@
     const lastQ = t.map((e) => e.role).lastIndexOf('interviewer');
     $('thread').innerHTML = t.map((e, i) => msg(e.role, e.text, i === lastQ, e.at)).join('');
     scrollThread();
+    $('question').style.minHeight = '';
     $('question').textContent = lastQ >= 0 ? t[lastQ].text : '';
   }
 
@@ -349,6 +350,8 @@
       const q = t[0].text.slice(g.length).trim();
       $('question').textContent = g;
       return speakText(g, 'greeting', () => {
+        // Hold the greeting's height so the box doesn't shrink under the shorter question; render() releases it.
+        $('question').style.minHeight = `${$('question').offsetHeight}px`;
         $('question').textContent = q;
         setTimeout(() => { if (state.phase === 'speaking') speakText(q, 'question', afterSpeech); }, 600);
       });
