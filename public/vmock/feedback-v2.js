@@ -175,8 +175,9 @@
       panes.forEach((p, j) => { p.hidden = j !== i; });
       if (focusItem) items[i].focus();
       items[i].scrollIntoView({ block: 'nearest', inline: 'nearest' }); // the phone row scrolls sideways
-      // Only scroll when asked, or when the pane's top is out of view (read to the bottom of a long one).
-      if (scroll || panes[i].getBoundingClientRect().top < 0) panes[i].scrollIntoView({ behavior: smooth(), block: 'start' });
+      // Only scroll when asked, or when the pane's top is out of view or under the sticky tabs (its scroll margin).
+      const hiddenTop = parseFloat(getComputedStyle(panes[i]).scrollMarginTop) || 0;
+      if (scroll || panes[i].getBoundingClientRect().top < hiddenTop) panes[i].scrollIntoView({ behavior: smooth(), block: 'start' });
     };
     items.forEach((b, i) => b.addEventListener('click', () => select(i)));
     const rail = panel.querySelector('.fb-rail');
@@ -561,8 +562,11 @@
     // The overall summary shows two lines; "Read more" appears only when it is longer.
     const overall = panel.querySelector('#fbOverall');
     const moreBtn = panel.querySelector('#fbOverallMore');
-    if (overall && overall.scrollHeight > overall.clientHeight + 1) {
-      moreBtn.hidden = false;
+    if (overall) {
+      // Measured again once the web fonts load, since they can change where the text wraps.
+      const check = () => { if (!overall.classList.contains('open')) moreBtn.hidden = overall.scrollHeight <= overall.clientHeight + 1; };
+      check();
+      if (document.fonts) document.fonts.ready.then(check);
       moreBtn.addEventListener('click', () => {
         const open = overall.classList.toggle('open');
         moreBtn.setAttribute('aria-expanded', String(open));
