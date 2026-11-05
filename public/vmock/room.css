@@ -207,7 +207,7 @@ body.vm-room.live .topbar.rm-top { display: flex; }
 .rm-orb {
   position: relative; width: 112px; height: 112px; flex: none; border-radius: 50%; display: grid; place-items: center;
   font-size: 28px; font-weight: 600; color: #fff;
-  background: linear-gradient(135deg, #654498, #006fce 55%, #00b6eb); box-shadow: 0 10px 30px rgb(0 111 206 / .25);
+  background: linear-gradient(135deg, #654498, #006fce 55%, #00b6eb); box-shadow: 0 8px 24px rgb(17 17 26 / .14);
   transition: background .4s, opacity .4s, transform .4s;
 }
 .rm-orb::before, .rm-orb::after { content: ""; position: absolute; inset: -14px; border-radius: 50%; border: 2px solid rgb(0 117 203 / .25); opacity: 0; }
@@ -215,7 +215,7 @@ body.vm-room.live .topbar.rm-top { display: flex; }
 .rm-call-center[data-phase="speaking"] .rm-orb::after { animation-delay: 1s; }
 .rm-call-center[data-phase="thinking"] .rm-orb, .rm-call-center[data-phase="transcribing"] .rm-orb { opacity: .75; animation: rm-breathe 1.6s ease-in-out infinite; }
 .rm-call-center[data-phase="ready"] .rm-orb, .rm-call-center[data-phase="recording"] .rm-orb, .rm-call-center[data-phase="typing"] .rm-orb {
-  background: linear-gradient(135deg, #2f9e6e, #46a879); box-shadow: 0 10px 30px rgb(70 168 121 / .25);
+  background: linear-gradient(135deg, #2f9e6e, #46a879);
 }
 @keyframes rm-ring { from { transform: scale(.9); opacity: 1; } to { transform: scale(1.45); opacity: 0; } }
 @keyframes rm-breathe { 50% { transform: scale(.94); } }
