@@ -118,7 +118,7 @@
       length: document.querySelector('input[name="length"]:checked').value,
     };
     if (!state.hasKey) return showError('No OpenAI key found. Add OPENAI_API_KEY to the .env file and restart the server.');
-    if (inputs.resume_text.trim().length < 200) return showError('That resume is very short. Choose or upload a resume of at least a few lines.');
+    if (inputs.resume_text.trim().length < 200) return showError('That resume is very short. Add a resume of at least a few lines.');
     if (!inputs.domain) return showError('Choose a domain for your interview.');
     try { sessionStorage.setItem(HANDOFF_KEY, JSON.stringify(inputs)); } catch (_) {
       return showError('Your browser blocked session storage, so the setup can\'t be passed on. Use the student page directly.');
@@ -147,6 +147,10 @@
     else addResume({ id: 'last', name: String(last.resume_name || 'Your resume'), meta: 'From your last setup', source: 'Last used', text: String(last.resume_text) });
     renderResumes();
     go('details');
+    // The room sends back why it couldn't start (e.g. the server rejected the inputs).
+    let err = '';
+    try { err = sessionStorage.getItem('vmock_adaptive_error') || ''; sessionStorage.removeItem('vmock_adaptive_error'); } catch (_) { /* no message */ }
+    if (err) { showError(err); $('wzError').scrollIntoView({ block: 'center' }); } // it sits below the long Details form
   }
 
   async function init() {
@@ -203,6 +207,8 @@
       showError(`Couldn't load the sample resumes (${err.message}). You can still upload or paste one.`);
     }
     restoreLast();
+    // Same as the student page: say up front when the server has no key, not only on Prepare.
+    if (!state.hasKey && !$('wzError').textContent) showError('No OpenAI key found. Add OPENAI_API_KEY to the .env file and restart the server.');
   }
 
   init();

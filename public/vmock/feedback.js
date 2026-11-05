@@ -38,7 +38,7 @@
     const role = s.plan?.jd?.role_title || s.inputs?.target_role || (s.inputs?.domain ? `${s.inputs.domain} interview` : 'Practice interview');
     const company = s.plan?.jd?.company;
     const style = s.surprise ? `Surprise style (${STYLE[s.style] || s.style})` : `${STYLE[s.style] || s.style} style`;
-    const date = new Date(s.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
+    const date = new Date(s.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
     document.getElementById('fbType').textContent = `${type} · Feedback`;
     document.getElementById('fbRole').textContent = company ? `${role} at ${company}` : role;
     document.getElementById('feedbackMeta').textContent = [date, `${MINUTES[s.inputs?.length] || 15} min`, style, plural(fb.topics.length, 'question')].join(' · ');
@@ -194,7 +194,8 @@
       parts.push(`<div class="fb-card fb-mini"><h3>Handling follow-up questions</h3><ul class="fb-list">${handled.map((r) => `<li>${chip(r.level)}<span><strong>${esc(r.name)}.</strong> ${esc(r.reason)}</span></li>`).join('')}</ul></div>`);
     }
     for (const m of fb.moments || []) {
-      parts.push(`<div class="fb-card fb-mini"><h3>${esc(MOMENT[m.slot_id] || 'A moment to note')}</h3>${quote(m.quote)}<p>${esc(m.note)}</p>${m.tip ? `<p class="fb-tip">${esc(m.tip)}</p>` : ''}</div>`);
+      const t = fb.topics.find((x) => x.slot_id === m.slot_id); // same titles as the student page's feedback
+      parts.push(`<div class="fb-card fb-mini"><h3>${esc(MOMENT[m.slot_id] || (t ? `Matching your resume: ${topicName(t)}` : 'A moment to note'))}</h3>${quote(m.quote)}<p>${esc(m.note)}</p>${m.tip ? `<p class="fb-tip">${esc(m.tip)}</p>` : ''}</div>`);
     }
     if ((fb.jd_coverage || []).length) {
       parts.push(`<div class="fb-card fb-mini fb-wide"><h3>Job description coverage</h3><p>The must-haves from the job description, and whether your answers showed them.</p>
@@ -230,7 +231,7 @@
   // ---------- Classic layout (content feedback only), kept for reference: ?fbview=classic ----------
   function renderClassic(panel, s, fb) {
     header(s, fb);
-    if (!fb.topics.length) { panel.innerHTML = `${summary(fb)}${EMPTY}`; return; }
+    if (!fb.topics.length) { panel.innerHTML = `${summary(fb)}${EMPTY}${across(fb)}`; return; }
     panel.innerHTML = `${summary(fb)}${questionsHtml(s, fb)}${across(fb)}`;
     wireQuestions(panel);
   }
@@ -574,12 +575,12 @@
     const opts = { grouped: true, perAnswer: perAnswer(s, fb, sig) };
     const byQuestion = fb.topics.length
       ? `<div class="fb-strip-row"><div class="fb-strip" aria-label="Result for each question">${strip}</div><div class="fb-tally">${tally}</div></div>${questionsHtml(s, fb, opts)}
-         <p class="fb-legend">The three dots on each question: what you said, how you sounded, how you looked.</p>`
-      : EMPTY;
+         <p class="fb-legend">The three dots on each question: what you said, how you sounded, how you looked.</p>${across(fb, true)}`
+      : `${EMPTY}${across(fb)}`; // ownership, moments and JD coverage are in the default view, as on the student page
     const intro = (text) => `<p class="fb-tab-intro">${text}</p>`;
     const content = fb.topics.length
       ? `${intro('What you said, across all your answers: each part of a strong answer and how often you gave it.')}<div class="fb-params">${contentCards(s, fb)}</div>${across(fb, true)}`
-      : EMPTY;
+      : `${EMPTY}${across(fb)}`;
     html += `<div class="fb-tabs" role="tablist" aria-label="Feedback views">${tabs}</div>
       <div class="fb-panel" role="tabpanel" id="fb-panel-questions" aria-labelledby="fb-tab-questions">${byQuestion}</div>
       <div class="fb-panel" role="tabpanel" id="fb-panel-content" aria-labelledby="fb-tab-content" hidden>${content}</div>
@@ -616,5 +617,10 @@
     wireQuestions(panel);
   }
 
+  // Called by student.js before loading another interview's feedback, so the header never shows the previous one.
+  VM.resetFeedbackHeader = () => {
+    document.getElementById('fbType').textContent = 'Feedback';
+    document.getElementById('fbRole').textContent = 'Your feedback';
+  };
   VM.renderFeedback = new URLSearchParams(location.search).get('fbview') === 'classic' ? renderClassic : renderModules;
 })();

@@ -63,7 +63,7 @@
 
 <main id="main">
   <!-- Setup -->
-  <section id="screen-setup" class="screen">
+  <section id="screen-setup" class="screen" hidden>
     <div class="sv-setup">
       <div class="sv-setup-intro">
         <h1 class="screen-title">Practise an interview built from your resume</h1>
@@ -358,7 +358,7 @@
   // First-turn tour: the first time it's the student's turn, point at the answer controls. Shown once per browser
   // (localStorage, if allowed); the "?" button replays it.
   (() => {
-    const FINE = matchMedia('(pointer: fine)').matches;
+    const FINE = matchMedia('(hover: hover) and (pointer: fine)').matches; // same test as student.js
     const STEPS = [
       { anchor: 'sendBtn', title: 'Your turn to answer', body: FINE
         ? 'When the interviewer finishes, click Start answering, talk, then click Done answering. Or hold Space while you talk and let go to send.'
@@ -470,7 +470,11 @@
   // Hardware check dialog (the lobby's mic try lives inside it; student.js drives the meter and the try button).
   (() => {
     const dlg = document.getElementById('hwDialog');
-    document.getElementById('hwBtn').addEventListener('click', () => dlg.showModal());
+    document.getElementById('hwBtn').addEventListener('click', () => {
+      dlg.showModal();
+      // Focus the mic try (when the mic works), so Space tries the mic instead of pressing Close.
+      if (!document.getElementById('micTry').hidden) document.getElementById('tryBtn').focus();
+    });
     for (const id of ['hwClose', 'hwDone']) document.getElementById(id).addEventListener('click', () => dlg.close());
     dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
   })();

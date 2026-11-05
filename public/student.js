@@ -9,6 +9,8 @@
   // Touch screens have no Space key and nothing to click: the instructions follow the device.
   const FINE = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const ACT = FINE ? 'Click' : 'Tap';
+  // The replica room renames types and styles (window.ROOM_LABELS); /student keeps the server's names.
+  const roomLabel = (s) => (window.ROOM_LABELS && window.ROOM_LABELS[s]) || s;
 
   const state = {
     config: null, samples: [], sessionId: null, view: null, minutes: 15,
@@ -32,7 +34,13 @@
   function show(name) {
     // A page with its own setup (the VMock replica room) sends the student back there instead of this page's form.
     const setupUrl = document.body.dataset.setupUrl;
-    if (name === 'setup' && setupUrl) { location.href = setupUrl; return; }
+    if (name === 'setup' && setupUrl) {
+      // Carry the reason along, so the wizard can show why the student came back.
+      const err = $('setupError');
+      try { if (err && !err.hidden && err.textContent) sessionStorage.setItem('vmock_adaptive_error', err.textContent); } catch (_) { /* the wizard opens without it */ }
+      location.href = setupUrl;
+      return;
+    }
     document.querySelectorAll('.screen').forEach((s) => { s.hidden = s.id !== `screen-${name}`; });
     document.body.classList.toggle('live', name === 'live');
     $('pastBtn').hidden = name === 'brief' || name === 'live'; // leaving mid-interview would drop the call
@@ -72,7 +80,7 @@
     const inputs = readSetup();
     showError('setupError', '');
     if (!state.config.has_key) return showError('setupError', 'No OpenAI key found. Add OPENAI_API_KEY to the .env file and restart the server.');
-    if (inputs.resume_text.trim().length < 200) return showError('setupError', 'Add a resume of at least a few lines.');
+    if (inputs.resume_text.trim().length < 200) return showError('setupError', 'That resume is very short. Add a resume of at least a few lines.');
     if (!inputs.target_role.trim() && !inputs.jd_text.trim() && !inputs.domain.trim()) return showError('setupError', 'Add a target role, a domain or a job description.');
     if (state.busy) return;
     state.busy = true;
@@ -120,7 +128,7 @@
       setHost('failed', 'Couldn\'t join');
       showError('briefError', `We couldn't prepare the interview. (${err.message})`);
       steps.forEach((li) => { li.className = ''; });
-      setTimeout(() => { if (run !== state.prepRun) return; stopDevices(); show('setup'); showError('setupError', `We couldn't prepare the interview. Your resume is still here, so you can try again. (${err.message})`); }, 2500);
+      setTimeout(() => { if (run !== state.prepRun) return; stopDevices(); showError('setupError', `We couldn't prepare the interview. Your resume is still here, so you can try again. (${err.message})`); show('setup'); }, 2500);
     } finally {
       clearInterval(stepTimer);
       if (run === state.prepRun) state.busy = false;
@@ -133,6 +141,7 @@
     state.busy = false;
     state.sessionId = null;
     stopDevices();
+    showError('setupError', '');
     show('setup');
   }
 
@@ -599,12 +608,12 @@
     // Two clicks instead of a confirm dialog.
     if (!state.endArmed) {
       $('endBtn').textContent = `${ACT} again to end`;
-      state.endArmed = setTimeout(() => { state.endArmed = null; $('endBtn').textContent = 'End interview'; }, 3000);
+      state.endArmed = setTimeout(() => { state.endArmed = null; $('endBtn').textContent = $('endBtn').dataset.label; }, 3000);
       return;
     }
     clearTimeout(state.endArmed);
     state.endArmed = null;
-    $('endBtn').textContent = 'End interview';
+    $('endBtn').textContent = $('endBtn').dataset.label;
     if (state.phase === 'thinking' || state.phase === 'transcribing') return showError('liveError', 'Your last answer is still being processed. Try again in a moment.');
     try {
       state.view = await api(`/api/sessions/${state.sessionId}/end`, { method: 'POST' });
@@ -627,6 +636,7 @@
 
   async function loadFeedback() {
     const panel = $('feedbackPanel');
+    if (VM.resetFeedbackHeader) VM.resetFeedbackHeader(); // the room's header: never show the previous interview's title
     panel.innerHTML = `<div class="sv-host sv-host-wait" data-state="left">
       <div class="sv-host-head"><span class="sv-avatar sv-host-avatar">AI</span><div><div class="sv-host-name">Your interviewer</div><div class="sv-presence">Left the call</div></div></div>
       <ol class="sv-steps" aria-live="polite"><li class="now">Going over your answers</li><li>Writing your feedback</li></ol>
@@ -653,9 +663,10 @@
     const list = $('pastList');
     list.innerHTML = '<p class="empty">Loading your interviews…</p>';
     try {
-      const done = (await api('/api/sessions')).filter((x) => x.status === 'ended');
+      // Same list as the VMock Adaptive tab: finished, at least one answer, scripted test runs left out.
+      const done = (await api('/api/sessions')).filter((x) => x.status === 'ended' && x.turns > 0 && !x.test_run);
       list.innerHTML = done.length
-        ? done.map((x) => `<div class="past-row"><div><strong>${esc(x.interview_type || 'Interview')}${x.role ? `: ${esc(x.role)}` : ''}</strong><br><span>${esc(fmtDate(x.created_at))}, ${x.turns}&nbsp;answer${x.turns === 1 ? '' : 's'}</span></div><button class="secondary" data-open="${esc(x.id)}" type="button">${x.has_feedback ? 'See feedback' : 'Get feedback'}</button></div>`).join('')
+        ? done.map((x) => `<div class="past-row"><div><strong>${esc(roomLabel(x.interview_type) || 'Interview')}${x.role ? `: ${esc(x.role)}` : ''}</strong><br><span>${esc(fmtDate(x.created_at))}, ${x.turns}&nbsp;answer${x.turns === 1 ? '' : 's'}</span></div><button class="secondary" data-open="${esc(x.id)}" type="button">${x.has_feedback ? 'See feedback' : 'Get feedback'}</button></div>`).join('')
         : '<p class="empty">No finished interviews yet. Your feedback shows up here after each one.</p>';
     } catch (err) { list.innerHTML = `<p class="error">${esc(err.message)}</p>`; }
   }
@@ -667,7 +678,7 @@
     loadFeedback();
   }
 
-  function newInterview() { state.mode = 'voice'; state.sessionId = null; state.phase = 'idle'; show('setup'); }
+  function newInterview() { state.mode = 'voice'; state.sessionId = null; state.phase = 'idle'; showError('setupError', ''); show('setup'); }
 
   // ---------- Wire up ----------
   async function init() {
@@ -704,7 +715,10 @@
     $('tryBtn').addEventListener('pointerdown', (e) => { e.preventDefault(); try { $('tryBtn').setPointerCapture(e.pointerId); } catch (_) { /* fine without */ } tryStart(); });
     $('tryBtn').addEventListener('pointerup', tryEnd);
     $('tryBtn').addEventListener('pointercancel', tryEnd);
-    const lobbySpace = (e) => e.code === 'Space' && !$('screen-brief').hidden && !$('micTry').hidden && !/^(TEXTAREA|INPUT|SELECT|BUTTON)$/.test(e.target.tagName);
+    // Space tries the mic only while the try row is on screen (the room keeps it in a dialog), and never takes over
+    // another focused control, except the try button itself.
+    const lobbySpace = (e) => e.code === 'Space' && !$('screen-brief').hidden && !$('micTry').hidden && $('micTry').offsetParent !== null
+      && (e.target === $('tryBtn') || !/^(TEXTAREA|INPUT|SELECT|BUTTON)$/.test(e.target.tagName));
     document.addEventListener('keydown', (e) => { if (!lobbySpace(e)) return; e.preventDefault(); if (!e.repeat) tryStart(); });
     document.addEventListener('keyup', (e) => { if (!lobbySpace(e)) return; e.preventDefault(); tryEnd(); });
     $('prepareBtn').addEventListener('click', prepare);
@@ -718,6 +732,7 @@
     if (!FINE) document.querySelector('#briefBody .brief-note').textContent = 'The interviewer speaks each question. When they finish, tap Start answering, talk, then tap Done answering. You can switch to typing at any time.';
     $('modeBtn').addEventListener('click', toggleMode);
     $('camBtn').addEventListener('click', () => setCamera($('camBtn').getAttribute('aria-pressed') !== 'true'));
+    $('endBtn').dataset.label = $('endBtn').textContent; // "End interview" here, "End" in the replica room
     $('endBtn').addEventListener('click', endInterview);
     $('typed').addEventListener('keydown', (e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); sendTyped(); } });
     $('newBtn').addEventListener('click', newInterview);

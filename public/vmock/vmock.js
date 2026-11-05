@@ -28,7 +28,7 @@
     if (!list.length) return;
     const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     const TYPE = { 'Recruiter screen': 'Screening round', 'Hiring manager': 'Hiring manager round', 'Back your resume': 'Resume deep dive' };
-    const date = (iso) => new Date(iso).toLocaleString(undefined, { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    const date = (iso) => new Date(iso).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
     const row = (x) => `<a class="vm-past-row" href="/vmock/adaptive-interview/room?feedback=${encodeURIComponent(x.id)}">
         <span class="vm-past-main"><strong>${esc(x.role || 'Practice interview')}</strong><span>${esc(TYPE[x.interview_type] || x.interview_type || 'Adaptive interview')} · ${esc(date(x.created_at))} · ${x.turns} answer${x.turns === 1 ? '' : 's'}</span></span>
         <span class="vm-past-cta">${x.has_feedback ? 'See feedback' : 'Get feedback'}<svg class="ic"><use href="#i-arrow"/></svg></span></a>`;
