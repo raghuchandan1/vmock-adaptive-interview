@@ -122,7 +122,29 @@
     try { sessionStorage.setItem(HANDOFF_KEY, JSON.stringify(inputs)); } catch (_) {
       return showError('Your browser blocked session storage, so the setup can\'t be passed on. Use the student page directly.');
     }
-    location.href = '/student';
+    location.href = '/vmock/adaptive-interview/room';
+  }
+
+  // Back from the room ("Change setup", "New interview", or a failed preparation): reopen on the last step with the
+  // inputs the student already gave.
+  function restoreLast() {
+    if (!new URLSearchParams(location.search).has('back')) return;
+    history.replaceState(null, '', location.pathname); // a reload starts fresh
+    let last = null;
+    try { last = JSON.parse(sessionStorage.getItem('vmock_adaptive_last') || 'null'); } catch (_) { return; }
+    if (!last || typeof last !== 'object' || !last.resume_text) return;
+    state.path = last.jd_text ? 'both' : 'resume';
+    $('jd').value = String(last.jd_text || '');
+    $('role').value = String(last.target_role || '');
+    for (const [name, key] of [['type', 'interview_type'], ['style', 'style'], ['length', 'length']]) {
+      const radio = document.querySelector(`input[name="${name}"][value="${CSS.escape(String(last[key] || ''))}"]`);
+      if (radio) radio.checked = true;
+    }
+    const sample = state.resumes.find((r) => r.text === last.resume_text);
+    if (sample) state.resumeId = sample.id;
+    else addResume({ id: 'last', name: String(last.resume_name || 'Your resume'), meta: 'From your last setup', source: 'Last used', text: String(last.resume_text) });
+    renderResumes();
+    go('details');
   }
 
   async function init() {
@@ -177,6 +199,7 @@
     } catch (err) {
       showError(`Couldn't load the sample resumes (${err.message}). You can still upload or paste one.`);
     }
+    restoreLast();
   }
 
   init();

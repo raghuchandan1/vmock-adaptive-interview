@@ -30,6 +30,9 @@
   }
 
   function show(name) {
+    // A page with its own setup (the VMock replica room) sends the student back there instead of this page's form.
+    const setupUrl = document.body.dataset.setupUrl;
+    if (name === 'setup' && setupUrl) { location.href = setupUrl; return; }
     document.querySelectorAll('.screen').forEach((s) => { s.hidden = s.id !== `screen-${name}`; });
     document.body.classList.toggle('live', name === 'live');
     $('pastBtn').hidden = name === 'brief' || name === 'live'; // leaving mid-interview would drop the call
@@ -140,9 +143,10 @@
 
   function renderBrief(b) {
     state.minutes = b.minutes;
-    $('briefTitle').textContent = `${b.interview_type} interview${b.role ? `: ${b.role}${b.company ? ` at ${b.company}` : ''}` : ''}`;
+    const label = (s) => (window.ROOM_LABELS && window.ROOM_LABELS[s]) || s; // the replica room renames types and styles
+    $('briefTitle').textContent = `${label(b.interview_type)}${window.ROOM_LABELS ? '' : ' interview'}${b.role ? `: ${b.role}${b.company ? ` at ${b.company}` : ''}` : ''}`;
     const rows = [
-      ['Interviewer', b.surprise ? 'You\'ll find out as you go' : `${b.style} style`],
+      ['Interviewer', b.surprise ? 'You\'ll find out as you go' : `${label(b.style)} style`],
       ['Length', `About ${b.minutes} minutes, ${b.topics} topics`],
     ];
     if (b.jd_used) rows.push(['Job description', 'Used to shape the questions']);
@@ -718,19 +722,20 @@
     $('pastBtn').addEventListener('click', openPast);
     $('pastList').addEventListener('click', (e) => { const id = e.target.dataset.open; if (id) openPastFeedback(id); });
     if (!state.config.has_key) showError('setupError', 'No OpenAI key found. Add OPENAI_API_KEY to the .env file and restart the server.');
-    show('setup');
-    takeHandoff();
+    if (!takeHandoff()) show('setup');
   }
 
   // The VMock replica's setup wizard (/vmock/adaptive-interview) passes its inputs here and goes straight to the lobby.
   // Only runs when that wizard left something in this tab's sessionStorage; otherwise the page starts at its own setup.
+  // The inputs are kept as "last" so the wizard can reopen with them after "Change setup".
   function takeHandoff() {
     let inputs = null;
     try {
       inputs = JSON.parse(sessionStorage.getItem('vmock_adaptive_setup') || 'null');
       sessionStorage.removeItem('vmock_adaptive_setup');
-    } catch (_) { return; }
-    if (!inputs || typeof inputs !== 'object') return;
+      if (inputs) sessionStorage.setItem('vmock_adaptive_last', JSON.stringify(inputs));
+    } catch (_) { return false; }
+    if (!inputs || typeof inputs !== 'object') return false;
     setResume(String(inputs.resume_text || ''), String(inputs.resume_name || 'Resume'));
     $('jd').value = String(inputs.jd_text || '');
     $('jdDetails').open = Boolean($('jd').value);
@@ -741,6 +746,8 @@
       if (radio) radio.checked = true;
     }
     prepare();
+    if (!state.busy) show('setup'); // prepare() stopped at a check before leaving the setup: show its error there
+    return true;
   }
 
   init().catch((err) => { document.body.innerHTML = `<p style="padding:24px">Couldn't start: ${esc(err.message)}. Is the server running?</p>`; });
