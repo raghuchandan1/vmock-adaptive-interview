@@ -16,6 +16,13 @@
   const reEscape = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
 
+  const firstSentence = (x) => (String(x || '').match(/^.*?[.!?](\s|$)/) || [String(x || '')])[0].trim();
+  // The one line shown for a question in the Summary: what to fix, or for a strong answer what went well.
+  function rowLine(t) {
+    if (t.too_short) return 'Your answer was too short to give feedback on. Open it to see how to answer next time.';
+    if (t.verdict === 'good_job' && t.went_well) return firstSentence(t.went_well);
+    return firstSentence(t.to_fix || t.went_well || (t.answer_plan || [])[0] || '');
+  }
   const chip = (level) => (LEVEL[level] ? `<span class="fb-chip ${LEVEL[level][1]}">${LEVEL[level][0]}</span>` : '');
   const topicName = (t) => (t.kind === 'second_chance' ? `${t.topic || 'Earlier topic'} (second try)` : t.topic || KIND[t.kind] || 'Question');
   const quote = (q) => (q ? `<blockquote class="fb-quote">“${esc(q)}”</blockquote>` : '');
@@ -202,10 +209,7 @@
   function practiceHtml(s, fb, opts) {
     const open = firstOpenOf(fb);
     const n = fb.topics.length;
-    // How many answers got each result, as in v1 (too-short answers are not judged, so not counted).
-    const count = (v) => fb.topics.filter((t) => t.verdict === v).length;
-    const tally = ['good_job', 'on_track', 'needs_work'].filter(count).map((v) => `<span class="fb-chip ${LEVEL[v][1]}">${count(v)} ${LEVEL[v][0]}</span>`).join('');
-    return `${tally ? `<div class="fb-tally" aria-label="Results across your answers">${tally}</div>` : ''}<div class="fb-practice">
+    return `<div class="fb-practice">
       <nav class="fb-rail" aria-label="Questions"><ol>${fb.topics.map((t, i) => railItem(t, i, i === open, opts.perAnswer(t))).join('')}</ol>
         <p class="fb-legend">Dots: what you said, how you sounded, how you looked.</p></nav>
       <div class="fb-panes">${fb.topics.map((t, i) => question(s, t, i, n, i === open, opts)).join('')}</div>
@@ -529,7 +533,10 @@
         <span class="fb-tile-icon" aria-hidden="true"><svg class="ic"><use href="#${m.icon}"/></svg></span>
         <span class="fb-tile-name">${m.name}</span>${level[m.id] ? chip(level[m.id]) : '<span class="fb-chip none">Not enough to judge</span>'}
         <span class="fb-tile-about">${m.about}</span></button>`).join('');
-    let html = `<section class="fb-card fb-summary" aria-labelledby="fbSummaryTitle">
+    const VIEWS = [{ id: 'summary', name: 'Summary' }, { id: 'detailed', name: 'Detailed Summary' }];
+    let html = `<div class="fb-switch" role="tablist" aria-label="Feedback">${VIEWS.map((v, i) => `<button class="fb-switch-btn" type="button" role="tab" id="fb-vtab-${v.id}" aria-controls="fb-view-${v.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-view="${v.id}">${v.name}</button>`).join('')}</div>
+      <div class="fb-view" role="tabpanel" id="fb-view-summary" aria-labelledby="fb-vtab-summary">
+      <section class="fb-card fb-summary" aria-labelledby="fbSummaryTitle">
       <h2 class="sr" id="fbSummaryTitle">How it went</h2>
       ${fb.overall ? `<div class="fb-overall-wrap"><p class="fb-overall" id="fbOverall">${esc(fb.overall)}</p><button class="fb-link" type="button" id="fbOverallMore" aria-controls="fbOverall" aria-expanded="false" hidden>Read more</button></div>` : ''}
       <div class="fb-tiles">${mods}</div>`;
@@ -548,6 +555,17 @@
           ${x.action ? `<p class="fb-try"><strong>Try this:</strong> ${esc(x.action)}</p>` : ''}${x.why ? `<p class="fb-why">${esc(x.why)}</p>` : ''}</details>`).join('')}</div></div>`;
     }
     html += '</section>';
+    // Every question at a glance: its result and one line; opening one shows it in the Detailed Summary.
+    const count = (v) => fb.topics.filter((t) => t.verdict === v).length; // too-short answers are not judged, so not counted
+    const tally = ['good_job', 'on_track', 'needs_work'].filter(count).map((v) => `<span class="fb-chip ${LEVEL[v][1]}">${count(v)} ${LEVEL[v][0]}</span>`).join('');
+    html += fb.topics.length ? `<section class="fb-card fb-glance" aria-labelledby="fbGlanceTitle">
+        <div class="fb-glance-head"><h2 class="fb-sec-title" id="fbGlanceTitle">Your questions at a glance</h2>${tally ? `<div class="fb-tally" aria-label="Results across your answers">${tally}</div>` : ''}</div>
+        <ol class="fb-glance-list">${fb.topics.map((t, i) => `<li><button class="fb-glance-item" type="button" data-q="${i}">
+          <span class="fb-num">${i + 1}</span><span class="fb-glance-text"><strong>${esc(topicName(t))}</strong><span>${esc(rowLine(t))}</span></span>
+          ${t.too_short ? '<span class="fb-chip none">Too short</span>' : chip(t.verdict)}<svg class="ic fb-glance-chev" aria-hidden="true"><use href="#i-chev"/></svg></button></li>`).join('')}</ol>
+        <div class="fb-glance-foot"><button class="vm-btn primary sm" type="button" id="fbSeeDetailed">See detailed feedback</button></div>
+      </section>` : EMPTY;
+    html += '</div>';
 
     const tabs = TABS.map((m, i) => `<button class="fb-tab" type="button" role="tab" id="fb-tab-${m.id}" aria-controls="fb-panel-${m.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-tab="${m.id}">${m.name}${level[m.id] ? chip(level[m.id]) : ''}</button>`).join('');
     const opts = { perAnswer: perAnswer(s, fb, sig) };
@@ -556,12 +574,13 @@
     const content = fb.topics.length
       ? `${intro('What you said, across all your answers: each part of a strong answer and how often you gave it.')}<div class="fb-params">${contentCards(s, fb)}</div>`
       : EMPTY;
-    html += `<div class="fb-tabs" role="tablist" aria-label="Feedback views">${tabs}</div>
+    html += `<div class="fb-view" role="tabpanel" id="fb-view-detailed" aria-labelledby="fb-vtab-detailed" hidden>
+      <div class="fb-tabs" role="tablist" aria-label="Detailed feedback">${tabs}</div>
       <div class="fb-panel" role="tabpanel" id="fb-panel-questions" aria-labelledby="fb-tab-questions">${byQuestion}</div>
       <div class="fb-panel" role="tabpanel" id="fb-panel-content" aria-labelledby="fb-tab-content" hidden>${content}</div>
       <div class="fb-panel" role="tabpanel" id="fb-panel-delivery" aria-labelledby="fb-tab-delivery" hidden>${sig.overall ? `${intro('How your voice came across, averaged over your answers.')}<div class="fb-params${V}">${sig.overall.delivery.map(paramCard).join('')}</div>` : EMPTY}<div class="${V.trim()}">${byQuestionGrid(fb, sig, 'delivery')}</div></div>
       <div class="fb-panel" role="tabpanel" id="fb-panel-nonverbal" aria-labelledby="fb-tab-nonverbal" hidden>${sig.overall ? `${intro('How you came across on camera, averaged over your answers.')}<div class="fb-params${V}">${sig.overall.nonverbal.map(paramCard).join('')}</div>` : EMPTY}<div class="${V.trim()}">${byQuestionGrid(fb, sig, 'nonverbal')}</div></div>
-      ${across(fb, fb.topics.length > 0)}`; // follow-up handling is a Content Strength card when there are questions
+      ${across(fb, fb.topics.length > 0)}</div>`; // follow-up handling is a Content Strength card when there are questions
     panel.innerHTML = html;
 
     // The overall summary shows two lines; "Read more" appears only when it is longer.
@@ -595,8 +614,30 @@
       const cur = ids.indexOf(panel.querySelector('.fb-tab[aria-selected="true"]').dataset.tab);
       select(ids[(cur + (e.key === 'ArrowRight' ? 1 : ids.length - 1)) % ids.length], true);
     });
-    panel.querySelectorAll('.fb-tile').forEach((b) => b.addEventListener('click', () => { select(b.dataset.tab); panel.querySelector('.fb-tabs').scrollIntoView({ behavior: smooth(), block: 'start' }); }));
+    const vbtns = [...panel.querySelectorAll('.fb-switch-btn')];
+    const showView = (id, focus) => {
+      vbtns.forEach((b) => { const on = b.dataset.view === id; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; if (on && focus) b.focus(); });
+      panel.querySelectorAll('.fb-view').forEach((v) => { v.hidden = v.id !== `fb-view-${id}`; });
+      // Back to the top of the view, unless the switch is already in sight.
+      const sw = panel.querySelector('.fb-switch');
+      if (sw.getBoundingClientRect().top < 0) sw.scrollIntoView({ behavior: smooth(), block: 'start' });
+    };
+    vbtns.forEach((b) => b.addEventListener('click', () => showView(b.dataset.view)));
+    panel.querySelector('.fb-switch').addEventListener('keydown', (e) => {
+      if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+      showView(vbtns.find((b) => b.getAttribute('aria-selected') === 'false').dataset.view, true);
+    });
+    const seeAll = panel.querySelector('#fbSeeDetailed');
+    if (seeAll) seeAll.addEventListener('click', () => showView('detailed'));
+    // A module card opens the Detailed Summary on that module's tab.
+    panel.querySelectorAll('.fb-tile').forEach((b) => b.addEventListener('click', () => { showView('detailed'); select(b.dataset.tab); }));
     const selectQuestion = wirePractice(panel);
+    // A question in the Summary opens it in the Detailed Summary.
+    panel.querySelectorAll('.fb-glance-item').forEach((b) => b.addEventListener('click', () => {
+      showView('detailed');
+      select('questions');
+      selectQuestion(Number(b.dataset.q), { scroll: true });
+    }));
     // Question links (Content Strength cards, the by-question grids) go back to that question in the list.
     panel.querySelectorAll('.fb-qlink').forEach((a) => a.addEventListener('click', (e) => {
       e.preventDefault();

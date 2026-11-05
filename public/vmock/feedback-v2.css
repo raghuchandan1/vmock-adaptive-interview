@@ -164,7 +164,7 @@ body.vm-room:has(#screen-feedback:not([hidden])) #pastBtn { display: none; }
 .fb-tab:hover { color: var(--ink); }
 .fb-tab[aria-selected="true"] { color: var(--primary-ink); background: var(--primary-10); }
 .fb-tab .fb-chip { height: 20px; padding: 0 8px; font-size: 11px; }
-.fb-panel { display: grid; gap: 16px; }
+.fb-panel { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
 .fb-panel[hidden] { display: none; }
 .fb-tab-intro { font-size: 14px; color: var(--muted-ink); }
 
@@ -278,7 +278,7 @@ body.vm-room:has(#screen-feedback:not([hidden])) #pastBtn { display: none; }
   
   
   .fb-elements li { grid-template-columns: 1fr; gap: 2px; }
-  .fb-params { grid-template-columns: 1fr; }
+  .fb-params { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* While the feedback is written (student.js's waiting card), in the lobby's step style. */
@@ -418,4 +418,44 @@ body.vm-room:has(#screen-feedback:not([hidden])) #pastBtn { display: none; }
   .fb-rail-item { width: auto; flex: none; grid-template-columns: auto auto; gap: 6px; padding: 6px 8px; }
   .fb-rail-text, .fb-rail .fb-legend { display: none; }
   .fb-pane { padding: 18px; gap: 16px; }
+}
+
+/* ---------- v2: Summary | Detailed Summary switch ---------- */
+.fb-switch {
+  justify-self: start; padding: 4px; display: inline-flex; gap: 4px; scroll-margin-top: 72px;
+  background: #fff; border: 1px solid var(--border); border-radius: 12px;
+}
+.fb-switch-btn {
+  height: 36px; padding: 0 16px; border: 0; border-radius: 8px; cursor: pointer;
+  font: 600 14px/20px var(--font); color: var(--muted-ink); background: none;
+}
+.fb-switch-btn:hover { color: var(--ink); }
+.fb-switch-btn[aria-selected="true"] { color: #fff; background: var(--primary-ink); }
+/* minmax(0, 1fr): the wide rows inside (tab bar, by-question grids) scroll inside, instead of widening the page. */
+.fb-view { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
+.fb-view[hidden] { display: none; }
+
+/* Summary: every question at a glance. */
+.fb-glance { display: grid; gap: 14px; }
+.fb-glance-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.fb-glance-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.fb-glance-item {
+  width: 100%; padding: 12px 14px; display: grid; grid-template-columns: 28px minmax(0, 1fr) auto 16px; gap: 12px; align-items: center;
+  text-align: left; font-family: var(--font); color: var(--ink); background: #fff; border: 1px solid var(--border); border-radius: 12px; cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.fb-glance-item:hover { border-color: oklab(0.5549 -0.0533 -0.1494 / .5); background: #fafbfc; }
+.fb-glance-text { min-width: 0; display: grid; gap: 2px; }
+.fb-glance-text strong { font-size: 15px; line-height: 22px; font-weight: 600; }
+.fb-glance-text span { font-size: 13px; line-height: 20px; color: var(--muted-ink); }
+.fb-glance-chev { width: 16px; height: 16px; color: var(--muted-ink); }
+.fb-glance-foot { display: flex; justify-content: flex-end; }
+
+@media (prefers-reduced-motion: reduce) { .fb-glance-item { transition: none; } }
+@media (max-width: 720px) {
+  .fb-switch { justify-self: stretch; }
+  .fb-switch-btn { flex: 1; }
+  .fb-glance-item { grid-template-columns: 28px minmax(0, 1fr) 16px; }
+  .fb-glance-item .fb-chip { grid-column: 2; grid-row: 2; justify-self: start; }
+  .fb-glance-chev { grid-column: 3; grid-row: 1; }
 }
