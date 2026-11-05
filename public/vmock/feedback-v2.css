@@ -360,6 +360,11 @@ body.vm-room:has(#screen-feedback:not([hidden])) #pastBtn { display: none; }
 .fb-tile-icon .ic { width: 16px; height: 16px; }
 .fb-tile-name { font-size: 14px; }
 .fb-tile .fb-chip { justify-self: end; }
+.fb-tile-about { grid-column: 1 / -1; font-size: 13px; line-height: 19px; color: var(--muted-ink); }
+/* High impact (the goal and the next priority) and the results tally, as in v1. */
+.fb-impact { flex: none; padding: 1px 8px; border-radius: 999px; font-size: 11px; line-height: 16px; font-weight: 600; color: #c2372b; background: #fdf4f1; }
+.fb-goal-meta, .fb-also-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.fb-tally { display: flex; gap: 6px; flex-wrap: wrap; }
 .fb-goal .fb-try { margin-top: 8px; }
 .fb-why { font-size: 13px !important; line-height: 19px !important; color: var(--muted-ink); }
 .fb-also { display: grid; gap: 8px; }

@@ -202,7 +202,10 @@
   function practiceHtml(s, fb, opts) {
     const open = firstOpenOf(fb);
     const n = fb.topics.length;
-    return `<div class="fb-practice">
+    // How many answers got each result, as in v1 (too-short answers are not judged, so not counted).
+    const count = (v) => fb.topics.filter((t) => t.verdict === v).length;
+    const tally = ['good_job', 'on_track', 'needs_work'].filter(count).map((v) => `<span class="fb-chip ${LEVEL[v][1]}">${count(v)} ${LEVEL[v][0]}</span>`).join('');
+    return `${tally ? `<div class="fb-tally" aria-label="Results across your answers">${tally}</div>` : ''}<div class="fb-practice">
       <nav class="fb-rail" aria-label="Questions"><ol>${fb.topics.map((t, i) => railItem(t, i, i === open, opts.perAnswer(t))).join('')}</ol>
         <p class="fb-legend">Dots: what you said, how you sounded, how you looked.</p></nav>
       <div class="fb-panes">${fb.topics.map((t, i) => question(s, t, i, n, i === open, opts)).join('')}</div>
@@ -517,13 +520,15 @@
     const weakest = !sig.overall ? null : [...sig.overall.delivery.map((p) => ({ ...p, module: 'Delivery of Speech' })), ...sig.overall.nonverbal.map((p) => ({ ...p, module: 'Non Verbal' }))]
       .filter((p) => p.level).sort((a, b) => order[a.level] - order[b.level])[0];
     const also = [
-      ...more.map((p) => ({ module: 'Content Strength', title: p.title, why: p.why, action: p.action })),
+      // The goal and the next priority are high impact, as in v1.
+      ...more.map((p, i) => ({ module: 'Content Strength', title: p.title, why: p.why, action: p.action, high: i === 0 })),
       ...(weakest && weakest.level !== 'good_job' ? [{ module: weakest.module, title: weakest.name, action: weakest.next, vmock: true }] : []),
     ];
 
-    const mods = MODULES.map((m) => `<button class="fb-tile${m.id === 'content' ? '' : V}" type="button" data-tab="${m.id}" title="${esc(m.about)}">
+    const mods = MODULES.map((m) => `<button class="fb-tile${m.id === 'content' ? '' : V}" type="button" data-tab="${m.id}">
         <span class="fb-tile-icon" aria-hidden="true"><svg class="ic"><use href="#${m.icon}"/></svg></span>
-        <span class="fb-tile-name">${m.name}</span>${level[m.id] ? chip(level[m.id]) : '<span class="fb-chip none">Not enough to judge</span>'}</button>`).join('');
+        <span class="fb-tile-name">${m.name}</span>${level[m.id] ? chip(level[m.id]) : '<span class="fb-chip none">Not enough to judge</span>'}
+        <span class="fb-tile-about">${m.about}</span></button>`).join('');
     let html = `<section class="fb-card fb-summary" aria-labelledby="fbSummaryTitle">
       <h2 class="sr" id="fbSummaryTitle">How it went</h2>
       ${fb.overall ? `<div class="fb-overall-wrap"><p class="fb-overall" id="fbOverall">${esc(fb.overall)}</p><button class="fb-link" type="button" id="fbOverallMore" aria-controls="fbOverall" aria-expanded="false" hidden>Read more</button></div>` : ''}
@@ -531,7 +536,7 @@
     if (goal) {
       html += `<div class="fb-goal">
         <div class="fb-goal-icon" aria-hidden="true"><svg class="ic"><use href="#i-target"/></svg></div>
-        <div><div class="fb-eyebrow">Your goal for next time</div>
+        <div><div class="fb-goal-meta"><span class="fb-eyebrow">Your goal for next time</span><span class="fb-impact">High impact</span></div>
           <h3>${esc(goal.title)}</h3>
           ${goal.action ? `<p class="fb-try"><strong>Try this:</strong> ${esc(goal.action)}</p>` : ''}
           ${goal.why ? `<p class="fb-why">${esc(goal.why)}</p>` : ''}</div>
@@ -539,7 +544,7 @@
     }
     if (also.length) {
       html += `<div class="fb-also"><h3 class="fb-also-title">Also work on</h3><div class="fb-also-list">${also.map((x) => `<details class="fb-also-item${x.vmock ? V : ''}">
-          <summary><span class="fb-eyebrow">${esc(x.module)}</span><strong>${esc(x.title)}</strong></summary>
+          <summary><span class="fb-also-meta"><span class="fb-eyebrow">${esc(x.module)}</span>${x.high ? '<span class="fb-impact">High impact</span>' : ''}</span><strong>${esc(x.title)}</strong></summary>
           ${x.action ? `<p class="fb-try"><strong>Try this:</strong> ${esc(x.action)}</p>` : ''}${x.why ? `<p class="fb-why">${esc(x.why)}</p>` : ''}</details>`).join('')}</div></div>`;
     }
     html += '</section>';
