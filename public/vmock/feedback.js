@@ -90,17 +90,45 @@
     return `<details class="fb-more"><summary>Your answer${answers.length > 1 ? 's' : ''}</summary>${answers.map((a) => `<p class="fb-answer">${highlight(a, marks)}</p>`).join('')}</details>`;
   }
 
-  function nextTime(t) {
+  // VMock's Content Strength groups, filled with our ratings. Which groups appear depends on the question type, as on
+  // VMock (stories get STAR/HSAR; knowledge and scenario questions get Depth & Clarity and Practical Application).
+  const GROUPS = {
+    behavioural: [['STAR/HSAR', ['situation', 'task', 'action', 'result']], ['Depth & Clarity', ['technical']]],
+    situational: [['Depth & Clarity', ['first_step', 'reasoning']], ['Practical Application', ['success_measure']]],
+    knowledge: [['Depth & Clarity', ['accuracy', 'depth']], ['Practical Application', ['application']]],
+    motivation: [['Motivation & Fit', ['reason', 'fit', 'evidence']]],
+    concern: [['Learning & Reflection', ['explanation', 'ownership', 'forward']]],
+  };
+  const groupsFor = (t) => {
+    const ratings = (t.ratings || []).filter((r) => r.dimension !== 'followup');
+    const out = (GROUPS[t.rubric] || []).map(([name, dims]) => ({ name, items: ratings.filter((r) => dims.includes(r.dimension)) })).filter((g) => g.items.length);
+    const left = ratings.filter((r) => !out.some((g) => g.items.includes(r)));
+    if (left.length) out.push({ name: 'Other elements', items: left });
+    const fu = (t.ratings || []).filter((r) => r.dimension === 'followup');
+    if (fu.length) out.push({ name: 'Handling follow-ups', items: fu });
+    return out;
+  };
+  function groupedChecklist(t) {
+    const groups = groupsFor(t);
+    if (!groups.length) return '';
+    const n = groups.reduce((sum, g) => sum + g.items.length, 0);
+    return `<details class="fb-more"><summary>What a strong answer covers <span class="fb-count">${n}</span></summary>
+      <div class="fb-groups">${groups.map((g) => `<div class="fb-group"><div class="fb-group-head"><h5>${esc(g.name)}</h5>${chip(moduleLevel(g.items.map((r) => r.level)))}</div>
+        <ul class="fb-checks">${g.items.map((r) => `<li>${chip(r.level)}<strong>${esc(r.label)}</strong><span>${esc(r.reason)}${r.found ? ` <em>${FOUND[r.found]}</em>` : ''}</span></li>`).join('')}</ul></div>`).join('')}</div></details>`;
+  }
+
+  function nextTime(t, checked) {
     const plan = t.answer_plan || [];
     if (!plan.length && !t.stronger_version && !t.example_answer) return '';
     return `<section class="fb-next"><h4>How to answer it next time</h4>
       ${plan.length ? `<ol class="fb-steps">${plan.map((p) => `<li>${blanks(p)}</li>`).join('')}</ol>` : ''}
-      ${t.stronger_version ? `<div class="fb-better"><div class="fb-eyebrow">Your answer, improved</div><p>${blanks(t.stronger_version)}</p><p class="fb-better-hint">Fill in the boxes with your own details.</p></div>` : ''}
+      ${t.stronger_version ? `<div class="fb-better"><div class="fb-eyebrow">Your answer, improved</div><p>${blanks(t.stronger_version)}</p><p class="fb-better-hint">Fill in the boxes with your own details.</p>${checked ? '<p class="fb-checked"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Checked: uses only facts from your resume, the job description and your answers.</p>' : ''}</div>` : ''}
       ${t.example_answer ? `<div class="fb-better fb-example"><div class="fb-eyebrow">Sample answer</div><p>${esc(t.example_answer)}</p><p class="fb-better-hint">From a sample candidate, to show the approach. Use your own example.</p></div>` : ''}
     </section>`;
   }
 
-  function question(s, t, i, open) {
+  // opts (default layout only): grouped checklist, the grounding line, per-answer delivery / on-camera chips, row dots.
+  function question(s, t, i, open, opts = {}) {
     const level = t.verdict ? LEVEL[t.verdict][1] : 'none';
     const source = t.resume_line ? `<p class="fb-from"><span>From your resume</span>“${esc(t.resume_line)}”</p>`
       : t.jd_line ? `<p class="fb-from"><span>From the job description</span>${esc(t.jd_line)}</p>` : '';
@@ -114,21 +142,24 @@
       const well = t.went_well ? `<div class="fb-box well"><h4>What went well</h4>${quote(t.went_well_quote)}<p>${esc(t.went_well)}</p></div>` : '';
       if (well || fix.length) body += `<div class="fb-pair">${well}${fix.join('')}</div>`;
     }
-    body += nextTime(t);
-    const extras = checklist(t) + followUps(t) + yourAnswer(s, t);
+    body += nextTime(t, Boolean(opts.grouped));
+    const pq = opts.perAnswer ? opts.perAnswer(t) : null;
+    if (pq) body += pq.html;
+    const extras = (opts.grouped ? groupedChecklist(t) : checklist(t)) + followUps(t) + yourAnswer(s, t);
     if (extras) body += `<div class="fb-extras">${extras}</div>`;
+    const dots = pq ? `<span class="fb-dots" aria-label="${esc(pq.label)}">${pq.dots.map(([name, lv]) => `<i class="${lv ? LEVEL[lv][1] : 'none'}" title="${esc(`${name}: ${lv ? LEVEL[lv][0] : 'Not judged'}`)}"></i>`).join('')}</span>` : '';
     return `<article class="fb-q ${level}${open ? ' open' : ''}" id="fb-q-${i}">
-      <h3 class="fb-q-h"><button class="fb-q-row" type="button" aria-expanded="${open}" aria-controls="fb-q-body-${i}">
+      <h3 class="fb-q-h"><button class="fb-q-row${dots ? ' has-dots' : ''}" type="button" aria-expanded="${open}" aria-controls="fb-q-body-${i}">
         <span class="fb-num">${i + 1}</span>
         <span class="fb-q-text"><strong>${esc(topicName(t))}</strong><span>${esc(rowLine(t))}</span></span>
-        ${t.too_short ? '<span class="fb-chip none">Too short</span>' : chip(t.verdict)}
+        ${dots}${t.too_short ? '<span class="fb-chip none">Too short</span>' : chip(t.verdict)}
         <svg class="ic fb-chev" aria-hidden="true"><use href="#i-chev"/></svg>
       </button></h3>
       <div class="fb-q-body" id="fb-q-body-${i}" role="region"${open ? '' : ' hidden'}>${body}</div>
     </article>`;
   }
 
-  function across(fb) {
+  function across(fb, skipFollowUps = false) { // the default layout shows follow-up handling as a Content Strength card
     const parts = [];
     const own = fb.ownership || { i: 0, we: 0 };
     if (own.i + own.we > 0) {
@@ -139,7 +170,7 @@
         <div class="fb-iwe-legend"><span><i class="i"></i>I · ${own.i}</span><span><i class="we"></i>we · ${own.we}</span></div></div>`);
     }
     const handled = fb.topics.flatMap((t) => (t.ratings || []).filter((r) => r.dimension === 'followup').map((r) => ({ ...r, name: topicName(t) })));
-    if (handled.length) {
+    if (handled.length && !skipFollowUps) {
       parts.push(`<div class="fb-card fb-mini"><h3>Handling follow-up questions</h3><ul class="fb-list">${handled.map((r) => `<li>${chip(r.level)}<span><strong>${esc(r.name)}.</strong> ${esc(r.reason)}</span></li>`).join('')}</ul></div>`);
     }
     for (const m of fb.moments || []) {
@@ -173,8 +204,8 @@
 
   const EMPTY = '<p class="fb-empty">The interview ended before any question was answered, so there is nothing to give feedback on yet. Practise again to get feedback on your answers.</p>';
   const firstOpenOf = (fb) => Math.max(0, fb.topics.findIndex((t) => t.verdict === 'needs_work'));
-  const questionsHtml = (s, fb) => `<section class="fb-section" aria-labelledby="fbQs"><div class="fb-sec-head"><h2 class="fb-sec-title" id="fbQs">Question by question</h2><span>Open a question to see how to answer it next time</span></div>
-    <div class="fb-qs">${fb.topics.map((t, i) => question(s, t, i, i === firstOpenOf(fb))).join('')}</div></section>`;
+  const questionsHtml = (s, fb, opts) => `<section class="fb-section" aria-labelledby="fbQs"><div class="fb-sec-head"><h2 class="fb-sec-title" id="fbQs">Question by question</h2><span>Open a question to see how to answer it next time</span></div>
+    <div class="fb-qs">${fb.topics.map((t, i) => question(s, t, i, i === firstOpenOf(fb), opts)).join('')}</div></section>`;
 
   // ---------- Classic layout (content feedback only), kept for reference: ?fbview=classic ----------
   function renderClassic(panel, s, fb) {
@@ -282,7 +313,71 @@
     { id: 'nonverbal', icon: 'i-eye', name: 'Non Verbal', about: 'How you came across on camera: eye contact, expression, posture.' },
   ];
 
-  // ---------- Default layout: VMock's three modules ----------
+  // Per-answer delivery and on-camera placeholders (same shortcut as signals(): invented, stable per interview and
+  // question, until VMock's analysis is wired in).
+  function perAnswerSignals(s, t) {
+    const r = seeded(`${s.id}:${t.slot_id}`);
+    const between = (lo, hi, dp = 0) => Number((lo + r() * (hi - lo)).toFixed(dp));
+    const pace = between(105, 172), fillers = between(0.5, 6, 1), eye = between(42, 94), stressed = between(3, 32);
+    const lv = {
+      pace: band(pace, (v) => v >= 120 && v <= 150, (v) => v >= 108 && v <= 162),
+      fillers: band(fillers, (v) => v < 2, (v) => v < 4),
+      eye: band(eye, (v) => v >= 75, (v) => v >= 60),
+      face: stressed > 22 ? 'needs_work' : stressed > 12 ? 'on_track' : 'good_job',
+    };
+    const delivery = worst([lv.pace, lv.fillers]);
+    const camera = worst([lv.eye, lv.face]);
+    const tip = (level, good, fix) => (level === 'good_job' ? good : fix);
+    const metric = (label, value, unit, level, target) => `<li class="fb-sig"><span class="fb-sig-label">${label}</span><span class="fb-sig-value ${LEVEL[level][1]}">${value}<small>${unit}</small></span><span class="fb-sig-target">${target}</span></li>`;
+    const html = t.too_short ? '' : `<section class="fb-signals">
+      <div class="fb-signal-card"><div class="fb-signal-head"><svg class="ic" aria-hidden="true"><use href="#i-wave"/></svg><h4>How you sounded</h4>${chip(delivery)}</div>
+        <ul>${metric('Pace', pace, 'wpm', lv.pace, '120 to 150')}${metric('Filler words', fillers, '/min', lv.fillers, 'under 2')}</ul>
+        <p>${tip(delivery, 'Clear and easy to follow.', pace > 150 ? 'Slow down a little and pause after each main point.' : fillers >= 2 ? 'Pause silently instead of saying "um" when you need a moment.' : 'Speak a little faster so the answer keeps its energy.')}</p></div>
+      <div class="fb-signal-card"><div class="fb-signal-head"><svg class="ic" aria-hidden="true"><use href="#i-eye"/></svg><h4>How you looked</h4>${chip(camera)}</div>
+        <ul>${metric('Eye contact', eye, '%', lv.eye, 'at least 75%')}${metric('Looked stressed', stressed, '%', lv.face, 'under 12%')}</ul>
+        <p>${tip(camera, 'Steady and relaxed on camera.', eye < 75 ? 'Look at the camera, not the screen, while you answer.' : 'Take a breath before answering and relax your shoulders.')}</p></div>
+    </section>`;
+    const content = t.verdict || null;
+    return { html, dots: [['Content Strength', content], ['Delivery of Speech', t.too_short ? null : delivery], ['Non Verbal', t.too_short ? null : camera]],
+      label: `Content ${content ? LEVEL[content][0] : 'not judged'}, delivery ${t.too_short ? 'not judged' : LEVEL[delivery][0]}, on camera ${t.too_short ? 'not judged' : LEVEL[camera][0]}` };
+  }
+
+  // Content Strength across the interview: one card per VMock group, from our ratings in every question.
+  function contentCards(fb) {
+    const byGroup = new Map();
+    fb.topics.forEach((t, i) => groupsFor(t).forEach((g) => {
+      if (!byGroup.has(g.name)) byGroup.set(g.name, []);
+      byGroup.get(g.name).push({ t, i, items: g.items });
+    }));
+    const order = { needs_work: 0, on_track: 1, good_job: 2 };
+    const RANK = ['STAR/HSAR', 'Depth & Clarity', 'Practical Application', 'Motivation & Fit', 'Learning & Reflection', 'Other elements', 'Handling follow-ups'];
+    return [...byGroup.entries()].sort((a, b) => RANK.indexOf(a[0]) - RANK.indexOf(b[0])).map(([name, uses]) => {
+      const all = uses.flatMap((u) => u.items);
+      const level = moduleLevel(all.map((r) => r.level));
+      const weak = uses.map((u) => ({ ...u, level: moduleLevel(u.items.map((r) => r.level)) })).filter((u) => u.level !== 'good_job');
+      const worstItem = [...all].sort((a, b) => order[a.level] - order[b.level])[0];
+      // Each element of the group: how many answers showed it well.
+      const labels = [...new Set(all.map((r) => r.label))].map((label) => {
+        const rs = all.filter((r) => r.label === label);
+        return { label, level: moduleLevel(rs.map((r) => r.level)), good: rs.filter((r) => r.level === 'good_job').length, n: rs.length };
+      });
+      return `<article class="fb-card fb-param">
+        <div class="fb-param-head"><span class="fb-param-icon ${LEVEL[level][1]}" aria-hidden="true"><svg class="ic"><use href="#i-doc"/></svg></span><h3>${esc(name)}</h3>${chip(level)}</div>
+        <ul class="fb-elements">${labels.map((l) => `<li>${chip(l.level)}<strong>${esc(l.label)}</strong><span>Strong in ${l.good} of ${plural(l.n, 'answer')}</span></li>`).join('')}</ul>
+        ${weak.length ? `<p class="fb-param-about">Work on it in: ${weak.map((u) => `<a class="fb-qlink" href="#fb-q-${u.i}" data-q="${u.i}">${u.i + 1}. ${esc(topicName(u.t))}</a>`).join(', ')}</p>` : '<p class="fb-param-about">Strong in every answer.</p>'}
+        ${worstItem && worstItem.level !== 'good_job' ? `<p class="fb-param-next"><strong>Next step:</strong> ${esc(worstItem.reason)}</p>` : ''}
+      </article>`;
+    }).join('');
+  }
+
+  const TABS = [
+    { id: 'questions', name: 'By question' },
+    { id: 'content', name: 'Content Strength' },
+    { id: 'delivery', name: 'Delivery of Speech' },
+    { id: 'nonverbal', name: 'Non Verbal' },
+  ];
+
+  // ---------- Default layout: by question first, VMock's three modules alongside ----------
   function renderModules(panel, s, fb) {
     header(s, fb);
     const sig = signals(s);
@@ -291,15 +386,17 @@
       delivery: moduleLevel(sig.delivery.map((p) => p.level)),
       nonverbal: moduleLevel(sig.nonverbal.map((p) => p.level)),
     };
+    // Top things to do next: our goal and next priority (high impact), then the weakest delivery or on-camera part.
     const [goal, ...more] = fb.priorities || [];
-    // "Also work on": the content priorities, plus the weakest delivery or body-language part's next step.
     const order = { needs_work: 0, on_track: 1, good_job: 2 };
     const weakest = [...sig.delivery.map((p) => ({ ...p, module: 'Delivery of Speech' })), ...sig.nonverbal.map((p) => ({ ...p, module: 'Non Verbal' }))]
       .sort((a, b) => order[a.level] - order[b.level])[0];
-    const also = [
-      ...more.slice(0, 2).map((p) => ({ eyebrow: 'Content Strength', title: p.title, text: p.action })),
-      ...(weakest && weakest.level !== 'good_job' ? [{ eyebrow: weakest.module, title: weakest.name, text: weakest.next }] : []),
-    ];
+    const todo = [
+      ...(goal ? [{ module: 'Content Strength', title: goal.title, why: goal.why, action: goal.action, high: true }] : []),
+      ...more.slice(0, 1).map((p) => ({ module: 'Content Strength', title: p.title, why: p.why, action: p.action, high: true })),
+      ...(weakest && weakest.level !== 'good_job' ? [{ module: weakest.module, title: weakest.name, action: weakest.next }] : []),
+      ...more.slice(1, 2).map((p) => ({ module: 'Content Strength', title: p.title, why: p.why, action: p.action })),
+    ].slice(0, 3);
 
     const tiles = MODULES.map((m) => `<button class="fb-tile" type="button" data-tab="${m.id}">
         <span class="fb-tile-icon" aria-hidden="true"><svg class="ic"><use href="#${m.icon}"/></svg></span>
@@ -309,26 +406,31 @@
       <h2 class="sr" id="fbSummaryTitle">How it went</h2>
       ${fb.overall ? `<p class="fb-overall">${esc(fb.overall)}</p>` : ''}
       <div class="fb-tiles">${tiles}</div>`;
-    if (goal) {
-      html += `<div class="fb-goal"><div class="fb-goal-icon" aria-hidden="true"><svg class="ic"><use href="#i-target"/></svg></div>
-        <div><div class="fb-eyebrow">Your goal for next time</div><h3>${esc(goal.title)}</h3>${goal.why ? `<p>${esc(goal.why)}</p>` : ''}${goal.action ? `<p class="fb-try"><strong>Try this:</strong> ${esc(goal.action)}</p>` : ''}</div></div>`;
-    }
-    if (also.length) {
-      html += `<div class="fb-also"><h3 class="fb-also-title">Also work on</h3><div class="fb-also-grid">${also.map((a) => `<div class="fb-also-item"><span class="fb-eyebrow">${esc(a.eyebrow)}</span><strong>${esc(a.title)}</strong>${a.text ? `<span>${esc(a.text)}</span>` : ''}</div>`).join('')}</div></div>`;
+    if (todo.length) {
+      html += `<div class="fb-todo"><h3 class="fb-todo-title"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg>Top things to do next</h3><ol>${todo.map((x, i) => `<li class="${i === 0 ? 'first' : ''}">
+          <span class="fb-todo-n">${i + 1}</span>
+          <div><div class="fb-todo-meta"><span class="fb-eyebrow">${esc(x.module)}</span>${x.high ? '<span class="fb-impact">High impact</span>' : ''}</div>
+            <strong>${esc(x.title)}</strong>${x.why && i === 0 ? `<p>${esc(x.why)}</p>` : ''}${x.action ? `<p class="fb-try"><strong>Try this:</strong> ${esc(x.action)}</p>` : ''}</div></li>`).join('')}</ol></div>`;
     }
     html += '</section>';
 
-    const tabs = MODULES.map((m, i) => `<button class="fb-tab" type="button" role="tab" id="fb-tab-${m.id}" aria-controls="fb-panel-${m.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-tab="${m.id}">${m.name}${level[m.id] ? chip(level[m.id]) : ''}</button>`).join('');
+    const tabs = TABS.map((m, i) => `<button class="fb-tab" type="button" role="tab" id="fb-tab-${m.id}" aria-controls="fb-panel-${m.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-tab="${m.id}">${m.name}${level[m.id] ? chip(level[m.id]) : ''}</button>`).join('');
     const judged = fb.topics.filter((t) => t.verdict);
     const count = (v) => judged.filter((t) => t.verdict === v).length;
     const strip = fb.topics.map((t, i) => `<a class="fb-seg ${t.verdict ? LEVEL[t.verdict][1] : 'none'}" href="#fb-q-${i}" title="${esc(`${i + 1}. ${topicName(t)}: ${t.verdict ? LEVEL[t.verdict][0] : 'Too short to judge'}`)}"><span>${i + 1}</span></a>`).join('');
     const tally = ['good_job', 'on_track', 'needs_work'].filter(count).map((v) => `<span class="fb-chip ${LEVEL[v][1]}">${count(v)} ${LEVEL[v][0]}</span>`).join('');
-    const content = fb.topics.length
-      ? `<div class="fb-strip-row"><div class="fb-strip" aria-label="Result for each question">${strip}</div><div class="fb-tally">${tally}</div></div>${questionsHtml(s, fb)}${across(fb)}`
+    const opts = { grouped: true, perAnswer: (t) => perAnswerSignals(s, t) };
+    const byQuestion = fb.topics.length
+      ? `<div class="fb-strip-row"><div class="fb-strip" aria-label="Result for each question">${strip}</div><div class="fb-tally">${tally}</div></div>${questionsHtml(s, fb, opts)}
+         <p class="fb-legend"><span><i class="dot"></i>The three dots on each question: what you said, how you sounded, how you looked.</span></p>`
       : EMPTY;
     const intro = (text) => `<p class="fb-tab-intro">${text}</p>`;
-    html += `<div class="fb-tabs" role="tablist" aria-label="Feedback modules">${tabs}</div>
-      <div class="fb-panel" role="tabpanel" id="fb-panel-content" aria-labelledby="fb-tab-content">${content}</div>
+    const content = fb.topics.length
+      ? `${intro('What you said, across all your answers: each part of a strong answer and how often you gave it.')}<div class="fb-params">${contentCards(fb)}</div>${across(fb, true)}`
+      : EMPTY;
+    html += `<div class="fb-tabs" role="tablist" aria-label="Feedback views">${tabs}</div>
+      <div class="fb-panel" role="tabpanel" id="fb-panel-questions" aria-labelledby="fb-tab-questions">${byQuestion}</div>
+      <div class="fb-panel" role="tabpanel" id="fb-panel-content" aria-labelledby="fb-tab-content" hidden>${content}</div>
       <div class="fb-panel" role="tabpanel" id="fb-panel-delivery" aria-labelledby="fb-tab-delivery" hidden>${intro('How your voice came across across the whole interview.')}<div class="fb-params">${sig.delivery.map(paramCard).join('')}</div></div>
       <div class="fb-panel" role="tabpanel" id="fb-panel-nonverbal" aria-labelledby="fb-tab-nonverbal" hidden>${intro('How you came across on camera across the whole interview.')}<div class="fb-params">${sig.nonverbal.map(paramCard).join('')}</div></div>`;
     panel.innerHTML = html;
@@ -342,18 +444,22 @@
       });
       panel.querySelectorAll('.fb-panel').forEach((p) => { p.hidden = p.id !== `fb-panel-${id}`; });
     };
+    const toTabs = () => panel.querySelector('.fb-tabs').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     panel.querySelectorAll('.fb-tab').forEach((t) => t.addEventListener('click', () => select(t.dataset.tab)));
-    // Arrow keys move between tabs (the ARIA tabs pattern).
     panel.querySelector('.fb-tabs').addEventListener('keydown', (e) => {
       if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
-      const ids = MODULES.map((m) => m.id);
+      const ids = TABS.map((m) => m.id);
       const cur = ids.indexOf(panel.querySelector('.fb-tab[aria-selected="true"]').dataset.tab);
       select(ids[(cur + (e.key === 'ArrowRight' ? 1 : ids.length - 1)) % ids.length], true);
     });
-    // A summary tile opens its module's tab and brings the tabs into view.
-    panel.querySelectorAll('.fb-tile').forEach((b) => b.addEventListener('click', () => {
-      select(b.dataset.tab);
-      panel.querySelector('.fb-tabs').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    panel.querySelectorAll('.fb-tile').forEach((b) => b.addEventListener('click', () => { select(b.dataset.tab); toTabs(); }));
+    // "Work on it in: 2. Result" links in Content Strength go back to that question, opened.
+    panel.querySelectorAll('.fb-qlink').forEach((a) => a.addEventListener('click', (e) => {
+      e.preventDefault();
+      select('questions');
+      const q = document.getElementById(`fb-q-${a.dataset.q}`);
+      if (!q.classList.contains('open')) q.querySelector('.fb-q-row').click();
+      q.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     }));
     wireQuestions(panel);
   }

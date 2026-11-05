@@ -227,8 +227,65 @@ body.vm-room:has(#screen-feedback:not([hidden])) #pastBtn { display: none; }
 .fb-param-next { padding: 10px 12px; border-radius: 8px; font-size: 13px; line-height: 20px; background: oklab(0.5549 -0.0533 -0.1494 / .06); }
 .fb-param-next strong { color: var(--primary-ink); }
 
+/* Top things to do next: one ranked list across the three modules. */
+.fb-todo-title { display: flex; align-items: center; gap: 8px; font-size: 15px; line-height: 22px; font-weight: 600; }
+.fb-todo-title .ic { width: 18px; height: 18px; color: var(--primary-ink); }
+.fb-todo ol { margin: 10px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.fb-todo li { display: grid; grid-template-columns: 28px 1fr; gap: 12px; padding: 14px 16px; border: 1px solid var(--border); border-radius: 12px; }
+.fb-todo li.first { background: oklab(0.5549 -0.0533 -0.1494 / .06); border-color: oklab(0.5549 -0.0533 -0.1494 / .22); }
+.fb-todo-n { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; font-size: 13px; font-weight: 700; color: #fff; background: var(--primary-ink); }
+.fb-todo li:not(.first) .fb-todo-n { color: var(--primary-ink); background: var(--primary-10); }
+.fb-todo-meta { display: flex; align-items: center; gap: 8px; }
+.fb-todo strong { display: block; margin-top: 2px; font-size: 15px; line-height: 22px; }
+.fb-todo p { margin-top: 4px; font-size: 14px; line-height: 21px; color: var(--muted-ink); }
+.fb-todo .fb-try { margin-top: 6px; color: var(--ink); }
+.fb-todo .fb-try strong { display: inline; margin: 0; font-size: inherit; line-height: inherit; color: var(--primary-ink); }
+.fb-todo li.first .fb-try { padding: 8px 10px; border-radius: 8px; background: #fff; }
+.fb-impact { padding: 1px 8px; border-radius: 999px; font-size: 11px; line-height: 16px; font-weight: 600; color: #c2372b; background: #fdf4f1; }
+
+/* Three dots per question: content (real), delivery and on camera. */
+.fb-q-row.has-dots { grid-template-columns: 28px minmax(0, 1fr) auto auto 18px; }
+.fb-dots { display: inline-flex; gap: 4px; padding: 4px 6px; border-radius: 999px; background: var(--chip); }
+.fb-dots i { width: 8px; height: 8px; border-radius: 50%; background: #b8c0cc; }
+.fb-dots i.good { background: #46a879; } .fb-dots i.track { background: #f0a12b; } .fb-dots i.work { background: #e2574a; }
+.fb-legend { font-size: 12px; color: var(--muted-ink); }
+.fb-legend .dot { display: none; }
+
+/* Grouped checklist inside a question (VMock's Content Strength groups). */
+.fb-groups { padding: 0 14px 14px; display: grid; gap: 14px; }
+.fb-group-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.fb-group-head h5 { margin: 0; font-size: 13px; line-height: 20px; font-weight: 700; }
+.fb-group .fb-checks { padding: 0; }
+.fb-checked { margin-top: 8px !important; display: flex; align-items: center; gap: 6px; font-size: 12px !important; line-height: 16px !important; color: #238556; }
+.fb-checked .ic { width: 14px; height: 14px; stroke-width: 2.5; }
+
+/* How you sounded / how you looked, for one answer. */
+.fb-signals { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.fb-signal-card { padding: 14px 16px; border: 1px solid var(--border); border-radius: 12px; display: grid; gap: 10px; }
+.fb-signal-head { display: flex; align-items: center; gap: 8px; }
+.fb-signal-head .ic { width: 18px; height: 18px; color: var(--primary-ink); }
+.fb-signal-head h4 { flex: 1; font-size: 14px; line-height: 20px; font-weight: 600; }
+.fb-signal-card ul { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.fb-sig { padding: 8px 10px; border-radius: 8px; background: #f7f9fc; display: grid; }
+.fb-sig-label { font-size: 12px; line-height: 16px; color: var(--muted-ink); }
+.fb-sig-value { font-size: 18px; line-height: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.fb-sig-value small { margin-left: 2px; font-size: 11px; font-weight: 500; }
+.fb-sig-value.good { color: #238556; } .fb-sig-value.track { color: #a85f00; } .fb-sig-value.work { color: #c2372b; }
+.fb-sig-target { font-size: 11px; line-height: 14px; color: var(--muted-ink); }
+.fb-signal-card > p { font-size: 13px; line-height: 20px; }
+
+/* Content Strength cards across the interview. */
+.fb-elements { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.fb-elements li { display: grid; grid-template-columns: 104px 1fr auto; gap: 10px; align-items: center; font-size: 13px; line-height: 20px; }
+.fb-elements li span:last-child { color: var(--muted-ink); font-size: 12px; }
+.fb-qlink { color: var(--primary-ink); font-weight: 500; }
+.fb-qlink:hover { text-decoration: underline; }
+
 @media (max-width: 860px) {
   .fb-tiles { grid-template-columns: 1fr; }
+  .fb-q-row.has-dots { grid-template-columns: 28px minmax(0, 1fr) 18px; }
+  .fb-q-row.has-dots .fb-dots, .fb-q-row.has-dots .fb-chip { grid-column: 2; justify-self: start; }
+  .fb-elements li { grid-template-columns: 1fr; gap: 2px; }
   .fb-params { grid-template-columns: 1fr; }
 }
 
