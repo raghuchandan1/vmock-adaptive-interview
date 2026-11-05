@@ -285,9 +285,12 @@ body.student.live main { max-width: none; padding: 0; }
   .sv-tile { height: auto; }
   .sv-tile-center { gap: 8px; }
   #timer .of { display: none; }
-  .sv-tile-center { margin-top: -40px; }
+  .sv-tile-center { align-self: start; margin-top: 22px; }
   .sv-stage-avatar { width: 88px; height: 88px; font-size: 28px; }
-  .sv-captions { left: 12px; right: 12px; width: auto; bottom: 36px; font-size: 15px; padding: 8px 12px; max-height: 4.6em; overflow-y: auto; }
+  /* small caption box: keep the latest words (the question) in view, as Meet does; the tile already names the speaker */
+  .sv-captions { left: 12px; right: 12px; width: auto; bottom: 44px; font-size: 15px; line-height: 1.4; padding: 0 12px; border: 8px solid transparent; border-left-width: 0; border-right-width: 0; max-height: calc(3 * 1.4em + 16px); overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
+  .sv-captions::before { display: none; }
+  .student .past-row { flex-direction: column; align-items: flex-start; gap: 12px; }
   .sv-pip { width: 112px; top: 12px; right: 12px; bottom: auto; }
   .sv-pip .sv-nametag { display: none; }
   .sv-panel-title { padding: 14px 16px 6px; font-size: 16px; }

@@ -648,7 +648,7 @@
     try {
       const done = (await api('/api/sessions')).filter((x) => x.status === 'ended');
       list.innerHTML = done.length
-        ? done.map((x) => `<div class="past-row"><div><strong>${esc(x.interview_type || 'Interview')}${x.role ? `: ${esc(x.role)}` : ''}</strong><br><span>${esc(fmtDate(x.created_at))}, ${x.turns} answer${x.turns === 1 ? '' : 's'}</span></div><button class="secondary" data-open="${esc(x.id)}" type="button">${x.has_feedback ? 'See feedback' : 'Get feedback'}</button></div>`).join('')
+        ? done.map((x) => `<div class="past-row"><div><strong>${esc(x.interview_type || 'Interview')}${x.role ? `: ${esc(x.role)}` : ''}</strong><br><span>${esc(fmtDate(x.created_at))}, ${x.turns}&nbsp;answer${x.turns === 1 ? '' : 's'}</span></div><button class="secondary" data-open="${esc(x.id)}" type="button">${x.has_feedback ? 'See feedback' : 'Get feedback'}</button></div>`).join('')
         : '<p class="empty">No finished interviews yet. Your feedback shows up here after each one.</p>';
     } catch (err) { list.innerHTML = `<p class="error">${esc(err.message)}</p>`; }
   }
