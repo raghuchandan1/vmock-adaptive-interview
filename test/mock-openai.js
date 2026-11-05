@@ -56,6 +56,9 @@ function turnOutput(p) {
   // Asked to repeat: the engine allows only a rephrase of the current question.
   if (allowed.length === 1 && allowed[0] === 'rephrase') return { ...base, decision: 'rephrase', utterance: `Sure. Let me put that another way. ${slot.planned_opening_question || 'What was your part?'}` };
   // Scripted behaviours triggered by the test's answer text.
+  if (answer.includes('[rephrase]') && allowed.includes('rephrase')) {
+    return { ...base, evidence: { ...base.evidence, on_topic: answer.includes('[off]') ? 'off' : 'on' }, decision: 'rephrase', utterance: `Let me put that another way. ${slot.planned_opening_question || 'What was your part?'}` };
+  }
   if (answer.includes('[leaknext]') && !p.note && allowed.includes('probe') && p.next_slot.planned_opening_question) {
     return { ...base, decision: 'probe', probe_rung: 'result', utterance: p.next_slot.planned_opening_question };
   }
