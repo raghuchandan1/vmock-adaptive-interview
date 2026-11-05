@@ -11,6 +11,12 @@
         ],
         "createdAt": "2026-11-05T09:51:29.568Z",
         "reason": "model: unchosen decision samples A and B from the direction round (user picked C); kept as a record, never shipped"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "proxima-nova",
+        "createdAt": "2026-11-05T10:47:35.489Z",
+        "reason": "Claude: VMock replica page (public/vmock) uses VMock's brand font from their Typekit kit; DESIGN.md documents the separate student page"
       }
     ]
   }
