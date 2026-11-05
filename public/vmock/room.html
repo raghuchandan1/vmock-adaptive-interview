@@ -14,7 +14,12 @@
 <link rel="stylesheet" href="/styles.css">
 <link rel="stylesheet" href="/student.css">
 <link rel="stylesheet" href="/vmock/room.css">
-<link rel="stylesheet" href="/vmock/feedback.css">
+<script>
+  // Feedback screen version: v2 by default (being reworked); ?fbview=v1 (or ?fbview=classic) loads the previous one for
+  // comparing. Only one version's CSS and JS load, since both use the same fb-* classes.
+  window.FB_FILE = /^(v1|classic)$/.test(new URLSearchParams(location.search).get('fbview')) ? 'feedback' : 'feedback-v2';
+  document.write(`<link rel="stylesheet" href="/vmock/${FB_FILE}.css">`);
+</script>
 <script>
   // Labels shown in the lobby, matching the setup wizard's names (the server's labels stay as they are).
   window.ROOM_LABELS = {
@@ -275,7 +280,7 @@
   </section>
 
   <!-- Feedback -->
-  <!-- Feedback (vmock/feedback.js renders it): which interview, how it went, question by question, across the interview. -->
+  <!-- Feedback (vmock/feedback-v2.js renders it; feedback.js with ?fbview=v1|classic): which interview, how it went, question by question, across the interview. -->
   <section id="screen-feedback" class="screen rm-fb-screen" hidden>
     <div class="fb">
       <header class="fb-card fb-head">
@@ -308,7 +313,7 @@
 <audio id="voice" preload="none"></audio>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="/shared.js"></script>
-<script src="/vmock/feedback.js"></script>
+<script>document.write(`<script src="/vmock/${FB_FILE}.js"><\/script>`);</script>
 <script src="/student.js"></script>
 <script>
   // Title card: until the plan arrives (student.js then sets the title from it), show the type and role the student
