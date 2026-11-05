@@ -162,6 +162,12 @@
         <a class="vm-btn primary" href="/vmock/adaptive-interview">Start Interview<svg class="ic"><use href="#i-arrow"/></svg></a>
       </div>
     </div>
+    <!-- Finished interviews on this server (vmock.js fills it from /api/sessions); each opens its feedback. -->
+    <div class="vm-past" id="pastWrap" hidden>
+      <div class="vm-past-head"><h3>Your past interviews</h3><span id="pastCount"></span></div>
+      <div class="vm-past-list" id="pastList"></div>
+      <button class="vm-btn outline sm vm-past-more" id="pastMore" type="button" hidden>Show all</button>
+    </div>
   </section>
 </main>
 

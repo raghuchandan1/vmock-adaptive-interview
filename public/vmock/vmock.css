@@ -390,3 +390,21 @@ label.vm-btn { cursor: pointer; }
   .wz-foot { padding: 12px 16px; }
   .wz-dot-label { display: none; }
 }
+
+/* ---------- Adaptive tab: past interviews ---------- */
+.vm-past { max-width: 824px; margin: 40px auto 0; padding-top: 32px; border-top: 1px solid var(--border); }
+.vm-past-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; }
+.vm-past-head h3 { margin: 0; font-size: 18px; line-height: 28px; font-weight: 600; }
+.vm-past-head span { font-size: 13px; color: var(--muted-ink); }
+.vm-past-list { display: grid; gap: 8px; }
+.vm-past-row {
+  padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  border: 1px solid var(--border); border-radius: 12px; transition: border-color .15s, box-shadow .15s;
+}
+.vm-past-row:hover { border-color: oklab(0.5549 -0.0533 -0.1494 / .5); box-shadow: 0 1px 0 #11111a0d, 0 0 8px #11111a1a; }
+.vm-past-main { min-width: 0; display: grid; }
+.vm-past-main strong { font-size: 15px; line-height: 22px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vm-past-main span { font-size: 13px; line-height: 20px; color: var(--muted-ink); }
+.vm-past-cta { flex: none; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: var(--primary-ink); }
+.vm-past-cta .ic { width: 16px; height: 16px; }
+.vm-past-more { margin: 12px auto 0; display: flex; }

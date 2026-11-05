@@ -261,6 +261,8 @@ function listSessions() {
           interview_type: engine.TYPE_LABEL[s.inputs?.interview_type], role: s.plan?.jd?.role_title || s.inputs?.target_role,
           candidate: s.plan?.candidate?.name || null, turns: s.turns?.length || 0,
           has_feedback: s.feedback?.version === engine.FEEDBACK_VERSION,
+          // npm test's scripted answers carry a "[done]" marker; lists can hide those runs.
+          test_run: (s.transcript || []).some((e) => e.role === 'candidate' && String(e.text).includes('[done]')),
         };
       } catch (_) { return null; }
     })
