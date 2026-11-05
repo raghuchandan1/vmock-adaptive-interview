@@ -4,6 +4,11 @@
   const $ = (id) => document.getElementById(id);
   const { esc } = VM;
   const TICK_MS = 50;
+  // "5 Nov 2026, 15:00": no seconds, no ambiguous day/month order.
+  const fmtDate = (iso) => new Date(iso).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  // Touch screens have no Space key and nothing to click: the instructions follow the device.
+  const FINE = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const ACT = FINE ? 'Click' : 'Tap';
 
   const state = {
     config: null, samples: [], sessionId: null, view: null, minutes: 15,
@@ -169,7 +174,7 @@
     $('previewVideo').srcObject = state.camOk ? state.stream : null;
     $('previewOff').textContent = 'Camera off';
     $('previewOff').hidden = state.camOk;
-    $('tryStatus').textContent = 'Hold Space (or this button) and say hello.';
+    $('tryStatus').textContent = FINE ? 'Hold Space (or this button) and say hello.' : 'Hold the button and say hello.';
     $('micTry').hidden = !state.micOk;
     state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const src = state.audioCtx.createMediaStreamSource(state.stream);
@@ -253,14 +258,18 @@
     $('timer').innerHTML = `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}<span class="of"> of about ${Number(state.minutes)} min</span>`;
   }
 
-  // One transcript line; the interviewer's current question is highlighted.
-  const msg = (role, text, now) => `<div class="sv-msg${now ? ' now' : ''}"><div class="who">${role === 'interviewer' ? 'Interviewer' : 'You'}</div><p>${esc(text)}</p></div>`;
+  // One transcript line, timed against the call clock; the interviewer's current question is highlighted.
+  const clock = (at) => {
+    const s = Math.max(0, Math.floor(((at ? Date.parse(at) : Date.now()) - state.startedAt) / 1000));
+    return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+  };
+  const msg = (role, text, now, at) => `<div class="sv-msg${now ? ' now' : ''}"><div class="who">${role === 'interviewer' ? 'Interviewer' : 'You'}<time>${clock(at)}</time></div><p>${esc(text)}</p></div>`;
   const scrollThread = () => { $('thread').scrollTop = $('thread').scrollHeight; };
 
   function render() {
     const t = state.view.transcript;
     const lastQ = t.map((e) => e.role).lastIndexOf('interviewer');
-    $('thread').innerHTML = t.map((e, i) => msg(e.role, e.text, i === lastQ)).join('');
+    $('thread').innerHTML = t.map((e, i) => msg(e.role, e.text, i === lastQ, e.at)).join('');
     scrollThread();
     $('question').textContent = lastQ >= 0 ? t[lastQ].text : '';
   }
@@ -277,7 +286,7 @@
 
   const LABELS = {
     speaking: 'Interviewer is speaking…',
-    ready: 'Your turn. Click Start answering, or hold Space while you talk.',
+    ready: FINE ? 'Your turn. Click Start answering, or hold Space while you talk.' : 'Your turn. Tap Start answering, then talk.',
     recording: 'Recording… let go to send',
     transcribing: 'Got it. One moment…',
     thinking: 'Interviewer is thinking…',
@@ -306,7 +315,7 @@
     $('modeBtn').setAttribute('aria-label', modeLabel);
     $('modeBtn').title = modeLabel;
     $('modeBtn').classList.toggle('is-typing', typing);
-    $('spaceHint').hidden = typing;
+    $('spaceHint').hidden = typing || !FINE;
     if (typing && phase === 'typing') $('typed').focus();
   }
 
@@ -340,7 +349,7 @@
       const q = t[0].text.slice(g.length).trim();
       $('question').textContent = g;
       return speakText(g, 'greeting', () => {
-        $('thread').innerHTML = msg('interviewer', g, false) + msg('interviewer', q, true);
+        $('thread').innerHTML = msg('interviewer', g, false, t[0].at) + msg('interviewer', q, true);
         $('question').textContent = q;
         setTimeout(() => { if (state.phase === 'speaking') speakText(q, 'question', afterSpeech); }, 600);
       });
@@ -432,7 +441,7 @@
     if (state.phase !== 'recording') return;
     if (state.stopOnRelease || performance.now() - state.pressedAt >= HOLD_MS) return sendVoice();
     state.toggled = true; // a quick tap: keep recording until the next tap
-    setPhase('recording', 'Recording. Click Done answering (or tap Space) when you finish.');
+    setPhase('recording', FINE ? 'Recording. Click Done answering (or tap Space) when you finish.' : 'Recording. Tap Done answering when you finish.');
   }
 
   // Starts recording with the current provider. Returns false if it couldn't start.
@@ -495,7 +504,7 @@
     const heldMs = performance.now() - state.capturedAt;
     setPhase('transcribing', typeof label === 'string' ? label : undefined);
     const captured = await stopCapture(false);
-    if (heldMs < MIN_ANSWER_MS) return retry('That was very short. Hold Space (or the button) for the whole time you are speaking.');
+    if (heldMs < MIN_ANSWER_MS) return retry(FINE ? 'That was very short. Hold Space (or the button) for the whole time you are speaking.' : `That was very short. ${ACT} Start answering, talk, then tap Done answering.`);
     let text = captured;
     if (captured instanceof Blob) {
       try {
@@ -582,7 +591,7 @@
   async function endInterview() {
     // Two clicks instead of a confirm dialog.
     if (!state.endArmed) {
-      $('endBtn').textContent = 'Click again to end';
+      $('endBtn').textContent = `${ACT} again to end`;
       state.endArmed = setTimeout(() => { state.endArmed = null; $('endBtn').textContent = 'End interview'; }, 3000);
       return;
     }
@@ -620,7 +629,7 @@
     try {
       const session = await api(`/api/sessions/${state.sessionId}/trace`);
       const role = session.plan?.jd?.role_title || session.inputs?.target_role;
-      $('feedbackMeta').textContent = `${role ? `${role}, ` : ''}${new Date(session.created_at).toLocaleString()}`;
+      $('feedbackMeta').textContent = `${role ? `${role}, ` : ''}${fmtDate(session.created_at)}`;
       const fb = await api(`/api/sessions/${state.sessionId}/feedback`, { method: 'POST' });
       VM.renderFeedback(panel, session, fb);
     } catch (err) {
@@ -639,7 +648,7 @@
     try {
       const done = (await api('/api/sessions')).filter((x) => x.status === 'ended');
       list.innerHTML = done.length
-        ? done.map((x) => `<div class="past-row"><div><strong>${esc(x.interview_type || 'Interview')}${x.role ? `: ${esc(x.role)}` : ''}</strong><br><span>${esc(new Date(x.created_at).toLocaleString())}, ${x.turns} answer${x.turns === 1 ? '' : 's'}</span></div><button class="secondary" data-open="${esc(x.id)}" type="button">${x.has_feedback ? 'See feedback' : 'Get feedback'}</button></div>`).join('')
+        ? done.map((x) => `<div class="past-row"><div><strong>${esc(x.interview_type || 'Interview')}${x.role ? `: ${esc(x.role)}` : ''}</strong><br><span>${esc(fmtDate(x.created_at))}, ${x.turns} answer${x.turns === 1 ? '' : 's'}</span></div><button class="secondary" data-open="${esc(x.id)}" type="button">${x.has_feedback ? 'See feedback' : 'Get feedback'}</button></div>`).join('')
         : '<p class="empty">No finished interviews yet. Your feedback shows up here after each one.</p>';
     } catch (err) { list.innerHTML = `<p class="error">${esc(err.message)}</p>`; }
   }
@@ -699,6 +708,7 @@
     $('sendBtn').addEventListener('pointercancel', pressEnd);
     document.addEventListener('keydown', (e) => { if (!spaceTarget(e)) return; e.preventDefault(); if (!e.repeat) pressStart(); });
     document.addEventListener('keyup', (e) => { if (!spaceTarget(e)) return; e.preventDefault(); pressEnd(); });
+    if (!FINE) document.querySelector('#briefBody .brief-note').textContent = 'The interviewer speaks each question. When they finish, tap Start answering, talk, then tap Done answering. You can switch to typing at any time.';
     $('modeBtn').addEventListener('click', toggleMode);
     $('camBtn').addEventListener('click', () => setCamera($('camBtn').getAttribute('aria-pressed') !== 'true'));
     $('endBtn').addEventListener('click', endInterview);

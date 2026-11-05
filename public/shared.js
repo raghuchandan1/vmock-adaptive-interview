@@ -85,7 +85,7 @@
     // Every question with its result, linking down to its section.
     if (fb.topics.length) html += `<nav class="fb-overview" aria-label="Questions in this interview"><ol>${fb.topics.map((t, i) => `<li><a href="#fb-topic-${i}">${esc(topicName(t))}</a>${verdictHtml(t)}</li>`).join('')}</ol></nav>`;
     if (goal) {
-      html += `<section class="goal"><span>Your goal for the next attempt</span><strong>${esc(goal.title)}</strong><p>${esc(goal.why)}</p><p class="plan-label">Your plan for any interview</p><p class="do">${esc(goal.action)}</p></section>`;
+      html += `<section class="goal"><strong>Next time: ${esc(goal.title.charAt(0).toLowerCase() + goal.title.slice(1))}</strong><p>${esc(goal.why)}</p><p class="do">${esc(goal.action)}</p></section>`;
     }
     if (more.length) {
       html += `<h2 class="section-title">Also work on</h2><ol class="priorities">${more.map((p) => `<li><strong>${esc(p.title)}</strong><span>${esc(p.why)}</span><em>${esc(p.action)}</em></li>`).join('')}</ol>`;
