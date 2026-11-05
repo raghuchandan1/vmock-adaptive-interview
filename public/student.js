@@ -44,7 +44,8 @@
     const words = text ? text.split(/\s+/).length : 0;
     $('dropEmpty').hidden = Boolean(text);
     $('dropLoaded').hidden = !text;
-    $('resumeName').textContent = `Resume loaded: ${state.resumeName || 'pasted text'}`;
+    $('resumeName').textContent = state.resumeName || 'Pasted resume';
+    $('resumeName').title = $('resumeName').textContent;
     $('resumeWords').textContent = `${words} word${words === 1 ? '' : 's'}`;
   }
   async function loadResumeFile(file) {
@@ -233,8 +234,10 @@
     if (state.audioCtx && state.audioCtx.state === 'suspended') state.audioCtx.resume();
     $('selfView').srcObject = state.camOk ? state.stream : null;
     $('noVideo').hidden = state.camOk;
-    $('liveSub').textContent = `About ${state.minutes} min`;
+    $('liveSub').textContent = $('briefTitle').textContent;
     $('modeBtn').hidden = !state.micOk;
+    $('camBtn').hidden = !state.camOk;
+    setCamera(true);
     if (!state.micOk) state.mode = 'type'; // e.g. joined before answering the browser's mic prompt
     state.startedAt = Date.now();
     clearInterval(state.timer);
@@ -247,15 +250,29 @@
 
   function tickTimer() {
     const s = Math.floor((Date.now() - state.startedAt) / 1000);
-    $('timer').textContent = `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')} of about ${state.minutes} min`;
+    $('timer').innerHTML = `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}<span class="of"> of about ${Number(state.minutes)} min</span>`;
   }
+
+  // One transcript line; the interviewer's current question is highlighted.
+  const msg = (role, text, now) => `<div class="sv-msg${now ? ' now' : ''}"><div class="who">${role === 'interviewer' ? 'Interviewer' : 'You'}</div><p>${esc(text)}</p></div>`;
+  const scrollThread = () => { $('thread').scrollTop = $('thread').scrollHeight; };
 
   function render() {
     const t = state.view.transcript;
     const lastQ = t.map((e) => e.role).lastIndexOf('interviewer');
-    $('thread').innerHTML = t.slice(0, lastQ).map((e) => `<p class="sv-bubble ${e.role === 'interviewer' ? 'q' : 'a'}">${esc(e.text)}</p>`).join('');
-    $('thread').scrollTop = $('thread').scrollHeight;
+    $('thread').innerHTML = t.map((e, i) => msg(e.role, e.text, i === lastQ)).join('');
+    scrollThread();
     $('question').textContent = lastQ >= 0 ? t[lastQ].text : '';
+  }
+
+  // Turns the student's own camera on or off (the track keeps running, so turning it back on is instant).
+  function setCamera(on) {
+    if (state.stream) state.stream.getVideoTracks().forEach((track) => { track.enabled = on; });
+    const label = on ? 'Turn camera off' : 'Turn camera on';
+    $('camBtn').setAttribute('aria-pressed', String(on));
+    $('camBtn').setAttribute('aria-label', label);
+    $('camBtn').title = label;
+    $('noVideo').hidden = on && state.camOk;
   }
 
   const LABELS = {
@@ -285,7 +302,11 @@
     btn.classList.toggle('sv-talk', !typing);
     btn.classList.toggle('on', phase === 'recording');
     btn.textContent = typing ? 'Send answer' : phase === 'recording' ? (state.toggled ? 'Done answering' : 'Release to send') : 'Start answering';
-    $('modeBtn').textContent = typing ? 'Switch to speaking' : 'Switch to typing';
+    const modeLabel = typing ? 'Switch to speaking' : 'Switch to typing';
+    $('modeBtn').setAttribute('aria-label', modeLabel);
+    $('modeBtn').title = modeLabel;
+    $('modeBtn').classList.toggle('is-typing', typing);
+    $('spaceHint').hidden = typing;
     if (typing && phase === 'typing') $('typed').focus();
   }
 
@@ -319,7 +340,7 @@
       const q = t[0].text.slice(g.length).trim();
       $('question').textContent = g;
       return speakText(g, 'greeting', () => {
-        $('thread').innerHTML = `<p class="sv-bubble q">${esc(g)}</p>`;
+        $('thread').innerHTML = msg('interviewer', g, false) + msg('interviewer', q, true);
         $('question').textContent = q;
         setTimeout(() => { if (state.phase === 'speaking') speakText(q, 'question', afterSpeech); }, 600);
       });
@@ -515,8 +536,9 @@
 
   async function submitAnswer(text) {
     setPhase('thinking');
-    $('thread').insertAdjacentHTML('beforeend', `<p class="sv-bubble q">${esc($('question').textContent)}</p><p class="sv-bubble a">${esc(text)}</p>`);
-    $('thread').scrollTop = $('thread').scrollHeight;
+    $('thread').querySelectorAll('.sv-msg.now').forEach((m) => m.classList.remove('now'));
+    $('thread').insertAdjacentHTML('beforeend', msg('candidate', text, false));
+    scrollThread();
     $('question').textContent = '';
     try {
       state.view = await api(`/api/sessions/${state.sessionId}/answers`, { method: 'POST', body: { answer: text } });
@@ -678,6 +700,7 @@
     document.addEventListener('keydown', (e) => { if (!spaceTarget(e)) return; e.preventDefault(); if (!e.repeat) pressStart(); });
     document.addEventListener('keyup', (e) => { if (!spaceTarget(e)) return; e.preventDefault(); pressEnd(); });
     $('modeBtn').addEventListener('click', toggleMode);
+    $('camBtn').addEventListener('click', () => setCamera($('camBtn').getAttribute('aria-pressed') !== 'true'));
     $('endBtn').addEventListener('click', endInterview);
     $('typed').addEventListener('keydown', (e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); sendTyped(); } });
     $('newBtn').addEventListener('click', newInterview);
