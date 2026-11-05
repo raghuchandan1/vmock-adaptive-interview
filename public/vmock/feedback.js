@@ -152,19 +152,8 @@
     return parts.length ? `<section class="fb-section" aria-labelledby="fbAcross"><h2 class="fb-sec-title" id="fbAcross">Across the interview</h2><div class="fb-across">${parts.join('')}</div></section>` : '';
   }
 
-  function render(panel, s, fb) {
-    header(s, fb);
-    if (!fb.topics.length) {
-      panel.innerHTML = `${summary(fb)}<p class="fb-empty">The interview ended before any question was answered, so there is nothing to give feedback on yet. Practise again to get feedback on your answers.</p>`;
-      return;
-    }
-    // The first question that needs work starts open (else the first one), so the detail is one glance away.
-    const firstOpen = Math.max(0, fb.topics.findIndex((t) => t.verdict === 'needs_work'));
-    panel.innerHTML = `${summary(fb)}
-      <section class="fb-section" aria-labelledby="fbQs"><div class="fb-sec-head"><h2 class="fb-sec-title" id="fbQs">Question by question</h2><span>Open a question to see how to answer it next time</span></div>
-        <div class="fb-qs">${fb.topics.map((t, i) => question(s, t, i, i === firstOpen)).join('')}</div></section>
-      ${across(fb)}`;
-
+  // Opening questions and the result strip's jumps, shared by both layouts.
+  function wireQuestions(panel) {
     const toggle = (q, open) => {
       q.classList.toggle('open', open);
       q.querySelector('.fb-q-row').setAttribute('aria-expanded', String(open));
@@ -174,7 +163,6 @@
       const q = btn.closest('.fb-q');
       toggle(q, !q.classList.contains('open'));
     }));
-    // The result strip jumps to a question and opens it.
     panel.querySelectorAll('.fb-seg').forEach((a) => a.addEventListener('click', (e) => {
       e.preventDefault();
       const q = document.querySelector(a.getAttribute('href'));
@@ -183,5 +171,192 @@
     }));
   }
 
-  VM.renderFeedback = render;
+  const EMPTY = '<p class="fb-empty">The interview ended before any question was answered, so there is nothing to give feedback on yet. Practise again to get feedback on your answers.</p>';
+  const firstOpenOf = (fb) => Math.max(0, fb.topics.findIndex((t) => t.verdict === 'needs_work'));
+  const questionsHtml = (s, fb) => `<section class="fb-section" aria-labelledby="fbQs"><div class="fb-sec-head"><h2 class="fb-sec-title" id="fbQs">Question by question</h2><span>Open a question to see how to answer it next time</span></div>
+    <div class="fb-qs">${fb.topics.map((t, i) => question(s, t, i, i === firstOpenOf(fb))).join('')}</div></section>`;
+
+  // ---------- Classic layout (content feedback only), kept for reference: ?fbview=classic ----------
+  function renderClassic(panel, s, fb) {
+    header(s, fb);
+    if (!fb.topics.length) { panel.innerHTML = `${summary(fb)}${EMPTY}`; return; }
+    panel.innerHTML = `${summary(fb)}${questionsHtml(s, fb)}${across(fb)}`;
+    wireQuestions(panel);
+  }
+
+  // ---------- Delivery of Speech and Non Verbal: placeholder signals ----------
+  // shortcut: invented values, generated from the interview id so each interview has its own stable set; replace with
+  // VMock's audio/video analysis once that is wired in. Ranges and targets follow what VMock's recorder feedback shows.
+  function seeded(id) {
+    let h = 2166136261;
+    for (const c of String(id)) h = Math.imul(h ^ c.charCodeAt(0), 16777619);
+    return () => { h = Math.imul(h ^ (h >>> 15), 2246822507); h = Math.imul(h ^ (h >>> 13), 3266489909); h ^= h >>> 16; return (h >>> 0) / 4294967296; };
+  }
+  const band = (v, good, track) => (good(v) ? 'good_job' : track(v) ? 'on_track' : 'needs_work');
+  const worst = (levels) => (levels.includes('needs_work') ? 'needs_work' : levels.includes('on_track') ? 'on_track' : 'good_job');
+
+  function signals(s) {
+    const r = seeded(s.id);
+    const between = (lo, hi, dp = 0) => Number((lo + r() * (hi - lo)).toFixed(dp));
+    const intensity = between(46, 68), rate = between(105, 172), pitch = between(18, 62);
+    const pauses = between(2.5, 10, 1), fillers = between(0.6, 6, 1), monotone = between(6, 38);
+    const eye = between(42, 92), gestures = between(2, 12, 1), posture = between(72, 98);
+    const happy = between(8, 40), stressed = between(4, 30), neutral = Math.max(0, 100 - happy - stressed);
+    const vocal = [band(intensity, (v) => v >= 55, (v) => v >= 50), band(rate, (v) => v >= 120 && v <= 150, (v) => v >= 108 && v <= 162), band(pitch, (v) => v >= 30, (v) => v >= 22)];
+    return {
+      delivery: [
+        { id: 'vocal', icon: 'i-wave', name: 'Vocal Features', level: worst(vocal),
+          about: 'How strongly and clearly you speak: loud enough to hear, at a pace that is easy to follow, with natural changes in pitch.',
+          metrics: [
+            { label: 'Intensity', value: intensity, unit: 'dB', level: vocal[0], target: 'Aim for 55 dB or more' },
+            { label: 'Speech rate', value: rate, unit: 'wpm', level: vocal[1], target: 'Aim for 120 to 150 words a minute' },
+            { label: 'Pitch variation', value: pitch, unit: 'Hz', level: vocal[2], target: 'Aim for 30 Hz or more' },
+          ],
+          next: rate > 150 ? 'Slow down a little: pause after each main point so the interviewer can follow.' : intensity < 55 ? 'Speak a little louder and closer to the mic, as if the interviewer were across a table.' : 'Keep this pace and volume, and lift your voice on the key result in each story.' },
+        { id: 'pauses', icon: 'i-pause', name: 'Appropriate Pauses', level: band(pauses, (v) => v >= 4 && v <= 8, (v) => v >= 3 && v <= 9),
+          about: 'Short pauses between ideas give the interviewer time to take in what you said and make you sound composed.',
+          metrics: [{ label: 'Pauses a minute', value: pauses, unit: '', target: 'Aim for 4 to 8', bar: { value: pauses, max: 12, from: 4, to: 8 } }],
+          next: pauses < 4 ? 'Pause for a breath after each part of your answer, before moving to the next.' : pauses > 8 ? 'Join related points into one sentence so the pauses come between ideas, not inside them.' : 'Your pauses land between ideas. Keep using them before your result.' },
+        { id: 'fluency', icon: 'i-flow', name: 'Speech Fluency', level: band(fillers, (v) => v < 2, (v) => v < 4),
+          about: 'How smoothly you speak: fewer fillers such as "um", "like" and "you know" make an answer sound prepared.',
+          metrics: [{ label: 'Filler words a minute', value: fillers, unit: '', target: 'Aim for fewer than 2', bar: { value: fillers, max: 8, from: 0, to: 2 } }],
+          next: fillers >= 2 ? 'When you need a moment, pause silently instead of saying "um". Practise your first sentence for each story.' : 'Few fillers. Keep preparing your opening line for each story.' },
+        { id: 'modulation', icon: 'i-wave', name: 'Speech Modulation', level: band(monotone, (v) => v < 15, (v) => v < 25),
+          about: 'Changing your tone and emphasis keeps the interviewer engaged and shows which parts of your answer matter most.',
+          metrics: [{ label: 'Time in a flat tone', value: monotone, unit: '%', target: 'Aim for under 15%', bar: { value: monotone, max: 50, from: 0, to: 15 } }],
+          next: monotone >= 15 ? 'Stress the words that carry your point, such as the result and the number behind it.' : 'Good variety in your tone. Keep emphasising your results.' },
+      ],
+      nonverbal: [
+        { id: 'eye', icon: 'i-eye', name: 'Eye Contact', level: band(eye, (v) => v >= 75, (v) => v >= 60),
+          about: 'Looking at the camera reads as looking at the interviewer: it shows confidence and interest in the conversation.',
+          metrics: [{ label: 'Eye contact duration', value: eye, unit: '%', target: 'Minimum 75%', bar: { value: eye, max: 100, from: 75, to: 100 } }],
+          next: eye < 75 ? 'Look at the camera, not the screen, while you speak. Put a small note next to the lens as a reminder.' : 'Good eye contact. Keep looking at the camera when you give your result.' },
+        { id: 'face', icon: 'i-smile', name: 'Facial Expressions', level: stressed > 22 ? 'needs_work' : happy >= 20 ? 'good_job' : 'on_track',
+          about: 'A relaxed, friendly expression makes you look approachable and confident; a tense one can read as nervousness.',
+          metrics: [{ label: 'Mix', mix: [['Happy', happy, 'good'], ['Neutral', neutral, 'none'], ['Stressed', stressed, 'work']] }],
+          next: stressed > 22 ? 'Take a breath before each answer and relax your jaw and shoulders; a small smile when you start helps.' : 'Your expression stays relaxed. Smile when you greet the interviewer and when you finish.' },
+        { id: 'hands', icon: 'i-hand', name: 'Hand Gestures', level: band(gestures, (v) => v >= 4 && v <= 9, (v) => v >= 3 && v <= 11),
+          about: 'Open, natural gestures support what you say; too few can look stiff and too many can distract.',
+          metrics: [{ label: 'Gestures a minute', value: gestures, unit: '', target: 'Aim for 4 to 9', bar: { value: gestures, max: 14, from: 4, to: 9 } }],
+          next: gestures < 4 ? 'Let your hands move naturally when you list steps or describe a change; keep them in the frame.' : gestures > 9 ? 'Rest your hands between points so each gesture marks something that matters.' : 'Natural gestures. Keep them in the frame.' },
+        { id: 'posture', icon: 'i-posture', name: 'Body Posture', level: band(posture, (v) => v >= 90, (v) => v >= 80),
+          about: 'Sitting upright and facing the camera shows you are engaged and gives your voice more energy.',
+          metrics: [{ label: 'Upright posture', value: posture, unit: '%', target: 'Minimum 90%', bar: { value: posture, max: 100, from: 90, to: 100 } }],
+          next: posture < 90 ? 'Sit back in the chair with your feet flat, and set the camera at eye level so you don\'t lean in.' : 'Good posture. Keep the camera at eye level.' },
+      ],
+    };
+  }
+
+  // A module's level from its parts: mostly Good job is Good job, half or more Needs work is Needs work.
+  function moduleLevel(levels) {
+    const n = levels.length;
+    if (!n) return null;
+    if (levels.filter((l) => l === 'needs_work').length * 2 >= n) return 'needs_work';
+    if (levels.filter((l) => l === 'good_job').length * 2 > n) return 'good_job';
+    return 'on_track';
+  }
+
+  function paramCard(p) {
+    const metrics = p.metrics.map((m) => {
+      if (m.mix) {
+        return `<div class="fb-metric"><span class="fb-metric-label">${esc(m.label)}</span>
+          <div class="fb-mix" role="img" aria-label="${esc(m.mix.map(([k, v]) => `${k} ${v}%`).join(', '))}">${m.mix.map(([k, v, c]) => `<span class="${c}" style="width:${v}%"></span>`).join('')}</div>
+          <div class="fb-mix-legend">${m.mix.map(([k, v, c]) => `<span><i class="${c}"></i>${esc(k)} ${v}%</span>`).join('')}</div></div>`;
+      }
+      const bar = m.bar ? `<div class="fb-meter" role="img" aria-label="${esc(`${m.value}${m.unit} (${m.target})`)}">
+          <span class="fb-meter-zone" style="left:${(m.bar.from / m.bar.max) * 100}%;width:${((m.bar.to - m.bar.from) / m.bar.max) * 100}%"></span>
+          <span class="fb-meter-dot ${LEVEL[m.level || p.level][1]}" style="left:${Math.min(100, (m.bar.value / m.bar.max) * 100)}%"></span></div>` : '';
+      return `<div class="fb-metric"><div class="fb-metric-row"><span class="fb-metric-label">${esc(m.label)}</span><span class="fb-metric-value ${LEVEL[m.level || p.level][1]}">${m.value}<small>${esc(m.unit)}</small></span></div>${bar}<span class="fb-metric-target">${esc(m.target)}</span></div>`;
+    }).join('');
+    return `<article class="fb-card fb-param">
+      <div class="fb-param-head"><span class="fb-param-icon ${LEVEL[p.level][1]}" aria-hidden="true"><svg class="ic"><use href="#${p.icon}"/></svg></span><h3>${esc(p.name)}</h3>${chip(p.level)}</div>
+      <p class="fb-param-about">${esc(p.about)}</p>
+      <div class="fb-metrics">${metrics}</div>
+      <p class="fb-param-next"><strong>Next step:</strong> ${esc(p.next)}</p>
+    </article>`;
+  }
+
+  const MODULES = [
+    { id: 'content', icon: 'i-doc', name: 'Content Strength', about: 'What you said: the structure and the evidence in your answers.' },
+    { id: 'delivery', icon: 'i-wave', name: 'Delivery of Speech', about: 'How you sounded: volume, pace, pauses and fluency.' },
+    { id: 'nonverbal', icon: 'i-eye', name: 'Non Verbal', about: 'How you came across on camera: eye contact, expression, posture.' },
+  ];
+
+  // ---------- Default layout: VMock's three modules ----------
+  function renderModules(panel, s, fb) {
+    header(s, fb);
+    const sig = signals(s);
+    const level = {
+      content: moduleLevel(fb.topics.filter((t) => t.verdict).map((t) => t.verdict)),
+      delivery: moduleLevel(sig.delivery.map((p) => p.level)),
+      nonverbal: moduleLevel(sig.nonverbal.map((p) => p.level)),
+    };
+    const [goal, ...more] = fb.priorities || [];
+    // "Also work on": the content priorities, plus the weakest delivery or body-language part's next step.
+    const order = { needs_work: 0, on_track: 1, good_job: 2 };
+    const weakest = [...sig.delivery.map((p) => ({ ...p, module: 'Delivery of Speech' })), ...sig.nonverbal.map((p) => ({ ...p, module: 'Non Verbal' }))]
+      .sort((a, b) => order[a.level] - order[b.level])[0];
+    const also = [
+      ...more.slice(0, 2).map((p) => ({ eyebrow: 'Content Strength', title: p.title, text: p.action })),
+      ...(weakest && weakest.level !== 'good_job' ? [{ eyebrow: weakest.module, title: weakest.name, text: weakest.next }] : []),
+    ];
+
+    const tiles = MODULES.map((m) => `<button class="fb-tile" type="button" data-tab="${m.id}">
+        <span class="fb-tile-icon" aria-hidden="true"><svg class="ic"><use href="#${m.icon}"/></svg></span>
+        <span class="fb-tile-name">${m.name}</span>${level[m.id] ? chip(level[m.id]) : '<span class="fb-chip none">Not enough to judge</span>'}
+        <span class="fb-tile-about">${m.about}</span></button>`).join('');
+    let html = `<section class="fb-card fb-summary" aria-labelledby="fbSummaryTitle">
+      <h2 class="sr" id="fbSummaryTitle">How it went</h2>
+      ${fb.overall ? `<p class="fb-overall">${esc(fb.overall)}</p>` : ''}
+      <div class="fb-tiles">${tiles}</div>`;
+    if (goal) {
+      html += `<div class="fb-goal"><div class="fb-goal-icon" aria-hidden="true"><svg class="ic"><use href="#i-target"/></svg></div>
+        <div><div class="fb-eyebrow">Your goal for next time</div><h3>${esc(goal.title)}</h3>${goal.why ? `<p>${esc(goal.why)}</p>` : ''}${goal.action ? `<p class="fb-try"><strong>Try this:</strong> ${esc(goal.action)}</p>` : ''}</div></div>`;
+    }
+    if (also.length) {
+      html += `<div class="fb-also"><h3 class="fb-also-title">Also work on</h3><div class="fb-also-grid">${also.map((a) => `<div class="fb-also-item"><span class="fb-eyebrow">${esc(a.eyebrow)}</span><strong>${esc(a.title)}</strong>${a.text ? `<span>${esc(a.text)}</span>` : ''}</div>`).join('')}</div></div>`;
+    }
+    html += '</section>';
+
+    const tabs = MODULES.map((m, i) => `<button class="fb-tab" type="button" role="tab" id="fb-tab-${m.id}" aria-controls="fb-panel-${m.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-tab="${m.id}">${m.name}${level[m.id] ? chip(level[m.id]) : ''}</button>`).join('');
+    const judged = fb.topics.filter((t) => t.verdict);
+    const count = (v) => judged.filter((t) => t.verdict === v).length;
+    const strip = fb.topics.map((t, i) => `<a class="fb-seg ${t.verdict ? LEVEL[t.verdict][1] : 'none'}" href="#fb-q-${i}" title="${esc(`${i + 1}. ${topicName(t)}: ${t.verdict ? LEVEL[t.verdict][0] : 'Too short to judge'}`)}"><span>${i + 1}</span></a>`).join('');
+    const tally = ['good_job', 'on_track', 'needs_work'].filter(count).map((v) => `<span class="fb-chip ${LEVEL[v][1]}">${count(v)} ${LEVEL[v][0]}</span>`).join('');
+    const content = fb.topics.length
+      ? `<div class="fb-strip-row"><div class="fb-strip" aria-label="Result for each question">${strip}</div><div class="fb-tally">${tally}</div></div>${questionsHtml(s, fb)}${across(fb)}`
+      : EMPTY;
+    const intro = (text) => `<p class="fb-tab-intro">${text}</p>`;
+    html += `<div class="fb-tabs" role="tablist" aria-label="Feedback modules">${tabs}</div>
+      <div class="fb-panel" role="tabpanel" id="fb-panel-content" aria-labelledby="fb-tab-content">${content}</div>
+      <div class="fb-panel" role="tabpanel" id="fb-panel-delivery" aria-labelledby="fb-tab-delivery" hidden>${intro('How your voice came across across the whole interview.')}<div class="fb-params">${sig.delivery.map(paramCard).join('')}</div></div>
+      <div class="fb-panel" role="tabpanel" id="fb-panel-nonverbal" aria-labelledby="fb-tab-nonverbal" hidden>${intro('How you came across on camera across the whole interview.')}<div class="fb-params">${sig.nonverbal.map(paramCard).join('')}</div></div>`;
+    panel.innerHTML = html;
+
+    const select = (id, focus) => {
+      panel.querySelectorAll('.fb-tab').forEach((t) => {
+        const on = t.dataset.tab === id;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        if (on && focus) t.focus();
+      });
+      panel.querySelectorAll('.fb-panel').forEach((p) => { p.hidden = p.id !== `fb-panel-${id}`; });
+    };
+    panel.querySelectorAll('.fb-tab').forEach((t) => t.addEventListener('click', () => select(t.dataset.tab)));
+    // Arrow keys move between tabs (the ARIA tabs pattern).
+    panel.querySelector('.fb-tabs').addEventListener('keydown', (e) => {
+      if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+      const ids = MODULES.map((m) => m.id);
+      const cur = ids.indexOf(panel.querySelector('.fb-tab[aria-selected="true"]').dataset.tab);
+      select(ids[(cur + (e.key === 'ArrowRight' ? 1 : ids.length - 1)) % ids.length], true);
+    });
+    // A summary tile opens its module's tab and brings the tabs into view.
+    panel.querySelectorAll('.fb-tile').forEach((b) => b.addEventListener('click', () => {
+      select(b.dataset.tab);
+      panel.querySelector('.fb-tabs').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    }));
+    wireQuestions(panel);
+  }
+
+  VM.renderFeedback = new URLSearchParams(location.search).get('fbview') === 'classic' ? renderClassic : renderModules;
 })();

@@ -168,6 +168,70 @@ body.vm-room:has(#screen-feedback:not([hidden])) #pastBtn { display: none; }
 .fb-jd li { display: flex; align-items: center; gap: 8px; font-size: 14px; }
 .fb-empty { padding: 24px; text-align: center; color: var(--muted-ink); background: #fff; border: 1px dashed var(--border); border-radius: 14px; }
 
+/* ---------- Three modules (default layout) ---------- */
+.fb-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.fb-tile {
+  padding: 16px; display: grid; grid-template-columns: 36px 1fr; grid-template-rows: auto auto auto; gap: 4px 12px; align-items: center;
+  text-align: left; font-family: var(--font); color: var(--ink); background: #fff; border: 1px solid var(--border); border-radius: 12px;
+  transition: border-color .15s, box-shadow .15s;
+}
+.fb-tile:hover { border-color: oklab(0.5549 -0.0533 -0.1494 / .5); box-shadow: 0 1px 0 #11111a0d, 0 0 8px #11111a1a; }
+.fb-tile-icon { grid-row: 1 / 3; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; color: var(--primary-ink); background: var(--primary-10); }
+.fb-tile-icon .ic { width: 18px; height: 18px; }
+.fb-tile-name { font-size: 15px; line-height: 20px; font-weight: 600; }
+.fb-tile .fb-chip { justify-self: start; }
+.fb-tile-about { grid-column: 1 / -1; margin-top: 6px; font-size: 13px; line-height: 19px; color: var(--muted-ink); }
+.fb-also-item .fb-eyebrow { display: block; margin-bottom: 2px; font-size: 10px; }
+
+.fb-tabs {
+  position: sticky; top: 56px; z-index: 5; padding: 8px; display: flex; gap: 4px; overflow-x: auto;
+  background: #fff; border: 1px solid var(--border); border-radius: 14px;
+}
+.fb-tab {
+  flex: none; height: 40px; padding: 0 14px; display: inline-flex; align-items: center; gap: 8px; border-radius: 10px;
+  font: 500 14px/20px var(--font); color: var(--muted-ink);
+}
+.fb-tab:hover { color: var(--ink); }
+.fb-tab[aria-selected="true"] { color: var(--primary-ink); background: var(--primary-10); }
+.fb-tab .fb-chip { height: 20px; padding: 0 8px; font-size: 11px; }
+.fb-panel { display: grid; gap: 16px; }
+.fb-panel[hidden] { display: none; }
+.fb-tab-intro { font-size: 14px; color: var(--muted-ink); }
+
+.fb-params { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 12px; }
+.fb-param { padding: 20px; display: grid; gap: 12px; align-content: start; }
+.fb-param-head { display: flex; align-items: center; gap: 12px; }
+.fb-param-head h3 { flex: 1; font-size: 16px; line-height: 22px; font-weight: 600; }
+.fb-param-icon { width: 36px; height: 36px; flex: none; display: grid; place-items: center; border-radius: 10px; }
+.fb-param-icon .ic { width: 18px; height: 18px; }
+.fb-param-icon.good { color: #238556; background: #f0f9f4; } .fb-param-icon.track { color: #a85f00; background: #fff6e9; } .fb-param-icon.work { color: #c2372b; background: #fdf4f1; }
+.fb-param-about { font-size: 13px; line-height: 20px; color: var(--muted-ink); }
+.fb-metrics { display: grid; gap: 12px; padding: 12px 14px; border-radius: 10px; background: #f7f9fc; }
+.fb-metric { display: grid; gap: 6px; }
+.fb-metric-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.fb-metric-label { font-size: 13px; line-height: 18px; font-weight: 500; }
+.fb-metric-value { font-size: 20px; line-height: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.fb-metric-value small { margin-left: 2px; font-size: 12px; font-weight: 500; }
+.fb-metric-value.good { color: #238556; } .fb-metric-value.track { color: #a85f00; } .fb-metric-value.work { color: #c2372b; }
+.fb-metric-target { font-size: 12px; line-height: 16px; color: var(--muted-ink); }
+/* A track with the target range shaded and a dot where the student was. */
+.fb-meter { position: relative; height: 8px; border-radius: 999px; background: var(--border); }
+.fb-meter-zone { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: #bfe3cf; }
+.fb-meter-dot { position: absolute; top: 50%; width: 14px; height: 14px; border-radius: 50%; border: 2px solid #fff; transform: translate(-50%, -50%); box-shadow: 0 1px 3px rgb(17 17 26 / .3); }
+.fb-meter-dot.good { background: #46a879; } .fb-meter-dot.track { background: #f0a12b; } .fb-meter-dot.work { background: #e2574a; }
+.fb-mix { height: 10px; display: flex; overflow: hidden; border-radius: 999px; }
+.fb-mix span.good { background: #46a879; } .fb-mix span.none { background: #b8c0cc; } .fb-mix span.work { background: #e2574a; }
+.fb-mix-legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted-ink); }
+.fb-mix-legend i { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 2px; }
+.fb-mix-legend i.good { background: #46a879; } .fb-mix-legend i.none { background: #b8c0cc; } .fb-mix-legend i.work { background: #e2574a; }
+.fb-param-next { padding: 10px 12px; border-radius: 8px; font-size: 13px; line-height: 20px; background: oklab(0.5549 -0.0533 -0.1494 / .06); }
+.fb-param-next strong { color: var(--primary-ink); }
+
+@media (max-width: 860px) {
+  .fb-tiles { grid-template-columns: 1fr; }
+  .fb-params { grid-template-columns: 1fr; }
+}
+
 /* While the feedback is written (student.js's waiting card), in the lobby's step style. */
 .fb .sv-host { width: auto; max-width: none; margin: 0; padding: 24px; background: #fff; border: 1px solid var(--border); border-radius: 14px; }
 .fb .sv-host-head { display: flex; align-items: center; gap: 10px; }
