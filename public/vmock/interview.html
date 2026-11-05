@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interview | VMock</title>
+<!-- VMock's own font kit; on hosts it doesn't allow, the Figtree fallback is used. -->
+<link rel="stylesheet" href="https://use.typekit.net/owg1qdp.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vmock/vmock.css">
+</head>
+<body>
+<!-- Icon sprite (Lucide-style line icons, 24px grid). -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="g-buddy" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff4e00"/><stop offset=".35" stop-color="#654498"/><stop offset=".7" stop-color="#006fce"/><stop offset="1" stop-color="#00b6eb"/></linearGradient>
+  </defs>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M10.27 21a2 2 0 0 0 3.46 0"/><path d="M3.26 15.33A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.67C19.41 13.96 18 12.5 18 8A6 6 0 0 0 6 8c0 4.5-1.41 5.96-2.74 7.33"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="m9 14.5 2 2 4-4"/></symbol>
+  <symbol id="i-grip" viewBox="0 0 24 24"><g fill="currentColor" stroke="none"><circle cx="5" cy="5" r="1.6"/><circle cx="12" cy="5" r="1.6"/><circle cx="19" cy="5" r="1.6"/><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/><circle cx="5" cy="19" r="1.6"/><circle cx="12" cy="19" r="1.6"/><circle cx="19" cy="19" r="1.6"/></g></symbol>
+  <symbol id="i-buddy" viewBox="0 0 24 24"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9" stroke-width="3.2"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10a2 2 0 0 1 .71-1.53l7-6a2 2 0 0 1 2.58 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-explore" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
+  <symbol id="i-fit" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10M12 3v18M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"/></symbol>
+  <symbol id="i-brand" viewBox="0 0 24 24"><path d="M5.8 11.3 2 22l10.7-3.79"/><path d="M4 3h.01M22 8h.01M15 2h.01M22 20h.01"/><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10"/><path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M21.42 10.92a1 1 0 0 0-.02-1.84L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.83l8.57 3.91a2 2 0 0 0 1.66 0zM22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></symbol>
+  <symbol id="i-jobs" viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></symbol>
+  <symbol id="i-community" viewBox="0 0 24 24"><path d="M16 2v2M8 2v2M7 22v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/><circle cx="12" cy="11" r="3"/><rect x="3" y="4" width="18" height="18" rx="2"/></symbol>
+  <symbol id="i-assess" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor" stroke="none"/><path d="M10 8.5v7l5.5-3.5z" fill="#fff" stroke="none"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M14.54 21.69a.5.5 0 0 0 .94-.03l6.5-19a.5.5 0 0 0-.64-.64l-19 6.5a.5.5 0 0 0-.03.94l7.93 3.18a2 2 0 0 1 1.11 1.11zM21.85 2.15 10.91 13.09"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+</svg>
+
+<header class="vm-top">
+  <a class="vm-logos" href="/vmock/interview" aria-label="VMock home">
+    <img src="/vmock/assets/logo-color.png" alt="VMock" width="73" height="31">
+    <span class="vm-logo-sep" aria-hidden="true"></span>
+    <img src="/vmock/assets/partner-logo.png" alt="Demo Community" width="78" height="31">
+  </a>
+  <div class="vm-search">
+    <svg class="ic"><use href="#i-search"/></svg>
+    <span>Search</span><kbd>⌘K</kbd>
+    <span class="vm-buddy-pill">CareerBuddy <svg class="ic"><use href="#i-buddy"/></svg></span>
+  </div>
+  <div class="vm-top-actions">
+    <button class="vm-icon-btn" type="button" aria-label="Notifications"><svg class="ic"><use href="#i-bell"/></svg></button>
+    <button class="vm-icon-btn" type="button" aria-label="Calendar"><svg class="ic"><use href="#i-cal"/></svg></button>
+    <button class="vm-icon-btn" type="button" aria-label="Apps"><svg class="ic"><use href="#i-grip"/></svg></button>
+    <div class="vm-account">
+      <span class="vm-ring" style="--p: 40" aria-hidden="true"></span><span class="vm-ring-num">40%</span>
+      <img src="/vmock/assets/user.png" alt="Account" width="32" height="32">
+    </div>
+  </div>
+</header>
+
+<nav class="vm-side" aria-label="Main">
+  <div class="vm-side-group">Overview</div>
+  <a class="vm-nav" href="#"><svg class="ic"><use href="#i-home"/></svg>Home</a>
+  <a class="vm-nav" href="#"><svg class="ic"><use href="#i-buddy"/></svg>Ask CareerBuddy</a>
+
+  <div class="vm-side-group">Career Guidance</div>
+  <a class="vm-nav" href="#"><svg class="ic"><use href="#i-explore"/></svg>Career Explorer</a>
+  <a class="vm-nav" href="#"><svg class="ic"><use href="#i-fit"/></svg>Career Fit</a>
+  <a class="vm-nav" href="#"><svg class="ic"><use href="#i-flag"/></svg>Career Plan</a>
+
+  <div class="vm-side-group">Modules</div>
+  <a class="vm-nav" href="#"><svg class="ic"><use href="#i-brand"/></svg>Branding<svg class="ic chev"><use href="#i-right"/></svg></a>
+  <a class="vm-nav" href="#" aria-expanded="true"><svg class="ic"><use href="#i-mic"/></svg>Storytelling<svg class="ic chev"><use href="#i-down"/></svg></a>
+  <div class="vm-subnav">
+    <a class="vm-nav sub" href="#"><svg class="ic"><use href="#i-mic"/></svg>Pitch</a>
+    <a class="vm-nav sub active" href="/vmock/interview" aria-current="page"><svg class="ic"><use href="#i-play"/></svg>Interview</a>
+    <a class="vm-nav sub" href="#"><svg class="ic"><use href="#i-assess"/></svg>Assessments</a>
+  </div>
+  <a class="vm-nav" href="#"><svg class="ic"><use href="#i-cap"/></svg>Skill Building<svg class="ic chev"><use href="#i-right"/></svg></a>
+  <a class="vm-nav" href="#"><svg class="ic"><use href="#i-jobs"/></svg>Jobs<svg class="ic chev"><use href="#i-right"/></svg></a>
+  <a class="vm-nav" href="#"><svg class="ic"><use href="#i-community"/></svg>Community<svg class="ic chev"><use href="#i-right"/></svg></a>
+
+  <div class="vm-side-group with-icon">Recent Chats <svg class="ic"><use href="#i-history"/></svg></div>
+  <a class="vm-chat" href="#">Exploring career options<small>yesterday</small></a>
+  <a class="vm-chat" href="#">Resume improvement ideas<small>2 days ago</small></a>
+  <a class="vm-chat" href="#">Interview practice plan<small>2 days ago</small></a>
+</nav>
+
+<main class="vm-main">
+  <div class="vm-tabs-wrap" id="tabsWrap">
+    <div class="vm-tabs" role="tablist" aria-label="Interview types">
+      <a role="tab" href="?tab=mock" data-tab="mock">Mock Interviews</a>
+      <a role="tab" href="?tab=case" data-tab="case">Case Interviews</a>
+      <a role="tab" href="?tab=technical" data-tab="technical">Technical Interviews</a>
+      <a role="tab" href="?tab=custom" data-tab="custom">Custom Interviews</a>
+      <a role="tab" href="?tab=adaptive" data-tab="adaptive">Adaptive Interviews</a>
+    </div>
+  </div>
+
+  <!-- Placeholder tabs: the replica only covers the Custom and Adaptive tabs. -->
+  <section class="vm-panel" data-panel="mock" hidden>
+    <div class="vm-empty"><h2>Interviews picked for your goals</h2><p>Set your career preferences and we'll line up mock interviews for your target roles.</p></div>
+  </section>
+  <section class="vm-panel" data-panel="case" hidden>
+    <div class="vm-empty"><h2>No case interviews found</h2><p>Your organization hasn't published case interviews yet.</p></div>
+  </section>
+  <section class="vm-panel" data-panel="technical" hidden>
+    <div class="vm-empty"><h2>No technical interview found</h2><p>Your organization hasn't published technical interviews yet.</p></div>
+  </section>
+
+  <section class="vm-panel" data-panel="custom" hidden>
+    <div class="vm-hero">
+      <h2>Build your own interview</h2>
+      <p>Create interviews from the question library, generate them with AI, or request one from a mentor.</p>
+    </div>
+    <div class="vm-options">
+      <div class="vm-option">
+        <img src="/vmock/assets/ill-pick.png" alt="" width="256" height="192">
+        <h3>Pick your own questions</h3>
+        <p>Choose from the question library and set your own mix.</p>
+        <a class="vm-btn outline" href="#"><svg class="ic"><use href="#i-plus"/></svg>Create Interview</a>
+      </div>
+      <div class="vm-or"><span></span>OR<span></span></div>
+      <div class="vm-option">
+        <img src="/vmock/assets/ill-generate.png" alt="" width="256" height="192">
+        <h3>Let CareerBuddy build it</h3>
+        <p>Get questions tailored to your resume or a job description.</p>
+        <a class="vm-btn ai" href="#"><svg class="ic"><use href="#i-buddy"/></svg>Generate Interview</a>
+      </div>
+      <div class="vm-or"><span></span>OR<span></span></div>
+      <div class="vm-option">
+        <img src="/vmock/assets/ill-request.png" alt="" width="256" height="192">
+        <h3>Get one made for you</h3>
+        <p>Send a request to a coach, peer or expert, who will set the interview for you.</p>
+        <a class="vm-btn outline" href="#"><svg class="ic"><use href="#i-send"/></svg>Request Interview</a>
+      </div>
+      <div class="vm-or"><span></span>OR<span></span></div>
+      <div class="vm-option">
+        <img src="/vmock/assets/ill-adaptive.svg" alt="" width="256" height="192">
+        <h3>Practice a live adaptive interview</h3>
+        <p>Talk it through with an interviewer who follows up on what you say, built from your resume and an optional job description.</p>
+        <a class="vm-btn outline" href="?tab=adaptive" data-tab="adaptive"><svg class="ic"><use href="#i-mic"/></svg>Try Adaptive Interview</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="vm-panel" data-panel="adaptive" hidden>
+    <div class="vm-hero">
+      <h2>Adaptive Interviews</h2>
+      <p>A spoken practice interview built from your resume and, if you have one, the job description. Each follow-up depends on what you just said.</p>
+    </div>
+    <div class="vm-options">
+      <div class="vm-option">
+        <img src="/vmock/assets/ill-adaptive.svg" alt="" width="256" height="192">
+        <h3>Start an adaptive interview</h3>
+        <p>Add your resume, choose how probing the interviewer should be, and answer out loud or by typing.</p>
+        <a class="vm-btn primary" href="/student">Start Interview<svg class="ic"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="/vmock/vmock.js"></script>
+</body>
+</html>

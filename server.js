@@ -322,11 +322,13 @@ function readRaw(req, limit) {
   });
 }
 
-const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json' };
+const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.png': 'image/png' };
+// Clean page URLs; the VMock replica lives under /vmock so the existing pages stay as they are.
+const PAGES = { '/': 'index.html', '/student': 'student.html', '/vmock/interview': 'vmock/interview.html' };
 
 function serveStatic(req, res) {
   const urlPath = decodeURIComponent(new URL(req.url, 'http://x').pathname);
-  const rel = urlPath === '/' ? 'index.html' : urlPath === '/student' ? 'student.html' : urlPath.replace(/^\/+/, '');
+  const rel = PAGES[urlPath] || urlPath.replace(/^\/+/, '');
   const file = path.join(ROOT, 'public', path.normalize(rel));
   if (!file.startsWith(path.join(ROOT, 'public')) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
     return send(res, 404, 'Not found', 'text/plain');
