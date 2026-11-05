@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptive Interview | VMock</title>
+<link rel="stylesheet" href="https://use.typekit.net/owg1qdp.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vmock/vmock.css">
+</head>
+<body class="wz">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="g-buddy" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff4e00"/><stop offset=".4" stop-color="#654498"/><stop offset="1" stop-color="#006fce"/></linearGradient>
+  </defs>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 3v12M17 8l-5-5-5 5M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><path d="m16 6-8.41 8.41a2 2 0 0 0 2.83 2.83l8.49-8.48a4 4 0 0 0-5.66-5.66l-8.49 8.49a6 6 0 0 0 8.49 8.49L21.5 12"/></symbol>
+  <symbol id="i-text" viewBox="0 0 24 24"><path d="M17 6.1H3M21 12.1H3M15.1 18H3"/></symbol>
+  <symbol id="i-buddy" viewBox="0 0 24 24"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9" stroke="url(#g-buddy)" stroke-width="3.4"/></symbol>
+  <symbol id="i-dots" viewBox="0 0 24 24"><g fill="currentColor" stroke="none"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></g></symbol>
+</svg>
+
+<header class="wz-top">
+  <a class="vm-logos" href="/vmock/interview?tab=adaptive" aria-label="Back to Interview">
+    <img src="/vmock/assets/logo-color.png" alt="VMock" width="66" height="28">
+    <span class="vm-logo-sep" aria-hidden="true"></span>
+    <img src="/vmock/assets/partner-logo.png" alt="Demo Community" width="71" height="28">
+  </a>
+  <span class="vm-logo-sep" aria-hidden="true"></span>
+  <h1>Adaptive Interview</h1>
+  <span class="wz-powered"><svg class="ic"><use href="#i-buddy"/></svg>Powered by CareerBuddy</span>
+  <a class="wz-close" href="/vmock/interview?tab=adaptive" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></a>
+</header>
+
+<main class="wz-main">
+  <!-- Step: Get Started -->
+  <section class="wz-step" data-step="start">
+    <div class="wz-intro">
+      <h2>Let's get started!</h2>
+      <p>Choose what your interview should be based on.</p>
+    </div>
+    <div class="wz-choices" role="radiogroup" aria-label="Interview based on">
+      <button class="wz-choice" type="button" role="radio" aria-checked="false" data-path="both">
+        <img src="/vmock/assets/generate-both.svg" alt="" width="120" height="90">
+        <span class="wz-choice-text">
+          <span class="wz-choice-title">Job description + Resume <span class="wz-badge">Recommended</span></span>
+          <span class="wz-choice-desc">Questions tailored to both the role and your experience</span>
+        </span>
+        <svg class="ic wz-chev"><use href="#i-right"/></svg>
+      </button>
+      <button class="wz-choice" type="button" role="radio" aria-checked="false" data-path="resume">
+        <img src="/vmock/assets/generate-resume.svg" alt="" width="120" height="90">
+        <span class="wz-choice-text">
+          <span class="wz-choice-title">Resume only</span>
+          <span class="wz-choice-desc">Questions drawn from your own experience and skills</span>
+        </span>
+        <svg class="ic wz-chev"><use href="#i-right"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- Step: Job description -->
+  <section class="wz-step" data-step="jd" hidden>
+    <div class="wz-card wz-card-full">
+      <h3>Upload Job Description</h3>
+      <p class="wz-sub">If you have a particular job in mind, type/paste the job description here</p>
+      <div class="wz-editor">
+        <textarea id="jd" maxlength="30000" placeholder="Type job description here" aria-label="Job description"></textarea>
+        <div class="wz-editor-foot">
+          <label class="wz-attach" title="Attach a PDF"><svg class="ic"><use href="#i-clip"/></svg><input id="jdPdf" type="file" accept="application/pdf" hidden><span class="sr">Attach a PDF</span></label>
+          <select class="wz-sample" id="jdSample" aria-label="Use a sample job description"><option value="">Use a sample</option></select>
+          <span class="wz-editor-end">
+            <button class="wz-clear" id="jdClear" type="button" hidden><svg class="ic"><use href="#i-x"/></svg>Clear</button>
+            <span class="wz-count" id="jdCount">0 / 30000</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step: Resume -->
+  <section class="wz-step" data-step="resume" hidden>
+    <div class="wz-narrow">
+      <div class="wz-head">
+        <div>
+          <h2 class="wz-h">Select Resume</h2>
+          <p class="wz-sub">Pick the resume your questions should draw from.</p>
+        </div>
+        <div class="wz-head-actions">
+          <button class="vm-btn outline sm" id="pasteBtn" type="button"><svg class="ic"><use href="#i-text"/></svg>Paste Text</button>
+          <label class="vm-btn outline sm"><svg class="ic"><use href="#i-upload"/></svg>Upload Resume<input id="resumePdf" type="file" accept="application/pdf" hidden></label>
+        </div>
+      </div>
+      <div class="wz-editor wz-paste" id="pasteBox" hidden>
+        <textarea id="pasteText" maxlength="30000" placeholder="Paste your resume text here" aria-label="Resume text"></textarea>
+        <div class="wz-editor-foot">
+          <span class="wz-editor-end">
+            <button class="wz-clear" id="pasteCancel" type="button"><svg class="ic"><use href="#i-x"/></svg>Cancel</button>
+            <button class="vm-btn primary sm" id="pasteSave" type="button">Use this text</button>
+          </span>
+        </div>
+      </div>
+      <div class="wz-table" role="radiogroup" aria-label="Resumes">
+        <div class="wz-thead" aria-hidden="true"><span>Name</span><span>Words</span><span>Source</span></div>
+        <div id="resumeRows"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step: Interview details -->
+  <section class="wz-step" data-step="details" hidden>
+    <div class="wz-narrow">
+      <div class="wz-head">
+        <div>
+          <h2 class="wz-h">Interview details</h2>
+          <p class="wz-sub">Tell the interviewer what to practise for.</p>
+        </div>
+      </div>
+      <div class="wz-card wz-form">
+        <div class="wz-field">
+          <label for="role">Target role</label>
+          <input id="role" type="text" maxlength="120" placeholder="For example: Product Analyst">
+          <p class="wz-hint" id="roleHint">Optional if you add a job description.</p>
+        </div>
+        <fieldset class="wz-field">
+          <legend>Interview type</legend>
+          <div class="wz-rows">
+            <label class="wz-row"><input type="radio" name="type" value="recruiter_screen"><span class="wz-radio"><svg class="ic"><use href="#i-check"/></svg></span><span><strong>Recruiter screen</strong><em>Broad first conversation: motivation, background, fit.</em></span></label>
+            <label class="wz-row"><input type="radio" name="type" value="hiring_manager" checked><span class="wz-radio"><svg class="ic"><use href="#i-check"/></svg></span><span><strong>Hiring manager</strong><em>Your experience in depth, tied to the role.</em></span></label>
+            <label class="wz-row"><input type="radio" name="type" value="back_your_resume"><span class="wz-radio"><svg class="ic"><use href="#i-check"/></svg></span><span><strong>Back your resume</strong><em>Detailed questions on lines of your resume.</em></span></label>
+          </div>
+        </fieldset>
+        <fieldset class="wz-field">
+          <legend>Interviewer style</legend>
+          <div class="wz-seg">
+            <label><input type="radio" name="style" value="supportive"><span>Supportive</span></label>
+            <label><input type="radio" name="style" value="balanced" checked><span>Balanced</span></label>
+            <label><input type="radio" name="style" value="probing"><span>Probing</span></label>
+            <label><input type="radio" name="style" value="surprise"><span>Surprise me</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="wz-field">
+          <legend>Length</legend>
+          <div class="wz-seg">
+            <label><input type="radio" name="length" value="short"><span>About 10 min</span></label>
+            <label><input type="radio" name="length" value="standard" checked><span>About 15 min</span></label>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </section>
+
+  <p class="wz-error" id="wzError" role="alert" hidden></p>
+</main>
+
+<footer class="wz-foot">
+  <div class="wz-progress" id="progress"></div>
+  <ol class="wz-stepper" id="stepper" aria-label="Steps"></ol>
+  <div class="wz-foot-actions">
+    <button class="vm-btn outline sm" id="backBtn" type="button" hidden><svg class="ic"><use href="#i-back"/></svg>Back</button>
+    <button class="vm-btn primary sm" id="nextBtn" type="button" disabled>Next<svg class="ic"><use href="#i-arrow"/></svg></button>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="/shared.js"></script>
+<script src="/vmock/setup.js"></script>
+</body>
+</html>

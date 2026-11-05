@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" fill="none">
+  <title>Generate from a job description and a resume</title>
+  <desc>Two overlapping documents, a resume behind a job posting, with a sparkle.</desc>
+  <defs>
+    <linearGradient id="tint" x1="210" y1="150" x2="990" y2="750" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEE9FF"/>
+      <stop offset="1" stop-color="#E5F4FF"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="262" y1="565" x2="458" y2="761" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B2A6FF"/>
+      <stop offset="1" stop-color="#7DBBFF"/>
+    </linearGradient>
+    <linearGradient id="softAccent" x1="400" y1="250" x2="940" y2="650" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B5B0FF"/>
+      <stop offset="1" stop-color="#559EFF"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="210" y="150" width="780" height="600" rx="72" fill="url(#tint)"/>
+
+  <g stroke="#202124" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- back document: the resume -->
+    <path d="M520 104C520 90.745 530.745 80 544 80H880L990 190V636C990 649.255 979.255 660 966 660H544C530.745 660 520 649.255 520 636V104Z" fill="#FFFFFF"/>
+    <path d="M880 80V166C880 179.255 890.745 190 904 190H990"/>
+    <circle cx="648" cy="168" r="52" fill="#FFFFFF"/>
+    <circle cx="648" cy="150" r="19"/>
+    <path d="M610 205C616 175 635 170 648 170C661 170 680 175 686 205" fill="url(#softAccent)"/>
+    <path d="M744 150H900"/>
+    <path d="M744 200H900"/>
+    <path d="M592 330H900"/>
+    <path d="M592 384H900"/>
+    <path d="M592 438H860"/>
+
+    <!-- front document: the job posting -->
+    <path d="M262 244C262 230.745 272.745 220 286 220H636L750 334V776C750 789.255 739.255 800 726 800H286C272.745 800 262 789.255 262 776V244Z" fill="#FFFFFF"/>
+    <path d="M636 220V310C636 323.255 646.745 334 660 334H750"/>
+
+    <!-- briefcase badge -->
+    <rect x="340" y="326" width="120" height="94" rx="20" fill="url(#softAccent)"/>
+    <path d="M378 326V310C378 301.163 385.163 294 394 294H406C414.837 294 422 301.163 422 310V326"/>
+    <path d="M340 372H460" stroke="#FFFFFF" stroke-width="12"/>
+    <path d="M490 352H636"/>
+    <path d="M490 402H636"/>
+
+    <!-- requirement checklist -->
+    <rect x="340" y="476" width="36" height="36" rx="10" fill="url(#softAccent)"/>
+    <path d="M350 494L357 501L368 488" stroke="#FFFFFF" stroke-width="7"/>
+    <path d="M410 494H660"/>
+    <rect x="340" y="534" width="36" height="36" rx="10" fill="url(#softAccent)"/>
+    <path d="M350 552L357 559L368 546" stroke="#FFFFFF" stroke-width="7"/>
+    <path d="M410 552H660"/>
+    <rect x="340" y="592" width="36" height="36" rx="10" fill="#FFFFFF"/>
+    <path d="M410 610H580"/>
+    <path d="M340 668H600"/>
+
+    <!-- sparkle badge -->
+    <circle cx="700" cy="720" r="98" fill="url(#accent)"/>
+    <path d="M700 654C712 702 718 708 766 720C718 732 712 738 700 786C688 738 682 732 634 720C682 708 688 702 700 654Z" fill="#FFFFFF"/>
+  </g>
+</svg>

@@ -719,6 +719,28 @@
     $('pastList').addEventListener('click', (e) => { const id = e.target.dataset.open; if (id) openPastFeedback(id); });
     if (!state.config.has_key) showError('setupError', 'No OpenAI key found. Add OPENAI_API_KEY to the .env file and restart the server.');
     show('setup');
+    takeHandoff();
+  }
+
+  // The VMock replica's setup wizard (/vmock/adaptive-interview) passes its inputs here and goes straight to the lobby.
+  // Only runs when that wizard left something in this tab's sessionStorage; otherwise the page starts at its own setup.
+  function takeHandoff() {
+    let inputs = null;
+    try {
+      inputs = JSON.parse(sessionStorage.getItem('vmock_adaptive_setup') || 'null');
+      sessionStorage.removeItem('vmock_adaptive_setup');
+    } catch (_) { return; }
+    if (!inputs || typeof inputs !== 'object') return;
+    setResume(String(inputs.resume_text || ''), String(inputs.resume_name || 'Resume'));
+    $('jd').value = String(inputs.jd_text || '');
+    $('jdDetails').open = Boolean($('jd').value);
+    $('role').value = String(inputs.target_role || '');
+    for (const name of ['type', 'style', 'length']) {
+      const key = name === 'type' ? 'interview_type' : name;
+      const radio = document.querySelector(`input[name="${name}"][value="${CSS.escape(String(inputs[key] || ''))}"]`);
+      if (radio) radio.checked = true;
+    }
+    prepare();
   }
 
   init().catch((err) => { document.body.innerHTML = `<p style="padding:24px">Couldn't start: ${esc(err.message)}. Is the server running?</p>`; });

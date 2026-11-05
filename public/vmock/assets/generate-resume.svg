@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" fill="none">
+  <title>Generate from a resume</title>
+  <desc>A resume with a profile photo and skill bars, with a sparkle.</desc>
+  <defs>
+    <linearGradient id="tint" x1="210" y1="150" x2="990" y2="750" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEE9FF"/>
+      <stop offset="1" stop-color="#E5F4FF"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="262" y1="565" x2="458" y2="761" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B2A6FF"/>
+      <stop offset="1" stop-color="#7DBBFF"/>
+    </linearGradient>
+    <linearGradient id="softAccent" x1="400" y1="250" x2="940" y2="650" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B5B0FF"/>
+      <stop offset="1" stop-color="#559EFF"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="210" y="150" width="780" height="600" rx="72" fill="url(#tint)"/>
+
+  <g stroke="#202124" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M332 124C332 110.745 342.745 100 356 100H760L890 230V696C890 709.255 879.255 720 866 720H356C342.745 720 332 709.255 332 696V124Z" fill="#FFFFFF"/>
+    <path d="M760 100V206C760 219.255 770.745 230 784 230H890"/>
+
+    <circle cx="465" cy="262" r="68" fill="#FFFFFF"/>
+    <circle cx="465" cy="239" r="25"/>
+    <path d="M415 309C423 270 449 264 465 264C481 264 507 270 515 309" fill="url(#softAccent)"/>
+    <path d="M590 247H760"/>
+    <path d="M590 300H760"/>
+
+    <!-- skill bars -->
+    <path d="M420 400H760"/>
+    <rect x="420" y="428" width="340" height="22" rx="11"/>
+    <rect x="420" y="428" width="262" height="22" rx="11" fill="url(#softAccent)" stroke="none"/>
+    <path d="M420 500H760"/>
+    <rect x="420" y="528" width="340" height="22" rx="11"/>
+    <rect x="420" y="528" width="196" height="22" rx="11" fill="url(#softAccent)" stroke="none"/>
+    <path d="M420 600H655"/>
+
+    <!-- sparkle badge -->
+    <circle cx="862" cy="636" r="112" fill="url(#accent)"/>
+    <path d="M862 560C876 616 883 623 939 636C883 649 876 656 862 712C848 656 841 649 785 636C841 623 848 616 862 560Z" fill="#FFFFFF"/>
+  </g>
+</svg>
