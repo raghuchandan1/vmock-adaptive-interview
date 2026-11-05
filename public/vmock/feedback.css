@@ -362,3 +362,32 @@ body.vm-room:has(#screen-feedback:not([hidden])) #pastBtn { display: none; }
 .fb-own li { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; line-height: 20px; }
 .fb-own li span:last-child { flex: none; color: var(--muted-ink); font-variant-numeric: tabular-nums; }
 .fb-own li span.we { color: #a85f00; }
+
+/* STAR sub-checks (VMock) under each STAR element. */
+.fb-sub { margin-top: 8px; padding: 8px 10px; border-radius: 8px; background: #f7f9fc; display: grid; gap: 6px; }
+.fb-sub .fb-chip { height: 20px; padding: 0 8px; font-size: 11px; }
+.fb-sub-sample { margin: 0; font-size: 12px; line-height: 20px; color: var(--ink); }
+.fb-sub-sample .fb-eyebrow { display: block; margin-bottom: 2px; }
+.fb-sub-sample .fb-blank { font-size: 12px; }
+
+/* Topic coverage (VMock): sections of key topics, each opening to what was checked and a sample. */
+.fb-cov { display: grid; gap: 4px; }
+.fb-cov-head { display: flex; justify-content: space-between; align-items: baseline; padding: 4px 0; font-size: 12px; color: var(--muted-ink); }
+.fb-cov-head span:last-child { color: #c2372b; font-weight: 500; }
+.fb-cov-topic { border: 1px solid var(--border); border-radius: 8px; }
+.fb-cov-topic > summary { list-style: none; cursor: pointer; padding: 8px 10px; display: flex; align-items: center; gap: 10px; font-size: 13px; line-height: 20px; }
+.fb-cov-topic > summary::-webkit-details-marker { display: none; }
+.fb-cov-topic > summary::after { content: ""; margin-left: auto; width: 7px; height: 7px; border-right: 1.5px solid var(--muted-ink); border-bottom: 1.5px solid var(--muted-ink); transform: rotate(45deg); transition: transform .2s; }
+.fb-cov-topic[open] > summary::after { transform: rotate(-135deg); }
+.fb-cov-topic > summary:hover { background: #fafbfc; }
+.fb-cov-topic > :not(summary) { margin: 0 10px 10px; }
+.fb-cov-topic > p { font-size: 13px; line-height: 20px; }
+
+/* ?sources=1: every VMock-hardcoded part gets a dashed outline and a label; everything else comes from our model calls. */
+.fb-sources .src-vmock { position: relative; outline: 2px dashed #a855f7; outline-offset: 3px; border-radius: 10px; }
+.fb-sources .src-vmock::after {
+  content: "VMock · hardcoded"; position: absolute; top: -10px; right: 8px; z-index: 2; padding: 1px 8px; border-radius: 999px;
+  font: 600 10px/16px var(--font); letter-spacing: .02em; color: #fff; background: #a855f7; pointer-events: none;
+}
+.fb-sources .fb-sub.src-vmock::after { top: -8px; }
+.fb-sources details.src-vmock > summary { padding-right: 140px; }

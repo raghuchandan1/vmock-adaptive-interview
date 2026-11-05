@@ -108,13 +108,32 @@
     if (fu.length) out.push({ name: 'Handling follow-ups', items: fu });
     return out;
   };
+  // ?sources=1 (testing): outline every VMock-hardcoded part so it is clear what is ours and what is a placeholder.
+  const V = ' src-vmock';
+  if (new URLSearchParams(location.search).has('sources')) document.body.classList.add('fb-sources');
+
+  // VMock's sub-checks inside STAR, with a sample line per element. shortcut: the same for every question (placeholder
+  // text); each sub-check takes the level of our real element rating, so it never contradicts it.
+  const STAR_SUB = {
+    situation: [['Background', 'Impact', 'Relevance'], 'At [where you worked], [what was happening and why it mattered], which affected [who or what].'],
+    task: [['Goal', 'Scope & Constraints'], 'My goal was to [what you had to achieve] by [deadline or limit], with [team size or budget].'],
+    action: [['Action Description', 'Ownership'], 'I [the first thing you did], then [the next step], and I decided to [a choice you made] because [why].'],
+    result: [['Outcome'], 'As a result, [what changed], which we measured by [the number or signal].'],
+  };
+  const subChecks = (r) => {
+    const sub = STAR_SUB[r.dimension];
+    if (!sub) return '';
+    return `<div class="fb-sub${V}"><div class="fb-checked-list"><span class="fb-eyebrow">What we checked</span>${sub[0].map((k) => `<span class="fb-chip ${LEVEL[r.level][1]}">${esc(k)}</span>`).join('')}</div>
+      ${r.level !== 'good_job' ? `<p class="fb-sub-sample"><span class="fb-eyebrow">Sample line</span>${blanks(sub[1])}</p>` : ''}</div>`;
+  };
+
   function groupedChecklist(t) {
     const groups = groupsFor(t);
     if (!groups.length) return '';
     const n = groups.reduce((sum, g) => sum + g.items.length, 0);
     return `<details class="fb-more"><summary>What a strong answer covers <span class="fb-count">${n}</span></summary>
       <div class="fb-groups">${groups.map((g) => `<div class="fb-group"><div class="fb-group-head"><h5>${esc(g.name)}</h5>${chip(moduleLevel(g.items.map((r) => r.level)))}</div>
-        <ul class="fb-checks">${g.items.map((r) => `<li>${chip(r.level)}<strong>${esc(r.label)}</strong><span>${esc(r.reason)}${r.found ? ` <em>${FOUND[r.found]}</em>` : ''}${r.quote ? `<q class="fb-rq">${esc(r.quote)}</q>` : ''}</span></li>`).join('')}</ul></div>`).join('')}</div></details>`;
+        <ul class="fb-checks">${g.items.map((r) => `<li>${chip(r.level)}<strong>${esc(r.label)}</strong><span>${esc(r.reason)}${r.found ? ` <em>${FOUND[r.found]}</em>` : ''}${r.quote ? `<q class="fb-rq">${esc(r.quote)}</q>` : ''}${g.name === 'STAR/HSAR' ? subChecks(r) : ''}</span></li>`).join('')}</ul></div>`).join('')}</div></details>`;
   }
 
   function nextTime(t, checked) {
@@ -355,13 +374,32 @@
     learning: [['Build a Story with STARR Framework', 'Article'], ['Demonstrate your value-add', 'Video · 1:19']],
     skills: [['Express Skills with Examples', 'Article'], ['Use Specifics in Impact', 'Article']],
     industry: [['Use Specifics in Impact', 'Article'], ['Keep listeners engaged', 'Video · 1:47']],
+    coverage: [['Build a Story with STARR Framework', 'Article'], ['Keep listeners engaged', 'Video · 1:47']],
   };
+  // VMock's Topic coverage (key points it expects in the answer). shortcut: the same topics for every question, taken
+  // from VMock's own example, until real per-question key points exist; only the levels vary per question.
+  const COVERAGE = [
+    { name: 'Feature Prioritization', section: 'Topic coverage', checks: ['Understanding Customer Needs', 'Market Demand Analysis', 'Balancing Priorities'],
+      reason: 'Explain how you gather and read customer feedback, and how it decides what gets built first.',
+      sample: 'I start from what customers tell us through [surveys, interviews or support tickets], group it into [common pain points], and rank features by [how many users it affects and the effort].' },
+    { name: 'Feedback Mechanisms', section: 'Topic coverage', checks: ['Collecting Feedback', 'Acting on Feedback'],
+      reason: 'Name the channels you use to hear from users and one change you made because of them.',
+      sample: 'We collect feedback through [the channels], review it every [how often], and last quarter it led us to [a change you made].' },
+    { name: 'Prioritization Frameworks', section: 'Advanced concepts', checks: ['Framework Use', 'Trade-offs'],
+      reason: 'Mention a framework you use (for example RICE or MoSCoW) and a trade-off it helped you make.',
+      sample: 'I use [a framework] to compare options; when [two priorities clashed], it showed that [the choice you made and why].' },
+    { name: 'Long-term Planning', section: 'Advanced concepts', checks: ['Roadmap Thinking', 'Balancing Short and Long Term'],
+      reason: 'Show how today\'s choices fit a longer roadmap, not only the next release.',
+      sample: 'Beyond the next release, I keep [a longer-term goal] in view, so [how it changes what you pick now].' },
+  ];
   function extraChecks(s, fb, t) {
     if (t.too_short) return [];
     const r = seeded(`${s.id}:${t.slot_id}:content`);
     const pick = () => (r() < 0.4 ? 'needs_work' : r() < 0.75 ? 'on_track' : 'good_job');
     const field = (s.plan?.jd?.role_title || s.inputs?.target_role || 'your field').replace(/,.*$/, '');
-    const out = [];
+    const topics = COVERAGE.map((c) => { const lv = pick(); return { ...c, level: lv, checks: c.checks.map((k) => [k, lv === 'good_job' ? 'good_job' : pick()]) }; });
+    const out = [{ id: 'coverage', name: 'Topic coverage', level: moduleLevel(topics.map((x) => x.level)), topics,
+      reason: (topics.find((x) => x.level !== 'good_job') || topics[0]).reason }];
     if (t.rubric === 'behavioural') {
       const lv = pick();
       out.push({ id: 'learning', name: 'Learning & Reflection', level: lv, checks: [['Insight', lv], ['Future action', lv === 'good_job' ? 'good_job' : pick()]],
@@ -380,8 +418,24 @@
     }
     return out;
   }
-  const extraHtml = (checks) => (checks.length ? `<details class="fb-more"><summary>More content checks <span class="fb-count">${checks.length}</span></summary>
-      <div class="fb-extra">${checks.map((c) => `<div class="fb-extra-card">
+  // Topic coverage: one row per key topic (grouped as on VMock), each opening to what was checked and a sample.
+  const coverageHtml = (c) => {
+    const sections = [...new Set(c.topics.map((x) => x.section))];
+    return sections.map((sec) => {
+      const ts = c.topics.filter((x) => x.section === sec);
+      const need = ts.filter((x) => x.level !== 'good_job').length;
+      return `<div class="fb-cov"><div class="fb-cov-head"><span class="fb-eyebrow">${esc(sec)}</span><span>${need ? `${need} of ${ts.length} need attention` : 'All covered'}</span></div>
+        ${ts.map((x) => `<details class="fb-cov-topic"><summary>${chip(x.level)}<strong>${esc(x.name)}</strong></summary>
+          <div class="fb-checked-list"><span class="fb-eyebrow">What we checked</span>${x.checks.map(([k, lv]) => `<span class="fb-chip ${LEVEL[lv][1]}">${esc(k)}</span>`).join('')}</div>
+          ${x.level !== 'good_job' ? `<p>${esc(x.reason)}</p><div class="fb-better fb-example"><div class="fb-eyebrow">Sample response</div><p>${blanks(x.sample)}</p></div>` : '<p>Covered in your answer.</p>'}
+        </details>`).join('')}</div>`;
+    }).join('');
+  };
+  const extraHtml = (checks) => (checks.length ? `<details class="fb-more${V}"><summary>More content checks <span class="fb-count">${checks.length}</span></summary>
+      <div class="fb-extra">${checks.map((c) => c.topics ? `<div class="fb-extra-card">
+        <div class="fb-group-head"><h5>${esc(c.name)}</h5>${chip(c.level)}</div>${coverageHtml(c)}
+        ${c.level !== 'good_job' ? `<div class="fb-res"><span class="fb-eyebrow">Suggested resources</span>${RESOURCES.coverage.map(([title, kind]) => `<span class="fb-res-item"><svg class="ic" aria-hidden="true"><use href="#${kind.startsWith('Video') ? 'i-play' : 'i-doc'}"/></svg>${esc(title)}<em>${esc(kind)}</em></span>`).join('')}</div>` : ''}
+      </div>` : `<div class="fb-extra-card">
         <div class="fb-group-head"><h5>${esc(c.name)}</h5>${chip(c.level)}</div>
         ${c.checks ? `<div class="fb-checked-list"><span class="fb-eyebrow">What we checked</span>${c.checks.map(([k, lv]) => `<span class="fb-chip ${LEVEL[lv][1]}">${esc(k)}</span>`).join('')}</div>` : ''}
         ${c.skills ? `<div class="fb-checked-list"><span class="fb-eyebrow">Skills detected</span>${c.skills.length ? c.skills.map((k) => `<span class="fb-skill">${esc(k)}</span>`).join('') : '<span class="fb-skill none">None detected</span>'}</div>` : ''}
@@ -397,7 +451,7 @@
       const extra = extraChecks(s, fb, t);
       const delivery = p ? moduleLevel(p.delivery.map((x) => x.level)) : null;
       const camera = p ? moduleLevel(p.nonverbal.map((x) => x.level)) : null;
-      const html = p ? `${extraHtml(extra)}<section class="fb-signals">
+      const html = p ? `${extraHtml(extra)}<section class="fb-signals${V}">
           <div class="fb-signal-card"><div class="fb-signal-head"><svg class="ic" aria-hidden="true"><use href="#i-wave"/></svg><h4>How you sounded</h4>${chipOr(delivery)}</div>${paramRows(p.delivery)}</div>
           <div class="fb-signal-card"><div class="fb-signal-head"><svg class="ic" aria-hidden="true"><use href="#i-eye"/></svg><h4>How you looked</h4>${chipOr(camera)}</div>${camera ? paramRows(p.nonverbal) : '<p class="fb-param-about">Your face or upper body was not clearly visible in this answer, so body language could not be scored.</p>'}</div>
         </section>` : '';
@@ -452,7 +506,7 @@
     const extras = [...extraBy.entries()].map(([name, uses]) => {
       const level = moduleLevel(uses.map((u) => u.c.level));
       const weak = uses.filter((u) => u.c.level !== 'good_job');
-      return `<article class="fb-card fb-param">
+      return `<article class="fb-card fb-param${V}">
         <div class="fb-param-head"><span class="fb-param-icon ${LEVEL[level][1]}" aria-hidden="true"><svg class="ic"><use href="#i-doc"/></svg></span><h3>${esc(name)}</h3>${chip(level)}</div>
         <p class="fb-param-about">Strong in ${uses.length - weak.length} of ${plural(uses.length, 'answer')}.${weak.length ? ` Work on it in: ${weak.map((u) => `<a class="fb-qlink" href="#fb-q-${u.i}" data-q="${u.i}">${u.i + 1}. ${esc(topicName(u.t))}</a>`).join(', ')}` : ''}</p>
         ${weak.length ? `<p class="fb-param-next"><strong>Next step:</strong> ${esc(weak[0].c.reason)}</p>` : ''}
@@ -490,12 +544,12 @@
     const todo = [
       ...(goal ? [{ module: 'Content Strength', title: goal.title, why: goal.why, action: goal.action, high: true }] : []),
       ...more.slice(0, 1).map((p) => ({ module: 'Content Strength', title: p.title, why: p.why, action: p.action, high: true })),
-      ...(weakest && weakest.level !== 'good_job' ? [{ module: weakest.module, title: weakest.name, action: weakest.next }] : []),
+      ...(weakest && weakest.level !== 'good_job' ? [{ module: weakest.module, title: weakest.name, action: weakest.next, vmock: true }] : []),
       // Every priority our feedback call wrote is kept (up to three), so the list can run to four with the delivery tip.
       ...more.slice(1).map((p) => ({ module: 'Content Strength', title: p.title, why: p.why, action: p.action })),
     ];
 
-    const tiles = MODULES.map((m) => `<button class="fb-tile" type="button" data-tab="${m.id}">
+    const tiles = MODULES.map((m) => `<button class="fb-tile${m.id === 'content' ? '' : V}" type="button" data-tab="${m.id}">
         <span class="fb-tile-icon" aria-hidden="true"><svg class="ic"><use href="#${m.icon}"/></svg></span>
         <span class="fb-tile-name">${m.name}</span>${level[m.id] ? chip(level[m.id]) : '<span class="fb-chip none">Not enough to judge</span>'}
         <span class="fb-tile-about">${m.about}</span></button>`).join('');
@@ -504,7 +558,7 @@
       ${fb.overall ? `<p class="fb-overall">${esc(fb.overall)}</p>` : ''}
       <div class="fb-tiles">${tiles}</div>`;
     if (todo.length) {
-      html += `<div class="fb-todo"><h3 class="fb-todo-title"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg>Top things to do next</h3><ol>${todo.map((x, i) => `<li class="${i === 0 ? 'first' : ''}">
+      html += `<div class="fb-todo"><h3 class="fb-todo-title"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg>Top things to do next</h3><ol>${todo.map((x, i) => `<li class="${i === 0 ? 'first' : ''}${x.vmock ? V : ''}">
           <span class="fb-todo-n">${i + 1}</span>
           <div><div class="fb-todo-meta"><span class="fb-eyebrow">${esc(x.module)}</span>${x.high ? '<span class="fb-impact">High impact</span>' : ''}</div>
             <strong>${esc(x.title)}</strong>${x.why ? `<p>${esc(x.why)}</p>` : ''}${x.action ? `<p class="fb-try"><strong>Try this:</strong> ${esc(x.action)}</p>` : ''}</div></li>`).join('')}</ol></div>`;
@@ -528,8 +582,8 @@
     html += `<div class="fb-tabs" role="tablist" aria-label="Feedback views">${tabs}</div>
       <div class="fb-panel" role="tabpanel" id="fb-panel-questions" aria-labelledby="fb-tab-questions">${byQuestion}</div>
       <div class="fb-panel" role="tabpanel" id="fb-panel-content" aria-labelledby="fb-tab-content" hidden>${content}</div>
-      <div class="fb-panel" role="tabpanel" id="fb-panel-delivery" aria-labelledby="fb-tab-delivery" hidden>${intro('How your voice came across, averaged over your answers.')}<div class="fb-params">${sig.overall.delivery.map(paramCard).join('')}</div>${byQuestionGrid(fb, sig, 'delivery')}</div>
-      <div class="fb-panel" role="tabpanel" id="fb-panel-nonverbal" aria-labelledby="fb-tab-nonverbal" hidden>${intro('How you came across on camera, averaged over your answers.')}<div class="fb-params">${sig.overall.nonverbal.map(paramCard).join('')}</div>${byQuestionGrid(fb, sig, 'nonverbal')}</div>`;
+      <div class="fb-panel" role="tabpanel" id="fb-panel-delivery" aria-labelledby="fb-tab-delivery" hidden>${intro('How your voice came across, averaged over your answers.')}<div class="fb-params${V}">${sig.overall.delivery.map(paramCard).join('')}</div><div class="${V.trim()}">${byQuestionGrid(fb, sig, 'delivery')}</div></div>
+      <div class="fb-panel" role="tabpanel" id="fb-panel-nonverbal" aria-labelledby="fb-tab-nonverbal" hidden>${intro('How you came across on camera, averaged over your answers.')}<div class="fb-params${V}">${sig.overall.nonverbal.map(paramCard).join('')}</div><div class="${V.trim()}">${byQuestionGrid(fb, sig, 'nonverbal')}</div></div>`;
     panel.innerHTML = html;
 
     const select = (id, focus) => {
