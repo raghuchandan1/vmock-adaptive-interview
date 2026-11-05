@@ -73,7 +73,7 @@
     showError('setupError', '');
     if (!state.config.has_key) return showError('setupError', 'No OpenAI key found. Add OPENAI_API_KEY to the .env file and restart the server.');
     if (inputs.resume_text.trim().length < 200) return showError('setupError', 'Add a resume of at least a few lines.');
-    if (!inputs.target_role.trim() && !inputs.jd_text.trim()) return showError('setupError', 'Add a target role or a job description.');
+    if (!inputs.target_role.trim() && !inputs.jd_text.trim() && !inputs.domain.trim()) return showError('setupError', 'Add a target role, a domain or a job description.');
     if (state.busy) return;
     state.busy = true;
     const run = state.prepRun = (state.prepRun || 0) + 1; // "Change setup" bumps this so a late plan is ignored
@@ -746,6 +746,7 @@
     $('jd').value = String(inputs.jd_text || '');
     $('jdDetails').open = Boolean($('jd').value);
     $('role').value = String(inputs.target_role || '');
+    $('domain').value = String(inputs.domain || '');
     for (const name of ['type', 'style', 'length']) {
       const key = name === 'type' ? 'interview_type' : name;
       const radio = document.querySelector(`input[name="${name}"][value="${CSS.escape(String(inputs[key] || ''))}"]`);

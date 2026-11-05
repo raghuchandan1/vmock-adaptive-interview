@@ -101,6 +101,7 @@
           <div class="field">
             <label for="role">Target role</label>
             <input id="role" type="text" placeholder="For example: Product Analyst">
+            <input id="domain" type="hidden"><!-- set from the setup wizard's handoff; student.js reads it -->
             <p class="hint">Optional if you add a job description.</p>
           </div>
           <fieldset class="field">
@@ -322,8 +323,9 @@
     const type = TYPE[s.interview_type] || 'Adaptive Interview';
     document.getElementById('roomType').textContent = type;
     document.getElementById('liveType').textContent = type;
-    document.getElementById('briefTitle').textContent = s.target_role || 'Practice interview';
-    document.getElementById('roomSub').textContent = [STYLE[s.style], MIN[s.length]].filter(Boolean).join(' · ');
+    window.ROOM_DOMAIN = s.domain || ''; // for the title once the plan arrives (the plan summary has no domain)
+    document.getElementById('briefTitle').textContent = s.target_role || (s.domain ? `${s.domain} interview` : 'Practice interview');
+    document.getElementById('roomSub').textContent = [s.target_role && s.domain, STYLE[s.style], MIN[s.length]].filter(Boolean).join(' · ');
   })();
 
   // When the plan arrives: style, length and topic count go in the title card; the lobby lists what will happen.
@@ -336,11 +338,12 @@
     // "type: role at company" wraps to four lines in this narrow card). The live call shows the role (#liveSub copies #briefTitle).
     document.getElementById('roomType').textContent = type;
     document.getElementById('liveType').textContent = type;
-    document.getElementById('briefTitle').textContent = b.role || 'Practice interview';
+    const domain = window.ROOM_DOMAIN || '';
+    document.getElementById('briefTitle').textContent = b.role || (domain ? `${domain} interview` : 'Practice interview');
     const company = document.getElementById('roomCompany');
     company.textContent = b.company ? `at ${b.company}` : '';
     company.hidden = !b.company;
-    document.getElementById('roomSub').textContent = [style, `${b.minutes} min`, `${b.topics} topics`].join(' · ');
+    document.getElementById('roomSub').textContent = [b.role && domain, style, `${b.minutes} min`, `${b.topics} topics`].filter(Boolean).join(' · ');
     const source = b.jd_used ? 'your resume and the job description' : 'your resume';
     const items = [
       'A short warm-up question to settle in.',

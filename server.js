@@ -89,7 +89,8 @@ async function createInterview(body) {
   };
   if (inputs.resume_text.length > MAX_INPUT_CHARS || inputs.jd_text.length > MAX_INPUT_CHARS) throw httpError(400, 'The resume or job description is too long. Please trim it to the essentials.');
   if (inputs.resume_text.length < 200) throw httpError(400, 'Add a resume of at least a few lines (200+ characters).');
-  if (!inputs.target_role && !inputs.jd_text) throw httpError(400, 'Add a target role or paste a job description.');
+  // The VMock setup asks for a domain and makes the role optional, so a domain alone is enough to plan from.
+  if (!inputs.target_role && !inputs.jd_text && !inputs.domain) throw httpError(400, 'Add a target role, a domain or a job description.');
   if (!['recruiter_screen', 'hiring_manager', 'back_your_resume'].includes(inputs.interview_type)) throw httpError(400, 'Choose an interview type.');
   if (!['supportive', 'balanced', 'probing', 'surprise'].includes(inputs.style)) throw httpError(400, 'Choose an interviewer style.');
   if (!['short', 'standard'].includes(inputs.length)) throw httpError(400, 'Choose a length.');

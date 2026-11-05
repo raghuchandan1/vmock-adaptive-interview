@@ -125,9 +125,26 @@
       </div>
       <div class="wz-card wz-form">
         <div class="wz-field">
-          <label for="role">Target role</label>
+          <label for="domain">Domain <span class="wz-req" aria-hidden="true">*</span></label>
+          <select id="domain" required aria-required="true">
+            <option value="">Choose a domain</option>
+            <option>Finance</option>
+            <option>Marketing</option>
+            <option>Operations and Supply Chain</option>
+            <option>Strategy and Consulting</option>
+            <option>Human Resources</option>
+            <option>Business Analytics</option>
+            <option>Product Management</option>
+            <option>Information Systems and Technology</option>
+            <option>Sales and Business Development</option>
+            <option>General Management</option>
+          </select>
+          <p class="wz-hint">The area your interview should focus on.</p>
+        </div>
+        <div class="wz-field">
+          <label for="role">Target role <span class="wz-opt">(optional)</span></label>
           <input id="role" type="text" maxlength="120" placeholder="For example: Product Analyst">
-          <p class="wz-hint" id="roleHint">Optional if you add a job description.</p>
+          <p class="wz-hint" id="roleHint">Add it to make the questions more specific.</p>
         </div>
         <fieldset class="wz-field">
           <legend>Interview type</legend>

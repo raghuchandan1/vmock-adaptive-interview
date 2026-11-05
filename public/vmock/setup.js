@@ -22,6 +22,7 @@
     if (state.step === 'start') return Boolean(state.path);
     if (state.step === 'jd') return Boolean($('jd').value.trim());
     if (state.step === 'resume') return Boolean(selectedResume());
+    if (state.step === 'details') return Boolean($('domain').value); // the domain is required
     return true;
   }
 
@@ -87,7 +88,6 @@
     const jdLen = $('jd').value.length;
     $('jdCount').textContent = `${jdLen} / 30000`;
     $('jdClear').hidden = !jdLen;
-    $('roleHint').textContent = state.path === 'both' ? 'Optional, since you added a job description.' : 'Needed when there is no job description.';
     renderStepper();
   }
 
@@ -112,13 +112,14 @@
       resume_name: resume ? resume.name : '',
       jd_text: state.path === 'both' ? $('jd').value.trim() : '',
       target_role: $('role').value.trim(),
+      domain: $('domain').value,
       interview_type: document.querySelector('input[name="type"]:checked').value,
       style: document.querySelector('input[name="style"]:checked').value,
       length: document.querySelector('input[name="length"]:checked').value,
     };
     if (!state.hasKey) return showError('No OpenAI key found. Add OPENAI_API_KEY to the .env file and restart the server.');
     if (inputs.resume_text.trim().length < 200) return showError('That resume is very short. Choose or upload a resume of at least a few lines.');
-    if (!inputs.target_role && !inputs.jd_text) return showError('Add a target role, or go back and add a job description.');
+    if (!inputs.domain) return showError('Choose a domain for your interview.');
     try { sessionStorage.setItem(HANDOFF_KEY, JSON.stringify(inputs)); } catch (_) {
       return showError('Your browser blocked session storage, so the setup can\'t be passed on. Use the student page directly.');
     }
@@ -136,6 +137,7 @@
     state.path = last.jd_text ? 'both' : 'resume';
     $('jd').value = String(last.jd_text || '');
     $('role').value = String(last.target_role || '');
+    $('domain').value = String(last.domain || '');
     for (const [name, key] of [['type', 'interview_type'], ['style', 'style'], ['length', 'length']]) {
       const radio = document.querySelector(`input[name="${name}"][value="${CSS.escape(String(last[key] || ''))}"]`);
       if (radio) radio.checked = true;
@@ -179,6 +181,7 @@
       render();
     });
     $('role').addEventListener('keydown', (e) => { if (e.key === 'Enter') next(); });
+    $('domain').addEventListener('change', render);
 
     render();
     try {
