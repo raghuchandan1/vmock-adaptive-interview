@@ -268,7 +268,7 @@
     const s = Math.max(0, Math.floor(((at ? Date.parse(at) : Date.now()) - state.startedAt) / 1000));
     return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
   };
-  const msg = (role, text, now, at) => `<div class="sv-msg${now ? ' now' : ''}"><div class="who">${role === 'interviewer' ? 'Interviewer' : 'You'}<time>${clock(at)}</time></div><p>${esc(text)}</p></div>`;
+  const msg = (role, text, now, at) => `<div class="sv-msg is-${role}${now ? ' now' : ''}"><div class="who">${role === 'interviewer' ? 'Interviewer' : 'You'}<time>${clock(at)}</time></div><p>${esc(text)}</p></div>`;
   const scrollThread = () => { $('thread').scrollTop = $('thread').scrollHeight; };
 
   function render() {
