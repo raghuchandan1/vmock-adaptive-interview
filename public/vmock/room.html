@@ -410,6 +410,27 @@
     }).observe(thread, { childList: true });
     document.getElementById('transcriptClose').addEventListener('click', () => setOpen(false));
 
+    // The interviewer reacts while the student answers. Speaking: student.js sets #liveMeter's width from the mic level
+    // every 50 ms; it is mirrored into --lvl (0..1) so the rings follow the voice. Typing: "is-typing" while keys are
+    // pressed (until 1.2 s after the last one), "has-text" while the box has an answer in it.
+    const stage = document.getElementById('interviewerTile');
+    const meter = document.getElementById('liveMeter');
+    new MutationObserver(() => {
+      stage.style.setProperty('--lvl', String(Math.min(1, (parseFloat(meter.style.width) || 0) / 100)));
+    }).observe(meter, { attributes: true, attributeFilter: ['style'] });
+    const typed = document.getElementById('typed');
+    let typingTimer = 0;
+    const syncText = () => stage.classList.toggle('has-text', Boolean(typed.value.trim()));
+    typed.addEventListener('input', () => {
+      stage.classList.add('is-typing');
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(() => stage.classList.remove('is-typing'), 1200);
+      syncText();
+    });
+    // student.js clears the box after sending; there is no input event for that, so re-check on every phase change.
+    new MutationObserver(() => { syncText(); if (stage.dataset.phase !== 'typing') stage.classList.remove('is-typing'); })
+      .observe(stage, { attributes: true, attributeFilter: ['data-phase'] });
+
     // #timer reads "mm:ss of about N min" (student.js); the bar shows how much of that time has gone.
     const timer = document.getElementById('timer');
     new MutationObserver(() => {

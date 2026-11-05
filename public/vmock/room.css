@@ -217,6 +217,28 @@ body.vm-room.live .topbar.rm-top { display: flex; }
 .rm-call-center[data-phase="ready"] .rm-orb, .rm-call-center[data-phase="recording"] .rm-orb, .rm-call-center[data-phase="typing"] .rm-orb {
   background: linear-gradient(135deg, #2f9e6e, #46a879);
 }
+/* While the student speaks, two rings follow their mic level (--lvl, 0..1, set by the room script): silence keeps
+   them still, so the student can see they're being heard. */
+.rm-call-center[data-phase="recording"] .rm-orb::before, .rm-call-center[data-phase="recording"] .rm-orb::after {
+  border-color: rgb(70 168 121 / .45); opacity: min(1, calc(.15 + var(--lvl, 0) * 2.5));
+  transform: scale(calc(1 + var(--lvl, 0) * .35)); transition: transform .08s linear, opacity .08s linear;
+}
+.rm-call-center[data-phase="recording"] .rm-orb::after { inset: -26px; border-width: 1px; transform: scale(calc(1 + var(--lvl, 0) * .5)); }
+.rm-state { position: relative; z-index: 1; }
+.rm-call-center[data-phase="recording"] .rm-state::after {
+  content: ""; width: 14px; height: 10px; margin-left: 2px;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 3px calc(30% + var(--lvl, 0) * 280%) no-repeat,
+              linear-gradient(currentColor, currentColor) 5px 100% / 3px calc(30% + var(--lvl, 0) * 420%) no-repeat,
+              linear-gradient(currentColor, currentColor) 10px 100% / 3px calc(30% + var(--lvl, 0) * 200%) no-repeat;
+}
+/* Typing: a slow ring while the box has an answer in it, and moving dots on "Listening" while keys are pressed. */
+.rm-call-center[data-phase="typing"].has-text .rm-orb::before { border-color: rgb(70 168 121 / .4); animation: rm-ring 2.4s ease-out infinite; }
+.rm-call-center[data-phase="typing"].is-typing .rm-state::after {
+  content: ""; width: 18px; height: 6px; margin-left: 2px;
+  background: radial-gradient(circle, currentColor 2px, transparent 2.5px) 0 50% / 6px 6px repeat-x;
+  animation: rm-dots 1.2s steps(3, jump-none) infinite;
+}
+@keyframes rm-dots { from { width: 6px; } to { width: 18px; } }
 @keyframes rm-ring { from { transform: scale(.9); opacity: 1; } to { transform: scale(1.45); opacity: 0; } }
 @keyframes rm-breathe { 50% { transform: scale(.94); } }
 
@@ -368,7 +390,8 @@ body.vm-room.live .topbar.rm-top { display: flex; }
 @keyframes rm-typing { 50% { opacity: .45; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .rm-orb, .rm-orb::before, .rm-orb::after, .rm-talk.on::before { animation: none !important; }
+  .rm-orb, .rm-orb::before, .rm-orb::after, .rm-talk.on::before, .rm-state::after { animation: none !important; }
+  .rm-call-center .rm-orb::before, .rm-call-center .rm-orb::after { transform: none !important; }
   .rm-clock-bar span, .rm-meter span { transition: none; }
 }
 
