@@ -559,8 +559,7 @@
     const weakest = !sig.overall || !judged ? null : [...sig.overall.delivery.map((p) => ({ ...p, module: 'Delivery of Speech' })), ...sig.overall.nonverbal.map((p) => ({ ...p, module: 'Non Verbal' }))]
       .filter((p) => p.level).sort((a, b) => order[a.level] - order[b.level])[0];
     const also = [
-      // The goal and the next priority are high impact, as in v1.
-      ...more.map((p, i) => ({ module: 'Content Strength', title: p.title, why: p.why, action: p.action, high: i === 0 })),
+      ...more.map((p) => ({ module: 'Content Strength', title: p.title, why: p.why, action: p.action, })),
       ...(weakest && weakest.level !== 'good_job' ? [{ module: weakest.module, title: weakest.name, action: weakest.next, vmock: true }] : []),
     ];
 
@@ -588,7 +587,7 @@
     }
     if (also.length) {
       html += `<div class="fb-also"><h3 class="fb-also-title">Also work on</h3><div class="fb-also-list">${also.map((x) => `<details class="fb-also-item${x.vmock ? V : ''}">
-          <summary><span class="fb-also-meta"><span class="fb-eyebrow">${esc(x.module)}</span>${x.high ? '<span class="fb-impact">High impact</span>' : ''}</span><strong>${esc(x.title)}</strong></summary>
+          <summary><span class="fb-also-meta"><span class="fb-eyebrow">${esc(x.module)}</span></span><strong>${esc(x.title)}</strong></summary>
           ${x.action ? `<p class="fb-try"><strong>Try this:</strong> ${esc(x.action)}</p>` : ''}${x.why ? `<p class="fb-why">${esc(x.why)}</p>` : ''}</details>`).join('')}</div></div>`;
     }
     html += '</section>';

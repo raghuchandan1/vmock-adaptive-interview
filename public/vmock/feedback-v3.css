@@ -373,8 +373,6 @@ body.vm-room:has(#screen-feedback:not([hidden])) #pastBtn { display: none; }
 /* ---------- v2: critique fixes (design only) ---------- */
 /* Small blue text on blue tints uses the darker blue (contrast). */
 .fb-from span, .fb-blank, .fb-steps li::before { color: var(--blue-text); }
-/* "High impact" stays red inside "Also work on" (the item's muted span rule was greying it). */
-.fb-also-item .fb-impact { color: #c2372b; }
 /* "Also work on" items show that they open. */
 .fb-also-item > summary { position: relative; padding-right: 36px; }
 .fb-also-item > summary::after {

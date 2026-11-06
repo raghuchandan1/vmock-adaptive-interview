@@ -284,9 +284,8 @@
       </div>`;
     }
     if (more.length) {
-      // The goal and the next priority are high impact, as in v1.
-      html += `<div class="fb-also"><h3 class="fb-also-title">Also work on</h3><div class="fb-also-list">${more.map((x, i) => `<details class="fb-also-item">
-          <summary><span class="fb-also-meta"><span class="fb-eyebrow">Content Strength</span>${i === 0 ? '<span class="fb-impact">High impact</span>' : ''}</span><strong>${esc(x.title)}</strong></summary>
+      html += `<div class="fb-also"><h3 class="fb-also-title">Also work on</h3><div class="fb-also-list">${more.map((x) => `<details class="fb-also-item">
+          <summary><span class="fb-also-meta"><span class="fb-eyebrow">Content Strength</span></span><strong>${esc(x.title)}</strong></summary>
           ${x.action ? `<p class="fb-try"><strong>Try this:</strong> ${esc(x.action)}</p>` : ''}${x.why ? `<p class="fb-why">${esc(x.why)}</p>` : ''}</details>`).join('')}</div></div>`;
     }
     html += '</section>';
