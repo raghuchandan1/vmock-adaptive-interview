@@ -2,7 +2,7 @@
 
 A working prototype of the adaptive interviewer from the spec *Adaptive Interviews v1 (Resume + optional JD)*. Before the interview it plans its topics from the resume (and the job description, if given). During the interview it asks one question per card, follows up only when evidence is missing, and stays within a follow-up budget. At the end it shows the hidden agenda, the planner's output and every turn's decision for review.
 
-Feedback scoring and the rubric are out of scope for this prototype, by design.
+After the interview, students get qualitative feedback (see **Feedback page**). Numeric scores are out of scope for this prototype, by design.
 
 ## Run it
 
@@ -73,10 +73,14 @@ Both prompts are plain Markdown files in `prompts/`. They're read on every call,
 server.js            HTTP server and API (no dependencies)
 lib/engine.js        Interview rules: slots, budgets, decisions, time rule, guards
 lib/openai.js        OpenAI Chat Completions client with Structured Outputs and retries
-lib/schemas.js       Strict JSON schemas for planner and turn outputs
+lib/schemas.js       Strict JSON schemas for the planner, turn, feedback and grounding outputs
+lib/voice.js         Text-to-speech and transcription for the student page
 prompts/planner.md   Planner system prompt
 prompts/turn.md      Turn system prompt
-public/              Browser app (setup, interview, review)
+prompts/feedback.md  Feedback system prompt
+prompts/grounding.md Grounding check for rewritten answers
+public/              Browser app: developer page (setup, interview, review) and student page
+public/vmock/        VMock replica: interview page, setup wizard, room, feedback v2 (default) and v1
 samples/             Fictional resumes and job descriptions
 sessions/            Saved sessions (created as you go)
 test/                Offline mock of the OpenAI API and end-to-end checks
@@ -110,10 +114,40 @@ Fallbacks:
 
 `localhost` counts as a secure origin, so the microphone works without HTTPS.
 
+## VMock replica
+
+The same interview in VMock's own look:
+1. **http://localhost:3000/vmock/interview** is a copy of VMock's candidate Interview page, with an **Adaptive Interviews** tab (`?tab=adaptive`). Only the Custom and Adaptive tabs work.
+2. **http://localhost:3000/vmock/adaptive-interview** is the setup wizard: Get Started, Job description, Resume, Interview details.
+3. **Prepare Interview** opens the interview room, `/vmock/adaptive-interview/room`, which runs the student voice interview in VMock's recorder frame and ends on the feedback page.
+
+## Feedback page
+
+After the interview, a fourth model call (`prompts/feedback.md`) writes the feedback once and caches it on the session. A grounding call (`prompts/grounding.md`) checks each rewritten answer so it uses only facts from the resume, the job description and the student's own answers.
+
+The room's feedback page has three versions. All three show the same saved feedback, so you can compare them on one interview:
+
+| URL | Version |
+| --- | --- |
+| `/vmock/adaptive-interview/room?feedback=<id>` | **v2, the default** (`public/vmock/feedback-v2.js`, `.css`) |
+| `…&fbview=v1` | v1, the previous page, kept for comparing (`public/vmock/feedback.js`, `.css`) |
+| `…&fbview=classic` | v1's older content-only layout |
+
+Find a session id in **Past interviews** or in `sessions/`.
+
+v2 has two views:
+- **Summary:** the overall comment, the three VMock modules (Content Strength, Delivery of Speech, Non Verbal), your goal for next time, other things to work on, and every question at a glance with its result.
+- **Detailed Summary:** a list on the left (Overall, then each question) and one open item with Content Strength | Delivery of Speech | Non Verbal switches. For a question, Content Strength shows how to answer it next time first, then what you did (what went well and what to fix, quoting your answer), then your answers, follow-ups and the checklist. The page ends with your goal and **Practice again**.
+
+**Placeholders.** Delivery of Speech, Non Verbal and the STAR sub-checks are VMock placeholders: their values are invented from the session id until VMock's audio and video analysis is wired in. Content Strength is the real feedback. Add `&sources=1` to any feedback URL to outline every placeholder part in purple, labelled "VMock · hardcoded".
+
+Feedback uses VMock's levels only (Good job, On track, Needs work), never scores. Answers under 15 words get the steps for next time but no ratings.
+
 ## Known limits of this prototype
 
 - On the developer page, typed answers only. Voice is on the student page: push-to-talk, no live captions with OpenAI transcription (the answer text appears after it is sent), and about 5 to 10 s between an answer and the next question.
-- No feedback scoring or rubric yet. Students get qualitative feedback only (summary, what worked / was missing / try next time per topic, priorities), written by a third model call after the interview (`prompts/feedback.md`, `POST /api/sessions/:id/feedback`). Quotes are checked verbatim and scores are stripped by `checkAndShapeFeedback`.
+- No numeric feedback scores. Students get qualitative feedback with VMock levels (see **Feedback page**), written by a model call after the interview (`POST /api/sessions/:id/feedback`). Quotes are checked verbatim and scores are stripped by `checkAndShapeFeedback`.
+- Delivery of Speech and Non Verbal on the VMock feedback page are placeholders, not real audio or video analysis.
 - The resume engine's flags and score band are simulated by the planner prompt.
 - PDF upload reads text only. Scanned or image PDFs need the text pasted in.
 - The web font and PDF reader load from public CDNs. Without internet, the page falls back to system fonts and PDF upload is unavailable.
