@@ -41,6 +41,7 @@ Three steps, two kinds of model call:
    - Wording flags for agenda words, praise, more than one question, two asks joined by "and", example answers or options offered in a question ("for example", "such as"), or messages over about 60 words. A flagged message is sent back to the model once for a rewrite with the same decision; any flags still present are recorded for review.
    - The turn model receives the full resume and job description on every call, so it can answer company questions from the JD and notice answers that conflict with the resume.
    - Plan checks: every claim must be an exact quote from the resume, and no more than two topics may come from the same role.
+   - For MBA students going into business roles (finance, marketing and sales, supply chain, product, consulting, analytics), the hiring manager interview includes one applied domain question from the job description ("When would you trust IRR less than NPV for a capex decision?"), judged on a knowledge rubric. Guesstimates and cases are left to VMock's own modules.
 
 The browser never receives the plan during the interview. The **Show the hidden agenda** link opens the interviewer's notes for testing.
 

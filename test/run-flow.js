@@ -236,6 +236,9 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(twice.feedback.priorities[0].slot_id === rated[0].slot_id && twice.feedback.priorities.length === 2 && twice.feedback.priorities[1].title === 'Name how you measured it'
     && checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [], next_goal: { ...goalIn, slot_id: 'nope' } }, trace).feedback.priorities.length === 0
     && fb.priorities[0].slot_id === rated[0].slot_id, 'the goal names the judged topic that shows it; a priority restating the goal is dropped');
+  check(plannerSchema.properties.slots.items.properties.question_type.enum.includes('knowledge') && rubricKey({ kind: 'gap', question_type: 'knowledge', technical_focus: false }) === 'knowledge'
+    && rubricKey({ kind: 'gap', question_type: 'situational' }) === 'situational' && rubricKey({ kind: 'claim', question_type: 'past_behaviour', technical_focus: true }) === 'behavioural',
+  'a knowledge topic (domain fundamentals for business roles) is judged on the knowledge rubric');
   const { mostlyI, PRONOUN_ADVICE, sameItem } = require('../lib/engine');
   check(mostlyI({ i: 45, we: 8 }) && !mostlyI({ i: 4, we: 3 }) && PRONOUN_ADVICE.test('Say what you did, using first-person language.') && PRONOUN_ADVICE.test('Say "I" instead of "we".')
     && !PRONOUN_ADVICE.test('Say what I did first.') && !PRONOUN_ADVICE.test('Say what you did yourself.') && !sameItem('Name how you measured it', 'Lead with your own part'),
