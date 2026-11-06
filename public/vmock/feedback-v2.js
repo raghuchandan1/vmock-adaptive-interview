@@ -512,12 +512,15 @@
     const RANK = ['STAR/HSAR', 'Depth & Clarity', 'Practical Application', 'Motivation & Fit', 'Learning & Reflection', 'Other elements', 'Handling follow-ups'];
     const ours = [...byGroup.entries()].sort((a, b) => RANK.indexOf(a[0]) - RANK.indexOf(b[0])).map(([name, uses]) => {
       const all = uses.flatMap((u) => u.items);
-      const level = moduleLevel(all.map((r) => r.level));
-      const weak = uses.map((u) => ({ ...u, level: moduleLevel(u.items.map((r) => r.level)) })).filter((u) => u.level !== 'good_job');
+      // Every line on the card comes from the same counts: Good job only when every element was strong in every answer.
+      const notAllGood = (lv) => (lv === 'good_job' ? 'on_track' : lv);
+      const weak = uses.filter((u) => u.items.some((r) => r.level !== 'good_job'));
+      const level = weak.length ? notAllGood(moduleLevel(all.map((r) => r.level))) : 'good_job';
       const worstItem = [...all].sort((a, b) => order[a.level] - order[b.level])[0];
       const labels = [...new Set(all.map((r) => r.label))].map((label) => {
         const rs = all.filter((r) => r.label === label);
-        return { label, level: moduleLevel(rs.map((r) => r.level)), good: rs.filter((r) => r.level === 'good_job').length, n: rs.length };
+        const good = rs.filter((r) => r.level === 'good_job').length;
+        return { label, level: good === rs.length ? 'good_job' : notAllGood(moduleLevel(rs.map((r) => r.level))), good, n: rs.length };
       });
       return `<article class="fb-card fb-param">
         <div class="fb-param-head"><span class="fb-param-icon ${LEVEL[level][1]}" aria-hidden="true"><svg class="ic"><use href="#i-doc"/></svg></span><h3>${esc(name)}</h3>${chip(level)}</div>${groupHelp(name)}
@@ -544,10 +547,16 @@
       delivery: sig.overall && moduleLevel(sig.overall.delivery.map((p) => p.level)),
       nonverbal: sig.overall && moduleLevel(sig.overall.nonverbal.map((p) => p.level)),
     };
+    // Nothing judged (no answers, or only too-short ones): no overall line, goal, priorities or module levels, even if an
+    // older cached feedback has them.
+    const judged = fb.topics.some((t) => t.verdict);
     // The goal for next time, then "Also work on": our other priorities and the weakest delivery or on-camera part.
-    const [goal, ...more] = fb.priorities || [];
+    const [goal, ...more] = judged ? fb.priorities || [] : [];
+    // The question the goal is best practised on (feedback version 10 and later).
+    const goalQ = goal && goal.slot_id ? fb.topics.findIndex((t) => t.slot_id === goal.slot_id) : -1;
+    const goalLink = goalQ >= 0 ? `<button class="fb-link fb-goal-link" type="button" data-q="${goalQ}">See it in question ${goalQ + 1}: ${esc(topicName(fb.topics[goalQ]))}</button>` : '';
     const order = { needs_work: 0, on_track: 1, good_job: 2 };
-    const weakest = !sig.overall ? null : [...sig.overall.delivery.map((p) => ({ ...p, module: 'Delivery of Speech' })), ...sig.overall.nonverbal.map((p) => ({ ...p, module: 'Non Verbal' }))]
+    const weakest = !sig.overall || !judged ? null : [...sig.overall.delivery.map((p) => ({ ...p, module: 'Delivery of Speech' })), ...sig.overall.nonverbal.map((p) => ({ ...p, module: 'Non Verbal' }))]
       .filter((p) => p.level).sort((a, b) => order[a.level] - order[b.level])[0];
     const also = [
       // The goal and the next priority are high impact, as in v1.
@@ -564,15 +573,17 @@
       <div class="fb-view" role="tabpanel" id="fb-view-summary" aria-labelledby="fb-vtab-summary">
       <section class="fb-card fb-summary" aria-labelledby="fbSummaryTitle">
       <h2 class="sr" id="fbSummaryTitle">How it went</h2>
-      ${fb.overall ? `<div class="fb-overall-wrap"><p class="fb-overall" id="fbOverall">${esc(fb.overall)}</p><button class="fb-link" type="button" id="fbOverallMore" aria-controls="fbOverall" aria-expanded="false" hidden>Read more</button></div>` : ''}
-      <div class="fb-tiles">${mods}</div>`;
+      ${judged && fb.overall ? `<div class="fb-overall-wrap"><p class="fb-overall" id="fbOverall">${esc(fb.overall)}</p><button class="fb-link" type="button" id="fbOverallMore" aria-controls="fbOverall" aria-expanded="false" hidden>Read more</button></div>` : ''}
+      ${judged ? `<div class="fb-tiles">${mods}</div>` : fb.topics.length
+    ? '<p class="fb-short">None of your answers was long enough to judge. Open a question below for the steps to answer it next time.</p>'
+    : EMPTY}`;
     if (goal) {
       html += `<div class="fb-goal">
         <div class="fb-goal-icon" aria-hidden="true"><svg class="ic"><use href="#i-target"/></svg></div>
         <div><div class="fb-goal-meta"><span class="fb-eyebrow">Your goal for next time</span><span class="fb-impact">High impact</span></div>
           <h3>${esc(goal.title)}</h3>
           ${goal.action ? `<p class="fb-try"><strong>Try this:</strong> ${esc(goal.action)}</p>` : ''}
-          ${goal.why ? `<p class="fb-why">${esc(goal.why)}</p>` : ''}</div>
+          ${goal.why ? `<p class="fb-why">${esc(goal.why)}</p>` : ''}${goalLink}</div>
       </div>`;
     }
     if (also.length) {
@@ -590,14 +601,14 @@
           <span class="fb-num">${i + 1}</span><span class="fb-glance-text"><strong>${esc(topicName(t))}</strong><span>${esc(rowLine(t))}</span></span>
           ${t.too_short ? '<span class="fb-chip none">Too short</span>' : chip(t.verdict)}<svg class="ic fb-glance-chev" aria-hidden="true"><use href="#i-chev"/></svg></button></li>`).join('')}</ol>
         <div class="fb-glance-foot"><button class="vm-btn primary sm" type="button" id="fbSeeDetailed">See detailed feedback</button></div>
-      </section>` : EMPTY;
+      </section>` : '';
     html += '</div>';
 
     html += `<div class="fb-view" role="tabpanel" id="fb-view-detailed" aria-labelledby="fb-vtab-detailed" hidden>
       ${fb.topics.length ? practiceHtml(s, fb, sig, level) : EMPTY}
       ${fb.topics.length && goal ? `<section class="fb-card fb-close" aria-labelledby="fbCloseTitle">
         <div class="fb-goal-icon" aria-hidden="true"><svg class="ic"><use href="#i-target"/></svg></div>
-        <div><div class="fb-eyebrow">Your goal for next time</div><h2 id="fbCloseTitle">${esc(goal.title)}</h2>${goal.action ? `<p class="fb-try"><strong>Try this:</strong> ${esc(goal.action)}</p>` : ''}</div>
+        <div><div class="fb-eyebrow">Your goal for next time</div><h2 id="fbCloseTitle">${esc(goal.title)}</h2>${goal.action ? `<p class="fb-try"><strong>Try this:</strong> ${esc(goal.action)}</p>` : ''}${goalLink}</div>
         <button class="vm-btn primary sm" type="button" data-practice>Practice again</button></section>` : ''}
       ${across(fb, fb.topics.length > 0)}</div>`; // follow-up handling is a Content Strength card (Overall) when there are questions
     panel.innerHTML = html;
@@ -643,8 +654,8 @@
     panel.querySelectorAll('[data-to-summary]').forEach((b) => b.addEventListener('click', () => showView('summary', true)));
     // Same as the header's "Practice again".
     panel.querySelectorAll('[data-practice]').forEach((b) => b.addEventListener('click', () => document.getElementById('newBtn').click()));
-    // A question in the Summary opens it in the Detailed Summary.
-    panel.querySelectorAll('.fb-glance-item').forEach((b) => b.addEventListener('click', () => {
+    // A question in the Summary (or the goal's "See it in question N") opens it in the Detailed Summary.
+    panel.querySelectorAll('.fb-glance-item, .fb-goal-link').forEach((b) => b.addEventListener('click', () => {
       showView('detailed');
       practice.select(Number(b.dataset.q) + 1, { scroll: true });
     }));

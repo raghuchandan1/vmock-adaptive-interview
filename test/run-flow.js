@@ -169,7 +169,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const fbText = JSON.stringify([fb.overall, fb.topics.map((t) => [t.went_well, t.to_fix, t.answer_plan, (t.ratings || []).map((r) => r.reason), t.stronger_version]), fb.moments]);
   const rated = fb.topics.filter((t) => !t.too_short);
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 9 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 10 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
@@ -223,6 +223,23 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(topicWith(rated[0].slot_id, rated[0].to_fix_quote, 'I led the work and moved the metric by X%.').stronger_version !== '' && topicWith(rated[0].slot_id, rated[0].to_fix_quote, 'I cut reporting time by 73 percent.').stronger_version === '', 'rewrite is dropped when it contains a number not in the resume or answers');
   check(rated[0].stronger_version.includes('X%') && rated[1] && rated[1].stronger_version === '' && rated[1].to_fix, 'unsupported rewrite text is removed after the grounding check, supported one is kept');
   check(rated[1].to_fix_quote !== rated[0].to_fix_quote ? topicWith(rated[0].slot_id, rated[1].to_fix_quote, 'I did [x].').stronger_version === '' : true, 'a quote taken from a different topic is dropped, and its rewrite with it');
+  // Nothing judged: no overall line, goal or priorities. Same words in went-well and to-fix: sent back, went-well quote
+  // dropped. The goal keeps the judged topic that shows it; a priority restating the goal is dropped.
+  const goalIn = { title: 'Lead with your own part', why: 'w', when: 'you are asked about a project', then: 'say what you did yourself in your first sentence', slot_id: rated[0].slot_id };
+  const noneJudged = checkAndShapeFeedback({ overall: 'You did well.', topics: [], moments: [], next_goal: goalIn, more_priorities: [{ title: 'Name a number', why: 'w', action: 'Add one number.' }] }, trace).feedback;
+  check(noneJudged.overall === '' && noneJudged.priorities.length === 0, 'with no judged answer there is no overall line, goal or priorities');
+  const q0 = rated[0].to_fix_quote;
+  const twice = checkAndShapeFeedback({ overall: 'ok', moments: [], next_goal: goalIn, more_priorities: [{ title: 'Say what you did yourself', why: 'w', action: 'Say what you did yourself first.' }, { title: 'Name how you measured it', why: 'w', action: 'Add one number.' }],
+    topics: [{ slot_id: rated[0].slot_id, ratings: [], went_well: 'Good start.', went_well_quote: q0, resume_mismatch: { quote: '', note: '', tip: '' }, to_fix: 'weak', to_fix_quote: q0, answer_plan: [], stronger_version: '', example_answer: '' }] }, trace);
+  const twiceTopic = twice.feedback.topics.find((t) => t.slot_id === rated[0].slot_id);
+  check(twiceTopic.went_well_quote === '' && twiceTopic.to_fix_quote === q0 && twice.problems.some((x) => /quote the same words/.test(x)), 'went-well and to-fix never quote the same words (sent back, went-well quote dropped)');
+  check(twice.feedback.priorities[0].slot_id === rated[0].slot_id && twice.feedback.priorities.length === 2 && twice.feedback.priorities[1].title === 'Name how you measured it'
+    && checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [], next_goal: { ...goalIn, slot_id: 'nope' } }, trace).feedback.priorities.length === 0
+    && fb.priorities[0].slot_id === rated[0].slot_id, 'the goal names the judged topic that shows it; a priority restating the goal is dropped');
+  const { mostlyI, PRONOUN_ADVICE, sameItem } = require('../lib/engine');
+  check(mostlyI({ i: 45, we: 8 }) && !mostlyI({ i: 4, we: 3 }) && PRONOUN_ADVICE.test('Say what you did, using first-person language.') && PRONOUN_ADVICE.test('Say "I" instead of "we".')
+    && !PRONOUN_ADVICE.test('Say what I did first.') && !PRONOUN_ADVICE.test('Say what you did yourself.') && !sameItem('Name how you measured it', 'Lead with your own part'),
+  'pronoun advice is recognised (and is not given when the student already says "I" far more than "we")');
   const fb2 = await post(`/api/sessions/${id}/feedback`, {});
   const saved = await get(`/api/sessions/${id}/trace`);
   check(fb2.generated_at === fb.generated_at && saved.feedback_trace.filter((x) => !x.grounding_for).length === 2 && saved.feedback_trace.filter((x) => x.grounding_for).length === 2, 'feedback is generated once with one retry, then cached');

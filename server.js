@@ -165,6 +165,13 @@ async function feedback(id) {
   if (inFlight.has(id)) throw httpError(409, 'Your feedback is still being written. Please wait a moment.');
   inFlight.add(id);
   try {
+    // No topic reached (the interview ended in the warm-up or background): nothing to judge, so no model call.
+    if (!engine.buildFeedbackPayload(session).topics.length) {
+      session.feedback = engine.checkAndShapeFeedback({}, session).feedback;
+      session.feedback_trace = [];
+      saveSession(session);
+      return session.feedback;
+    }
     const system = readPrompt('feedback');
     const run = async (note) => {
       const payload = engine.buildFeedbackPayload(session);

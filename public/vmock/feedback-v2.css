@@ -491,3 +491,5 @@ body.vm-room:has(#screen-feedback:not([hidden])) #pastBtn { display: none; }
 .fb-cov-topic > summary:hover { background: #fafbfc; }
 .fb-cov-topic > :not(summary) { margin: 0 10px 10px; }
 .fb-cov-topic > p { font-size: 13px; line-height: 20px; }
+/* The goal names the question it is best practised on. */
+.fb-goal-link { margin-top: 8px; text-align: left; }
