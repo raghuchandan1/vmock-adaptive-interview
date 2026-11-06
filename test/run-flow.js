@@ -85,6 +85,9 @@ const get = async (p) => (await fetch(BASE + p)).json();
   let trace = await get(`/api/sessions/${id}/trace`);
   check(trace.plan_trace.note && /reasoning_effort/.test(trace.plan_trace.note), 'retries without reasoning_effort when a model rejects it');
   check(JSON.parse(trace.plan_trace.request_user_message).placement_stage === null, 'the planner gets placement_stage (null when not for placements)');
+  const { fitAngle, FIT_ANGLES } = require('../lib/engine');
+  check(JSON.parse(trace.plan_trace.request_user_message).fit_angle === fitAngle(trace.inputs.seed) && new Set([0, 1, 2].map(fitAngle)).size === FIT_ANGLES.length,
+    'the planner gets a fit question angle that rotates across sessions');
   check(trace.plan_checks.some((c) => /c4 is not an exact quote/.test(c.message)), 'flags a claim that is not quoted from the resume');
 
   // Warm-up -> background

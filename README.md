@@ -42,7 +42,7 @@ Three steps, two kinds of model call:
    - The turn model receives the full resume and job description on every call, so it can answer company questions from the JD and notice answers that conflict with the resume.
    - Plan checks: every claim must be an exact quote from the resume, and no more than two topics may come from the same role.
    - For MBA students going into business roles (finance, marketing and sales, supply chain, product, consulting, analytics), the hiring manager interview includes one applied domain question from the job description ("When would you trust IRR less than NPV for a capex decision?"), judged on a knowledge rubric. Guesstimates and cases are left to VMock's own modules.
-   - One topic comes from a position of responsibility, case competition or activity for freshers, in summer placements, and in every resume deep dive. Standard fit questions (a failure, a disagreement, strengths) are used only when the CV gives nothing better.
+   - One topic comes from a position of responsibility, case competition or activity for freshers, in summer placements, and in every resume deep dive. For summer placements and freshers with a thin CV, one question is a standard fit question (a time you failed, a time you disagreed or took a stance, or your biggest strength), rotating across attempts; otherwise these are used only when the CV gives nothing better.
    - When the student asks their own questions at the end, the feedback says whether they were specific to the role and company or could be asked anywhere, with a sharper question to try.
 
 The browser never receives the plan during the interview. The **Show the hidden agenda** link opens the interviewer's notes for testing.

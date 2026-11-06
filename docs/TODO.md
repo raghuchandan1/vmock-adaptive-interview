@@ -16,6 +16,6 @@ Open items from the 2026-11-06 re-test:
 - [ ] The knowledge topic can feel like a quiz with three follow-ups (IRR, then NPV, then payback). Consider a budget of one or two for knowledge topics.
 - [ ] The knowledge topic can sit close to a claim topic (a price-pack question after a price-pack internship). Rule: it avoids the subject of a claim topic.
 - [ ] Case-competition results: every resume deep dive now has an activity topic (2026-11-06), but hiring manager rounds still rarely pick them for students with work experience.
-- [ ] Standard fit questions (failure, disagreement, strengths) are allowed but the planner rarely uses them: even a thin CV got a college-cricket teamwork question instead. Decide whether summers and thin CVs should prefer a fit question.
+- [x] Standard fit questions are now preferred for summers and thin CVs, rotating failure / disagreement / strengths by session (2026-11-06).
 - [ ] If the student says "No, that's all" while a topic is still open, the move to the questions phase can sound like a close ("The interview is complete") while the interview still waits for the student's questions.
 - [ ] Design warnings in the room's setup screen (`public/vmock/room.html`): hover contrast 3.8:1 on the segmented controls, and cramped padding on the segmented controls and the screen wrapper. Older than these changes.
