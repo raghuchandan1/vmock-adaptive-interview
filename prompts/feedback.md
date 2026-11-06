@@ -42,7 +42,9 @@ For the others:
 </topic_fields>
 
 <moments>
-At most two moments from the background walkthrough (slot_id "background") that matter for the next attempt: an answer that did not match the resume (a different college, employer or job), or a walkthrough that skipped the path to this role. Describe a mismatch neutrally, as something that confuses an interviewer, never as dishonesty. `quote` from the background answers, `note` one sentence on what happened and why it matters, `tip` one concrete thing to do next time. Mismatches inside a topic go in that topic's `resume_mismatch`, not here. The warm-up and the closing questions are not covered. Return an empty list when nothing in the background matters.
+At most two moments from the background walkthrough (slot_id "background") that matter for the next attempt: an answer that did not match the resume (a different college, employer or job), or a walkthrough that skipped the path to this role. Describe a mismatch neutrally, as something that confuses an interviewer, never as dishonesty. `quote` from the background answers, `note` one sentence on what happened and why it matters, `tip` one concrete thing to do next time. Mismatches inside a topic go in that topic's `resume_mismatch`, not here. The warm-up is not covered.
+
+When the student asked their own questions at the end (slot_id "candidate_questions" in the transcript), add one moment for them: `note` says whether the questions showed they had looked into this role or company (specific) or could be asked of any company ("What's the work culture like?", "What are the growth opportunities?"); `quote` one of their questions; `tip` one sharper question they could ask next time, built from the job description or the role. Never add this moment when they asked nothing. Return an empty list when nothing matters.
 </moments>
 
 <overall_and_priorities>

@@ -107,6 +107,7 @@
             <label for="role">Target role</label>
             <input id="role" type="text" placeholder="For example: Product Analyst">
             <input id="domain" type="hidden"><!-- set from the setup wizard's handoff; student.js reads it -->
+            <input id="stage" type="hidden"><!-- placement stage from the wizard (summers, finals, laterals or empty) -->
             <p class="hint">Optional if you add a job description.</p>
           </div>
           <fieldset class="field">
@@ -324,6 +325,7 @@
     const TYPE = { recruiter_screen: 'Screening round', hiring_manager: 'Hiring manager round', back_your_resume: 'Resume deep dive' };
     const STYLE = { supportive: 'Friendly style', balanced: 'Standard style', probing: 'Challenging style', surprise: 'Surprise style' };
     const MIN = { short: '10 min', standard: '15 min' };
+    const STAGE = { summers: 'Summer placements', finals: 'Final placements', laterals: 'Lateral hiring' };
     let s = null;
     try { s = JSON.parse(sessionStorage.getItem('vmock_adaptive_setup') || 'null'); } catch (_) { /* storage blocked */ }
     if (!s) return;
@@ -332,7 +334,7 @@
     document.getElementById('liveType').textContent = type;
     window.ROOM_DOMAIN = s.domain || ''; // for the title once the plan arrives (the plan summary has no domain)
     document.getElementById('briefTitle').textContent = s.target_role || (s.domain ? `${s.domain} interview` : 'Practice interview');
-    document.getElementById('roomSub').textContent = [s.target_role && s.domain, STYLE[s.style], MIN[s.length]].filter(Boolean).join(' · ');
+    document.getElementById('roomSub').textContent = [s.target_role && s.domain, STAGE[s.stage], STYLE[s.style], MIN[s.length]].filter(Boolean).join(' · ');
   })();
 
   // When the plan arrives: style, length and topic count go in the title card; the lobby lists what will happen.
@@ -350,7 +352,8 @@
     const company = document.getElementById('roomCompany');
     company.textContent = b.company ? `at ${b.company}` : '';
     company.hidden = !b.company;
-    document.getElementById('roomSub').textContent = [b.role && domain, style, `${b.minutes} min`, `${b.topics} topics`].filter(Boolean).join(' · ');
+    const STAGE_NAME = { summers: 'Summer placements', finals: 'Final placements', laterals: 'Lateral hiring' };
+    document.getElementById('roomSub').textContent = [b.role && domain, STAGE_NAME[b.stage], style, `${b.minutes} min`, `${b.topics} topics`].filter(Boolean).join(' · ');
     const source = b.jd_used ? 'your resume and the job description' : 'your resume';
     const items = [
       'A short warm-up question to settle in.',

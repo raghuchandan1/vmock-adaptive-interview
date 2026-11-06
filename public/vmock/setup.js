@@ -113,6 +113,7 @@
       jd_text: state.path === 'both' ? $('jd').value.trim() : '',
       target_role: $('role').value.trim(),
       domain: $('domain').value,
+      stage: (document.querySelector('input[name="stage"]:checked') || {}).value || '',
       interview_type: document.querySelector('input[name="type"]:checked').value,
       style: document.querySelector('input[name="style"]:checked').value,
       length: document.querySelector('input[name="length"]:checked').value,
@@ -138,7 +139,7 @@
     $('jd').value = String(last.jd_text || '');
     $('role').value = String(last.target_role || '');
     $('domain').value = String(last.domain || '');
-    for (const [name, key] of [['type', 'interview_type'], ['style', 'style'], ['length', 'length']]) {
+    for (const [name, key] of [['stage', 'stage'], ['type', 'interview_type'], ['style', 'style'], ['length', 'length']]) {
       const radio = document.querySelector(`input[name="${name}"][value="${CSS.escape(String(last[key] || ''))}"]`);
       if (radio) radio.checked = true;
     }

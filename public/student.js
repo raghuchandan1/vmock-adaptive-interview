@@ -73,7 +73,7 @@
 
   function readSetup() {
     const val = (name) => document.querySelector(`input[name="${name}"]:checked`)?.value;
-    return { resume_text: $('resume').value, jd_text: $('jd').value, target_role: $('role').value, domain: $('domain').value, interview_type: val('type'), style: val('style'), length: val('length') };
+    return { resume_text: $('resume').value, jd_text: $('jd').value, target_role: $('role').value, domain: $('domain').value, stage: $('stage') ? $('stage').value : '', interview_type: val('type'), style: val('style'), length: val('length') };
   }
 
   async function prepare() {
@@ -762,6 +762,7 @@
     $('jdDetails').open = Boolean($('jd').value);
     $('role').value = String(inputs.target_role || '');
     $('domain').value = String(inputs.domain || '');
+    if ($('stage')) $('stage').value = String(inputs.stage || '');
     for (const name of ['type', 'style', 'length']) {
       const key = name === 'type' ? 'interview_type' : name;
       const radio = document.querySelector(`input[name="${name}"][value="${CSS.escape(String(inputs[key] || ''))}"]`);

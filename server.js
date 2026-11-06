@@ -82,6 +82,7 @@ async function createInterview(body) {
     jd_text: String(body.jd_text || '').trim(),
     target_role: String(body.target_role || '').trim(),
     domain: String(body.domain || '').trim().slice(0, 100),
+    stage: String(body.stage || ''), // placement stage: '' (not for placements), summers, finals or laterals
     interview_type: body.interview_type,
     style: body.style,
     length: body.length,
@@ -94,12 +95,14 @@ async function createInterview(body) {
   if (!['recruiter_screen', 'hiring_manager', 'back_your_resume'].includes(inputs.interview_type)) throw httpError(400, 'Choose an interview type.');
   if (!['supportive', 'balanced', 'probing', 'surprise'].includes(inputs.style)) throw httpError(400, 'Choose an interviewer style.');
   if (!['short', 'standard'].includes(inputs.length)) throw httpError(400, 'Choose a length.');
+  if (!['', 'summers', 'finals', 'laterals'].includes(inputs.stage)) throw httpError(400, 'Choose a placement stage.');
 
   const settings = cleanSettings(body.settings);
   const resolvedStyle = engine.resolveStyle(inputs.style);
   const plannerInput = {
     target_role: engine.roleWithDomain(inputs.target_role, inputs.domain),
     interview_type: inputs.interview_type,
+    placement_stage: inputs.stage || null,
     interviewer_style: resolvedStyle,
     scored_slot_count: engine.SCORED_SLOTS[inputs.length],
     variation_seed: inputs.seed,

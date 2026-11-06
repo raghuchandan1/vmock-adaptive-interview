@@ -84,6 +84,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
 
   let trace = await get(`/api/sessions/${id}/trace`);
   check(trace.plan_trace.note && /reasoning_effort/.test(trace.plan_trace.note), 'retries without reasoning_effort when a model rejects it');
+  check(JSON.parse(trace.plan_trace.request_user_message).placement_stage === null, 'the planner gets placement_stage (null when not for placements)');
   check(trace.plan_checks.some((c) => /c4 is not an exact quote/.test(c.message)), 'flags a claim that is not quoted from the resume');
 
   // Warm-up -> background
@@ -180,7 +181,11 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(rated[0].resume_mismatch && /resume line/.test(rated[0].resume_mismatch.note) && rated[0].to_fix && !fb.moments.some((m) => ['warmup', 'nope', rated[0].slot_id].includes(m.slot_id)), 'a resume mismatch sits on its topic next to a different "what to fix"; moments are background only');
   check(/^When you are asked about a project, say what you did yourself in your first sentence\.$/.test(fb.priorities[0].action) && fb.priorities.length === 3, 'the goal is assembled as "When …, …." from when/then, and priorities stay capped at 3');
   check(trace.slots.length && Array.isArray(require('../lib/engine').buildFeedbackPayload(trace).topics[0].interviewer_noted_off_resume_line), 'feedback input carries the interviewer\'s off-resume-line answers per topic');
-  check(fb.moments.some((m) => m.slot_id === 'background' && m.quote === '' && m.note) && !fb.moments.some((m) => m.note === 'Model-written closing note.'), 'moments: invented quote dropped, model may not write the closing-questions moment');
+  check(fb.moments.some((m) => m.slot_id === 'background' && m.quote === '' && m.note) && trace.candidate_questions_asked > 0 && fb.moments.some((m) => m.slot_id === 'candidate_questions' && m.note === 'Model-written closing note.')
+    && !fb.moments.some((m) => /no questions for the interviewer/.test(m.note)), 'moments: invented quote dropped; the student asked questions, so the model may comment on them');
+  const { momentSlotOk } = require('../lib/engine');
+  check(momentSlotOk({ candidate_questions_asked: 0 }, 'candidate_questions') === false && momentSlotOk({ candidate_questions_asked: 2 }, 'candidate_questions') === true && momentSlotOk({}, 'warmup') === false,
+    'a model note on the end questions only when the student asked some');
   check(rated.some((t) => trace.slots.find((x) => x.id === t.slot_id).follow_ups_used > 0 ? t.ratings.some((r) => r.dimension === 'followup') : true), 'probed topics get a follow-up handling dimension');
   // Where each element appeared, its quote, the follow-ups, the recording segment and the JD line.
   const { followUpsFor, rungDimension, jdLine } = require('../lib/engine');
@@ -248,8 +253,10 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(fb2.generated_at === fb.generated_at && saved.feedback_trace.filter((x) => !x.grounding_for).length === 2 && saved.feedback_trace.filter((x) => x.grounding_for).length === 2, 'feedback is generated once with one retry, then cached');
 
   // Rollback on model failure: a session whose turn call errors keeps the transcript unchanged
-  const v2 = await post('/api/sessions', { resume_text: resume, jd_text: '', target_role: 'Product Manager', interview_type: 'back_your_resume', style: 'surprise', length: 'short', settings: { turn_model: 'gpt-4.1', turn_effort: 'low' } });
+  const v2 = await post('/api/sessions', { resume_text: resume, jd_text: '', target_role: 'Product Manager', interview_type: 'back_your_resume', style: 'surprise', length: 'short', stage: 'finals', settings: { turn_model: 'gpt-4.1', turn_effort: 'low' } });
   check(v2.pre_brief.style === null && v2.pre_brief.surprise, 'Surprise me hides the style in the pre-brief');
+  check(v2.pre_brief.stage === 'finals', 'the placement stage is saved and shown in the pre-brief');
+  check(await post('/api/sessions', { resume_text: resume, jd_text: '', target_role: 'Product Manager', interview_type: 'back_your_resume', style: 'balanced', length: 'short', stage: 'mba' }).then(() => false, (e) => /placement stage/.test(e.message)), 'an unknown placement stage is rejected');
   const t2 = await get(`/api/sessions/${v2.id}/trace`);
   check(['supportive', 'balanced', 'probing'].includes(t2.style), `Surprise me resolves to a real style (${t2.style})`);
   check(t2.slots.filter((s) => ['claim', 'gap', 'motivation', 'concerns'].includes(s.kind)).length === 3, 'short length trims the plan to 3 topics');

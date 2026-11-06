@@ -42,6 +42,8 @@ Three steps, two kinds of model call:
    - The turn model receives the full resume and job description on every call, so it can answer company questions from the JD and notice answers that conflict with the resume.
    - Plan checks: every claim must be an exact quote from the resume, and no more than two topics may come from the same role.
    - For MBA students going into business roles (finance, marketing and sales, supply chain, product, consulting, analytics), the hiring manager interview includes one applied domain question from the job description ("When would you trust IRR less than NPV for a capex decision?"), judged on a knowledge rubric. Guesstimates and cases are left to VMock's own modules.
+   - One topic comes from a position of responsibility, case competition or activity for freshers, in summer placements, and in every resume deep dive. Standard fit questions (a failure, a disagreement, strengths) are used only when the CV gives nothing better.
+   - When the student asks their own questions at the end, the feedback says whether they were specific to the role and company or could be asked anywhere, with a sharper question to try.
 
 The browser never receives the plan during the interview. The **Show the hidden agenda** link opens the interviewer's notes for testing.
 
@@ -119,7 +121,7 @@ Fallbacks:
 
 The same interview in VMock's own look:
 1. **http://localhost:3000/vmock/interview** is a copy of VMock's candidate Interview page, with an **Adaptive Interviews** tab (`?tab=adaptive`). Only the Custom and Adaptive tabs work.
-2. **http://localhost:3000/vmock/adaptive-interview** is the setup wizard: Get Started, Job description, Resume, Interview details.
+2. **http://localhost:3000/vmock/adaptive-interview** is the setup wizard: Get Started, Job description, Resume, Interview details. Interview details includes a placement stage (Not for placements, Summer placements, Final placements, Lateral or one-year MBA), which changes what the interviewer draws on: summers use work before the MBA, studies and activities; finals start from the summer internship; laterals ask about scope, trade-offs and why now.
 3. **Prepare Interview** opens the interview room, `/vmock/adaptive-interview/room`, which runs the student voice interview in VMock's recorder frame and ends on the feedback page.
 
 ## Feedback page

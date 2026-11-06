@@ -428,4 +428,4 @@ body.vm-room.live .topbar.rm-top { display: flex; }
   .rm-bottom { position: static; transform: none; width: auto; padding: 0 12px 24px; }
 }
 /* What this practice does not cover (cases, guesstimates, group discussions). */
-.rm-brief .rm-scope { margin: 0; font-size: 13px; line-height: 20px; color: var(--ink); }
+.rm-brief .rm-scope { margin: 12px 0 0; font-size: 13px; line-height: 20px; color: var(--ink); }
