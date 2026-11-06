@@ -137,9 +137,9 @@ Find a session id in **Past interviews** or in `sessions/`.
 
 v2 has two views:
 - **Summary:** the overall comment, the three VMock modules (Content Strength, Delivery of Speech, Non Verbal), your goal for next time, other things to work on, and every question at a glance with its result.
-- **Detailed Summary:** a list on the left (Overall, then each question) and one open item with Content Strength | Delivery of Speech | Non Verbal switches. For a question, Content Strength shows how to answer it next time first, then what you did (what went well and what to fix, quoting your answer), then your answers, follow-ups and the checklist. The page ends with your goal and **Practice again**.
+- **Detailed Summary:** a list on the left (Overall, then each question) and one open item with Content Strength | Delivery of Speech | Non Verbal switches. For a question, Content Strength shows how to answer it next time first, then what you did (what went well and what to fix, quoting your answer), then your answers, follow-ups, the checklist and More content checks. The page ends with your goal and **Practice again**.
 
-**Placeholders.** Delivery of Speech, Non Verbal and the STAR sub-checks are VMock placeholders: their values are invented from the session id until VMock's audio and video analysis is wired in. Content Strength is the real feedback. Add `&sources=1` to any feedback URL to outline every placeholder part in purple, labelled "VMock · hardcoded".
+**Placeholders.** Delivery of Speech, Non Verbal, More content checks and the STAR sub-checks are VMock placeholders: their values are invented from the session id until VMock's audio and video analysis is wired in. Content Strength is the real feedback. Add `&sources=1` to any feedback URL to outline every placeholder part in purple, labelled "VMock · hardcoded".
 
 Feedback uses VMock's levels only (Good job, On track, Needs work), never scores. Answers under 15 words get the steps for next time but no ratings.
 

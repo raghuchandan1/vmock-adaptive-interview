@@ -138,7 +138,7 @@
 
   // One question: the question as asked, then its three modules. Content Strength leads with how to answer it next
   // time, then what the student did, then the detail folded away.
-  function question(s, t, i, n, open, sig) {
+  function question(s, fb, t, i, n, open, sig) {
     const source = t.resume_line ? `<p class="fb-from"><span>From your resume</span>“${esc(t.resume_line)}”</p>`
       : t.jd_line ? `<p class="fb-from"><span>From the job description</span>${esc(t.jd_line)}</p>` : '';
     let content = nextTime(t, true);
@@ -151,7 +151,7 @@
       const well = t.went_well ? `<div class="fb-box well"><h4>What went well</h4>${quote(t.went_well_quote)}<p>${esc(t.went_well)}</p></div>` : '';
       if (well || fix.length) content += `<section class="fb-did"><h4 class="fb-sub-title">What you did</h4><div class="fb-pair">${well}${fix.join('')}</div></section>`;
     }
-    const extras = yourAnswer(s, t) + followUps(t) + groupedChecklist(t);
+    const extras = yourAnswer(s, t) + followUps(t) + groupedChecklist(t) + extraHtml(extraChecks(s, fb, t));
     if (extras) content += `<div class="fb-extras">${extras}</div>`;
     const p = sig.perQ.get(t.slot_id);
     const levels = levelsFor(t, sig);
@@ -271,7 +271,7 @@
     return `<div class="fb-practice">
       <nav class="fb-rail" aria-label="Questions"><ol role="tablist" aria-label="Questions" aria-orientation="vertical">${railItem(0, 'All', 'Overall', level, false)}${fb.topics.map((t, i) => railItem(i + 1, i + 1, topicName(t), levelsFor(t, sig), i === open)).join('')}</ol>
         <p class="fb-legend">Dots: what you said, how you sounded, how you looked.</p></nav>
-      <div class="fb-panes">${overallPane(fb, sig, level, n)}${fb.topics.map((t, i) => question(s, t, i, n, i === open, sig)).join('')}</div>
+      <div class="fb-panes">${overallPane(fb, sig, level, n)}${fb.topics.map((t, i) => question(s, fb, t, i, n, i === open, sig)).join('')}</div>
     </div>`;
   }
   // ---------- Delivery of Speech and Non Verbal: placeholder signals, per question like VMock ----------
@@ -405,6 +405,81 @@
       <p class="fb-param-next"><strong>${p.level ? 'Next step:' : 'Note:'}</strong> ${esc(p.next)}</p>
     </article>`;
   }
+
+  // ---------- More content checks: VMock's content parts that our feedback does not rate (placeholders) ----------
+  const RESOURCES = {
+    learning: [['Build a Story with STARR Framework', 'Article'], ['Demonstrate your value-add', 'Video · 1:19']],
+    skills: [['Express Skills with Examples', 'Article'], ['Use Specifics in Impact', 'Article']],
+    industry: [['Use Specifics in Impact', 'Article'], ['Keep listeners engaged', 'Video · 1:47']],
+    coverage: [['Build a Story with STARR Framework', 'Article'], ['Keep listeners engaged', 'Video · 1:47']],
+  };
+  // VMock's Topic coverage (key points it expects in the answer). shortcut: the same topics for every question, taken
+  // from VMock's own example, until real per-question key points exist; only the levels vary per question.
+  const COVERAGE = [
+    { name: 'Feature Prioritization', section: 'Topic coverage', checks: ['Understanding Customer Needs', 'Market Demand Analysis', 'Balancing Priorities'],
+      reason: 'Explain how you gather and read customer feedback, and how it decides what gets built first.',
+      sample: 'I start from what customers tell us through [surveys, interviews or support tickets], group it into [common pain points], and rank features by [how many users it affects and the effort].' },
+    { name: 'Feedback Mechanisms', section: 'Topic coverage', checks: ['Collecting Feedback', 'Acting on Feedback'],
+      reason: 'Name the channels you use to hear from users and one change you made because of them.',
+      sample: 'We collect feedback through [the channels], review it every [how often], and last quarter it led us to [a change you made].' },
+    { name: 'Prioritization Frameworks', section: 'Advanced concepts', checks: ['Framework Use', 'Trade-offs'],
+      reason: 'Mention a framework you use (for example RICE or MoSCoW) and a trade-off it helped you make.',
+      sample: 'I use [a framework] to compare options; when [two priorities clashed], it showed that [the choice you made and why].' },
+    { name: 'Long-term Planning', section: 'Advanced concepts', checks: ['Roadmap Thinking', 'Balancing Short and Long Term'],
+      reason: 'Show how today\'s choices fit a longer roadmap, not only the next release.',
+      sample: 'Beyond the next release, I keep [a longer-term goal] in view, so [how it changes what you pick now].' },
+  ];
+  function extraChecks(s, fb, t) {
+    if (t.too_short) return [];
+    const r = seeded(`${s.id}:${t.slot_id}:content`);
+    const pick = () => (r() < 0.4 ? 'needs_work' : r() < 0.75 ? 'on_track' : 'good_job');
+    const field = (s.plan?.jd?.role_title || s.inputs?.target_role || 'your field').replace(/,.*$/, '');
+    const topics = COVERAGE.map((c) => { const lv = pick(); return { ...c, level: lv, checks: c.checks.map((k) => [k, lv === 'good_job' ? 'good_job' : pick()]) }; });
+    const out = [{ id: 'coverage', name: 'Topic coverage', level: moduleLevel(topics.map((x) => x.level)), topics,
+      reason: (topics.find((x) => x.level !== 'good_job') || topics[0]).reason }];
+    if (t.rubric === 'behavioural') {
+      const lv = pick();
+      out.push({ id: 'learning', name: 'Learning & Reflection', level: lv, checks: [['Insight', lv], ['Future action', lv === 'good_job' ? 'good_job' : pick()]],
+        reason: lv === 'good_job' ? 'You closed with what you took away from the experience and how you use it now.' : 'You did not say what you learned from this experience or what you would do differently. Close the story with one lesson and how you use it now.',
+        sample: 'Looking back, the biggest lesson was [the lesson]. Since then I [what you do differently], which helped when [a later situation].' });
+      const skills = [...new Set([t.topic, ...(fb.jd_coverage || []).filter((c) => c.status === 'covered').map((c) => c.name)].filter(Boolean))].slice(0, 3);
+      const sl = skills.length >= 2 ? 'good_job' : skills.length ? 'on_track' : 'needs_work';
+      out.push({ id: 'skills', name: 'Skills', level: sl, skills,
+        reason: skills.length ? 'Skills that came through in this answer. Name the skill and back it with what you did.' : 'No clear skill came through. Name the skill this story shows and the action that proves it.' });
+    }
+    if (['knowledge', 'situational'].includes(t.rubric)) {
+      const lv = pick();
+      out.push({ id: 'industry', name: 'Industry Insights', level: lv, checks: [['Latest trends', lv], ['Innovative approaches', pick()]],
+        reason: lv === 'good_job' ? `You tied your answer to how teams in ${field} work today.` : `You did not connect your answer to how teams in ${field} handle this today. Mention one current practice or tool and why it matters.`,
+        sample: 'Many teams now [a current practice]. I have used that by [your example], because [why it matters].' });
+    }
+    return out;
+  }
+  // Topic coverage: one row per key topic (grouped as on VMock), each opening to what was checked and a sample.
+  const coverageHtml = (c) => {
+    const sections = [...new Set(c.topics.map((x) => x.section))];
+    return sections.map((sec) => {
+      const ts = c.topics.filter((x) => x.section === sec);
+      const need = ts.filter((x) => x.level !== 'good_job').length;
+      return `<div class="fb-cov"><div class="fb-cov-head"><span class="fb-eyebrow">${esc(sec)}</span><span>${need ? `${need} of ${ts.length} need attention` : 'All covered'}</span></div>
+        ${ts.map((x) => `<details class="fb-cov-topic"><summary>${chip(x.level)}<strong>${esc(x.name)}</strong></summary>
+          <div class="fb-checked-list"><span class="fb-eyebrow">What we checked</span>${x.checks.map(([k, lv]) => `<span class="fb-chip ${LEVEL[lv][1]}">${esc(k)}</span>`).join('')}</div>
+          ${x.level !== 'good_job' ? `<p>${esc(x.reason)}</p><div class="fb-better fb-example"><div class="fb-eyebrow">Sample response</div><p>${blanks(x.sample)}</p></div>` : '<p>Covered in your answer.</p>'}
+        </details>`).join('')}</div>`;
+    }).join('');
+  };
+  const extraHtml = (checks) => (checks.length ? `<details class="fb-more${V}"><summary>More content checks <span class="fb-count">${checks.length}</span></summary>
+      <div class="fb-extra">${checks.map((c) => c.topics ? `<div class="fb-extra-card">
+        <div class="fb-group-head"><h5>${esc(c.name)}</h5>${chip(c.level)}</div>${coverageHtml(c)}
+        ${c.level !== 'good_job' ? `<div class="fb-res"><span class="fb-eyebrow">Suggested resources</span>${RESOURCES.coverage.map(([title, kind]) => `<span class="fb-res-item"><svg class="ic" aria-hidden="true"><use href="#${kind.startsWith('Video') ? 'i-play' : 'i-doc'}"/></svg>${esc(title)}<em>${esc(kind)}</em></span>`).join('')}</div>` : ''}
+      </div>` : `<div class="fb-extra-card">
+        <div class="fb-group-head"><h5>${esc(c.name)}</h5>${chip(c.level)}</div>
+        ${c.checks ? `<div class="fb-checked-list"><span class="fb-eyebrow">What we checked</span>${c.checks.map(([k, lv]) => `<span class="fb-chip ${LEVEL[lv][1]}">${esc(k)}</span>`).join('')}</div>` : ''}
+        ${c.skills ? `<div class="fb-checked-list"><span class="fb-eyebrow">Skills detected</span>${c.skills.length ? c.skills.map((k) => `<span class="fb-skill">${esc(k)}</span>`).join('') : '<span class="fb-skill none">None detected</span>'}</div>` : ''}
+        <p>${esc(c.reason)}</p>
+        ${c.sample && c.level !== 'good_job' ? `<div class="fb-better fb-example"><div class="fb-eyebrow">Sample response</div><p>${blanks(c.sample)}</p></div>` : ''}
+        ${c.level !== 'good_job' ? `<div class="fb-res"><span class="fb-eyebrow">Suggested resources</span>${RESOURCES[c.id].map(([title, kind]) => `<span class="fb-res-item"><svg class="ic" aria-hidden="true"><use href="#${kind.startsWith('Video') ? 'i-play' : 'i-doc'}"/></svg>${esc(title)}<em>${esc(kind)}</em></span>`).join('')}</div>` : ''}
+      </div>`).join('')}</div></details>` : '');
 
   // One question's level in each module: ours for Content Strength, the placeholders' for Delivery and Non Verbal.
   const levelsFor = (t, sig) => {

@@ -468,3 +468,26 @@ body.vm-room:has(#screen-feedback:not([hidden])) #pastBtn { display: none; }
 }
 /* "Try this:" stays inline inside an open "Also work on" item (the item title rule makes its strong a block). */
 .fb-also-item .fb-try strong { display: inline; font-size: inherit; line-height: inherit; }
+
+/* ---------- More content checks (VMock placeholders), the last fold in a question's Content Strength ---------- */
+.fb-extra { padding: 0 14px 14px; display: grid; gap: 12px; }
+.fb-extra-card { padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; display: grid; gap: 10px; }
+.fb-extra-card > p { font-size: 13px; line-height: 20px; }
+.fb-extra-card .fb-better { margin-top: 0; }
+.fb-skill { padding: 2px 10px; border-radius: 999px; font-size: 12px; line-height: 18px; font-weight: 500; color: var(--primary-ink); background: var(--primary-10); }
+.fb-skill.none { color: var(--muted-ink); background: var(--chip); }
+.fb-res { display: grid; gap: 6px; }
+.fb-res-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; font-size: 13px; line-height: 18px; font-weight: 500; background: #f7f9fc; }
+.fb-res-item .ic { width: 16px; height: 16px; color: var(--primary-ink); }
+.fb-res-item em { margin-left: auto; font-style: normal; font-size: 12px; font-weight: 400; color: var(--muted-ink); }
+.fb-cov { display: grid; gap: 4px; }
+.fb-cov-head { display: flex; justify-content: space-between; align-items: baseline; padding: 4px 0; font-size: 12px; color: var(--muted-ink); }
+.fb-cov-head span:last-child { color: #c2372b; font-weight: 500; }
+.fb-cov-topic { border: 1px solid var(--border); border-radius: 8px; }
+.fb-cov-topic > summary { list-style: none; cursor: pointer; padding: 8px 10px; display: flex; align-items: center; gap: 10px; font-size: 13px; line-height: 20px; }
+.fb-cov-topic > summary::-webkit-details-marker { display: none; }
+.fb-cov-topic > summary::after { content: ""; margin-left: auto; width: 7px; height: 7px; border-right: 1.5px solid var(--muted-ink); border-bottom: 1.5px solid var(--muted-ink); transform: rotate(45deg); transition: transform .2s; }
+.fb-cov-topic[open] > summary::after { transform: rotate(-135deg); }
+.fb-cov-topic > summary:hover { background: #fafbfc; }
+.fb-cov-topic > :not(summary) { margin: 0 10px 10px; }
+.fb-cov-topic > p { font-size: 13px; line-height: 20px; }
