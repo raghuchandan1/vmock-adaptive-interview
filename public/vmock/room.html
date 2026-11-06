@@ -15,9 +15,9 @@
 <link rel="stylesheet" href="/student.css">
 <link rel="stylesheet" href="/vmock/room.css">
 <script>
-  // Feedback screen version: v2 by default (being reworked); ?fbview=v1 (or ?fbview=classic) loads the previous one for
-  // comparing. Only one version's CSS and JS load, since both use the same fb-* classes.
-  window.FB_FILE = /^(v1|classic)$/.test(new URLSearchParams(location.search).get('fbview')) ? 'feedback' : 'feedback-v2';
+  // Feedback screen version: v3 by default (no placeholders); ?fbview=v2 loads v2 (with VMock's placeholder modules),
+  // ?fbview=v1 (or ?fbview=classic) the first one, for comparing. Only one version's CSS and JS load (same fb-* classes).
+  window.FB_FILE = { v1: 'feedback', classic: 'feedback', v2: 'feedback-v2' }[new URLSearchParams(location.search).get('fbview')] || 'feedback-v3';
   document.write(`<link rel="stylesheet" href="/vmock/${FB_FILE}.css">`);
 </script>
 <script>
@@ -280,7 +280,7 @@
   </section>
 
   <!-- Feedback -->
-  <!-- Feedback (vmock/feedback-v2.js renders it; feedback.js with ?fbview=v1|classic): which interview, how it went, question by question, across the interview. -->
+  <!-- Feedback (vmock/feedback-v3.js renders it; feedback-v2.js with ?fbview=v2, feedback.js with ?fbview=v1|classic): which interview, how it went, question by question, across the interview. -->
   <section id="screen-feedback" class="screen rm-fb-screen" hidden>
     <div class="fb">
       <header class="fb-card fb-head">

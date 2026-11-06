@@ -80,7 +80,7 @@ prompts/turn.md      Turn system prompt
 prompts/feedback.md  Feedback system prompt
 prompts/grounding.md Grounding check for rewritten answers
 public/              Browser app: developer page (setup, interview, review) and student page
-public/vmock/        VMock replica: interview page, setup wizard, room, feedback v2 (default) and v1
+public/vmock/        VMock replica: interview page, setup wizard, room, feedback v3 (default), v2 and v1
 samples/             Fictional resumes and job descriptions
 sessions/            Saved sessions (created as you go)
 test/                Offline mock of the OpenAI API and end-to-end checks
@@ -129,25 +129,28 @@ The room's feedback page has three versions. All three show the same saved feedb
 
 | URL | Version |
 | --- | --- |
-| `/vmock/adaptive-interview/room?feedback=<id>` | **v2, the default** (`public/vmock/feedback-v2.js`, `.css`) |
-| `…&fbview=v1` | v1, the previous page, kept for comparing (`public/vmock/feedback.js`, `.css`) |
+| `/vmock/adaptive-interview/room?feedback=<id>` | **v3, the default**: only real feedback, no placeholders (`public/vmock/feedback-v3.js`, `.css`) |
+| `…&fbview=v2` | v2: the same layout plus VMock's placeholder modules (`public/vmock/feedback-v2.js`, `.css`) |
+| `…&fbview=v1` | v1, the first page, kept for comparing (`public/vmock/feedback.js`, `.css`) |
 | `…&fbview=classic` | v1's older content-only layout |
 
 Find a session id in **Past interviews** or in `sessions/`.
 
-v2 has two views:
+v3 and v2 have two views:
 - **Summary:** the overall comment, the three VMock modules (Content Strength, Delivery of Speech, Non Verbal), your goal for next time, other things to work on, and every question at a glance with its result.
 - **Detailed Summary:** a list on the left (Overall, then each question) and one open item with Content Strength | Delivery of Speech | Non Verbal switches. For a question, Content Strength shows how to answer it next time first, then what you did (what went well and what to fix, quoting your answer), then your answers, follow-ups, the checklist and More content checks. The page ends with your goal and **Practice again**.
 
-**Placeholders.** Delivery of Speech, Non Verbal, More content checks and the STAR sub-checks are VMock placeholders: their values are invented from the session id until VMock's audio and video analysis is wired in. Content Strength is the real feedback. Add `&sources=1` to any feedback URL to outline every placeholder part in purple, labelled "VMock · hardcoded".
+**Placeholders (v2 only).** Delivery of Speech, Non Verbal, More content checks and the STAR sub-checks are VMock placeholders: their values are invented from the session id until VMock's audio and video analysis is wired in. Content Strength is the real feedback. Add `&sources=1` to any feedback URL to outline every placeholder part in purple, labelled "VMock · hardcoded".
 
 Feedback uses VMock's levels only (Good job, On track, Needs work), never scores. Answers under 15 words get the steps for next time but no ratings.
+
+If no answer could be judged, there is no overall comment, goal or priorities. The goal links to the question it is best practised on, and the other priorities never repeat it. "What went well" and "What to fix" never quote the same words, a rewritten answer uses the numbers the resume line already gives, and the feedback never tells a student who already says "I" far more than "we" to say "I" more. Feedback saved before these rules (version 9 or older) is regenerated the next time it is opened.
 
 ## Known limits of this prototype
 
 - On the developer page, typed answers only. Voice is on the student page: push-to-talk, no live captions with OpenAI transcription (the answer text appears after it is sent), and about 5 to 10 s between an answer and the next question.
 - No numeric feedback scores. Students get qualitative feedback with VMock levels (see **Feedback page**), written by a model call after the interview (`POST /api/sessions/:id/feedback`). Quotes are checked verbatim and scores are stripped by `checkAndShapeFeedback`.
-- Delivery of Speech and Non Verbal on the VMock feedback page are placeholders, not real audio or video analysis.
+- Delivery of Speech and Non Verbal on the v2 feedback page are placeholders, not real audio or video analysis; v3 (the default) leaves them out.
 - The resume engine's flags and score band are simulated by the planner prompt.
 - PDF upload reads text only. Scanned or image PDFs need the text pasted in.
 - The web font and PDF reader load from public CDNs. Without internet, the page falls back to system fonts and PDF upload is unavailable.
