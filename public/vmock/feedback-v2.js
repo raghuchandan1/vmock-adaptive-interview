@@ -27,7 +27,7 @@
   const topicName = (t) => (t.kind === 'second_chance' ? `${t.topic || 'Earlier topic'} (second try)` : t.topic || KIND[t.kind] || 'Question');
   const quote = (q) => (q ? `<blockquote class="fb-quote">“${esc(q)}”</blockquote>` : '');
   // "[describe which tables…]" placeholders become fill-in boxes.
-  const blanks = (text) => esc(text).replace(/\[([^\]]+)\]/g, '<span class="fb-blank">$1</span>');
+  const blanks = (text) => esc(text).replace(/\[([^\]]+)\]/g, '<span class="fb-blank"><span class="sr">fill in: </span>$1</span>');
   function highlight(text, quotes) {
     let html = esc(text);
     for (const q of quotes.filter(Boolean)) html = html.replace(new RegExp(reEscape(esc(q)), 'i'), (m) => `<mark>${m}</mark>`);
@@ -95,12 +95,21 @@
       ${r.level !== 'good_job' ? `<p class="fb-sub-sample"><span class="fb-eyebrow">Sample line</span>${blanks(sub[1])}</p>` : ''}</div>`;
   };
 
+  const GROUP_HELP = {
+    'STAR/HSAR': 'Situation, Task, Action, Result: the parts of a story answer.',
+    'Depth & Clarity': 'How clearly you explain how and why.',
+    'Practical Application': 'How you would use it in a real situation.',
+    'Motivation & Fit': 'Why you want this role and why you suit it.',
+    'Learning & Reflection': 'What you learned and what you would do differently.',
+    'Handling follow-ups': 'How you answered when the interviewer asked for more.',
+  };
+  const groupHelp = (name) => (GROUP_HELP[name] ? `<p class="fb-group-help">${GROUP_HELP[name]}</p>` : '');
   function groupedChecklist(t) {
     const groups = groupsFor(t);
     if (!groups.length) return '';
     const n = groups.reduce((sum, g) => sum + g.items.length, 0);
     return `<details class="fb-more"><summary>What a strong answer covers <span class="fb-count">${n}</span></summary>
-      <div class="fb-groups">${groups.map((g) => `<div class="fb-group"><div class="fb-group-head"><h5>${esc(g.name)}</h5>${chip(moduleLevel(g.items.map((r) => r.level)))}</div>
+      <div class="fb-groups">${groups.map((g) => `<div class="fb-group"><div class="fb-group-head"><h5>${esc(g.name)}</h5>${chip(moduleLevel(g.items.map((r) => r.level)))}</div>${groupHelp(g.name)}
         <ul class="fb-checks">${g.items.map((r) => `<li>${chip(r.level)}<strong>${esc(r.label)}</strong><span>${esc(r.reason)}${r.found ? ` <em>${FOUND[r.found]}</em>` : ''}${r.quote ? `<q class="fb-rq">${esc(r.quote)}</q>` : ''}${g.name === 'STAR/HSAR' ? subChecks(r) : ''}</span></li>`).join('')}</ul></div>`).join('')}</div></details>`;
   }
 
@@ -123,7 +132,7 @@
       ${MODS.map((m, j) => `<div class="fb-modp" role="tabpanel" id="fb-modp-${key}-${m.id}" aria-labelledby="fb-mod-${key}-${m.id}" data-mod="${m.id}"${j === 0 ? '' : ' hidden'}>${bodies[m.id]}</div>`).join('')}`;
   }
   // Previous / Next between the items in the list (Overall is item 0, question i is item i + 1).
-  const paneNav = (k, total) => `<div class="fb-pane-nav">${k > 0 ? `<button class="vm-btn outline sm" type="button" data-go="${k - 1}">${k === 1 ? 'Overall' : 'Previous question'}</button>` : '<span></span>'}${k < total - 1 ? `<button class="vm-btn primary sm" type="button" data-go="${k + 1}">Next question</button>` : ''}</div>`;
+  const paneNav = (k, total) => `<div class="fb-pane-nav">${k > 0 ? `<button class="vm-btn outline sm" type="button" data-go="${k - 1}">${k === 1 ? 'Overall' : 'Previous question'}</button>` : '<span></span>'}${k < total - 1 ? `<button class="vm-btn primary sm" type="button" data-go="${k + 1}">Next question</button>` : '<button class="vm-btn primary sm" type="button" data-to-summary>Back to summary</button>'}</div>`;
   const NOT_MEASURED = '<p class="fb-short">This answer was too short to measure how you sounded and looked.</p>';
   const NOT_SEEN = '<p class="fb-short">Your face or upper body was not clearly visible in this answer, so body language could not be scored.</p>';
 
@@ -134,7 +143,7 @@
       : t.jd_line ? `<p class="fb-from"><span>From the job description</span>${esc(t.jd_line)}</p>` : '';
     let content = nextTime(t, true);
     if (t.too_short) {
-      content += '<p class="fb-short">Your answer here was too short to give feedback on. Use the steps above to prepare this one.</p>';
+      content += `<p class="fb-short">Your answer here was too short to give feedback on. Use the ${(t.answer_plan || []).length === 1 ? 'step' : 'steps'} above to prepare this one.</p>`;
     } else {
       const fix = [];
       if (t.resume_mismatch) fix.push(`<div class="fb-box fix"><h4>Doesn't match your resume</h4>${quote(t.resume_mismatch.quote)}<p>${esc(t.resume_mismatch.note)}</p>${t.resume_mismatch.tip ? `<p class="fb-tip">${esc(t.resume_mismatch.tip)}</p>` : ''}</div>`);
@@ -148,7 +157,7 @@
     const levels = levelsFor(t, sig);
     const delivery = p ? `<p class="fb-tab-intro">How your voice came across in this answer.</p><div class="fb-params">${p.delivery.map(paramCard).join('')}</div>` : NOT_MEASURED;
     const nonverbal = !p ? NOT_MEASURED : levels.nonverbal ? `<p class="fb-tab-intro">How you came across on camera in this answer.</p><div class="fb-params">${p.nonverbal.map(paramCard).join('')}</div>` : NOT_SEEN;
-    return `<article class="fb-q fb-pane" id="fb-q-${i}" tabindex="-1" aria-labelledby="fb-q-h-${i}"${open ? '' : ' hidden'}>
+    return `<article class="fb-q fb-pane" id="fb-q-${i}" role="tabpanel" tabindex="-1" aria-labelledby="fb-q-h-${i}"${open ? '' : ' hidden'}>
       <header class="fb-pane-head"><div class="fb-eyebrow">Question ${i + 1} of ${n}${KIND[t.kind] ? ` · ${KIND[t.kind]}` : ''}</div>
         <h3 id="fb-q-h-${i}">${esc(topicName(t))}</h3></header>
       <div class="fb-asked"><div class="fb-eyebrow">The question</div><p>${esc(t.question || '')}</p>${source}</div>
@@ -167,7 +176,7 @@
       delivery: sig.overall ? `${intro('How your voice came across, averaged over your answers.')}<div class="fb-params">${sig.overall.delivery.map(paramCard).join('')}</div>${byQuestionGrid(fb, sig, 'delivery')}` : none,
       nonverbal: sig.overall ? `${intro('How you came across on camera, averaged over your answers.')}<div class="fb-params">${sig.overall.nonverbal.map(paramCard).join('')}</div>${byQuestionGrid(fb, sig, 'nonverbal')}` : none,
     };
-    return `<article class="fb-q fb-pane" id="fb-q-overall" tabindex="-1" aria-labelledby="fb-q-h-overall" hidden>
+    return `<article class="fb-q fb-pane" id="fb-q-overall" role="tabpanel" tabindex="-1" aria-labelledby="fb-q-h-overall" hidden>
       <header class="fb-pane-head"><div class="fb-eyebrow">Across all ${plural(n, 'question')}</div><h3 id="fb-q-h-overall">Overall</h3></header>
       ${modSwitch('overall', level, bodies)}
       ${paneNav(0, n + 1)}
@@ -180,7 +189,7 @@
     const word = (lv) => (lv === 'too_short' ? 'Too short' : lv ? LEVEL[lv][0] : 'Not scored');
     return `<span class="fb-dots" aria-label="${esc(names.map((nm, j) => `${nm}: ${word(levels[MODS[j].id])}`).join(', '))}">${MODS.map((m) => { const lv = levels[m.id]; return `<i class="${LEVEL[lv] ? LEVEL[lv][1] : 'none'}"></i>`; }).join('')}</span>`;
   };
-  const railItem = (k, num, label, levels, open) => `<li><button class="fb-rail-item" type="button" data-k="${k}" aria-controls="${k === 0 ? 'fb-q-overall' : `fb-q-${k - 1}`}" aria-current="${open}" tabindex="${open ? 0 : -1}">
+  const railItem = (k, num, label, levels, open) => `<li role="presentation"><button class="fb-rail-item" type="button" role="tab" id="fb-rail-${k}" data-k="${k}" aria-controls="${k === 0 ? 'fb-q-overall' : `fb-q-${k - 1}`}" aria-selected="${open}" tabindex="${open ? 0 : -1}">
       <span class="fb-num${k === 0 ? ' all' : ''}">${num}</span><span class="fb-rail-text">${esc(label)}</span>${dotsFor(levels)}</button></li>`;
   function across(fb, skipFollowUps = false) { // the default layout shows follow-up handling as a Content Strength card
     const parts = [];
@@ -215,7 +224,7 @@
     const items = [...panel.querySelectorAll('.fb-rail-item')];
     const panes = [...panel.querySelectorAll('.fb-pane')];
     const select = (k, { scroll = false, focusItem = false } = {}) => {
-      items.forEach((b, j) => { b.setAttribute('aria-current', String(j === k)); b.tabIndex = j === k ? 0 : -1; });
+      items.forEach((b, j) => { b.setAttribute('aria-selected', String(j === k)); b.tabIndex = j === k ? 0 : -1; });
       panes.forEach((p, j) => { p.hidden = j !== k; });
       if (focusItem) items[k].focus();
       items[k].scrollIntoView({ block: 'nearest', inline: 'nearest' }); // the phone row scrolls sideways
@@ -228,7 +237,7 @@
       const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
       if (!step) return;
       e.preventDefault();
-      const cur = items.findIndex((b) => b.getAttribute('aria-current') === 'true');
+      const cur = items.findIndex((b) => b.getAttribute('aria-selected') === 'true');
       select((cur + step + items.length) % items.length, { focusItem: true });
     });
     panel.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => {
@@ -260,7 +269,7 @@
     const open = firstOpenOf(fb);
     const n = fb.topics.length;
     return `<div class="fb-practice">
-      <nav class="fb-rail" aria-label="Questions"><ol>${railItem(0, 'All', 'Overall', level, false)}${fb.topics.map((t, i) => railItem(i + 1, i + 1, topicName(t), levelsFor(t, sig), i === open)).join('')}</ol>
+      <nav class="fb-rail" aria-label="Questions"><ol role="tablist" aria-label="Questions" aria-orientation="vertical">${railItem(0, 'All', 'Overall', level, false)}${fb.topics.map((t, i) => railItem(i + 1, i + 1, topicName(t), levelsFor(t, sig), i === open)).join('')}</ol>
         <p class="fb-legend">Dots: what you said, how you sounded, how you looked.</p></nav>
       <div class="fb-panes">${overallPane(fb, sig, level, n)}${fb.topics.map((t, i) => question(s, t, i, n, i === open, sig)).join('')}</div>
     </div>`;
@@ -436,7 +445,7 @@
         return { label, level: moduleLevel(rs.map((r) => r.level)), good: rs.filter((r) => r.level === 'good_job').length, n: rs.length };
       });
       return `<article class="fb-card fb-param">
-        <div class="fb-param-head"><span class="fb-param-icon ${LEVEL[level][1]}" aria-hidden="true"><svg class="ic"><use href="#i-doc"/></svg></span><h3>${esc(name)}</h3>${chip(level)}</div>
+        <div class="fb-param-head"><span class="fb-param-icon ${LEVEL[level][1]}" aria-hidden="true"><svg class="ic"><use href="#i-doc"/></svg></span><h3>${esc(name)}</h3>${chip(level)}</div>${groupHelp(name)}
         <ul class="fb-elements">${labels.map((l) => `<li>${chip(l.level)}<strong>${esc(l.label)}</strong><span>Strong in ${l.good} of ${plural(l.n, 'answer')}</span></li>`).join('')}</ul>
         ${weak.length ? `<p class="fb-param-about">Work on it in: ${weak.map((u) => `<a class="fb-qlink" href="#fb-q-${u.i}" data-q="${u.i}">${u.i + 1}. ${esc(topicName(u.t))}</a>`).join(', ')}</p>` : '<p class="fb-param-about">Strong in every answer.</p>'}
         ${worstItem && worstItem.level !== 'good_job' ? `<p class="fb-param-next"><strong>Next step:</strong> ${esc(worstItem.reason)}</p>` : ''}
@@ -501,7 +510,7 @@
     const count = (v) => fb.topics.filter((t) => t.verdict === v).length; // too-short answers are not judged, so not counted
     const tally = ['good_job', 'on_track', 'needs_work'].filter(count).map((v) => `<span class="fb-chip ${LEVEL[v][1]}">${count(v)} ${LEVEL[v][0]}</span>`).join('');
     html += fb.topics.length ? `<section class="fb-card fb-glance" aria-labelledby="fbGlanceTitle">
-        <div class="fb-glance-head"><h2 class="fb-sec-title" id="fbGlanceTitle">Your questions at a glance</h2>${tally ? `<div class="fb-tally" aria-label="Results across your answers">${tally}</div>` : ''}</div>
+        <div class="fb-glance-head"><h2 class="fb-sec-title" id="fbGlanceTitle">Your questions at a glance</h2>${tally ? `<div class="fb-tally" role="group" aria-label="Results across your answers">${tally}</div>` : ''}</div>
         <ol class="fb-glance-list">${fb.topics.map((t, i) => `<li><button class="fb-glance-item" type="button" data-q="${i}">
           <span class="fb-num">${i + 1}</span><span class="fb-glance-text"><strong>${esc(topicName(t))}</strong><span>${esc(rowLine(t))}</span></span>
           ${t.too_short ? '<span class="fb-chip none">Too short</span>' : chip(t.verdict)}<svg class="ic fb-glance-chev" aria-hidden="true"><use href="#i-chev"/></svg></button></li>`).join('')}</ol>
@@ -511,6 +520,10 @@
 
     html += `<div class="fb-view" role="tabpanel" id="fb-view-detailed" aria-labelledby="fb-vtab-detailed" hidden>
       ${fb.topics.length ? practiceHtml(s, fb, sig, level) : EMPTY}
+      ${fb.topics.length && goal ? `<section class="fb-card fb-close" aria-labelledby="fbCloseTitle">
+        <div class="fb-goal-icon" aria-hidden="true"><svg class="ic"><use href="#i-target"/></svg></div>
+        <div><div class="fb-eyebrow">Your goal for next time</div><h2 id="fbCloseTitle">${esc(goal.title)}</h2>${goal.action ? `<p class="fb-try"><strong>Try this:</strong> ${esc(goal.action)}</p>` : ''}</div>
+        <button class="vm-btn primary sm" type="button" data-practice>Practice again</button></section>` : ''}
       ${across(fb, fb.topics.length > 0)}</div>`; // follow-up handling is a Content Strength card (Overall) when there are questions
     panel.innerHTML = html;
 
@@ -546,12 +559,15 @@
     if (seeAll) seeAll.addEventListener('click', () => showView('detailed'));
     if (!fb.topics.length) return;
     const practice = wirePractice(panel);
-    // A module card opens the Detailed Summary on the first question that needs work, on that module.
+    // A module card opens Overall in the Detailed Summary, on that module.
     panel.querySelectorAll('.fb-tile').forEach((b) => b.addEventListener('click', () => {
       showView('detailed');
       practice.setMod(b.dataset.tab);
-      practice.select(firstOpenOf(fb) + 1);
+      practice.select(0, { scroll: true });
     }));
+    panel.querySelectorAll('[data-to-summary]').forEach((b) => b.addEventListener('click', () => showView('summary', true)));
+    // Same as the header's "Practice again".
+    panel.querySelectorAll('[data-practice]').forEach((b) => b.addEventListener('click', () => document.getElementById('newBtn').click()));
     // A question in the Summary opens it in the Detailed Summary.
     panel.querySelectorAll('.fb-glance-item').forEach((b) => b.addEventListener('click', () => {
       showView('detailed');
