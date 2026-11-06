@@ -75,3 +75,24 @@ Two issues: the interviewer said "at Leading FMCG company" (it took the anonymis
 8. **Tell students what the mock does not cover:** group discussions, long cases and HR-round questions on salary and relocation.
 
 Items 1, 3, 4, 5 and 7 are prompt and schema changes in `prompts/planner.md`, `prompts/turn.md`, `lib/schemas.js` and `lib/engine.js` (`RUBRICS`, `rubricKey`). Item 2 is a new interview mode. The research note's evidence for operations and product is thin (no IIM Mumbai account quotes a recruiter question, and most first-hand accounts are from other IIMs, 2015-2022), so test the new question types with IIM placement committees or students, starting with IIM Mumbai, before release.
+
+## Changes made and re-test (same day)
+
+Items 3 to 8 above were built (guesstimates and cases stay in VMock's own modules). The same 18 plans were re-run with the changes:
+
+| | Before | After |
+|---|---|---|
+| Domain-knowledge questions | 0 | 6 (one in every hiring manager interview) |
+| Interviews that name the student's career move | 7 of 18 | 16 of 18 |
+| Planned "what would you do differently" follow-ups | 0 | 8 |
+| Topics on case competitions or club results | 2 | 1 (work and internship claims still rank higher) |
+| Anonymised JD company spoken as a name | 2 | 0 |
+
+Examples of the new knowledge questions: "When a business unit is choosing between two competing capex proposals, how would you decide which one deserves funding?" (finance), "Suppose a home-care brand is losing share in tier-2 cities. How would you choose between changing its price-pack and increasing in-store visibility?" (marketing), "Suppose forecast accuracy for a portfolio of FMCG SKUs fell for three months; how would you decide what to examine first?" (supply chain), "A retailer sees conversion rise after a new promotion. How would you tell whether the promotion caused the improvement?" (analytics).
+
+A live finance interview checked the follow-ups and feedback. A weak first answer ("choose the higher IRR") drew "What would make you choose IRR over NPV when the two measures point to different projects?", and then a question on payback. The feedback rated it on the knowledge rubric: Accuracy good job after the follow-up, Depth on track, Real example not given.
+
+Still open:
+- The marketing knowledge question can sit close to the student's own internship project (price-pack vs visibility after a price-pack internship). Consider a rule that the knowledge topic avoids the subject of a claim topic.
+- Case-competition results are still rarely chosen for students with work experience.
+- The knowledge topic can feel like a quiz when it gets three follow-ups (IRR, then NPV, then payback); a budget of one or two for knowledge topics may fit better.
