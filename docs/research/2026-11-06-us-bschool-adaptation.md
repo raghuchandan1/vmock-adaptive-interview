@@ -5,7 +5,7 @@ Research note, 6 November 2026. It contrasts US MBA recruiting with the three II
 - [Do our interview questions fit IIM placements?](2026-11-06-iim-placement-question-fit.md) (the "fit note")
 - [Placement interviews at the top Indian B-schools](2026-11-06-top-bschool-placement-interviews.md) (the "format note")
 
-The parked IIM to-do list (`docs/TODO.md` on the `feedback-v2` worktree) is called "IIM TODO" below. Cases and guesstimates stay out of scope: VMock has separate modules for them.
+The parked IIM to-do list (`docs/TODO.md`) is called "IIM TODO" below. Cases and guesstimates stay out of scope: VMock has separate modules for them.
 
 **Focus.** This note is about what the interviewer and the product must change to be good for US MBA students, the way the IIM work added placement stages, knowledge questions and fit questions. What a US school's procurement will ask for (FERPA, accessibility, security reviews) is summarised in the appendix. It is research, not legal advice.
 

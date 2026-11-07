@@ -1,6 +1,6 @@
 # US B-school enhancements (parked)
 
-Parked on 2026-11-07 for after a US pilot. Each item's evidence, files to change and size are in [the US research note](research/2026-11-06-us-bschool-adaptation.md), "Changes needed"; numbers below are the note's item numbers. The Indian B-school list is `docs/TODO.md` (on the `feedback-v2` worktree); items that overlap it should be built once for both markets.
+Parked on 2026-11-07 for after a US pilot. Each item's evidence, files to change and size are in [the US research note](research/2026-11-06-us-bschool-adaptation.md), "Changes needed"; numbers below are the note's item numbers. The Indian B-school list is `docs/TODO.md`; items that overlap it should be built once for both markets.
 
 ## Done for the pilot
 
