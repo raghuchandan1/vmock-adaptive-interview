@@ -340,7 +340,72 @@ This check reads the prompts and engine on `main` (after the placement-stage and
 | Questions never to ask in the US (citizenship, arrests, salary history) | Prompt lists omit them (`planner.md:92`, `prompts/turn.md:121`); no code guard | Partial |
 | US spelling and examples | "Indian B-schools especially" (`planner.md:68`), "tier-2 towns" (`:142`), "a large Indian conglomerate" (`:77`), "practise" and "summarise" in prompts | Mismatch |
 
-**Next test, as for IIM:** write six fictional US profiles (consulting, banking, tech PM, CPG brand, a career switcher, a part-time advancement case), plan each in the three interview types, and run one live interview per profile after items 1-8 below are built. Count "why this firm" questions, fit questions, lesson probes and knowledge slots before and after.
+### 6.1 Test with six US profiles (7 November 2026)
+
+**How we tested.** The test ran after the pilot changes (items 5 and 8) and before any other US item was built.
+- **Six fictional US MBA profiles, each with a matching job description:**
+  - consulting: a manufacturing engineer targeting a strategy summer associate role
+  - banking: an international student and former auditor targeting an investment-banking summer associate role; the resume says "F-1 student, eligible for STEM OPT"
+  - tech PM: a second-year student, formerly a software engineer, after a PM internship, targeting full-time PM
+  - brand: an advertising account supervisor targeting an Associate Brand Manager internship
+  - career switcher: a high-school teacher targeting a leadership development (rotational) program
+  - part-time advancement: an Evening MBA student and hospital operations analyst targeting an internal Operations Manager promotion
+- **Settings:** first-years used stage `summers`, the PM profile `finals`, and the part-time profile no stage. All used `market: "us"`, Balanced style and the 15-minute length.
+- **Planner runs:** each profile was planned in all three interview types, 18 real planner runs in all (gpt-5.6-luna, 22-39 s each). All 18 succeeded.
+- **Live interviews:** one full hiring-manager interview per profile through the real server, with feedback. A second model played the student from the resume, with a style per profile (concise, vague on results, long-winded, nervous at first).
+- **Where the data is:** the profiles and scripts were kept out of the repo. The 24 sessions are in `sessions/`, with ids from 2026-11-07.
+
+**What the 18 plans asked**
+
+| | Count | Notes |
+|---|---|---|
+| Domain-knowledge slots in hiring-manager interviews | 4 of 6 | Banking and tech PM, as intended. Consulting and brand had none, as intended. **The rotational program and the operations promotion also got one, which the US rule should have prevented** (below). |
+| Motivation names the target firm or role | 12 of 12 | Every recruiter-screen and hiring-manager plan. It also named the student's move ("You've spent six years in advertising. What's pulling you toward brand management at Meadowfield Foods?"). |
+| Standard fit question (failure, disagreement, strength) | 7 of 18 plans | At most one per plan, as the cap allows. Four of the seven were "What would your team or classmates say is your biggest strength?" |
+| Planned "what you learned / do differently" follow-ups | 5 probes in 18 plans | Only the finals PM profile and a few claim topics. As expected without item 6. |
+| Career switch asked as a "concern" topic | 3 of 6 resume deep dives | Banking, tech PM and brand. The question itself was neutral ("How are you thinking about that move?"), but it is judged on the concern rubric (item 7). |
+| Activity or club topic | 10 of 18 | Consulting club, investment fund, Brand Challenge, mock trial |
+| Questions on protected topics, visas or salary | 0 | The international banking student was never asked about work authorization or nationality. |
+| Indian wording in questions ("placements", "CGPA", "tier-2") | 0 | |
+| Same competency on two topics | 11 of 18 | Mostly resume deep dives, where claims from one job map to one competency. Also 2 of 6 hiring-manager plans. |
+| Fewer topics than asked | 1 of 18 | Consulting resume deep dive: the planner took three claims from one job, the engine dropped the third, and the interview had 3 topics instead of 4. |
+
+Example questions:
+- "I see you reduced annual scrap costs through a weld-defect project. How did you determine that the fix was working?" (consulting)
+- "When valuing an industrial company for a potential acquisition, how would you decide which assumptions deserve the most scrutiny?" (banking knowledge)
+- "If an onboarding experiment reached only 20% of accounts, how would you decide whether it improved activation?" (tech PM knowledge)
+- "I see you redesigned the ninth-grade curriculum at Lincoln Park Academy. How did you bring the four teachers into that change?" (switcher)
+
+**The knowledge rule leaked in 2 of 6 hiring-manager plans.** The US rule keeps the knowledge slot for finance and technical roles only. Two plans broke it:
+- **The leadership development program** (general management) got "How would you decide what to bring to a senior leader when a manufacturing project was falling behind plan?". That question is behavioural in substance but typed and judged as knowledge.
+- **The operations manager promotion** got "How would you set and manage the budget for a scheduling function serving two hospitals?". The rule names operations as behavioural in the US, but this role's JD lists owning a budget, and the planner treated that as a domain skill.
+
+The fix is to tighten the wording in `prompts/planner.md` (slot 3 exception). Options: name rotational and leadership programs explicitly, and say a JD responsibility such as a budget does not make an operations or general-management role technical. Or have the engine reject a knowledge slot when `market` is `us` and the role is not finance or technical.
+
+**Live interviews (six hiring-manager interviews)**
+- **Length:**
+  - 12-15 interviewer turns (the limit is 20) and 11-14 answers each.
+  - The simulated answers had a median of 151-172 words: about 70 seconds spoken, inside Tepper's 2-minute guidance.
+  - No answer triggered the long-answer rule.
+  - Wall-clock times (1-3 minutes) are not meaningful, because the simulated student answered instantly.
+- **Follow-ups:**
+  - Up to 3 per topic (the consulting weld-defect claim used all 3).
+  - Motivation topics mostly closed with no follow-up.
+  - The wording guard rewrote 5 interviewer messages: two asks in one question (3), an agenda word (1), and offered options (1).
+- **Interviewer wording:** no interviewer message mentioned visas, nationality, salary or other protected topics, and none used Indian wording.
+- **Feedback:**
+  - Verdicts: 14 "Good job", 10 "On track" and no "Needs work", for students simulated as fairly strong.
+  - Every report had a goal and 2-3 priorities tied to the student's own answers ("Make outcomes concrete", "Lead with the action", "Name the evidence behind the recommendation").
+  - The commonest fix was the one US coaches name: answers explained the process but stopped short of the result or the specific decision.
+- **US spelling:**
+  - 2 of 6 feedback reports told the student to "Practise…" (British spelling; item 1).
+  - `behavioural` appears only as an internal rubric name, which students do not see.
+
+**What this means for the pilot:**
+- The core interview and feedback work for US students without changes.
+- Two quick fixes are worth making before a pilot: the knowledge-rule leak for general-management and operations roles, and US spelling in feedback (part of item 1).
+- The other findings confirm parked items: switches judged as concerns (item 7), few "what you learned" probes (item 6), and a single fit question that is usually "biggest strength" (item 4).
+- Repeated competencies in resume deep dives were already noted after the 30-minute round test.
 
 ## 7. What US recruiters and coaches ask for, by topic
 
