@@ -131,8 +131,8 @@ Same markup contract and `student.js` as `vmock/room.html` (lobby, live call, fe
   browser pane blocks the camera), so this one is designed in the dashboard style rather than
   copied.
 - `data-setup-url` depends on the entry: `/dashboard/smart-interviews/practice/adaptive/setup?entry=<entry>&back=1`,
-  set from the handoff's `entry` (or `?entry=` when opened directly). "New interview" goes to the
-  same setup with no `back`.
+  set from the handoff's `entry` (or `?entry=` when opened directly). "Practice again" goes to the
+  same setup with the last inputs, as on `/vmock`. "Past interviews" goes to the entry page.
 
 ### 4. Feedback (`dash/feedback.js`, `dash/feedback.css`)
 

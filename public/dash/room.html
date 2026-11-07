@@ -79,6 +79,13 @@
 <script>
   document.getElementById('homeLink').href = ROOM_HOME;
   document.getElementById('productName').textContent = ROOM_PRODUCT;
+  // Past interviews live on each product's entry page here, not in student.js's mixed list: both buttons go there
+  // (capture phase, so student.js's own handler never runs).
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#pastBtn, #fbPastBtn')) return;
+    e.stopImmediatePropagation();
+    location.href = ROOM_HOME;
+  }, true);
 </script>
 
 <main id="main">
