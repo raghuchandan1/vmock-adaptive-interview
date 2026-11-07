@@ -76,6 +76,7 @@ Also: a 30-second networking-pitch drill for the October-December networking sea
 
    California and Illinois statutes were read on FindLaw mirrors because the official sites refused. BIPA §10, 820 ILCS 42 and NYC Admin Code §20-870 are search summaries.
 6. **No US student or career-center staff were asked.** As with the IIM notes, the next step is to put these findings to two or three career centers.
+7. **Some quotes were reconstructed.** The research agents' fetch tool sometimes dropped short words ("the", "to", "than") from page text. Words restored by the agent are in [brackets], mostly in section 7. Quotes elsewhere may have the same problem. Re-check any quote against its page before it goes into student-facing copy or marketing.
 
 ### Evidence labels
 
@@ -343,7 +344,7 @@ This check reads the prompts and engine on `main` (after the placement-stage and
 
 ## 7. What US recruiters and coaches ask for, by topic
 
-Read from recruiters' and schools' own pages and club casebooks after the fit check above. Each subsection ends with the product changes it suggests; the agreed versions are items 16-23 in "Changes needed". The fetch tool dropped some short words from page text: words in [brackets] were restored, so re-check any quote before it goes into student-facing copy.
+Read from recruiters' and schools' own pages and club casebooks after the fit check above. Each subsection ends with the product changes it suggests; the agreed versions are items 3-6, 16-23, 26 and 34-35 in "Changes needed". The fetch tool dropped some short words from page text: words in [brackets] were restored, so re-check any quote before it goes into student-facing copy.
 
 ### 7.1 "Why this firm / function / industry"
 
@@ -437,7 +438,7 @@ Read from recruiters' and schools' own pages and club casebooks after the fit ch
   - The interview is also "[a] chance [to] ask us questions… We believe two-way communication starts Day 1, so ask away".
   - The helper's read of the same page gave sample prompts: "Give an example of a time when you created something new" and "Tell me about a time when you worked with others".
   - P&G now says candidates must "conduct any interviews on [your] own without any real-time help – from others or [the] use [of] technology such as Artificial Intelligence (AI)". That is fine for a practice tool used before the interview, but **our marketing must never suggest use during a real interview**.
-- **General Mills:** the official posting for the Associate Brand Manager internship (10 weeks, Minneapolis, leading to the Brand Leadership Development Program) lists "Entrepreneurial qualities necessary for driving the P&L", "high learning agility", and "analytical and decision-making skills" ([General Mills ABM internship posting](https://genmills.wd1.myworkdayjobs.com/en-US/GMI_External_Careers/job/Internship---Associate-Brand-Manager_10128703)) [Search summary only].
+- **General Mills:** the official posting for the Associate Brand Manager internship (10 weeks, Minneapolis, leading to the Brand Leadership Development Program) lists entrepreneurial qualities for driving the P&L, high learning agility, and analytical and decision-making skills ([General Mills ABM internship posting](https://genmills.wd1.myworkdayjobs.com/en-US/GMI_External_Careers/job/Internship---Associate-Brand-Manager_10128703)) [Search summary only].
   - Candidate reports describe "2x 45 minute behavioral and functional interviews" in January-February [Anecdote, Glassdoor].
   - Reported questions: "Describe how you leveraged data to solve a problem" and a workplace-conflict question [Anecdote].
 - **Kraft Heinz:** no official process page found. Candidates report recorded video interviews with "5 to 6 behavioural questions" (30 seconds to think, 2 minutes to answer), and in-person questions on "leadership, data, and taking risks" [Anecdote, Glassdoor].
@@ -486,7 +487,7 @@ Read from recruiters' and schools' own pages and club casebooks after the fit ch
   - The top level uses STAR with thorough stories and connects answers to the position.
   - The bottom level lacks specific examples.
 - **Miami University (Ohio):** a 1-5 scale. It covers first impression, content (tell me about yourself, behaviour-based and career-specific questions), interview skills and closing. Items include answering clearly and completely, using the CAR method, and seeming prepared but not rehearsed ([Miami](https://miamioh.edu/emss/_files/documents/career-services/pdfs/miff.pdf)) [Search summary only].
-- **Texas Tech:** the form ends with "would you hire this student or advance [them] to a second level interview?" ([Texas Tech](https://www.depts.ttu.edu/careercenter/documents/MockInterviewRubric.pdf)) [Search summary only].
+- **Texas Tech:** the form ends by asking whether the reviewer would hire the student or advance them to a second-level interview ([Texas Tech](https://www.depts.ttu.edu/careercenter/documents/MockInterviewRubric.pdf)) [Search summary only].
 - **Consulting clubs rate attributes, not answer parts.** The Kellogg 2012 casebook lists Confidence, Eloquence, Amicability, Engagement, Leadership, Drive and Genuine Interest (section 1) [First-hand, read by the earlier helper].
 
 #### Comparison with ours
@@ -964,7 +965,7 @@ These need accounts first (Appendix, item A1): a dashboard or coach sharing is n
 
 34. **Full coffee-chat simulation.** The student leads a 15-30 minute conversation with an AI professional at the target firm. A persona that talks about its own career conflicts with our rule never to invent facts (`prompts/turn.md`). It would need a labelled fictional persona or a school-supplied firm profile. **Size:** L. Wait for a school to ask; start with item 21.
 
-35. **A coach-style closing line.** University forms end with a verdict such as "would you hire this student or advance [them] to a second level interview?" (Texas Tech) [Search summary only]. PRODUCT.md avoids scores, so if added it stays one qualitative sentence tied to the goal. **Size:** S. **Product decision.**
+35. **A coach-style closing line.** University forms end with a verdict, such as whether the reviewer would hire the student or advance them to a second-level interview (Texas Tech) [Search summary only]. PRODUCT.md avoids scores, so if added it stays one qualitative sentence tied to the goal. **Size:** S. **Product decision.**
 
 36. **Marketing copy: practice before, never during.** P&G now asks candidates to "conduct any interviews on [your] own without any real-time help – from others or [the] use [of] technology such as Artificial Intelligence (AI)". A practice tool used beforehand is fine, but nothing we publish should suggest use during a real interview. **Size:** S.
 
@@ -981,6 +982,9 @@ These need accounts first (Appendix, item A1): a dashboard or coach sharing is n
 - **Colorado:** the X.AI v. Weiser order and whether Illinois HB 3773 rules are final.
 - **Other numbers:** UT McCombs' 56% internship conversion, the Wharton Class of 2026 international share, GWU, BYU, Cornell and BU framework pages, and Fuqua and Ross peer-coach details (all search summaries).
 - **Bank superdays and BCG rounds:** prep-site anecdotes only.
+- **Section 7, search summaries only:** the Princeton (HTTP 403), BYU (no extractable text), Miami and Texas Tech mock-interview forms; the Johns Hopkins Carey consulting list; the General Mills internship posting; the Wharton Marketing Club and MBACM 101 pages; the Breaking Into Wall Street guide; the Duke finance club guide.
+- **Section 7, anecdote only:** Kraft Heinz and General Mills interview reports (Glassdoor), banking "why now" and market questions, and all advice on reusing stories across superday interviewers.
+- **McKinsey:** its interviewing page timed out again in the second round of research.
 
 ## Sources
 
@@ -1085,6 +1089,32 @@ These need accounts first (Appendix, item A1): a dashboard or coach sharing is n
 - CSUN Nazarian (VMock): https://nazariancareers.csun.edu/resources/vmock-elevator-pitch/
 - FIU mock interviews: https://career.fiu.edu/resources/mock-interviews/
 - USC (unverified): https://careers.usc.edu/resources/smart-resume/
+
+**Other pages cited in the body (sections 1 and 7)**
+- Hacking the Case Interview: https://www.hackingthecaseinterview.com/
+- UMich events: https://events.umich.edu/event/77519
+- GMAC: https://www.gmac.com/resources/learners/business-careers/career-planning/how-to-get-into-investment-banking
+- PNAS: https://www.pnas.org/doi/10.1073/pnas.1915768117
+- Haas Consulting Club 2019: https://s3.amazonaws.com/thinkific/file_uploads/163260/attachments/a3c/7d5/a54/Haas_2019.pdf
+- JHU Carey: https://carey.jhu.edu/sites/default/files/2019-09/consulting_interview_questions.pdf
+- ibinterviewquestions.com: https://ibinterviewquestions.com/blog/mba-investment-banking-recruiting-guide
+- BIWS PDF on voices.uchicago.edu: https://bpb-us-w2.wpmucdn.com/voices.uchicago.edu/dist/8/3622/files/2025/09/400-IB-Questions-Interview-Guide.pdf
+- Microsoft interview tips: https://careers.microsoft.com/v2/global/en/hiring-tips/interview-tips.html
+- Glassdoor, Kraft Heinz: https://www.glassdoor.com/Interview/Kraft-Heinz-Company-Interview-Questions-E1026712.htm
+- Amazon interview loop: https://www.amazon.jobs/content/en/how-we-hire/interview-loop
+- General Mills ABM internship posting: https://genmills.wd1.myworkdayjobs.com/en-US/GMI_External_Careers/job/Internship---Associate-Brand-Manager_10128703
+- BYU mock-interview rubric handout: https://careers.byu.edu/00000197-7f5a-df36-a7df-7f7a9e210001/mock-interview-rubric-handout
+- BYU mock-interview rubric (older): https://careers.byu.edu/00000170-ef47-dd0b-af75-ffcfb45a0000/mock-interview-rubric
+- Princeton: https://careerdevelopment.princeton.edu/interview-guide/interview-rubric
+- Miami: https://miamioh.edu/emss/_files/documents/career-services/pdfs/miff.pdf
+- Texas Tech: https://www.depts.ttu.edu/careercenter/documents/MockInterviewRubric.pdf
+- Wharton Marketing Club: https://www.whartonmarketingclub.com/career-development
+- Wharton MBACM 101, 2016: https://mba-inside.wharton.upenn.edu/wp-content/uploads/2016/08/mbacm101_2016.pdf
+- Purdue Daniels: https://business.purdue.edu/careers/resources/prepare-for-informational-interviews.php
+- PrepLounge thread: https://www.preplounge.com/consulting-forum/can-i-repeat-stories-for-fit-interview-24164
+- Hacking the Case Interview: https://www.hackingthecaseinterview.com/pages/consulting-superday
+- Mergers & Inquisitions: https://mergersandinquisitions.com/superday/
+- Yale SOM CDO: https://cdo.som.yale.edu/blog/2026/05/18/20-best-questions-to-ask-at-the-end-of-an-interview/
 
 ## Appendix: before a school contract
 
