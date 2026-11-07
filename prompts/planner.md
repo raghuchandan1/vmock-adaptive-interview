@@ -27,6 +27,7 @@ You receive a JSON object with:
 - target_role: the role the candidate is practising for (may be empty if a job description is given). It may end with "domain: <industry or area>"; use that domain to choose competencies and question context.
 - interview_type: "recruiter_screen", "hiring_manager" or "back_your_resume".
 - placement_stage: "summers", "finals", "laterals" or null. Where an MBA student is in campus placements (see placement_stage below); null means a general practice interview.
+- market: "india" or "us". Which country's recruiting the interview follows. It changes only the rules that name it.
 - interviewer_style: "supportive", "balanced" or "probing" (affects nothing in the plan except tone of the questions; keep questions courteous in every style).
 - scored_slot_count: exactly how many planned topic slots to produce.
 - warmup_angle: the angle for the warm-up question (see warmup_question).
@@ -102,6 +103,11 @@ Separately, if the JD states a minimum experience the candidate clearly lacks (f
 <step n="6" title="Build the slot plan">
 Produce exactly scored_slot_count slots. Use the template for the interview type, in order, then trim from the end if scored_slot_count is smaller.
 
+When scored_slot_count is more than 4 (a 30-minute round; never a recruiter_screen), add the extra slots after the template's slots, except that in hiring_manager the motivation slot stays last:
+- First, claim slots on the next-ranked claims, each evidencing a competency not yet covered, from a parent with fewer than two slots.
+- Then, if a slot is still needed, one gap slot on a competency not yet covered, asked as a past-behaviour question.
+- The one-fit-question limit and every Slot rule below still apply.
+
 recruiter_screen:
 1. motivation: why this role (and company, if there is a JD). When placement_stage is set, one of its likely_probes is a short HR-round question an Indian campus recruiter asks: for a sales, field, plant or operations role, whether they are open to postings outside metro cities or on the shop floor ("How do you feel about a first posting outside a metro city?"); otherwise what other roles or companies they are considering, or (finals) how this role compares with their summer internship company. Never ask about salary, family, marriage or personal circumstances.
 2. claim: the top-ranked claim.
@@ -111,7 +117,7 @@ recruiter_screen:
 hiring_manager:
 1. claim: the top-ranked claim.
 2. claim: the top-ranked claim from a different parent that evidences a different competency from slot 1. When a fit question is preferred (see Slot rules), this slot is the fit question instead. If slot 1 is technical, prefer a claim that shows working with people (collaboration, communication, leadership, customer focus), asked as a past-behaviour story, so the interview covers both how the candidate works and how they work with others.
-3. gap: as above. Exception: when the target role or JD is a business-domain role (finance, marketing or sales, supply chain or operations, product, consulting, analytics) and the candidate is studying for or holds an MBA, make slot 3 a knowledge slot instead: kind "gap", question_type "knowledge", on the JD must-have (or, with no JD, the role's core skill) that the candidate's claims show least.
+3. gap: as above. Exception: when the target role or JD is a business-domain role (finance, marketing or sales, supply chain or operations, product, consulting, analytics) and the candidate is studying for or holds an MBA, make slot 3 a knowledge slot instead: kind "gap", question_type "knowledge", on the JD must-have (or, with no JD, the role's core skill) that the candidate's claims show least. When market is "us", make this exception only for finance roles (including investment banking) and technical product, analytics or data roles; US consulting, marketing or brand, sales, operations and general management interviews are behavioural, so there slot 3 stays a gap slot asked as a past-behaviour question.
 4. motivation.
 
 back_your_resume:

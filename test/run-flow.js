@@ -85,6 +85,18 @@ const get = async (p) => (await fetch(BASE + p)).json();
   let trace = await get(`/api/sessions/${id}/trace`);
   check(trace.plan_trace.note && /reasoning_effort/.test(trace.plan_trace.note), 'retries without reasoning_effort when a model rejects it');
   check(JSON.parse(trace.plan_trace.request_user_message).placement_stage === null, 'the planner gets placement_stage (null when not for placements)');
+  check(JSON.parse(trace.plan_trace.request_user_message).market === 'india' && trace.inputs.market === 'india', 'the market defaults to india');
+  {
+    const base = { resume_text: resume, jd_text: jd, target_role: '', interview_type: 'hiring_manager', style: 'balanced' };
+    const us = await post('/api/sessions', { ...base, length: 'full', market: 'us' });
+    const usTrace = await get(`/api/sessions/${us.id}/trace`);
+    const sent = JSON.parse(usTrace.plan_trace.request_user_message);
+    check(sent.market === 'us' && sent.scored_slot_count === 6 && us.pre_brief.minutes === 30 && /30 minutes/.test(us.transcript[0].text),
+      'the 30-minute round asks the planner for 6 topics, says 30 minutes, and passes the US market');
+    check(await post('/api/sessions', { ...base, length: 'full', interview_type: 'recruiter_screen' }).then(() => false, (e) => /30-minute round/.test(e.message)),
+      'the 30-minute round is refused for a recruiter screen');
+    check(await post('/api/sessions', { ...base, length: 'standard', market: 'uk' }).then(() => false, (e) => /market/.test(e.message)), 'an unknown market is refused');
+  }
   const { fitAngle, FIT_ANGLES } = require('../lib/engine');
   check(JSON.parse(trace.plan_trace.request_user_message).fit_angle === fitAngle(trace.inputs.seed) && new Set([0, 1, 2].map(fitAngle)).size === FIT_ANGLES.length,
     'the planner gets a fit question angle that rotates across sessions');

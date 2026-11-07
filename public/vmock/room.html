@@ -132,6 +132,7 @@
             <div class="segmented">
               <label><input type="radio" name="length" value="short"><span>About 10 min</span></label>
               <label><input type="radio" name="length" value="standard" checked><span>About 15 min</span></label>
+              <label><input type="radio" name="length" value="full"><span>About 30 min</span></label>
             </div>
           </fieldset>
           <p class="error" id="setupError" role="alert" hidden></p>
@@ -324,7 +325,7 @@
   (() => {
     const TYPE = { recruiter_screen: 'Screening round', hiring_manager: 'Hiring manager round', back_your_resume: 'Resume deep dive' };
     const STYLE = { supportive: 'Friendly style', balanced: 'Standard style', probing: 'Challenging style', surprise: 'Surprise style' };
-    const MIN = { short: '10 min', standard: '15 min' };
+    const MIN = { short: '10 min', standard: '15 min', full: '30 min' };
     const STAGE = { summers: 'Summer placements', finals: 'Final placements', laterals: 'Lateral hiring' };
     let s = null;
     try { s = JSON.parse(sessionStorage.getItem('vmock_adaptive_setup') || 'null'); } catch (_) { /* storage blocked */ }

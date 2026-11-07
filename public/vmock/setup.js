@@ -127,6 +127,16 @@
     location.href = '/vmock/adaptive-interview/room';
   }
 
+  // The 30-minute round is not offered for a recruiter screen (the server refuses it too).
+  function syncLength() {
+    const full = document.querySelector('input[name="length"][value="full"]');
+    if (!full) return;
+    const screen = document.querySelector('input[name="type"]:checked')?.value === 'recruiter_screen';
+    full.closest('label').style.display = screen ? 'none' : '';
+    if (screen && full.checked) document.querySelector('input[name="length"][value="standard"]').checked = true;
+  }
+  document.addEventListener('change', (e) => { if (e.target.name === 'type') syncLength(); });
+
   // Back from the room ("Change setup", "New interview", or a failed preparation): reopen on the last step with the
   // inputs the student already gave.
   function restoreLast() {
@@ -143,6 +153,7 @@
       const radio = document.querySelector(`input[name="${name}"][value="${CSS.escape(String(last[key] || ''))}"]`);
       if (radio) radio.checked = true;
     }
+    syncLength();
     const sample = state.resumes.find((r) => r.text === last.resume_text);
     if (sample) state.resumeId = sample.id;
     else addResume({ id: 'last', name: String(last.resume_name || 'Your resume'), meta: 'From your last setup', source: 'Last used', text: String(last.resume_text) });
