@@ -5,61 +5,38 @@ Research note, 6 November 2026. It contrasts US MBA recruiting with the three II
 - [Do our interview questions fit IIM placements?](2026-11-06-iim-placement-question-fit.md) (the "fit note")
 - [Placement interviews at the top Indian B-schools](2026-11-06-top-bschool-placement-interviews.md) (the "format note")
 
-The parked IIM to-do list (`docs/TODO.md` on the `feedback-v2` worktree) is called "IIM TODO" below. Cases and guesstimates stay out of scope: VMock has separate modules for them. This note is research, not legal advice. Counsel should confirm every legal point before a contract is signed.
+The parked IIM to-do list (`docs/TODO.md` on the `feedback-v2` worktree) is called "IIM TODO" below. Cases and guesstimates stay out of scope: VMock has separate modules for them.
+
+**Focus.** This note is about what the interviewer and the product must change to be good for US MBA students, the way the IIM work added placement stages, knowledge questions and fit questions. What a US school's procurement will ask for (FERPA, accessibility, security reviews) is summarised in the appendix. It is research, not legal advice.
 
 ## Summary
 
-- **The biggest gap is compliance and procurement, not interview content.** A US school will ask for the following before a pilot:
-  - a FERPA "school official" contract
-  - WCAG 2.1 AA conformance and an Accessibility Conformance Report
-  - a HECVAT
-  - usually SOC 2 Type 2
-  - a data processing agreement that covers OpenAI as a subprocessor
+**What already fits.** The core of our interviewer is what US recruiters say they do. They ask about resume stories and dig into "the 'what' and 'how' of your experiences, as well as the 'why' of your decisions" (Amazon), "your decisions, not the context" and "'I'…not 'We'" (Kellogg casebook), and a quantified result (Tepper, MIT). Our claim topics already probe own part, then decisions, then the number.
 
-  The prototype has no accounts. Its `GET /api/sessions` lists every session to anyone. It keeps resumes, transcripts and raw model inputs and outputs on disk with no retention limit. On day one, that would be a FERPA disclosure problem.
-- **The behavioural interview is longer in the US and is a scored round of its own.** It is not a 5-minute warm-up before a case:
-  - P&G interviews are behavioural and "last around 45-60 minutes".
-  - An Amazon PM loop is "five 55-minute interviews", and each interviewer asks "two or three behavioral-based questions".
-  - Consulting fits a short fit section around the case: Darden's casebook gives "Fit Question 5 Mins", and a Kellogg casebook gives "3 fit questions" before each case.
-  - McKinsey runs a separate personal experience interview (PEI) that goes deep on one experience.
+**What a US student would find missing or wrong:**
+- **Behavioural stories are the whole interview, not one fit slot.** P&G interviews are behavioural and "last around 45-60 minutes". Amazon interviewers each ask "two or three behavioral-based questions". Students prepare "2 stories for each attribute" (Kellogg) and 6-10 stories in all (Tepper). Our planner allows at most one standard fit question, from three angles, in a 10- or 15-minute interview.
+- **"Tell me about yourself" is a scored pitch.** Fuqua: "no more than 2-3 minutes", "Start with a 'headline'", "Not be a chronology". Kellogg drills a 30-second version. Ours is an unscored "walk me through your career".
+- **A lesson is expected.** Kellogg teaches STAR-L, Darden "a learning element", MIT "what you learned". We ask for it only on finals internship topics.
+- **Career switching is the normal story.** About 80% of Wharton's Class of 2025 changed industry, function or both. We sometimes route a switch to a "concerns" topic judged on not "blaming or deflecting".
+- **Domain-knowledge questions mostly do not belong.** We now ask one in every MBA business-role hiring-manager interview, as IIM panels do. Bain, P&G and Amazon publish behavioural interviews; only banking mixes in technicals.
+- **McKinsey's personal experience interview goes deeper than our budgets.** It is one story with many follow-ups; our deepest style allows 3 (plus 1 on claim topics). This rests on a search summary: McKinsey's page did not load.
+- **Stages and words are Indian.** `summers`, `finals` and `laterals`, CGPA, "tier-2 towns", British spelling. US students say first-year internship, full-time, recruiting, superday, coffee chat. Part-time and Executive MBA students mostly cannot recruit on campus, so they need an "advancement" stage.
+- **A diverse class needs fair speech recognition.** OpenAI's Whisper card reports "disparate performance on different accents and dialects", and the feedback quotes the transcript verbatim.
+- **International students (about a third at HBS) need to practise the sponsorship question,** but only the two questions the US Justice Department accepts, opt-in and unscored. The never-ask list also needs citizenship, arrests and salary history.
 
-  IIM personals, by contrast, are about 5 minutes.
-- **STAR is the shared language, and US schools teach it explicitly.**
-  - Tepper says STAR is "widely and successfully used by MBA students". It asks for 6-10 written stories of about 2 minutes ("not more than 3"), and asks "Is your result quantifiable?"
-  - MIT, Kellogg and Darden add a lesson or learning step.
+**What career centers expect around the interviewer.** Big Interview's PracticeAI, Yoodli and others already ask adaptive voice follow-ups, so adaptivity is not our edge; grounded, quote-based feedback is. Schools also expect coach and peer sharing (Wharton Career Fellows, Kellogg Career Peers run most mocks), cohort dashboards, assigned questions and SSO.
 
-  Our behavioural rubric already matches STAR. The new parts are a "what you learned" element and a story length closer to 2 minutes than the IIM 1-minute norm.
-- **Career switching is the normal case, not a concern.** In Wharton's Class of 2025, about 80% changed industry, function or both. The "why MBA, why now, why this function" story is coached by career centers and practised as a 30-second pitch (Kellogg) and a 2-3 minute "Tell me about yourself" (Fuqua).
-- **Recruiting runs on each school's own calendar, not a placement week:**
-  - At Booth, employers may not host recruiting events for first-years before 12 October 2026. Internship interviews begin 4 January 2027, and internship offers stay open until 29 January 2027.
-  - Second-years interview for full-time roles from October.
-  - We found no MBA CSEA rule on recruiting dates. CSEA publishes employment-reporting standards; the dates are school policy.
-- **About a third of a top US class is international, and work authorization is a real interview question.** Interviewers may lawfully ask only two questions: whether the student is authorized to work in the US, and whether they will need sponsorship. Our prompts ban "nationality" outright. Practising the sponsorship answer must be opt-in, and the interviewer must never ask about citizenship.
-- **US equal employment law widens the never-ask list.** On top of what our prompts already ban, the list needs:
-  - citizenship
-  - arrest and conviction records
-  - salary history (banned in California, New York and Illinois)
-  - height and weight
-  - "where are you from"
+**Top changes, in order** (details in "Changes needed"):
+1. A market setting (India or US) that switches stages, examples, spelling and the rules below.
+2. US stages: first-year internship, second-year full-time, one-year or experienced, and a new part-time and EMBA "advancement" stage.
+3. "Tell me about yourself" as a scored pitch of about 2 minutes.
+4. Two attribute or fit questions in US hiring-manager interviews, from a wider set of angles.
+5. A 30-minute full behavioural round.
+6. A "what you learned" element in the behavioural rubric.
+7. A switch is always the motivation question, never a concern.
+8. The knowledge slot only for finance, banking and technical roles in the US.
 
-  These should be enforced in code, not only in the prompt.
-- **US employment-AI laws do not reach a practice tool.** NYC Local Law 144, the Illinois AI Video Interview Act and Illinois HB 3773 all key on an employer screening applicants or employees. Colorado's new ADMT law (effective 1 January 2027) excludes tools that are not used for "consequential decisions". Contracts and an acceptable-use policy should keep it that way. Biometric law (Illinois BIPA, Texas CUBI) is a real risk for VMock's Delivery and Non Verbal modules, not for this interviewer.
-- **Career centers already buy AI interview practice with adaptive voice follow-ups.**
-  - Big Interview's PracticeAI, Yoodli, InterviewFocus, Huru and Prentus all say they ask follow-ups.
-  - Big Interview advertises the full university package: SSO, Canvas LTI, coach review, custom assignments, a WCAG 2.1 AA statement with an ACR, and a HECVAT.
-
-  Our difference has to be the grounded, quote-based feedback, not adaptivity.
-- **Part-time and Executive MBA students mostly do not recruit on campus.** For example:
-  - Booth EMBA: "We do not offer on-campus job recruitment".
-  - Stern part-time: no access to summer internship recruiting.
-  - Kellogg One-Year: "no internship".
-
-  They need an "advance in my current employer" or "experienced hire" mode more than a summer-internship mode.
-
-**Main product implications:**
-- Must-haves before a pilot: accounts and school tenancy, retention and deletion, OpenAI zero data retention with US data residency, a consent and AI-disclosure screen, a WCAG audit, HECVAT and SOC 2.
-- Interviewer changes: a US market setting (spelling, examples, stages), a scored pitch, a "learning" element, a longer behavioural round, a deep-dive style for McKinsey-type interviews, opt-in work-authorization practice, and a code-enforced list of questions never to ask.
-- Platform: SSO, an admin dashboard, and coach and peer review. Details are in "Changes needed".
+Also: a deep-dive style for McKinsey-type interviews, a code-enforced never-ask list, opt-in work-authorization practice, an accent test with a transcript check, and coach sharing.
 
 ### US and IIM at a glance
 
@@ -249,144 +226,7 @@ These are the IIM notes' labels plus four new ones:
 
 No vendor made a public FERPA claim. Admin analytics, custom question sets, coach review and adaptive follow-ups are close to table stakes. Only Big Interview publishes accessibility, LMS and HECVAT documents.
 
-## 4. Compliance and procurement
-
-### What the prototype does today (from the code)
-
-- **Audio leaves our servers:** each spoken answer's audio is sent to OpenAI `/v1/audio/transcriptions`, and interviewer lines go to `/v1/audio/speech` (`lib/voice.js`).
-- **Model calls go to OpenAI too:** planner, turn, feedback and grounding all call Chat Completions (`lib/openai.js`). The request body sets no `store` field.
-- **Everything is kept on local disk with no time limit:** `sessions/<id>.json` holds the resume, the JD, every transcript, and the raw model inputs and outputs (`server.js`).
-- **Anyone can see every interview:** there are no accounts, and `GET /api/sessions` lists every session to anyone ("Past interviews").
-- **The camera is not recorded:** it is shown only to the student (PRODUCT.md).
-- **Accessibility is "Best effort, no formal standard yet"** (PRODUCT.md).
-  - Answers are capped at 3 minutes (`MAX_ANSWER_MS = 180000` in `public/student.js`), with a warning 30 seconds before the cap.
-  - Both pages have `aria-live` regions.
-  - The IIM TODO already notes a 3.8:1 hover contrast on the room's segmented controls.
-- **The interviewer never says it is an AI** in its opening (`openingText` in `lib/engine.js`).
-- **Delivery of Speech and Non Verbal are placeholders** in the feedback v1 and v2 views, generated from the session id. v3 drops them.
-
-### FERPA
-
-- **A vendor can see student records only as a "school official", and only under three conditions.** 34 CFR 99.31(a)(1)(i)(B) says an outside party "may be considered a school official" provided it "(1) Performs an institutional service or function for which the agency or institution would otherwise use employees; (2) Is under the direct control of the agency or institution with respect to the use and maintenance of education records; and (3) Is subject to the requirements of § 99.33(a)" ([eCFR 99.31](https://www.ecfr.gov/current/title-34/subtitle-A/part-99/subpart-D/section-99.31)) [Statute/regulation, read].
-- **Use is limited and onward disclosure is barred.** Under 99.33(a), the party "will not disclose the information to any other party without the prior consent of the parent or eligible student" and "may use the information, but only for the purposes for which the disclosure was made" [Statute/regulation, read].
-- **FERPA covers MBA students.** An "Eligible student" is "a student who has reached 18 years of age or is attending an institution of postsecondary education" ([34 CFR 99.3](https://www.law.cornell.edu/cfr/text/34/99.3)) [Statute/regulation, read].
-- **FERPA applies when the school contracts for the tool.** Education records include records "Maintained by an educational agency or institution or by a party acting for the agency or institution". When a school buys the tool, interview records are education records held for the school.
-- **What the contract should say.** The Department's Privacy Technical Assistance Center (PTAC) guidance says:
-  - "in practice, schools and districts wishing to outsource services will usually be able to establish direct control through a contract signed by both the school or district and the provider".
-  - The contract should "Define the specific purposes for which the provider may use student information… specify in the agreement how the school or district will be exercising 'direct control'… Include data archival and destruction requirements".
-  - Source: [PTAC, Online Educational Services, 2014](https://studentprivacy.ed.gov/sites/default/files/resource_document/file/Student%20Privacy%20and%20Online%20Educational%20Services%20(February%202014)_0.pdf) [Official guidance, read].
-- **PTAC's model terms checklist** covers data collection, use, mining, sharing, marketing, modification of terms, access and security. It warns that "Click-Wrap agreements may lead to violations of FERPA" ([PTAC TOS guidance, 2016](https://studentprivacy.ed.gov/sites/default/files/resource_document/file/TOS_Guidance_Mar2016.pdf)) [Official guidance, read].
-
-**Implications:** a school must be able to see, export and delete its students' interviews. No one outside that school may see them. VMock may use them only for the contracted purpose: that means **not** for training or tuning prompts unless the contract allows it. Raw model logs kept for quality review count as education records too.
-
-### State student-privacy laws
-
-- **California SOPIPA is K-12 only.** It covers operators whose service is used "primarily for K-12 school purposes"; "'Pupil' means a student enrolled in a K-12 course of instruction" ([Bus. & Prof. Code 22584](https://codes.findlaw.com/ca/business-and-professions-code/bpc-sect-22584/)) [Statute, mirror].
-- **Illinois SOPPA is also K-12 only.** It covers operators of services "used primarily for K through 12 school purposes" (105 ILCS 85/5) [Search summary only].
-- **Neither reaches an MBA program.** We found no state student-privacy law that broadly covers higher-education vendors. The brief named SOPIPA as an example, but it does not apply here.
-
-### Biometrics: Illinois BIPA, Texas, Washington
-
-- **Illinois BIPA covers voiceprints and face geometry.** A "Biometric identifier" means "a retina or iris scan, fingerprint, voiceprint, or scan of hand or face geometry" (740 ILCS 14/10) [Search summary only].
-  - Section 15 requires a public retention schedule, destruction "within 3 years of the individual's last interaction" at most, and informing the person "in writing" with "a written release executed by the subject" ([740 ILCS 14/15](https://codes.findlaw.com/il/chapter-740-civil-liabilities/il-st-sect-740-14-15/)) [Statute, mirror].
-  - A 2024 amendment allows an electronic signature [Search summary only].
-- **Some universities escaped BIPA claims, but that may not protect a vendor.** Northwestern and DePaul had remote-proctoring BIPA suits dismissed because they counted as financial institutions under the Gramm-Leach-Bliley Act (14/25(c)) [Search summary only]. Whether that shields a vendor is unclear.
-- **Texas CUBI** bars capturing "a retina or iris scan, fingerprint, voiceprint, or record of hand or face geometry" for a commercial purpose without notice and consent (Bus. & Com. Code 503.001) [Statute, mirror].
-- **Washington** excludes "video or audio recording or data generated therefrom" ([RCW 19.375.010](https://app.leg.wa.gov/RCW/default.aspx?cite=19.375.010)) [Statute/regulation, read].
-- **Whether speech-delivery analysis creates a "voiceprint" is unsettled.** We found no authoritative text either way.
-- **For this prototype:** the interviewer transcribes speech and does not identify speakers, so BIPA risk is low. The risk belongs to VMock's real Delivery of Speech and, above all, Non Verbal (face) modules. If they run on US students, they need a BIPA-style written release and a published retention schedule for Illinois and Texas users. **The placeholder Delivery and Non Verbal cards (feedback v1 and v2) must not be shown to US students as real feedback.**
-
-### Employment-AI laws do not reach a practice tool
-
-- **NYC Local Law 144:** an AEDT is a tool "used to substantially assist or replace discretionary decision making for making employment decisions"; an "Employment decision" means "to screen candidates for employment or employees for promotion within the city" (Admin Code 20-870) [Search summary only]. The DCWP FAQ ties it to jobs located in NYC and to screening "at any point in the hiring or promotion process" ([DCWP AEDT FAQ](https://www.nyc.gov/assets/dca/downloads/pdf/about/DCWP-AEDT-FAQ.pdf)) [Official guidance, read]. **No one is screened for a job, so it does not apply.**
-- **Illinois AI Video Interview Act:** it applies to "An employer that asks applicants to record video interviews and uses an artificial intelligence analysis… when considering applicants for positions based in Illinois" (820 ILCS 42/5) [Search summary only]. **There is no employer and no applicant, so it does not apply.**
-- **Illinois HB 3773** (775 ILCS 5/2-102(L), from 1 January 2026) covers an employer's use of AI "With respect to recruitment, hiring, promotion" [Search summary only]. **It does not apply, for the same reason.**
-- **Colorado.** SB 24-205 was repealed and re-enacted as SB 26-189, "Automated Decision-Making Technology", signed 14 May 2026. It "takes effect January 1, 2027". Source: [Colorado SB 26-189](https://leg.colorado.gov/bill_files/116489/download) [Statute/regulation, read].
-  - A "consequential decision" relates to a "covered domain", which includes "AN EDUCATION ENROLLMENT OR AN EDUCATION OPPORTUNITY" and "EMPLOYMENT OR AN EMPLOYMENT OPPORTUNITY".
-  - It excludes "ROUTINE ACADEMIC ADMINISTRATION AND STUDENT SUPPORT PROCESSES THAT DO NOT MATERIALLY INFLUENCE A CONSEQUENTIAL DECISION".
-  - It also excludes content-generating technology that is "NOT CONTRACTED, ADVERTISED, MARKETED, CONFIGURED, OR INTENDED… TO BE USED IN A CONSEQUENTIAL DECISION" and "SUBJECT TO AN ACCEPTABLE USE POLICY THAT PROHIBITS GENERATED CONTENT TO BE USED IN A CONSEQUENTIAL DECISION".
-  - **Conclusion:** a practice tool is likely outside the law, **as long as** contracts, marketing and an acceptable-use policy bar using results for admission, grading, club or trek selection, or ranking students for recruiters.
-  - It is uncertain if a school uses results to rank students. A reported April 2026 court order (X.AI v. Weiser) may also affect enforcement [Search summary only].
-
-### Recording consent and AI disclosure
-
-- **California** bars recording a confidential communication "without the consent of all parties" (Penal Code 632). It also bars learning the contents of a message "in transit" without consent, which reaches anyone who "aids" that (Penal Code 631). The second is the theory used against third-party processors [Statute, mirror].
-- **Illinois** requires use "in a surreptitious manner", with "the consent of all of the parties" as the exception (720 ILCS 5/14-2) [Statute, mirror].
-- **California's bot law** (Bus. & Prof. Code 17941) bars bots used "with the intent to mislead" about their artificial identity to drive a sale or a vote. It does not cover a disclosed AI interviewer [Statute, mirror].
-- **We found no federal Education Department rule requiring AI disclosure.**
-- **Prudent step:** before the lobby, a screen says four things:
-  1. The interviewer is an AI.
-  2. Answers are recorded and sent to OpenAI for transcription.
-  3. Transcripts and feedback are stored for a stated period.
-  4. Who at the school can see them.
-
-  The student then ticks "I agree". That one screen covers both all-party-consent statutes.
-
-### Equal employment: what an interviewer must never ask
-
-- **EEOC:** inquiries "should be limited to those essential for determining if a person is qualified for the job"; "information regarding race, sex, national origin, age, and religion are irrelevant"; "Employers are explicitly prohibited from making pre-offer inquiries about disability" ([EEOC prohibited practices](https://www.eeoc.gov/prohibited-employment-policiespractices)) [Official guidance, read].
-- **Marital status and children:** "Questions about marital status and number and ages of children are frequently used to discriminate against women". This includes pregnancy and "Child care arrangements" ([EEOC](https://www.eeoc.gov/pre-employment-inquiries-and-marital-status-or-number-children)) [Official guidance, read].
-- **Citizenship:** employers "should not ask whether or not a job applicant is a United States citizen before making an offer of employment" ([EEOC](https://www.eeoc.gov/pre-employment-inquiries-and-citizenship)) [Official guidance, read].
-- **Arrests:** "An employer cannot refuse to hire people simply because they have been arrested" ([EEOC](https://www.eeoc.gov/pre-employment-inquiries-and-arrest-conviction)) [Official guidance, read].
-- **Height and weight** should be avoided unless job-related. **Religion:** avoid questions on place and days of worship [Search summary only].
-- **Disability:** "At the pre-offer stage, an employer cannot ask questions that are likely to elicit information about a disability" ([EEOC ADA guidance](https://www.eeoc.gov/laws/guidance/enforcement-guidance-preemployment-disability-related-questions-and-medical); 29 CFR 1630.13(a)) [Official guidance, read].
-- **Work authorization: only two questions are safe.** DOJ's Immigrant and Employee Rights Section (IER) says employers may ask "1. Are you legally authorized to work in the United States? 2. Will you now or in the future require sponsorship for employment visa status (e.g., H-1B visa status)?" It "has repeatedly cautioned employers against using pre-screening questions (beyond the two questions IER has deemed appropriate)" ([IER letter, Sept 2022](https://www.justice.gov/media/1248166/dl); [IER FAQ](https://www.justice.gov/crt/iers-frequently-asked-questions-faqs)) [Official guidance, read].
-- **Salary history** is banned in several states:
-  - California: an employer "shall not… seek salary history information" (Labor Code 432.3) [Statute, mirror].
-  - New York Labor Law 194-a [Statute/regulation, read].
-  - Illinois 820 ILCS 112/10 [Statute, mirror].
-- **How the prototype compares.** `prompts/turn.md` and `prompts/planner.md` ban age, health, disability, family, marital status, pregnancy, religion, caste, nationality, ethnicity, gender and sexuality.
-  - **Missing from the list:** citizenship as distinct from nationality, arrest or conviction records, salary history, height and weight, and "where are you from". Hometown is a normal IIM question (format note) but a national-origin risk in the US.
-  - **Enforced only by the prompts:** unlike agenda leaks or praise, nothing in `lib/engine.js` checks these topics.
-
-### Accessibility
-
-- **Public universities: the DOJ Title II rule.** It sets "The Web Content Accessibility Guidelines (WCAG) Version 2.1, Level AA" as the standard ([ada.gov fact sheet](https://www.ada.gov/resources/2024-03-08-web-rule/)) [Official, read].
-  - **The deadlines moved.** An interim final rule published 20 April 2026 replaced "April 24, 2026" with "April 26, 2027", and "April 26, 2027" with "April 26, 2028" ([2026 IFR](https://www.ada.gov/assets/pdfs/2026-ifr.pdf)) [Statute/regulation, read]. Large public entities (population 50,000+) must comply by 26 April 2027, smaller ones by 26 April 2028. The rule "solely extends" the dates.
-  - **It covers vendors.** The rule covers content provided "directly or through contractual, licensing, or other arrangements". DOJ adds: "Your public entity can't contract away its responsibilities under the ADA" ([ada.gov first steps](https://www.ada.gov/resources/web-rule-first-steps/)) [Official, read].
-  - **What this means:** a public university buying the tool in 2027 will require WCAG 2.1 AA.
-- **Private universities:** they fall under ADA Title III and under Section 504 through federal student aid, which the Education Department's Office for Civil Rights enforces online [Search summary only]. They usually ask for the same standard.
-- **The usual evidence is a VPAT.** A completed VPAT is an Accessibility Conformance Report (ACR). The current template is "VPAT® Version 2.5Rev (April 2025)", and its WCAG edition uses WCAG 2.2 ([ITI VPAT](https://www.itic.org/policy/accessibility/vpat)) [Official, read].
-- **WCAG 2.1 criteria that matter most for a voice interview** ([WCAG 2.1](https://www.w3.org/TR/WCAG21/)) [Official, read]:
-  - **2.2.1 Timing Adjustable (A):** each time limit must be removable, adjustable to "at least ten times the length of the default setting", or extendable with a warning. Our 3-minute answer cap has a warning but no way to extend it. The interview length and the time rule that drops topics also need an extended-time setting, a common disability accommodation.
-  - **2.1.1 Keyboard (A):** Space push-to-talk is a good start. Every control in setup, the lobby and the feedback needs checking.
-  - **4.1.3 Status Messages (AA):** "Recording", "Transcribing" and the time warning must be announced without moving focus. `aria-live` exists; it needs testing with a screen reader.
-  - **1.2.x (captions):** the interviewer's line is always shown as text, which covers the spoken prompts. Live audio-only captions are AAA, so they are not required.
-  - **Typing as an alternative to speaking** is the main accommodation for students who cannot speak or who stutter. Keep it as a full equal path, not a fallback.
-
-### Security reviews: HECVAT and SOC 2
-
-- **HECVAT is the standard questionnaire.** HECVAT 4 (January 2025) merges the old Full, Lite and On-Prem versions into one file. It adds AI questions (mapped to NIST AI 600-1 and others), a privacy section and accessibility questions. The current version is reported as 4.1.6, completed once a year ([EDUCAUSE Review](https://er.educause.edu/articles/2025/2/hecvat-4-better-than-ever); [EDUCAUSE HECVAT](https://www.educause.edu/higher-education-community-vendor-assessment-toolkit)) [Search summary only; educause.edu returned 403]. The University of California says HECVAT is "used by over 100 universities" ([UC for suppliers](https://security.ucop.edu/resources/for-suppliers.html)) [Official, read].
-- **The University of California's requirements:**
-  - Appendix DS "must be included in all agreements where the supplier has access to UC Institutional Information".
-  - It accepts a "Completed and reviewed HECVAT" or a "SOC Type 2 Report" as evidence.
-  - It classes data as P1-P4. FERPA records are P3 [Search summary only for P3].
-- **UT Austin's AI rules:** Controlled or Confidential data may go only into AI tools "covered by contracts explicitly protecting university data", and the contract must ensure the data "is not utilized for training models" ([UT Austin AI tools](https://security.utexas.edu/ai-tools)) [Official, read].
-- **SOC 2** reports on controls against the Trust Services Criteria (Security, Availability, Processing Integrity, Confidentiality, Privacy). Type 2 adds operating effectiveness over a period ([AICPA](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2)) [Official, read for the categories; Search summary only for Type 1 and Type 2].
-
-### OpenAI data handling
-
-All from [OpenAI "your data"](https://developers.openai.com/api/docs/guides/your-data) [Vendor official, read] unless noted.
-
-- **No training by default:** API data is "not used to train or improve OpenAI models (unless you explicitly opt in…)".
-- **Abuse-monitoring logs** are "retained for up to 30 days, unless longer retention is required by law".
-- **By endpoint:**
-  - Chat Completions: 30 days of abuse monitoring.
-  - `/v1/audio/transcriptions`: "None".
-  - `/v1/audio/speech`: 30 days.
-  - All three are eligible for zero data retention (ZDR). ZDR is "subject to prior approval by OpenAI".
-- **Chat Completions does not store by default:** `store` defaults to `false` ([API reference](https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create)) [Vendor official, read]. Our code leaves it unset, so nothing is stored for later retrieval. The 30-day abuse log still applies without ZDR.
-- **US data residency** is set per project. Chat Completions supports US storage and processing; the audio endpoints also list the US. The helper's reading merged two tables, so confirm the exact cells in the console.
-- **The DPA:**
-  - A DPA exists ([OpenAI DPA PDF](https://cdn.openai.com/pdf/openai-data-processing-addendum.pdf)) [Vendor official, read].
-  - The openai.com policy page reportedly mentions FERPA support [Search summary only; 403].
-  - OpenAI says the NYT litigation preservation duty ended on 26 September 2025 [Search summary only].
-
-**Implications:**
-- Pilot schools will expect a production project with ZDR on all three endpoints, US residency and OpenAI listed as a subprocessor in the DPA.
-- The Settings page that lets anyone paste an API key into server memory must go.
-
-## 5. Content and language
+## 4. Content and language
 
 ### Behavioural frameworks and our follow-up ladder
 
@@ -452,7 +292,7 @@ All from [OpenAI "your data"](https://developers.openai.com/api/docs/guides/your
   - Never comment on accent, appearance or anything linked to a protected characteristic.
   - Avoid "culture fit" and personality labels ("not confident", "too aggressive"). Comment on the answer, not the speaker.
 
-## 6. Program types
+## 5. Program types
 
 - **Full-time two-year MBA:** first-year internship recruiting, then full-time recruiting, often with a return offer (section 2). This is the main market.
 - **One-year MBA:** no internship.
@@ -473,6 +313,30 @@ All from [OpenAI "your data"](https://developers.openai.com/api/docs/guides/your
 
 This is inference, not evidence.
 
+## 6. How our interviewer fits US interviews today
+
+This check reads the prompts and engine on `main` (after the placement-stage and fit-question commits) against sections 1-5. Unlike the IIM fit note, it ran no live planner sessions: that is the next test (see the end of this section).
+
+| What US interviews do | Our interviewer today | Fit |
+|---|---|---|
+| Resume stories with "the 'what' and 'how'… as well as the 'why' of your decisions" (Amazon); "emphasize your decisions, not the context" (Kellogg) | Claim slots probe own part, then decisions, then the number behind a result (`prompts/planner.md:130`) | Strong |
+| "I" not "we" (Kellogg casebook) | `we_heavy` weak flag on claims (`planner.md:64`); feedback rates "Your role" | Strong |
+| Quantified result (Tepper, MIT, Amazon) | STAR `result` element; number probes | Strong |
+| A lesson or "what you learned" (Kellogg STAR-L, Darden, MIT) | Only on finals internship topics (`planner.md:127`, `:130`) and in the concern rubric | Partial |
+| Several behavioural or attribute questions per interview (Amazon 2-3 per interviewer; Kellogg 2 stories per attribute) | At most one standard fit question, three angles (`planner.md:122`, `:146`; `FIT_ANGLES`, `lib/engine.js:275`) | Partial |
+| Opener "Tell me about yourself" as a 2-3 minute pitch with a headline (Fuqua), or a 30-second pitch (Kellogg) | Unscored walkthrough "Walk me through your career so far" (`planner.md:151`) | Partial |
+| "Why this firm" (Bain: "why they want to join us specifically") | Motivation slot needs one company-specific reason when the JD names the company (`planner.md:127`) | Strong when a JD is given; weak without one |
+| Career switch as the normal story (about 80% at Wharton) | Raised once, via motivation or a concerns slot judged on "ownership… without blaming" (`planner.md:89`, `:120`) | Partial |
+| Domain questions: banking technicals yes; consulting fit, P&G and Amazon no | Knowledge slot in every MBA business-role hiring-manager interview (`planner.md:113`) | Mismatch outside finance and technical roles |
+| McKinsey PEI: one story, many follow-ups | Probing budget 3 (+1 on claim topics) (`STYLE_BUDGET`, `lib/engine.js:7`) | Missing |
+| Behavioural round of 45-60 minutes (P&G) or 55 minutes (Amazon) | 10 or 15 minutes, 3 or 4 topics (`MINUTES`, `SCORED_SLOTS`, `lib/engine.js:8-10`) | Missing |
+| Stages: first-year internship, second-year full-time, one-year, part-time and EMBA advancement | `summers`, `finals`, `laterals` written for IIM (`planner.md:39-44`) | Partial (labels and an `advancement` stage) |
+| Story of about 2 minutes, "not more than 3" (Tepper) | `LONG_ANSWER_WORDS = 350` (about 2.5 minutes); 3-minute answer cap (`public/student.js:441`) | Fits |
+| Questions never to ask in the US (citizenship, arrests, salary history) | Prompt lists omit them (`planner.md:92`, `prompts/turn.md:121`); no code guard | Partial |
+| US spelling and examples | "Indian B-schools especially" (`planner.md:68`), "tier-2 towns" (`:142`), "a large Indian conglomerate" (`:77`), "practise" and "summarise" in prompts | Mismatch |
+
+**Next test, as for IIM:** write six fictional US profiles (consulting, banking, tech PM, CPG brand, a career switcher, a part-time advancement case), plan each in the three interview types, and run one live interview per profile after items 1-8 below are built. Count "why this firm" questions, fit questions, lesson probes and knowledge slots before and after.
+
 ## Changes needed
 
 Sizes: **S** means prompt edits, a constant or a contract document. **M** means a new setup field, schema change, rubric element or screen. **L** means a new subsystem or an external audit.
@@ -487,144 +351,111 @@ This list builds on what `main` already has; it does not re-propose those featur
 - the activity or POR topic
 - the moment that rates the student's own end questions as specific or generic
 
-### (a) Must-have before a US school pilot
+### (a) Interviewer and feedback changes
 
-1. **Accounts, school tenancy and access control** (`server.js`, all pages).
-   - **Why:** FERPA allows a vendor only under the school's "direct control", with no redisclosure (34 CFR 99.31(a)(1)(i)(B), 99.33(a)). Today `GET /api/sessions` lists every interview to anyone.
+1. **A market setting: India or US** (setup UI `public/vmock/setup.html|js`; inputs in `lib/engine.js`; `prompts/planner.md`, `prompts/turn.md`, `prompts/feedback.md`).
+   - **Why:** the prompts carry Indian examples ("Indian B-schools especially", "tier-2 towns") and British spelling ("practise", "summarise", "behavioural"). US schools write "resume" and "recruiting" (Kellogg, Booth).
    - **Change:**
-     - A student sees only their own interviews.
-     - A school sees only its own students' interviews.
-     - VMock staff access is logged.
-     - The internal review page and trace endpoint are closed to students.
-   - **Size:** L. **IIM TODO:** none. This also blocks the IIM release at scale.
-2. **Retention, export and deletion** (`server.js` session store, a school setting).
-   - **Why:** PTAC asks for "data archival and destruction requirements" in the contract. UC Appendix DS and UT Austin's AI rules want the same. `sessions/<id>.json` keeps the resume, transcripts and raw model inputs and outputs with no time limit.
-   - **Change:**
-     - Retention period per school.
-     - Deletion on request and at contract end.
-     - Export of a student's interviews.
-     - Raw model I/O kept separately for a short QA window, or dropped.
-   - **Size:** M. **IIM TODO:** none.
-3. **OpenAI production setup and DPA** (`lib/openai.js`, `lib/voice.js`, contracts).
-   - **Why:** abuse-monitoring logs are kept 30 days for Chat Completions and speech unless ZDR is approved. Universities want contracts that bar training on their data (UT Austin). US data residency is set per project.
-   - **Change:**
-     - A ZDR-approved, US-resident project.
-     - OpenAI listed as a subprocessor.
-     - Keep `store` false; set it explicitly so the intent is visible.
-     - Remove the paste-a-key Settings path.
-   - **Size:** S (code) plus sales and contract time. **IIM TODO:** none.
-4. **Consent and AI-disclosure screen** (`public/vmock/setup.js` or the room lobby; `openingText` in `lib/engine.js`).
-   - **Why:** California (Penal Code 631, 632) and Illinois (720 ILCS 5/14-2) are all-party-consent states. The opening never says the interviewer is an AI. PTAC warns that click-wrap alone may not satisfy FERPA, so the school contract carries the legal weight and the screen is notice.
-   - **Change:** one screen covering:
-     - The interviewer is an AI.
-     - Audio goes to OpenAI for transcription.
-     - What is stored, for how long, and who at the school can see it.
+     - A `market` input that picks the examples and wording.
+     - US English in student-facing text.
+     - US stage labels (first-year internship, second-year full-time, experienced or one-year).
+     - The never-ask additions in item 11.
+   - **Size:** M. **IIM TODO:** makes every parked IIM item market-scoped instead of global. It conflicts with nothing.
 
-     The student ticks "I agree".
-   - **Size:** S. **IIM TODO:** none.
-5. **School contract template and acceptable-use policy** (legal documents, not code).
-   - **Why:** PTAC lists contract terms on purpose, direct control, security and destruction. Colorado SB 26-189 excludes tools whose acceptable-use policy bars use in "a consequential decision". LL144 and the Illinois acts do not reach a tool that screens no one.
-   - **Change:** the contract and policy bar using results for admission, grading, selection or ranking students for recruiters. Marketing must not suggest otherwise.
-   - **Size:** S. **IIM TODO:** none.
-6. **Code-enforced list of questions never to ask** (`lib/engine.js` guard beside `LEAK_PATTERN`; `prompts/turn.md`, `prompts/planner.md`).
+2. **Stages: relabel for the US and add "advancement"** (setup, `placement_stage` block in `prompts/planner.md`).
    - **Why:**
-     - EEOC guidance covers national origin, age, religion, marital status and children, pregnancy, disability, citizenship and arrests.
-     - Salary-history bans: California Labor Code 432.3, NY Labor Law 194-a, 820 ILCS 112/10.
-     - IER: only two work-authorization questions.
-     - Today these topics are rules in the prompts only.
+     - First-years interview for internships from January (Booth).
+     - About 44% of MIT Sloan full-time offers came from summer internships.
+     - Kellogg One-Year has "no internship".
+     - Booth EMBA has no on-campus recruiting.
+     - Booth part-time students want "a bigger seat at the table".
    - **Change:**
-     - Add citizenship, arrests and convictions, salary history, height and weight, and "where are you from" to the never-ask list.
-     - Add a pattern check that forces a rewrite, the same way the leak and praise guards do.
-   - **Size:** S. **IIM TODO:** consistent with the format note, which already keeps hometown and family out of our questions. It conflicts with nothing.
-7. **WCAG 2.1 AA audit, fixes and an ACR** (all student pages: `public/vmock/*`, `public/student.*`).
-   - **Why:** the Title II rule sets WCAG 2.1 AA for content provided "through contractual, licensing, or other arrangements". Compliance dates are now 26 April 2027 and 26 April 2028. Private schools ask for the same. Big Interview already publishes a WCAG 2.1 AA statement and a VPAT 2.5 ACR.
-   - **Change:**
-     - A setting to extend or remove the 3-minute answer cap (2.2.1).
-     - Extended interview time as an accommodation.
-     - Screen-reader testing of status messages (4.1.3).
-     - Keyboard checks on setup and feedback (2.1.1).
-     - Typing kept as an equal path.
-     - Then a third-party audit and the ACR.
-   - **Size:** M (fixes), L (audit). **IIM TODO:** includes "design warnings" (3.8:1 hover contrast, cramped padding), which becomes a must-fix.
-8. **HECVAT 4 and SOC 2 Type 2** (VMock company process).
-   - **Why:** UC accepts "a Completed and reviewed HECVAT" or "SOC Type 2 Report". HECVAT 4 has an AI section. Yoodli advertises SOC 2 Type 2, and Big Interview keeps a HECVAT. We found no public VMock security page. If VMock already holds these for its US products, extend their scope to cover this module and its OpenAI calls.
-   - **Size:** L (if new), M (if extending). **IIM TODO:** none.
-9. **Do not show placeholder Delivery and Non Verbal feedback to US students; gate the real modules on biometric consent** (`public/vmock/feedback-v2.js`, `feedback.js`; VMock modules).
+     - Map `summers` to first-year internship, without CGPA and first-term questions.
+     - Map `finals` to second-year full-time.
+     - Map `laterals` to one-year and experienced hires.
+     - Add `advancement` for part-time and EMBA: a bigger role at the current employer, leading people, the case for the move.
+   - **Size:** S (labels) plus M (`advancement`). **IIM TODO:** builds on the shipped stage feature. It does not conflict.
+
+3. **Make "Tell me about yourself" a scored pitch** (`background_question` in `prompts/planner.md`; a new `pitch` rubric in `RUBRICS` in `lib/engine.js`; `prompts/feedback.md`).
    - **Why:**
-     - The placeholders are generated from the session id, so showing them as feedback misleads.
-     - BIPA covers "voiceprint" and "face geometry", with a written release and a retention schedule.
-     - Texas CUBI is similar.
+     - Fuqua: "no more than 2-3 minutes", "Start with a 'headline'", "Not be a chronology".
+     - Kellogg: a 30-second "why they are pursuing their career path".
+     - Darden: "key transition points… and a career objective".
+     - Today the background question is an unscored walkthrough.
    - **Change:**
-     - Use feedback v3 (no placeholders) for US schools.
-     - When VMock's real modules arrive, get consent from Illinois and Texas users first.
-   - **Size:** S (v3 default), M (consent). **IIM TODO:** none.
+     - Ask "Tell me about yourself" (or "Walk me through your resume", by seed).
+     - Rate a headline, the transitions, and why this function now.
+     - Add a moment when it runs past about 3 minutes or never reaches the target role.
+   - **Size:** M. **IIM TODO:** same build as "Timed 'Tell me about yourself'". The US target length is about 2 minutes, not 1, so make the time cue market-specific.
 
-### (b) Interviewer and feedback changes
+4. **In the US, behavioural questions are the interview, not one fit slot** (`prompts/planner.md:122` and rule 10 at `:146`; `FIT_ANGLES` in `lib/engine.js:275`).
+   - **Why:**
+    - Amazon: "Each interviewer will typically ask two or three behavioral-based questions", over five 55-minute interviews.
+    - P&G: "We use behavioral-based interviews", with sample prompts such as "Give an example of a time when you created something new."
+    - Kellogg's casebook: "Prepare 2 stories for each attribute", with "3 fit questions" before each case. Tepper wants 6-10 stories.
+    - Today the planner allows "never more than one" standard fit question per interview, and `FIT_ANGLES` has only three (failure, disagreement, strength).
+   - **Change:**
+    - In the US market, a hiring-manager interview may use two fit or attribute questions, not one. Each comes from a different story on the resume.
+    - Widen `FIT_ANGLES` for the US with prompts US recruiters publish: a time you led without authority, created something new (P&G), influenced someone senior, worked with a difficult teammate, made a decision with incomplete data.
+    - Keep the rule that the resume's own stories come first; a fit angle the resume already answers is skipped.
+   - **Size:** S. **IIM TODO:** none. It extends the shipped `fit_angle`; India keeps the one-question cap.
 
-10. **A market setting: India or US** (setup UI `public/vmock/setup.html|js`; inputs in `lib/engine.js`; `prompts/planner.md`, `prompts/turn.md`, `prompts/feedback.md`).
-    - **Why:** the prompts carry Indian examples ("Indian B-schools especially", "tier-2 towns") and British spelling ("practise", "summarise", "behavioural"). US schools write "resume" and "recruiting" (Kellogg, Booth).
-    - **Change:**
-      - A `market` input that picks the examples and wording.
-      - US English in student-facing text.
-      - US stage labels (first-year internship, second-year full-time, experienced or one-year).
-      - The never-ask additions in item 6.
-    - **Size:** M. **IIM TODO:** makes every parked IIM item market-scoped instead of global. It conflicts with nothing.
-11. **Stages: relabel for the US and add "advancement"** (setup, `placement_stage` block in `prompts/planner.md`).
-    - **Why:**
-      - First-years interview for internships from January (Booth).
-      - About 44% of MIT Sloan full-time offers came from summer internships.
-      - Kellogg One-Year has "no internship".
-      - Booth EMBA has no on-campus recruiting.
-      - Booth part-time students want "a bigger seat at the table".
-    - **Change:**
-      - Map `summers` to first-year internship, without CGPA and first-term questions.
-      - Map `finals` to second-year full-time.
-      - Map `laterals` to one-year and experienced hires.
-      - Add `advancement` for part-time and EMBA: a bigger role at the current employer, leading people, the case for the move.
-    - **Size:** S (labels) plus M (`advancement`). **IIM TODO:** builds on the shipped stage feature. It does not conflict.
-12. **Make "Tell me about yourself" a scored pitch** (`background_question` in `prompts/planner.md`; a new `pitch` rubric in `RUBRICS` in `lib/engine.js`; `prompts/feedback.md`).
-    - **Why:**
-      - Fuqua: "no more than 2-3 minutes", "Start with a 'headline'", "Not be a chronology".
-      - Kellogg: a 30-second "why they are pursuing their career path".
-      - Darden: "key transition points… and a career objective".
-      - Today the background question is an unscored walkthrough.
-    - **Change:**
-      - Ask "Tell me about yourself" (or "Walk me through your resume", by seed).
-      - Rate a headline, the transitions, and why this function now.
-      - Add a moment when it runs past about 3 minutes or never reaches the target role.
-    - **Size:** M. **IIM TODO:** same build as "Timed 'Tell me about yourself'". The US target length is about 2 minutes, not 1, so make the time cue market-specific.
-13. **Add a "lesson" element to the behavioural rubric** (`RUBRICS.behavioural` in `lib/engine.js`; `prompts/feedback.md`; optional planner probe).
-    - **Why:** Kellogg STAR-L ("Lesson"), Darden "a learning element", MIT "what you learned". Tepper and Amazon stress a measured result; we already rate Result.
-    - **Change:** an optional fifth element, "What you learned", rated only when the answer or a follow-up gave room for it. Also let the planner add "what would you do differently" beyond finals internship topics.
-    - **Size:** S to M. **IIM TODO:** none. It fits the finals probe already shipped.
-14. **A 30-minute behavioural round** (`MINUTES`, `SCORED_SLOTS`, `MAX_INTERVIEWER_TURNS` in `lib/engine.js`; setup).
-    - **Why:**
-      - P&G interviews "last around 45-60 minutes".
-      - In Amazon's loop, each interviewer asks "two or three behavioral-based questions" in 55 minutes.
-      - Tepper wants 6-10 stories.
-      - Our longest interview is 15 minutes with 4 topics.
-    - **Change:** a "Full behavioural round" of about 30 minutes with 6-7 topics, drawn from different stories and attributes.
-    - **Size:** M. **IIM TODO:** opposite direction from "Personals round and next round" (a 5-7 minute round). Both can exist as market or stage defaults. The "next round avoids topics already asked" part is shared and should be built once.
-15. **A deep-dive style for McKinsey-type interviews** (a style in `STYLE_BUDGET` and `resolveStyle` in `lib/engine.js`; `prompts/turn.md`).
-    - **Why:** McKinsey asks candidates to discuss experiences "in a detailed way, focusing on your specific role" (search summary). Prep sites describe 10-15 minutes on one story (anecdote). Our deepest budget is 3 follow-ups, plus 1 on claim topics.
-    - **Change:**
-      - One or two stories with a budget of about 6 follow-ups.
-      - Rungs covering own role, a key decision, how others reacted, an obstacle, and what they would change.
-      - Feedback also rates "Handling follow-ups".
-    - **Evidence:** weak; McKinsey's page was not read. **Size:** M.
-    - **IIM TODO:** overlaps "Placement-panel pushback style" (both are deeper styles; build them as one style family). It conflicts with the knowledge-topic quiz item only if knowledge topics get the deep budget, so exclude them.
-16. **Optional firm attributes** (`prompts/planner.md` step 3; setup "target firm or industry" field).
+5. **A 30-minute behavioural round** (`MINUTES`, `SCORED_SLOTS`, `MAX_INTERVIEWER_TURNS` in `lib/engine.js`; setup).
+   - **Why:**
+     - P&G interviews "last around 45-60 minutes".
+     - In Amazon's loop, each interviewer asks "two or three behavioral-based questions" in 55 minutes.
+     - Tepper wants 6-10 stories.
+     - Our longest interview is 15 minutes with 4 topics.
+   - **Change:** a "Full behavioural round" of about 30 minutes with 6-7 topics, drawn from different stories and attributes.
+   - **Size:** M. **IIM TODO:** opposite direction from "Personals round and next round" (a 5-7 minute round). Both can exist as market or stage defaults. The "next round avoids topics already asked" part is shared and should be built once.
+
+6. **Add a "lesson" element to the behavioural rubric** (`RUBRICS.behavioural` in `lib/engine.js`; `prompts/feedback.md`; optional planner probe).
+   - **Why:** Kellogg STAR-L ("Lesson"), Darden "a learning element", MIT "what you learned". Tepper and Amazon stress a measured result; we already rate Result.
+   - **Change:** an optional fifth element, "What you learned", rated only when the answer or a follow-up gave room for it. Also let the planner add "what would you do differently" beyond finals internship topics.
+   - **Size:** S to M. **IIM TODO:** none. It fits the finals probe already shipped.
+
+7. **A career switch is always the motivation question, never a "concern"** (`prompts/planner.md` step 4 and slot rules).
+   - **Why:** about 80% of Wharton's Class of 2025 changed industry or function. The concern rubric judges "Ownership… without blaming or deflecting", which fits a gap, not an ordinary switch.
+   - **Change:** in the US market, route a switch to motivation ("What's pulling you from X to Y?"), with "why now" and "why an MBA" as planned follow-ups.
+   - **Size:** S. **IIM TODO:** builds on the shipped switch rule.
+
+8. **Use the knowledge slot only where US interviews ask domain questions** (`prompts/planner.md:113`, hiring_manager slot 3; `:142`).
+   - **Why:**
+    - For MBA students going into business roles, slot 3 of every hiring-manager interview is now a domain-knowledge question. That was built for IIM panels, which ask finance, marketing and operations questions.
+    - The US recruiters we read do not: Bain gives every candidate "the same questions" in its behavioural interview; P&G's interviews are behavioural; Amazon promises "We won't ask brain teasers" and asks Leadership Principle stories.
+    - Banking is the exception. Superday accounts mix technical and behavioural questions [Anecdote].
+   - **Change:** in the US market, keep the knowledge slot for finance and banking roles and for technical product or analytics roles. For consulting, brand management and general management, slot 3 becomes a behavioural attribute question (item 4). Swap the Indian examples at `:142` ("a shampoo sachet in tier-2 towns") for market-neutral ones.
+   - **Size:** S. **IIM TODO:** related to "knowledge topic quiz" and "knowledge topic avoids claim subject". Keep both fixes market-neutral.
+
+9. **A deep-dive style for McKinsey-type interviews** (a style in `STYLE_BUDGET` and `resolveStyle` in `lib/engine.js`; `prompts/turn.md`).
+   - **Why:** McKinsey asks candidates to discuss experiences "in a detailed way, focusing on your specific role" (search summary). Prep sites describe 10-15 minutes on one story (anecdote). Our deepest budget is 3 follow-ups, plus 1 on claim topics.
+   - **Change:**
+     - One or two stories with a budget of about 6 follow-ups.
+     - Rungs covering own role, a key decision, how others reacted, an obstacle, and what they would change.
+     - Feedback also rates "Handling follow-ups".
+   - **Evidence:** weak; McKinsey's page was not read. **Size:** M.
+   - **IIM TODO:** overlaps "Placement-panel pushback style" (both are deeper styles; build them as one style family). It conflicts with the knowledge-topic quiz item only if knowledge topics get the deep budget, so exclude them.
+
+10. **Optional firm attributes** (`prompts/planner.md` step 3; setup "target firm or industry" field).
     - **Why:**
       - Students prepare "2 stories for each attribute" (Kellogg).
       - Amazon publishes 16 Leadership Principles.
       - P&G asks "a time when you created something new".
     - **Change:** when the student names a firm and its published values are in the JD, map competencies to them. Never invent a firm's attribute list, and do not hard-code McKinsey's labels, which may have changed in 2025 (unverified).
     - **Size:** S. **IIM TODO:** none.
-17. **A career switch is always the motivation question, never a "concern"** (`prompts/planner.md` step 4 and slot rules).
-    - **Why:** about 80% of Wharton's Class of 2025 changed industry or function. The concern rubric judges "Ownership… without blaming or deflecting", which fits a gap, not an ordinary switch.
-    - **Change:** in the US market, route a switch to motivation ("What's pulling you from X to Y?"), with "why now" and "why an MBA" as planned follow-ups.
-    - **Size:** S. **IIM TODO:** builds on the shipped switch rule.
-18. **Opt-in work-authorization practice** (setup checkbox; `prompts/planner.md`, `prompts/turn.md`; an allow-list exception in the item 6 guard; `prompts/feedback.md`).
+
+11. **Code-enforced list of questions never to ask** (`lib/engine.js` guard beside `LEAK_PATTERN`; `prompts/turn.md`, `prompts/planner.md`).
+    - **Why:**
+      - EEOC guidance covers national origin, age, religion, marital status and children, pregnancy, disability, citizenship and arrests.
+      - Salary-history bans: California Labor Code 432.3, NY Labor Law 194-a, 820 ILCS 112/10.
+      - IER: only two work-authorization questions.
+      - Today these topics are rules in the prompts only.
+    - **Change:**
+      - Add citizenship, arrests and convictions, salary history, height and weight, and "where are you from" to the never-ask list.
+      - Add a pattern check that forces a rewrite, the same way the leak and praise guards do.
+    - **Size:** S. **IIM TODO:** consistent with the format note, which already keeps hometown and family out of our questions. It conflicts with nothing.
+
+12. **Opt-in work-authorization practice** (setup checkbox; `prompts/planner.md`, `prompts/turn.md`; an allow-list exception in the item 11 guard; `prompts/feedback.md`).
     - **Why:**
       - IER deems two questions appropriate and cautions against any others.
       - HBS is 37% international.
@@ -636,11 +467,13 @@ This list builds on what `main` already has; it does not re-propose those featur
       - Do not score the answer.
       - Feedback gives neutral structure and points to the school's international office.
     - **Size:** S to M. **Needs a product decision.** **IIM TODO:** none.
-19. **Answer-length threshold by market** (`LONG_ANSWER_WORDS` in `lib/engine.js`).
+
+13. **Answer-length threshold by market** (`LONG_ANSWER_WORDS` in `lib/engine.js`).
     - **Why:** Tepper says "around 2 minutes….not more than 3 minutes", and Fuqua says "seldom more than two minutes". At about 130-150 spoken words a minute, 350 words (about 2.5 minutes) is close to right for the US.
     - **Change:** keep about 350 for the US. Use a lower value only in the IIM market.
     - **Size:** S. **IIM TODO:** conflicts with "Polite cut-in on long answers" if that lowers the threshold globally to about 200 words. A US STAR story would be cut off. Make the threshold market-specific.
-20. **Speech recognition fairness test and a transcript check** (`lib/voice.js`; room UI; `prompts/feedback.md`).
+
+14. **Speech recognition fairness test and a transcript check** (`lib/voice.js`; room UI; `prompts/feedback.md`).
     - **Why:** the Whisper model card reports "disparate performance on different accents and dialects". Koenecke et al. found 35% against 19% word error for Black and white speakers. Feedback quotes the transcript verbatim.
     - **Change:**
       - Test on a US accent set: African American English, Southern US, Hispanic, East and South Asian speakers.
@@ -648,7 +481,8 @@ This list builds on what `main` already has; it does not re-propose those featur
       - Tell the feedback model that odd wording may be a transcription error and must not become a "what to fix".
       - Never score accent.
     - **Size:** M. **IIM TODO:** extends "Indian English speech recognition". Build one test harness for both.
-21. **US-sensitive feedback wording** (`prompts/feedback.md`, `prompts/grounding.md`).
+
+15. **US-sensitive feedback wording** (`prompts/feedback.md`, `prompts/grounding.md`).
     - **Why:** EEOC lists these characteristics as irrelevant to qualification. A practice tool that comments on them teaches the wrong thing.
     - **Change:**
       - Never comment on accent, appearance or any protected characteristic.
@@ -656,53 +490,62 @@ This list builds on what `main` already has; it does not re-propose those featur
       - The grounding pass flags these too.
     - **Size:** S. **IIM TODO:** none.
 
-### (c) Platform features career centers expect
+### (b) Features career centers expect
 
-22. **SSO (SAML 2.0 or Shibboleth) and SCIM provisioning.**
+These need accounts first (Appendix, item A1): a dashboard or coach sharing is not possible while every interview is visible to everyone.
+
+16. **SSO (SAML 2.0 or Shibboleth) and SCIM provisioning.**
     - **Why:** Big Interview offers "SAML 2.0 / Shibboleth"; Yoodli offers "SSO and SCIM"; InterviewFocus says it can "integrate with your SSO". Yale SOM students log into Firsthand "with their NetID".
-    - **Size:** M, after item 1.
-23. **School admin dashboard.**
+    - **Size:** M, after item A1.
+
+17. **School admin dashboard.**
     - **Why:** Big Interview, Yoodli, InterviewFocus, Prentus and Huru all advertise one.
     - **Change:**
       - Usage by cohort.
       - Common needs-work elements by question type.
       - Topics students practise.
       - JD must-haves that are rarely covered.
-      - Levels only, no numeric scores (PRODUCT.md), and no per-student ranking (item 5).
+      - Levels only, no numeric scores (PRODUCT.md), and no per-student ranking (item A5).
     - **Size:** L.
-24. **Share with a coach or peer, with comments.**
+
+18. **Share with a coach or peer, with comments.**
     - **Why:**
       - Wharton's "second-year Career Fellows" and Kellogg's "Career Peers" run mock interviews.
       - Big Interview lets staff "leave your own feedback".
       - VMock already offers "Network Feedback" (CSUN), and FIU coaches "add their own feedback".
       - Our feedback has per-topic recording segments to anchor comments.
     - **Size:** M. **IIM TODO:** fits the IIM peer-mock culture too (format note: seniors and placement committees run mocks).
-25. **School assignments and must-ask questions.**
+
+19. **School assignments and must-ask questions.**
     - **Why:** Big Interview: "Design assignments"; Yoodli has custom scenarios; FIU lists "100+ career tracks".
     - **Change:** a school can add one or two must-ask questions or a target firm to a cohort's interviews, with a due date. The rest stays adaptive.
     - **Size:** M. **IIM TODO:** IIM placement committees circulate 20-40 question lists (format note). The same feature serves both.
-26. **Published accessibility, security and privacy pages.**
+
+20. **Published accessibility, security and privacy pages.**
     - **Why:** Big Interview publishes an accessibility statement and keeps a HECVAT. No VMock page was found.
-    - **Size:** S, once items 7 and 8 exist.
+    - **Size:** S, once items A6 and A7 exist.
 
-### (d) Parked or nice-to-have
+### (c) Parked or nice-to-have
 
-27. **Canvas LTI.** Only Big Interview advertises it. **Size:** M. Wait for a school to ask.
-28. **12twenty and Handshake links.**
+21. **Canvas LTI.** Only Big Interview advertises it. **Size:** M. Wait for a school to ask.
+
+22. **12twenty and Handshake links.**
     - 12twenty is the MBA system (Texas A&M Mays). We found no practice-tool integrations for either.
     - Start with a deep link from the school's 12twenty or Handshake resources page.
     - **Size:** S (link), L (integration).
-29. **Banking technical questions.**
+
+23. **Banking technical questions.**
     - Superday accounts mix behavioural and technical questions [Anecdote]. No bank page was readable.
     - Our knowledge slot bans definitions ("walk me through a DCF" is close to one).
     - Revisit with a bank's own page or a finance club's guide.
     - **Size:** S to M. **IIM TODO:** related to "knowledge topic quiz" (budget of 1-2).
-30. **Unlimited use and pricing.**
+
+24. **Unlimited use and pricing.**
     - InterviewFocus advertises "unlimited access".
     - **Unverified:** a helper reported that USC is replacing VMock's resume tool with one "no longer… limited to 10 resume uploads per school year". If confirmed, usage caps are a reason schools switch.
     - **Size:** a commercial decision.
-31. **Colorado ADMT and Illinois HB 3773 rules.** Watch both: Colorado's law takes effect 1 January 2027, and Illinois' rules were proposed in May 2026. Re-check if the product ever offers recruiter-facing outputs.
-32. **Check McKinsey's and banks' own pages in a browser** before building items 15 and 29. Confirm the PEI's current dimension names and round lengths.
+
+25. **Check McKinsey's and banks' own pages in a browser** before building items 9 and 23. Confirm the PEI's current dimension names and round lengths.
 
 ## Unverified claims to check before use
 
@@ -822,3 +665,219 @@ This list builds on what `main` already has; it does not re-propose those featur
 - FIU mock interviews: https://career.fiu.edu/resources/mock-interviews/
 - USC (unverified): https://careers.usc.edu/resources/smart-resume/
 
+## Appendix: before a school contract
+
+These are not interviewer quality changes, but a US school will ask for them before a pilot. In short:
+- **Accounts and school tenancy (A1).** Today `GET /api/sessions` lists every interview to anyone. FERPA lets a vendor hold student records only under the school's "direct control".
+- **Retention and deletion (A2) and an OpenAI zero-retention, US-resident project (A3).**
+- **A consent and AI-disclosure screen (A4)** for all-party-consent states (California, Illinois).
+- **A contract and acceptable-use policy (A5)** that bars using results for admission, grading or ranking. That keeps the tool outside Colorado's new law; NYC Local Law 144 and the Illinois interview acts do not apply to practice.
+- **WCAG 2.1 AA (A6), HECVAT and SOC 2 (A7),** and no placeholder Delivery or Non Verbal cards for US students (A8).
+
+### The evidence
+
+#### What the prototype does today (from the code)
+
+- **Audio leaves our servers:** each spoken answer's audio is sent to OpenAI `/v1/audio/transcriptions`, and interviewer lines go to `/v1/audio/speech` (`lib/voice.js`).
+- **Model calls go to OpenAI too:** planner, turn, feedback and grounding all call Chat Completions (`lib/openai.js`). The request body sets no `store` field.
+- **Everything is kept on local disk with no time limit:** `sessions/<id>.json` holds the resume, the JD, every transcript, and the raw model inputs and outputs (`server.js`).
+- **Anyone can see every interview:** there are no accounts, and `GET /api/sessions` lists every session to anyone ("Past interviews").
+- **The camera is not recorded:** it is shown only to the student (PRODUCT.md).
+- **Accessibility is "Best effort, no formal standard yet"** (PRODUCT.md).
+  - Answers are capped at 3 minutes (`MAX_ANSWER_MS = 180000` in `public/student.js`), with a warning 30 seconds before the cap.
+  - Both pages have `aria-live` regions.
+  - The IIM TODO already notes a 3.8:1 hover contrast on the room's segmented controls.
+- **The interviewer never says it is an AI** in its opening (`openingText` in `lib/engine.js`).
+- **Delivery of Speech and Non Verbal are placeholders** in the feedback v1 and v2 views, generated from the session id. v3 drops them.
+
+#### FERPA
+
+- **A vendor can see student records only as a "school official", and only under three conditions.** 34 CFR 99.31(a)(1)(i)(B) says an outside party "may be considered a school official" provided it "(1) Performs an institutional service or function for which the agency or institution would otherwise use employees; (2) Is under the direct control of the agency or institution with respect to the use and maintenance of education records; and (3) Is subject to the requirements of § 99.33(a)" ([eCFR 99.31](https://www.ecfr.gov/current/title-34/subtitle-A/part-99/subpart-D/section-99.31)) [Statute/regulation, read].
+- **Use is limited and onward disclosure is barred.** Under 99.33(a), the party "will not disclose the information to any other party without the prior consent of the parent or eligible student" and "may use the information, but only for the purposes for which the disclosure was made" [Statute/regulation, read].
+- **FERPA covers MBA students.** An "Eligible student" is "a student who has reached 18 years of age or is attending an institution of postsecondary education" ([34 CFR 99.3](https://www.law.cornell.edu/cfr/text/34/99.3)) [Statute/regulation, read].
+- **FERPA applies when the school contracts for the tool.** Education records include records "Maintained by an educational agency or institution or by a party acting for the agency or institution". When a school buys the tool, interview records are education records held for the school.
+- **What the contract should say.** The Department's Privacy Technical Assistance Center (PTAC) guidance says:
+  - "in practice, schools and districts wishing to outsource services will usually be able to establish direct control through a contract signed by both the school or district and the provider".
+  - The contract should "Define the specific purposes for which the provider may use student information… specify in the agreement how the school or district will be exercising 'direct control'… Include data archival and destruction requirements".
+  - Source: [PTAC, Online Educational Services, 2014](https://studentprivacy.ed.gov/sites/default/files/resource_document/file/Student%20Privacy%20and%20Online%20Educational%20Services%20(February%202014)_0.pdf) [Official guidance, read].
+- **PTAC's model terms checklist** covers data collection, use, mining, sharing, marketing, modification of terms, access and security. It warns that "Click-Wrap agreements may lead to violations of FERPA" ([PTAC TOS guidance, 2016](https://studentprivacy.ed.gov/sites/default/files/resource_document/file/TOS_Guidance_Mar2016.pdf)) [Official guidance, read].
+
+**Implications:** a school must be able to see, export and delete its students' interviews. No one outside that school may see them. VMock may use them only for the contracted purpose: that means **not** for training or tuning prompts unless the contract allows it. Raw model logs kept for quality review count as education records too.
+
+#### State student-privacy laws
+
+- **California SOPIPA is K-12 only.** It covers operators whose service is used "primarily for K-12 school purposes"; "'Pupil' means a student enrolled in a K-12 course of instruction" ([Bus. & Prof. Code 22584](https://codes.findlaw.com/ca/business-and-professions-code/bpc-sect-22584/)) [Statute, mirror].
+- **Illinois SOPPA is also K-12 only.** It covers operators of services "used primarily for K through 12 school purposes" (105 ILCS 85/5) [Search summary only].
+- **Neither reaches an MBA program.** We found no state student-privacy law that broadly covers higher-education vendors. The brief named SOPIPA as an example, but it does not apply here.
+
+#### Biometrics: Illinois BIPA, Texas, Washington
+
+- **Illinois BIPA covers voiceprints and face geometry.** A "Biometric identifier" means "a retina or iris scan, fingerprint, voiceprint, or scan of hand or face geometry" (740 ILCS 14/10) [Search summary only].
+  - Section 15 requires a public retention schedule, destruction "within 3 years of the individual's last interaction" at most, and informing the person "in writing" with "a written release executed by the subject" ([740 ILCS 14/15](https://codes.findlaw.com/il/chapter-740-civil-liabilities/il-st-sect-740-14-15/)) [Statute, mirror].
+  - A 2024 amendment allows an electronic signature [Search summary only].
+- **Some universities escaped BIPA claims, but that may not protect a vendor.** Northwestern and DePaul had remote-proctoring BIPA suits dismissed because they counted as financial institutions under the Gramm-Leach-Bliley Act (14/25(c)) [Search summary only]. Whether that shields a vendor is unclear.
+- **Texas CUBI** bars capturing "a retina or iris scan, fingerprint, voiceprint, or record of hand or face geometry" for a commercial purpose without notice and consent (Bus. & Com. Code 503.001) [Statute, mirror].
+- **Washington** excludes "video or audio recording or data generated therefrom" ([RCW 19.375.010](https://app.leg.wa.gov/RCW/default.aspx?cite=19.375.010)) [Statute/regulation, read].
+- **Whether speech-delivery analysis creates a "voiceprint" is unsettled.** We found no authoritative text either way.
+- **For this prototype:** the interviewer transcribes speech and does not identify speakers, so BIPA risk is low. The risk belongs to VMock's real Delivery of Speech and, above all, Non Verbal (face) modules. If they run on US students, they need a BIPA-style written release and a published retention schedule for Illinois and Texas users. **The placeholder Delivery and Non Verbal cards (feedback v1 and v2) must not be shown to US students as real feedback.**
+
+#### Employment-AI laws do not reach a practice tool
+
+- **NYC Local Law 144:** an AEDT is a tool "used to substantially assist or replace discretionary decision making for making employment decisions"; an "Employment decision" means "to screen candidates for employment or employees for promotion within the city" (Admin Code 20-870) [Search summary only]. The DCWP FAQ ties it to jobs located in NYC and to screening "at any point in the hiring or promotion process" ([DCWP AEDT FAQ](https://www.nyc.gov/assets/dca/downloads/pdf/about/DCWP-AEDT-FAQ.pdf)) [Official guidance, read]. **No one is screened for a job, so it does not apply.**
+- **Illinois AI Video Interview Act:** it applies to "An employer that asks applicants to record video interviews and uses an artificial intelligence analysis… when considering applicants for positions based in Illinois" (820 ILCS 42/5) [Search summary only]. **There is no employer and no applicant, so it does not apply.**
+- **Illinois HB 3773** (775 ILCS 5/2-102(L), from 1 January 2026) covers an employer's use of AI "With respect to recruitment, hiring, promotion" [Search summary only]. **It does not apply, for the same reason.**
+- **Colorado.** SB 24-205 was repealed and re-enacted as SB 26-189, "Automated Decision-Making Technology", signed 14 May 2026. It "takes effect January 1, 2027". Source: [Colorado SB 26-189](https://leg.colorado.gov/bill_files/116489/download) [Statute/regulation, read].
+  - A "consequential decision" relates to a "covered domain", which includes "AN EDUCATION ENROLLMENT OR AN EDUCATION OPPORTUNITY" and "EMPLOYMENT OR AN EMPLOYMENT OPPORTUNITY".
+  - It excludes "ROUTINE ACADEMIC ADMINISTRATION AND STUDENT SUPPORT PROCESSES THAT DO NOT MATERIALLY INFLUENCE A CONSEQUENTIAL DECISION".
+  - It also excludes content-generating technology that is "NOT CONTRACTED, ADVERTISED, MARKETED, CONFIGURED, OR INTENDED… TO BE USED IN A CONSEQUENTIAL DECISION" and "SUBJECT TO AN ACCEPTABLE USE POLICY THAT PROHIBITS GENERATED CONTENT TO BE USED IN A CONSEQUENTIAL DECISION".
+  - **Conclusion:** a practice tool is likely outside the law, **as long as** contracts, marketing and an acceptable-use policy bar using results for admission, grading, club or trek selection, or ranking students for recruiters.
+  - It is uncertain if a school uses results to rank students. A reported April 2026 court order (X.AI v. Weiser) may also affect enforcement [Search summary only].
+
+#### Recording consent and AI disclosure
+
+- **California** bars recording a confidential communication "without the consent of all parties" (Penal Code 632). It also bars learning the contents of a message "in transit" without consent, which reaches anyone who "aids" that (Penal Code 631). The second is the theory used against third-party processors [Statute, mirror].
+- **Illinois** requires use "in a surreptitious manner", with "the consent of all of the parties" as the exception (720 ILCS 5/14-2) [Statute, mirror].
+- **California's bot law** (Bus. & Prof. Code 17941) bars bots used "with the intent to mislead" about their artificial identity to drive a sale or a vote. It does not cover a disclosed AI interviewer [Statute, mirror].
+- **We found no federal Education Department rule requiring AI disclosure.**
+- **Prudent step:** before the lobby, a screen says four things:
+  1. The interviewer is an AI.
+  2. Answers are recorded and sent to OpenAI for transcription.
+  3. Transcripts and feedback are stored for a stated period.
+  4. Who at the school can see them.
+
+  The student then ticks "I agree". That one screen covers both all-party-consent statutes.
+
+#### Equal employment: what an interviewer must never ask
+
+- **EEOC:** inquiries "should be limited to those essential for determining if a person is qualified for the job"; "information regarding race, sex, national origin, age, and religion are irrelevant"; "Employers are explicitly prohibited from making pre-offer inquiries about disability" ([EEOC prohibited practices](https://www.eeoc.gov/prohibited-employment-policiespractices)) [Official guidance, read].
+- **Marital status and children:** "Questions about marital status and number and ages of children are frequently used to discriminate against women". This includes pregnancy and "Child care arrangements" ([EEOC](https://www.eeoc.gov/pre-employment-inquiries-and-marital-status-or-number-children)) [Official guidance, read].
+- **Citizenship:** employers "should not ask whether or not a job applicant is a United States citizen before making an offer of employment" ([EEOC](https://www.eeoc.gov/pre-employment-inquiries-and-citizenship)) [Official guidance, read].
+- **Arrests:** "An employer cannot refuse to hire people simply because they have been arrested" ([EEOC](https://www.eeoc.gov/pre-employment-inquiries-and-arrest-conviction)) [Official guidance, read].
+- **Height and weight** should be avoided unless job-related. **Religion:** avoid questions on place and days of worship [Search summary only].
+- **Disability:** "At the pre-offer stage, an employer cannot ask questions that are likely to elicit information about a disability" ([EEOC ADA guidance](https://www.eeoc.gov/laws/guidance/enforcement-guidance-preemployment-disability-related-questions-and-medical); 29 CFR 1630.13(a)) [Official guidance, read].
+- **Work authorization: only two questions are safe.** DOJ's Immigrant and Employee Rights Section (IER) says employers may ask "1. Are you legally authorized to work in the United States? 2. Will you now or in the future require sponsorship for employment visa status (e.g., H-1B visa status)?" It "has repeatedly cautioned employers against using pre-screening questions (beyond the two questions IER has deemed appropriate)" ([IER letter, Sept 2022](https://www.justice.gov/media/1248166/dl); [IER FAQ](https://www.justice.gov/crt/iers-frequently-asked-questions-faqs)) [Official guidance, read].
+- **Salary history** is banned in several states:
+  - California: an employer "shall not… seek salary history information" (Labor Code 432.3) [Statute, mirror].
+  - New York Labor Law 194-a [Statute/regulation, read].
+  - Illinois 820 ILCS 112/10 [Statute, mirror].
+- **How the prototype compares.** `prompts/turn.md` and `prompts/planner.md` ban age, health, disability, family, marital status, pregnancy, religion, caste, nationality, ethnicity, gender and sexuality.
+  - **Missing from the list:** citizenship as distinct from nationality, arrest or conviction records, salary history, height and weight, and "where are you from". Hometown is a normal IIM question (format note) but a national-origin risk in the US.
+  - **Enforced only by the prompts:** unlike agenda leaks or praise, nothing in `lib/engine.js` checks these topics.
+
+#### Accessibility
+
+- **Public universities: the DOJ Title II rule.** It sets "The Web Content Accessibility Guidelines (WCAG) Version 2.1, Level AA" as the standard ([ada.gov fact sheet](https://www.ada.gov/resources/2024-03-08-web-rule/)) [Official, read].
+  - **The deadlines moved.** An interim final rule published 20 April 2026 replaced "April 24, 2026" with "April 26, 2027", and "April 26, 2027" with "April 26, 2028" ([2026 IFR](https://www.ada.gov/assets/pdfs/2026-ifr.pdf)) [Statute/regulation, read]. Large public entities (population 50,000+) must comply by 26 April 2027, smaller ones by 26 April 2028. The rule "solely extends" the dates.
+  - **It covers vendors.** The rule covers content provided "directly or through contractual, licensing, or other arrangements". DOJ adds: "Your public entity can't contract away its responsibilities under the ADA" ([ada.gov first steps](https://www.ada.gov/resources/web-rule-first-steps/)) [Official, read].
+  - **What this means:** a public university buying the tool in 2027 will require WCAG 2.1 AA.
+- **Private universities:** they fall under ADA Title III and under Section 504 through federal student aid, which the Education Department's Office for Civil Rights enforces online [Search summary only]. They usually ask for the same standard.
+- **The usual evidence is a VPAT.** A completed VPAT is an Accessibility Conformance Report (ACR). The current template is "VPAT® Version 2.5Rev (April 2025)", and its WCAG edition uses WCAG 2.2 ([ITI VPAT](https://www.itic.org/policy/accessibility/vpat)) [Official, read].
+- **WCAG 2.1 criteria that matter most for a voice interview** ([WCAG 2.1](https://www.w3.org/TR/WCAG21/)) [Official, read]:
+  - **2.2.1 Timing Adjustable (A):** each time limit must be removable, adjustable to "at least ten times the length of the default setting", or extendable with a warning. Our 3-minute answer cap has a warning but no way to extend it. The interview length and the time rule that drops topics also need an extended-time setting, a common disability accommodation.
+  - **2.1.1 Keyboard (A):** Space push-to-talk is a good start. Every control in setup, the lobby and the feedback needs checking.
+  - **4.1.3 Status Messages (AA):** "Recording", "Transcribing" and the time warning must be announced without moving focus. `aria-live` exists; it needs testing with a screen reader.
+  - **1.2.x (captions):** the interviewer's line is always shown as text, which covers the spoken prompts. Live audio-only captions are AAA, so they are not required.
+  - **Typing as an alternative to speaking** is the main accommodation for students who cannot speak or who stutter. Keep it as a full equal path, not a fallback.
+
+#### Security reviews: HECVAT and SOC 2
+
+- **HECVAT is the standard questionnaire.** HECVAT 4 (January 2025) merges the old Full, Lite and On-Prem versions into one file. It adds AI questions (mapped to NIST AI 600-1 and others), a privacy section and accessibility questions. The current version is reported as 4.1.6, completed once a year ([EDUCAUSE Review](https://er.educause.edu/articles/2025/2/hecvat-4-better-than-ever); [EDUCAUSE HECVAT](https://www.educause.edu/higher-education-community-vendor-assessment-toolkit)) [Search summary only; educause.edu returned 403]. The University of California says HECVAT is "used by over 100 universities" ([UC for suppliers](https://security.ucop.edu/resources/for-suppliers.html)) [Official, read].
+- **The University of California's requirements:**
+  - Appendix DS "must be included in all agreements where the supplier has access to UC Institutional Information".
+  - It accepts a "Completed and reviewed HECVAT" or a "SOC Type 2 Report" as evidence.
+  - It classes data as P1-P4. FERPA records are P3 [Search summary only for P3].
+- **UT Austin's AI rules:** Controlled or Confidential data may go only into AI tools "covered by contracts explicitly protecting university data", and the contract must ensure the data "is not utilized for training models" ([UT Austin AI tools](https://security.utexas.edu/ai-tools)) [Official, read].
+- **SOC 2** reports on controls against the Trust Services Criteria (Security, Availability, Processing Integrity, Confidentiality, Privacy). Type 2 adds operating effectiveness over a period ([AICPA](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2)) [Official, read for the categories; Search summary only for Type 1 and Type 2].
+
+#### OpenAI data handling
+
+All from [OpenAI "your data"](https://developers.openai.com/api/docs/guides/your-data) [Vendor official, read] unless noted.
+
+- **No training by default:** API data is "not used to train or improve OpenAI models (unless you explicitly opt in…)".
+- **Abuse-monitoring logs** are "retained for up to 30 days, unless longer retention is required by law".
+- **By endpoint:**
+  - Chat Completions: 30 days of abuse monitoring.
+  - `/v1/audio/transcriptions`: "None".
+  - `/v1/audio/speech`: 30 days.
+  - All three are eligible for zero data retention (ZDR). ZDR is "subject to prior approval by OpenAI".
+- **Chat Completions does not store by default:** `store` defaults to `false` ([API reference](https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create)) [Vendor official, read]. Our code leaves it unset, so nothing is stored for later retrieval. The 30-day abuse log still applies without ZDR.
+- **US data residency** is set per project. Chat Completions supports US storage and processing; the audio endpoints also list the US. The helper's reading merged two tables, so confirm the exact cells in the console.
+- **The DPA:**
+  - A DPA exists ([OpenAI DPA PDF](https://cdn.openai.com/pdf/openai-data-processing-addendum.pdf)) [Vendor official, read].
+  - The openai.com policy page reportedly mentions FERPA support [Search summary only; 403].
+  - OpenAI says the NYT litigation preservation duty ended on 26 September 2025 [Search summary only].
+
+**Implications:**
+- Pilot schools will expect a production project with ZDR on all three endpoints, US residency and OpenAI listed as a subprocessor in the DPA.
+- The Settings page that lets anyone paste an API key into server memory must go.
+
+### Changes needed before a contract
+
+A1. **Accounts, school tenancy and access control** (`server.js`, all pages).
+    - **Why:** FERPA allows a vendor only under the school's "direct control", with no redisclosure (34 CFR 99.31(a)(1)(i)(B), 99.33(a)). Today `GET /api/sessions` lists every interview to anyone.
+    - **Change:**
+      - A student sees only their own interviews.
+      - A school sees only its own students' interviews.
+      - VMock staff access is logged.
+      - The internal review page and trace endpoint are closed to students.
+    - **Size:** L. **IIM TODO:** none. This also blocks the IIM release at scale.
+
+A2. **Retention, export and deletion** (`server.js` session store, a school setting).
+    - **Why:** PTAC asks for "data archival and destruction requirements" in the contract. UC Appendix DS and UT Austin's AI rules want the same. `sessions/<id>.json` keeps the resume, transcripts and raw model inputs and outputs with no time limit.
+    - **Change:**
+      - Retention period per school.
+      - Deletion on request and at contract end.
+      - Export of a student's interviews.
+      - Raw model I/O kept separately for a short QA window, or dropped.
+    - **Size:** M. **IIM TODO:** none.
+
+A3. **OpenAI production setup and DPA** (`lib/openai.js`, `lib/voice.js`, contracts).
+    - **Why:** abuse-monitoring logs are kept 30 days for Chat Completions and speech unless ZDR is approved. Universities want contracts that bar training on their data (UT Austin). US data residency is set per project.
+    - **Change:**
+      - A ZDR-approved, US-resident project.
+      - OpenAI listed as a subprocessor.
+      - Keep `store` false; set it explicitly so the intent is visible.
+      - Remove the paste-a-key Settings path.
+    - **Size:** S (code) plus sales and contract time. **IIM TODO:** none.
+
+A4. **Consent and AI-disclosure screen** (`public/vmock/setup.js` or the room lobby; `openingText` in `lib/engine.js`).
+    - **Why:** California (Penal Code 631, 632) and Illinois (720 ILCS 5/14-2) are all-party-consent states. The opening never says the interviewer is an AI. PTAC warns that click-wrap alone may not satisfy FERPA, so the school contract carries the legal weight and the screen is notice.
+    - **Change:** one screen covering:
+      - The interviewer is an AI.
+      - Audio goes to OpenAI for transcription.
+      - What is stored, for how long, and who at the school can see it.
+
+      The student ticks "I agree".
+    - **Size:** S. **IIM TODO:** none.
+
+A5. **School contract template and acceptable-use policy** (legal documents, not code).
+    - **Why:** PTAC lists contract terms on purpose, direct control, security and destruction. Colorado SB 26-189 excludes tools whose acceptable-use policy bars use in "a consequential decision". LL144 and the Illinois acts do not reach a tool that screens no one.
+    - **Change:** the contract and policy bar using results for admission, grading, selection or ranking students for recruiters. Marketing must not suggest otherwise.
+    - **Size:** S. **IIM TODO:** none.
+
+A6. **WCAG 2.1 AA audit, fixes and an ACR** (all student pages: `public/vmock/*`, `public/student.*`).
+    - **Why:** the Title II rule sets WCAG 2.1 AA for content provided "through contractual, licensing, or other arrangements". Compliance dates are now 26 April 2027 and 26 April 2028. Private schools ask for the same. Big Interview already publishes a WCAG 2.1 AA statement and a VPAT 2.5 ACR.
+    - **Change:**
+      - A setting to extend or remove the 3-minute answer cap (2.2.1).
+      - Extended interview time as an accommodation.
+      - Screen-reader testing of status messages (4.1.3).
+      - Keyboard checks on setup and feedback (2.1.1).
+      - Typing kept as an equal path.
+      - Then a third-party audit and the ACR.
+    - **Size:** M (fixes), L (audit). **IIM TODO:** includes "design warnings" (3.8:1 hover contrast, cramped padding), which becomes a must-fix.
+
+A7. **HECVAT 4 and SOC 2 Type 2** (VMock company process).
+    - **Why:** UC accepts "a Completed and reviewed HECVAT" or "SOC Type 2 Report". HECVAT 4 has an AI section. Yoodli advertises SOC 2 Type 2, and Big Interview keeps a HECVAT. We found no public VMock security page. If VMock already holds these for its US products, extend their scope to cover this module and its OpenAI calls.
+    - **Size:** L (if new), M (if extending). **IIM TODO:** none.
+
+A8. **Do not show placeholder Delivery and Non Verbal feedback to US students; gate the real modules on biometric consent** (`public/vmock/feedback-v2.js`, `feedback.js`; VMock modules).
+    - **Why:**
+      - The placeholders are generated from the session id, so showing them as feedback misleads.
+      - BIPA covers "voiceprint" and "face geometry", with a written release and a retention schedule.
+      - Texas CUBI is similar.
+    - **Change:**
+      - Use feedback v3 (no placeholders) for US schools.
+      - When VMock's real modules arrive, get consent from Illinois and Texas users first.
+    - **Size:** S (v3 default), M (consent). **IIM TODO:** none.
+
+A9. **Colorado ADMT and Illinois HB 3773 rules.** Watch both: Colorado's law takes effect 1 January 2027, and Illinois' rules were proposed in May 2026. Re-check if the product ever offers recruiter-facing outputs.
