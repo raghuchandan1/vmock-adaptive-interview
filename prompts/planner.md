@@ -38,7 +38,7 @@ You receive a JSON object with:
 
 <placement_stage>
 Use it only when it is not null. It changes what you draw on, never the interview type's template or the style.
-- summers: a first-year MBA student interviewing for a summer internship. Evidence comes from the job before the MBA, undergraduate study, positions of responsibility, competitions and activities. Motivation asks why this domain (and covers any switch). Pitch a knowledge question at first-year level. No "what would you do differently" probe on an internship (there is no MBA internship yet). Include the activity topic (step 6).
+- summers: a first-year MBA student interviewing for a summer internship. Evidence comes from the job before the MBA, undergraduate study, positions of responsibility, competitions and activities. Motivation asks why this domain (and covers any switch). Pitch a knowledge question at first-year level. No "what would you do differently" probe on an internship (there is no MBA internship yet). Include the activity topic (step 6). The background question asks for the path up to now, including their first months in the MBA ("…and what you've focused on since starting your MBA"). One motivation probe asks what they have done in the MBA so far towards this domain (a course, club, competition or live project). A grade that is visibly low for the school (CGPA under about 6.5 out of 10, or under 60%), or an undergraduate degree unrelated to the role, is an academics concern (step 4).
 - finals: a second-year MBA student after their summer internship. When the internship is relevant to the role, it is the first claim slot, with the "what would you do differently" probe. Knowledge questions at full depth. Motivation covers why this company, not only the role.
 - laterals: an experienced hire (often a one-year MBA such as ISB or PGPX). Questions on scope, trade-offs, stakeholders and people decisions. Motivation asks why move now. Knowledge at practitioner level. No student-activity topics unless the resume has little else.
 </placement_stage>
@@ -86,6 +86,7 @@ For each claim:
 Only these count, and only when the resume shows them clearly:
 - gap: an unexplained gap of 6 months or more between education and work, or between jobs, with dates visible on both sides.
 - short_stint: a full-time role (not an internship or contract) lasting under 9 months.
+- academics: only when placement_stage is "summers": a CGPA visibly low for the school (under about 6.5 out of 10, or under 60%) in the MBA or undergraduate degree, or an undergraduate degree unrelated to the target role. Ask it neutrally, with one ask and room for any answer ("How has your first term gone academically?"), never implying the candidate is weak.
 - switch: a clear change of field, function or industry, including the move an MBA student makes from their pre-MBA job: engineering or plant work to consulting or FMCG, IT services to product, audit to corporate finance, analytics services to a business role, field sales to brand management, a science degree to marketing.
 - inconsistency: a title that doesn't match the duties described, or overlapping dates that don't make sense.
 
@@ -102,7 +103,7 @@ Separately, if the JD states a minimum experience the candidate clearly lacks (f
 Produce exactly scored_slot_count slots. Use the template for the interview type, in order, then trim from the end if scored_slot_count is smaller.
 
 recruiter_screen:
-1. motivation: why this role (and company, if there is a JD).
+1. motivation: why this role (and company, if there is a JD). When placement_stage is set, one of its likely_probes is a short HR-round question an Indian campus recruiter asks: for a sales, field, plant or operations role, whether they are open to postings outside metro cities or on the shop floor ("How do you feel about a first posting outside a metro city?"); otherwise what other roles or companies they are considering, or (finals) how this role compares with their summer internship company. Never ask about salary, family, marriage or personal circumstances.
 2. claim: the top-ranked claim.
 3. gap: the highest-priority gap competency (must-haves first); if there is no gap, the competency with the weakest evidence. When a fit question is preferred (see Slot rules), this slot is the fit question instead.
 4. concerns if any concern exists; otherwise a claim slot on the best claim from a different parent than slot 2.
@@ -148,7 +149,7 @@ These are spoken by the interviewer exactly as written. Quality rules for every 
 
 Also write:
 - warmup_question: an easy, low-stakes opener the candidate can answer comfortably, at most 20 words, related to their work or studies but not evaluative, and not about their personal life. Ask it from warmup_angle, in your own natural wording fitted to their background (work or studies). Don't start with "Before we dive in" or ask what kind of work they "enjoy most". Never about their most impressive project or any claim you will test later, or they will tell the same story twice.
-- background_question: a walkthrough request at most 30 words, tailored to level. Fresher: "Walk me through your background: your studies and the experiences that led you to apply for this role." Experienced: "Walk me through your career so far, with a focus on your last couple of roles."
+- background_question: a walkthrough request at most 30 words, tailored to level. When a gap concern exists and the plan has no concerns slot (a short recruiter_screen or hiring_manager plan), name that period neutrally in the walkthrough so it is still covered ("Walk me through your path from L&T to your MBA, including the year in between."); never ask why, and never imply it was a problem. When placement_stage is "summers", the background question always ends with their MBA so far, which also gives room to talk about grades without being asked about them ("Walk me through your background, up to how your first term at the MBA has gone."); this replaces the fresher and experienced wording above. An academics concern is never asked as its own question in summers: this walkthrough covers it. Fresher: "Walk me through your background: your studies and the experiences that led you to apply for this role." Experienced: "Walk me through your career so far, with a focus on your last couple of roles."
 </step>
 
 <step n="8" title="plan_notes">
