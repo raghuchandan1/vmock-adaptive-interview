@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interview | VMock Dashboard</title>
+<link rel="stylesheet" href="https://use.typekit.net/owg1qdp.css">
+<!-- Dashboard replica room: the same markup contract and student.js as /vmock/adaptive-interview/room (vmock/room.html),
+     restyled in the dashboard design: vmock/room.css gives the structure, dash/room.css the dashboard look, and
+     dash/feedback.js renders the feedback as the dashboard's results page. -->
+<link rel="stylesheet" href="/vmock/vmock.css">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/student.css">
+<link rel="stylesheet" href="/vmock/room.css">
+<link rel="stylesheet" href="/dash/dash.css">
+<link rel="stylesheet" href="/dash/room.css">
+<link rel="stylesheet" href="/dash/feedback.css">
+<script>
+  // Which product this interview came from: the setup's handoff, else ?entry= (past feedback links), else the last setup.
+  // It decides where "Change setup" / "New interview" go and the product name in the top bar.
+  window.ROOM_ENTRY = (() => {
+    const read = (k) => { try { return JSON.parse(sessionStorage.getItem(k) || 'null'); } catch (_) { return null; } };
+    const e = (read('vmock_adaptive_setup') || {}).entry || new URLSearchParams(location.search).get('entry') || (read('vmock_adaptive_last') || {}).entry;
+    return e === 'cv' ? 'cv' : 'mock';
+  })();
+  window.ROOM_PRODUCT = window.ROOM_ENTRY === 'cv' ? 'CV Deep Dive' : 'Mock Interviews';
+  window.ROOM_HOME = window.ROOM_ENTRY === 'cv' ? '/dashboard/smart-interviews/practice/cv-deep-dive' : '/dashboard/smart-interviews/practice/career-interviews?tab=adaptive';
+</script>
+<script>
+  // Labels shown in the lobby, matching the setup wizard's names (the server's labels stay as they are).
+  window.ROOM_LABELS = {
+    'Recruiter screen': 'Screening round', 'Hiring manager': 'Hiring manager round', 'Back your resume': 'CV Deep Dive',
+    Supportive: 'Friendly', Balanced: 'Standard', Probing: 'Challenging',
+  };
+</script>
+</head>
+<body class="student vm-room d-room">
+<script>document.body.dataset.setupUrl = `/dashboard/smart-interviews/practice/adaptive/setup?entry=${ROOM_ENTRY}&back=1`;</script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-hw" viewBox="0 0 24 24"><path d="M16 10.5l5-3v9l-5-3"/><rect x="3" y="6" width="13" height="12" rx="2"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-lines" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l5.5-3.5z"/></symbol>
+  <symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 12h2M6 8v8M10 5v14M14 8v8M18 10v4M22 12h0"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></symbol>
+  <symbol id="i-flow" viewBox="0 0 24 24"><path d="M3 12h3l3-8 4 16 3-8h5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-4 0v5M14 10V4a2 2 0 0 0-4 0v6M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></symbol>
+  <symbol id="i-posture" viewBox="0 0 24 24"><circle cx="12" cy="4" r="2"/><path d="M12 6v8M8 10h8M12 14l-3 7M12 14l3 7"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10.5l5-3v9l-5-3"/></symbol>
+  <symbol id="i-cam-off" viewBox="0 0 24 24"><path d="M16 16v2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h1M10 6h4a2 2 0 0 1 2 2v2.5l5-3v9M3 3l18 18"/></symbol>
+  <symbol id="i-keys" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6.5 10h.01M10 10h.01M13.5 10h.01M17 10h.01M7.5 14h9"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12Z"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="m7 11 5-5 5 5M7 18l5-5 5 5"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+</svg>
+
+<!-- Top bar as on the dashboard's interview and results pages: logo, "Candidate Dashboard | <product>", account. -->
+<header class="topbar rm-top d-top">
+  <a class="d-brand" id="homeLink" href="/dashboard/smart-interviews/practice/career-interviews" aria-label="Back to the dashboard">
+    <img src="/vmock/assets/logo-color.png" alt="VMock" width="62" height="26">
+    <span class="d-brand-sep" aria-hidden="true"></span>
+    <span class="d-brand-name">Candidate Dashboard | <span id="productName">Mock Interviews</span></span>
+  </a>
+  <nav class="d-top-end">
+    <button class="d-btn ghost sm" id="pastBtn" type="button">Past interviews</button>
+    <img class="d-partner" src="/vmock/assets/partner-logo.png" alt="Demo Community" width="70" height="26">
+    <span class="d-user"><b>TU</b><span>Test User</span></span>
+  </nav>
+</header>
+<script>
+  document.getElementById('homeLink').href = ROOM_HOME;
+  document.getElementById('productName').textContent = ROOM_PRODUCT;
+</script>
+
+<main id="main">
+  <!-- Setup -->
+  <section id="screen-setup" class="screen" hidden>
+    <div class="sv-setup">
+      <div class="sv-setup-intro">
+        <h1 class="screen-title">Practise an interview built from your resume</h1>
+        <p class="lede">The interviewer reads your resume, and the job description if you add one, then asks you questions out loud. You answer by speaking, as in a real interview.</p>
+      </div>
+      <div class="setup-grid">
+        <div class="setup-col">
+          <fieldset class="field">
+            <legend>Resume</legend>
+            <div class="sv-drop" id="resumeDrop">
+              <div class="sv-drop-body" id="dropEmpty">
+                <svg class="sv-icon sv-drop-icon" aria-hidden="true"><use href="#i-upload"/></svg>
+                <strong>Drop your resume PDF here</strong>
+                <span>or <label class="file-btn">choose a file<input id="resumePdf" type="file" accept="application/pdf" hidden></label>, or <button class="link-btn" id="pasteBtn" type="button">paste the text</button></span>
+              </div>
+              <div class="sv-drop-loaded" id="dropLoaded" hidden>
+                <svg class="sv-icon sv-doc-icon" aria-hidden="true"><use href="#i-doc"/></svg>
+                <div class="sv-drop-file"><strong id="resumeName"></strong><span id="resumeWords"></span></div>
+                <button class="sv-text-btn" id="editResumeBtn" type="button">Edit text</button>
+                <button class="sv-text-btn" id="removeResumeBtn" type="button">Remove</button>
+              </div>
+            </div>
+            <textarea id="resume" rows="12" placeholder="Paste your resume here" aria-label="Resume text" hidden></textarea>
+            <select class="sv-sample" id="resumeSample" aria-label="Use a sample resume"><option value="">Use a sample resume</option></select>
+          </fieldset>
+          <details class="field sv-jd" id="jdDetails">
+            <summary>Add a job description <span>(optional)</span></summary>
+            <div class="sv-jd-body">
+              <textarea id="jd" rows="9" placeholder="Paste the job description here" aria-label="Job description"></textarea>
+              <select class="sv-sample" id="jdSample" aria-label="Use a sample job description"><option value="">Use a sample job description</option></select>
+            </div>
+          </details>
+        </div>
+        <div class="setup-col choices">
+          <div class="field">
+            <label for="role">Target role</label>
+            <input id="role" type="text" placeholder="For example: Product Analyst">
+            <input id="domain" type="hidden"><!-- set from the setup wizard's handoff; student.js reads it -->
+            <input id="stage" type="hidden"><!-- placement stage from the wizard (summers, finals, laterals or empty) -->
+            <p class="hint">Optional if you add a job description.</p>
+          </div>
+          <fieldset class="field">
+            <legend>Interview type</legend>
+            <div class="option-list">
+              <label class="option"><input type="radio" name="type" value="recruiter_screen"><span><strong>Recruiter screen</strong><em>Broad first conversation: motivation, background, fit.</em></span></label>
+              <label class="option"><input type="radio" name="type" value="hiring_manager" checked><span><strong>Hiring manager</strong><em>Your experience in depth, tied to the role.</em></span></label>
+              <label class="option"><input type="radio" name="type" value="back_your_resume"><span><strong>Back your resume</strong><em>Detailed questions on lines of your resume.</em></span></label>
+            </div>
+          </fieldset>
+          <fieldset class="field">
+            <legend>Interviewer style</legend>
+            <div class="segmented">
+              <label><input type="radio" name="style" value="supportive"><span>Supportive</span></label>
+              <label><input type="radio" name="style" value="balanced" checked><span>Balanced</span></label>
+              <label><input type="radio" name="style" value="probing"><span>Probing</span></label>
+              <label><input type="radio" name="style" value="surprise"><span>Surprise me</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="field">
+            <legend>Length</legend>
+            <div class="segmented">
+              <label><input type="radio" name="length" value="short"><span>About 10 min</span></label>
+              <label><input type="radio" name="length" value="standard" checked><span>About 15 min</span></label>
+            </div>
+          </fieldset>
+          <p class="error" id="setupError" role="alert" hidden></p>
+          <button class="primary sv-wide" id="prepareBtn" type="button">Prepare interview</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lobby: the interviewer prepares (reads the resume, plans) while the student checks camera and mic -->
+  <!-- Lobby in the shape of VMock's recorder: the camera fills the screen, a side panel holds the interviewer's
+       status and the plan, the hardware check opens as a dialog. -->
+  <section id="screen-brief" class="screen rm-lobby" hidden>
+    <div class="rm-stage">
+      <video id="previewVideo" autoplay muted playsinline></video>
+      <span class="rm-camoff" id="previewOff" hidden>Camera off</span>
+    </div>
+
+    <aside class="rm-side">
+      <div class="rm-titlecard">
+        <span class="rm-titleicon" aria-hidden="true"><svg class="ic"><use href="#i-mic"/></svg></span>
+        <div class="rm-titletext">
+          <div class="rm-eyebrow" id="roomType">Adaptive Interview</div>
+          <div class="rm-title" id="briefTitle">Adaptive Interview</div>
+          <div class="rm-titlesub" id="roomCompany" hidden></div>
+          <div class="rm-meta" id="roomSub"></div>
+        </div>
+      </div>
+
+      <!-- As on the dashboard's calibration screen: what to get right before the interview starts. -->
+      <ul class="dr-prep">
+        <li><span class="dr-prep-icon" aria-hidden="true"><svg class="ic"><use href="#i-mic"/></svg></span><div><strong>Find a quiet room</strong><p>Use earphones with a mic if you can, so the interviewer hears you clearly.</p></div></li>
+        <li><span class="dr-prep-icon" aria-hidden="true"><svg class="ic"><use href="#i-keys"/></svg></span><div><strong>Hold Space to talk</strong><p>Or click Start answering, then Done answering. You can switch to typing at any time.</p></div></li>
+        <li><span class="dr-prep-icon" aria-hidden="true"><svg class="ic"><use href="#i-target"/></svg></span><div><strong>Answer as you would for real</strong><p>The interviewer follows up on what you say, then you get feedback on every answer.</p></div></li>
+      </ul>
+
+      <div class="rm-card" id="hostCard" data-state="preparing">
+        <div class="rm-host">
+          <span class="rm-host-avatar">AI</span>
+          <div>
+            <div class="rm-host-name">Your interviewer</div>
+            <div class="rm-presence" id="presence">Preparing for your interview</div>
+          </div>
+        </div>
+        <ol class="rm-steps" id="prepSteps" aria-live="polite"></ol>
+        <div class="rm-brief" id="briefBody" hidden>
+          <!-- The plan rows (style, length) are already in the title card, so the list student.js fills stays hidden. -->
+          <ul class="rm-brief-list" id="briefList" hidden></ul>
+          <h2 class="rm-brief-h">What to expect</h2>
+          <ol class="rm-expect" id="roomExpect"></ol>
+          <p class="rm-warn" id="briefWarn" hidden></p>
+          <!-- Many placement processes also have group discussions, cases and guesstimates; this round is not those. -->
+          <p class="rm-scope">This practises the one-to-one interview. Practise guesstimates and case interviews in their own modules; group discussions aren't covered.</p>
+          <p class="brief-note" hidden></p>
+        </div>
+        <p class="rm-error" id="briefError" role="alert" hidden></p>
+        <div class="rm-links">
+          <button class="rm-link" id="hwBtn" type="button"><svg class="ic"><use href="#i-hw"/></svg>Check hardware</button>
+          <button class="rm-link" id="backBtn" type="button"><svg class="ic"><use href="#i-back"/></svg>Change setup</button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="rm-bottom">
+      <div class="rm-pill">
+        <p id="deviceStatus">Asking for camera and microphone…</p>
+        <div class="rm-meter" id="previewMeterWrap" aria-hidden="true" hidden><span id="previewMeter"></span></div>
+      </div>
+      <button class="rm-join" id="startBtn" type="button" disabled>Join Interview</button>
+    </div>
+
+    <dialog class="rm-dialog" id="hwDialog" aria-labelledby="hwTitle">
+      <button class="rm-dialog-close" id="hwClose" type="button" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button>
+      <h2 id="hwTitle">Check Hardware</h2>
+      <p class="rm-dialog-sub">Use earphones with a mic for the best experience. Nothing is recorded or saved.</p>
+      <div class="rm-try" id="micTry" hidden>
+        <p class="rm-say">Hold the button and say</p>
+        <p class="rm-hello">Hello everyone!</p>
+        <div class="rm-try-row">
+          <button class="rm-try-btn" id="tryBtn" type="button"><svg class="ic"><use href="#i-mic"/></svg>Hold to try the mic</button>
+          <span class="rm-try-status" id="tryStatus" role="status"></span>
+        </div>
+      </div>
+      <div class="rm-dialog-foot"><button class="rm-done" id="hwDone" type="button">Done</button></div>
+    </dialog>
+  </section>
+
+  <!-- Live interview: a video call -->
+  <section id="screen-live" class="screen rm-live" hidden>
+    <!-- Live call, "interviewer stage": the interviewer and the current question are the focus, your camera is a small
+         tile, the transcript is a drawer (closed at the start). student.js drives every id here. -->
+    <div class="rm-call">
+      <div class="rm-call-meta">
+        <div>
+          <div class="rm-eyebrow" id="liveType">Adaptive Interview</div>
+          <div class="rm-call-role" id="liveSub"></div>
+        </div>
+        <div class="rm-clock">
+          <span id="timer">00:00</span>
+          <div class="rm-clock-bar" aria-hidden="true"><span id="timeBar"></span></div>
+        </div>
+      </div>
+
+      <div class="rm-call-center" id="interviewerTile">
+        <div class="rm-orb" aria-hidden="true">AI</div>
+        <div class="rm-state" id="interviewerState"></div>
+        <p class="rm-call-q" id="question" aria-live="polite"></p>
+        <p class="rm-call-said" id="caption" hidden></p>
+      </div>
+
+      <div class="rm-self">
+        <video id="selfView" autoplay muted playsinline></video>
+        <div class="rm-self-off" id="noVideo" hidden>Camera off</div>
+        <span class="rm-self-tag">You</span>
+      </div>
+
+      <div class="rm-call-bottom">
+        <div class="rm-answer" id="status" role="status">
+          <p class="rm-status-label" id="statusLabel"></p>
+          <div class="rm-meter" aria-hidden="true"><span id="liveMeter"></span></div>
+          <textarea class="rm-typed" id="typed" rows="4" placeholder="Type your answer" aria-label="Your answer" hidden></textarea>
+          <p class="rm-error" id="liveError" role="alert" hidden></p>
+        </div>
+        <div class="rm-controls">
+          <button class="rm-round" id="camBtn" type="button" aria-pressed="true" aria-label="Turn camera off" title="Turn camera off"><svg class="ic on" aria-hidden="true"><use href="#i-cam"/></svg><svg class="ic off" aria-hidden="true"><use href="#i-cam-off"/></svg></button>
+          <button class="rm-round" id="modeBtn" type="button" aria-label="Switch to typing" title="Switch to typing"><svg class="ic keys" aria-hidden="true"><use href="#i-keys"/></svg><svg class="ic mic" aria-hidden="true"><use href="#i-mic"/></svg></button>
+          <button class="rm-talk" id="sendBtn" type="button" disabled>Start answering</button>
+          <button class="rm-end" id="endBtn" type="button">End</button>
+          <span class="rm-divider" aria-hidden="true"></span>
+          <button class="rm-tbtn" id="transcriptBtn" type="button" aria-expanded="false" aria-controls="transcriptPanel"><svg class="ic" aria-hidden="true"><use href="#i-lines"/></svg>Transcript</button>
+          <button class="rm-round rm-help" id="tourBtn" type="button" aria-label="How to answer" title="How to answer">?</button>
+        </div>
+        <p class="rm-hint" id="spaceHint">Hold <kbd>Space</kbd> to talk</p>
+      </div>
+
+      <!-- First-turn tour (VMock-style popover): shown once, the first time it's the student's turn; "?" replays it. -->
+    <div class="rm-tour" id="roomTour" role="dialog" aria-labelledby="tourTitle" aria-describedby="tourBody" hidden>
+      <span class="rm-tour-arrow" aria-hidden="true"></span>
+      <p class="rm-tour-step" id="tourStep"></p>
+      <h2 id="tourTitle"></h2>
+      <p id="tourBody"></p>
+      <div class="rm-tour-foot">
+        <button class="rm-tour-skip" id="tourSkip" type="button">Skip</button>
+        <button class="rm-tour-next" id="tourNext" type="button">Next</button>
+      </div>
+    </div>
+    </div>
+
+    <aside class="rm-drawer" id="transcriptPanel" aria-label="Transcript" hidden>
+      <div class="rm-drawer-head">
+        <h2>Transcript<span class="rm-drawer-count" id="transcriptCount" hidden></span></h2>
+        <button class="rm-dialog-close" id="transcriptClose" type="button" aria-label="Close transcript"><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+      <div class="rm-thread" id="thread"></div>
+    </aside>
+  </section>
+
+  <!-- Feedback, as the dashboard's results page (dash/feedback.js): a bar with the interview, Summary | Detailed Feedback
+       and the actions, then the view. -->
+  <section id="screen-feedback" class="screen dr-fb-screen" hidden>
+    <div class="dr-fbbar">
+      <div class="dr-fbbar-id">
+        <div class="dr-fbbar-type" id="fbType">Feedback</div>
+        <div class="dr-fbbar-role"><span id="fbRole">Your feedback</span><span class="dr-fbbar-meta" id="feedbackMeta"></span></div>
+      </div>
+      <div class="dr-fbtabs" role="tablist" aria-label="Feedback" id="fbTabs"></div>
+      <div class="dr-fbbar-actions">
+        <button class="d-btn ghost sm" id="fbPastBtn" type="button">Past interviews</button>
+        <button class="d-btn outline sm" id="newBtn" type="button">Practice again</button>
+      </div>
+    </div>
+    <div class="dr-fb" id="feedbackPanel"></div>
+  </section>
+
+  <!-- Past interviews -->
+  <section id="screen-past" class="screen" hidden>
+    <div class="sv-page">
+      <div class="review-head">
+        <div><h1 class="screen-title">Past interviews</h1><p class="lede">Open a finished interview to read its feedback again.</p></div>
+        <div class="review-actions"><button class="primary" id="pastNewBtn" type="button">New interview</button></div>
+      </div>
+      <div id="pastList"></div>
+    </div>
+  </section>
+</main>
+
+<audio id="voice" preload="none"></audio>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="/shared.js"></script>
+<script src="/dash/feedback.js"></script>
+<script src="/student.js"></script>
+<script>
+  // Title card: until the plan arrives (student.js then sets the title from it), show the type and role the student
+  // chose in the setup wizard, with the style and length underneath. Read before student.js consumes the handoff.
+  (() => {
+    const TYPE = { recruiter_screen: 'Screening round', hiring_manager: 'Hiring manager round', back_your_resume: 'CV Deep Dive' };
+    const STYLE = { supportive: 'Friendly style', balanced: 'Standard style', probing: 'Challenging style', surprise: 'Surprise style' };
+    const MIN = { short: '10 min', standard: '15 min' };
+    const STAGE = { summers: 'Summer placements', finals: 'Final placements', laterals: 'Lateral hiring' };
+    let s = null;
+    try { s = JSON.parse(sessionStorage.getItem('vmock_adaptive_setup') || 'null'); } catch (_) { /* storage blocked */ }
+    if (!s) return;
+    const type = TYPE[s.interview_type] || 'Adaptive Interview';
+    document.getElementById('roomType').textContent = type;
+    document.getElementById('liveType').textContent = type;
+    window.ROOM_DOMAIN = s.domain || ''; // for the title once the plan arrives (the plan summary has no domain)
+    document.getElementById('briefTitle').textContent = s.target_role || (s.domain ? `${s.domain} interview` : 'Practice interview');
+    document.getElementById('roomSub').textContent = [s.target_role && s.domain, STAGE[s.stage], STYLE[s.style], MIN[s.length]].filter(Boolean).join(' · ');
+  })();
+
+  // When the plan arrives: style, length and topic count go in the title card; the lobby lists what will happen.
+  document.addEventListener('vm:brief', (e) => {
+    const b = e.detail || {};
+    const L = window.ROOM_LABELS || {};
+    const style = b.surprise ? 'Surprise style' : `${L[b.style] || b.style} style`;
+    const type = L[b.interview_type] || b.interview_type;
+    // Title card: type as the eyebrow, the role as the title, the company on its own line (student.js's combined
+    // "type: role at company" wraps to four lines in this narrow card). The live call shows the role (#liveSub copies #briefTitle).
+    document.getElementById('roomType').textContent = type;
+    document.getElementById('liveType').textContent = type;
+    const domain = window.ROOM_DOMAIN || '';
+    document.getElementById('briefTitle').textContent = b.role || (domain ? `${domain} interview` : 'Practice interview');
+    const company = document.getElementById('roomCompany');
+    company.textContent = b.company ? `at ${b.company}` : '';
+    company.hidden = !b.company;
+    const STAGE_NAME = { summers: 'Summer placements', finals: 'Final placements', laterals: 'Lateral hiring' };
+    document.getElementById('roomSub').textContent = [b.role && domain, STAGE_NAME[b.stage], style, `${b.minutes} min`, `${b.topics} topics`].filter(Boolean).join(' · ');
+    const source = b.jd_used ? 'your resume and the job description' : 'your resume';
+    const items = [
+      'A short warm-up question to settle in.',
+      `${b.topics} topics from ${source}. The interviewer follows up on what you say, as in a real interview.`,
+      'Time for your own questions at the end.',
+      'Then your feedback: what went well, what to fix and how to answer next time.',
+    ];
+    const list = document.getElementById('roomExpect');
+    list.replaceChildren(...items.map((t) => Object.assign(document.createElement('li'), { textContent: t })));
+  });
+
+  // First-turn tour: the first time it's the student's turn, point at the answer controls. Shown once per browser
+  // (localStorage, if allowed); the "?" button replays it.
+  (() => {
+    const FINE = matchMedia('(hover: hover) and (pointer: fine)').matches; // same test as student.js
+    const STEPS = [
+      { anchor: 'sendBtn', title: 'Your turn to answer', body: FINE
+        ? 'When the interviewer finishes, click Start answering, talk, then click Done answering. Or hold Space while you talk and let go to send.'
+        : 'When the interviewer finishes, tap Start answering, talk, then tap Done answering.' },
+      { anchor: 'modeBtn', title: 'Prefer typing?', body: 'Switch between speaking and typing here at any time. Your answer is sent the same way.' },
+      { anchor: 'endBtn', title: 'Finish when you like', body: 'End Interview stops the call and takes you to your feedback.' },
+    ];
+    const KEY = 'vmock_room_tour_done';
+    const seen = () => { try { return localStorage.getItem(KEY) === '1'; } catch (_) { return false; } };
+    const markSeen = () => { try { localStorage.setItem(KEY, '1'); } catch (_) { /* fine without */ } };
+    const tour = document.getElementById('roomTour');
+    const live = document.getElementById('screen-live');
+    let step = -1;
+
+    function place() {
+      if (step < 0) return;
+      const a = document.getElementById(STEPS[step].anchor).getBoundingClientRect();
+      const box = live.getBoundingClientRect();
+      const w = tour.offsetWidth;
+      const left = Math.max(12, Math.min(box.width - w - 12, a.left - box.left + a.width / 2 - w / 2));
+      tour.style.left = `${left}px`;
+      tour.style.top = `${a.top - box.top - tour.offsetHeight - 14}px`;
+      tour.style.setProperty('--arrow-x', `${a.left - box.left + a.width / 2 - left}px`);
+    }
+    function show(i) {
+      step = i;
+      if (i >= STEPS.length) return close();
+      const s = STEPS[i];
+      document.getElementById('tourStep').textContent = `${i + 1} of ${STEPS.length}`;
+      document.getElementById('tourTitle').textContent = s.title;
+      document.getElementById('tourBody').textContent = s.body;
+      document.getElementById('tourNext').textContent = i === STEPS.length - 1 ? 'Got it' : 'Next';
+      tour.hidden = false;
+      place();
+    }
+    function close() { step = -1; tour.hidden = true; markSeen(); }
+
+    document.getElementById('tourNext').addEventListener('click', () => show(step + 1));
+    document.getElementById('tourSkip').addEventListener('click', close);
+    document.getElementById('tourBtn').addEventListener('click', () => show(0));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !tour.hidden) close(); });
+    addEventListener('resize', place);
+    // student.js sets data-phase on #status; the first "ready" (or "typing") opens the tour, starting to answer closes it.
+    new MutationObserver(() => {
+      const phase = document.getElementById('status').dataset.phase;
+      if (['recording', 'transcribing', 'thinking', 'ended'].includes(phase) && !tour.hidden) close();
+      else if (['ready', 'typing'].includes(phase) && step < 0 && !seen()) show(0);
+      else if (step >= 0) place();
+    }).observe(document.getElementById('status'), { attributes: true, attributeFilter: ['data-phase'] });
+  })();
+
+  // Live call: the transcript drawer (closed at the start; the button or × toggles it) and the time bar under the clock.
+  (() => {
+    const panel = document.getElementById('transcriptPanel');
+    const btn = document.getElementById('transcriptBtn');
+    const thread = document.getElementById('thread');
+    const setOpen = (open) => {
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', String(open));
+      document.getElementById('screen-live').classList.toggle('drawer-open', open);
+      if (open) thread.scrollTop = thread.scrollHeight;
+      dispatchEvent(new Event('resize')); // the tour re-places itself
+    };
+    btn.addEventListener('click', () => setOpen(panel.hidden));
+    // Message count in the drawer header; student.js re-renders the thread on every turn.
+    new MutationObserver(() => {
+      const n = thread.querySelectorAll('.sv-msg').length;
+      const count = document.getElementById('transcriptCount');
+      count.textContent = String(n);
+      count.hidden = !n;
+      if (!panel.hidden) thread.scrollTop = thread.scrollHeight;
+    }).observe(thread, { childList: true });
+    document.getElementById('transcriptClose').addEventListener('click', () => setOpen(false));
+
+    // The interviewer reacts while the student answers. Speaking: student.js sets #liveMeter's width from the mic level
+    // every 50 ms; it is mirrored into --lvl (0..1) so the rings follow the voice. Typing: "is-typing" while keys are
+    // pressed (until 1.2 s after the last one), "has-text" while the box has an answer in it.
+    const stage = document.getElementById('interviewerTile');
+    const meter = document.getElementById('liveMeter');
+    new MutationObserver(() => {
+      stage.style.setProperty('--lvl', String(Math.min(1, (parseFloat(meter.style.width) || 0) / 100)));
+    }).observe(meter, { attributes: true, attributeFilter: ['style'] });
+    const typed = document.getElementById('typed');
+    let typingTimer = 0;
+    const syncText = () => stage.classList.toggle('has-text', Boolean(typed.value.trim()));
+    typed.addEventListener('input', () => {
+      stage.classList.add('is-typing');
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(() => stage.classList.remove('is-typing'), 1200);
+      syncText();
+    });
+    // student.js clears the box after sending; there is no input event for that, so re-check on every phase change.
+    new MutationObserver(() => { syncText(); if (stage.dataset.phase !== 'typing') stage.classList.remove('is-typing'); })
+      .observe(stage, { attributes: true, attributeFilter: ['data-phase'] });
+
+    // #timer reads "mm:ss of about N min" (student.js); the bar shows how much of that time has gone.
+    const timer = document.getElementById('timer');
+    new MutationObserver(() => {
+      const m = timer.textContent.match(/^(\d+):(\d+).*?(\d+)\s*min/);
+      if (!m) return;
+      const pct = Math.min(100, ((Number(m[1]) * 60 + Number(m[2])) / (Number(m[3]) * 60)) * 100);
+      document.getElementById('timeBar').style.width = `${pct}%`;
+    }).observe(timer, { childList: true, characterData: true, subtree: true });
+  })();
+
+  // Feedback header: "Past interviews" does what the top bar's button does (student.js wires that one).
+  document.getElementById('fbPastBtn').addEventListener('click', () => document.getElementById('pastBtn').click());
+
+  // Hardware check dialog (the lobby's mic try lives inside it; student.js drives the meter and the try button).
+  (() => {
+    const dlg = document.getElementById('hwDialog');
+    document.getElementById('hwBtn').addEventListener('click', () => {
+      dlg.showModal();
+      // Focus the mic try (when the mic works), so Space tries the mic instead of pressing Close.
+      if (!document.getElementById('micTry').hidden) document.getElementById('tryBtn').focus();
+    });
+    for (const id of ['hwClose', 'hwDone']) document.getElementById(id).addEventListener('click', () => dlg.close());
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+  })();
+</script>
+</body>
+</html>

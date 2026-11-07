@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VMock Dashboard</title>
+<!-- Dashboard replica: a copy of www.vmock.com/dashboard/smart-interviews/practice with two live entries, Mock Interviews
+     (its new "Resume + JD" sub-tab) and CV Deep Dive. Everything else on the page is a static copy. -->
+<link rel="stylesheet" href="https://use.typekit.net/owg1qdp.css">
+<link rel="stylesheet" href="/dash/dash.css">
+</head>
+<body class="d-page">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-checkc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+  <symbol id="i-note" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12Z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><g fill="currentColor" stroke="none"><circle cx="5" cy="5" r="1.6"/><circle cx="12" cy="5" r="1.6"/><circle cx="19" cy="5" r="1.6"/><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/><circle cx="5" cy="19" r="1.6"/><circle cx="12" cy="19" r="1.6"/><circle cx="19" cy="19" r="1.6"/></g></symbol>
+  <symbol id="i-mock" viewBox="0 0 24 24"><rect x="3" y="4" width="13" height="10" rx="2"/><circle cx="9.5" cy="8.5" r="2"/><path d="M6.5 14c.6-1.4 1.7-2 3-2s2.4.6 3 2M18 7h3M18 11h3M8 18h8"/></symbol>
+  <symbol id="i-cv" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><circle cx="11" cy="13" r="2.5"/><path d="m13 15 2.5 2.5"/></symbol>
+  <symbol id="i-req" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M12 10v6"/></symbol>
+  <symbol id="i-comm" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 19c.8-3 3.2-4.5 6-4.5s5.2 1.5 6 4.5M15 14.6c2.4-.3 4.5.9 5.5 3.4"/></symbol>
+  <symbol id="i-conv" viewBox="0 0 24 24"><path d="M4 5h11v8H8l-4 3z"/><path d="M15 9h5v8l-3-2h-6v-2"/></symbol>
+  <symbol id="i-case" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 12h18"/></symbol>
+  <symbol id="i-custom" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 9h6M7 13h10M15 21H9"/></symbol>
+  <symbol id="i-tech" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="m9 8-2 2 2 2M15 8l2 2-2 2M8 20h8M12 16v4"/></symbol>
+  <symbol id="i-plusc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+</svg>
+
+<header class="d-top">
+  <a class="d-brand" href="/dashboard/smart-interviews/practice/career-interviews" aria-label="VMock dashboard">
+    <img src="/vmock/assets/logo-color.png" alt="VMock" width="62" height="26">
+    <span class="d-brand-sep" aria-hidden="true"></span>
+    <span class="d-brand-name">Candidate Dashboard</span>
+  </a>
+  <nav class="d-nav" aria-label="Main">
+    <a href="#">Home</a><a href="#">CV</a><a href="#">Cover Letter</a><a href="#">Career</a><a href="#">Elevator Pitch</a>
+    <a href="/dashboard/smart-interviews/practice/career-interviews" aria-current="page">Interview</a>
+    <a href="#">Appointments</a><a href="#">Jobs</a><a href="#">Written Feedback</a>
+  </nav>
+  <div class="d-top-end">
+    <img class="d-partner" src="/vmock/assets/partner-logo.png" alt="Demo Community" width="70" height="26">
+    <span class="d-user"><b>TU</b><span>Test User</span></span>
+    <button class="d-grid-btn" type="button" aria-label="Apps"><svg class="ic"><use href="#i-grid"/></svg></button>
+  </div>
+</header>
+
+<div class="d-wrap">
+  <div class="d-box">
+    <nav class="d-tabs" aria-label="Interviews">
+      <a href="/dashboard/smart-interviews/practice/career-interviews" aria-selected="true">Practice</a>
+      <a href="#">Learn</a>
+      <a href="#">Previously Recorded <span class="d-count">7</span></a>
+      <a href="#">Script</a>
+      <a href="#">Assessments</a>
+    </nav>
+    <div class="d-body">
+      <nav class="d-side" aria-label="Interviews">
+        <div class="d-side-h">Interviews</div>
+        <a class="d-side-link" data-live data-entry="mock" href="/dashboard/smart-interviews/practice/career-interviews"><svg class="ic"><use href="#i-mock"/></svg>Mock Interviews</a>
+        <a class="d-side-link" data-live data-entry="cv" href="/dashboard/smart-interviews/practice/cv-deep-dive"><svg class="ic"><use href="#i-cv"/></svg>CV Deep Dive<span class="d-new">NEW</span></a>
+        <span class="d-side-link soon"><svg class="ic"><use href="#i-req"/></svg>Requested Interviews</span>
+        <span class="d-side-link soon"><svg class="ic"><use href="#i-comm"/></svg>Community Interviews</span>
+        <span class="d-side-link soon"><svg class="ic"><use href="#i-conv"/></svg>Career Conversations</span>
+        <span class="d-side-link soon"><svg class="ic"><use href="#i-case"/></svg>Case Interviews</span>
+        <span class="d-side-link soon"><svg class="ic"><use href="#i-custom"/></svg>Custom Interviews</span>
+        <span class="d-side-link soon"><svg class="ic"><use href="#i-tech"/></svg>Technical Interviews</span>
+        <button class="d-side-cta" type="button"><svg class="ic"><use href="#i-plusc"/></svg>SMART Interview</button>
+        <div class="d-side-sep"></div>
+        <span class="d-side-link soon"><svg class="ic"><use href="#i-bookmark"/></svg>Bookmarks</span>
+        <div class="d-side-sep"></div>
+        <div class="d-side-h">Resources</div>
+        <a class="d-side-res" href="#">Elevator pitch guide<svg class="ic"><use href="#i-ext"/></svg></a>
+        <a class="d-side-res" href="#">Interview guide<svg class="ic"><use href="#i-ext"/></svg></a>
+      </nav>
+
+      <main class="d-main" id="main">
+        <!-- Mock Interviews: the library sub-tabs are a static copy; "Resume + JD" is the adaptive interview. -->
+        <section data-entry-panel="mock" hidden>
+          <h1 class="d-h">Mock Interviews</h1>
+          <div class="d-subbar">
+            <div class="d-subtabs" role="tablist" aria-label="Mock interviews">
+              <a role="tab" href="?tab=library" data-tab="library"><svg class="ic"><use href="#i-mock"/></svg>Mock Interview</a>
+              <a role="tab" href="?tab=recommended" data-tab="recommended"><svg class="ic"><use href="#i-star"/></svg>Recommended</a>
+              <a role="tab" href="?tab=adaptive" data-tab="adaptive"><svg class="ic"><use href="#i-spark"/></svg>Resume + JD<span class="d-new">NEW</span></a>
+            </div>
+            <div class="d-subtools" data-tools>
+              <a class="d-link" href="#"><svg class="ic"><use href="#i-gear"/></svg>Update Preferences</a>
+              <span class="d-search"><svg class="ic"><use href="#i-search"/></svg>Search Interviews</span>
+            </div>
+          </div>
+
+          <div data-tab-panel="library" hidden>
+            <div class="d-chips"><span class="d-chip on">Corporate Finance</span><span class="d-chip">Marketing</span><span class="d-chip">Product Management</span></div>
+            <div class="d-tiles" data-tiles></div>
+          </div>
+          <div data-tab-panel="recommended" hidden>
+            <div class="d-tiles" data-tiles="recommended"></div>
+          </div>
+          <div data-tab-panel="adaptive" hidden>
+            <div class="d-hero">
+              <div>
+                <span class="d-hero-eyebrow"><svg class="ic"><use href="#i-spark"/></svg>Adaptive interview</span>
+                <h2>Practise for the job you want</h2>
+                <p>Add your CV and the job description. An AI interviewer asks you questions out loud, follows up on what you say, as in a real interview, and gives you feedback on every answer.</p>
+                <ul class="d-hero-points">
+                  <li><svg class="ic"><use href="#i-check"/></svg>Built from your CV and the job</li>
+                  <li><svg class="ic"><use href="#i-check"/></svg>About 10 to 15 minutes</li>
+                  <li><svg class="ic"><use href="#i-check"/></svg>How to answer each question next time</li>
+                </ul>
+              </div>
+              <a class="d-btn primary" href="/dashboard/smart-interviews/practice/adaptive/setup?entry=mock">Start Interview<svg class="ic"><use href="#i-arrow"/></svg></a>
+            </div>
+            <div class="d-past" data-past="mock"></div>
+          </div>
+        </section>
+
+        <!-- CV Deep Dive: resume only, line by line. -->
+        <section data-entry-panel="cv" hidden>
+          <h1 class="d-h">CV Deep Dive</h1>
+          <div class="d-hero">
+            <div>
+              <span class="d-hero-eyebrow"><svg class="ic"><use href="#i-cv"/></svg>Resume only</span>
+              <h2>Be ready to back up every line of your CV</h2>
+              <p>The interviewer goes through your CV line by line, the way panels do: what you did yourself, how you measured it, and what you would do differently.</p>
+              <ul class="d-hero-points">
+                <li><svg class="ic"><use href="#i-check"/></svg>Only your CV needed</li>
+                <li><svg class="ic"><use href="#i-check"/></svg>About 10 to 15 minutes</li>
+                <li><svg class="ic"><use href="#i-check"/></svg>How to answer each question next time</li>
+              </ul>
+            </div>
+            <a class="d-btn primary" href="/dashboard/smart-interviews/practice/adaptive/setup?entry=cv">Start CV Deep Dive<svg class="ic"><use href="#i-arrow"/></svg></a>
+          </div>
+          <div class="d-past" data-past="cv"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <aside class="d-rail" aria-hidden="true">
+    <svg class="ic"><use href="#i-bell"/></svg><svg class="ic"><use href="#i-checkc"/></svg><svg class="ic"><use href="#i-note"/></svg><svg class="ic"><use href="#i-chat"/></svg>
+  </aside>
+</div>
+
+<script src="/dash/practice.js"></script>
+</body>
+</html>

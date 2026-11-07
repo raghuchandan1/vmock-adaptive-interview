@@ -1,0 +1,69 @@
+/* Dashboard replica room (dash/room.html): loaded after vmock/room.css, which gives the structure; this gives the
+   dashboard look. Lobby in the shape of the dashboard's calibration screen (left panel, camera on the right). */
+body.d-room { --font: var(--d-font); --primary-ink: var(--d-blue); --border: var(--d-line); font-family: var(--d-font); background: var(--d-page); }
+body.d-room .topbar.rm-top.d-top { position: sticky; top: 0; height: var(--d-top-h); padding: 0 16px; border: 0; box-shadow: 0 1px 0 var(--d-line); }
+body.d-room .d-brand-name { color: var(--d-ink-3); }
+body.d-room #pastBtn { color: var(--d-blue); }
+
+/* ---------- Lobby: left panel, camera stage, join at the bottom of the stage ---------- */
+.d-room .rm-lobby {
+  display: grid; grid-template-columns: 340px minmax(0, 1fr); grid-template-areas: "side stage";
+  height: calc(100vh - var(--d-top-h)); background: #fff;
+}
+.d-room .rm-stage { position: relative; grid-area: stage; margin: 16px 16px 16px 0; border-radius: 8px; overflow: hidden; background: #2b2f36; }
+.d-room .rm-side {
+  position: static; grid-area: side; width: auto; max-height: none; padding: 20px; gap: 18px; overflow-y: auto;
+  border-right: 1px solid var(--d-line);
+}
+.d-room .rm-side > * { flex: none; } /* the panel scrolls; its parts never shrink into each other */
+.d-room .rm-titlecard { min-height: 0; padding: 0 0 18px; border-radius: 0; border-bottom: 1px solid var(--d-line); background: none; backdrop-filter: none; }
+.d-room .rm-titleicon { width: 56px; height: 56px; border-radius: 6px; color: var(--d-blue); background: var(--d-blue-fill); }
+.d-room .rm-titleicon .ic { width: 24px; height: 24px; }
+.d-room .rm-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--d-blue); }
+.d-room .rm-title { font-size: 16px; line-height: 22px; font-weight: 600; color: var(--d-ink-2); }
+.d-room .rm-meta { font-size: 13px; line-height: 18px; color: var(--d-muted); }
+
+.dr-prep { margin: 0; padding: 0; list-style: none; display: grid; gap: 16px; }
+.dr-prep li { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: start; }
+.dr-prep-icon { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 8px; color: var(--d-blue); background: var(--d-blue-soft); border: 1px solid var(--d-blue-fill); }
+.dr-prep-icon .ic { width: 20px; height: 20px; }
+.dr-prep strong { display: block; font-size: 14px; line-height: 20px; font-weight: 600; color: var(--d-ink-2); }
+.dr-prep p { margin: 2px 0 0; font-size: 13px; line-height: 18px; color: var(--d-muted); }
+
+.d-room .rm-card { padding: 16px; border: 1px solid var(--d-line); border-radius: 8px; background: #fafbfc; backdrop-filter: none; overflow: visible; }
+.d-room .rm-host-avatar { border-radius: 50%; background: var(--d-blue); }
+.d-room .rm-link { color: var(--d-blue); }
+
+.d-room .rm-bottom { position: static; grid-area: stage; align-self: end; justify-self: center; transform: none; margin: 0 0 40px -16px; z-index: 2; }
+.d-room .rm-pill { padding: 12px 20px; border-radius: 6px; font-size: 14px; line-height: 20px; color: #fff; background: rgb(0 0 0 / .55); }
+.d-room .rm-pill .rm-meter { background: rgb(255 255 255 / .25); }
+.d-room .rm-join { height: 40px; padding: 0 28px; border-radius: 4px; font-weight: 500; }
+.d-room .rm-join:disabled { color: #fff; background: #8fbbe3; border-color: #8fbbe3; opacity: 1; }
+.d-room .rm-join:not(:disabled) { background: var(--d-blue); border-color: var(--d-blue); }
+.d-room .rm-join:not(:disabled):hover { background: var(--d-blue-dark); }
+.d-room .rm-dialog, .d-room .rm-tour { border-radius: 8px; font-family: var(--d-font); }
+.d-room .rm-done, .d-room .rm-try-btn, .d-room .rm-tour-next, .d-room .rm-tour-skip { border-radius: 4px; }
+
+/* ---------- Live call: same stage, dashboard buttons and corners ---------- */
+body.d-room.live { background: #f4f6f9; }
+.d-room .rm-live { height: calc(100vh - var(--d-top-h)); background: #f4f6f9; }
+.d-room .rm-call { background: radial-gradient(60% 55% at 50% 40%, #e6f1fa 0%, #f4f6f9 65%); }
+.d-room .rm-call-meta .rm-eyebrow { color: var(--d-blue); }
+.d-room .rm-clock { border-radius: 6px; }
+.d-room .rm-orb { background: linear-gradient(135deg, #0062ad, #0075cb 55%, #489cff); }
+.d-room .rm-thread .sv-msg::before { background: linear-gradient(135deg, #0062ad, #0075cb 55%, #489cff); }
+.d-room .rm-controls { border-radius: 8px; }
+.d-room .rm-talk, .d-room .rm-end, .d-room .rm-tbtn { border-radius: 4px; }
+.d-room .rm-talk { background: var(--d-blue); }
+.d-room .rm-talk:hover:not(:disabled) { background: var(--d-blue-dark); }
+.d-room .rm-self { border-radius: 8px; }
+.d-room .rm-typed { border-radius: 6px; }
+.d-room .rm-thread .sv-msg.is-candidate p { background: var(--d-blue); border-color: var(--d-blue); }
+
+@media (max-width: 860px) {
+  .d-room .rm-lobby { display: flex; flex-direction: column; height: auto; }
+  .d-room .rm-stage { position: relative; height: 42vh; margin: 12px; }
+  .d-room .rm-side { border-right: 0; padding: 16px; }
+  .d-room .rm-bottom { margin: 0 0 24px; align-self: center; }
+  body.d-room .d-partner, body.d-room .d-user span { display: none; }
+}

@@ -339,7 +339,10 @@ function readRaw(req, limit) {
 
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.png': 'image/png' };
 // Clean page URLs; the VMock replica lives under /vmock so the existing pages stay as they are.
-const PAGES = { '/': 'index.html', '/student': 'student.html', '/vmock/interview': 'vmock/interview.html', '/vmock/adaptive-interview': 'vmock/setup.html', '/vmock/adaptive-interview/room': 'vmock/room.html' };
+const PAGES = { '/': 'index.html', '/student': 'student.html', '/vmock/interview': 'vmock/interview.html', '/vmock/adaptive-interview': 'vmock/setup.html', '/vmock/adaptive-interview/room': 'vmock/room.html',
+  // Dashboard replica (www.vmock.com/dashboard design): Mock Interview (Resume + JD) and CV Deep Dive entries.
+  '/dashboard/smart-interviews/practice/career-interviews': 'dash/practice.html', '/dashboard/smart-interviews/practice/cv-deep-dive': 'dash/practice.html',
+  '/dashboard/smart-interviews/practice/adaptive/setup': 'dash/setup.html', '/interviews/adaptive/room': 'dash/room.html' };
 
 function serveStatic(req, res) {
   const urlPath = decodeURIComponent(new URL(req.url, 'http://x').pathname);

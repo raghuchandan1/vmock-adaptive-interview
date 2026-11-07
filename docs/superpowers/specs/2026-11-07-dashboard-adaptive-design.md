@@ -55,8 +55,8 @@ One `practice.html` serves both sidebar items; the script reads the path to pick
 - Buttons: primary #0075cb, 40px tall, padding 5px 20px, radius ~4px; outlined blue; text-only grey Skip.
 - Filter chips: pill radius 60, 34px tall; active #e6f1fa with #0075cb border.
 
-Full capture notes, with every measured component, are copied into `public/dash/DESIGN-NOTES.md`
-when building starts.
+Full capture notes, with every measured component, are in `docs/dashboard-design-notes.md`
+
 
 ## Screens
 
