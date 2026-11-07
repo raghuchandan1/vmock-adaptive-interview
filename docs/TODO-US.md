@@ -48,4 +48,5 @@ Parked on 2026-11-07 for after a US pilot. Each item's evidence, files to change
 ## Open from the pilot changes
 
 - [ ] The 30-minute plan can repeat a competency when the JD has only 4 must-haves (seen once in 4 real planner runs). Track presets (item 23) or more fit angles (item 4) would give the extra topics new ground.
+- [ ] Design-check findings, parked with the IIM "design warnings" item (2026-11-07): cramped padding (4) and a card nested in a card on `public/student.html`; 2 more on `public/vmock/room.html`, including the 3.8:1 hover contrast on the segmented controls. All predate the pilot changes.
 - [ ] Measure real 30-minute sittings: the 6-topic size is set from three real 15-minute sittings (about 20 minutes for 4 topics).
