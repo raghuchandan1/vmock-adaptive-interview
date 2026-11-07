@@ -35,8 +35,12 @@ The parked IIM to-do list (`docs/TODO.md` on the `feedback-v2` worktree) is call
 6. A "what you learned" element in the behavioural rubric.
 7. A switch is always the motivation question, never a concern.
 8. The knowledge slot only for finance, banking and technical roles in the US.
+9. "Why this firm" without a JD: a target-company field, "why you over its peers" and "why now, through an MBA" probes, and a firm-specific element in the motivation rubric (item 16).
+10. Track presets (consulting, banking, tech/PM, brand, rotational) that set competencies and fit angles when there is no JD (item 23).
+11. Feedback that says when an answer ran past about 3 minutes or spent most of its time on the situation, and a "Link to the role" element (items 17-18).
+12. A story bank across sessions, and a next round that covers the competencies not yet practised (item 22).
 
-Also: a deep-dive style for McKinsey-type interviews, a code-enforced never-ask list, opt-in work-authorization practice, an accent test with a transcript check, and coach sharing.
+Also: a 30-second networking-pitch drill for the October-December networking season (item 21), better end-questions feedback (item 20), a deep-dive style for McKinsey-type interviews, a code-enforced never-ask list, opt-in work-authorization practice, an accent test with a transcript check, and coach sharing.
 
 ### US and IIM at a glance
 
@@ -337,6 +341,356 @@ This check reads the prompts and engine on `main` (after the placement-stage and
 
 **Next test, as for IIM:** write six fictional US profiles (consulting, banking, tech PM, CPG brand, a career switcher, a part-time advancement case), plan each in the three interview types, and run one live interview per profile after items 1-8 below are built. Count "why this firm" questions, fit questions, lesson probes and knowledge slots before and after.
 
+## 7. What US recruiters and coaches ask for, by topic
+
+Read from recruiters' and schools' own pages and club casebooks after the fit check above. Each subsection ends with the product changes it suggests; the agreed versions are items 16-23 in "Changes needed". The fetch tool dropped some short words from page text: words in [brackets] were restored, so re-check any quote before it goes into student-facing copy.
+
+### 7.1 "Why this firm / function / industry"
+
+#### Evidence
+
+- **Consulting clubs put "why this firm" in the standard fit set.** The Haas Consulting Club's guide lists the core fit questions as "Walk me through your resume", "Why consulting?" and "Why us [Firm A]?". Its follow-ups are "Why this firm over your current firm?" and "Why didn't you apply directly rather than going through the trouble of getting an MBA?". It treats the interview as 50% case and 50% fit. It tells students to network for "insider" information to answer "Why this firm?". Its longer question list adds "Why [this firm]?", "Why firm over current firm?" and "Why [do] you want [to] be in this city?". It tells students to build "portfolio" stories and "Match stories [to] questions" ([Haas Consulting Club 2019](https://s3.amazonaws.com/thinkific/file_uploads/163260/attachments/a3c/7d5/a54/Haas_2019.pdf)) [First-hand, read; third-party copy. The 50/50 split and the "insider" advice are from a search summary].
+- **Other fit lists ask the same.** Johns Hopkins Carey's list asks "Why consulting?", "How did you hear about [insert name of consulting company]?" and "What attracted you to X firm?" ([JHU Carey](https://carey.jhu.edu/sites/default/files/2019-09/consulting_interview_questions.pdf)) [Search summary only].
+- **Bain wants a firm-specific reason.** Bain says it looks for people "who can explain why they want to join us specifically" ([Bain interviewing](https://www.bain.com/careers/hiring-process/interviewing/)) [Recruiter official; read by the earlier helper. My fetch got only the menu].
+- **Banking asks "why banking", and for MBAs, "why now".** An MBA banking guide says the resume walkthrough "requires a coherent narrative connecting your pre-MBA career, the decision to attend business school, and your interest in banking". "Why banking now?" asks why the candidate did not go into banking earlier ([ibinterviewquestions.com](https://ibinterviewquestions.com/blog/mba-investment-banking-recruiting-guide)) [Anecdote].
+  - The Breaking Into Wall Street guide hosted on a UChicago site calls "Why investment banking?" the most important question after the resume walkthrough. It says most fit answers should take no more than 1 minute ([BIWS PDF on voices.uchicago.edu](https://bpb-us-w2.wpmucdn.com/voices.uchicago.edu/dist/8/3622/files/2025/09/400-IB-Questions-Interview-Guide.pdf)) [Search summary only; commercial guide].
+- **Microsoft asks candidates to research.** Its interview tips: understand "what Microsoft [is] doing well, and how we can make ourselves stand out [from the] competition", and "Make sure [you] prepare questions [to] ask during [the] interview" ([Microsoft interview tips](https://careers.microsoft.com/v2/global/en/hiring-tips/interview-tips.html)) [Recruiter official, read].
+- **Fuqua expects "why this company" inside the opening answer.** Its "Tell me about yourself" guide says the answer should "Leave no doubt about why you [are a] good fit, why you [are] interested in [the] company". It ends with "Your Fit", which means "Link past [to] future" and "Enthusiasm [for the] company and position" ([Fuqua two-minute profile](https://www.fuqua.duke.edu/alumni/alumni-two-minute-profile)) [School official, read].
+- **CPG asks about the business itself.** Kraft Heinz candidates report "What are the most important challenges facing Kraft Heinz in the food industry?" and "What excites you about the company?" ([Glassdoor, Kraft Heinz](https://www.glassdoor.com/Interview/Kraft-Heinz-Company-Interview-Questions-E1026712.htm)) [Anecdote]. A General Mills guide says to know the brands, especially for a brand-specific role [Anecdote].
+
+**What a good answer has, across these sources:**
+1. A reason tied to the student's own past (the transition).
+2. Something specific to this firm that a competitor does not share, often from a conversation with someone there (networking).
+3. Why now and why through an MBA, for career switchers.
+4. For CPG, a view on the business or its brands.
+
+#### What our interviewer does today
+
+- **The motivation slot (main) already asks for a firm-specific reason when a JD names the company.** It needs "one reason specific to this company or team (from the JD or the candidate's own research)". The finals stage covers "why this company, not only the role".
+- **There is no follow-up rung that asks "why us over [peer]"** and no planned probe for "who have you spoken to there".
+- **Without a JD, motivation is only "why this role".** Most US first-years practise for a named firm without pasting a JD (networking comes before postings).
+- **The motivation rubric rates three things:** Specific reason, Fit with the role, Evidence. It has nothing for "specific to this firm versus its competitors", and nothing for "why now / why MBA".
+
+#### Product changes
+
+1. **Setup field: "Target company (optional)"** (`public/vmock/setup.html|js`, `inputs.target_company`, passed to the planner).
+   - The planner's motivation question names it even without a JD.
+   - Planner rule: never state facts about the company beyond the JD, as today.
+   - Size S.
+2. **Planned motivation probes for US** (`prompts/planner.md`, step 6 likely_probes for motivation). Add in this order:
+   - "What sets [company] apart from [the other firms you're looking at] for you?" (the "why us over a peer" probe; firm named only if the student named it).
+   - "Who have you spoken with there, and what did you learn?". This conflicts with the one-ask rule as written; use "What have you learned about [company] from people who work there?"
+   - For switchers: "Why make this move now, through an MBA?"
+
+   Size S.
+3. **Split the motivation rubric's "Fit with the role" into role fit and firm specificity**, or add a fourth element, "Specific to this firm" (`RUBRICS.motivation` in `lib/engine.js`; `prompts/feedback.md`). Rate it only when a company is known. Feedback flags a reason "that could be said of any firm", which is what Bain and the Haas guide test. Size S to M.
+4. **Feedback: a "why now / why MBA" check for switchers** (`prompts/feedback.md`). When the plan raised a switch, the motivation topic's plan steps include a past-to-future link ("Link past [to] future", Fuqua). Size S.
+
+### 7.2 Behavioural prompts by function
+
+#### Consulting (fit plus PEI)
+
+- **McKinsey's page did not load** (it timed out again).
+- **Club casebooks give the standard fit set:**
+  - "Walk me through your resume", "Why consulting?", "Why this firm?" (Haas 2019, above).
+  - The 2012 Kellogg casebook says to prepare "2 stories for each attribute", using STAR-L, with "3 fit questions" before each case.
+  - Darden 2020-21 gives "Fit Question 5 Mins" (section 1).
+- **What the planner would miss:**
+  - **"Why consulting?" as its own question for a switcher.** The switch topic exists, but a consulting fit round asks it even when the student is not switching function.
+  - **"Why this firm over your current firm?"** for students whose pre-MBA employer was a consulting firm. The planner raises a switch only when the field changes, not when the employer stays in the same field.
+
+#### Investment banking
+
+- **The standard openers are "Walk me through your resume" and "Why banking?"** (BIWS guide; Duke MBA Finance Club Resource Guide 2010-11 on pdfcoffee: "Walk me through your resume including a follow-up question or two on the resume") [Search summary only].
+  - BIWS says that, apart from the resume walkthrough, most fit answers should take no more than 1 minute [Search summary only].
+  - One guide gives 3-5 minutes for the walkthrough [Anecdote].
+  - A Wall Street Oasis thread says to pitch the story with "a nice little tie-in as to your interest in banking" [Anecdote].
+- **Market questions** ("What's going on in the market?", "Pitch me a stock") and **technicals** come up in banking accounts [Anecdote]. Our knowledge slot bans definitions and calculations. Banking technicals are mostly of that kind, so they stay out of scope, like cases.
+- **What the planner would miss:**
+  - **"Walk me through your resume" as a graded answer.** Our background question is unscored and never graded for structure.
+  - **A "why banking now" follow-up.**
+  - **A short current-markets question tied to the JD's group** (for example "What deal in [sector] caught your attention recently?"). This would need care: nothing in the prompts can check market facts.
+
+#### Tech and product (Amazon, Google, Microsoft)
+
+- **Amazon** ([Amazon PM interview prep](https://amazon.jobs/content/en/how-we-hire/product-manager-interview-prep)) [Recruiter official, read]:
+  - The phone screen is "60 minutes": half on "behavioral questions [that] focus on our Leadership Principles", half on product management.
+  - The loop is "five 55-minute interviews", and "different interviewers will [be] assigned [to] evaluate" different Leadership Principle competencies.
+  - "Each interviewer will typically ask two or three behavioral-based questions about successes or challenges".
+  - It wants "examples [that] showcase [your] expertise and demonstrate how you've taken risks, succeeded, failed and grown", "metrics or data where applicable", and the STAR method.
+  - The Amazon loop page: "Each person will assess different aspects of your skills and experience" ([Amazon interview loop](https://www.amazon.jobs/content/en/how-we-hire/interview-loop)) [Recruiter official, read].
+- **Microsoft** ([Microsoft interview tips](https://careers.microsoft.com/v2/global/en/hiring-tips/interview-tips.html)) [Recruiter official, read]:
+  - "We recommend you use [the] STAR(R) model": Situation, Task, Action, Result, **Reflection**.
+  - Prepare examples that explain "[the] situation, what you did, [the] outcome, and what you learned".
+  - It names growth mindset, diversity and inclusion, One Microsoft, customer obsession, values and manager expectations.
+  - "When you get stuck or don't have experience [in the] subject matter, [we] encourage you [to] ask clarifying questions".
+- **Google:** the official page body did not render (section 1) [Search summary only].
+- **What the planner would miss:**
+  - **A failure or risk story.** `fit_angle` includes "a time they failed", but only for summers and thin resumes.
+  - **Customer or user focus as a competency** when the JD does not say it.
+  - **A Reflection step:** Microsoft makes it the fifth STAR element.
+
+#### Consumer goods brand management (P&G, General Mills, Kraft Heinz)
+
+- **P&G** ([P&G hiring process](https://www.pgcareers.com/hiring-process)) [Recruiter official, read]:
+  - Interviews are "one-on-one or panel" and "Most interviews last around 45-60 minutes, but [there are] no strict time limits".
+  - The interview is also "[a] chance [to] ask us questions… We believe two-way communication starts Day 1, so ask away".
+  - The helper's read of the same page gave sample prompts: "Give an example of a time when you created something new" and "Tell me about a time when you worked with others".
+  - P&G now says candidates must "conduct any interviews on [your] own without any real-time help – from others or [the] use [of] technology such as Artificial Intelligence (AI)". That is fine for a practice tool used before the interview, but **our marketing must never suggest use during a real interview**.
+- **General Mills:** the official posting for the Associate Brand Manager internship (10 weeks, Minneapolis, leading to the Brand Leadership Development Program) lists "Entrepreneurial qualities necessary for driving the P&L", "high learning agility", and "analytical and decision-making skills" ([General Mills ABM internship posting](https://genmills.wd1.myworkdayjobs.com/en-US/GMI_External_Careers/job/Internship---Associate-Brand-Manager_10128703)) [Search summary only].
+  - Candidate reports describe "2x 45 minute behavioral and functional interviews" in January-February [Anecdote, Glassdoor].
+  - Reported questions: "Describe how you leveraged data to solve a problem" and a workplace-conflict question [Anecdote].
+- **Kraft Heinz:** no official process page found. Candidates report recorded video interviews with "5 to 6 behavioural questions" (30 seconds to think, 2 minutes to answer), and in-person questions on "leadership, data, and taking risks" [Anecdote, Glassdoor].
+- **What the planner would miss:**
+  - **Creativity or innovation** ("created something new").
+  - **Leading a cross-functional team without authority**, which is the core of brand management.
+  - **"Using data to make a decision".** The planner reaches these only if the JD names them. The 2-minute answer window in recorded interviews matches our 3-minute answer cap.
+
+#### Rotational and leadership development programs
+
+- **Found:** a General Mills internship that leads into its Brand Leadership Development Program (above).
+- **Not found:** an official page describing interview content for MBA leadership development programs (for example J&J, GE, Amazon Pathways, bank programs). Glassdoor accounts for Kraft Heinz's management trainee program describe standard behavioural questions plus "Why do you want to work here?" [Anecdote].
+- **Gap: "rotational program" is not a recognised role type.** No planner rule picks competencies like learning agility and breadth.
+
+#### Product changes for 7.2
+
+1. **Track presets in setup** (`public/vmock/setup.html|js`; passed as part of `target_role` "domain:" or a new `track` input; `prompts/planner.md` step 3).
+   - Tracks: Consulting, Banking, Tech/PM, Brand management, Rotational/general management.
+   - Each preset adds competency names the planner prefers when the JD is missing or thin:
+     - Consulting: "Why consulting", leadership, drive, teamwork.
+     - Banking: "Why banking", teamwork under pressure, attention to detail.
+     - Tech/PM: customer focus, data-driven decision, failure and growth.
+     - Brand: creating something new, leading without authority, using data.
+     - Rotational: learning agility, breadth, leadership.
+   - Never invent a firm's attribute list.
+   - Size S to M.
+2. **"Why [function]" as a separate motivation probe** for consulting and banking tracks (`prompts/planner.md` motivation likely_probes). Ask it even when there is no switch concern. Size S.
+3. **Add a "failure or risk" story to the standard fit angles** for the Tech/PM and brand tracks in every stage, not only summers (`FIT_ANGLES` / `fitAngle` in `lib/engine.js`; planner step 6 fit rule). Amazon explicitly asks for risks, failures and growth. Size S.
+4. **A Reflection element in the behavioural rubric** (`RUBRICS.behavioural`). See 7.3. Microsoft's STAR(R) is the clearest recruiter-owned source. Size S to M.
+5. **Graded "Walk me through your resume" for the banking track** (`background_question` in planner; a pitch rubric). See 7.4. Size M. Overlaps the IIM TODO item "Timed 'Tell me about yourself'".
+
+### 7.3 Mock-interview evaluation forms: what US coaches rate
+
+#### Evidence
+
+**No MBA career center publishes its mock-interview form.** I found none for Kellogg, Ross, Fuqua, Darden, Tuck, Wharton or HBS; they are likely behind student portals. The forms below are from general university career centers.
+
+- **BYU Careers** ([handout](https://careers.byu.edu/00000197-7f5a-df36-a7df-7f7a9e210001/mock-interview-rubric-handout); [older rubric](https://careers.byu.edu/00000170-ef47-dd0b-af75-ffcfb45a0000/mock-interview-rubric)) [Search summary only; the PDF had no extractable text]. It is filled in by a peer mentor. Each question is scored on three levels: Exceeds expectations, Meets expectations, Does not meet expectations. It checks:
+  - **Behavioural:** did the student give specific examples showing the desired behaviour, and link qualifications to the job? Notes are taken as Problem / Action / Result.
+  - **"Tell me about yourself":** relevant insight beyond the resume, without personal information.
+  - **"Why do you want to work for ___?":** knowledge of the company.
+  - **Strength:** relevant to the position.
+  - **Weakness:** not too negative, with strategies to compensate.
+  - **"What questions do you have for me?":** prepared relevant questions, and conveyed interest.
+- **Princeton Career Development:** a 4-point scale (Needs Improvement, Developing, Good, Excellent) covering verbal communication, behavioural questions (STAR) and the candidate's own questions ([Princeton](https://careerdevelopment.princeton.edu/interview-guide/interview-rubric)) [Search summary only; 403].
+  - The top level uses STAR with thorough stories and connects answers to the position.
+  - The bottom level lacks specific examples.
+- **Miami University (Ohio):** a 1-5 scale. It covers first impression, content (tell me about yourself, behaviour-based and career-specific questions), interview skills and closing. Items include answering clearly and completely, using the CAR method, and seeming prepared but not rehearsed ([Miami](https://miamioh.edu/emss/_files/documents/career-services/pdfs/miff.pdf)) [Search summary only].
+- **Texas Tech:** the form ends with "would you hire this student or advance [them] to a second level interview?" ([Texas Tech](https://www.depts.ttu.edu/careercenter/documents/MockInterviewRubric.pdf)) [Search summary only].
+- **Consulting clubs rate attributes, not answer parts.** The Kellogg 2012 casebook lists Confidence, Eloquence, Amicability, Engagement, Leadership, Drive and Genuine Interest (section 1) [First-hand, read by the earlier helper].
+
+#### Comparison with ours
+
+| What US forms rate | Ours (`RUBRICS`, `prompts/feedback.md`) | Gap |
+|---|---|---|
+| Specific example, STAR, CAR or PAR | Behavioural: Situation, Your role, What you did, Result | None |
+| **Links the answer to the job or position** (BYU, Princeton) | Not in the behavioural rubric. Only motivation has "Fit with the role". | **Missing** |
+| Why this company: knowledge of the company (BYU) | Motivation: Specific reason, Fit, Evidence | Partial (see 7.1) |
+| "Tell me about yourself" (BYU, Miami) | Unscored. Moments only for a resume mismatch or a skipped path. | **Missing** |
+| Strength relevant to the position (BYU) | `fit_angle` strengths question, judged on the behavioural rubric | Partial: no "relevant to the role" check |
+| The candidate's own questions (BYU, Princeton, Miami) | End-questions moment: specific or generic | Covered |
+| Prepared but not rehearsed (Miami) | Not rated | Overlaps the IIM TODO item "Follow up answers that sound rehearsed" |
+| Three or four levels | Three levels: Good job, On track, Needs work | Matches BYU's three levels |
+| An overall "would you advance this student?" (Texas Tech) | No overall verdict, by design (PRODUCT.md: no scores) | Product decision |
+| Presence: confidence, eloquence, engagement (Kellogg) | Out of scope (VMock's Delivery and Non Verbal modules) | Not ours |
+
+#### Product changes
+
+1. **Add "Link to the role" to the behavioural rubric** (`RUBRICS.behavioural` in `lib/engine.js`; `prompts/feedback.md`).
+   - Rate it only when a JD or target role exists.
+   - The reason names whether the story's skill or result was tied back to what the role needs.
+   - BYU and Princeton both rate this. Tepper's Result step says to relate the result to the interviewer's question.
+   - Size S to M.
+2. **A "pitch" rubric for the background answer.** See 7.4. Size M.
+3. **Optional coach-style closing line** (feedback summary in `prompts/feedback.md`; v3 view).
+   - One sentence on whether this answer set would likely move the student to the next round, and the main reason.
+   - **Product decision:** this is a verdict, and PRODUCT.md avoids scores. If added, keep it qualitative and tied to the goal.
+   - Size S.
+4. **Peer-mentor view of the same form** (platform).
+   - BYU's form is filled in by a peer mentor. Wharton (Career Fellows) and Kellogg (Career Peers) run peer mocks.
+   - A shared link where a peer adds a level and a note per topic, beside ours, uses the same elements.
+   - Size M. Same item as coach and peer sharing (item 26).
+
+### 7.4 Common mistakes US career centers name
+
+#### Evidence
+
+- **Too long.**
+  - Tepper: "Be brief (typically around 2 minutes….not more [than] 3 minutes)" ([Tepper STAR guide](https://www.cmu.edu/sites/default/files/cmu-tepper-site-files/2025-06/star-story.pdf)) [School official, read].
+  - Fuqua: the "optimum answer [to an] interview question [is] seldom more [than] two minutes" ([Fuqua](https://www.fuqua.duke.edu/alumni/alumni-two-minute-profile)) [School official, read].
+  - BIWS says most banking fit answers take no more than 1 minute [Search summary only].
+- **Too much situation.**
+  - Tepper's split is Situation 20%, Task 10%, Action 60%, Result 10%.
+  - MIT CAPD: explain the situation so the interviewer understands the context, but they "do not need [to] know every detail!" ([MIT CAPD STAR](https://capd.mit.edu/resources/the-star-method-for-behavioral-interviews/)) [School official, read].
+- **"We" instead of "I".**
+  - MIT: "using 'we' statements can make it difficult for [an] employer [to] have [a] clear understanding [of] what your skills are"; "focus your response on how you contributed".
+  - Tepper: "Focus on YOUR actions". Kellogg 2012: "Use the pronoun 'I'…not 'We'".
+- **No result, or an unquantified one.**
+  - Tepper: "Is your result quantifiable?".
+  - Amazon: "answers should include metrics or data where applicable".
+- **Too general.** MIT: "Avoid giving answers [that are] too generalized"; share "specific and clear examples".
+- **Treating a yes/no question as yes/no.**
+  - MIT: some behavioural questions are closed, so practise a "yes, and…" mentality.
+  - Tepper's sample "Have you ever had [to] work with [a] difficult colleague?" carries the hint that the recruiter is not expecting a yes/no answer; it is "[an] invitation [for] you [to] sell yourself by telling [a] story".
+- **Underprepared behavioural stories.** Haas: people are "often overconfident with their behavioral prep (and are more likely to go in cold). The result is a story that falls flat or annoys the interviewer" ([Haas 2019](https://s3.amazonaws.com/thinkific/file_uploads/163260/attachments/a3c/7d5/a54/Haas_2019.pdf)) [First-hand, read; third-party copy].
+- **"Tell me about yourself" as a chronology.** Fuqua: it should "Start [with a] 'headline'", be "no more [than] 2-3 minutes", and "Not be [a] chronology [of your] life". It should also "avoid [being] overly rehearsed".
+- **Stories that don't match the resume.** MIT: bending the truth "may not match up [with] your application materials (resume…)".
+- **Weak "why this firm"** (7.1) and **no or generic questions at the end** (7.7).
+
+#### What our product already does
+
+- **"We" vs "I":** `ownership` counts per topic, `mostlyI` and `PRONOUN_ADVICE` drop "say I" advice when the student already says "I".
+- **Results:** the Result element, plus the `required_next_rung` "result" probe on resume numbers.
+- **Specificity:** `clarify` asks for one specific example.
+- **Resume mismatch:** `resume_mismatch` and the clarify-on-conflict rule.
+- **End questions:** the specific or generic moment.
+
+#### What it misses
+
+1. **Answer length is never fed back.** `LONG_ANSWER_WORDS = 350` only changes the next question ("summarise it in one short clause and ask one closed question"). Feedback says "A long answer [is] not [a] better answer" but has no length signal.
+   - **Change** (`lib/engine.js`, topic data passed to feedback; `prompts/feedback.md`):
+     - Pass each topic's first-answer length (words and seconds, from transcript times).
+     - Add a per-topic note when the first answer passed about 3 minutes (Tepper's ceiling), or about 1 minute for a fit answer on the banking track.
+   - Size S. **IIM TODO:** overlaps "Polite cut-in on long answers". Keep the threshold market- and track-specific: US guidance is 2-3 minutes, IIM is 1 minute.
+2. **A situation-heavy answer is not named.**
+   - **Change** (`prompts/feedback.md`, behavioural rating guidance): when most of a first answer is background and the action comes only after a follow-up, `to_fix` names it ("most of your answer set the scene; your own steps came only when asked"). The `found: after_follow_up` field already captures part of this.
+   - Size S.
+3. **Closed-form behavioural questions are never practised.** The planner bans yes/no questions (step 7 rule 3), but recruiters ask "Have you ever…?" (Tepper, MIT).
+   - **Change** (`prompts/planner.md` rule 3): in Probing style or a "realistic" option, one planned question may be phrased as a closed question. Feedback rewards a "yes, and…" story.
+   - Size S. **Product decision:** it relaxes a quality rule on purpose.
+4. **"Tell me about yourself" is unscored.**
+   - **Change** (`background_question` in `prompts/planner.md`; a `pitch` rubric in `RUBRICS`; `prompts/feedback.md`). Rate:
+     - a headline in the first sentence
+     - the transitions (why each move)
+     - a forward link to this role and company
+     - length about 2 minutes (Fuqua; 30 seconds for Kellogg's networking pitch)
+   - Use "Walk me through your resume" for the banking track.
+   - Size M. **IIM TODO:** same build as "Timed 'Tell me about yourself'", with a market-specific target length.
+
+### 7.5 Coffee chats and networking conversations
+
+#### Evidence
+
+- **Networking is a stage before interviews, and clubs plan for it.**
+  - Haas's guide lists "Understanding the Firm" resources as campus contacts, networking events and "coffee chats".
+  - Its internship timeline runs:
+    - Aug-Sept: meet the firms and research.
+    - Oct-Nov: develop networking relationships.
+    - Late Nov-Dec: resume drop.
+    - Winter break: finalize behavioural prep.
+    - Jan-Feb: first-round interviews by mid to late January.
+  - It warns that the best prep resources, including "career coaches, firm 'coffee chats', other preparing students", are "only really available during the semester".
+  - Source: [Haas 2019](https://s3.amazonaws.com/thinkific/file_uploads/163260/attachments/a3c/7d5/a54/Haas_2019.pdf) [First-hand, read].
+- **Wharton:**
+  - The Marketing Club describes coffee chats as a 30-minute one-on-one with a company representative, hosted with MBA Career Management ([Wharton Marketing Club](https://www.whartonmarketingclub.com/career-development)) [Search summary only; the page did not render].
+  - Wharton's 2016 MBACM 101 deck lists coffee chats alongside information sessions and on-campus interviews ([Wharton MBACM 101, 2016](https://mba-inside.wharton.upenn.edu/wp-content/uploads/2016/08/mbacm101_2016.pdf)) [Search summary only].
+- **Purdue Daniels gives a script for an informational interview** ([Purdue Daniels](https://business.purdue.edu/careers/resources/prepare-for-informational-interviews.php)) [School official, read]:
+  - Ask for a phone conversation of about 30 minutes, and "stick [to that] time frame".
+  - Have a list of questions prepared.
+  - Be clear at the outset that you are "interested in learning about opportunities in [the] field", "not seeking consideration [for a] specific job or internship".
+  - "Close [the] interview [with] thank you and [a] polite request [for] names [of] other people who might [be] able [to] give you additional insight".
+  - Its sample script is written as a first-year MBA student.
+- **Kellogg:** students practise "pitching themselves and why they are pursuing their career path, all in 30 seconds or less" (section 1) [School official, read].
+- **GMAC** describes the banking path as presentations, then coffee chats, then invitation-only events (section 1) [Search summary only].
+
+#### Would a "networking chat" mode fit?
+
+**Yes, for first-years in October-December**, the months before interviews when our interview modes matter less.
+
+The roles flip. The student leads, opens with a 30-second pitch, asks prepared questions, keeps to time, and closes by asking for the next contact. The AI plays a professional at the target firm.
+
+**Risk:** a professional persona must talk about its own career and firm. That conflicts with our rule never to invent facts (`prompts/turn.md`: "never make them up"). Two ways to handle it:
+- A clearly labelled fictional persona whose answers stay general or come from the JD and a school-supplied firm profile.
+- Feedback only on the student's side.
+
+#### Product changes
+
+1. **Start with a "networking pitch" drill** (new interview type in setup; `prompts/planner.md` template; `lib/engine.js` `TYPE_LABEL`, `SCORED_SLOTS`). Three steps:
+   1. A 30-second pitch.
+   2. "What would you like to ask me?"
+   3. "Is there anyone else you think I should talk to?" asked by the student, which the AI answers neutrally.
+
+   - Feedback rates the pitch (headline, why this path, why this person or firm), whether the questions were researched, and the close.
+   - Size M.
+2. **Full coffee-chat simulation** with the student leading for 15-30 minutes (a new turn prompt, persona content from the JD or school).
+   - Size L. Park it until a school asks.
+
+### 7.6 Superdays, back-to-back rounds and a story bank
+
+#### Evidence
+
+- **Rounds are back-to-back, and interviewers split the competencies.**
+  - Haas: "Most companies run two of these interviews back to back for each of their rounds" ([Haas 2019](https://s3.amazonaws.com/thinkific/file_uploads/163260/attachments/a3c/7d5/a54/Haas_2019.pdf)). Each interview is about 5 minutes of introductions, about 10 of fit, about 20 of case and about 5 of wrap-up [First-hand, read].
+  - Amazon assigns different Leadership Principles to different interviewers: "Each person will assess different aspects of your skills and experience" ([Amazon loop](https://www.amazon.jobs/content/en/how-we-hire/interview-loop)). The PM loop says "different interviewers will [be] assigned [to] evaluate" competencies ([Amazon PM](https://amazon.jobs/content/en/how-we-hire/product-manager-interview-prep)) [Recruiter official, read].
+- **Students prepare a set of stories, not answers to questions:**
+  - Tepper: "6-10 written STAR stories", covering Problem Solving, Leadership, Teamwork, Technical Project/Challenge, Difficult Situation and Project Management [School official, read].
+  - Kellogg 2012: "2 stories for each attribute", each story highlighting "only 1 or 2 attributes" [First-hand].
+  - MIT: "Prepare 3-5 stories" [School official].
+- **Whether to reuse a story across interviewers is disputed.** All of this is anecdote ([PrepLounge thread](https://www.preplounge.com/consulting-forum/can-i-repeat-stories-for-fit-interview-24164); [Hacking the Case Interview](https://www.hackingthecaseinterview.com/pages/consulting-superday); [Mergers & Inquisitions](https://mergersandinquisitions.com/superday/)):
+  - Banking guides say repeating core stories is expected.
+  - A consulting prep site says to avoid it, because interviewers compare notes.
+  - A middle view: use a different story when two interviewers ask about the same attribute.
+  - All agree the "why" story must stay consistent across the day.
+
+#### What our product does today
+
+- **Each session is independent.** The planner's `variation_seed` varies choices, but nothing carries over: which stories were told, how they were rated, or which competencies were covered.
+- **The IIM TODO already parks "next round"** with "topics excluded across sessions".
+
+#### Product changes
+
+1. **A story bank built from past sessions** (session store in `server.js`; a derived list per student; feedback v3 view).
+   - After each interview, record each claim topic: the resume line, the competency it evidenced and its verdict.
+   - Show the student "Stories you have practised" against a target set, for example Tepper's six areas or the track's attributes from 7.2.
+   - Size M. Needs accounts (item A1).
+2. **"Next round" uses the bank** (`prompts/planner.md` inputs: `stories_told`, `competencies_covered`).
+   - A next round chooses competencies not yet covered (Amazon-style split).
+   - Either it asks for a different story for a competency already rated Good job, or it reopens a story rated Needs work for a deeper retry.
+   - The motivation topic always recurs, so the student practises a consistent "why".
+   - Size M. **IIM TODO:** same build as "Personals round and next round" (topic exclusion across sessions); build it once with both behaviours.
+3. **A back-to-back option** (setup and session flow): two short interviews in a row with different interviewer styles and competencies, with one combined feedback that checks whether the "why" story stayed consistent.
+   - Size M. Evidence for consistency checks is anecdotal, so start with the story bank.
+
+### 7.7 Questions for the interviewer
+
+#### Evidence
+
+- **Haas:** the wrap-up (about 5 minutes) is "Your chance to ask questions". The goal is to "Ask thoughtful, non-obvious questions", and to "Ask about [the] interviewer's personal experience" [First-hand, read].
+- **P&G:** the interview is "[a] chance [to] ask us questions… We believe two-way communication starts Day 1, so ask away" [Recruiter official, read].
+- **Microsoft:** "Make sure [you] prepare questions [to] ask during [the] interview" [Recruiter official, read].
+- **BYU's form** scores "prepared relevant questions" and whether the student "conveyed interest" [Search summary only].
+- **Yale SOM's career office** (a reposted Leland article): "most effective questions are those [that] demonstrate you've paid close attention [to the] conversation, understand [the] job description". Its example is "You mentioned [specific challenge]. How [does the] team typically approach this?" ([Yale SOM CDO](https://cdo.som.yale.edu/blog/2026/05/18/20-best-questions-to-ask-at-the-end-of-an-interview/)) [School official, read; third-party content].
+- **Haas also says: "Don't ask questions you can find answers [to] on [the] web"** [First-hand, read]. Consulting coaches add questions answerable from recruiting staff, such as the timeline [Anecdote, PrepLounge].
+
+#### What our product does today
+
+- `candidate_questions` allows up to 3 questions.
+- The interviewer answers in at most two sentences, using the JD. It says the hiring team can confirm anything else and never makes up facts.
+- Feedback adds a moment: specific or generic, with one sharper question built from the JD.
+
+#### Gaps and changes
+
+1. **No "built on this conversation" category.** Yale SOM rates questions that pick up something said in the interview highest.
+   - **Change** (`prompts/feedback.md` `<moments>`): the end-questions note names three kinds: built on something said today; specific to the role or firm; generic.
+   - The `tip` suggests one that builds on a topic from this interview.
+   - Size S.
+2. **Questions about the interviewer's own experience get a non-answer.** Haas recommends asking "about [the] interviewer's personal experience". Our interviewer has no persona and must not invent one.
+   - **Change** (`prompts/turn.md`, `answer_candidate_question`): answer such questions in one honest line ("As a practice interviewer I can't speak to my own time there, but it's a good question to ask on the day"). Feedback counts it as a good kind of question, not a dodge.
+   - Size S.
+3. **Questions answerable from the JD or website are not flagged.**
+   - **Change** (`prompts/feedback.md` moment): when a question is answered by the JD text itself, the note says so and suggests a sharper one.
+   - Size S. Evidence: one club guide (Haas) plus anecdote.
+
 ## Changes needed
 
 Sizes: **S** means prompt edits, a constant or a contract document. **M** means a new setup field, schema change, rubric element or screen. **L** means a new subsystem or an external audit.
@@ -490,15 +844,76 @@ This list builds on what `main` already has; it does not re-propose those featur
       - The grounding pass flags these too.
     - **Size:** S. **IIM TODO:** none.
 
+16. **"Why this firm" without a JD, and sharper motivation probes** (setup `public/vmock/setup.html|js`: optional "Target company" field passed to the planner; motivation `likely_probes` in `prompts/planner.md`; `RUBRICS.motivation` in `lib/engine.js`; `prompts/feedback.md`).
+    - **Why:**
+      - The Haas Consulting Club's core fit set is "Walk me through your resume", "Why consulting?" and "Why us [Firm A]?", with "Why this firm over your current firm?".
+      - Bain wants people who can explain why they want to join "specifically". Fuqua's pitch ends with "Your Fit": "Link past [to] future".
+      - First-years network and practise for named firms before postings exist (section 7.5), so most will have no JD to paste. Without a JD our motivation question is only "why this role".
+    - **Change:**
+      - An optional target-company field. The motivation question names the company; the planner still states no facts about it.
+      - Planned probes, in order: what sets this company apart from the others they are looking at; what they have learned about it from people who work there; for switchers, why make the move now, through an MBA; for the consulting and banking tracks, "why [function]" even without a switch.
+      - A fourth motivation element, "Specific to this firm", rated only when a company is known. Feedback flags a reason "that could be said of any firm".
+    - **Size:** S to M. **IIM TODO:** none. It extends the shipped motivation intent (`planner.md:127`).
+
+17. **Add "Link to the role" to the behavioural rubric** (`RUBRICS.behavioural` in `lib/engine.js`; `prompts/feedback.md`).
+    - **Why:** the university mock-interview forms we found (BYU, Princeton) rate whether the student ties the example back to the job. No MBA career center publishes its form. Our behavioural rubric rates Situation, Your role, What you did and Result, but not the link.
+    - **Change:** rated only when a JD or target role exists. The reason says whether the story's skill or result was tied to what the role needs.
+    - **Size:** S to M. **IIM TODO:** none. Add it in the same release as item 6 so the behavioural rubric changes once.
+
+18. **Feed back answer length and situation-heavy answers** (`lib/engine.js`: pass each topic's first-answer words and seconds to feedback; `prompts/feedback.md`).
+    - **Why:** Tepper: "typically around 2 minutes….not more [than] 3"; Fuqua: "seldom more [than] two minutes"; Tepper's split gives Situation only 20%; MIT: the interviewer does "not need [to] know every detail". Today `LONG_ANSWER_WORDS` only shapes the next question; feedback never mentions length.
+    - **Change:**
+      - A per-topic note when the first answer passed about 3 minutes (about 1 minute for banking fit answers).
+      - When most of a first answer set the scene and the student's own steps came only after a follow-up (`found: after_follow_up`), `to_fix` names it.
+    - **Size:** S. **IIM TODO:** overlaps "Polite cut-in on long answers". Use market- and track-specific limits (item 13).
+
+19. **Practise closed behavioural questions** (`prompts/planner.md` step 7 rule 3; `prompts/feedback.md`).
+    - **Why:** recruiters ask "Have you ever had [to] work with [a] difficult colleague?" (Tepper's sample). MIT coaches a "yes, and…" answer. Our planner bans yes/no questions on purpose.
+    - **Change:** in Probing style, one planned question may be closed. Feedback rewards turning it into a story.
+    - **Size:** S. **Needs a product decision:** it relaxes a quality rule on purpose. **IIM TODO:** fits "Placement-panel pushback style".
+
+20. **Better end-questions feedback** (`prompts/feedback.md` moments; `answer_candidate_question` in `prompts/turn.md`).
+    - **Why:** Haas: "Ask thoughtful, non-obvious questions", "Ask about [the] interviewer's personal experience", "Don't ask questions you can find answers [to] on [the] web". Yale SOM's career office rates highest questions that "demonstrate you've paid close attention [to the] conversation".
+    - **Change:**
+      - The end-questions moment names three kinds: built on something said today, specific to the role or firm, generic. Its tip builds on a topic from this interview.
+      - Questions the JD already answers are flagged, with a sharper one suggested.
+      - A question about the interviewer's own experience gets one honest line ("As a practice interviewer I can't speak to my own time there, but it's a good one to ask on the day"), and feedback counts it as a good kind of question.
+    - **Size:** S. **IIM TODO:** builds on the shipped end-questions moment.
+
+21. **A networking-pitch drill** (new interview type in setup; template in `prompts/planner.md`; `TYPE_LABEL`, `SCORED_SLOTS` in `lib/engine.js`).
+    - **Why:** the Haas timeline puts networking in October-November and first-round interviews in mid to late January. Kellogg drills a pitch of "30 seconds or less". Purdue Daniels gives a 30-minute informational-interview script ending with a request for other names. This is the window when a US pilot would launch (section 2).
+    - **Change:** three steps: a 30-second pitch; "What would you like to ask me?"; the student closes by asking who else to talk to. Feedback rates the pitch (headline, why this path, why this firm), whether the questions were researched, and the close. The AI never invents facts about itself or the firm.
+    - **Size:** M. A full coffee-chat role-play is parked (item 34).
+
+22. **A story bank and a next round that uses it** (session store in `server.js`; planner inputs `stories_told`, `competencies_covered`; feedback v3 view).
+    - **Why:** students prepare a set of stories, not answers: Tepper "6-10 written STAR stories" across six areas, Kellogg "2 stories for each attribute", MIT 3-5. Amazon gives each interviewer different competencies. Haas: firms run "two of these interviews back to back".
+    - **Change:**
+      - After each interview, record each claim topic's resume line, competency and verdict, and show "Stories you have practised" against the track's target set (item 23).
+      - A next round picks competencies not yet covered, or reopens a story rated Needs work. The motivation topic always recurs, so the "why" stays consistent.
+      - Later, a back-to-back option: two short interviews in a row with different styles and one combined feedback.
+    - **Size:** M. Needs accounts (item A1). **IIM TODO:** same build as "Personals round and next round"; build it once.
+
+23. **Track presets in setup** (`public/vmock/setup.html|js`; a `track` input; `prompts/planner.md` step 3; `FIT_ANGLES` in `lib/engine.js`).
+    - **Why:** each function asks for different stories. Amazon wants examples of how you've "taken risks, succeeded, failed and grown" and "metrics or data". Microsoft teaches STAR(R), where the last R is Reflection. P&G asks for "a time when you created something new". The General Mills brand internship posting lists learning agility and decision-making [Search summary only].
+    - **Change:** tracks Consulting, Banking, Tech/PM, Brand management and Rotational/general management. Each adds competencies the planner prefers when the JD is missing or thin, and fit angles for item 4:
+      - Consulting: why consulting, leadership, drive, teamwork.
+      - Banking: why banking, teamwork under pressure, attention to detail.
+      - Tech/PM: customer focus, a data-driven decision, a failure or risk.
+      - Brand: creating something new, leading without authority, using data.
+      - Rotational: learning agility, breadth, leadership.
+
+      This is the generic version of item 10: item 10 maps to a named firm's published values, this maps to a function.
+    - **Size:** S to M. **IIM TODO:** none. India keeps its domain field.
+
 ### (b) Features career centers expect
 
 These need accounts first (Appendix, item A1): a dashboard or coach sharing is not possible while every interview is visible to everyone.
 
-16. **SSO (SAML 2.0 or Shibboleth) and SCIM provisioning.**
+24. **SSO (SAML 2.0 or Shibboleth) and SCIM provisioning.**
     - **Why:** Big Interview offers "SAML 2.0 / Shibboleth"; Yoodli offers "SSO and SCIM"; InterviewFocus says it can "integrate with your SSO". Yale SOM students log into Firsthand "with their NetID".
     - **Size:** M, after item A1.
 
-17. **School admin dashboard.**
+25. **School admin dashboard.**
     - **Why:** Big Interview, Yoodli, InterviewFocus, Prentus and Huru all advertise one.
     - **Change:**
       - Usage by cohort.
@@ -508,7 +923,7 @@ These need accounts first (Appendix, item A1): a dashboard or coach sharing is n
       - Levels only, no numeric scores (PRODUCT.md), and no per-student ranking (item A5).
     - **Size:** L.
 
-18. **Share with a coach or peer, with comments.**
+26. **Share with a coach or peer, with comments.**
     - **Why:**
       - Wharton's "second-year Career Fellows" and Kellogg's "Career Peers" run mock interviews.
       - Big Interview lets staff "leave your own feedback".
@@ -516,36 +931,42 @@ These need accounts first (Appendix, item A1): a dashboard or coach sharing is n
       - Our feedback has per-topic recording segments to anchor comments.
     - **Size:** M. **IIM TODO:** fits the IIM peer-mock culture too (format note: seniors and placement committees run mocks).
 
-19. **School assignments and must-ask questions.**
+27. **School assignments and must-ask questions.**
     - **Why:** Big Interview: "Design assignments"; Yoodli has custom scenarios; FIU lists "100+ career tracks".
     - **Change:** a school can add one or two must-ask questions or a target firm to a cohort's interviews, with a due date. The rest stays adaptive.
     - **Size:** M. **IIM TODO:** IIM placement committees circulate 20-40 question lists (format note). The same feature serves both.
 
-20. **Published accessibility, security and privacy pages.**
+28. **Published accessibility, security and privacy pages.**
     - **Why:** Big Interview publishes an accessibility statement and keeps a HECVAT. No VMock page was found.
     - **Size:** S, once items A6 and A7 exist.
 
 ### (c) Parked or nice-to-have
 
-21. **Canvas LTI.** Only Big Interview advertises it. **Size:** M. Wait for a school to ask.
+29. **Canvas LTI.** Only Big Interview advertises it. **Size:** M. Wait for a school to ask.
 
-22. **12twenty and Handshake links.**
+30. **12twenty and Handshake links.**
     - 12twenty is the MBA system (Texas A&M Mays). We found no practice-tool integrations for either.
     - Start with a deep link from the school's 12twenty or Handshake resources page.
     - **Size:** S (link), L (integration).
 
-23. **Banking technical questions.**
+31. **Banking technical questions.**
     - Superday accounts mix behavioural and technical questions [Anecdote]. No bank page was readable.
     - Our knowledge slot bans definitions ("walk me through a DCF" is close to one).
     - Revisit with a bank's own page or a finance club's guide.
     - **Size:** S to M. **IIM TODO:** related to "knowledge topic quiz" (budget of 1-2).
 
-24. **Unlimited use and pricing.**
+32. **Unlimited use and pricing.**
     - InterviewFocus advertises "unlimited access".
     - **Unverified:** a helper reported that USC is replacing VMock's resume tool with one "no longer… limited to 10 resume uploads per school year". If confirmed, usage caps are a reason schools switch.
     - **Size:** a commercial decision.
 
-25. **Check McKinsey's and banks' own pages in a browser** before building items 9 and 23. Confirm the PEI's current dimension names and round lengths.
+33. **Check McKinsey's and banks' own pages in a browser** before building items 9 and 31. Confirm the PEI's current dimension names and round lengths.
+
+34. **Full coffee-chat simulation.** The student leads a 15-30 minute conversation with an AI professional at the target firm. A persona that talks about its own career conflicts with our rule never to invent facts (`prompts/turn.md`). It would need a labelled fictional persona or a school-supplied firm profile. **Size:** L. Wait for a school to ask; start with item 21.
+
+35. **A coach-style closing line.** University forms end with a verdict such as "would you hire this student or advance [them] to a second level interview?" (Texas Tech) [Search summary only]. PRODUCT.md avoids scores, so if added it stays one qualitative sentence tied to the goal. **Size:** S. **Product decision.**
+
+36. **Marketing copy: practice before, never during.** P&G now asks candidates to "conduct any interviews on [your] own without any real-time help – from others or [the] use [of] technology such as Artificial Intelligence (AI)". A practice tool used beforehand is fine, but nothing we publish should suggest use during a real interview. **Size:** S.
 
 ## Unverified claims to check before use
 
