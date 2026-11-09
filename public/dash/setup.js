@@ -1,22 +1,29 @@
 // Dashboard replica: the setup sheet (copy of the dashboard's SMART Interview sheet). Same handoff as the /vmock wizard
 // (vmock/setup.js): the inputs go to sessionStorage and the room takes them; "entry" says which product it came from.
-//   entry=mock (Mock Interviews > AI Interviewer): Job description (required) -> Select CV -> Interview details.
-//   entry=cv (CV Deep Dive): Select CV -> Interview details; resume only, type fixed to the resume deep dive.
+//   entry=mock (SMART Interview): a Question set | AI Interviewer switch above every step (?format=questions|ai, default
+//     ai), then Job description -> Select CV -> step 3. Question set: Interview Questions, VMock's own list (a static
+//     placeholder here, Start Practicing stays off). AI Interviewer: the JD can be skipped; Interview Details then needs a
+//     domain and a target role (with a JD both are optional; the server needs a role, a domain or a JD).
+//   entry=cv (CV Deep Dive): Select CV -> Interview details; resume only, type fixed to the resume deep dive, domain required.
 (() => {
   const $ = (id) => document.getElementById(id);
   const esc = VM.esc;
   const HANDOFF_KEY = 'vmock_adaptive_setup';
   const entry = new URLSearchParams(location.search).get('entry') === 'cv' ? 'cv' : 'mock';
-  const STEPS = entry === 'cv' ? ['resume', 'details'] : ['jd', 'resume', 'details'];
-  const LABELS = { jd: 'Upload Job Description', resume: 'Select CV', details: 'Interview Details' };
-  const ENTRY_URL = entry === 'cv' ? '/dashboard/smart-interviews/practice/cv-deep-dive' : '/dashboard/smart-interviews/practice/career-interviews?tab=adaptive';
+  const LABELS = { jd: 'Upload Job Description', resume: 'Select CV', details: 'Interview Details', questions: 'Interview Questions' };
+  const ENTRY_URL = entry === 'cv' ? '/dashboard/smart-interviews/practice/cv-deep-dive' : '/dashboard/smart-interviews/practice/career-interviews';
   const STYLE_HINT = {
     supportive: 'Warm, one follow-up per topic. Good for a first try.',
     balanced: 'Neutral and to the point, like most real interviews.',
     probing: 'More follow-ups; asks for numbers and your exact part.',
     surprise: 'You find out as you go.',
   };
-  const state = { step: STEPS[0], resumes: [], resumeId: null, query: '', hasKey: true };
+  const state = { step: null, resumes: [], resumeId: null, query: '', hasKey: true, format: 'ai' };
+  const isAi = () => entry === 'cv' || state.format === 'ai';
+  const steps = () => (entry === 'cv' ? ['resume', 'details'] : ['jd', 'resume', isAi() ? 'details' : 'questions']);
+  const hasJd = () => entry === 'mock' && Boolean($('jd').value.trim());
+  // Without a JD the interview is planned from the CV, the domain and the role, so both are asked for.
+  const needsRoleAndDomain = () => entry === 'mock' && !hasJd();
 
   const words = (t) => (String(t || '').trim() ? String(t).trim().split(/\s+/).length : 0);
   const selectedResume = () => state.resumes.find((r) => r.id === state.resumeId);
@@ -24,17 +31,18 @@
   const firstLine = (t) => String(t || '').split('\n').map((x) => x.trim()).find(Boolean) || '';
 
   function canGoOn() {
-    if (state.step === 'jd') return Boolean($('jd').value.trim());
+    if (state.step === 'jd') return hasJd();
     if (state.step === 'resume') return Boolean(selectedResume());
-    if (state.step === 'details') return Boolean($('domain').value);
-    return true;
+    if (state.step === 'details') return needsRoleAndDomain() ? Boolean($('domain').value && $('role').value.trim()) : entry === 'cv' ? Boolean($('domain').value) : true;
+    return false; // questions: VMock's own flow, not in this prototype
   }
 
   function go(step) {
     state.step = step;
     showError('');
     document.querySelectorAll('.ds-step').forEach((s) => { s.hidden = s.dataset.step !== step; });
-    if (step === 'details') renderSummary();
+    if (step === 'details') { renderSummary(); renderRequired(); }
+    if (step === 'resume' && entry === 'mock') $('cvSub').textContent = hasJd() ? 'Pick a CV to build your interview from, with the job description' : 'Pick a CV to build your interview from';
     render();
     document.querySelector('.ds-body').scrollTop = 0;
     const focusEl = step === 'jd' ? $('jd') : step === 'details' ? $('domain') : null;
@@ -42,19 +50,52 @@
   }
   function next() {
     if (!canGoOn()) return;
-    const i = STEPS.indexOf(state.step);
-    if (i < STEPS.length - 1) return go(STEPS[i + 1]);
+    const s = steps(), i = s.indexOf(state.step);
+    if (i < s.length - 1) return go(s[i + 1]);
     prepare();
   }
   function back() {
-    const i = STEPS.indexOf(state.step);
-    if (i > 0) go(STEPS[i - 1]);
+    const s = steps(), i = s.indexOf(state.step);
+    if (i > 0) go(s[i - 1]);
+  }
+  // AI Interviewer only: go on without a job description.
+  function skip() {
+    if (state.step !== 'jd' || !isAi()) return;
+    $('jd').value = '';
+    document.querySelectorAll('[data-jd]').forEach((x) => x.classList.remove('on'));
+    go('resume');
+  }
+  // Switching keeps the JD and CV. Step 3 follows the choice; a Question set needs a JD, so it goes back to that step.
+  function setFormat(format, quiet) {
+    state.format = format === 'questions' ? 'questions' : 'ai';
+    const radio = document.querySelector(`input[name="format"][value="${state.format}"]`);
+    if (radio) radio.checked = true;
+    $('jdSub').textContent = isAi()
+      ? 'Paste the job description of the role you are practising for, or skip it and choose a domain and role later.'
+      : 'Type or paste the job description of the role you are practising for.';
+    if (quiet) return;
+    if (!isAi() && !hasJd() && state.step !== 'jd') return go('jd');
+    if (state.step === 'details' || state.step === 'questions') return go(steps()[2]);
+    render();
+  }
+  function renderRequired() {
+    const req = needsRoleAndDomain();
+    const dom = req || entry === 'cv';
+    const mark = (id, on) => {
+      const label = document.querySelector(`label[for="${id}"]`);
+      label.querySelector('[data-req]').hidden = !on;
+      label.querySelector('[data-opt]').hidden = on;
+      $(id).required = on;
+      $(id).setAttribute('aria-required', String(on));
+    };
+    mark('domain', dom);
+    mark('role', req);
   }
 
   // Stepper as on the dashboard: numbered circles joined by dashes, the current one labelled, done ones ticked.
   function renderStepper() {
-    const cur = STEPS.indexOf(state.step);
-    $('stepper').innerHTML = STEPS.map((s, i) => {
+    const all = steps(), cur = all.indexOf(state.step);
+    $('stepper').innerHTML = all.map((s, i) => {
       const kind = i < cur ? 'done' : i === cur ? 'now' : 'todo';
       const dot = kind === 'done' ? '<svg class="ic"><use href="#i-check"/></svg>' : i + 1;
       return `${i ? '<li class="ds-dash" aria-hidden="true"></li>' : ''}<li class="ds-dot ${kind}"${kind === 'now' ? ' aria-current="step"' : ''}><span>${dot}</span>${kind === 'now' ? `<b>${LABELS[s]}</b>` : `<span class="sr">${LABELS[s]}</span>`}</li>`;
@@ -83,9 +124,11 @@
     const r = selectedResume();
     $('sumCv').textContent = r ? r.name : '';
     $('sumCvMeta').textContent = r ? `${r.meta} · ${words(r.text)} words` : '';
-    $('sumJdWrap').hidden = entry === 'cv';
+    $('sumJdWrap').hidden = !hasJd();
+    $('sumSkipWrap').hidden = entry === 'cv' || hasJd();
+    $('sumSkillsWrap').hidden = !hasJd();
     $('sumTypeWrap').hidden = entry !== 'cv';
-    if (entry !== 'cv') {
+    if (hasJd()) {
       const jd = $('jd').value.trim();
       $('sumJd').textContent = firstLine(jd).slice(0, 80);
       $('sumJdMeta').textContent = `${words(jd)} words`;
@@ -93,10 +136,12 @@
   }
 
   function render() {
-    const last = state.step === STEPS[STEPS.length - 1];
-    $('backBtn').hidden = state.step === STEPS[0];
+    const all = steps(), last = state.step === all[all.length - 1];
+    $('backBtn').hidden = state.step === all[0];
+    $('skipBtn').hidden = !(state.step === 'jd' && isAi() && !hasJd());
     $('nextBtn').disabled = !canGoOn();
-    $('nextBtn').textContent = last ? 'Start Practicing' : 'Next';
+    $('nextBtn').textContent = !last ? 'Next' : state.step === 'details' ? 'Start Interview' : 'Start Practicing';
+    $('nextBtn').title = state.step === 'questions' ? 'VMock\'s question set isn\'t part of this prototype.' : '';
     $('jdCount').textContent = `${$('jd').value.length} / 30000`;
     const style = (document.querySelector('input[name="style"]:checked') || {}).value;
     $('styleHint').textContent = STYLE_HINT[style] || '';
@@ -125,7 +170,7 @@
       entry,
       resume_text: resume ? resume.text : '',
       resume_name: resume ? resume.name : '',
-      jd_text: entry === 'mock' ? $('jd').value.trim() : '',
+      jd_text: hasJd() ? $('jd').value.trim() : '',
       target_role: $('role').value.trim(),
       domain: $('domain').value,
       stage: (document.querySelector('input[name="stage"]:checked') || {}).value || '',
@@ -134,9 +179,10 @@
       length: document.querySelector('input[name="length"]:checked').value,
     };
     if (!state.hasKey) return showError('No OpenAI key found. Add OPENAI_API_KEY to the .env file and restart the server.');
-    if (entry === 'mock' && !inputs.jd_text) return showError('Add the job description first.');
+    if (!isAi()) return;
     if (inputs.resume_text.trim().length < 200) return showError('That CV is very short. Add a CV of at least a few lines.');
-    if (!inputs.domain) return showError('Choose a domain for your interview.');
+    if (needsRoleAndDomain() && (!inputs.domain || !inputs.target_role)) return showError('Without a job description, choose a domain and add the target role.');
+    if (entry === 'cv' && !inputs.domain) return showError('Choose a domain for your interview.');
     try { sessionStorage.setItem(HANDOFF_KEY, JSON.stringify(inputs)); } catch (_) {
       return showError('Your browser blocked session storage, so the setup can\'t be passed on.');
     }
@@ -158,6 +204,7 @@
       const radio = document.querySelector(`input[name="${name}"][value="${CSS.escape(String(last[key] || ''))}"]`);
       if (radio) radio.checked = true;
     }
+    setFormat('ai', true); // the room only runs the AI Interviewer
     const sample = state.resumes.find((r) => r.text === last.resume_text);
     if (sample) state.resumeId = sample.id;
     else addResume({ id: 'last', name: String(last.resume_name || 'Your CV'), meta: 'From your last setup', source: 'Last used', text: String(last.resume_text) });
@@ -173,6 +220,10 @@
     $('typeField').hidden = entry === 'cv';
     $('cvSub').textContent = entry === 'cv' ? 'Pick the CV to be interviewed on, line by line' : 'Pick a CV to build your interview from, with the job description';
     document.title = `${entry === 'cv' ? 'CV Deep Dive' : 'AI Interviewer'} setup | VMock Dashboard`;
+    $('formatBar').hidden = entry === 'cv';
+    setFormat(new URLSearchParams(location.search).get('format'), true);
+    document.querySelectorAll('input[name="format"]').forEach((r) => r.addEventListener('change', () => setFormat(r.value)));
+    $('skipBtn').addEventListener('click', skip);
     $('nextBtn').addEventListener('click', next);
     $('backBtn').addEventListener('click', back);
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') location.href = ENTRY_URL; });
@@ -208,10 +259,11 @@
       render();
     });
     $('domain').addEventListener('change', render);
+    $('role').addEventListener('input', render);
     document.querySelectorAll('input[name="style"]').forEach((r) => r.addEventListener('change', render));
     $('role').addEventListener('keydown', (e) => { if (e.key === 'Enter') next(); });
 
-    go(STEPS[0]);
+    go(steps()[0]);
     try {
       const [config, samples] = await Promise.all([fetch('/api/config').then((r) => r.json()), fetch('/api/samples').then((r) => r.json())]);
       state.hasKey = Boolean(config.has_key);

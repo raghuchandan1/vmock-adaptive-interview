@@ -128,6 +128,36 @@ body.ds { height: 100vh; overflow: hidden; background: #6b6e72; }
 .ds-foot-actions { display: flex; gap: 12px; }
 .ds-foot-actions .d-btn { min-width: 84px; }
 
+/* SMART Interview: how to practise (Question set | AI Interviewer), above every step. */
+.ds-format { flex: none; display: flex; flex-wrap: wrap; gap: 12px; padding: 22px 76px 0 30px; }
+.ds-format-opt { position: relative; flex: 1 1 260px; max-width: 420px; display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border: 1px solid var(--d-line-2); border-radius: 8px; cursor: pointer; }
+.ds-format-opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.ds-format-opt > span:last-child { display: grid; gap: 2px; }
+.ds-format-opt strong { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: var(--d-ink-2); }
+.ds-format-opt em { font-style: normal; font-size: 13px; line-height: 18px; color: var(--d-muted); }
+.ds-format-ic { width: 32px; height: 32px; flex: none; display: grid; place-items: center; border-radius: 6px; color: var(--d-muted); background: var(--d-field); }
+.ds-format-ic .ic { width: 18px; height: 18px; }
+.ds-format-opt:has(input:checked) { border-color: var(--d-blue); background: var(--d-blue-soft); }
+.ds-format-opt:has(input:checked) .ds-format-ic { color: var(--d-blue); background: var(--d-blue-fill); }
+.ds-format-opt:has(input:focus-visible) { outline: 2px solid var(--d-blue); outline-offset: 2px; }
+.ds-new { padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: 600; line-height: 14px; color: #fff; background: var(--d-blue); }
+.ds-note { margin-top: 8px; font-size: 13px; color: var(--d-muted); }
+
+/* Placeholders for VMock parts this prototype doesn't have: JD skills, the question set. */
+.ds-skills { display: flex; flex-wrap: wrap; gap: 8px; }
+.ds-skills span { width: 88px; height: 30px; border-radius: 4px; background: var(--d-field); }
+.ds-skills span:nth-child(2n) { width: 120px; }
+.ds-qs { margin-top: 20px; max-width: 900px; }
+.ds-qs-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.ds-qs-chips span { padding: 6px 16px; border-radius: 60px; font-size: 14px; color: var(--d-blue); background: var(--d-blue-fill); }
+.ds-qs-list { margin-top: 12px; list-style: none; opacity: .7; }
+.ds-qs-list li { display: flex; align-items: flex-start; gap: 10px; padding: 12px 4px; border-bottom: 1px solid var(--d-line); }
+.ds-qs-list .ic { width: 18px; height: 18px; flex: none; margin-top: 2px; color: var(--d-muted-2); }
+.ds-qs-list span { flex: 1; display: grid; gap: 2px; }
+.ds-qs-list b { font-size: 15px; font-weight: 400; color: var(--d-ink-2); }
+.ds-qs-list em, .ds-qs-list i { font-style: normal; font-size: 12px; color: var(--d-muted); }
+.ds-qs-list i { padding: 6px 10px; border: 1px solid var(--d-line-2); border-radius: 4px; font-size: 13px; }
+
 @media (max-width: 900px) {
   .ds-sheet { inset: 16px 0 0 0; }
   .ds-body { padding: 22px 16px 16px; }
@@ -142,4 +172,6 @@ body.ds { height: 100vh; overflow: hidden; background: #6b6e72; }
   .ds-foot { padding: 0 16px; }
   .ds-dot b { display: none; }
   .ds-error { margin: 0 16px 10px; }
+  .ds-format { padding: 18px 60px 0 16px; }
+  .ds-format-opt { max-width: none; }
 }

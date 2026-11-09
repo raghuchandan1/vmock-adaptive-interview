@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Set up your interview | VMock Dashboard</title>
 <!-- Dashboard replica: the setup sheet, in the shape of the dashboard's SMART Interview sheet.
-     ?entry=mock: Job description -> Select CV -> Interview details. ?entry=cv (CV Deep Dive): Select CV -> Interview details. -->
+     ?entry=mock (SMART Interview): a Question set | AI Interviewer switch, then Job description -> Select CV -> Interview
+     Questions (Question set: VMock's own list, a static placeholder here) or Interview Details (AI Interviewer; the JD can be
+     skipped). ?entry=cv (CV Deep Dive): Select CV -> Interview details. -->
 <link rel="stylesheet" href="https://use.typekit.net/owg1qdp.css">
 <link rel="stylesheet" href="/dash/dash.css">
 <link rel="stylesheet" href="/dash/setup.css">
@@ -20,6 +22,9 @@
   <symbol id="i-brief" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></symbol>
   <symbol id="i-text" viewBox="0 0 24 24"><path d="M17 6.1H3M21 12.1H3M15.1 18H3"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></symbol>
+  <symbol id="i-grip" viewBox="0 0 24 24"><path d="M9 5h.01M9 12h.01M9 19h.01M15 5h.01M15 12h.01M15 19h.01"/></symbol>
 </svg>
 
 <header class="d-top ds-behind" aria-hidden="true">
@@ -28,15 +33,22 @@
 </header>
 
 <div class="ds-sheet" role="dialog" aria-modal="true" aria-labelledby="dsTitle">
-  <a class="ds-close" id="closeBtn" href="/dashboard/smart-interviews/practice/career-interviews?tab=adaptive" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></a>
+  <a class="ds-close" id="closeBtn" href="/dashboard/smart-interviews/practice/career-interviews" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></a>
+  <!-- SMART Interview only: how to practise. Shown on every step; the JD and CV are shared, step 3 follows the choice. -->
+  <div class="ds-format" id="formatBar" role="radiogroup" aria-label="How do you want to practise?" hidden>
+    <label class="ds-format-opt"><input type="radio" name="format" value="questions"><span class="ds-format-ic"><svg class="ic"><use href="#i-list"/></svg></span>
+      <span><strong>Question set</strong><em>Pick and edit the questions, then record your answers.</em></span></label>
+    <label class="ds-format-opt"><input type="radio" name="format" value="ai" checked><span class="ds-format-ic"><svg class="ic"><use href="#i-spark"/></svg></span>
+      <span><strong>AI Interviewer<span class="ds-new">NEW</span></strong><em>An interviewer asks you questions out loud and follows up on what you say.</em></span></label>
+  </div>
   <div class="ds-body">
-    <!-- Job description (Mock Interview only; required) -->
+    <!-- Job description (SMART Interview only; AI Interviewer can skip it) -->
     <section class="ds-step" data-step="jd" hidden>
       <h1 class="ds-title" id="dsTitle">Upload Job Description</h1>
-      <p class="ds-sub">Type or paste the job description of the role you are practising for. The interview is built from it and your CV.</p>
+      <p class="ds-sub" id="jdSub">Type or paste the job description of the role you are practising for.</p>
       <div class="ds-jd">
         <div class="ds-jd-list">
-          <h2>Sample job descriptions</h2>
+          <h2>Previously added job descriptions</h2>
           <div id="jdSamples" role="list"></div>
         </div>
         <div class="ds-editor">
@@ -86,6 +98,16 @@
             <h2>Job description</h2>
             <div class="ds-file"><span class="ds-file-icon jd"><svg class="ic"><use href="#i-brief"/></svg></span><div><strong id="sumJd"></strong><span id="sumJdMeta"></span></div></div>
           </div>
+          <div id="sumSkipWrap" hidden>
+            <h2>Job description</h2>
+            <p class="ds-fixed"><strong>Skipped</strong>The interview is built from your CV, the domain and the role.</p>
+          </div>
+          <div id="sumSkillsWrap" hidden>
+            <h2>Top skills mentioned in the job description</h2>
+            <!-- Placeholder: VMock's JD parser fills these on the real sheet; this prototype doesn't extract skills before the interview. -->
+            <div class="ds-skills src-vmock" aria-label="Skills placeholder"><span></span><span></span><span></span><span></span><span></span></div>
+            <p class="ds-note">Filled in by VMock's job description parser.</p>
+          </div>
           <div id="sumTypeWrap" hidden>
             <h2>Interview type</h2>
             <p class="ds-fixed"><strong>CV Deep Dive</strong>Line by line through your CV. Be ready to back up every claim.</p>
@@ -93,7 +115,7 @@
         </aside>
         <div class="ds-form">
           <div class="ds-field">
-            <label for="domain">Domain <span class="ds-req" aria-hidden="true">*</span></label>
+            <label for="domain">Domain <span class="ds-req" data-req aria-hidden="true">*</span><span class="ds-opt" data-opt>(optional)</span></label>
             <select id="domain" required aria-required="true">
               <option value="">Choose a domain</option>
               <option>Finance</option>
@@ -109,7 +131,7 @@
             </select>
           </div>
           <div class="ds-field">
-            <label for="role">Target role <span class="ds-opt">(optional)</span></label>
+            <label for="role">Target role <span class="ds-req" data-req aria-hidden="true">*</span><span class="ds-opt" data-opt>(optional)</span></label>
             <input id="role" type="text" maxlength="120" placeholder="For example: Product Analyst">
           </div>
           <fieldset class="ds-field">
@@ -148,12 +170,29 @@
         </div>
       </div>
     </section>
+
+    <!-- Interview Questions (Question set): VMock's own generated, editable list. Static placeholder in this prototype. -->
+    <section class="ds-step" data-step="questions" hidden>
+      <h1 class="ds-title">Interview Questions</h1>
+      <p class="ds-sub">VMock builds a question set from the job description and your CV. You can reorder, edit, add or remove questions.</p>
+      <div class="ds-qs src-vmock">
+        <div class="ds-qs-chips"><span>Personal</span><span>Job-Fit</span><span>Experience-based</span><span>Knowledge-based</span></div>
+        <ol class="ds-qs-list">
+          <li><svg class="ic"><use href="#i-grip"/></svg><span><b>What was your greatest setback and how did you recover from it?</b><em>Personal</em></span><i>120 sec</i></li>
+          <li><svg class="ic"><use href="#i-grip"/></svg><span><b>Where do you see yourself in five years?</b><em>Job-Fit</em></span><i>120 sec</i></li>
+          <li><svg class="ic"><use href="#i-grip"/></svg><span><b>Describe a project from your CV where you drove a measurable result. What was your role?</b><em>Experience-based</em></span><i>120 sec</i></li>
+          <li><svg class="ic"><use href="#i-grip"/></svg><span><b>How would you design and read an A/B test for this role's main metric?</b><em>Knowledge-based</em></span><i>120 sec</i></li>
+        </ol>
+        <p class="ds-note">Sample of VMock's question set. Not part of this prototype; switch to AI Interviewer to practise here.</p>
+      </div>
+    </section>
   </div>
 
   <p class="ds-error" id="dsError" role="alert" hidden></p>
   <footer class="ds-foot">
     <ol class="ds-stepper" id="stepper" aria-label="Steps"></ol>
     <div class="ds-foot-actions">
+      <button class="d-btn ghost" id="skipBtn" type="button" hidden>Skip</button>
       <button class="d-btn outline" id="backBtn" type="button" hidden>Back</button>
       <button class="d-btn primary" id="nextBtn" type="button" disabled>Next</button>
     </div>

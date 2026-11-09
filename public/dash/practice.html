@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>VMock Dashboard</title>
 <!-- Dashboard replica: a copy of www.vmock.com/dashboard/smart-interviews/practice with two live entries, Mock Interviews
-     (its new "AI Interviewer" sub-tab) and CV Deep Dive. Everything else on the page is a static copy. -->
+     (SMART Interview opens the setup sheet with its Question set | AI Interviewer switch; past AI interviews are under Previously Recorded, ?view=recorded) and CV Deep Dive. Everything else on the page is a static copy. -->
 <link rel="stylesheet" href="https://use.typekit.net/owg1qdp.css">
 <link rel="stylesheet" href="/dash/dash.css">
 </head>
@@ -56,9 +56,9 @@
 <div class="d-wrap">
   <div class="d-box">
     <nav class="d-tabs" aria-label="Interviews">
-      <a href="/dashboard/smart-interviews/practice/career-interviews" aria-selected="true">Practice</a>
+      <a href="/dashboard/smart-interviews/practice/career-interviews" data-view="practice">Practice</a>
       <a href="#">Learn</a>
-      <a href="#">Previously Recorded <span class="d-count">7</span></a>
+      <a href="/dashboard/smart-interviews/practice/career-interviews?view=recorded" data-view="recorded">Previously Recorded <span class="d-count">7</span></a>
       <a href="#">Script</a>
       <a href="#">Assessments</a>
     </nav>
@@ -73,7 +73,7 @@
         <span class="d-side-link soon"><svg class="ic"><use href="#i-case"/></svg>Case Interviews</span>
         <span class="d-side-link soon"><svg class="ic"><use href="#i-custom"/></svg>Custom Interviews</span>
         <span class="d-side-link soon"><svg class="ic"><use href="#i-tech"/></svg>Technical Interviews</span>
-        <button class="d-side-cta" type="button"><svg class="ic"><use href="#i-plusc"/></svg>SMART Interview</button>
+        <a class="d-side-cta" href="/dashboard/smart-interviews/practice/adaptive/setup?entry=mock"><svg class="ic"><use href="#i-plusc"/></svg>SMART Interview<span class="d-new">NEW</span></a>
         <div class="d-side-sep"></div>
         <span class="d-side-link soon"><svg class="ic"><use href="#i-bookmark"/></svg>Bookmarks</span>
         <div class="d-side-sep"></div>
@@ -83,14 +83,13 @@
       </nav>
 
       <main class="d-main" id="main">
-        <!-- Mock Interviews: the library sub-tabs are a static copy; "AI Interviewer" is the adaptive interview. -->
+        <!-- Mock Interviews: the library sub-tabs are a static copy. -->
         <section data-entry-panel="mock" hidden>
           <h1 class="d-h">Mock Interviews</h1>
           <div class="d-subbar">
             <div class="d-subtabs" role="tablist" aria-label="Mock interviews">
               <a role="tab" href="?tab=library" data-tab="library"><svg class="ic"><use href="#i-mock"/></svg>Mock Interview</a>
               <a role="tab" href="?tab=recommended" data-tab="recommended"><svg class="ic"><use href="#i-star"/></svg>Recommended</a>
-              <a role="tab" href="?tab=adaptive" data-tab="adaptive"><svg class="ic"><use href="#i-spark"/></svg>AI Interviewer<span class="d-new">NEW</span></a>
             </div>
             <div class="d-subtools" data-tools>
               <a class="d-link" href="#"><svg class="ic"><use href="#i-gear"/></svg>Update Preferences</a>
@@ -105,22 +104,13 @@
           <div data-tab-panel="recommended" hidden>
             <div class="d-tiles" data-tiles="recommended"></div>
           </div>
-          <div data-tab-panel="adaptive" hidden>
-            <div class="d-hero">
-              <div>
-                <span class="d-hero-eyebrow"><svg class="ic"><use href="#i-spark"/></svg>AI Interviewer</span>
-                <h2>Practise for the job you want</h2>
-                <p>Add your CV and the job description. An AI interviewer asks you questions out loud, follows up on what you say, as in a real interview, and gives you feedback on every answer.</p>
-                <ul class="d-hero-points">
-                  <li><svg class="ic"><use href="#i-check"/></svg>Built from your CV and the job</li>
-                  <li><svg class="ic"><use href="#i-check"/></svg>About 10 to 15 minutes</li>
-                  <li><svg class="ic"><use href="#i-check"/></svg>How to answer each question next time</li>
-                </ul>
-              </div>
-              <a class="d-btn primary" href="/dashboard/smart-interviews/practice/adaptive/setup?entry=mock">Start Interview<svg class="ic"><use href="#i-arrow"/></svg></a>
-            </div>
-            <div class="d-past" data-past="mock"></div>
-          </div>
+        </section>
+
+        <!-- Previously Recorded (?view=recorded): past AI Interviewer sessions. The other chips are a static copy. -->
+        <section data-entry-panel="recorded" hidden>
+          <h1 class="d-h">Previously Recorded</h1>
+          <div class="d-chips"><span class="d-chip on">AI Interviewer</span><span class="d-chip">Mock Interviews</span><span class="d-chip">Requested Interviews</span><span class="d-chip">Community Interviews</span><span class="d-chip">Career Conversations</span></div>
+          <div class="d-past" data-past="mock"></div>
         </section>
 
         <!-- CV Deep Dive: resume only, line by line. -->

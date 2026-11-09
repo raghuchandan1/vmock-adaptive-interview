@@ -1,15 +1,18 @@
 // Dashboard replica, Practice page: which sidebar entry is open (from the path), the Mock Interviews sub-tabs (?tab=),
-// the static tile library, and each adaptive entry's past interviews.
+// the static tile library, and each adaptive entry's past interviews: AI Interviewer under Previously Recorded
+// (?view=recorded), CV Deep Dive on its own page.
 (() => {
   const entry = location.pathname.endsWith('/cv-deep-dive') ? 'cv' : 'mock';
+  const recorded = entry === 'mock' && new URLSearchParams(location.search).get('view') === 'recorded';
+  document.querySelectorAll('[data-view]').forEach((a) => a.setAttribute('aria-selected', String((a.dataset.view === 'recorded') === recorded)));
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-  document.querySelectorAll('[data-entry]').forEach((a) => { if (a.dataset.entry === entry) a.setAttribute('aria-current', 'page'); });
-  document.querySelector(`[data-entry-panel="${entry}"]`).hidden = false;
-  document.title = `${entry === 'cv' ? 'CV Deep Dive' : 'Mock Interviews'} | VMock Dashboard`;
+  document.querySelectorAll('[data-entry]').forEach((a) => { if (a.dataset.entry === entry && !recorded) a.setAttribute('aria-current', 'page'); });
+  document.querySelector(`[data-entry-panel="${recorded ? 'recorded' : entry}"]`).hidden = false;
+  document.title = `${recorded ? 'Previously Recorded' : entry === 'cv' ? 'CV Deep Dive' : 'Mock Interviews'} | VMock Dashboard`;
 
   // ---------- Mock Interviews sub-tabs ----------
-  const TABS = ['library', 'recommended', 'adaptive'];
+  const TABS = ['library', 'recommended'];
   function showTab(tab) {
     if (!TABS.includes(tab)) tab = 'library';
     document.querySelectorAll('[data-tab]').forEach((a) => {
@@ -17,7 +20,6 @@
       if (a.dataset.tab === tab) a.parentElement.scrollLeft = a.offsetLeft - 16; // phones: the row scrolls; keep the open tab in view
     });
     document.querySelectorAll('[data-tab-panel]').forEach((p) => { p.hidden = p.dataset.tabPanel !== tab; });
-    document.querySelector('[data-tools]').hidden = tab === 'adaptive'; // preferences and search belong to the library
   }
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a[data-tab]');
