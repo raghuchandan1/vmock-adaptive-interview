@@ -22,7 +22,8 @@
   <symbol id="i-text" viewBox="0 0 24 24"><path d="M17 6.1H3M21 12.1H3M15.1 18H3"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
   <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></symbol>
-  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></symbol>
+  <!-- AI Interviewer: a person with a speech bubble (someone who talks with you). -->
+  <symbol id="i-interviewer" viewBox="0 0 24 24"><circle cx="8" cy="9" r="3.2"/><path d="M2.5 20.5c0-3.3 2.5-5.6 5.5-5.6s5.5 2.3 5.5 5.6"/><path d="M14 3.5h6.5a1.5 1.5 0 0 1 1.5 1.5v4a1.5 1.5 0 0 1-1.5 1.5H18l-2.5 2.2V10.5H14a1.5 1.5 0 0 1-1.5-1.5V5A1.5 1.5 0 0 1 14 3.5z"/><path d="M15.5 7h.01M17.3 7h.01M19 7h.01"/></symbol>
   <symbol id="i-grip" viewBox="0 0 24 24"><path d="M9 5h.01M9 12h.01M9 19h.01M15 5h.01M15 12h.01M15 19h.01"/></symbol>
 </svg>
 
@@ -83,10 +84,41 @@
       <h1 class="ds-title">How do you want to practise?</h1>
       <p class="ds-sub" id="fmtSub">Both use your CV and the job description.</p>
       <div class="ds-formats" role="radiogroup" aria-label="Interview format">
-        <label class="ds-format-opt" id="fmtQuestions"><input type="radio" name="format" value="questions"><span class="ds-format-ic"><svg class="ic"><use href="#i-list"/></svg></span>
-          <span><strong>Question set</strong><em>See the questions first. Reorder, edit or add your own, then record an answer to each one.</em><small class="ds-format-need" id="fmtNeed" hidden>Needs a job description. <button type="button" id="fmtAddJd">Add one</button></small></span></label>
-        <label class="ds-format-opt"><input type="radio" name="format" value="ai"><span class="ds-format-ic"><svg class="ic"><use href="#i-spark"/></svg></span>
-          <span><strong>AI Interviewer<span class="ds-new">NEW</span></strong><em>Like a real interview: an interviewer asks you questions out loud and follows up on what you say. You don't see the questions in advance.</em></span></label>
+        <label class="ds-format-opt" id="fmtQuestions"><input type="radio" name="format" value="questions">
+          <span class="ds-format-head"><span class="ds-format-ic"><svg class="ic"><use href="#i-list"/></svg></span>
+            <span><strong>Question set</strong><em>See the questions first, then record an answer to each one.</em></span></span>
+          <!-- A glimpse of the session (decorative). -->
+          <span class="ds-format-peek qs" aria-hidden="true">
+            <span class="ds-peek-row"><b>Q1</b><i></i><small>120 sec</small></span>
+            <span class="ds-peek-row"><b>Q2</b><i class="s"></i><small>120 sec</small></span>
+            <span class="ds-peek-row"><b>Q3</b><i></i><small>120 sec</small></span>
+            <span class="ds-peek-row"><b>Q4</b><i class="m"></i><small>120 sec</small></span>
+          </span>
+          <span class="ds-format-facts">
+            <span><b>Questions</b>Shown up front. Reorder, edit or add your own</span>
+            <span><b>Follow-ups</b>None, one question at a time</span>
+            <span><b>You answer</b>On camera, up to 2 minutes each</span>
+            <span><b>Feedback</b>Content, delivery and body language</span>
+          </span>
+          <span class="ds-format-best"><b>Best for</b> rehearsing answers to questions you expect.</span>
+          <small class="ds-format-need" id="fmtNeed" hidden>Needs a job description. <button type="button" id="fmtAddJd">Add one</button></small>
+        </label>
+        <label class="ds-format-opt"><input type="radio" name="format" value="ai">
+          <span class="ds-format-head"><span class="ds-format-ic"><svg class="ic"><use href="#i-interviewer"/></svg></span>
+            <span><strong>AI Interviewer<span class="ds-new">NEW</span></strong><em>Like a real interview: it asks out loud and follows up on what you say.</em></span></span>
+          <span class="ds-format-peek chat" aria-hidden="true">
+            <span class="ds-bubble them">Tell me about a project you led.</span>
+            <span class="ds-bubble you">I led the redesign of our onboarding flow…</span>
+            <span class="ds-bubble them"><small>Follow-up</small>How did you measure its impact?</span>
+          </span>
+          <span class="ds-format-facts">
+            <span><b>Questions</b>Not shown in advance, built from your CV and the job</span>
+            <span><b>Follow-ups</b>Yes, on what you actually say</span>
+            <span><b>You answer</b>Out loud, as a conversation, about 10 to 15 minutes</span>
+            <span><b>Feedback</b>How to answer each question next time</span>
+          </span>
+          <span class="ds-format-best"><b>Best for</b> getting used to follow-ups and thinking on your feet.</span>
+        </label>
       </div>
     </section>
 

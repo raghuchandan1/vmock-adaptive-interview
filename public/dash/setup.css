@@ -128,24 +128,47 @@ body.ds { height: 100vh; overflow: hidden; background: #6b6e72; }
 .ds-foot-actions { display: flex; gap: 12px; }
 .ds-foot-actions .d-btn { min-width: 84px; }
 
-/* SMART Interview: Interview Format step (Question set | AI Interviewer). */
-.ds-formats { margin-top: 20px; display: grid; grid-template-columns: repeat(2, minmax(0, 380px)); gap: 16px; }
-.ds-format-opt { position: relative; display: flex; align-items: flex-start; gap: 14px; padding: 20px; border: 1px solid var(--d-line-2); border-radius: 8px; cursor: pointer; }
-.ds-format-opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
-.ds-format-opt > span:last-child { display: grid; gap: 6px; }
-.ds-format-opt strong { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: var(--d-ink-2); }
+/* SMART Interview: Interview Format step (Question set | AI Interviewer): two full panels to compare side by side. */
+.ds-formats { margin-top: 20px; display: grid; align-items: start; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; max-width: 1100px; }
+.ds-format-opt { position: relative; display: flex; flex-direction: column; gap: 18px; padding: 24px; border: 1px solid var(--d-line-2); border-radius: 8px; cursor: pointer; }
+.ds-format-opt > input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.ds-format-head { display: flex; align-items: flex-start; gap: 14px; }
+.ds-format-head > span:last-child { display: grid; gap: 4px; }
+.ds-format-opt strong { display: flex; align-items: center; gap: 8px; font-size: 17px; font-weight: 600; color: var(--d-ink-2); }
 .ds-format-opt em { font-style: normal; font-size: 14px; line-height: 20px; color: var(--d-muted); }
-.ds-format-opt:has(input:disabled) { cursor: default; opacity: .75; background: #fafafa; }
-.ds-format-opt:has(input:disabled) input { cursor: default; }
+.ds-format-ic { width: 44px; height: 44px; flex: none; display: grid; place-items: center; border-radius: 8px; color: var(--d-muted); background: var(--d-field); }
+.ds-format-ic .ic { width: 22px; height: 22px; }
+.ds-format-opt:has(> input:checked) { border-color: var(--d-blue); background: var(--d-blue-soft); box-shadow: 0 0 0 1px var(--d-blue); }
+.ds-format-opt:has(> input:checked) .ds-format-ic { color: var(--d-blue); background: var(--d-blue-fill); }
+.ds-format-opt:has(> input:focus-visible) { outline: 2px solid var(--d-blue); outline-offset: 2px; }
+.ds-format-opt:has(> input:disabled) { cursor: default; background: #fafafa; }
+.ds-format-opt:has(> input:disabled) > :not(.ds-format-need, input) { opacity: .55; }
+.ds-format-opt:has(> input:disabled) > input { cursor: default; }
 .ds-format-need { position: relative; z-index: 1; font-size: 13px; color: var(--d-work); }
 .ds-format-need button { color: var(--d-blue); font-weight: 600; text-decoration: underline; }
-.ds-format-ic { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border-radius: 6px; color: var(--d-muted); background: var(--d-field); }
-.ds-format-ic .ic { width: 18px; height: 18px; }
-.ds-format-opt:has(input:checked) { border-color: var(--d-blue); background: var(--d-blue-soft); }
-.ds-format-opt:has(input:checked) .ds-format-ic { color: var(--d-blue); background: var(--d-blue-fill); }
-.ds-format-opt:has(input:focus-visible) { outline: 2px solid var(--d-blue); outline-offset: 2px; }
 .ds-new { padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: 600; line-height: 14px; color: #fff; background: var(--d-blue); }
 .ds-note { margin-top: 8px; font-size: 13px; color: var(--d-muted); }
+
+/* The glimpse: a question list, or a short exchange with a follow-up. */
+.ds-format-peek { height: 176px; display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 16px; border-radius: 8px; background: #fff; border: 1px solid var(--d-line); }
+.ds-peek-row { display: flex; align-items: center; gap: 10px; }
+.ds-peek-row b { width: 24px; font-size: 12px; font-weight: 600; color: var(--d-muted); }
+.ds-peek-row i { flex: 1; height: 10px; border-radius: 5px; background: var(--d-field); }
+.ds-peek-row i.s { flex: .6; margin-right: auto; }
+.ds-peek-row i.m { flex: .8; margin-right: auto; }
+.ds-peek-row small { padding: 2px 8px; border: 1px solid var(--d-line-2); border-radius: 4px; font-size: 11px; color: var(--d-muted); }
+.ds-bubble { max-width: 82%; padding: 8px 12px; border-radius: 12px; font-size: 13px; line-height: 18px; }
+.ds-bubble.them { align-self: flex-start; color: var(--d-ink-2); background: var(--d-field); border-bottom-left-radius: 4px; }
+.ds-bubble.you { align-self: flex-end; color: #fff; background: var(--d-blue); border-bottom-right-radius: 4px; }
+.ds-bubble small { display: block; font-size: 11px; font-weight: 600; color: var(--d-blue); }
+
+/* What to expect, row by row, so the two panels compare line for line. */
+.ds-format-facts { display: grid; border-top: 1px solid var(--d-line); }
+.ds-format-facts > span { display: grid; grid-template-columns: 96px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--d-line); font-size: 14px; line-height: 20px; color: var(--d-ink-3); }
+.ds-format-facts b { font-size: 13px; font-weight: 600; color: var(--d-muted); }
+.ds-format-best { padding: 10px 12px; border-radius: 6px; font-size: 14px; color: var(--d-ink-3); background: var(--d-field); }
+.ds-format-opt:has(> input:checked) .ds-format-best { background: var(--d-blue-fill); }
+.ds-format-best b { font-weight: 600; color: var(--d-ink-2); }
 
 /* Placeholders for VMock parts this prototype doesn't have: JD skills, the question set. */
 .ds-skills { display: flex; flex-wrap: wrap; gap: 8px; }
