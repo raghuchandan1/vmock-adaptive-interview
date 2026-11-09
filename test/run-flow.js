@@ -397,6 +397,22 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const numSlot = (used) => ({ kind: 'claim', anchor_text: 'Cut reporting by 6 hours', probe_angle: 'test_claim', anchor_flags: [], rungs_used: [], follow_ups_used: used, budget: 2 });
   check(requiredRung(rs, numSlot(0)) === 'result' && requiredNextRung(rs, numSlot(0)) === null && requiredNextRung(rs, numSlot(1)) === 'result', 'measurement follow-up is owed from the start but required only as the last follow-up');
   check(budgetFor('claim', rs, { technical_focus: true }) === 2 && budgetFor('claim', { ...rs, plan: { candidate: { experience_level: 'early' } } }, { technical_focus: true }) === 3, 'technical claim topics get an extra follow-up except for freshers');
+  {
+    // Finals: a finished internship owes "what would you do differently now?", after the number check, with one extra follow-up for it.
+    const fin = { ...rs, inputs: { interview_type: 'hiring_manager', stage: 'finals' } };
+    const intern = (used, rungs = [], extra = {}) => ({ ...numSlot(used), anchor_parent: 'Product Management Intern, Swiggy', rungs_used: rungs, budget: 3, ...extra });
+    check(budgetFor('claim', fin, { anchor_parent: 'Product Management Intern, Swiggy' }) === 3 && budgetFor('claim', fin, { anchor_parent: 'Infosys' }) === 2
+      && budgetFor('claim', fin, { anchor_parent: 'Summer Associate, Bain & Company' }) === 3
+      && budgetFor('claim', { ...fin, inputs: { ...fin.inputs, stage: 'summers' } }, { anchor_parent: 'Research Intern, Biocon' }) === 2
+      && requiredNextRung(fin, intern(0)) === null && requiredNextRung(fin, intern(1)) === 'result' && requiredNextRung(fin, intern(2, ['result'])) === 'setback'
+      && requiredRung(fin, intern(1, ['result'])) === 'setback' && requiredRung(rs, { ...intern(1, ['result']) }) === null
+      && requiredRung(fin, intern(1, [], { dont_know_count: 1, repeat_count: 1 })) === null,
+    'a finals internship topic gets one more follow-up and owes "what would you do differently" after the number check; two non-answers clear what is owed');
+    const { DONT_KNOW } = require('../lib/engine');
+    const declines = ["No, that's all I had on that.", "That's it.", 'Nothing more to add.', 'I have nothing else to add, sorry'];
+    const answers = ['Nothing else changed after we launched it, so the result held', "That's it, the pilot ran for 6 weeks", 'No questions, thank you.'];
+    check(declines.every((t) => DONT_KNOW.test(t)) && answers.every((t) => !DONT_KNOW.test(t)), 'a plain "No, that\'s all" counts like "not sure"; an answer that starts the same way does not');
+  }
 
   // Grounding: the student's own words are a false alarm; a real flag removes only its sentence
   const { applyGrounding } = require('../lib/engine');

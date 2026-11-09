@@ -182,6 +182,23 @@ Built as feedback version 11 (`lib/engine.js`, `prompts/feedback.md`; the rules 
 - **Why the weak persona sits above average:** its answers named concrete steps (WhatsApp group, Google Form, Malayalam shelf talkers).
 - **Next step:** whether On track or Needs work is the right call for the middle band is the question for the placement committee. If they want it stricter, the next lever is the verdict rule (for example, a missing result alone makes a story Needs work), not the prompt.
 
+## Fixes to items 7, 8 and two "Later" items (same day)
+
+Checked with the real models after the change. Counts are small: these are spot checks, not a re-run of the whole test.
+
+- **Item 7, "No, that's all" kept being probed.** A plain decline now counts like "not sure" in the engine (`DONT_KNOW`): one narrower question, then the next one moves on. It needs a decline phrase followed by at most five short words and no numbers, so "That's it, the pilot ran for 6 weeks" is still an answer.
+  - Same script, 2 runs: each topic got exactly one follow-up after a decline, then moved on. Before, it got 2-3.
+  - This also fixed a bug. A second non-answer in a topic that still owed a follow-up (the number check) could leave no allowed decision. Two non-answers now clear what is owed, and moving on is always allowed.
+- **Item 8, the student's questions got non-answers.** The interviewer now answers questions about the work with the JD first, then general, clearly labelled points ("In general management roles, the first few months usually involve…"). Company facts the JD doesn't give (stipend, PPO rates and the like) still go to the recruiter, never invented.
+  - 3 checks: two without a JD (general management and sales) and one with a JD (PM). All 3 gave substantive answers and sent stipend and PPO-rate questions to the recruiter.
+- **Finals hindsight question.** It is now engine-enforced. In finals, a claim topic on an internship owes "what would you do differently now?" (the `setback` follow-up), asked after the number check, and gets one extra follow-up so both fit (`owedRungs`).
+  - Both live finals interviews checked (Army to ops, PM) asked it ("Looking back, what would you change in the model today?").
+  - In a 10-plan re-run, 6 of 7 finals internship topics got the extra follow-up. The miss was titled "Summer Associate, Bain & Company"; the match now also covers "summer".
+- **Knowledge question repeating a claim topic.** The planner now picks a decision from a different area than the plan's claim topics.
+  - 10 hiring manager re-plans: the Army plan moved from stocking a critical spare to supplier risk; the millet and CA marketing plans asked about pricing.
+  - 1 of 2 general management (TAS) plans still asked about investing in a new market after the adjacency internship topic, which is close.
+  - The HR plan had no knowledge topic in this run. HR is not one of the business domains the knowledge rule covers, so that varies by run.
+
 ## Status of earlier open items
 
 | Item | Status |
