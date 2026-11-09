@@ -380,7 +380,16 @@ Example questions:
 - **The leadership development program** (general management) got "How would you decide what to bring to a senior leader when a manufacturing project was falling behind plan?". That question is behavioural in substance but typed and judged as knowledge.
 - **The operations manager promotion** got "How would you set and manage the budget for a scheduling function serving two hospitals?". The rule names operations as behavioural in the US, but this role's JD lists owning a budget, and the planner treated that as a domain skill.
 
-The fix is to tighten the wording in `prompts/planner.md` (slot 3 exception). Options: name rotational and leadership programs explicitly, and say a JD responsibility such as a budget does not make an operations or general-management role technical. Or have the engine reject a knowledge slot when `market` is `us` and the role is not finance or technical.
+**Fixed on 9 November 2026.**
+- **Tighter wording alone did not hold.** It fixed the operations promotion (3 of 3), but the rotational program still got a knowledge slot in 1 of 3 runs.
+- **What changed:**
+  - The planner now states the role's family: `finance`, `technical` (engineering, data, analytics, any PM role) or `other`.
+  - The engine (`checkAndShapePlan`) judges any US knowledge slot for an `other` role as a situational question.
+  - The first version left PM roles out of `technical`, and the PM profile lost its knowledge question in 3 of 3 runs. Adding "any PM role" fixed it.
+- **Re-test:** 27 hiring-manager plans across the six profiles, all as intended.
+  - Banking and tech PM kept a knowledge question in 3 of 3 runs each.
+  - Consulting, brand, the rotational program and the operations promotion had none.
+- **Open:** for `other` roles the planner still wrote a knowledge slot in about half the runs, which the engine turned into a situational question. For consulting these read like a short case ("A client says its margins are falling across several plants. How would you structure your first analysis?").
 
 **Live interviews (six hiring-manager interviews)**
 - **Length:**

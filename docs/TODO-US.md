@@ -47,7 +47,8 @@ Parked on 2026-11-07 for after a US pilot. Each item's evidence, files to change
 
 ## Open from the pilot changes
 
-- [ ] **Knowledge rule leaks in the US** (six-profile test, note section 6.1): the leadership development program and the operations promotion each got a knowledge slot. Tighten the slot 3 exception in `prompts/planner.md` (name rotational and leadership programs; a JD budget responsibility doesn't make an operations role technical), or reject the slot in the engine.
+- [x] **Knowledge rule leaks in the US** (six-profile test, note section 6.1): fixed 2026-11-09. The planner now states `jd.role_family` (finance, technical, other), and the engine judges any US knowledge slot for an "other" role as situational. Re-test: 27 plans across six profiles, all as intended.
+- [ ] **US "other" roles still get hypothetical questions in slot 3.** The planner wrote a knowledge slot for an "other" role in about half the re-test plans (the engine turns it into a situational question), and consulting got case-like prompts ("A client says its margins are falling… How would you structure your first analysis?"). If students find these too case-like, make the planner write a past-behaviour question there.
 - [ ] **"Practise" in US feedback** (2 of 6 reports). Quick part of item 1.
 
 - [ ] The 30-minute plan can repeat a competency when the JD has only 4 must-haves (seen once in 4 real planner runs). Track presets (item 23) or more fit angles (item 4) would give the extra topics new ground.

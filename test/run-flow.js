@@ -87,6 +87,17 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(JSON.parse(trace.plan_trace.request_user_message).placement_stage === null, 'the planner gets placement_stage (null when not for placements)');
   check(JSON.parse(trace.plan_trace.request_user_message).market === 'india' && trace.inputs.market === 'india', 'the market defaults to india');
   {
+    const { createSession } = require('../lib/engine');
+    const withKnowledge = (family, market) => {
+      const plan = JSON.parse(JSON.stringify(trace.plan));
+      plan.jd.role_family = family;
+      plan.slots.find((s) => s.id === 's3').question_type = 'knowledge';
+      return createSession({ inputs: { ...trace.inputs, market }, settings: {}, plan, planTrace: {}, resolvedStyle: 'balanced' }).slots.find((s) => s.id === 's3').question_type;
+    };
+    check(withKnowledge('other', 'us') === 'situational' && withKnowledge('finance', 'us') === 'knowledge' && withKnowledge('technical', 'us') === 'knowledge' && withKnowledge('other', 'india') === 'knowledge',
+      'in the US a knowledge slot stays only for finance and technical roles (others are judged as situational); India is unchanged');
+  }
+  {
     const base = { resume_text: resume, jd_text: jd, target_role: '', interview_type: 'hiring_manager', style: 'balanced' };
     const us = await post('/api/sessions', { ...base, length: 'full', market: 'us' });
     const usTrace = await get(`/api/sessions/${us.id}/trace`);

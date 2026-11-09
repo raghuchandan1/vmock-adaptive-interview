@@ -10,7 +10,7 @@ function plannerOutput(input) {
   const line = (start) => resume.split('\n').map((l) => l.replace(/^[-\s]+/, '').trim()).find((l) => l.startsWith(start)) || start;
   return {
     candidate: { name: 'Rohan', experience_level: 'early', current_or_last_role: 'Associate Product Manager, Kitecart', resume_band: 'upper', band_reason: 'Most lines are quantified with clear ownership.' },
-    jd: { present: Boolean(input.jd_text), company: input.jd_text ? 'Brightpath Learning' : null, role_title: input.jd_text ? 'Product Manager, Learner Growth' : null, seniority: 'mid', must_haves: [{ requirement: 'Hands-on experimentation', competency: 'Experimentation' }, { requirement: 'Stakeholder management', competency: 'Stakeholder management' }], nice_to_haves: [], stated_values: ['Learner first'] },
+    jd: { present: Boolean(input.jd_text), company: input.jd_text ? 'Brightpath Learning' : null, role_title: input.jd_text ? 'Product Manager, Learner Growth' : null, role_family: 'technical', seniority: 'mid', must_haves: [{ requirement: 'Hands-on experimentation', competency: 'Experimentation' }, { requirement: 'Stakeholder management', competency: 'Stakeholder management' }], nice_to_haves: [], stated_values: ['Learner first'] },
     mismatch: { is_mismatch: false, note: '' },
     claims: [
       { id: 'c1', text: line('Led the launch of a referral programme'), parent: 'Associate Product Manager, Kitecart', type: 'impact', strength: 'strong', strength_signals: ['quantified result'], weak_flags: ['inflated_scope'], relevance: 'high', distinctive: true, probe_angle: 'test_claim', rank: 1 },
