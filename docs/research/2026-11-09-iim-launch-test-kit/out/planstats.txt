@@ -1,0 +1,41 @@
+analytics_gap__back_your_resume            know=- slots=cp,cp,cp,cc openers=I see | Tell me | How did | There was
+analytics_gap__hiring_manager              know=Y slots=cp,cp,gk,mm openers=I see | Tell me | A retention | What draws
+army_ops__back_your_resume                 know=- slots=cp,cp,cp,cp openers=What were | Walk me | How did | What did
+army_ops__hiring_manager                   know=Y slots=cp,cp,gk,mm openers=Walk me | What was | How would | After five
+army_ops__recruiter_screen                 know=- slots=mm,cp,gp,cp openers=You've moved | What were | Tell me | How did
+bsc_lowcgpa_mkt__hiring_manager            know=Y slots=cp,gp,gk,mm openers=What was | Tell me | Suppose a | With a
+bsc_lowcgpa_mkt__hiring_manager__rep       know=Y slots=cp,gp,gk,mm openers=What were | What would | How would | You studied
+bsc_lowcgpa_mkt__recruiter_screen          know=- slots=mm,cp,gp,cp openers=You are | What were | Tell me | What was
+ca_marketing__hiring_manager               know=Y slots=cp,gp,gk,mm openers=What were | Tell me | How would | You spent
+ca_marketing__recruiter_screen             know=- slots=mm,cp,gp,cp openers=You've built | What were | Tell me | How did
+consult_fresher__back_your_resume          know=- slots=cp,cp,cp,cp openers=I see | At Kotak | You were | As General
+consult_fresher__hiring_manager            know=Y slots=cp,cp,gk,mm openers=At Bain, | As General | A consumer | What draws
+consult_fresher__hiring_manager__nojd      know=Y slots=cp,cp,gk,mm openers=Tell me | What was | Suppose a | You have
+fambiz_sales__back_your_resume             know=- slots=cp,cp,cp,cp openers=At Asian | How did | As captain | Tell me
+fambiz_sales__hiring_manager               know=Y slots=cp,cp,gk,mm openers=Tell me | How did | How would | You have
+fambiz_sales__hiring_manager__rep          know=Y slots=cp,cp,gk,mm openers=Tell me | How did | If you | You've led
+hr_ranchi__back_your_resume                know=- slots=cp,cp,cp,cp openers=Walk me | Tell me | What was | What did
+hr_ranchi__hiring_manager                  know=Y slots=cp,cp,gk,mm openers=I see | I see | How would | After your
+injection_gm__hiring_manager               know=- slots=cp,gp,gp,mm openers=What did | Tell me | Tell me | You have
+injection_gm__recruiter_screen             know=- slots=mm,cp,gp,cp openers=You moved | At L&T, | Tell me | How did
+isb_finance__back_your_resume              know=- slots=cp,cp,cp,cc openers=I see | How did | What did | What is
+isb_finance__hiring_manager                know=Y slots=cp,cp,gk,mm openers=Tell me | How did | For a | You have
+pdf_fin__back_your_resume                  know=- slots=cp,cp,cp,cp openers=I see | What decisions | Tell me | What were
+pdf_fin__hiring_manager                    know=Y slots=cp,cp,gk,mm openers=I see | What was | How would | You've worked
+pdf_ops__back_your_resume                  know=- slots=cp,cp,cp,cp openers=What were | How did | I see | What did
+pdf_ops__hiring_manager                    know=Y slots=cp,cp,gk,mm openers=What were | How did | A critical | What is
+pm_finals__back_your_resume                know=- slots=cp,cp,cp,cc openers=I see | At Infosys, | You organised | You moved
+pm_finals__hiring_manager                  know=Y slots=cp,cp,gk,mm openers=I see | I see | Suppose Paynest's | You've moved
+tas_gm__back_your_resume                   know=- slots=cp,cp,cp,cp openers=Tell me | I see | How did | What was
+tas_gm__hiring_manager                     know=Y slots=cp,cp,gk,mm openers=What were | Tell me | How would | After three
+tas_gm__hiring_manager__rep                know=Y slots=cp,cp,gk,mm openers=How did | How did | Suppose you | You moved
+{
+  plans: 31,
+  withKnowledgeSlot: 16,
+  cvWithCaseComp: 16,
+  caseCompPicked: 5,
+  questionsOver40Words: 0,
+  plansWithAgendaWordWarn: 5,
+  plansWithFitQuestion: 7,
+  avgPlannerTokens: 10849
+}

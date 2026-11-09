@@ -83,6 +83,7 @@ async function createInterview(body) {
     target_role: String(body.target_role || '').trim(),
     domain: String(body.domain || '').trim().slice(0, 100),
     stage: String(body.stage || ''), // placement stage: '' (not for placements), summers, finals or laterals
+    market: String(body.market || process.env.MARKET || 'india'), // which country's recruiting the plan follows
     interview_type: body.interview_type,
     style: body.style,
     length: body.length,
@@ -94,7 +95,9 @@ async function createInterview(body) {
   if (!inputs.target_role && !inputs.jd_text && !inputs.domain) throw httpError(400, 'Add a target role, a domain or a job description.');
   if (!['recruiter_screen', 'hiring_manager', 'back_your_resume'].includes(inputs.interview_type)) throw httpError(400, 'Choose an interview type.');
   if (!['supportive', 'balanced', 'probing', 'surprise'].includes(inputs.style)) throw httpError(400, 'Choose an interviewer style.');
-  if (!['short', 'standard'].includes(inputs.length)) throw httpError(400, 'Choose a length.');
+  if (!['short', 'standard', 'full'].includes(inputs.length)) throw httpError(400, 'Choose a length.');
+  if (inputs.length === 'full' && inputs.interview_type === 'recruiter_screen') throw httpError(400, 'The 30-minute round is for hiring manager and resume interviews. Choose 10 or 15 minutes for a recruiter screen.');
+  if (!engine.MARKETS.includes(inputs.market)) throw httpError(400, 'Unknown market.');
   if (!['', 'summers', 'finals', 'laterals'].includes(inputs.stage)) throw httpError(400, 'Choose a placement stage.');
 
   const settings = cleanSettings(body.settings);
@@ -103,6 +106,7 @@ async function createInterview(body) {
     target_role: engine.roleWithDomain(inputs.target_role, inputs.domain),
     interview_type: inputs.interview_type,
     placement_stage: inputs.stage || null,
+    market: inputs.market,
     interviewer_style: resolvedStyle,
     scored_slot_count: engine.SCORED_SLOTS[inputs.length],
     variation_seed: inputs.seed,

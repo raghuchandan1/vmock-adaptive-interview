@@ -27,7 +27,7 @@ The interviewer and its feedback are grounded in the student's own resume, JD an
 
 - Two student surfaces share one flow: the student page (`/student`) and the VMock replica (`/vmock/interview` → `/vmock/adaptive-interview` setup wizard → `/vmock/adaptive-interview/room`), which wears VMock's own look.
 - Student flow: setup (resume PDF or text, optional JD, target role, optional domain, interview type, interviewer style, length) → a pre-join lobby while the interview is prepared (camera and mic check) → voice interview (interviewer speaks via TTS; student answers by push-to-talk or typing) → feedback, and past interviews to reread feedback.
-- Interview types: Recruiter screen, Hiring manager, Back your resume. Styles: Supportive, Balanced, Probing, Surprise me. Lengths: about 10 or 15 minutes.
+- Interview types: Recruiter screen, Hiring manager, Back your resume. Styles: Supportive, Balanced, Probing, Surprise me. Lengths: about 10 or 15 minutes, or a 30-minute behavioural round (6 topics; Hiring manager and Back your resume only).
 - Camera video is shown only to the student; nothing is recorded or saved from it.
 - Feedback is reviewed after the interview, possibly alongside a recording segment per topic; students re-attempt with different questions.
 - Feedback is meant to sit beside VMock's existing Level, Non Verbal and Delivery modules, not replace them.

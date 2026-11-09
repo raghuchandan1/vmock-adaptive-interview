@@ -1,0 +1,676 @@
+{
+  "id": "2026-11-09-ca5fcea6",
+  "created_at": "2026-11-09T06:58:37.168Z",
+  "status": "active",
+  "inputs": {
+    "resume_text": "Pranav Joshi\nIndian Institute of Management Mumbai\nPGDM (2025-27)\nMale | 26 years\nRoll No. 2025PGP117\nACADEMIC QUALIFICATIONS\nExamination University / Board Institute Year %/CGPA\nPGDM IIM Mumbai IIM Mumbai 2027 6.8/10\nB.Tech (Mechanical) VNIT Nagpur VNIT Nagpur 2021 8.31/10\nClass XII CBSE Kendriya Vidyalaya, Nashik 2017 92.4%\nClass X CBSE Kendriya Vidyalaya, Nashik 2015 9.6 CGPA\nWORK EXPERIENCE (24 months)\nMaruti Suzuki\nIndia Ltd\nAssistant Manager,\nProduction\nPlanning\nJul'21 - Jun'23\n• Planned daily production for the Manesar body shop (1,400 cars/day) across 3 shifts; schedule adherence improved from 88% to 96%\n• Cut weld-line changeover loss by 18 minutes per shift by sequencing models in batches; saved INR 1.1 crore annually\n• Coordinated with 22 tier-1 suppliers on a milk-run pickup plan; inbound truck count fell by 14%\n• Awarded \"Star Performer\" (top 5% of 300 engineers) in FY23\nSUMMER INTERNSHIP\nHindustan Unilever\nSupply Chain\nIntern\nApr'26 - Jun'26\n• Redesigned safety-stock norms for 140 SKUs at the Khamgaon factory using demand variability; projected 11% lower inventory at 98%\nservice level\n• Built a Power BI dashboard tracking OTIF for 6 depots, now used in the weekly S&OP review\n• Received PPI\nSCHOLASTIC ACHIEVEMENTS\n• National Semi-finalist, Mahindra War Room Season 11, among 2,000+ teams (2025)\n• Secured 99.1 percentile in CAT 2024 among 3.2 lakh candidates\n2025\n2024\nPOSITIONS OF RESPONSIBILITY\nOperations Club • Core member: organised OpsFest 2025 with 1,200 participants from 40 B-schools; raised INR 6 lakh in sponsorship\nVNIT • Team lead, SAE BAJA: led 25-member team; All India Rank 14 in endurance (2020)\nEXTRA-CURRICULAR ACTIVITIES\n• Completed 3 Himalayan treks above 4,000 m • Taught maths to 30 children at an NGO in Nagpur for 2 years",
+    "jd_text": "",
+    "target_role": "",
+    "domain": "Operations and Supply Chain",
+    "stage": "finals",
+    "market": "india",
+    "interview_type": "hiring_manager",
+    "style": "balanced",
+    "length": "standard",
+    "seed": 800819
+  },
+  "style": "balanced",
+  "surprise": false,
+  "seed": 800819,
+  "settings": {
+    "planner_model": "gpt-5.6-luna",
+    "planner_effort": "medium",
+    "turn_model": "gpt-5.6-luna",
+    "turn_effort": "low"
+  },
+  "plan": {
+    "candidate": {
+      "name": "Pranav",
+      "experience_level": "early",
+      "current_or_last_role": "PGDM student, IIM Mumbai; formerly Assistant Manager, Production Planning, Maruti Suzuki India Ltd",
+      "resume_band": "upper",
+      "band_reason": "The resume shows clear ownership, strong quantified outcomes, relevant supply-chain experience and several competitive achievements."
+    },
+    "jd": {
+      "present": false,
+      "company": null,
+      "role_title": null,
+      "role_family": "other",
+      "seniority": null,
+      "must_haves": [],
+      "nice_to_haves": [],
+      "stated_values": []
+    },
+    "mismatch": {
+      "is_mismatch": false,
+      "note": ""
+    },
+    "claims": [
+      {
+        "id": "c1",
+        "text": "Planned daily production for the Manesar body shop (1,400 cars/day) across 3 shifts; schedule adherence improved from 88% to 96%",
+        "parent": "Assistant Manager, Production Planning, Maruti Suzuki India Ltd",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified scale",
+          "quantified result",
+          "ownership verb"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 2,
+        "grounded": true
+      },
+      {
+        "id": "c2",
+        "text": "Cut weld-line changeover loss by 18 minutes per shift by sequencing models in batches; saved INR 1.1 crore annually",
+        "parent": "Assistant Manager, Production Planning, Maruti Suzuki India Ltd",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "ownership verb",
+          "financial impact"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 3,
+        "grounded": true
+      },
+      {
+        "id": "c3",
+        "text": "Coordinated with 22 tier-1 suppliers on a milk-run pickup plan; inbound truck count fell by 14%",
+        "parent": "Assistant Manager, Production Planning, Maruti Suzuki India Ltd",
+        "type": "collaboration",
+        "strength": "strong",
+        "strength_signals": [
+          "named stakeholder scale",
+          "quantified result",
+          "ownership verb"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 4,
+        "grounded": true
+      },
+      {
+        "id": "c4",
+        "text": "Awarded \"Star Performer\" (top 5% of 300 engineers) in FY23",
+        "parent": "Assistant Manager, Production Planning, Maruti Suzuki India Ltd",
+        "type": "other",
+        "strength": "strong",
+        "strength_signals": [
+          "selective recognition",
+          "quantified scale"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 8,
+        "grounded": true
+      },
+      {
+        "id": "c5",
+        "text": "Redesigned safety-stock norms for 140 SKUs at the Khamgaon factory using demand variability; projected 11% lower inventory at 98% service level",
+        "parent": "Supply Chain Intern, Hindustan Unilever",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified scale",
+          "quantified result",
+          "named method",
+          "ownership verb"
+        ],
+        "weak_flags": [
+          "inflated_scope"
+        ],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 1,
+        "grounded": true
+      },
+      {
+        "id": "c6",
+        "text": "Built a Power BI dashboard tracking OTIF for 6 depots, now used in the weekly S&OP review",
+        "parent": "Supply Chain Intern, Hindustan Unilever",
+        "type": "tools_ai",
+        "strength": "strong",
+        "strength_signals": [
+          "named tool",
+          "quantified scale",
+          "adoption result"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 5,
+        "grounded": true
+      },
+      {
+        "id": "c7",
+        "text": "Received PPI",
+        "parent": "Supply Chain Intern, Hindustan Unilever",
+        "type": "other",
+        "strength": "weak",
+        "strength_signals": [
+          "recognition"
+        ],
+        "weak_flags": [
+          "vague",
+          "no_result"
+        ],
+        "relevance": "medium",
+        "distinctive": false,
+        "probe_angle": "find_substance",
+        "rank": 10,
+        "grounded": true
+      },
+      {
+        "id": "c8",
+        "text": "National Semi-finalist, Mahindra War Room Season 11, among 2,000+ teams (2025)",
+        "parent": "Mahindra War Room Season 11",
+        "type": "other",
+        "strength": "strong",
+        "strength_signals": [
+          "competitive result",
+          "quantified scale"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 7,
+        "grounded": true
+      },
+      {
+        "id": "c9",
+        "text": "Secured 99.1 percentile in CAT 2024 among 3.2 lakh candidates",
+        "parent": "CAT 2024",
+        "type": "other",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "competitive scale"
+        ],
+        "weak_flags": [],
+        "relevance": "low",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 11,
+        "grounded": true
+      },
+      {
+        "id": "c10",
+        "text": "Core member: organised OpsFest 2025 with 1,200 participants from 40 B-schools; raised INR 6 lakh in sponsorship",
+        "parent": "Operations Club, IIM Mumbai",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified scale",
+          "financial result",
+          "ownership verb"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 6,
+        "grounded": true
+      },
+      {
+        "id": "c11",
+        "text": "Team lead, SAE BAJA: led 25-member team; All India Rank 14 in endurance (2020)",
+        "parent": "SAE BAJA, VNIT Nagpur",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "leadership title",
+          "team scale",
+          "competitive result"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 9,
+        "grounded": true
+      },
+      {
+        "id": "c12",
+        "text": "Taught maths to 30 children at an NGO in Nagpur for 2 years",
+        "parent": "NGO, Nagpur",
+        "type": "collaboration",
+        "strength": "moderate",
+        "strength_signals": [
+          "duration",
+          "quantified scale"
+        ],
+        "weak_flags": [],
+        "relevance": "low",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 12,
+        "grounded": true
+      }
+    ],
+    "competencies": [
+      {
+        "id": "k1",
+        "name": "Supply chain planning",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c5",
+          "c6"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k2",
+        "name": "Process improvement",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c2",
+          "c1"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k3",
+        "name": "Supplier and stakeholder management",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c3"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k4",
+        "name": "Operational data analysis",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c5",
+          "c6"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k5",
+        "name": "Leadership and teamwork",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c10",
+          "c11"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k6",
+        "name": "Motivation and fit",
+        "source": "always",
+        "must_have": false,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      }
+    ],
+    "concerns": [],
+    "warmup_question": "What is one idea from your MBA studies that has already proved useful?",
+    "background_question": "Walk me through your career so far, with a focus on your production planning role and MBA journey.",
+    "slots": [
+      {
+        "id": "s1",
+        "kind": "claim",
+        "competency_id": "k1",
+        "anchor_claim_id": "c5",
+        "question_type": "past_behaviour",
+        "core_question": "What were you trying to solve when you redesigned safety-stock norms at Hindustan Unilever?",
+        "intent_private": "Needs Pranav's specific role in the redesign, the planning logic behind the norms, how the projected 11% inventory reduction was measured, and what he would do differently now.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "What part of the redesign did you personally own?",
+          "Which planning decision had the greatest effect on the proposed inventory reduction?",
+          "What was the baseline inventory against which the 11% projection was calculated?"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "s2",
+        "kind": "claim",
+        "competency_id": "k3",
+        "anchor_claim_id": "c3",
+        "question_type": "past_behaviour",
+        "core_question": "How did the milk-run pickup plan at Maruti come about?",
+        "intent_private": "Needs the supplier problem, Pranav's personal role in aligning the 22 suppliers, the key trade-off he made, and how the 14% reduction in truck count was measured.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "What part of the supplier coordination did you personally handle?",
+          "Which constraint shaped the pickup plan most?",
+          "What was the baseline truck count used for the 14% reduction?"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "s3",
+        "kind": "gap",
+        "competency_id": "k1",
+        "anchor_claim_id": null,
+        "question_type": "knowledge",
+        "core_question": "A critical supplier suddenly cannot meet its commitment while production targets remain fixed. How would you prioritise your response?",
+        "intent_private": "Needs a practical supply-chain response that weighs customer or production priorities, available inventory, alternate capacity and supplier communication before choosing an action.",
+        "probe_angle": "find_substance",
+        "technical_focus": false,
+        "likely_probes": [
+          "What would you examine first to set those priorities?",
+          "Which option would you choose if inventory covered only part of the shortfall?",
+          "How would you know your response protected the most important service level?"
+        ],
+        "priority": 3
+      },
+      {
+        "id": "s4",
+        "kind": "motivation",
+        "competency_id": "k6",
+        "anchor_claim_id": null,
+        "question_type": "motivation",
+        "core_question": "What is pulling you toward an operations and supply chain role after your production planning experience and MBA?",
+        "intent_private": "Needs a motivation grounded in Pranav's production and internship experience, with a specific reason this type of role fits his next step rather than a generic interest in operations.",
+        "probe_angle": "none",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which experience most influenced that direction?",
+          "What part of this role would you want to learn first?"
+        ],
+        "priority": 4
+      }
+    ],
+    "plan_notes": "The plan prioritizes the highly relevant HUL internship and Maruti production experience, then checks supplier coordination and applied supply-chain judgment. The resume is strong and quantified, with no clear concerns; the activity and leadership evidence is useful but is deferred because the four-slot format favors recent role evidence."
+  },
+  "plan_trace": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "attempts": 1,
+    "started_at": "2026-11-09T06:58:01.985Z",
+    "latency_ms": 35182,
+    "usage": {
+      "prompt_tokens": 7511,
+      "completion_tokens": 3821,
+      "total_tokens": 11332,
+      "prompt_tokens_details": {
+        "cached_tokens": 6879,
+        "cache_write_tokens": 629,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1681,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "raw_response": "{\"candidate\":{\"name\":\"Pranav\",\"experience_level\":\"early\",\"current_or_last_role\":\"PGDM student, IIM Mumbai; formerly Assistant Manager, Production Planning, Maruti Suzuki India Ltd\",\"resume_band\":\"upper\",\"band_reason\":\"The resume shows clear ownership, strong quantified outcomes, relevant supply-chain experience and several competitive achievements.\"},\"jd\":{\"present\":false,\"company\":null,\"role_title\":null,\"role_family\":\"other\",\"seniority\":null,\"must_haves\":[],\"nice_to_haves\":[],\"stated_values\":[]},\"mismatch\":{\"is_mismatch\":false,\"note\":\"\"},\"claims\":[{\"id\":\"c1\",\"text\":\"Planned daily production for the Manesar body shop (1,400 cars/day) across 3 shifts; schedule adherence improved from 88% to 96%\",\"parent\":\"Assistant Manager, Production Planning, Maruti Suzuki India Ltd\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified scale\",\"quantified result\",\"ownership verb\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":2},{\"id\":\"c2\",\"text\":\"Cut weld-line changeover loss by 18 minutes per shift by sequencing models in batches; saved INR 1.1 crore annually\",\"parent\":\"Assistant Manager, Production Planning, Maruti Suzuki India Ltd\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"ownership verb\",\"financial impact\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":3},{\"id\":\"c3\",\"text\":\"Coordinated with 22 tier-1 suppliers on a milk-run pickup plan; inbound truck count fell by 14%\",\"parent\":\"Assistant Manager, Production Planning, Maruti Suzuki India Ltd\",\"type\":\"collaboration\",\"strength\":\"strong\",\"strength_signals\":[\"named stakeholder scale\",\"quantified result\",\"ownership verb\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":4},{\"id\":\"c4\",\"text\":\"Awarded \\\"Star Performer\\\" (top 5% of 300 engineers) in FY23\",\"parent\":\"Assistant Manager, Production Planning, Maruti Suzuki India Ltd\",\"type\":\"other\",\"strength\":\"strong\",\"strength_signals\":[\"selective recognition\",\"quantified scale\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":8},{\"id\":\"c5\",\"text\":\"Redesigned safety-stock norms for 140 SKUs at the Khamgaon factory using demand variability; projected 11% lower inventory at 98% service level\",\"parent\":\"Supply Chain Intern, Hindustan Unilever\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified scale\",\"quantified result\",\"named method\",\"ownership verb\"],\"weak_flags\":[\"inflated_scope\"],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":1},{\"id\":\"c6\",\"text\":\"Built a Power BI dashboard tracking OTIF for 6 depots, now used in the weekly S&OP review\",\"parent\":\"Supply Chain Intern, Hindustan Unilever\",\"type\":\"tools_ai\",\"strength\":\"strong\",\"strength_signals\":[\"named tool\",\"quantified scale\",\"adoption result\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":5},{\"id\":\"c7\",\"text\":\"Received PPI\",\"parent\":\"Supply Chain Intern, Hindustan Unilever\",\"type\":\"other\",\"strength\":\"weak\",\"strength_signals\":[\"recognition\"],\"weak_flags\":[\"vague\",\"no_result\"],\"relevance\":\"medium\",\"distinctive\":false,\"probe_angle\":\"find_substance\",\"rank\":10},{\"id\":\"c8\",\"text\":\"National Semi-finalist, Mahindra War Room Season 11, among 2,000+ teams (2025)\",\"parent\":\"Mahindra War Room Season 11\",\"type\":\"other\",\"strength\":\"strong\",\"strength_signals\":[\"competitive result\",\"quantified scale\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":7},{\"id\":\"c9\",\"text\":\"Secured 99.1 percentile in CAT 2024 among 3.2 lakh candidates\",\"parent\":\"CAT 2024\",\"type\":\"other\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"competitive scale\"],\"weak_flags\":[],\"relevance\":\"low\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":11},{\"id\":\"c10\",\"text\":\"Core member: organised OpsFest 2025 with 1,200 participants from 40 B-schools; raised INR 6 lakh in sponsorship\",\"parent\":\"Operations Club, IIM Mumbai\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"quantified scale\",\"financial result\",\"ownership verb\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":6},{\"id\":\"c11\",\"text\":\"Team lead, SAE BAJA: led 25-member team; All India Rank 14 in endurance (2020)\",\"parent\":\"SAE BAJA, VNIT Nagpur\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"leadership title\",\"team scale\",\"competitive result\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":9},{\"id\":\"c12\",\"text\":\"Taught maths to 30 children at an NGO in Nagpur for 2 years\",\"parent\":\"NGO, Nagpur\",\"type\":\"collaboration\",\"strength\":\"moderate\",\"strength_signals\":[\"duration\",\"quantified scale\"],\"weak_flags\":[],\"relevance\":\"low\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":12}],\"competencies\":[{\"id\":\"k1\",\"name\":\"Supply chain planning\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c5\",\"c6\"],\"is_gap\":false},{\"id\":\"k2\",\"name\":\"Process improvement\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c2\",\"c1\"],\"is_gap\":false},{\"id\":\"k3\",\"name\":\"Supplier and stakeholder management\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c3\"],\"is_gap\":false},{\"id\":\"k4\",\"name\":\"Operational data analysis\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c5\",\"c6\"],\"is_gap\":false},{\"id\":\"k5\",\"name\":\"Leadership and teamwork\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c10\",\"c11\"],\"is_gap\":false},{\"id\":\"k6\",\"name\":\"Motivation and fit\",\"source\":\"always\",\"must_have\":false,\"evidence_claim_ids\":[],\"is_gap\":true}],\"concerns\":[],\"warmup_question\":\"What is one idea from your MBA studies that has already proved useful?\",\"background_question\":\"Walk me through your career so far, with a focus on your production planning role and MBA journey.\",\"slots\":[{\"id\":\"s1\",\"kind\":\"claim\",\"competency_id\":\"k1\",\"anchor_claim_id\":\"c5\",\"question_type\":\"past_behaviour\",\"core_question\":\"What were you trying to solve when you redesigned safety-stock norms at Hindustan Unilever?\",\"intent_private\":\"Needs Pranav's specific role in the redesign, the planning logic behind the norms, how the projected 11% inventory reduction was measured, and what he would do differently now.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"What part of the redesign did you personally own?\",\"Which planning decision had the greatest effect on the proposed inventory reduction?\",\"What was the baseline inventory against which the 11% projection was calculated?\"],\"priority\":1},{\"id\":\"s2\",\"kind\":\"claim\",\"competency_id\":\"k3\",\"anchor_claim_id\":\"c3\",\"question_type\":\"past_behaviour\",\"core_question\":\"How did the milk-run pickup plan at Maruti come about?\",\"intent_private\":\"Needs the supplier problem, Pranav's personal role in aligning the 22 suppliers, the key trade-off he made, and how the 14% reduction in truck count was measured.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"What part of the supplier coordination did you personally handle?\",\"Which constraint shaped the pickup plan most?\",\"What was the baseline truck count used for the 14% reduction?\"],\"priority\":2},{\"id\":\"s3\",\"kind\":\"gap\",\"competency_id\":\"k1\",\"anchor_claim_id\":null,\"question_type\":\"knowledge\",\"core_question\":\"A critical supplier suddenly cannot meet its commitment while production targets remain fixed. How would you prioritise your response?\",\"intent_private\":\"Needs a practical supply-chain response that weighs customer or production priorities, available inventory, alternate capacity and supplier communication before choosing an action.\",\"probe_angle\":\"find_substance\",\"technical_focus\":false,\"likely_probes\":[\"What would you examine first to set those priorities?\",\"Which option would you choose if inventory covered only part of the shortfall?\",\"How would you know your response protected the most important service level?\"],\"priority\":3},{\"id\":\"s4\",\"kind\":\"motivation\",\"competency_id\":\"k6\",\"anchor_claim_id\":null,\"question_type\":\"motivation\",\"core_question\":\"What is pulling you toward an operations and supply chain role after your production planning experience and MBA?\",\"intent_private\":\"Needs a motivation grounded in Pranav's production and internship experience, with a specific reason this type of role fits his next step rather than a generic interest in operations.\",\"probe_angle\":\"none\",\"technical_focus\":false,\"likely_probes\":[\"Which experience most influenced that direction?\",\"What part of this role would you want to learn first?\"] ,\"priority\":4}],\"plan_notes\":\"The plan prioritizes the highly relevant HUL internship and Maruti production experience, then checks supplier coordination and applied supply-chain judgment. The resume is strong and quantified, with no clear concerns; the activity and leadership evidence is useful but is deferred because the four-slot format favors recent role evidence.\"}",
+    "request_user_message": "{\"target_role\":\"domain: Operations and Supply Chain\",\"interview_type\":\"hiring_manager\",\"placement_stage\":\"finals\",\"market\":\"india\",\"interviewer_style\":\"balanced\",\"scored_slot_count\":4,\"variation_seed\":800819,\"warmup_angle\":\"something they learned recently that turned out to be useful\",\"fit_angle\":\"what their team or classmates would say is their biggest strength\",\"resume_text\":\"Pranav Joshi\\nIndian Institute of Management Mumbai\\nPGDM (2025-27)\\nMale | 26 years\\nRoll No. 2025PGP117\\nACADEMIC QUALIFICATIONS\\nExamination University / Board Institute Year %/CGPA\\nPGDM IIM Mumbai IIM Mumbai 2027 6.8/10\\nB.Tech (Mechanical) VNIT Nagpur VNIT Nagpur 2021 8.31/10\\nClass XII CBSE Kendriya Vidyalaya, Nashik 2017 92.4%\\nClass X CBSE Kendriya Vidyalaya, Nashik 2015 9.6 CGPA\\nWORK EXPERIENCE (24 months)\\nMaruti Suzuki\\nIndia Ltd\\nAssistant Manager,\\nProduction\\nPlanning\\nJul'21 - Jun'23\\n• Planned daily production for the Manesar body shop (1,400 cars/day) across 3 shifts; schedule adherence improved from 88% to 96%\\n• Cut weld-line changeover loss by 18 minutes per shift by sequencing models in batches; saved INR 1.1 crore annually\\n• Coordinated with 22 tier-1 suppliers on a milk-run pickup plan; inbound truck count fell by 14%\\n• Awarded \\\"Star Performer\\\" (top 5% of 300 engineers) in FY23\\nSUMMER INTERNSHIP\\nHindustan Unilever\\nSupply Chain\\nIntern\\nApr'26 - Jun'26\\n• Redesigned safety-stock norms for 140 SKUs at the Khamgaon factory using demand variability; projected 11% lower inventory at 98%\\nservice level\\n• Built a Power BI dashboard tracking OTIF for 6 depots, now used in the weekly S&OP review\\n• Received PPI\\nSCHOLASTIC ACHIEVEMENTS\\n• National Semi-finalist, Mahindra War Room Season 11, among 2,000+ teams (2025)\\n• Secured 99.1 percentile in CAT 2024 among 3.2 lakh candidates\\n2025\\n2024\\nPOSITIONS OF RESPONSIBILITY\\nOperations Club • Core member: organised OpsFest 2025 with 1,200 participants from 40 B-schools; raised INR 6 lakh in sponsorship\\nVNIT • Team lead, SAE BAJA: led 25-member team; All India Rank 14 in endurance (2020)\\nEXTRA-CURRICULAR ACTIVITIES\\n• Completed 3 Himalayan treks above 4,000 m • Taught maths to 30 children at an NGO in Nagpur for 2 years\",\"jd_text\":\"\"}"
+  },
+  "plan_checks": [
+    {
+      "level": "ok",
+      "message": "All claims are quoted from the resume and all topics are valid."
+    }
+  ],
+  "slots": [
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "What is one idea from your MBA studies that has already proved useful?",
+      "intent_private": "Warm-up to settle in. Not assessed.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "active",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "warmup",
+      "kind": "warmup",
+      "budget": 0
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "Walk me through your career so far, with a focus on your production planning role and MBA journey.",
+      "intent_private": "A coherent overview of the candidate's path; may surface threads for later topics.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "background",
+      "kind": "background",
+      "budget": 1
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Supply chain planning",
+      "must_have": true,
+      "anchor_claim_id": "c5",
+      "anchor_text": "Redesigned safety-stock norms for 140 SKUs at the Khamgaon factory using demand variability; projected 11% lower inventory at 98% service level",
+      "anchor_parent": "Supply Chain Intern, Hindustan Unilever",
+      "question_type": "past_behaviour",
+      "core_question": "What were you trying to solve when you redesigned safety-stock norms at Hindustan Unilever?",
+      "intent_private": "Needs Pranav's specific role in the redesign, the planning logic behind the norms, how the projected 11% inventory reduction was measured, and what he would do differently now.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "What part of the redesign did you personally own?",
+        "Which planning decision had the greatest effect on the proposed inventory reduction?",
+        "What was the baseline inventory against which the 11% projection was calculated?"
+      ],
+      "priority": 1,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [
+        "inflated_scope"
+      ],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s1",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k3",
+      "competency_name": "Supplier and stakeholder management",
+      "must_have": true,
+      "anchor_claim_id": "c3",
+      "anchor_text": "Coordinated with 22 tier-1 suppliers on a milk-run pickup plan; inbound truck count fell by 14%",
+      "anchor_parent": "Assistant Manager, Production Planning, Maruti Suzuki India Ltd",
+      "question_type": "past_behaviour",
+      "core_question": "How did the milk-run pickup plan at Maruti come about?",
+      "intent_private": "Needs the supplier problem, Pranav's personal role in aligning the 22 suppliers, the key trade-off he made, and how the 14% reduction in truck count was measured.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "What part of the supplier coordination did you personally handle?",
+        "Which constraint shaped the pickup plan most?",
+        "What was the baseline truck count used for the 14% reduction?"
+      ],
+      "priority": 2,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s2",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Supply chain planning",
+      "must_have": true,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "knowledge",
+      "core_question": "A critical supplier suddenly cannot meet its commitment while production targets remain fixed. How would you prioritise your response?",
+      "intent_private": "Needs a practical supply-chain response that weighs customer or production priorities, available inventory, alternate capacity and supplier communication before choosing an action.",
+      "probe_angle": "find_substance",
+      "technical_focus": false,
+      "likely_probes": [
+        "What would you examine first to set those priorities?",
+        "Which option would you choose if inventory covered only part of the shortfall?",
+        "How would you know your response protected the most important service level?"
+      ],
+      "priority": 3,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s3",
+      "kind": "gap",
+      "budget": 2
+    },
+    {
+      "competency_id": "k6",
+      "competency_name": "Motivation and fit",
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "motivation",
+      "core_question": "What is pulling you toward an operations and supply chain role after your production planning experience and MBA?",
+      "intent_private": "Needs a motivation grounded in Pranav's production and internship experience, with a specific reason this type of role fits his next step rather than a generic interest in operations.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which experience most influenced that direction?",
+        "What part of this role would you want to learn first?"
+      ],
+      "priority": 4,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s4",
+      "kind": "motivation",
+      "budget": 1
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "",
+      "intent_private": "Candidate asks their questions.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "candidate_questions",
+      "kind": "candidate_questions",
+      "budget": 2
+    }
+  ],
+  "current": 0,
+  "transcript": [
+    {
+      "role": "interviewer",
+      "text": "Hi Pranav, thanks for making the time. I'm on the team hiring for this role. Over the next 15 minutes or so I'd like to go into your experience, and you'll have time for questions at the end. What is one idea from your MBA studies that has already proved useful?",
+      "slot_id": "warmup",
+      "why": "This was a warm-up question to help you settle in. It isn't part of the feedback.",
+      "at": "2026-11-09T06:58:37.168Z"
+    }
+  ],
+  "turns": [],
+  "events": [],
+  "interviewer_turns": 1,
+  "max_turns": 20,
+  "candidate_questions_asked": 0,
+  "second_chances": {},
+  "opening_greeting": "Hi Pranav, thanks for making the time. I'm on the team hiring for this role. Over the next 15 minutes or so I'd like to go into your experience, and you'll have time for questions at the end."
+}

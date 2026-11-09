@@ -1,0 +1,625 @@
+{
+  "id": "2026-11-09-58017962",
+  "created_at": "2026-11-09T06:56:55.585Z",
+  "status": "active",
+  "inputs": {
+    "resume_text": "Aditi Mehta\nPGP 2026-28 | Indian Institute of Management Ahmedabad\nChartered Accountant (ICAI, AIR 34, Nov 2021)\n\nACADEMICS\nPGP, IIM Ahmedabad, 2026-28 (ongoing), Term 1 GPA 3.1/4.33\nB.Com (Hons), Shri Ram College of Commerce, Delhi University, 2020, 82.4%\nClass XII, Jamnabai Narsee School, Mumbai, 2017, 95.6%\n\nWORK EXPERIENCE (30 months)\nDeloitte Haskins & Sells LLP, Mumbai | Assistant Manager, Audit & Assurance | Jan 2022 - Jun 2024\n- Led statutory audit fieldwork for 4 listed FMCG and consumer durable clients with combined revenue of INR 18,000 crore\n- Identified INR 46 crore of trade-promotion accrual errors at a personal care client by reconciling scheme payouts with distributor claims\n- Built a sales-return analytics template in Excel that cut testing time by 30% and was adopted across 3 audit teams\n- Supervised a team of 5 article assistants\nDeloitte, Article Assistant | 2018 - 2021\n\nACTIVITIES\n- Member, Marketing Club (Mark-It), IIM Ahmedabad: running a D2C brand teardown series\n- Semi-finalist, Asian Paints CANVAS 2026 marketing case competition\n- Co-founded \"Chai with CAs\", an Instagram page explaining tax for salaried people; 14,000 followers\n- Trained Bharatanatyam dancer; performed at 12 cultural festivals",
+    "jd_text": "",
+    "target_role": "",
+    "domain": "Marketing",
+    "stage": "summers",
+    "market": "india",
+    "interview_type": "hiring_manager",
+    "style": "balanced",
+    "length": "standard",
+    "seed": 619872
+  },
+  "style": "balanced",
+  "surprise": false,
+  "seed": 619872,
+  "settings": {
+    "planner_model": "gpt-5.6-luna",
+    "planner_effort": "medium",
+    "turn_model": "gpt-5.6-luna",
+    "turn_effort": "low"
+  },
+  "plan": {
+    "candidate": {
+      "name": "Aditi",
+      "experience_level": "early",
+      "current_or_last_role": "PGP student, IIM Ahmedabad; previously Assistant Manager, Audit & Assurance, Deloitte",
+      "resume_band": "upper",
+      "band_reason": "The resume shows quantified outcomes, clear ownership and progression, although the marketing experience is newer and mostly academic or extracurricular."
+    },
+    "jd": {
+      "present": false,
+      "company": null,
+      "role_title": null,
+      "role_family": "other",
+      "seniority": null,
+      "must_haves": [],
+      "nice_to_haves": [],
+      "stated_values": []
+    },
+    "mismatch": {
+      "is_mismatch": false,
+      "note": ""
+    },
+    "claims": [
+      {
+        "id": "c1",
+        "text": "Led statutory audit fieldwork for 4 listed FMCG and consumer durable clients with combined revenue of INR 18,000 crore",
+        "parent": "Assistant Manager, Audit & Assurance, Deloitte Haskins & Sells LLP",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "ownership verb",
+          "quantified scale",
+          "named client sector"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 4,
+        "grounded": true
+      },
+      {
+        "id": "c2",
+        "text": "Identified INR 46 crore of trade-promotion accrual errors at a personal care client by reconciling scheme payouts with distributor claims",
+        "parent": "Assistant Manager, Audit & Assurance, Deloitte Haskins & Sells LLP",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "specific problem",
+          "method described"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 3,
+        "grounded": true
+      },
+      {
+        "id": "c3",
+        "text": "Built a sales-return analytics template in Excel that cut testing time by 30% and was adopted across 3 audit teams",
+        "parent": "Assistant Manager, Audit & Assurance, Deloitte Haskins & Sells LLP",
+        "type": "tools_ai",
+        "strength": "strong",
+        "strength_signals": [
+          "named tool",
+          "quantified result",
+          "adoption scale"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 5,
+        "grounded": true
+      },
+      {
+        "id": "c4",
+        "text": "Supervised a team of 5 article assistants",
+        "parent": "Assistant Manager, Audit & Assurance, Deloitte Haskins & Sells LLP",
+        "type": "leadership",
+        "strength": "moderate",
+        "strength_signals": [
+          "people responsibility",
+          "quantified team size"
+        ],
+        "weak_flags": [
+          "no_result"
+        ],
+        "relevance": "medium",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 7,
+        "grounded": true
+      },
+      {
+        "id": "c5",
+        "text": "Member, Marketing Club (Mark-It), IIM Ahmedabad: running a D2C brand teardown series",
+        "parent": "Marketing Club (Mark-It), IIM Ahmedabad",
+        "type": "collaboration",
+        "strength": "moderate",
+        "strength_signals": [
+          "named activity",
+          "current marketing exposure"
+        ],
+        "weak_flags": [
+          "unclear_role"
+        ],
+        "relevance": "high",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 6,
+        "grounded": true
+      },
+      {
+        "id": "c6",
+        "text": "Semi-finalist, Asian Paints CANVAS 2026 marketing case competition",
+        "parent": "Asian Paints CANVAS 2026 marketing case competition",
+        "type": "other",
+        "strength": "moderate",
+        "strength_signals": [
+          "selective achievement",
+          "named competition"
+        ],
+        "weak_flags": [
+          "unclear_role",
+          "no_result"
+        ],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "find_substance",
+        "rank": 2,
+        "grounded": true
+      },
+      {
+        "id": "c7",
+        "text": "Co-founded \"Chai with CAs\", an Instagram page explaining tax for salaried people; 14,000 followers",
+        "parent": "Chai with CAs",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "co-founder ownership",
+          "quantified audience",
+          "specific purpose"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 1,
+        "grounded": true
+      },
+      {
+        "id": "c8",
+        "text": "Trained Bharatanatyam dancer; performed at 12 cultural festivals",
+        "parent": "Bharatanatyam",
+        "type": "other",
+        "strength": "moderate",
+        "strength_signals": [
+          "sustained activity",
+          "quantified experience"
+        ],
+        "weak_flags": [
+          "no_result"
+        ],
+        "relevance": "low",
+        "distinctive": true,
+        "probe_angle": "find_substance",
+        "rank": 8,
+        "grounded": true
+      }
+    ],
+    "competencies": [
+      {
+        "id": "k1",
+        "name": "Marketing strategy and consumer insight",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c5",
+          "c6",
+          "c7"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k2",
+        "name": "Communication",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c6",
+          "c7"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k3",
+        "name": "Ownership and execution",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c2",
+          "c3",
+          "c7"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k4",
+        "name": "Data analysis and problem solving",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c2",
+          "c3"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k5",
+        "name": "People leadership",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c1",
+          "c4"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k6",
+        "name": "Resilience and self-awareness",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      },
+      {
+        "id": "k7",
+        "name": "Motivation and fit",
+        "source": "always",
+        "must_have": false,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      }
+    ],
+    "concerns": [
+      {
+        "type": "switch",
+        "detail": "The resume shows a move from audit and assurance into marketing through the MBA and recent marketing activities."
+      }
+    ],
+    "warmup_question": "What have you been learning in your first term at IIMA?",
+    "background_question": "Walk me through your background, up to how your first term at the MBA has gone.",
+    "slots": [
+      {
+        "id": "s1",
+        "kind": "claim",
+        "competency_id": "k2",
+        "anchor_claim_id": "c7",
+        "question_type": "past_behaviour",
+        "core_question": "What were you trying to achieve when you co-founded Chai with CAs?",
+        "intent_private": "Needs the page's original objective, Aditi's specific decisions and contributions, and how she measured whether the 14,000-follower audience represented meaningful progress.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which decisions were yours as a co-founder?",
+          "What did you do first to build the page?",
+          "What was the audience figure compared with when you started?"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "s2",
+        "kind": "gap",
+        "competency_id": "k6",
+        "anchor_claim_id": null,
+        "question_type": "past_behaviour",
+        "core_question": "Tell me about a time you failed at something that mattered to you.",
+        "intent_private": "Needs a specific meaningful setback, Aditi's personal role, the response she chose, and a concrete indication of what changed afterward.",
+        "probe_angle": "find_substance",
+        "technical_focus": false,
+        "likely_probes": [
+          "What made the outcome a failure for you?",
+          "What did you do first after it became clear?",
+          "What changed in your next attempt?"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "s3",
+        "kind": "gap",
+        "competency_id": "k1",
+        "anchor_claim_id": null,
+        "question_type": "knowledge",
+        "core_question": "How would you decide which customer segment to target first for a new D2C personal-care brand?",
+        "intent_private": "Needs an applied segmentation approach using customer needs, market attractiveness and brand fit, with a clear trade-off behind the choice.",
+        "probe_angle": "find_substance",
+        "technical_focus": false,
+        "likely_probes": [
+          "Why would you choose that approach over starting with the broadest market?",
+          "When would that segmentation approach not work?",
+          "Where have you applied a similar choice in your own work or studies?"
+        ],
+        "priority": 3
+      },
+      {
+        "id": "s4",
+        "kind": "motivation",
+        "competency_id": "k7",
+        "anchor_claim_id": null,
+        "question_type": "motivation",
+        "core_question": "You spent 30 months in audit. What's pulling you toward marketing after starting your MBA?",
+        "intent_private": "Needs a motivation grounded in Aditi's audit and MBA experiences, a specific reason for choosing marketing, and evidence of what she has done in the MBA toward this role.",
+        "probe_angle": "none",
+        "technical_focus": false,
+        "likely_probes": [
+          "What experience first made marketing feel like the direction you wanted?",
+          "What have you done in the MBA so far to explore marketing?",
+          "What would you want to work on in your first marketing role?"
+        ],
+        "priority": 4
+      }
+    ],
+    "plan_notes": "The plan prioritizes Aditi's strongest distinctive extracurricular claim, then tests resilience, marketing judgment and the clear transition from audit into marketing. Her prior FMCG audit exposure is relevant, but the plan should establish whether her newer marketing interest reflects substantive choices rather than only competition or club participation."
+  },
+  "plan_trace": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "attempts": 1,
+    "started_at": "2026-11-09T06:56:24.388Z",
+    "latency_ms": 31196,
+    "usage": {
+      "prompt_tokens": 7314,
+      "completion_tokens": 3344,
+      "total_tokens": 10658,
+      "prompt_tokens_details": {
+        "cached_tokens": 6879,
+        "cache_write_tokens": 432,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1507,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "raw_response": "{\"candidate\":{\"name\":\"Aditi\",\"experience_level\":\"early\",\"current_or_last_role\":\"PGP student, IIM Ahmedabad; previously Assistant Manager, Audit & Assurance, Deloitte\",\"resume_band\":\"upper\",\"band_reason\":\"The resume shows quantified outcomes, clear ownership and progression, although the marketing experience is newer and mostly academic or extracurricular.\"},\"jd\":{\"present\":false,\"company\":null,\"role_title\":null,\"role_family\":\"other\",\"seniority\":null,\"must_haves\":[],\"nice_to_haves\":[],\"stated_values\":[]},\"mismatch\":{\"is_mismatch\":false,\"note\":\"\"},\"claims\":[{\"id\":\"c1\",\"text\":\"Led statutory audit fieldwork for 4 listed FMCG and consumer durable clients with combined revenue of INR 18,000 crore\",\"parent\":\"Assistant Manager, Audit & Assurance, Deloitte Haskins & Sells LLP\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"ownership verb\",\"quantified scale\",\"named client sector\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":4},{\"id\":\"c2\",\"text\":\"Identified INR 46 crore of trade-promotion accrual errors at a personal care client by reconciling scheme payouts with distributor claims\",\"parent\":\"Assistant Manager, Audit & Assurance, Deloitte Haskins & Sells LLP\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"specific problem\",\"method described\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":3},{\"id\":\"c3\",\"text\":\"Built a sales-return analytics template in Excel that cut testing time by 30% and was adopted across 3 audit teams\",\"parent\":\"Assistant Manager, Audit & Assurance, Deloitte Haskins & Sells LLP\",\"type\":\"tools_ai\",\"strength\":\"strong\",\"strength_signals\":[\"named tool\",\"quantified result\",\"adoption scale\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":5},{\"id\":\"c4\",\"text\":\"Supervised a team of 5 article assistants\",\"parent\":\"Assistant Manager, Audit & Assurance, Deloitte Haskins & Sells LLP\",\"type\":\"leadership\",\"strength\":\"moderate\",\"strength_signals\":[\"people responsibility\",\"quantified team size\"],\"weak_flags\":[\"no_result\"],\"relevance\":\"medium\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":7},{\"id\":\"c5\",\"text\":\"Member, Marketing Club (Mark-It), IIM Ahmedabad: running a D2C brand teardown series\",\"parent\":\"Marketing Club (Mark-It), IIM Ahmedabad\",\"type\":\"collaboration\",\"strength\":\"moderate\",\"strength_signals\":[\"named activity\",\"current marketing exposure\"],\"weak_flags\":[\"unclear_role\"],\"relevance\":\"high\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":6},{\"id\":\"c6\",\"text\":\"Semi-finalist, Asian Paints CANVAS 2026 marketing case competition\",\"parent\":\"Asian Paints CANVAS 2026 marketing case competition\",\"type\":\"other\",\"strength\":\"moderate\",\"strength_signals\":[\"selective achievement\",\"named competition\"],\"weak_flags\":[\"unclear_role\",\"no_result\"],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"find_substance\",\"rank\":2},{\"id\":\"c7\",\"text\":\"Co-founded \\\"Chai with CAs\\\", an Instagram page explaining tax for salaried people; 14,000 followers\",\"parent\":\"Chai with CAs\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"co-founder ownership\",\"quantified audience\",\"specific purpose\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":1},{\"id\":\"c8\",\"text\":\"Trained Bharatanatyam dancer; performed at 12 cultural festivals\",\"parent\":\"Bharatanatyam\",\"type\":\"other\",\"strength\":\"moderate\",\"strength_signals\":[\"sustained activity\",\"quantified experience\"],\"weak_flags\":[\"no_result\"],\"relevance\":\"low\",\"distinctive\":true,\"probe_angle\":\"find_substance\",\"rank\":8}],\"competencies\":[{\"id\":\"k1\",\"name\":\"Marketing strategy and consumer insight\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c5\",\"c6\",\"c7\"],\"is_gap\":false},{\"id\":\"k2\",\"name\":\"Communication\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c6\",\"c7\"],\"is_gap\":false},{\"id\":\"k3\",\"name\":\"Ownership and execution\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c2\",\"c3\",\"c7\"],\"is_gap\":false},{\"id\":\"k4\",\"name\":\"Data analysis and problem solving\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c2\",\"c3\"],\"is_gap\":false},{\"id\":\"k5\",\"name\":\"People leadership\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c1\",\"c4\"],\"is_gap\":false},{\"id\":\"k6\",\"name\":\"Resilience and self-awareness\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[],\"is_gap\":true},{\"id\":\"k7\",\"name\":\"Motivation and fit\",\"source\":\"always\",\"must_have\":false,\"evidence_claim_ids\":[],\"is_gap\":true}],\"concerns\":[{\"type\":\"switch\",\"detail\":\"The resume shows a move from audit and assurance into marketing through the MBA and recent marketing activities.\"}],\"warmup_question\":\"What have you been learning in your first term at IIMA?\",\"background_question\":\"Walk me through your background, up to how your first term at the MBA has gone.\",\"slots\":[{\"id\":\"s1\",\"kind\":\"claim\",\"competency_id\":\"k2\",\"anchor_claim_id\":\"c7\",\"question_type\":\"past_behaviour\",\"core_question\":\"What were you trying to achieve when you co-founded Chai with CAs?\",\"intent_private\":\"Needs the page's original objective, Aditi's specific decisions and contributions, and how she measured whether the 14,000-follower audience represented meaningful progress.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"Which decisions were yours as a co-founder?\",\"What did you do first to build the page?\",\"What was the audience figure compared with when you started?\"],\"priority\":1},{\"id\":\"s2\",\"kind\":\"gap\",\"competency_id\":\"k6\",\"anchor_claim_id\":null,\"question_type\":\"past_behaviour\",\"core_question\":\"Tell me about a time you failed at something that mattered to you.\",\"intent_private\":\"Needs a specific meaningful setback, Aditi's personal role, the response she chose, and a concrete indication of what changed afterward.\",\"probe_angle\":\"find_substance\",\"technical_focus\":false,\"likely_probes\":[\"What made the outcome a failure for you?\",\"What did you do first after it became clear?\",\"What changed in your next attempt?\"],\"priority\":2},{\"id\":\"s3\",\"kind\":\"gap\",\"competency_id\":\"k1\",\"anchor_claim_id\":null,\"question_type\":\"knowledge\",\"core_question\":\"How would you decide which customer segment to target first for a new D2C personal-care brand?\",\"intent_private\":\"Needs an applied segmentation approach using customer needs, market attractiveness and brand fit, with a clear trade-off behind the choice.\",\"probe_angle\":\"find_substance\",\"technical_focus\":false,\"likely_probes\":[\"Why would you choose that approach over starting with the broadest market?\",\"When would that segmentation approach not work?\",\"Where have you applied a similar choice in your own work or studies?\"],\"priority\":3},{\"id\":\"s4\",\"kind\":\"motivation\",\"competency_id\":\"k7\",\"anchor_claim_id\":null,\"question_type\":\"motivation\",\"core_question\":\"You spent 30 months in audit. What's pulling you toward marketing after starting your MBA?\",\"intent_private\":\"Needs a motivation grounded in Aditi's audit and MBA experiences, a specific reason for choosing marketing, and evidence of what she has done in the MBA toward this role.\",\"probe_angle\":\"none\",\"technical_focus\":false,\"likely_probes\":[\"What experience first made marketing feel like the direction you wanted?\",\"What have you done in the MBA so far to explore marketing?\",\"What would you want to work on in your first marketing role?\"],\"priority\":4}],\"plan_notes\":\"The plan prioritizes Aditi's strongest distinctive extracurricular claim, then tests resilience, marketing judgment and the clear transition from audit into marketing. Her prior FMCG audit exposure is relevant, but the plan should establish whether her newer marketing interest reflects substantive choices rather than only competition or club participation.\"}",
+    "request_user_message": "{\"target_role\":\"domain: Marketing\",\"interview_type\":\"hiring_manager\",\"placement_stage\":\"summers\",\"market\":\"india\",\"interviewer_style\":\"balanced\",\"scored_slot_count\":4,\"variation_seed\":619872,\"warmup_angle\":\"what they have been working on or learning lately\",\"fit_angle\":\"a time they failed at something that mattered to them\",\"resume_text\":\"Aditi Mehta\\nPGP 2026-28 | Indian Institute of Management Ahmedabad\\nChartered Accountant (ICAI, AIR 34, Nov 2021)\\n\\nACADEMICS\\nPGP, IIM Ahmedabad, 2026-28 (ongoing), Term 1 GPA 3.1/4.33\\nB.Com (Hons), Shri Ram College of Commerce, Delhi University, 2020, 82.4%\\nClass XII, Jamnabai Narsee School, Mumbai, 2017, 95.6%\\n\\nWORK EXPERIENCE (30 months)\\nDeloitte Haskins & Sells LLP, Mumbai | Assistant Manager, Audit & Assurance | Jan 2022 - Jun 2024\\n- Led statutory audit fieldwork for 4 listed FMCG and consumer durable clients with combined revenue of INR 18,000 crore\\n- Identified INR 46 crore of trade-promotion accrual errors at a personal care client by reconciling scheme payouts with distributor claims\\n- Built a sales-return analytics template in Excel that cut testing time by 30% and was adopted across 3 audit teams\\n- Supervised a team of 5 article assistants\\nDeloitte, Article Assistant | 2018 - 2021\\n\\nACTIVITIES\\n- Member, Marketing Club (Mark-It), IIM Ahmedabad: running a D2C brand teardown series\\n- Semi-finalist, Asian Paints CANVAS 2026 marketing case competition\\n- Co-founded \\\"Chai with CAs\\\", an Instagram page explaining tax for salaried people; 14,000 followers\\n- Trained Bharatanatyam dancer; performed at 12 cultural festivals\",\"jd_text\":\"\"}"
+  },
+  "plan_checks": [
+    {
+      "level": "ok",
+      "message": "All claims are quoted from the resume and all topics are valid."
+    }
+  ],
+  "slots": [
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "What have you been learning in your first term at IIMA?",
+      "intent_private": "Warm-up to settle in. Not assessed.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "active",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "warmup",
+      "kind": "warmup",
+      "budget": 0
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "Walk me through your background, up to how your first term at the MBA has gone.",
+      "intent_private": "A coherent overview of the candidate's path; may surface threads for later topics.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "background",
+      "kind": "background",
+      "budget": 1
+    },
+    {
+      "competency_id": "k2",
+      "competency_name": "Communication",
+      "must_have": true,
+      "anchor_claim_id": "c7",
+      "anchor_text": "Co-founded \"Chai with CAs\", an Instagram page explaining tax for salaried people; 14,000 followers",
+      "anchor_parent": "Chai with CAs",
+      "question_type": "past_behaviour",
+      "core_question": "What were you trying to achieve when you co-founded Chai with CAs?",
+      "intent_private": "Needs the page's original objective, Aditi's specific decisions and contributions, and how she measured whether the 14,000-follower audience represented meaningful progress.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which decisions were yours as a co-founder?",
+        "What did you do first to build the page?",
+        "What was the audience figure compared with when you started?"
+      ],
+      "priority": 1,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s1",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k6",
+      "competency_name": "Resilience and self-awareness",
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "past_behaviour",
+      "core_question": "Tell me about a time you failed at something that mattered to you.",
+      "intent_private": "Needs a specific meaningful setback, Aditi's personal role, the response she chose, and a concrete indication of what changed afterward.",
+      "probe_angle": "find_substance",
+      "technical_focus": false,
+      "likely_probes": [
+        "What made the outcome a failure for you?",
+        "What did you do first after it became clear?",
+        "What changed in your next attempt?"
+      ],
+      "priority": 2,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s2",
+      "kind": "gap",
+      "budget": 2
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Marketing strategy and consumer insight",
+      "must_have": true,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "knowledge",
+      "core_question": "How would you decide which customer segment to target first for a new D2C personal-care brand?",
+      "intent_private": "Needs an applied segmentation approach using customer needs, market attractiveness and brand fit, with a clear trade-off behind the choice.",
+      "probe_angle": "find_substance",
+      "technical_focus": false,
+      "likely_probes": [
+        "Why would you choose that approach over starting with the broadest market?",
+        "When would that segmentation approach not work?",
+        "Where have you applied a similar choice in your own work or studies?"
+      ],
+      "priority": 3,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s3",
+      "kind": "gap",
+      "budget": 2
+    },
+    {
+      "competency_id": "k7",
+      "competency_name": "Motivation and fit",
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "motivation",
+      "core_question": "You spent 30 months in audit. What's pulling you toward marketing after starting your MBA?",
+      "intent_private": "Needs a motivation grounded in Aditi's audit and MBA experiences, a specific reason for choosing marketing, and evidence of what she has done in the MBA toward this role.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [
+        "What experience first made marketing feel like the direction you wanted?",
+        "What have you done in the MBA so far to explore marketing?",
+        "What would you want to work on in your first marketing role?"
+      ],
+      "priority": 4,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s4",
+      "kind": "motivation",
+      "budget": 1
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "",
+      "intent_private": "Candidate asks their questions.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "candidate_questions",
+      "kind": "candidate_questions",
+      "budget": 2
+    }
+  ],
+  "current": 0,
+  "transcript": [
+    {
+      "role": "interviewer",
+      "text": "Hi Aditi, thanks for joining. I'm on the hiring team for this role, and I'd like to understand your experience in some depth. We have about 15 minutes, with time for your questions at the end. What have you been learning in your first term at IIMA?",
+      "slot_id": "warmup",
+      "why": "This was a warm-up question to help you settle in. It isn't part of the feedback.",
+      "at": "2026-11-09T06:56:55.585Z"
+    }
+  ],
+  "turns": [],
+  "events": [],
+  "interviewer_turns": 1,
+  "max_turns": 20,
+  "candidate_questions_asked": 0,
+  "second_chances": {},
+  "opening_greeting": "Hi Aditi, thanks for joining. I'm on the hiring team for this role, and I'd like to understand your experience in some depth. We have about 15 minutes, with time for your questions at the end."
+}

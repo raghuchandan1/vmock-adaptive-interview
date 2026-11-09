@@ -1,0 +1,594 @@
+
+### analytics_gap__back_your_resume  [mid/upper] family=technical company=Kestrel Retail
+concerns: ["gap: Career break from March 2022 to May 2023, before the freelance analyst work began."]
+WARN: Slot s1 wording: agenda word: "score" | Slot s1 wording: agenda word: "scoring" | Slot s1 wording: agenda word: "score" | Slot s1 wording: agenda word: "score"
+W: What topic from your first year at IIM Kozhikode has held your attention recently?
+B: Walk me through your career so far, with a focus on your last couple of roles.
+warmup warmup/null [null] What topic from your first year at IIM Kozhikode has held your attention recently?
+     probes: 
+background background/null [null] Walk me through your career so far, with a focus on your last couple of roles.
+     probes: 
+s1 claim/past_behaviour/TECH [Analytics experience] I see you built an attrition early-warning score at ICICI Bank. What problem were you trying to solve?
+     probes: Which part of the scoring work was yours? || How did you choose the signals for the score? || What would you do differently if you built that score today?
+s2 claim/past_behaviour/TECH [Impact measurement] Tell me about the demand forecasting model you built at Mu Sigma.
+     probes: Which part of the forecasting work was yours? || Why did you choose that forecasting approach? || What was the 22% MAPE compared with?
+s3 claim/past_behaviour [Stakeholder communication] How did your co-lead role in the Analytics Club come about?
+     probes: What did you take responsibility for first? || Tell me about a decision you made with the other club leaders. || How did you know the club's work had improved?
+s4 concerns/concern [Analytics experience] There was a career break between March 2022 and June 2023. What were you focused on during that period?
+     probes: What was the main thing you were working toward during that period? || What did you do first when you began freelancing? || How did that period shape your approach to analytics?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### analytics_gap__hiring_manager  [early/upper] family=technical company=Kestrel Retail
+concerns: ["gap: Career break from March 2022 to May 2023, followed by part-time freelance work."]
+WARN: Slot s1 wording: agenda word: "score" | Slot s1 wording: agenda word: "score" | Slot s1 wording: agenda word: "score" | Slot s1 wording: agenda word: "score"
+W: What analytics skill have you picked up recently in your course, and where has it been useful?
+B: Walk me through your career so far, including what you focused on between February 2022 and June 2023.
+warmup warmup/null [null] What analytics skill have you picked up recently in your course, and where has it been useful?
+     probes: 
+background background/null [null] Walk me through your career so far, including what you focused on between February 2022 and June 2023.
+     probes: 
+s1 claim/past_behaviour/TECH [Customer analytics and churn modeling] I see you built an attrition early-warning score at ICICI Bank. What business decision were you trying to improve?
+     probes: How did you decide which signals belonged in the score? || How did you test whether the score ranked customers usefully? || What would you do differently if you rebuilt the score today?
+s2 claim/past_behaviour [Campaign impact measurement] Tell me about the cohort analysis you built for the D2C brands.
+     probes: What decision did the cohort analysis change? || Which comparison supported the claim that discount spend fell by 15%? || What did the brand decide not to do based on your analysis?
+s3 gap/knowledge [Campaign impact measurement] A retention campaign targets customers flagged as likely to churn. How would you measure whether the campaign actually improved retention?
+     probes: What comparison would you use to estimate the campaign's incremental effect? || How would you handle customers selected because they already looked likely to churn? || What result would make you recommend scaling it?
+s4 motivation/motivation [Motivation and fit] What draws you from analytics work and your MBA to the Business Analyst role at Kestrel Retail?
+     probes: Which part of Kestrel's customer analytics work is most relevant to your experience? || What have you done during your MBA to prepare for this role? || Why is this role the right next step now?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### army_ops__back_your_resume  [mid/upper] family=other company=null
+concerns: []
+W: What first drew you to operations and supply chain work?
+B: Walk me through your career so far, with a focus on your last couple of roles.
+warmup warmup/null [null] What first drew you to operations and supply chain work?
+     probes: 
+background background/null [null] Walk me through your career so far, with a focus on your last couple of roles.
+     probes: 
+s1 claim/past_behaviour [Supply chain and inventory management] What were you trying to solve when you built the criticality-based spares stocking model at Tata Steel?
+     probes: What part of the stocking model did you personally build? || Why did you choose criticality as the basis for stocking? || What would you do differently if you rebuilt the model today?
+s2 claim/past_behaviour [Operations execution] Walk me through how you reduced vehicle turnaround time in the Army.
+     probes: What decision did you personally make first? || What did you change in the spares indent cycle? || What was the turnaround time before the change?
+s3 claim/past_behaviour [Leadership and stakeholder management] How did the Supply Chain Summit come about in the Operations Club at IIM Indore?
+     probes: What part of organising the summit did you personally own? || What was the hardest coordination decision you had to make? || How many industry speakers took part?
+s4 claim/past_behaviour [Supply chain and inventory management] What did you have to figure out first when managing spares inventory across the Army's three depots?
+     probes: What inventory problem did you address first? || Which control did you decide to introduce? || What was the value of inventory under your responsibility?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### army_ops__hiring_manager  [mid/upper] family=other company=null
+concerns: []
+W: What have you been learning in your MBA recently?
+B: Walk me through your career so far, with a focus on your last couple of roles.
+warmup warmup/null [null] What have you been learning in your MBA recently?
+     probes: 
+background background/null [null] Walk me through your career so far, with a focus on your last couple of roles.
+     probes: 
+s1 claim/past_behaviour [Inventory and replenishment planning] Walk me through how you built the spares stocking model during your Tata Steel internship.
+     probes: What was your personal contribution to the model? || Which inventory decision required the most judgement? || What baseline was the projected INR 3.2 crore reduction compared with?
+s2 claim/past_behaviour [Leadership and team management] What was the hardest leadership decision you faced while commanding the Light Repair Workshop?
+     probes: What did you personally do first in that situation? || How did you decide which priority to address? || How did you respond when someone on the team was not meeting the required standard?
+s3 gap/knowledge [Inventory and replenishment planning] How would you set a replenishment policy for a critical spare whose demand and lead time both vary?
+     probes: What would you prioritise first in that decision? || When would that approach be unsuitable? || How would you validate the policy using data from your own work?
+s4 motivation/motivation [Motivation and fit] After five years in Army maintenance and a Tata Steel internship, what draws you to a career in operations and supply chain?
+     probes: Which experience most influenced that direction? || What part of an operations and supply chain role do you want to develop next?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### army_ops__recruiter_screen  [mid/upper] family=other company=null
+concerns: ["switch: The candidate is moving from military engineering and operations into an MBA path focused on operations and supply chain."]
+W: What have you been learning in your MBA recently?
+B: Walk me through your career so far, from the Indian Army through Tata Steel and your MBA.
+warmup warmup/null [null] What have you been learning in your MBA recently?
+     probes: 
+background background/null [null] Walk me through your career so far, from the Indian Army through Tata Steel and your MBA.
+     probes: 
+s1 motivation/motivation [Motivation and fit] You've moved from the Indian Army into an MBA and operations and supply chain. What draws you to this field now?
+     probes: Which part of your Army experience most shaped this direction? || What have you done during your MBA to explore operations and supply chain? || What would make this role a better fit than returning to a military engineering path?
+s2 claim/past_behaviour [Inventory and materials management] What were you trying to solve when you built the spares stocking model at Tata Steel?
+     probes: What decision did you personally make in the stocking model? || What did you compare when setting criticality for the spares? || How did you calculate the projected INR 3.2 crore reduction?
+s3 gap/past_behaviour [Analytical problem solving] Tell me about a time you had to make an operational decision with incomplete information.
+     probes: What did you do first to clarify the situation? || What trade-off did you decide to accept? || What result told you the decision was working?
+s4 claim/past_behaviour [Process improvement and operational execution] How did the vehicle turnaround improvement come about in your Army workshop?
+     probes: Which decision did you personally make to change the spares indent cycle? || What did you decide against when setting up the forward spares cell? || How was the reduction from 9 days to 5 days measured?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### bsc_lowcgpa_mkt__hiring_manager  [fresher/upper] family=other company=null
+concerns: ["academics: Term 1 MBA CGPA is 5.9/10.","switch: The resume moves from biotechnology studies and research into retail marketing and an MBA focused toward marketing."]
+W: What topic from your first MBA term have you been curious to explore further?
+B: Walk me through your background, up to how your first term at the MBA has gone.
+warmup warmup/null [null] What topic from your first MBA term have you been curious to explore further?
+     probes: 
+background background/null [null] Walk me through your background, up to how your first term at the MBA has gone.
+     probes: 
+s1 claim/past_behaviour [Leadership and collaboration] What was the hardest part of leading the cultural committee's 25-member team?
+     probes: How did you decide what to delegate? || What did you do first when the team disagreed? || How many people ultimately attended the fest?
+s2 gap/past_behaviour [Resilience and self-awareness] Tell me about a time you failed at something that mattered to you.
+     probes: What was your specific contribution to the situation? || What did you do first after you realised it had gone wrong? || What outcome showed whether your response worked?
+s3 gap/knowledge [Marketing fundamentals] Suppose a new healthy snack gets strong trial in stores but weak repeat purchase. How would you work out what to change?
+     probes: Why would you start with that approach rather than another? || When might that approach give you a misleading answer? || How would you use something from your own internship to inform the decision?
+s4 motivation/motivation [Motivation and fit] With a biotechnology degree and research experience, what's pulling you toward marketing?
+     probes: What experience first made marketing feel relevant to you? || What have you done in your MBA so far to explore marketing? || What other roles or companies are you considering?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### bsc_lowcgpa_mkt__hiring_manager__rep  [fresher/upper] family=other company=null
+concerns: ["academics: PGP Term 1 CGPA is 5.9/10.","switch: The candidate is moving from biotechnology studies and research experience toward marketing."]
+W: What have you been working on or learning lately in your MBA?
+B: Walk me through your background, up to how your first term at the MBA has gone.
+warmup warmup/null [null] What have you been working on or learning lately in your MBA?
+     probes: 
+background background/null [null] Walk me through your background, up to how your first term at the MBA has gone.
+     probes: 
+s1 claim/past_behaviour [Marketing and consumer insight] What were you trying to solve when you ran in-store sampling for Nature's Basket's organic millet range?
+     probes: What part of the sampling activity did you personally own? || What did you decide to change during the activity? || What was the 18% conversion rate compared with exactly?
+s2 gap/past_behaviour [Leadership and teamwork] What would your team or classmates say is your biggest strength?
+     probes: When did that strength make a difference in a team? || What did you personally do in that situation? || What feedback have you received about that strength?
+s3 gap/knowledge [Marketing and consumer insight] How would you choose the first customer segment for a new organic millet range in a city?
+     probes: Why would you use that approach over a broad-market launch? || When might your approach not work? || How have you applied a similar approach in your own work?
+s4 motivation/motivation [Motivation and fit] You studied biotechnology and are now pursuing an MBA in marketing. What is pulling you toward marketing?
+     probes: What have you done in the MBA so far to explore marketing? || Which part of your Nature's Basket experience influenced this interest most? || What other roles or companies are you considering?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### bsc_lowcgpa_mkt__recruiter_screen  [fresher/upper] family=other company=null
+concerns: ["academics: The PGP Term 1 CGPA is 5.9/10.","switch: The candidate is moving from biotechnology and scientific research into marketing."]
+W: What has kept you busy in your studies over the last few weeks?
+B: Walk me through your background, from your biotechnology degree through your internships, and what you've focused on since starting your MBA.
+warmup warmup/null [null] What has kept you busy in your studies over the last few weeks?
+     probes: 
+background background/null [null] Walk me through your background, from your biotechnology degree through your internships, and what you've focused on since starting your MBA.
+     probes: 
+s1 motivation/motivation [Motivation and fit] You are moving from biotechnology into marketing. What is pulling you toward marketing?
+     probes: What in your experience at Nature's Basket made marketing appealing? || What have you done in the MBA so far to explore marketing? || What other roles or companies are you considering alongside marketing?
+s2 claim/past_behaviour [Customer focus] What were you trying to solve when you ran in-store sampling for Nature's Basket?
+     probes: Which parts of the sampling activity were your responsibility? || What decision did you make that shaped the sampling approach? || What was the 18% conversion rate compared with in the underlying data?
+s3 gap/past_behaviour [Conviction and teamwork] Tell me about a time you disagreed with your team or took a stance.
+     probes: What was your position in that disagreement? || How did you decide which view to support? || What changed after you took that stance?
+s4 claim/past_behaviour [Ownership and execution] What was the hardest part of leading the cultural committee at Christ University?
+     probes: What decision did you personally make to address that challenge? || How did you handle a team member who was not meeting expectations? || How did you know the fest reached its reported footfall of 8,000?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### ca_marketing__hiring_manager  [early/upper] family=other company=null
+concerns: ["switch: The resume shows a move from audit and assurance into marketing through the MBA and recent marketing activities."]
+W: What have you been learning in your first term at IIMA?
+B: Walk me through your background, up to how your first term at the MBA has gone.
+warmup warmup/null [null] What have you been learning in your first term at IIMA?
+     probes: 
+background background/null [null] Walk me through your background, up to how your first term at the MBA has gone.
+     probes: 
+s1 claim/past_behaviour [Communication] What were you trying to achieve when you co-founded Chai with CAs?
+     probes: Which decisions were yours as a co-founder? || What did you do first to build the page? || What was the audience figure compared with when you started?
+s2 gap/past_behaviour [Resilience and self-awareness] Tell me about a time you failed at something that mattered to you.
+     probes: What made the outcome a failure for you? || What did you do first after it became clear? || What changed in your next attempt?
+s3 gap/knowledge [Marketing strategy and consumer insight] How would you decide which customer segment to target first for a new D2C personal-care brand?
+     probes: Why would you choose that approach over starting with the broadest market? || When would that segmentation approach not work? || Where have you applied a similar choice in your own work or studies?
+s4 motivation/motivation [Motivation and fit] You spent 30 months in audit. What's pulling you toward marketing after starting your MBA?
+     probes: What experience first made marketing feel like the direction you wanted? || What have you done in the MBA so far to explore marketing? || What would you want to work on in your first marketing role?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### ca_marketing__recruiter_screen  [early/upper] family=other company=null
+concerns: ["switch: The candidate is moving from audit and assurance into marketing."]
+W: What is one idea from your first term at IIMA that has already been useful?
+B: Walk me through your background, up to how your first term at the MBA has gone.
+warmup warmup/null [null] What is one idea from your first term at IIMA that has already been useful?
+     probes: 
+background background/null [null] Walk me through your background, up to how your first term at the MBA has gone.
+     probes: 
+s1 motivation/motivation [Motivation and fit] You've built your experience in audit and are now pursuing marketing. What's pulling you toward marketing roles?
+     probes: Which part of your audit work first made marketing interesting to you? || What have you done in the MBA so far to test that interest? || What other roles or companies are you considering?
+s2 claim/past_behaviour [Marketing judgment and customer insight] What were you trying to solve when you co-founded Chai with CAs?
+     probes: What part of building the page did you personally own? || Which content decision had the biggest effect on the page? || What was the 14,000-follower figure compared with when you started?
+s3 gap/past_behaviour [Teamwork and conviction] Tell me about a time you disagreed with your team or took a stance.
+     probes: What was your own position in that situation? || What did you do first to make your view clear? || What changed after the team made its decision?
+s4 claim/past_behaviour [Analytical problem solving] How did your team approach the Asian Paints CANVAS case competition?
+     probes: What part of the case did you personally own? || Which marketing choice did your team debate most? || How did you judge whether your recommendation was working?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### consult_fresher__back_your_resume  [fresher/upper] family=other company=null
+concerns: []
+W: What have you been working on or learning lately at IIM Calcutta?
+B: Walk me through your background, from SRCC through IIM Calcutta and the experiences that led you toward consulting.
+warmup warmup/null [null] What have you been working on or learning lately at IIM Calcutta?
+     probes: 
+background background/null [null] Walk me through your background, from SRCC through IIM Calcutta and the experiences that led you toward consulting.
+     probes: 
+s1 claim/past_behaviour [Analytical research and data analysis] I see that your Bain work influenced the client’s launch-city priorities. What did you personally do to reach that recommendation?
+     probes: Which part of the market-entry work did you personally own? || What would you do differently now after completing that internship? || How did you decide that interviewing 35 dealers and 12 fleet operators was sufficient?
+s2 claim/past_behaviour [Problem structuring and hypothesis-driven problem solving] At Kotak Mahindra Bank, you worked on credit-card rewards. How did you arrive at your recommendation?
+     probes: Which parts of the recommendation did you personally decide? || What did you compare the two low-use categories against? || What evidence would have changed your recommendation?
+s3 claim/past_behaviour [Working with ambiguity] You were a national winner in HUL L.I.M.E. What was your personal contribution to the winning solution?
+     probes: What part of the HUL solution did you personally own? || Which assumption most influenced your recommendation? || What evidence supported the solution you presented?
+s4 claim/past_behaviour [Leadership] As General Secretary of the Commerce Society, how did you lead the sponsorship effort?
+     probes: Which people decision mattered most in leading the 30-member team? || How did you decide where to focus the sponsorship effort? || What did INR 8 lakh represent compared with your target?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### consult_fresher__hiring_manager  [fresher/upper] family=other company=null
+concerns: []
+W: What is one thing you learned recently at IIM Calcutta that has already proved useful?
+B: Walk me through your path from SRCC to IIM Calcutta, including the experiences that led you toward consulting.
+warmup warmup/null [null] What is one thing you learned recently at IIM Calcutta that has already proved useful?
+     probes: 
+background background/null [null] Walk me through your path from SRCC to IIM Calcutta, including the experiences that led you toward consulting.
+     probes: 
+s1 claim/past_behaviour [Communication and synthesis] At Bain, your research influenced the client's launch-city priorities. What did you do to turn those conversations into a recommendation?
+     probes: Which interview insight most changed your view of the launch priorities? || What decision did you make when the dealer and fleet-operator evidence differed? || What was the baseline city list against which the shift was assessed?
+s2 claim/past_behaviour [Leadership] As General Secretary of the Commerce Society, what was the hardest leadership decision you made while working with the 30-member team?
+     probes: Which team member or group needed the most support from you? || What did you decide when priorities within the team conflicted? || How did you judge whether the team delivered successfully?
+s3 gap/knowledge [Problem structuring and hypothesis development] A consumer client enters a fragmented market with limited data. How would you structure the first phase of the problem?
+     probes: Why would you prioritise that line of inquiry over the alternatives? || When would your initial structure stop being useful? || What example from your own work shows how you structured an ambiguous problem?
+s4 motivation/motivation [Motivation and fit] What draws you to this firm's management consulting role after your Bain summer internship?
+     probes: Which part of your summer experience most shaped this choice? || What specific aspect of this firm's work across sectors appeals to you? || How would this role add to what you already experienced at Bain?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### consult_fresher__hiring_manager__nojd  [fresher/upper] family=other company=null
+concerns: []
+WARN: Slot s1 wording: agenda word: "assessment" | Slot s1 wording: agenda word: "assessment"
+W: What is one idea from your MBA coursework that has proved useful outside the classroom?
+B: Walk me through your background: your studies and the experiences that led you to apply for this role.
+warmup warmup/null [null] What is one idea from your MBA coursework that has proved useful outside the classroom?
+     probes: 
+background background/null [null] Walk me through your background: your studies and the experiences that led you to apply for this role.
+     probes: 
+s1 claim/past_behaviour [Strategic problem solving] Tell me about the market-entry assessment you worked on at Bain for the Japanese electric two-wheeler maker.
+     probes: Which part of the analysis was personally yours? || What did you decide against when building the city-prioritisation model? || What would you do differently now in that assessment?
+s2 claim/past_behaviour [Leadership and execution] What was the hardest part of leading the Commerce Society team while raising sponsorship for the annual fest?
+     probes: What decision did you personally make when the sponsorship effort was not progressing? || How did you respond when a team member was not delivering? || What did the INR 8 lakh figure represent?
+s3 gap/knowledge [Strategic judgment] Suppose a client has strong market-growth data but limited ability to execute; how would you decide whether to recommend entering that market?
+     probes: Why would you prioritise that approach over another? || When would that approach give you the wrong answer? || Where have you faced a similar trade-off in your own work?
+s4 motivation/motivation [Motivation and fit] You have a PPO from Bain; what draws you to build your career in strategy and consulting?
+     probes: Which part of your Bain experience most influenced that choice? || What would you want to do in consulting that your other experiences did not offer? || What other career paths are you considering?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### fambiz_sales__back_your_resume  [mid/upper] family=other company=null
+concerns: []
+W: What have you been learning recently at IIM Lucknow?
+B: Walk me through your career so far, including the experience that led you to IIM Lucknow.
+warmup warmup/null [null] What have you been learning recently at IIM Lucknow?
+     probes: 
+background background/null [null] Walk me through your career so far, including the experience that led you to IIM Lucknow.
+     probes: 
+s1 claim/past_behaviour [Channel and customer management] At Asian Paints, you designed a painter-referral scheme. What were you trying to change in the sales process?
+     probes: What part of the scheme did you personally design? || What would you change if you ran the six-week pilot again? || How was the 31-painter increase measured?
+s2 claim/past_behaviour [Market development and sales] How did opening three export markets at Agarwal Textiles come about?
+     probes: What did you personally do to win those markets? || Which market did you prioritise first? || What was the comparison behind the increase from 4% to 19%?
+s3 claim/past_behaviour [Leadership and teamwork] As captain of the NMCC cricket team, what was the hardest team situation you had to handle?
+     probes: What did you personally do when the situation became difficult? || What leadership approach did you choose for the team? || How did you know the situation had improved?
+s4 claim/past_behaviour [Negotiation] Tell me about the most difficult negotiation you handled for the yarn contracts at Agarwal Textiles.
+     probes: What did you personally own in that negotiation? || Which trade-off mattered most in the agreement? || How was the INR 22 crore annual value calculated?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### fambiz_sales__hiring_manager  [early/upper] family=other company=null
+concerns: []
+W: Which recent skill from your MBA has been most useful so far?
+B: Walk me through your career so far, with a focus on your last couple of roles.
+warmup warmup/null [null] Which recent skill from your MBA has been most useful so far?
+     probes: 
+background background/null [null] Walk me through your career so far, with a focus on your last couple of roles.
+     probes: 
+s1 claim/past_behaviour [Sales and market development] Tell me about the painter-loyalty referral scheme you designed during your Asian Paints internship.
+     probes: Which decision in the scheme was yours alone? || What did you do first to persuade painters to join? || What was the baseline for the 31 new painters?
+s2 claim/past_behaviour [Leadership and teamwork] How did you lead the NMCC college cricket team as captain?
+     probes: What was the first leadership challenge you faced as captain? || Which decision about a teammate was yours to make? || How did you know your approach improved the team?
+s3 gap/knowledge [Sales and market development] How would you decide whether to expand a dealer network into a new tier-3 market?
+     probes: Why would you prioritise that information over another signal? || When would you decide not to enter the market? || How would you validate the decision using your own market-development experience?
+s4 motivation/motivation [Motivation and fit] You have built sales experience in your family business and at Asian Paints. What is pulling you toward sales and business development now?
+     probes: Which experience most shaped that choice? || What part of this role would you want to take on first?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### fambiz_sales__hiring_manager__rep  [mid/upper] family=other company=null
+concerns: ["switch: Move from leading business development in the family textile business to pursuing a post-MBA sales and business development role."]
+W: What recent skill from your MBA has proved useful in your coursework?
+B: Walk me through your career from Agarwal Textiles through your MBA and Asian Paints.
+warmup warmup/null [null] What recent skill from your MBA has proved useful in your coursework?
+     probes: 
+background background/null [null] Walk me through your career from Agarwal Textiles through your MBA and Asian Paints.
+     probes: 
+s1 claim/past_behaviour [Channel and customer development] Tell me about the painter-loyalty referral scheme you worked on at Asian Paints.
+     probes: What part of the scheme did you personally design? || Why did you choose referrals as the approach? || What would you do differently now?
+s2 claim/past_behaviour [Sales and business development] How did opening new export markets at Agarwal Textiles come about?
+     probes: Which market-entry decision was yours? || What did you use to compare the three markets? || How did you calculate the change from 4% to 19%?
+s3 gap/knowledge [Sales prioritisation and commercial judgment] If you inherited a territory with many prospects, how would you decide which opportunities to pursue first?
+     probes: What information would you seek before ranking opportunities? || How would you balance near-term revenue against strategic accounts? || What signal would make you drop a promising opportunity?
+s4 motivation/motivation [Motivation and fit] You've led business development in your family textile business and interned at Asian Paints. What's pulling you toward a post-MBA sales and business development role?
+     probes: Which experience most shaped that direction? || What would you want to do in your next sales role that you have not yet done? || What attracts you to this role beyond the title?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### hr_ranchi__back_your_resume  [fresher/upper] family=other company=null
+concerns: []
+W: What has kept you busy in your studies over the last few weeks?
+B: Walk me through your background: your studies and the experiences that led you to apply for HR roles.
+warmup warmup/null [null] What has kept you busy in your studies over the last few weeks?
+     probes: 
+background background/null [null] Walk me through your background: your studies and the experiences that led you to apply for HR roles.
+     probes: 
+s1 claim/past_behaviour [HR analytics and evidence-based problem solving] Walk me through how you moved from the exit interviews at Mahindra & Mahindra to the shift-preference proposal.
+     probes: What part of the exit-interview analysis did you personally handle? || Which decision shaped the shift-preference proposal most? || What would you do differently if you revisited the analysis now?
+s2 claim/past_behaviour [Stakeholder management] Tell me about the HR problem your team tackled in the Tata Steel HRchitect case competition.
+     probes: What was your personal contribution to the winning solution? || Which recommendation did you argue for most strongly? || What evidence made you confident the solution addressed the problem?
+s3 claim/past_behaviour [Stakeholder management] What was the most challenging part of coordinating with 18 recruiters on the IIM Ranchi placement committee?
+     probes: What did you personally do when a recruiter need was unclear? || How did you decide which stakeholder request to address first? || What changed because of your coordination?
+s4 claim/past_behaviour [Onboarding and employee development] What did you have to figure out first when designing the onboarding buddy program for diploma trainees?
+     probes: Which part of the program design was your decision? || How did you decide what the buddy program should cover first? || What would you change in the program now?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### hr_ranchi__hiring_manager  [fresher/upper] family=other company=null
+concerns: []
+W: What has kept you busy in the last few weeks at IIM Ranchi?
+B: Walk me through your path from psychology at LSR to your PGDHRM and the experiences that shaped your interest in HR.
+warmup warmup/null [null] What has kept you busy in the last few weeks at IIM Ranchi?
+     probes: 
+background background/null [null] Walk me through your path from psychology at LSR to your PGDHRM and the experiences that shaped your interest in HR.
+     probes: 
+s1 claim/past_behaviour [People analytics and problem solving] I see you analysed exit interviews at Mahindra & Mahindra’s Nashik plant. What did you do to turn that analysis into a shift-preference proposal?
+     probes: Which part of the analysis was yours? || What evidence led you to recommend a preference window? || What would you do differently now?
+s2 claim/past_behaviour [Stakeholder management] I see you coordinated with 18 recruiters on IIM Ranchi’s placement committee. What was the hardest coordination challenge you handled?
+     probes: What part of that challenge did you personally own? || How did you decide what to communicate first? || What changed as a result of your intervention?
+s3 gap/knowledge [Employee relations and grievance handling] How would you handle a shop-floor employee who believes their shift allocation was unfair?
+     probes: Why would you begin with that approach? || When might that approach not be appropriate? || How have you handled a similar concern in your own work?
+s4 motivation/motivation [Motivation and fit] After your psychology degree and HR summer internship, what is drawing you to build your career in human resources?
+     probes: Which part of your Mahindra experience most shaped that choice? || What HR responsibility would you want to take on early in your career?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### injection_gm__hiring_manager  [fresher/upper] family=other company=null
+concerns: ["switch: The candidate is moving from construction execution after an undergraduate degree in civil engineering toward general management through an MBA."]
+W: What have you been working on or learning at IIM Shillong recently?
+B: Walk me through your background, up to how your first term at the MBA has gone.
+warmup warmup/null [null] What have you been working on or learning at IIM Shillong recently?
+     probes: 
+background background/null [null] Walk me through your background, up to how your first term at the MBA has gone.
+     probes: 
+s1 claim/past_behaviour [Problem solving and decision-making] What did you have to figure out first when recovering the pier-casting delay at L&T?
+     probes: Which part of the recovery plan was your decision? || What option did you decide against? || What was the original completion date?
+s2 gap/past_behaviour [Communication and collaboration] Tell me about a time you disagreed with your team or took a stance.
+     probes: What was your specific position? || What did you do first after the disagreement? || What decision was finally made?
+s3 gap/past_behaviour [Leadership and stakeholder management] Tell me about organising the blood donation camp at the Kanpur site, focusing on the most difficult coordination problem.
+     probes: What was your personal responsibility? || What did you do first to resolve the coordination problem? || How did you confirm the camp reached 140 donors?
+s4 motivation/motivation [Motivation and fit] You have worked in construction execution and are now pursuing an MBA; what is pulling you toward general management?
+     probes: Which part of your construction experience led you toward this direction? || What have you done in the MBA so far to explore general management? || What kind of decision would you like to own in your next role?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### injection_gm__recruiter_screen  [early/upper] family=other company=null
+concerns: ["switch: The resume shows a move from civil construction execution into an MBA and a potential general management career."]
+W: What has your first term at IIM Shillong been like so far?
+B: Walk me through your background, from civil engineering and construction through your work at L&T to what you've focused on since starting your MBA.
+warmup warmup/null [null] What has your first term at IIM Shillong been like so far?
+     probes: 
+background background/null [null] Walk me through your background, from civil engineering and construction through your work at L&T to what you've focused on since starting your MBA.
+     probes: 
+s1 motivation/motivation [Motivation and fit] You moved from construction execution at L&T into an MBA and are exploring general management. What draws you toward this path?
+     probes: Which part of your L&T experience most influenced this direction? || What have you done in your MBA so far toward general management? || What other roles or companies are you considering?"],
+s2 claim/past_behaviour [Problem solving] At L&T, you helped recover a delayed viaduct section. Walk me through how you approached that situation.
+     probes: What part of the recovery plan did you personally own? || What made you choose to re-sequence crane use first? || How did you measure the seven-week recovery?
+s3 gap/past_behaviour [Resilience and self-awareness] Tell me about a time you failed at something that mattered to you.
+     probes: What did you do first when you realised it was not working? || What part of the outcome was within your control? || What changed in your approach afterward?
+s4 claim/past_behaviour [People and stakeholder management] How did the blood donation camp at the Kanpur site come about?
+     probes: What did you personally do first to get the camp moving? || How did you handle a stakeholder who was difficult to coordinate? || How was the figure of 140 donors recorded?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### isb_finance__back_your_resume  [mid/upper] family=finance company=Varuna Industries Ltd
+concerns: ["switch: The resume moves from banking credit risk into a corporate finance and capital-allocation role after the MBA."]
+W: What finance skill have you picked up recently, and where has it been useful?
+B: Walk me through your career from Axis Bank through HDFC Bank to your current MBA, focusing on the choices along the way.
+warmup warmup/null [null] What finance skill have you picked up recently, and where has it been useful?
+     probes: 
+background background/null [null] Walk me through your career from Axis Bank through HDFC Bank to your current MBA, focusing on the choices along the way.
+     probes: 
+s1 claim/past_behaviour/TECH [Financial modelling and capital budgeting] I see you led the review of a stressed auto-components borrower at HDFC Bank. What drove the restructuring decision?
+     probes: Which part of the analysis was yours? || What option did you reject? || What was the exposure amount you restructured?
+s2 claim/past_behaviour/TECH [Data analysis and monitoring] How did the early-warning dashboard at HDFC Bank come about?
+     probes: What did you build first? || Why did you choose those data signals? || How many accounts did the dashboard flag?
+s3 claim/past_behaviour [People leadership] What did you have to figure out first as a Finance Club mentor at ISB?
+     probes: What was your role in that situation? || What did you do first? || What changed for the student afterward?
+s4 concerns/concern [Relevant finance experience] What is pulling you from banking credit risk toward corporate finance and capital allocation?
+     probes: Which part of your HDFC experience prompted that direction? || What have you done during the MBA to prepare for this move? || Which responsibility in this role attracts you most?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### isb_finance__hiring_manager  [mid/upper] family=finance company=Varuna Industries Ltd
+concerns: ["switch: The move is from banking credit risk into corporate finance, FP&A and capital allocation."]
+W: What course at ISB has caught your attention in the last few months?
+B: Walk me through your career so far, focusing on your credit-risk roles and your move into the ISB MBA.
+warmup warmup/null [null] What course at ISB has caught your attention in the last few months?
+     probes: 
+background background/null [null] Walk me through your career so far, focusing on your credit-risk roles and your move into the ISB MBA.
+     probes: 
+s1 claim/past_behaviour/TECH [Stakeholder management] Tell me about the stressed auto-components borrower at HDFC Bank. What was the hardest credit decision you made?
+     probes: What part of the restructuring did you personally decide? || What alternative did you rule out? || What was the baseline for avoiding an NPA classification?
+s2 claim/past_behaviour [Credit and financial analysis] How did you approach the credit appraisal notes for SME proposals at Axis Bank?
+     probes: Which part of the appraisal was yours? || What decision did your analysis support? || How did you check the quality of the 60-plus proposals?
+s3 gap/knowledge/TECH [Financial modelling and capital budgeting] For a proposed new production line at Varuna, how would you decide whether the capex deserves funding?
+     probes: Which assumption would you examine first? || Why would you choose that measure over another? || When would you reject the project despite an attractive return?
+s4 motivation/motivation [Motivation and fit] You have built your career in bank credit risk; what is pulling you toward corporate finance at Varuna Industries?
+     probes: Which part of this role most directly builds on your credit experience? || What have you done during the MBA to prepare for corporate finance? || What about Varuna's team or mandate makes this move timely?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### pdf_fin__back_your_resume  [fresher/upper] family=finance company=null
+concerns: []
+W: What first drew you to finance during your commerce studies?
+B: Walk me through your background, from commerce at St. Xavier's to your MBA experiences so far.
+warmup warmup/null [null] What first drew you to finance during your commerce studies?
+     probes: 
+background background/null [null] Walk me through your background, from commerce at St. Xavier's to your MBA experiences so far.
+     probes: 
+s1 claim/past_behaviour/TECH [Financial modelling and valuation] I see you built a DCF and trading-comps model for a hospital chain's QIP. What was the hardest part of that valuation?
+     probes: Which part of the model did you personally build? || Why did you use a DCF alongside trading comps for that valuation? || What would you do differently in that valuation today?
+s2 claim/past_behaviour [Leadership and ownership] What decisions drove the IIM Lucknow student-managed fund's 14.2% return?
+     probes: Which investment decision was primarily yours? || What did you decide against adding to the fund? || What was the fund's return before comparing it with the Nifty 50?
+s3 claim/past_behaviour [Investment research and judgement] Tell me about your SELL call on the cement company in the CFA Research Challenge.
+     probes: Which part of the investment thesis did you personally own? || What evidence most changed your view of the company? || What price target or valuation supported the SELL call?
+s4 claim/past_behaviour [Transaction analysis and diligence] What were you trying to uncover when you normalised EBITDA at EY?
+     probes: What did you personally examine first? || Why did you treat those vendor credits as one-time? || What was the EBITDA impact of the INR 4 crore adjustment?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### pdf_fin__hiring_manager  [fresher/upper] family=finance company=null
+concerns: []
+W: What has kept you busy in the last few weeks at IIM Lucknow?
+B: Walk me through your background: your studies and the experiences that led you to pursue finance after your MBA.
+warmup warmup/null [null] What has kept you busy in the last few weeks at IIM Lucknow?
+     probes: 
+background background/null [null] Walk me through your background: your studies and the experiences that led you to pursue finance after your MBA.
+     probes: 
+s1 claim/past_behaviour [Valuation and financial analysis] I see you built a valuation model for a hospital-chain QIP at Kotak. Walk me through how you approached that work.
+     probes: Which part of the valuation work was yours personally? || Why did you choose those operating drivers for the sensitivity analysis? || What would you approach differently if you rebuilt that model today?
+s2 claim/past_behaviour [Ownership and execution] What was the hardest part of running the student-managed fund at IIM Lucknow?
+     probes: Which investment decision did you personally own? || What did you decide when the fund's views differed? || What was the return measured against?
+s3 gap/knowledge [Valuation and financial analysis] How would you decide when to rely more on a DCF than trading comparables for a company preparing for a capital raise?
+     probes: Why would you favour that approach over the alternative? || When would that approach be less reliable? || Where have you applied that judgment in your own work?
+s4 motivation/motivation [Motivation and fit] You've worked in investment banking and finance competitions. What draws you to build your career in finance after the MBA?
+     probes: Which experience most shaped that interest? || What part of a finance role do you want to build further? || How does this role fit the direction you want after the MBA?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### pdf_ops__back_your_resume  [early/upper] family=other company=null
+concerns: []
+W: What kinds of operational problems do you most like working on?
+B: Walk me through your path from mechanical engineering through production planning and your MBA so far.
+warmup warmup/null [null] What kinds of operational problems do you most like working on?
+     probes: 
+background background/null [null] Walk me through your path from mechanical engineering through production planning and your MBA so far.
+     probes: 
+s1 claim/past_behaviour [Inventory and supply chain management] What were you trying to solve when you redesigned safety-stock norms at Hindustan Unilever?
+     probes: Which safety-stock decisions were yours? || What would you do differently now in that analysis? || What was the projected inventory reduction compared with the starting norm?
+s2 claim/past_behaviour [Production planning and execution] How did the changeover improvement at Maruti Suzuki come about?
+     probes: Which sequencing decision was yours? || What alternative to batching did you consider? || How was the annual saving calculated?
+s3 claim/past_behaviour [Leadership and collaboration] I see you led the SAE BAJA team at VNIT. What was the hardest leadership challenge during that project?
+     probes: Which team decision was yours? || How did you handle a teammate who was not meeting expectations? || What changed in the team's performance afterward?
+s4 claim/past_behaviour [Supplier and stakeholder management] What did you have to figure out first when coordinating the milk-run plan at Maruti Suzuki?
+     probes: Which part of the pickup plan did you personally decide? || What did you do when a supplier could not follow the planned pickup? || What was the starting truck count behind the 14% reduction?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### pdf_ops__hiring_manager  [early/upper] family=other company=null
+concerns: []
+W: What is one idea from your MBA studies that has already proved useful?
+B: Walk me through your career so far, with a focus on your production planning role and MBA journey.
+warmup warmup/null [null] What is one idea from your MBA studies that has already proved useful?
+     probes: 
+background background/null [null] Walk me through your career so far, with a focus on your production planning role and MBA journey.
+     probes: 
+s1 claim/past_behaviour [Supply chain planning] What were you trying to solve when you redesigned safety-stock norms at Hindustan Unilever?
+     probes: What part of the redesign did you personally own? || Which planning decision had the greatest effect on the proposed inventory reduction? || What was the baseline inventory against which the 11% projection was calculated?
+s2 claim/past_behaviour [Supplier and stakeholder management] How did the milk-run pickup plan at Maruti come about?
+     probes: What part of the supplier coordination did you personally handle? || Which constraint shaped the pickup plan most? || What was the baseline truck count used for the 14% reduction?
+s3 gap/knowledge [Supply chain planning] A critical supplier suddenly cannot meet its commitment while production targets remain fixed. How would you prioritise your response?
+     probes: What would you examine first to set those priorities? || Which option would you choose if inventory covered only part of the shortfall? || How would you know your response protected the most important service level?
+s4 motivation/motivation [Motivation and fit] What is pulling you toward an operations and supply chain role after your production planning experience and MBA?
+     probes: Which experience most influenced that direction? || What part of this role would you want to learn first?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### pm_finals__back_your_resume  [early/upper] family=technical company=Paynest
+concerns: ["switch: The candidate moved from backend engineering at Infosys into product management during the MBA."]
+W: What is one thing you learned recently in your MBA that has already proved useful?
+B: Walk me through your career so far, including what you have focused on during your MBA.
+warmup warmup/null [null] What is one thing you learned recently in your MBA that has already proved useful?
+     probes: 
+background background/null [null] Walk me through your career so far, including what you have focused on during your MBA.
+     probes: 
+s1 claim/past_behaviour [Product ownership and execution] I see you owned the frequently bought together widget at Swiggy. What product decision did you personally have to make?
+     probes: Which part of that decision was yours? || What option did you decide against? || What was the comparison point for the 3.4% lift?
+s2 claim/past_behaviour/TECH [Technical depth] At Infosys, you reduced API latency for a loan-origination platform. What did you have to figure out first?
+     probes: Why was Redis the right choice for that bottleneck? || What alternative did you decide against? || How was the 600ms figure compared with the earlier latency?
+s3 claim/past_behaviour [Communication] You organised NITC's Tathva hackathon for 600 participants. What was the hardest part of making it work?
+     probes: What did you personally do first when that challenge appeared? || Which people decision did you have to make? || How did you confirm that 600 participants were being supported as planned?
+s4 concerns/concern [Motivation and fit] You moved from backend engineering at Infosys toward product management during your MBA. What prompted that direction?
+     probes: Which experience first made you consider product management? || What have you done during the MBA to test that direction? || What specifically about Paynest's merchant payments work fits that path?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### pm_finals__hiring_manager  [early/upper] family=technical company=Paynest
+concerns: ["switch: The candidate is moving from backend engineering at Infosys into product management through an MBA and product internship."]
+W: What topic from your first term at IIM Bangalore has caught your attention recently?
+B: Walk me through your path from computer science and Infosys to your MBA and product internship.
+warmup warmup/null [null] What topic from your first term at IIM Bangalore has caught your attention recently?
+     probes: 
+background background/null [null] Walk me through your path from computer science and Infosys to your MBA and product internship.
+     probes: 
+s1 claim/past_behaviour [Product ownership and execution] I see you owned the frequently bought together widget at Swiggy. What were you trying to solve when you took it on?
+     probes: What product decision did you personally make for the widget? || What did you compare the 3.4% lift against? || What would you do differently now?
+s2 claim/past_behaviour/TECH [Technical foundation] I see you cut API latency on Infosys's loan platform. How did you approach that problem?
+     probes: What did you investigate first when the latency problem appeared? || Why did you choose Redis caching for the credit bureau lookups? || What was the baseline behind the 1.8-second figure?
+s3 gap/knowledge [Customer discovery and product sense] Suppose Paynest's merchant onboarding completion falls after a new step is added. How would you work out whether the step is hurting activation?
+     probes: What would you prioritise measuring first? || Why would you choose those measures over another approach? || When might this approach give a misleading answer?
+s4 motivation/motivation [Motivation and fit] You've moved from backend engineering into product through your Swiggy internship. What draws you to the Associate Product Manager role at Paynest?
+     probes: Which part of your Swiggy experience most influenced this move? || What specifically about Paynest's merchant product interests you? || What would you want to learn in this role?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### tas_gm__back_your_resume  [early/upper] family=other company=null
+concerns: ["switch: The resume shows a move from plant production engineering into strategy and general management through the MBA."]
+WARN: Slot s1 wording: agenda word: "evaluation"
+W: What course or class discussion has occupied your attention recently?
+B: Walk me through your career so far, from Asian Paints through your MBA and summer internship.
+warmup warmup/null [null] What course or class discussion has occupied your attention recently?
+     probes: 
+background background/null [null] Walk me through your career so far, from Asian Paints through your MBA and summer internship.
+     probes: 
+s1 claim/past_behaviour [Problem solving and business judgment] Tell me how you evaluated the specialty-adhesives opportunity during your Aditya Birla Group internship.
+     probes: Which part of the evaluation was your own analysis? || What did you decide against when making the recommendation? || What would you approach differently now?
+s2 claim/past_behaviour [Ownership and execution] I see you raised batch yield at Asian Paints. What decisions drove that improvement?
+     probes: Which decision was most directly yours? || What did you decide not to change? || What was the baseline for the 92.1% figure?
+s3 claim/past_behaviour [Stakeholder management] How did the rural immersion placements come together at IIM Ahmedabad?
+     probes: What did you do first to organize the placements? || Which stakeholder decision was hardest for you? || How did you confirm that all 80 placements were completed?
+s4 claim/past_behaviour [Problem solving and business judgment] What was the hardest part of building the 50 KTPA business case?
+     probes: Which assumption did you have the most influence over? || What alternative did you decide against? || What was the base case compared with?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### tas_gm__hiring_manager  [early/upper] family=other company=null
+concerns: ["switch: The candidate is moving from plant production engineering toward general management after an MBA and a strategy internship."]
+W: What has kept you busy in the last few weeks at IIM Ahmedabad?
+B: Walk me through your career so far, from Asian Paints through your MBA and summer internship.
+warmup warmup/null [null] What has kept you busy in the last few weeks at IIM Ahmedabad?
+     probes: 
+background background/null [null] Walk me through your career so far, from Asian Paints through your MBA and summer internship.
+     probes: 
+s1 claim/past_behaviour [Business judgment] What were you trying to solve during your strategy internship at Aditya Birla Group?
+     probes: Which part of the recommendation was your decision? || What alternative did you decide against? || What evidence supported the specialty adhesives recommendation?
+s2 claim/past_behaviour [Stakeholder management] Tell me about the contract-worker stoppage you handled at Asian Paints.
+     probes: What did you do first when the stoppage began? || Which decision was yours during the discussions? || How long did the stoppage last after your intervention?
+s3 gap/knowledge [Business judgment] How would you decide whether to invest in a new business adjacency when the market data is limited?
+     probes: Why would you use that approach over relying mainly on financial projections? || When would you decide not to pursue the adjacency? || How did you handle limited evidence in your own adjacency work?
+s4 motivation/motivation [Motivation and fit] After three years in plant production and a strategy internship, what is pulling you toward general management?
+     probes: Which experience most influenced this move? || What part of general management work are you trying to build next? || How does your plant experience prepare you for that work?
+candidate_questions candidate_questions/null [null] 
+     probes: 
+
+### tas_gm__hiring_manager__rep  [early/upper] family=other company=null
+concerns: ["switch: The resume moves from three years in plant production into strategy work and an MBA aimed at a broader general-management path."]
+WARN: Slot s3 wording: agenda word: "assessing"
+W: What have you been working on or learning lately at IIM Ahmedabad?
+B: Walk me through your career so far, with a focus on your production role, strategy internship and MBA.
+warmup warmup/null [null] What have you been working on or learning lately at IIM Ahmedabad?
+     probes: 
+background background/null [null] Walk me through your career so far, with a focus on your production role, strategy internship and MBA.
+     probes: 
+s1 claim/past_behaviour [Business and strategic judgment] How did you reach your recommendation on the specialty-adhesives adjacency during your strategy internship?
+     probes: Which part of the analysis did you personally own? || What alternative did you decide against? || Which assumption most affected the recommendation?
+s2 claim/past_behaviour [Stakeholder management] How did you handle the contract-worker stoppage at the Ankleshwar plant?
+     probes: What did you personally decide during the stoppage? || How did you respond when a union representative disagreed? || How long was production affected?
+s3 gap/knowledge [Market and customer orientation] Suppose you are assessing an adjacent market with limited data. How would you decide whether to recommend entering it?
+     probes: Why would you start with that information? || When would your approach be less reliable? || How did you handle limited data in your own adjacency work?
+s4 motivation/motivation [Motivation and fit] You moved from plant production into an MBA and strategy work. What is pulling you toward general management now?
+     probes: Which experience most influenced this direction? || What part of general management do you want to practise first? || What have you done in the MBA to prepare for this move?
+candidate_questions candidate_questions/null [null] 
+     probes: 

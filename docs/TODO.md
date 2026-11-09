@@ -11,6 +11,13 @@ Improvements from the B-school research ([top B-school note](research/2026-11-06
 - [ ] **Personals round and next round.** A 5-7 minute "personals" length, and a "next round" on the same CV that avoids topics already asked (needs topics excluded across sessions). Evidence moderate. Medium.
 - [ ] **Indian English speech recognition.** Test transcription on Indian accents and code-mixed answers (Hindi and English); pass answer timings to VMock's Delivery module. Never score accent. Evidence weak to moderate. Small to medium.
 
+From the gap audit ([note](research/2026-11-06-bschool-gap-audit.md)), not built yet:
+
+- [ ] A full HR round (relocation, postings, other offers, why this school, staying). Only one HR question is in the screening round so far. Ask IIM Mumbai's placement committee what their HR round covers before sizing it.
+- [ ] An ethics angle in the rotating fit questions (`FIT_ANGLES`). Weak evidence.
+- [ ] More Indian career moves in the planner's switch examples: armed forces or government to corporate, CA practice to a non-finance role.
+- [ ] "Hear that again" and a slower voice on the student page.
+
 Open items from the 2026-11-06 re-test:
 
 - [ ] The knowledge topic can feel like a quiz with three follow-ups (IRR, then NPV, then payback). Consider a budget of one or two for knowledge topics.

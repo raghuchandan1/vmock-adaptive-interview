@@ -1,0 +1,418 @@
+{
+  "session": "2026-11-09-62862d0b",
+  "rows": [
+    {
+      "kind": "army",
+      "voice": "Rishi",
+      "ms": 1167,
+      "wer": 0.03,
+      "ref": "So after five years as a Captain in the Corps of EME, I joined the PGP at IIM Indore, and during my summers at Tata Steel Kalinganagar I got a PPI.",
+      "hyp": "So after five years as a Captain in the Corps of EME, I joined the PGP at IIM Indore, and during my summers at Tata Steel Kalinganagar I got a."
+    },
+    {
+      "kind": "army",
+      "voice": "Aman",
+      "ms": 1589,
+      "wer": 0.35,
+      "ref": "So after five years as a Captain in the Corps of EME, I joined the PGP at IIM Indore, and during my summers at Tata Steel Kalinganagar I got a PPI.",
+      "hyp": "So after five years as a Captain in the Corps of EME, I joined the PGP at IIM Indore, the second a kitcherda."
+    },
+    {
+      "kind": "army",
+      "voice": "Tara",
+      "ms": 891,
+      "wer": 0.39,
+      "ref": "So after five years as a Captain in the Corps of EME, I joined the PGP at IIM Indore, and during my summers at Tata Steel Kalinganagar I got a PPI.",
+      "hyp": "So after five years, Captain IIM Indore, and during my summers at Tata Steel Kalinganagar, I got a PPI."
+    },
+    {
+      "kind": "army",
+      "voice": "Rishi",
+      "ms": 1213,
+      "wer": 0.12,
+      "ref": "I cut the vehicle turnaround time from 9 days to 5 days by redesigning the spares indent cycle and setting up a forward spares cell.",
+      "hyp": "I cut the vehicle turnaround time from nine days to five days by redesigning the spares indent cycle and setting up a forward spares sale."
+    },
+    {
+      "kind": "army",
+      "voice": "Aman",
+      "ms": 1046,
+      "wer": 0.12,
+      "ref": "I cut the vehicle turnaround time from 9 days to 5 days by redesigning the spares indent cycle and setting up a forward spares cell.",
+      "hyp": "I cut the vehicle turnaround time from nine days to five days by redesigning the spares indent cycle and setting up a forward spare cell."
+    },
+    {
+      "kind": "army",
+      "voice": "Tara",
+      "ms": 2376,
+      "wer": 0.08,
+      "ref": "I cut the vehicle turnaround time from 9 days to 5 days by redesigning the spares indent cycle and setting up a forward spares cell.",
+      "hyp": "I cut the vehicle turnaround time from nine days to five days by redesigning the spares indent cycle and setting up a forward spares cell."
+    },
+    {
+      "kind": "army",
+      "voice": "Rishi",
+      "ms": 1268,
+      "wer": 0,
+      "ref": "We were managing spares worth 14 crore rupees across three depots, and the audit discrepancies came down to zero.",
+      "hyp": "We were managing spares worth 14 crore rupees across three depots, and the audit discrepancies came down to zero."
+    },
+    {
+      "kind": "army",
+      "voice": "Aman",
+      "ms": 864,
+      "wer": 0.11,
+      "ref": "We were managing spares worth 14 crore rupees across three depots, and the audit discrepancies came down to zero.",
+      "hyp": "Viva managing spares worth 14 crore rupees across three depots, and the audit discrepancies came down to zero."
+    },
+    {
+      "kind": "army",
+      "voice": "Tara",
+      "ms": 1832,
+      "wer": 0.32,
+      "ref": "We were managing spares worth 14 crore rupees across three depots, and the audit discrepancies came down to zero.",
+      "hyp": "For the second quarter, the crore rupees across three depots, and the audit discrepancies came down to zero."
+    },
+    {
+      "kind": "army",
+      "voice": "Rishi",
+      "ms": 1609,
+      "wer": 0,
+      "ref": "At Tata Steel I built a criticality based stocking model for 312 hot strip mill spares, which projected a 3.2 crore reduction in inventory.",
+      "hyp": "At Tata Steel, I built a criticality-based stocking model for 312 hot strip mill spares, which projected a 3.2 crore reduction in inventory."
+    },
+    {
+      "kind": "army",
+      "voice": "Aman",
+      "ms": 1271,
+      "wer": 0.13,
+      "ref": "At Tata Steel I built a criticality based stocking model for 312 hot strip mill spares, which projected a 3.2 crore reduction in inventory.",
+      "hyp": "At Tata Steel, I built a criticality-based stocking model for trade-silfraxented hot strip mill spares, which projected a INR 3.2 crore reduction in inventory."
+    },
+    {
+      "kind": "army",
+      "voice": "Tara",
+      "ms": 861,
+      "wer": 0.83,
+      "ref": "At Tata Steel I built a criticality based stocking model for 312 hot strip mill spares, which projected a 3.2 crore reduction in inventory.",
+      "hyp": "Model the second lecture of the hot strip tree. 0.2 crore reduction."
+    },
+    {
+      "kind": "generic",
+      "voice": "Rishi",
+      "ms": 1316,
+      "wer": 0.13,
+      "ref": "At Asian Paints in Nagpur the pilot reduced lost orders by around 9 lakh rupees a month, mostly in the 12 fast moving SKUs.",
+      "hyp": "Ad Asian Paints in Nagpur, the pilot reduced lost orders by around nine lakh rupees a month, mostly in the twelve fast-moving SKUs."
+    },
+    {
+      "kind": "generic",
+      "voice": "Aman",
+      "ms": 1032,
+      "wer": 0.17,
+      "ref": "At Asian Paints in Nagpur the pilot reduced lost orders by around 9 lakh rupees a month, mostly in the 12 fast moving SKUs.",
+      "hyp": "At Asian Paints in Nagpur, the pilot reduced lost orders by around nine lakh rupees lower KSA month mostly in the twelve fast-moving SKUs."
+    },
+    {
+      "kind": "generic",
+      "voice": "Tara",
+      "ms": 3969,
+      "wer": 0.13,
+      "ref": "At Asian Paints in Nagpur the pilot reduced lost orders by around 9 lakh rupees a month, mostly in the 12 fast moving SKUs.",
+      "hyp": "Ad Asian Paints in Nagpur, the pilot reduced lost orders by around nine lakh rupees a month, mostly in the twelve fast-moving SKUs."
+    },
+    {
+      "kind": "generic",
+      "voice": "Rishi",
+      "ms": 1004,
+      "wer": 0,
+      "ref": "My CGPA in the first term was 5.9, honestly the quant courses like QM and FRA were tough coming from a B.Sc. background.",
+      "hyp": "My CGPA in the first Term was 5.9, honestly the quant courses like QM and FRA were tough coming from a B.Sc. background."
+    },
+    {
+      "kind": "generic",
+      "voice": "Aman",
+      "ms": 1314,
+      "wer": 0,
+      "ref": "My CGPA in the first term was 5.9, honestly the quant courses like QM and FRA were tough coming from a B.Sc. background.",
+      "hyp": "My CGPA in the first Term was 5.9, honestly the quant courses like QM and FRA were tough coming from a B.Sc. background."
+    },
+    {
+      "kind": "generic",
+      "voice": "Tara",
+      "ms": 1377,
+      "wer": 0.67,
+      "ref": "My CGPA in the first term was 5.9, honestly the quant courses like QM and FRA were tough coming from a B.Sc. background.",
+      "hyp": "Point nine, honestly courses worth of coming from a B.Sc. background."
+    },
+    {
+      "kind": "hinglish",
+      "voice": "Rishi",
+      "ms": 1248,
+      "wer": 1,
+      "ref": "Toh basically humne dealers ke saath ek WhatsApp catalogue launch kiya, matlab jo order processing pehle teen din leta tha, woh same day ho gaya.",
+      "hyp": "तो बेसिकली हमने डीलर्स के साथ एक व्हाट्सऐप कैटलॉग लॉन्च किया, मैटलैब जो ऑर्डर प्रोसेसिंग पहले तीन दिन लेता था, वो सेम डे हो गया।"
+    },
+    {
+      "kind": "hinglish",
+      "voice": "Aman",
+      "ms": 1118,
+      "wer": 0.96,
+      "ref": "Toh basically humne dealers ke saath ek WhatsApp catalogue launch kiya, matlab jo order processing pehle teen din leta tha, woh same day ho gaya.",
+      "hyp": "तो बेसिकली हमने डीलर्स के साथ एक WhatsApp कैटलॉग लॉन्च किया, मतलब जो ऑर्डर प्रोसेसिंग पहले तीन दिन लेता था, वो सेम डे हो गया।"
+    },
+    {
+      "kind": "hinglish",
+      "voice": "Tara",
+      "ms": 1479,
+      "wer": 0.96,
+      "ref": "Toh basically humne dealers ke saath ek WhatsApp catalogue launch kiya, matlab jo order processing pehle teen din leta tha, woh same day ho gaya.",
+      "hyp": "तो बेसिकली हमने डीलर्स के साथ एक WhatsApp कैटलॉग लॉन्च किया, मतलब जो ऑर्डर प्रोसेसिंग पहले तीन दिन लेता था, वो सेम डे हो गया।"
+    },
+    {
+      "kind": "hinglish",
+      "voice": "Rishi",
+      "ms": 1207,
+      "wer": 0.4,
+      "ref": "Sir, honestly mujhe us time pe exact number yaad nahi hai, but I think around 30 percent ka improvement tha.",
+      "hyp": "Sir, honestly मुझे aaj time पे exact number याद नहीं है, but I think around 30 percent car improvement था."
+    },
+    {
+      "kind": "hinglish",
+      "voice": "Aman",
+      "ms": 1219,
+      "wer": 0.4,
+      "ref": "Sir, honestly mujhe us time pe exact number yaad nahi hai, but I think around 30 percent ka improvement tha.",
+      "hyp": "Sir, honestly मुझे us time पे exact number याद नहीं है but I think around 5 percent का improvement था।"
+    },
+    {
+      "kind": "hinglish",
+      "voice": "Tara",
+      "ms": 935,
+      "wer": 0.4,
+      "ref": "Sir, honestly mujhe us time pe exact number yaad nahi hai, but I think around 30 percent ka improvement tha.",
+      "hyp": "Sir, honestly मुझे उस time पे exact number याद नहीं है but I think around 30 percent का improvement था।"
+    }
+  ],
+  "voice_calls": [
+    {
+      "kind": "tts",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "cedar",
+      "chars": 284,
+      "part": null,
+      "first_byte_ms": 1922,
+      "at": "2026-11-09T06:57:33.900Z"
+    },
+    {
+      "kind": "tts",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "cedar",
+      "chars": 284,
+      "part": null,
+      "first_byte_ms": 1510,
+      "at": "2026-11-09T06:57:37.701Z"
+    },
+    {
+      "kind": "tts",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "cedar",
+      "chars": 284,
+      "part": null,
+      "first_byte_ms": 828,
+      "at": "2026-11-09T06:57:40.702Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 335744,
+      "latency_ms": 1157,
+      "text": "So after five years as a Captain in the Corps of EME, I joined the PGP at IIM Indore, and during my summers at Tata Steel Kalinganagar I got a.",
+      "at": "2026-11-09T06:57:45.754Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 213292,
+      "latency_ms": 1580,
+      "text": "So after five years as a Captain in the Corps of EME, I joined the PGP at IIM Indore, the second a kitcherda.",
+      "at": "2026-11-09T06:57:49.584Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 190202,
+      "latency_ms": 885,
+      "text": "So after five years, Captain IIM Indore, and during my summers at Tata Steel Kalinganagar, I got a PPI.",
+      "at": "2026-11-09T06:57:52.422Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 277582,
+      "latency_ms": 1207,
+      "text": "I cut the vehicle turnaround time from nine days to five days by redesigning the spares indent cycle and setting up a forward spares sale.",
+      "at": "2026-11-09T06:57:54.728Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 217418,
+      "latency_ms": 1038,
+      "text": "I cut the vehicle turnaround time from nine days to five days by redesigning the spares indent cycle and setting up a forward spare cell.",
+      "at": "2026-11-09T06:57:57.660Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 236874,
+      "latency_ms": 2366,
+      "text": "I cut the vehicle turnaround time from nine days to five days by redesigning the spares indent cycle and setting up a forward spares cell.",
+      "at": "2026-11-09T06:58:02.143Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 242988,
+      "latency_ms": 1262,
+      "text": "We were managing spares worth 14 crore rupees across three depots, and the audit discrepancies came down to zero.",
+      "at": "2026-11-09T06:58:04.463Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 201706,
+      "latency_ms": 857,
+      "text": "Viva managing spares worth 14 crore rupees across three depots, and the audit discrepancies came down to zero.",
+      "at": "2026-11-09T06:58:07.726Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 182246,
+      "latency_ms": 1827,
+      "text": "For the second quarter, the crore rupees across three depots, and the audit discrepancies came down to zero.",
+      "at": "2026-11-09T06:58:11.157Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 342626,
+      "latency_ms": 1582,
+      "text": "At Tata Steel, I built a criticality-based stocking model for 312 hot strip mill spares, which projected a 3.2 crore reduction in inventory.",
+      "at": "2026-11-09T06:58:16.753Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 279542,
+      "latency_ms": 1266,
+      "text": "At Tata Steel, I built a criticality-based stocking model for trade-silfraxented hot strip mill spares, which projected a INR 3.2 crore reduction in inventory.",
+      "at": "2026-11-09T06:58:20.861Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 133722,
+      "latency_ms": 852,
+      "text": "Model the second lecture of the hot strip tree. 0.2 crore reduction.",
+      "at": "2026-11-09T06:58:23.503Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 282068,
+      "latency_ms": 1298,
+      "text": "Ad Asian Paints in Nagpur, the pilot reduced lost orders by around nine lakh rupees a month, mostly in the twelve fast-moving SKUs.",
+      "at": "2026-11-09T06:58:29.351Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 238882,
+      "latency_ms": 1020,
+      "text": "At Asian Paints in Nagpur, the pilot reduced lost orders by around nine lakh rupees lower KSA month mostly in the twelve fast-moving SKUs.",
+      "at": "2026-11-09T06:58:33.682Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 282068,
+      "latency_ms": 3959,
+      "text": "Ad Asian Paints in Nagpur, the pilot reduced lost orders by around nine lakh rupees a month, mostly in the twelve fast-moving SKUs.",
+      "at": "2026-11-09T06:58:39.603Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 299384,
+      "latency_ms": 996,
+      "text": "My CGPA in the first Term was 5.9, honestly the quant courses like QM and FRA were tough coming from a B.Sc. background.",
+      "at": "2026-11-09T06:58:41.807Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 273322,
+      "latency_ms": 1298,
+      "text": "My CGPA in the first Term was 5.9, honestly the quant courses like QM and FRA were tough coming from a B.Sc. background.",
+      "at": "2026-11-09T06:58:45.248Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 150618,
+      "latency_ms": 1370,
+      "text": "Point nine, honestly courses worth of coming from a B.Sc. background.",
+      "at": "2026-11-09T06:58:49.718Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 315562,
+      "latency_ms": 1242,
+      "text": "तो बेसिकली हमने डीलर्स के साथ एक व्हाट्सऐप कैटलॉग लॉन्च किया, मैटलैब जो ऑर्डर प्रोसेसिंग पहले तीन दिन लेता था, वो सेम डे हो गया।",
+      "at": "2026-11-09T06:58:52.233Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 261094,
+      "latency_ms": 1114,
+      "text": "तो बेसिकली हमने डीलर्स के साथ एक WhatsApp कैटलॉग लॉन्च किया, मतलब जो ऑर्डर प्रोसेसिंग पहले तीन दिन लेता था, वो सेम डे हो गया।",
+      "at": "2026-11-09T06:58:55.417Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 268040,
+      "latency_ms": 1475,
+      "text": "तो बेसिकली हमने डीलर्स के साथ एक WhatsApp कैटलॉग लॉन्च किया, मतलब जो ऑर्डर प्रोसेसिंग पहले तीन दिन लेता था, वो सेम डे हो गया।",
+      "at": "2026-11-09T06:58:58.880Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 258820,
+      "latency_ms": 1201,
+      "text": "Sir, honestly मुझे aaj time पे exact number याद नहीं है, but I think around 30 percent car improvement था.",
+      "at": "2026-11-09T06:59:01.117Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 190714,
+      "latency_ms": 1206,
+      "text": "Sir, honestly मुझे us time पे exact number याद नहीं है but I think around 5 percent का improvement था।",
+      "at": "2026-11-09T06:59:04.241Z"
+    },
+    {
+      "kind": "stt",
+      "model": "gpt-transcribe",
+      "bytes": 195892,
+      "latency_ms": 925,
+      "text": "Sir, honestly मुझे उस time पे exact number याद नहीं है but I think around 30 percent का improvement था।",
+      "at": "2026-11-09T06:59:07.859Z"
+    }
+  ]
+}

@@ -1,0 +1,618 @@
+{
+  "id": "2026-11-09-45677f3d",
+  "created_at": "2026-11-09T06:57:52.273Z",
+  "status": "active",
+  "inputs": {
+    "resume_text": "Rahul Deshpande\nPGP 2026-27 (one-year MBA), Indian School of Business, Hyderabad\n\nEDUCATION\nPGP, Indian School of Business, 2026-27\nB.E., Computer Engineering, Pune Institute of Computer Technology, 2018, 74%\nCFA Level II candidate\n\nWORK EXPERIENCE (7 years)\nHDFC Bank, Mumbai | Senior Manager, Credit Risk - Mid-Market Corporates | Apr 2022 - Mar 2026\n- Underwrote and monitored a portfolio of 85 mid-market borrowers with exposure of INR 2,400 crore\n- Led the credit review of a stressed auto-components borrower; restructured INR 140 crore of exposure and avoided an NPA classification\n- Built an early-warning dashboard on GST and bank-statement data, flagging 11 accounts 2 quarters before rating downgrades\n- Managed a team of 3 credit analysts\nAxis Bank | Credit Analyst | Jul 2018 - Mar 2022\n- Prepared credit appraisal notes for 60+ SME loan proposals\n\nACTIVITIES\n- Mentor, Finance Club, ISB\n- Ran a half marathon (Mumbai Marathon, 2024)",
+    "jd_text": "Manager - Corporate Finance (FP&A and Capital Allocation)\nVaruna Industries Ltd, Pune\n\nVaruna Industries is a listed auto-components manufacturer (revenue INR 6,500 crore) with 14 plants in India.\n\nRole\n- Own the annual operating plan and monthly business reviews for two business units\n- Evaluate capex proposals (new lines, capacity expansion) and present recommendations to the CFO\n- Work with treasury on working-capital and debt decisions\n- Lead a team of 2 analysts\n\nMust have\n- 5+ years in corporate finance, credit or investment banking\n- Strong financial modelling and capital-budgeting skills\n- Stakeholder management with plant and business heads",
+    "target_role": "",
+    "domain": "Finance",
+    "stage": "laterals",
+    "market": "india",
+    "interview_type": "hiring_manager",
+    "style": "balanced",
+    "length": "standard",
+    "seed": 394741
+  },
+  "style": "balanced",
+  "surprise": false,
+  "seed": 394741,
+  "settings": {
+    "planner_model": "gpt-5.6-luna",
+    "planner_effort": "medium",
+    "turn_model": "gpt-5.6-luna",
+    "turn_effort": "low"
+  },
+  "plan": {
+    "candidate": {
+      "name": "Rahul",
+      "experience_level": "mid",
+      "current_or_last_role": "Senior Manager, Credit Risk - Mid-Market Corporates, HDFC Bank",
+      "resume_band": "upper",
+      "band_reason": "The resume shows substantial scope, quantified portfolios and exposures, clear ownership, and people-management experience."
+    },
+    "jd": {
+      "present": true,
+      "company": "Varuna Industries Ltd",
+      "role_title": "Manager - Corporate Finance (FP&A and Capital Allocation)",
+      "role_family": "finance",
+      "seniority": "Manager",
+      "must_haves": [
+        {
+          "requirement": "5+ years in corporate finance, credit or investment banking",
+          "competency": "Credit and financial analysis"
+        },
+        {
+          "requirement": "Strong financial modelling and capital-budgeting skills",
+          "competency": "Financial modelling and capital budgeting"
+        },
+        {
+          "requirement": "Stakeholder management with plant and business heads",
+          "competency": "Stakeholder management"
+        }
+      ],
+      "nice_to_haves": [],
+      "stated_values": []
+    },
+    "mismatch": {
+      "is_mismatch": false,
+      "note": ""
+    },
+    "claims": [
+      {
+        "id": "c1",
+        "text": "Underwrote and monitored a portfolio of 85 mid-market borrowers with exposure of INR 2,400 crore",
+        "parent": "Senior Manager, Credit Risk - Mid-Market Corporates, HDFC Bank",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified portfolio",
+          "quantified exposure",
+          "ownership verb"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 2,
+        "grounded": true
+      },
+      {
+        "id": "c2",
+        "text": "Led the credit review of a stressed auto-components borrower; restructured INR 140 crore of exposure and avoided an NPA classification",
+        "parent": "Senior Manager, Credit Risk - Mid-Market Corporates, HDFC Bank",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "ownership verb",
+          "quantified exposure",
+          "high-stakes outcome"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 1,
+        "grounded": true
+      },
+      {
+        "id": "c3",
+        "text": "Built an early-warning dashboard on GST and bank-statement data, flagging 11 accounts 2 quarters before rating downgrades",
+        "parent": "Senior Manager, Credit Risk - Mid-Market Corporates, HDFC Bank",
+        "type": "technical",
+        "strength": "strong",
+        "strength_signals": [
+          "built artifact",
+          "named data sources",
+          "quantified result"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 3,
+        "grounded": true
+      },
+      {
+        "id": "c4",
+        "text": "Managed a team of 3 credit analysts",
+        "parent": "Senior Manager, Credit Risk - Mid-Market Corporates, HDFC Bank",
+        "type": "leadership",
+        "strength": "moderate",
+        "strength_signals": [
+          "people-management scope",
+          "ownership verb"
+        ],
+        "weak_flags": [
+          "no_result"
+        ],
+        "relevance": "high",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 5,
+        "grounded": true
+      },
+      {
+        "id": "c5",
+        "text": "Prepared credit appraisal notes for 60+ SME loan proposals",
+        "parent": "Credit Analyst, Axis Bank",
+        "type": "technical",
+        "strength": "moderate",
+        "strength_signals": [
+          "quantified volume",
+          "named deliverable"
+        ],
+        "weak_flags": [
+          "no_result",
+          "unclear_role"
+        ],
+        "relevance": "high",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 4,
+        "grounded": true
+      },
+      {
+        "id": "c6",
+        "text": "Mentor, Finance Club, ISB",
+        "parent": "Finance Club, ISB",
+        "type": "collaboration",
+        "strength": "weak",
+        "strength_signals": [
+          "named mentoring responsibility"
+        ],
+        "weak_flags": [
+          "vague",
+          "no_result",
+          "unclear_role"
+        ],
+        "relevance": "medium",
+        "distinctive": false,
+        "probe_angle": "find_substance",
+        "rank": 6,
+        "grounded": true
+      },
+      {
+        "id": "c7",
+        "text": "Ran a half marathon (Mumbai Marathon, 2024)",
+        "parent": "Mumbai Marathon, 2024",
+        "type": "other",
+        "strength": "moderate",
+        "strength_signals": [
+          "specific event",
+          "dated activity"
+        ],
+        "weak_flags": [],
+        "relevance": "low",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 7,
+        "grounded": true
+      }
+    ],
+    "competencies": [
+      {
+        "id": "k1",
+        "name": "Credit and financial analysis",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c2",
+          "c5"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k2",
+        "name": "Financial modelling and capital budgeting",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      },
+      {
+        "id": "k3",
+        "name": "Stakeholder management",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c2"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k4",
+        "name": "FP&A and performance management",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c1"
+        ],
+        "is_gap": true
+      },
+      {
+        "id": "k5",
+        "name": "Working-capital and debt decisions",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c1",
+          "c2"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k6",
+        "name": "People leadership",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c4",
+          "c6"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k7",
+        "name": "Motivation and fit",
+        "source": "always",
+        "must_have": false,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      }
+    ],
+    "concerns": [
+      {
+        "type": "switch",
+        "detail": "The move is from banking credit risk into corporate finance, FP&A and capital allocation."
+      }
+    ],
+    "warmup_question": "What course at ISB has caught your attention in the last few months?",
+    "background_question": "Walk me through your career so far, focusing on your credit-risk roles and your move into the ISB MBA.",
+    "slots": [
+      {
+        "id": "s1",
+        "kind": "claim",
+        "competency_id": "k3",
+        "anchor_claim_id": "c2",
+        "question_type": "past_behaviour",
+        "core_question": "Tell me about the stressed auto-components borrower at HDFC Bank. What was the hardest credit decision you made?",
+        "intent_private": "Needs the borrower context, Rahul's own restructuring judgment, the stakeholders he influenced, and how the INR 140 crore outcome was measured.",
+        "probe_angle": "test_claim",
+        "technical_focus": true,
+        "likely_probes": [
+          "What part of the restructuring did you personally decide?",
+          "What alternative did you rule out?",
+          "What was the baseline for avoiding an NPA classification?"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "s2",
+        "kind": "claim",
+        "competency_id": "k1",
+        "anchor_claim_id": "c5",
+        "question_type": "past_behaviour",
+        "core_question": "How did you approach the credit appraisal notes for SME proposals at Axis Bank?",
+        "intent_private": "Needs a specific proposal example, the analysis Rahul personally performed, the judgement involved, and how the 60-plus proposal volume was sustained without sacrificing quality.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which part of the appraisal was yours?",
+          "What decision did your analysis support?",
+          "How did you check the quality of the 60-plus proposals?"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "s3",
+        "kind": "gap",
+        "competency_id": "k2",
+        "anchor_claim_id": null,
+        "question_type": "knowledge",
+        "core_question": "For a proposed new production line at Varuna, how would you decide whether the capex deserves funding?",
+        "intent_private": "Needs an applied capital-budgeting approach using cash flows, investment returns, capacity or demand assumptions, financing effects, and the trade-off between growth and capital discipline.",
+        "probe_angle": "find_substance",
+        "technical_focus": true,
+        "likely_probes": [
+          "Which assumption would you examine first?",
+          "Why would you choose that measure over another?",
+          "When would you reject the project despite an attractive return?"
+        ],
+        "priority": 3
+      },
+      {
+        "id": "s4",
+        "kind": "motivation",
+        "competency_id": "k7",
+        "anchor_claim_id": null,
+        "question_type": "motivation",
+        "core_question": "You have built your career in bank credit risk; what is pulling you toward corporate finance at Varuna Industries?",
+        "intent_private": "Needs a reason tied to Rahul's credit-risk experience, a specific attraction of Varuna's corporate-finance role or auto-components context, and evidence that the move is deliberate.",
+        "probe_angle": "none",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which part of this role most directly builds on your credit experience?",
+          "What have you done during the MBA to prepare for corporate finance?",
+          "What about Varuna's team or mandate makes this move timely?"
+        ],
+        "priority": 4
+      }
+    ],
+    "plan_notes": "The plan prioritizes Rahul's high-impact restructuring work, his earlier credit-analysis foundation, and the clearest JD gap: applied modelling and capital budgeting. The motivation slot addresses the move from banking credit risk into corporate finance; the resume has strong credit evidence but limited direct FP&A, capex, or formal modelling evidence."
+  },
+  "plan_trace": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "attempts": 1,
+    "started_at": "2026-11-09T06:57:26.510Z",
+    "latency_ms": 25762,
+    "usage": {
+      "prompt_tokens": 7369,
+      "completion_tokens": 2826,
+      "total_tokens": 10195,
+      "prompt_tokens_details": {
+        "cached_tokens": 6879,
+        "cache_write_tokens": 487,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1024,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "raw_response": "{\"candidate\":{\"name\":\"Rahul\",\"experience_level\":\"mid\",\"current_or_last_role\":\"Senior Manager, Credit Risk - Mid-Market Corporates, HDFC Bank\",\"resume_band\":\"upper\",\"band_reason\":\"The resume shows substantial scope, quantified portfolios and exposures, clear ownership, and people-management experience.\"},\"jd\":{\"present\":true,\"company\":\"Varuna Industries Ltd\",\"role_title\":\"Manager - Corporate Finance (FP&A and Capital Allocation)\",\"role_family\":\"finance\",\"seniority\":\"Manager\",\"must_haves\":[{\"requirement\":\"5+ years in corporate finance, credit or investment banking\",\"competency\":\"Credit and financial analysis\"},{\"requirement\":\"Strong financial modelling and capital-budgeting skills\",\"competency\":\"Financial modelling and capital budgeting\"},{\"requirement\":\"Stakeholder management with plant and business heads\",\"competency\":\"Stakeholder management\"}],\"nice_to_haves\":[],\"stated_values\":[]},\"mismatch\":{\"is_mismatch\":false,\"note\":\"\"},\"claims\":[{\"id\":\"c1\",\"text\":\"Underwrote and monitored a portfolio of 85 mid-market borrowers with exposure of INR 2,400 crore\",\"parent\":\"Senior Manager, Credit Risk - Mid-Market Corporates, HDFC Bank\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified portfolio\",\"quantified exposure\",\"ownership verb\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":2},{\"id\":\"c2\",\"text\":\"Led the credit review of a stressed auto-components borrower; restructured INR 140 crore of exposure and avoided an NPA classification\",\"parent\":\"Senior Manager, Credit Risk - Mid-Market Corporates, HDFC Bank\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"ownership verb\",\"quantified exposure\",\"high-stakes outcome\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":1},{\"id\":\"c3\",\"text\":\"Built an early-warning dashboard on GST and bank-statement data, flagging 11 accounts 2 quarters before rating downgrades\",\"parent\":\"Senior Manager, Credit Risk - Mid-Market Corporates, HDFC Bank\",\"type\":\"technical\",\"strength\":\"strong\",\"strength_signals\":[\"built artifact\",\"named data sources\",\"quantified result\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":3},{\"id\":\"c4\",\"text\":\"Managed a team of 3 credit analysts\",\"parent\":\"Senior Manager, Credit Risk - Mid-Market Corporates, HDFC Bank\",\"type\":\"leadership\",\"strength\":\"moderate\",\"strength_signals\":[\"people-management scope\",\"ownership verb\"],\"weak_flags\":[\"no_result\"],\"relevance\":\"high\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":5},{\"id\":\"c5\",\"text\":\"Prepared credit appraisal notes for 60+ SME loan proposals\",\"parent\":\"Credit Analyst, Axis Bank\",\"type\":\"technical\",\"strength\":\"moderate\",\"strength_signals\":[\"quantified volume\",\"named deliverable\"],\"weak_flags\":[\"no_result\",\"unclear_role\"],\"relevance\":\"high\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":4},{\"id\":\"c6\",\"text\":\"Mentor, Finance Club, ISB\",\"parent\":\"Finance Club, ISB\",\"type\":\"collaboration\",\"strength\":\"weak\",\"strength_signals\":[\"named mentoring responsibility\"],\"weak_flags\":[\"vague\",\"no_result\",\"unclear_role\"],\"relevance\":\"medium\",\"distinctive\":false,\"probe_angle\":\"find_substance\",\"rank\":6},{\"id\":\"c7\",\"text\":\"Ran a half marathon (Mumbai Marathon, 2024)\",\"parent\":\"Mumbai Marathon, 2024\",\"type\":\"other\",\"strength\":\"moderate\",\"strength_signals\":[\"specific event\",\"dated activity\"],\"weak_flags\":[],\"relevance\":\"low\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":7}],\"competencies\":[{\"id\":\"k1\",\"name\":\"Credit and financial analysis\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c2\",\"c5\"],\"is_gap\":false},{\"id\":\"k2\",\"name\":\"Financial modelling and capital budgeting\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[],\"is_gap\":true},{\"id\":\"k3\",\"name\":\"Stakeholder management\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c2\"],\"is_gap\":false},{\"id\":\"k4\",\"name\":\"FP&A and performance management\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c1\"],\"is_gap\":true},{\"id\":\"k5\",\"name\":\"Working-capital and debt decisions\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c1\",\"c2\"],\"is_gap\":false},{\"id\":\"k6\",\"name\":\"People leadership\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c4\",\"c6\"],\"is_gap\":false},{\"id\":\"k7\",\"name\":\"Motivation and fit\",\"source\":\"always\",\"must_have\":false,\"evidence_claim_ids\":[],\"is_gap\":true}],\"concerns\":[{\"type\":\"switch\",\"detail\":\"The move is from banking credit risk into corporate finance, FP&A and capital allocation.\"}],\"warmup_question\":\"What course at ISB has caught your attention in the last few months?\",\"background_question\":\"Walk me through your career so far, focusing on your credit-risk roles and your move into the ISB MBA.\",\"slots\":[{\"id\":\"s1\",\"kind\":\"claim\",\"competency_id\":\"k3\",\"anchor_claim_id\":\"c2\",\"question_type\":\"past_behaviour\",\"core_question\":\"Tell me about the stressed auto-components borrower at HDFC Bank. What was the hardest credit decision you made?\",\"intent_private\":\"Needs the borrower context, Rahul's own restructuring judgment, the stakeholders he influenced, and how the INR 140 crore outcome was measured.\",\"probe_angle\":\"test_claim\",\"technical_focus\":true,\"likely_probes\":[\"What part of the restructuring did you personally decide?\",\"What alternative did you rule out?\",\"What was the baseline for avoiding an NPA classification?\"],\"priority\":1},{\"id\":\"s2\",\"kind\":\"claim\",\"competency_id\":\"k1\",\"anchor_claim_id\":\"c5\",\"question_type\":\"past_behaviour\",\"core_question\":\"How did you approach the credit appraisal notes for SME proposals at Axis Bank?\",\"intent_private\":\"Needs a specific proposal example, the analysis Rahul personally performed, the judgement involved, and how the 60-plus proposal volume was sustained without sacrificing quality.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"Which part of the appraisal was yours?\",\"What decision did your analysis support?\",\"How did you check the quality of the 60-plus proposals?\"],\"priority\":2},{\"id\":\"s3\",\"kind\":\"gap\",\"competency_id\":\"k2\",\"anchor_claim_id\":null,\"question_type\":\"knowledge\",\"core_question\":\"For a proposed new production line at Varuna, how would you decide whether the capex deserves funding?\",\"intent_private\":\"Needs an applied capital-budgeting approach using cash flows, investment returns, capacity or demand assumptions, financing effects, and the trade-off between growth and capital discipline.\",\"probe_angle\":\"find_substance\",\"technical_focus\":true,\"likely_probes\":[\"Which assumption would you examine first?\",\"Why would you choose that measure over another?\",\"When would you reject the project despite an attractive return?\"],\"priority\":3},{\"id\":\"s4\",\"kind\":\"motivation\",\"competency_id\":\"k7\",\"anchor_claim_id\":null,\"question_type\":\"motivation\",\"core_question\":\"You have built your career in bank credit risk; what is pulling you toward corporate finance at Varuna Industries?\",\"intent_private\":\"Needs a reason tied to Rahul's credit-risk experience, a specific attraction of Varuna's corporate-finance role or auto-components context, and evidence that the move is deliberate.\",\"probe_angle\":\"none\",\"technical_focus\":false,\"likely_probes\":[\"Which part of this role most directly builds on your credit experience?\",\"What have you done during the MBA to prepare for corporate finance?\",\"What about Varuna's team or mandate makes this move timely?\"],\"priority\":4}],\"plan_notes\":\"The plan prioritizes Rahul's high-impact restructuring work, his earlier credit-analysis foundation, and the clearest JD gap: applied modelling and capital budgeting. The motivation slot addresses the move from banking credit risk into corporate finance; the resume has strong credit evidence but limited direct FP&A, capex, or formal modelling evidence.\"}",
+    "request_user_message": "{\"target_role\":\"domain: Finance\",\"interview_type\":\"hiring_manager\",\"placement_stage\":\"laterals\",\"market\":\"india\",\"interviewer_style\":\"balanced\",\"scored_slot_count\":4,\"variation_seed\":394741,\"warmup_angle\":\"a course, project or piece of work from the last few months they found interesting\",\"fit_angle\":\"a time they disagreed with their team or took a stance\",\"resume_text\":\"Rahul Deshpande\\nPGP 2026-27 (one-year MBA), Indian School of Business, Hyderabad\\n\\nEDUCATION\\nPGP, Indian School of Business, 2026-27\\nB.E., Computer Engineering, Pune Institute of Computer Technology, 2018, 74%\\nCFA Level II candidate\\n\\nWORK EXPERIENCE (7 years)\\nHDFC Bank, Mumbai | Senior Manager, Credit Risk - Mid-Market Corporates | Apr 2022 - Mar 2026\\n- Underwrote and monitored a portfolio of 85 mid-market borrowers with exposure of INR 2,400 crore\\n- Led the credit review of a stressed auto-components borrower; restructured INR 140 crore of exposure and avoided an NPA classification\\n- Built an early-warning dashboard on GST and bank-statement data, flagging 11 accounts 2 quarters before rating downgrades\\n- Managed a team of 3 credit analysts\\nAxis Bank | Credit Analyst | Jul 2018 - Mar 2022\\n- Prepared credit appraisal notes for 60+ SME loan proposals\\n\\nACTIVITIES\\n- Mentor, Finance Club, ISB\\n- Ran a half marathon (Mumbai Marathon, 2024)\",\"jd_text\":\"Manager - Corporate Finance (FP&A and Capital Allocation)\\nVaruna Industries Ltd, Pune\\n\\nVaruna Industries is a listed auto-components manufacturer (revenue INR 6,500 crore) with 14 plants in India.\\n\\nRole\\n- Own the annual operating plan and monthly business reviews for two business units\\n- Evaluate capex proposals (new lines, capacity expansion) and present recommendations to the CFO\\n- Work with treasury on working-capital and debt decisions\\n- Lead a team of 2 analysts\\n\\nMust have\\n- 5+ years in corporate finance, credit or investment banking\\n- Strong financial modelling and capital-budgeting skills\\n- Stakeholder management with plant and business heads\"}"
+  },
+  "plan_checks": [
+    {
+      "level": "ok",
+      "message": "All claims are quoted from the resume and all topics are valid."
+    }
+  ],
+  "slots": [
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "What course at ISB has caught your attention in the last few months?",
+      "intent_private": "Warm-up to settle in. Not assessed.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "active",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "warmup",
+      "kind": "warmup",
+      "budget": 0
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "Walk me through your career so far, focusing on your credit-risk roles and your move into the ISB MBA.",
+      "intent_private": "A coherent overview of the candidate's path; may surface threads for later topics.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "background",
+      "kind": "background",
+      "budget": 1
+    },
+    {
+      "competency_id": "k3",
+      "competency_name": "Stakeholder management",
+      "must_have": true,
+      "anchor_claim_id": "c2",
+      "anchor_text": "Led the credit review of a stressed auto-components borrower; restructured INR 140 crore of exposure and avoided an NPA classification",
+      "anchor_parent": "Senior Manager, Credit Risk - Mid-Market Corporates, HDFC Bank",
+      "question_type": "past_behaviour",
+      "core_question": "Tell me about the stressed auto-components borrower at HDFC Bank. What was the hardest credit decision you made?",
+      "intent_private": "Needs the borrower context, Rahul's own restructuring judgment, the stakeholders he influenced, and how the INR 140 crore outcome was measured.",
+      "probe_angle": "test_claim",
+      "technical_focus": true,
+      "likely_probes": [
+        "What part of the restructuring did you personally decide?",
+        "What alternative did you rule out?",
+        "What was the baseline for avoiding an NPA classification?"
+      ],
+      "priority": 1,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s1",
+      "kind": "claim",
+      "budget": 3
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Credit and financial analysis",
+      "must_have": true,
+      "anchor_claim_id": "c5",
+      "anchor_text": "Prepared credit appraisal notes for 60+ SME loan proposals",
+      "anchor_parent": "Credit Analyst, Axis Bank",
+      "question_type": "past_behaviour",
+      "core_question": "How did you approach the credit appraisal notes for SME proposals at Axis Bank?",
+      "intent_private": "Needs a specific proposal example, the analysis Rahul personally performed, the judgement involved, and how the 60-plus proposal volume was sustained without sacrificing quality.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which part of the appraisal was yours?",
+        "What decision did your analysis support?",
+        "How did you check the quality of the 60-plus proposals?"
+      ],
+      "priority": 2,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [
+        "no_result",
+        "unclear_role"
+      ],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s2",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k2",
+      "competency_name": "Financial modelling and capital budgeting",
+      "must_have": true,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "knowledge",
+      "core_question": "For a proposed new production line at Varuna, how would you decide whether the capex deserves funding?",
+      "intent_private": "Needs an applied capital-budgeting approach using cash flows, investment returns, capacity or demand assumptions, financing effects, and the trade-off between growth and capital discipline.",
+      "probe_angle": "find_substance",
+      "technical_focus": true,
+      "likely_probes": [
+        "Which assumption would you examine first?",
+        "Why would you choose that measure over another?",
+        "When would you reject the project despite an attractive return?"
+      ],
+      "priority": 3,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s3",
+      "kind": "gap",
+      "budget": 2
+    },
+    {
+      "competency_id": "k7",
+      "competency_name": "Motivation and fit",
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "motivation",
+      "core_question": "You have built your career in bank credit risk; what is pulling you toward corporate finance at Varuna Industries?",
+      "intent_private": "Needs a reason tied to Rahul's credit-risk experience, a specific attraction of Varuna's corporate-finance role or auto-components context, and evidence that the move is deliberate.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which part of this role most directly builds on your credit experience?",
+        "What have you done during the MBA to prepare for corporate finance?",
+        "What about Varuna's team or mandate makes this move timely?"
+      ],
+      "priority": 4,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s4",
+      "kind": "motivation",
+      "budget": 1
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "",
+      "intent_private": "Candidate asks their questions.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "candidate_questions",
+      "kind": "candidate_questions",
+      "budget": 2
+    }
+  ],
+  "current": 0,
+  "transcript": [
+    {
+      "role": "interviewer",
+      "text": "Hi Rahul, good to meet you. I'm part of the team hiring for the Manager - Corporate Finance (FP&A and Capital Allocation) role at Varuna Industries Ltd, and today I'd like to hear about your experience in some depth. We have about 15 minutes, and I'll keep time for your questions at the end. What course at ISB has caught your attention in the last few months?",
+      "slot_id": "warmup",
+      "why": "This was a warm-up question to help you settle in. It isn't part of the feedback.",
+      "at": "2026-11-09T06:57:52.273Z"
+    }
+  ],
+  "turns": [],
+  "events": [],
+  "interviewer_turns": 1,
+  "max_turns": 20,
+  "candidate_questions_asked": 0,
+  "second_chances": {},
+  "opening_greeting": "Hi Rahul, good to meet you. I'm part of the team hiring for the Manager - Corporate Finance (FP&A and Capital Allocation) role at Varuna Industries Ltd, and today I'd like to hear about your experience in some depth. We have about 15 minutes, and I'll keep time for your questions at the end."
+}

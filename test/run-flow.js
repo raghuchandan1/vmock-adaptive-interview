@@ -85,6 +85,29 @@ const get = async (p) => (await fetch(BASE + p)).json();
   let trace = await get(`/api/sessions/${id}/trace`);
   check(trace.plan_trace.note && /reasoning_effort/.test(trace.plan_trace.note), 'retries without reasoning_effort when a model rejects it');
   check(JSON.parse(trace.plan_trace.request_user_message).placement_stage === null, 'the planner gets placement_stage (null when not for placements)');
+  check(JSON.parse(trace.plan_trace.request_user_message).market === 'india' && trace.inputs.market === 'india', 'the market defaults to india');
+  {
+    const { createSession } = require('../lib/engine');
+    const withKnowledge = (family, market) => {
+      const plan = JSON.parse(JSON.stringify(trace.plan));
+      plan.jd.role_family = family;
+      plan.slots.find((s) => s.id === 's3').question_type = 'knowledge';
+      return createSession({ inputs: { ...trace.inputs, market }, settings: {}, plan, planTrace: {}, resolvedStyle: 'balanced' }).slots.find((s) => s.id === 's3').question_type;
+    };
+    check(withKnowledge('other', 'us') === 'situational' && withKnowledge('finance', 'us') === 'knowledge' && withKnowledge('technical', 'us') === 'knowledge' && withKnowledge('other', 'india') === 'knowledge',
+      'in the US a knowledge slot stays only for finance and technical roles (others are judged as situational); India is unchanged');
+  }
+  {
+    const base = { resume_text: resume, jd_text: jd, target_role: '', interview_type: 'hiring_manager', style: 'balanced' };
+    const us = await post('/api/sessions', { ...base, length: 'full', market: 'us' });
+    const usTrace = await get(`/api/sessions/${us.id}/trace`);
+    const sent = JSON.parse(usTrace.plan_trace.request_user_message);
+    check(sent.market === 'us' && sent.scored_slot_count === 6 && us.pre_brief.minutes === 30 && /30 minutes/.test(us.transcript[0].text),
+      'the 30-minute round asks the planner for 6 topics, says 30 minutes, and passes the US market');
+    check(await post('/api/sessions', { ...base, length: 'full', interview_type: 'recruiter_screen' }).then(() => false, (e) => /30-minute round/.test(e.message)),
+      'the 30-minute round is refused for a recruiter screen');
+    check(await post('/api/sessions', { ...base, length: 'standard', market: 'uk' }).then(() => false, (e) => /market/.test(e.message)), 'an unknown market is refused');
+  }
   const { fitAngle, FIT_ANGLES } = require('../lib/engine');
   check(JSON.parse(trace.plan_trace.request_user_message).fit_angle === fitAngle(trace.inputs.seed) && new Set([0, 1, 2].map(fitAngle)).size === FIT_ANGLES.length,
     'the planner gets a fit question angle that rotates across sessions');
@@ -173,7 +196,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const fbText = JSON.stringify([fb.overall, fb.topics.map((t) => [t.went_well, t.to_fix, t.answer_plan, (t.ratings || []).map((r) => r.reason), t.stronger_version]), fb.moments]);
   const rated = fb.topics.filter((t) => !t.too_short);
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 10 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 11 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
@@ -222,13 +245,61 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(oc.i === 3 && oc.we === 2 && fb.ownership.i === fb.topics.reduce((n, t) => n + t.ownership.i, 0), 'counts "I" versus "we" per topic and overall');
   check(topicVerdict([{ dimension: 'a', level: 'good_job' }, { dimension: 'followup', level: 'needs_work' }]) === 'good_job'
     && topicVerdict([{ dimension: 'a', level: 'needs_work' }, { dimension: 'b', level: 'needs_work' }, { dimension: 'c', level: 'good_job' }]) === 'needs_work'
-    && topicVerdict([{ dimension: 'a', level: 'needs_work' }, { dimension: 'b', level: 'good_job' }]) === 'on_track', 'topic verdict follows the content ratings, not the follow-up row');
-  const partly = [{ dimension: 'a', level: 'on_track' }, { dimension: 'b', level: 'on_track' }, { dimension: 'c', level: 'needs_work' }];
+    && topicVerdict([{ dimension: 'a', level: 'needs_work' }, { dimension: 'b', level: 'good_job' }, { dimension: 'c', level: 'good_job' }]) === 'on_track', 'topic verdict follows the content ratings, not the follow-up row');
+  const lv = (...levels) => levels.map((level, i) => ({ dimension: `d${i}`, level }));
+  check(topicVerdict(lv('needs_work', 'needs_work', 'good_job', 'good_job')) === 'needs_work' && topicVerdict(lv('on_track', 'on_track', 'on_track', 'needs_work')) === 'needs_work'
+    && topicVerdict(lv('good_job', 'on_track', 'on_track', 'needs_work')) === 'on_track' && topicVerdict(lv('on_track', 'on_track', 'good_job')) === 'on_track',
+  'needs_work when half the elements are missing, or one is missing and none is clearly there');
+  const partly = [{ dimension: 'a', level: 'good_job' }, { dimension: 'b', level: 'on_track' }, { dimension: 'c', level: 'needs_work' }];
   check(topicVerdict(partly, { dont_know_count: 1, repeat_count: 1 }) === 'needs_work' && topicVerdict(partly, { repeat_count: 2 }) === 'needs_work'
     && topicVerdict(partly, { dont_know_count: 1 }) === 'on_track' && topicVerdict(partly, {}) === 'on_track',
   'a topic moved on after two "not sure" or "repeat" answers is needs_work; one non-answer leaves the verdict to the ratings');
   const topicWith = (slotId, quote, stronger) => checkAndShapeFeedback({ overall: 'ok', priorities: [], moments: [], topics: [{ slot_id: slotId, ratings: [], went_well: '', went_well_quote: '', to_fix: 'weak', to_fix_quote: quote, answer_plan: [], stronger_version: stronger, example_answer: '' }] }, trace).feedback.topics.find((t) => t.slot_id === slotId);
   check(topicWith(rated[0].slot_id, rated[0].to_fix_quote, 'I led the work and moved the metric by X%.').stronger_version !== '' && topicWith(rated[0].slot_id, rated[0].to_fix_quote, 'I cut reporting time by 73 percent.').stronger_version === '', 'rewrite is dropped when it contains a number not in the resume or answers');
+  {
+    // A story element given only after a follow-up is at most on_track; a "first answer" quote found only in a later reply moves it there.
+    // The mock's probed topics are too short to rate, so a copy pads their replies past the minimum.
+    const padded = JSON.parse(JSON.stringify(trace));
+    const probed = fb.topics.find((t) => t.rubric === 'behavioural' && t.follow_ups.length);
+    const replies = padded.transcript.filter((e) => e.role === 'candidate' && e.slot_id === (probed || {}).slot_id);
+    replies.forEach((e, i) => { e.text = `${e.text} reply ${i} with enough words to be rated by the feedback check here`; });
+    const later = replies.length > 1 ? replies[1].text.split(/\s+/).slice(0, 4).join(' ') : '';
+    const rate = (r) => checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: probed.slot_id, ratings: [{ dimension: 'action', reason: 'r', ...r }], went_well: '', went_well_quote: '', to_fix: '', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }] }, padded)
+      .feedback.topics.find((t) => t.slot_id === probed.slot_id).ratings[0];
+    const capped = probed && rate({ level: 'good_job', found: 'after_follow_up', quote: '' });
+    const moved = probed && later && rate({ level: 'good_job', found: 'first_answer', quote: later });
+    check(capped && capped.level === 'on_track' && moved && moved.found === 'after_follow_up' && moved.level === 'on_track'
+      && rate({ level: 'good_job', found: 'first_answer', quote: '' }).level === 'good_job'
+      && rate({ level: 'on_track', found: 'not_given', quote: '' }).level === 'needs_work',
+    'a story element given only after a follow-up is at most on_track (a later-reply quote marks it so); one never given is needs_work');
+    const { leakCheck } = require('../lib/engine');
+    check(leakCheck('The Malayalam shelf talkers gave you a practical way to respond. Tell me about a time you failed.').length > 0, 'a judgement such as "gave you a practical way" is flagged for a rewrite');
+    // A topic that starts with "can you repeat that?" (a rephrase, then the real answer) still credits the real answer.
+    const repeated = JSON.parse(JSON.stringify(padded));
+    const ci = repeated.transcript.findIndex((e) => e.role === 'candidate' && e.slot_id === probed.slot_id);
+    const k = repeated.transcript.slice(0, ci).filter((e) => e.role === 'candidate').length;
+    const at = repeated.transcript[ci].at;
+    repeated.transcript.splice(ci, 0, { role: 'candidate', slot_id: probed.slot_id, text: 'Sorry, can you repeat that?', at }, { role: 'interviewer', slot_id: probed.slot_id, text: 'Let me put that another way.', at });
+    repeated.turns.splice(k, 0, { slot_id: probed.slot_id, decision: 'rephrase', output: {} });
+    const opening = repeated.transcript[ci + 2].text.split(/\s+/).slice(0, 4).join(' ');
+    const afterRepeat = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: probed.slot_id, ratings: [{ dimension: 'action', reason: 'r', level: 'good_job', found: 'first_answer', quote: opening }], went_well: '', went_well_quote: '', to_fix: '', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }] }, repeated)
+      .feedback.topics.find((t) => t.slot_id === probed.slot_id).ratings[0];
+    check(afterRepeat.found === 'first_answer' && afterRepeat.level === 'good_job', 'an answer given after "can you repeat that?" still counts as the first answer');
+    // Answers past about two minutes: a derived note, and a priority when it happens twice.
+    const long = JSON.parse(JSON.stringify(trace));
+    const filler = Array(300).fill('detail').join(' ');
+    const lengthFb = (n) => {
+      const s = JSON.parse(JSON.stringify(trace));
+      s.transcript.filter((e) => e.role === 'candidate' && !['warmup', 'candidate_questions'].includes(e.slot_id)).slice(0, n).forEach((e) => { e.text = `${e.text} ${filler}`; });
+      return checkAndShapeFeedback({ overall: 'ok', moments: [], next_goal: { title: 'Name the result', why: 'w', when: 'you finish a story', then: 'say what changed', slot_id: rated[0].slot_id },
+        topics: [{ slot_id: rated[0].slot_id, ratings: [], went_well: '', went_well_quote: '', to_fix: '', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }] }, s).feedback;
+    };
+    const one = lengthFb(1); const two = lengthFb(2); const none = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, long).feedback;
+    check(one.moments.some((m) => m.slot_id === 'answer_length' && /One answer ran past two minutes/.test(m.note)) && !one.priorities.some((p) => /two minutes/.test(p.title))
+      && two.moments.some((m) => m.slot_id === 'answer_length' && /2 answers/.test(m.note)) && two.priorities[1] && two.priorities[1].title === 'Keep answers under two minutes'
+      && !none.moments.some((m) => m.slot_id === 'answer_length'),
+    'long answers get a derived "Answer length" note, and a priority after the goal when two or more ran long');
+  }
   check(rated[0].stronger_version.includes('X%') && rated[1] && rated[1].stronger_version === '' && rated[1].to_fix, 'unsupported rewrite text is removed after the grounding check, supported one is kept');
   check(rated[1].to_fix_quote !== rated[0].to_fix_quote ? topicWith(rated[0].slot_id, rated[1].to_fix_quote, 'I did [x].').stronger_version === '' : true, 'a quote taken from a different topic is dropped, and its rewrite with it');
   // Nothing judged: no overall line, goal or priorities. Same words in went-well and to-fix: sent back, went-well quote
@@ -340,6 +411,35 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const numSlot = (used) => ({ kind: 'claim', anchor_text: 'Cut reporting by 6 hours', probe_angle: 'test_claim', anchor_flags: [], rungs_used: [], follow_ups_used: used, budget: 2 });
   check(requiredRung(rs, numSlot(0)) === 'result' && requiredNextRung(rs, numSlot(0)) === null && requiredNextRung(rs, numSlot(1)) === 'result', 'measurement follow-up is owed from the start but required only as the last follow-up');
   check(budgetFor('claim', rs, { technical_focus: true }) === 2 && budgetFor('claim', { ...rs, plan: { candidate: { experience_level: 'early' } } }, { technical_focus: true }) === 3, 'technical claim topics get an extra follow-up except for freshers');
+  {
+    // Finals: a finished internship owes "what would you do differently now?", after the number check, with one extra follow-up for it.
+    const fin = { ...rs, inputs: { interview_type: 'hiring_manager', stage: 'finals' } };
+    const intern = (used, rungs = [], extra = {}) => ({ ...numSlot(used), anchor_parent: 'Product Management Intern, Swiggy', rungs_used: rungs, budget: 3, ...extra });
+    check(budgetFor('claim', fin, { anchor_parent: 'Product Management Intern, Swiggy' }) === 3 && budgetFor('claim', fin, { anchor_parent: 'Infosys' }) === 2
+      && budgetFor('claim', fin, { anchor_parent: 'Summer Associate, Bain & Company' }) === 3
+      && budgetFor('claim', { ...fin, inputs: { ...fin.inputs, stage: 'summers' } }, { anchor_parent: 'Research Intern, Biocon' }) === 2
+      && requiredNextRung(fin, intern(0)) === null && requiredNextRung(fin, intern(1)) === 'result' && requiredNextRung(fin, intern(2, ['result'])) === 'setback'
+      && requiredRung(fin, intern(1, ['result'])) === 'setback' && requiredRung(rs, { ...intern(1, ['result']) }) === null
+      && requiredRung(fin, intern(1, [], { dont_know_count: 1, repeat_count: 1 })) === null
+      && budgetFor('claim', { ...fin, inputs: { ...fin.inputs, interview_type: 'recruiter_screen' } }, { anchor_parent: 'Product Management Intern, Swiggy' }) === 2,
+    'a finals internship topic gets one more follow-up and owes "what would you do differently" after the number check (not in recruiter screens); two non-answers clear what is owed');
+    const { DONT_KNOW } = require('../lib/engine');
+    const declines = ["No, that's all I had on that.", "That's it.", 'Nothing more to add.', 'I have nothing else to add, sorry', "No, that's it for now, thank you"];
+    const answers = ['Nothing else changed after we launched it, so the result held', "That's it, the pilot ran for 6 weeks", 'No questions, thank you.',
+      'Nothing more than a spreadsheet model.', "That's all I did on that project.", 'Nothing else, I think it went well', "That's it, I led the whole launch."];
+    check(declines.every((t) => DONT_KNOW.test(t)) && answers.every((t) => !DONT_KNOW.test(t)), 'a plain "No, that\'s all" counts like "not sure"; an answer that starts the same way does not');
+    // A second decline while the student asks their own questions closes the interview (there is no next topic to move on to).
+    const { handleAnswer } = require('../lib/engine');
+    const cqs = JSON.parse(JSON.stringify(trace));
+    const ci = cqs.slots.findIndex((x) => x.kind === 'candidate_questions');
+    Object.assign(cqs, { current: ci, status: 'active' });
+    Object.assign(cqs.slots[ci], { status: 'active', dont_know_count: 1 });
+    let offered = [];
+    const evidence = { situation: false, task: false, action: false, result: false, ownership: 'not_applicable', specificity: 'not_applicable', anchor_fit: 'not_applicable', technical_reasoning: 'not_applicable', on_topic: 'on', answer_type: 'other', new_hook: { present: false, description: '', competency_id: null } };
+    await handleAnswer(cqs, "No, that's all, thanks.", async (p) => { offered = p.allowed_decisions; return { trace: {}, data: { evidence, evidence_sufficient: true, missing: [], decision: 'close', probe_rung: 'none', pivot_target_slot_id: null, internal_rationale: 'x', why_asked_for_student: '', slot_summary: '', utterance: 'Thank you for your time. That is the end of the interview, and your feedback is ready.ಾನ್' } }; });
+    check(offered.includes('close') && !offered.includes('move_on') && cqs.status === 'ended', 'a second "No, that\'s all" at the end questions offers close, not move_on');
+    check(cqs.transcript[cqs.transcript.length - 1].text.endsWith('your feedback is ready.'), 'stray characters from another script are dropped from what the interviewer says');
+  }
 
   // Grounding: the student's own words are a false alarm; a real flag removes only its sentence
   const { applyGrounding } = require('../lib/engine');

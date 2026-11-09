@@ -42,7 +42,7 @@
     return html;
   }
 
-  const MOMENT_NAME = { warmup: 'Warm-up', background: 'Your background', candidate_questions: 'Your questions at the end' };
+  const MOMENT_NAME = { warmup: 'Warm-up', background: 'Your background', candidate_questions: 'Your questions at the end', answer_length: 'Answer length' };
   const quoteHtml = (q) => (q ? `<div class="q">“${esc(q)}”</div>` : '');
 
   // How to answer next time: the steps, then a rewrite of the student's own line or a sample answer.

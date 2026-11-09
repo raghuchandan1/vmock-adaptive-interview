@@ -1,0 +1,634 @@
+{
+  "id": "2026-11-09-949d7128",
+  "created_at": "2026-11-09T06:58:53.998Z",
+  "status": "active",
+  "inputs": {
+    "resume_text": "Tanvi Reddy | PGP 2025-27 | Indian Institute of Management Lucknow\nFemale, 23\nEDUCATION\nPGP IIM Lucknow 2027 7.9/10\nB.Com (Hons) St. Xavier's College, Kolkata 2025 88.2%\nXII (ISC) La Martiniere for Girls, Kolkata 2021 96.5%\nX (ICSE) La Martiniere for Girls, Kolkata 2019 95.8%\nSUMMER INTERNSHIP | Kotak Investment Banking, Mumbai | ECM & Advisory | Apr - Jun 2026\nLive IPO Drafted 3 sections of the DRHP for a INR 1,800 crore specialty-chemicals IPO; built the peer comparison of 9 listed\ncompanies used in the pricing discussion\nValuation Built a DCF and trading-comps model for a hospital chain's QIP; sensitivity on occupancy and ARPOB presented to the\nclient CFO\nOutcome Received Pre-Placement Offer (PPO); 1 of 2 offers among 6 interns\nINTERNSHIPS\nEY, Kolkata\nDec'23-Jan'24\nTransaction diligence intern: normalised EBITDA for a FMCG distributor acquisition; flagged INR 4 crore of one-time vendor\ncredits\nACADEMIC ACHIEVEMENTS AND COMPETITIONS\nCFA Institute India finalist, CFA Institute Research Challenge 2026 (initiated coverage on a cement company: SELL\ncall)\n2026\nAcademic Dean's merit list, Term 1 and Term 2, IIM Lucknow (top 5%) 2026\nCertification CFA Level I cleared (Aug 2025) 2025\nPOSITIONS OF RESPONSIBILITY\nFinance Club, IIML Coordinator: run the student-managed fund of INR 25 lakh; 14.2% return vs 11.8% for Nifty 50 in FY26\nRotaract, SXC President (2023-24): led 60 members; raised INR 3.5 lakh for a school library in Sundarbans\nEXTRACURRICULARS\nTrained Rabindra Sangeet singer | Represented Bengal at national-level debate (2020) | Languages: Bengali, Telugu, Hindi, English",
+    "jd_text": "",
+    "target_role": "",
+    "domain": "Finance",
+    "stage": "finals",
+    "market": "india",
+    "interview_type": "hiring_manager",
+    "style": "balanced",
+    "length": "standard",
+    "seed": 787030
+  },
+  "style": "balanced",
+  "surprise": false,
+  "seed": 787030,
+  "settings": {
+    "planner_model": "gpt-5.6-luna",
+    "planner_effort": "medium",
+    "turn_model": "gpt-5.6-luna",
+    "turn_effort": "low"
+  },
+  "plan": {
+    "candidate": {
+      "name": "Tanvi",
+      "experience_level": "fresher",
+      "current_or_last_role": "PGP student, Indian Institute of Management Lucknow",
+      "resume_band": "upper",
+      "band_reason": "The resume presents specific, quantified outcomes with clear ownership across investment banking, academics, leadership and competitions."
+    },
+    "jd": {
+      "present": false,
+      "company": null,
+      "role_title": null,
+      "role_family": "finance",
+      "seniority": null,
+      "must_haves": [],
+      "nice_to_haves": [],
+      "stated_values": []
+    },
+    "mismatch": {
+      "is_mismatch": false,
+      "note": ""
+    },
+    "claims": [
+      {
+        "id": "c1",
+        "text": "Drafted 3 sections of the DRHP for a INR 1,800 crore specialty-chemicals IPO; built the peer comparison of 9 listed companies used in the pricing discussion",
+        "parent": "Summer Internship, Kotak Investment Banking, Mumbai",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified scope",
+          "named transaction",
+          "ownership verbs",
+          "pricing application"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 2,
+        "grounded": true
+      },
+      {
+        "id": "c2",
+        "text": "Built a DCF and trading-comps model for a hospital chain's QIP; sensitivity on occupancy and ARPOB presented to the client CFO",
+        "parent": "Summer Internship, Kotak Investment Banking, Mumbai",
+        "type": "technical",
+        "strength": "strong",
+        "strength_signals": [
+          "named valuation methods",
+          "specific operating drivers",
+          "senior stakeholder exposure"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 1,
+        "grounded": true
+      },
+      {
+        "id": "c3",
+        "text": "Received Pre-Placement Offer (PPO); 1 of 2 offers among 6 interns",
+        "parent": "Summer Internship, Kotak Investment Banking, Mumbai",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified outcome",
+          "selective result"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 7,
+        "grounded": true
+      },
+      {
+        "id": "c4",
+        "text": "Transaction diligence intern: normalised EBITDA for a FMCG distributor acquisition; flagged INR 4 crore of one-time vendor credits",
+        "parent": "Internship, EY, Kolkata",
+        "type": "technical",
+        "strength": "strong",
+        "strength_signals": [
+          "specific transaction work",
+          "quantified finding",
+          "ownership verb"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 5,
+        "grounded": true
+      },
+      {
+        "id": "c5",
+        "text": "CFA Institute India finalist, CFA Institute Research Challenge 2026 (initiated coverage on a cement company: SELL call)",
+        "parent": "CFA Institute Research Challenge 2026",
+        "type": "technical",
+        "strength": "strong",
+        "strength_signals": [
+          "national competition result",
+          "specific investment recommendation"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 4,
+        "grounded": true
+      },
+      {
+        "id": "c6",
+        "text": "Academic Dean's merit list, Term 1 and Term 2, IIM Lucknow (top 5%)",
+        "parent": "Academic achievements, IIM Lucknow",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "top-percentile result",
+          "repeated academic recognition"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 8,
+        "grounded": true
+      },
+      {
+        "id": "c7",
+        "text": "Certification CFA Level I cleared (Aug 2025)",
+        "parent": "CFA certification",
+        "type": "technical",
+        "strength": "moderate",
+        "strength_signals": [
+          "relevant professional certification"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 9,
+        "grounded": true
+      },
+      {
+        "id": "c8",
+        "text": "Finance Club, IIML Coordinator: run the student-managed fund of INR 25 lakh; 14.2% return vs 11.8% for Nifty 50 in FY26",
+        "parent": "Finance Club, IIM Lucknow",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "leadership role",
+          "quantified fund size",
+          "benchmarked return"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 3,
+        "grounded": true
+      },
+      {
+        "id": "c9",
+        "text": "Rotaract, SXC President (2023-24): led 60 members; raised INR 3.5 lakh for a school library in Sundarbans",
+        "parent": "Rotaract, St. Xavier's College, Kolkata",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "president role",
+          "team scale",
+          "quantified fundraising"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 6,
+        "grounded": true
+      },
+      {
+        "id": "c10",
+        "text": "Represented Bengal at national-level debate (2020)",
+        "parent": "Extracurriculars",
+        "type": "collaboration",
+        "strength": "moderate",
+        "strength_signals": [
+          "state representation",
+          "national-level activity"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 10,
+        "grounded": true
+      }
+    ],
+    "competencies": [
+      {
+        "id": "k1",
+        "name": "Valuation and financial analysis",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c2",
+          "c4",
+          "c5",
+          "c7"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k2",
+        "name": "Investment judgment and market research",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c2",
+          "c5",
+          "c8"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k3",
+        "name": "Ownership and execution",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c2",
+          "c4",
+          "c8",
+          "c9"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k4",
+        "name": "Leadership and stakeholder communication",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c2",
+          "c8",
+          "c9",
+          "c10"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k5",
+        "name": "Motivation and fit",
+        "source": "always",
+        "must_have": false,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      }
+    ],
+    "concerns": [],
+    "warmup_question": "What has kept you busy in the last few weeks at IIM Lucknow?",
+    "background_question": "Walk me through your background: your studies and the experiences that led you to pursue finance after your MBA.",
+    "slots": [
+      {
+        "id": "s1",
+        "kind": "claim",
+        "competency_id": "k1",
+        "anchor_claim_id": "c2",
+        "question_type": "past_behaviour",
+        "core_question": "I see you built a valuation model for a hospital-chain QIP at Kotak. Walk me through how you approached that work.",
+        "intent_private": "Needs Tanvi's specific contribution to the DCF and trading-comps analysis, the reasoning behind the occupancy and ARPOB sensitivities, how she communicated the output to the CFO, and what she would approach differently now.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which part of the valuation work was yours personally?",
+          "Why did you choose those operating drivers for the sensitivity analysis?",
+          "What would you approach differently if you rebuilt that model today?"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "s2",
+        "kind": "claim",
+        "competency_id": "k3",
+        "anchor_claim_id": "c8",
+        "question_type": "past_behaviour",
+        "core_question": "What was the hardest part of running the student-managed fund at IIM Lucknow?",
+        "intent_private": "Needs a specific investment or fund-management situation, Tanvi's own decision and execution, how she handled disagreement or risk, and how the 14.2% return was measured against the 11.8% Nifty 50 benchmark.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which investment decision did you personally own?",
+          "What did you decide when the fund's views differed?",
+          "What was the return measured against?"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "s3",
+        "kind": "gap",
+        "competency_id": "k1",
+        "anchor_claim_id": null,
+        "question_type": "knowledge",
+        "core_question": "How would you decide when to rely more on a DCF than trading comparables for a company preparing for a capital raise?",
+        "intent_private": "Needs an applied comparison of DCF assumptions and market-based evidence, including how business maturity, forecast reliability, peer selection and market conditions affect the choice.",
+        "probe_angle": "find_substance",
+        "technical_focus": false,
+        "likely_probes": [
+          "Why would you favour that approach over the alternative?",
+          "When would that approach be less reliable?",
+          "Where have you applied that judgment in your own work?"
+        ],
+        "priority": 3
+      },
+      {
+        "id": "s4",
+        "kind": "motivation",
+        "competency_id": "k5",
+        "anchor_claim_id": null,
+        "question_type": "motivation",
+        "core_question": "You've worked in investment banking and finance competitions. What draws you to build your career in finance after the MBA?",
+        "intent_private": "Needs a motivation grounded in Tanvi's own investment-banking, valuation or research experience and tied to the actual finance role, rather than a reason that would fit any career.",
+        "probe_angle": "none",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which experience most shaped that interest?",
+          "What part of a finance role do you want to build further?",
+          "How does this role fit the direction you want after the MBA?"
+        ],
+        "priority": 4
+      }
+    ],
+    "plan_notes": "The plan prioritizes Tanvi's highly relevant Kotak valuation work, then tests the distinctive student-managed fund leadership claim before using an applied finance knowledge question. The resume is strong and unusually finance-focused for a fresher, with no visible concerns or mismatch; there is no job description or company context to support a more specific fit question."
+  },
+  "plan_trace": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "attempts": 1,
+    "started_at": "2026-11-09T06:58:20.151Z",
+    "latency_ms": 33847,
+    "usage": {
+      "prompt_tokens": 7450,
+      "completion_tokens": 3732,
+      "total_tokens": 11182,
+      "prompt_tokens_details": {
+        "cached_tokens": 6879,
+        "cache_write_tokens": 568,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1723,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "raw_response": "{\"candidate\":{\"name\":\"Tanvi\",\"experience_level\":\"fresher\",\"current_or_last_role\":\"PGP student, Indian Institute of Management Lucknow\",\"resume_band\":\"upper\",\"band_reason\":\"The resume presents specific, quantified outcomes with clear ownership across investment banking, academics, leadership and competitions.\"},\"jd\":{\"present\":false,\"company\":null,\"role_title\":null,\"role_family\":\"finance\",\"seniority\":null,\"must_haves\":[],\"nice_to_haves\":[],\"stated_values\":[]},\"mismatch\":{\"is_mismatch\":false,\"note\":\"\"},\"claims\":[{\"id\":\"c1\",\"text\":\"Drafted 3 sections of the DRHP for a INR 1,800 crore specialty-chemicals IPO; built the peer comparison of 9 listed companies used in the pricing discussion\",\"parent\":\"Summer Internship, Kotak Investment Banking, Mumbai\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified scope\",\"named transaction\",\"ownership verbs\",\"pricing application\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":2},{\"id\":\"c2\",\"text\":\"Built a DCF and trading-comps model for a hospital chain's QIP; sensitivity on occupancy and ARPOB presented to the client CFO\",\"parent\":\"Summer Internship, Kotak Investment Banking, Mumbai\",\"type\":\"technical\",\"strength\":\"strong\",\"strength_signals\":[\"named valuation methods\",\"specific operating drivers\",\"senior stakeholder exposure\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":1},{\"id\":\"c3\",\"text\":\"Received Pre-Placement Offer (PPO); 1 of 2 offers among 6 interns\",\"parent\":\"Summer Internship, Kotak Investment Banking, Mumbai\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified outcome\",\"selective result\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":7},{\"id\":\"c4\",\"text\":\"Transaction diligence intern: normalised EBITDA for a FMCG distributor acquisition; flagged INR 4 crore of one-time vendor credits\",\"parent\":\"Internship, EY, Kolkata\",\"type\":\"technical\",\"strength\":\"strong\",\"strength_signals\":[\"specific transaction work\",\"quantified finding\",\"ownership verb\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":5},{\"id\":\"c5\",\"text\":\"CFA Institute India finalist, CFA Institute Research Challenge 2026 (initiated coverage on a cement company: SELL call)\",\"parent\":\"CFA Institute Research Challenge 2026\",\"type\":\"technical\",\"strength\":\"strong\",\"strength_signals\":[\"national competition result\",\"specific investment recommendation\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":4},{\"id\":\"c6\",\"text\":\"Academic Dean's merit list, Term 1 and Term 2, IIM Lucknow (top 5%)\",\"parent\":\"Academic achievements, IIM Lucknow\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"top-percentile result\",\"repeated academic recognition\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":8},{\"id\":\"c7\",\"text\":\"Certification CFA Level I cleared (Aug 2025)\",\"parent\":\"CFA certification\",\"type\":\"technical\",\"strength\":\"moderate\",\"strength_signals\":[\"relevant professional certification\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":9},{\"id\":\"c8\",\"text\":\"Finance Club, IIML Coordinator: run the student-managed fund of INR 25 lakh; 14.2% return vs 11.8% for Nifty 50 in FY26\",\"parent\":\"Finance Club, IIM Lucknow\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"leadership role\",\"quantified fund size\",\"benchmarked return\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":3},{\"id\":\"c9\",\"text\":\"Rotaract, SXC President (2023-24): led 60 members; raised INR 3.5 lakh for a school library in Sundarbans\",\"parent\":\"Rotaract, St. Xavier's College, Kolkata\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"president role\",\"team scale\",\"quantified fundraising\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":6},{\"id\":\"c10\",\"text\":\"Represented Bengal at national-level debate (2020)\",\"parent\":\"Extracurriculars\",\"type\":\"collaboration\",\"strength\":\"moderate\",\"strength_signals\":[\"state representation\",\"national-level activity\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":10}],\"competencies\":[{\"id\":\"k1\",\"name\":\"Valuation and financial analysis\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c2\",\"c4\",\"c5\",\"c7\"],\"is_gap\":false},{\"id\":\"k2\",\"name\":\"Investment judgment and market research\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c2\",\"c5\",\"c8\"],\"is_gap\":false},{\"id\":\"k3\",\"name\":\"Ownership and execution\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c2\",\"c4\",\"c8\",\"c9\"],\"is_gap\":false},{\"id\":\"k4\",\"name\":\"Leadership and stakeholder communication\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c2\",\"c8\",\"c9\",\"c10\"],\"is_gap\":false},{\"id\":\"k5\",\"name\":\"Motivation and fit\",\"source\":\"always\",\"must_have\":false,\"evidence_claim_ids\":[],\"is_gap\":true}],\"concerns\":[],\"warmup_question\":\"What has kept you busy in the last few weeks at IIM Lucknow?\",\"background_question\":\"Walk me through your background: your studies and the experiences that led you to pursue finance after your MBA.\",\"slots\":[{\"id\":\"s1\",\"kind\":\"claim\",\"competency_id\":\"k1\",\"anchor_claim_id\":\"c2\",\"question_type\":\"past_behaviour\",\"core_question\":\"I see you built a valuation model for a hospital-chain QIP at Kotak. Walk me through how you approached that work.\",\"intent_private\":\"Needs Tanvi's specific contribution to the DCF and trading-comps analysis, the reasoning behind the occupancy and ARPOB sensitivities, how she communicated the output to the CFO, and what she would approach differently now.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"Which part of the valuation work was yours personally?\",\"Why did you choose those operating drivers for the sensitivity analysis?\",\"What would you approach differently if you rebuilt that model today?\"],\"priority\":1},{\"id\":\"s2\",\"kind\":\"claim\",\"competency_id\":\"k3\",\"anchor_claim_id\":\"c8\",\"question_type\":\"past_behaviour\",\"core_question\":\"What was the hardest part of running the student-managed fund at IIM Lucknow?\",\"intent_private\":\"Needs a specific investment or fund-management situation, Tanvi's own decision and execution, how she handled disagreement or risk, and how the 14.2% return was measured against the 11.8% Nifty 50 benchmark.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"Which investment decision did you personally own?\",\"What did you decide when the fund's views differed?\",\"What was the return measured against?\"],\"priority\":2},{\"id\":\"s3\",\"kind\":\"gap\",\"competency_id\":\"k1\",\"anchor_claim_id\":null,\"question_type\":\"knowledge\",\"core_question\":\"How would you decide when to rely more on a DCF than trading comparables for a company preparing for a capital raise?\",\"intent_private\":\"Needs an applied comparison of DCF assumptions and market-based evidence, including how business maturity, forecast reliability, peer selection and market conditions affect the choice.\",\"probe_angle\":\"find_substance\",\"technical_focus\":false,\"likely_probes\":[\"Why would you favour that approach over the alternative?\",\"When would that approach be less reliable?\",\"Where have you applied that judgment in your own work?\"],\"priority\":3},{\"id\":\"s4\",\"kind\":\"motivation\",\"competency_id\":\"k5\",\"anchor_claim_id\":null,\"question_type\":\"motivation\",\"core_question\":\"You've worked in investment banking and finance competitions. What draws you to build your career in finance after the MBA?\",\"intent_private\":\"Needs a motivation grounded in Tanvi's own investment-banking, valuation or research experience and tied to the actual finance role, rather than a reason that would fit any career.\",\"probe_angle\":\"none\",\"technical_focus\":false,\"likely_probes\":[\"Which experience most shaped that interest?\",\"What part of a finance role do you want to build further?\",\"How does this role fit the direction you want after the MBA?\"],\"priority\":4}],\"plan_notes\":\"The plan prioritizes Tanvi's highly relevant Kotak valuation work, then tests the distinctive student-managed fund leadership claim before using an applied finance knowledge question. The resume is strong and unusually finance-focused for a fresher, with no visible concerns or mismatch; there is no job description or company context to support a more specific fit question.\"}",
+    "request_user_message": "{\"target_role\":\"domain: Finance\",\"interview_type\":\"hiring_manager\",\"placement_stage\":\"finals\",\"market\":\"india\",\"interviewer_style\":\"balanced\",\"scored_slot_count\":4,\"variation_seed\":787030,\"warmup_angle\":\"what has kept them busy in the last few weeks, at work or in their studies\",\"fit_angle\":\"a time they disagreed with their team or took a stance\",\"resume_text\":\"Tanvi Reddy | PGP 2025-27 | Indian Institute of Management Lucknow\\nFemale, 23\\nEDUCATION\\nPGP IIM Lucknow 2027 7.9/10\\nB.Com (Hons) St. Xavier's College, Kolkata 2025 88.2%\\nXII (ISC) La Martiniere for Girls, Kolkata 2021 96.5%\\nX (ICSE) La Martiniere for Girls, Kolkata 2019 95.8%\\nSUMMER INTERNSHIP | Kotak Investment Banking, Mumbai | ECM & Advisory | Apr - Jun 2026\\nLive IPO Drafted 3 sections of the DRHP for a INR 1,800 crore specialty-chemicals IPO; built the peer comparison of 9 listed\\ncompanies used in the pricing discussion\\nValuation Built a DCF and trading-comps model for a hospital chain's QIP; sensitivity on occupancy and ARPOB presented to the\\nclient CFO\\nOutcome Received Pre-Placement Offer (PPO); 1 of 2 offers among 6 interns\\nINTERNSHIPS\\nEY, Kolkata\\nDec'23-Jan'24\\nTransaction diligence intern: normalised EBITDA for a FMCG distributor acquisition; flagged INR 4 crore of one-time vendor\\ncredits\\nACADEMIC ACHIEVEMENTS AND COMPETITIONS\\nCFA Institute India finalist, CFA Institute Research Challenge 2026 (initiated coverage on a cement company: SELL\\ncall)\\n2026\\nAcademic Dean's merit list, Term 1 and Term 2, IIM Lucknow (top 5%) 2026\\nCertification CFA Level I cleared (Aug 2025) 2025\\nPOSITIONS OF RESPONSIBILITY\\nFinance Club, IIML Coordinator: run the student-managed fund of INR 25 lakh; 14.2% return vs 11.8% for Nifty 50 in FY26\\nRotaract, SXC President (2023-24): led 60 members; raised INR 3.5 lakh for a school library in Sundarbans\\nEXTRACURRICULARS\\nTrained Rabindra Sangeet singer | Represented Bengal at national-level debate (2020) | Languages: Bengali, Telugu, Hindi, English\",\"jd_text\":\"\"}"
+  },
+  "plan_checks": [
+    {
+      "level": "ok",
+      "message": "All claims are quoted from the resume and all topics are valid."
+    }
+  ],
+  "slots": [
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "What has kept you busy in the last few weeks at IIM Lucknow?",
+      "intent_private": "Warm-up to settle in. Not assessed.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "active",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "warmup",
+      "kind": "warmup",
+      "budget": 0
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "Walk me through your background: your studies and the experiences that led you to pursue finance after your MBA.",
+      "intent_private": "A coherent overview of the candidate's path; may surface threads for later topics.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "background",
+      "kind": "background",
+      "budget": 1
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Valuation and financial analysis",
+      "must_have": true,
+      "anchor_claim_id": "c2",
+      "anchor_text": "Built a DCF and trading-comps model for a hospital chain's QIP; sensitivity on occupancy and ARPOB presented to the client CFO",
+      "anchor_parent": "Summer Internship, Kotak Investment Banking, Mumbai",
+      "question_type": "past_behaviour",
+      "core_question": "I see you built a valuation model for a hospital-chain QIP at Kotak. Walk me through how you approached that work.",
+      "intent_private": "Needs Tanvi's specific contribution to the DCF and trading-comps analysis, the reasoning behind the occupancy and ARPOB sensitivities, how she communicated the output to the CFO, and what she would approach differently now.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which part of the valuation work was yours personally?",
+        "Why did you choose those operating drivers for the sensitivity analysis?",
+        "What would you approach differently if you rebuilt that model today?"
+      ],
+      "priority": 1,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s1",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k3",
+      "competency_name": "Ownership and execution",
+      "must_have": true,
+      "anchor_claim_id": "c8",
+      "anchor_text": "Finance Club, IIML Coordinator: run the student-managed fund of INR 25 lakh; 14.2% return vs 11.8% for Nifty 50 in FY26",
+      "anchor_parent": "Finance Club, IIM Lucknow",
+      "question_type": "past_behaviour",
+      "core_question": "What was the hardest part of running the student-managed fund at IIM Lucknow?",
+      "intent_private": "Needs a specific investment or fund-management situation, Tanvi's own decision and execution, how she handled disagreement or risk, and how the 14.2% return was measured against the 11.8% Nifty 50 benchmark.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which investment decision did you personally own?",
+        "What did you decide when the fund's views differed?",
+        "What was the return measured against?"
+      ],
+      "priority": 2,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s2",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Valuation and financial analysis",
+      "must_have": true,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "knowledge",
+      "core_question": "How would you decide when to rely more on a DCF than trading comparables for a company preparing for a capital raise?",
+      "intent_private": "Needs an applied comparison of DCF assumptions and market-based evidence, including how business maturity, forecast reliability, peer selection and market conditions affect the choice.",
+      "probe_angle": "find_substance",
+      "technical_focus": false,
+      "likely_probes": [
+        "Why would you favour that approach over the alternative?",
+        "When would that approach be less reliable?",
+        "Where have you applied that judgment in your own work?"
+      ],
+      "priority": 3,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s3",
+      "kind": "gap",
+      "budget": 2
+    },
+    {
+      "competency_id": "k5",
+      "competency_name": "Motivation and fit",
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "motivation",
+      "core_question": "You've worked in investment banking and finance competitions. What draws you to build your career in finance after the MBA?",
+      "intent_private": "Needs a motivation grounded in Tanvi's own investment-banking, valuation or research experience and tied to the actual finance role, rather than a reason that would fit any career.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which experience most shaped that interest?",
+        "What part of a finance role do you want to build further?",
+        "How does this role fit the direction you want after the MBA?"
+      ],
+      "priority": 4,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s4",
+      "kind": "motivation",
+      "budget": 1
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "",
+      "intent_private": "Candidate asks their questions.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "candidate_questions",
+      "kind": "candidate_questions",
+      "budget": 2
+    }
+  ],
+  "current": 0,
+  "transcript": [
+    {
+      "role": "interviewer",
+      "text": "Hi Tanvi, good to meet you. I'm part of the team hiring for this role, and today I'd like to hear about your experience in some depth. We have about 15 minutes, and I'll keep time for your questions at the end. What has kept you busy in the last few weeks at IIM Lucknow?",
+      "slot_id": "warmup",
+      "why": "This was a warm-up question to help you settle in. It isn't part of the feedback.",
+      "at": "2026-11-09T06:58:53.998Z"
+    }
+  ],
+  "turns": [],
+  "events": [],
+  "interviewer_turns": 1,
+  "max_turns": 20,
+  "candidate_questions_asked": 0,
+  "second_chances": {},
+  "opening_greeting": "Hi Tanvi, good to meet you. I'm part of the team hiring for this role, and today I'd like to hear about your experience in some depth. We have about 15 minutes, and I'll keep time for your questions at the end."
+}

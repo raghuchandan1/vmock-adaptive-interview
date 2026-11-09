@@ -1,0 +1,737 @@
+{
+  "id": "2026-11-09-bb3fb99b",
+  "created_at": "2026-11-09T06:57:56.920Z",
+  "status": "active",
+  "inputs": {
+    "resume_text": "Arjun Nair\nPGP 2025-27 | Indian Institute of Management Bangalore | arjun.nair25@iimb.ac.in\n\nEDUCATION\nPGP, IIM Bangalore, 2025-27, CGPA 3.4/4\nB.Tech, Computer Science, NIT Calicut, 2021, 8.7/10\n\nWORK EXPERIENCE (36 months)\nInfosys, Bengaluru | Senior Systems Engineer | Jul 2021 - Jun 2024\n- Built REST APIs in Java Spring Boot for a European bank's loan-origination platform serving 2 million applications a year\n- Reduced p95 API latency from 1.8s to 600ms by adding a Redis cache for credit bureau lookups\n- Mentored 4 freshers; ran a weekly code-review circle\n\nSUMMER INTERNSHIP\nSwiggy, Bengaluru | Product Management Intern, Instamart | Apr - Jun 2026\n- Owned the \"frequently bought together\" widget on the Instamart cart page; A/B test on 8% of users showed a 3.4% lift in average order value\n- Wrote the PRD for substitution suggestions when an item goes out of stock; shipped to 3 cities\n- Ran 20 customer calls with Bengaluru users to find why first-time users drop off before checkout\n- Received PPO\n\nPOSITIONS OF RESPONSIBILITY\n- Coordinator, Product Management Club (Prodigy), IIM Bangalore\n- Organised NITC's tech fest Tathva hackathon (2020) with 600 participants\n\nACHIEVEMENTS\n- Winner, Google Cloud Gen AI hackathon (campus round), 2025",
+    "jd_text": "Associate Product Manager - Merchant Payments\nPaynest (Bengaluru)\n\nPaynest is a payments company serving 4 lakh small merchants across India with UPI QR, soundboxes and working-capital loans.\n\nWhat you'll do\n- Own a part of the merchant app (onboarding, settlements or the loans journey) end to end\n- Talk to merchants regularly, especially in tier-2 and tier-3 cities, and turn what you learn into product decisions\n- Define success metrics, run experiments and make prioritisation calls with engineering and design\n- Work with risk, credit and operations teams on launches\n\nWhat we're looking for\n- MBA from a top institute; 2+ years of prior work experience preferred (engineering background a plus)\n- Strong product sense and comfort with data (SQL a plus)\n- Clear communication with both merchants and engineers\n- Hindi or a regional language is a plus",
+    "target_role": "",
+    "domain": "Product Management",
+    "stage": "finals",
+    "market": "india",
+    "interview_type": "back_your_resume",
+    "style": "balanced",
+    "length": "standard",
+    "seed": 806769
+  },
+  "style": "balanced",
+  "surprise": false,
+  "seed": 806769,
+  "settings": {
+    "planner_model": "gpt-5.6-luna",
+    "planner_effort": "medium",
+    "turn_model": "gpt-5.6-luna",
+    "turn_effort": "low"
+  },
+  "plan": {
+    "candidate": {
+      "name": "Arjun",
+      "experience_level": "early",
+      "current_or_last_role": "PGP student, Indian Institute of Management Bangalore",
+      "resume_band": "upper",
+      "band_reason": "The resume shows clear ownership, quantified outcomes, named employers and projects, and a relevant product internship with strong evidence of impact."
+    },
+    "jd": {
+      "present": true,
+      "company": "Paynest",
+      "role_title": "Associate Product Manager - Merchant Payments",
+      "role_family": "technical",
+      "seniority": "2+ years of prior work experience preferred",
+      "must_haves": [
+        {
+          "requirement": "Own part of the merchant app end to end",
+          "competency": "Product ownership and execution"
+        },
+        {
+          "requirement": "Talk to merchants regularly and turn learning into product decisions",
+          "competency": "Customer discovery and product sense"
+        },
+        {
+          "requirement": "Define success metrics and run experiments",
+          "competency": "Data-driven experimentation"
+        },
+        {
+          "requirement": "Make prioritisation calls with engineering and design",
+          "competency": "Prioritisation and cross-functional collaboration"
+        },
+        {
+          "requirement": "Work with risk, credit and operations teams on launches",
+          "competency": "Stakeholder management"
+        },
+        {
+          "requirement": "Clear communication with merchants and engineers",
+          "competency": "Communication"
+        },
+        {
+          "requirement": "Comfort with data",
+          "competency": "Data analysis"
+        }
+      ],
+      "nice_to_haves": [
+        {
+          "requirement": "Engineering background",
+          "competency": "Technical depth"
+        },
+        {
+          "requirement": "SQL",
+          "competency": "Data analysis"
+        },
+        {
+          "requirement": "Hindi or a regional language",
+          "competency": "Merchant communication"
+        }
+      ],
+      "stated_values": []
+    },
+    "mismatch": {
+      "is_mismatch": false,
+      "note": ""
+    },
+    "claims": [
+      {
+        "id": "c1",
+        "text": "Built REST APIs in Java Spring Boot for a European bank's loan-origination platform serving 2 million applications a year",
+        "parent": "Senior Systems Engineer, Infosys",
+        "type": "technical",
+        "strength": "strong",
+        "strength_signals": [
+          "ownership verb",
+          "named tools",
+          "scale"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 5,
+        "grounded": true
+      },
+      {
+        "id": "c2",
+        "text": "Reduced p95 API latency from 1.8s to 600ms by adding a Redis cache for credit bureau lookups",
+        "parent": "Senior Systems Engineer, Infosys",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "specific metric",
+          "named tool",
+          "ownership verb"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 4,
+        "grounded": true
+      },
+      {
+        "id": "c3",
+        "text": "Mentored 4 freshers; ran a weekly code-review circle",
+        "parent": "Senior Systems Engineer, Infosys",
+        "type": "leadership",
+        "strength": "moderate",
+        "strength_signals": [
+          "quantified people responsibility",
+          "recurring ownership"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 7,
+        "grounded": true
+      },
+      {
+        "id": "c4",
+        "text": "Owned the \"frequently bought together\" widget on the Instamart cart page; A/B test on 8% of users showed a 3.4% lift in average order value",
+        "parent": "Product Management Intern, Instamart, Swiggy",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "ownership verb",
+          "quantified result",
+          "experiment",
+          "product scope"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 1,
+        "grounded": true
+      },
+      {
+        "id": "c5",
+        "text": "Wrote the PRD for substitution suggestions when an item goes out of stock; shipped to 3 cities",
+        "parent": "Product Management Intern, Instamart, Swiggy",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "ownership verb",
+          "shipped product",
+          "geographic scale"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 2,
+        "grounded": true
+      },
+      {
+        "id": "c6",
+        "text": "Ran 20 customer calls with Bengaluru users to find why first-time users drop off before checkout",
+        "parent": "Product Management Intern, Instamart, Swiggy",
+        "type": "collaboration",
+        "strength": "moderate",
+        "strength_signals": [
+          "quantified research",
+          "customer contact",
+          "clear problem"
+        ],
+        "weak_flags": [
+          "no_result"
+        ],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 3,
+        "grounded": true
+      },
+      {
+        "id": "c7",
+        "text": "Received PPO",
+        "parent": "Product Management Intern, Instamart, Swiggy",
+        "type": "other",
+        "strength": "moderate",
+        "strength_signals": [
+          "selective outcome"
+        ],
+        "weak_flags": [
+          "no_result"
+        ],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 8,
+        "grounded": true
+      },
+      {
+        "id": "c8",
+        "text": "Coordinator, Product Management Club (Prodigy), IIM Bangalore",
+        "parent": "Product Management Club, IIM Bangalore",
+        "type": "leadership",
+        "strength": "weak",
+        "strength_signals": [
+          "leadership title"
+        ],
+        "weak_flags": [
+          "vague",
+          "no_result",
+          "unclear_role"
+        ],
+        "relevance": "high",
+        "distinctive": false,
+        "probe_angle": "find_substance",
+        "rank": 6,
+        "grounded": true
+      },
+      {
+        "id": "c9",
+        "text": "Organised NITC's tech fest Tathva hackathon (2020) with 600 participants",
+        "parent": "Tathva hackathon, NIT Calicut",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "ownership verb",
+          "quantified scale",
+          "event leadership"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 9,
+        "grounded": true
+      },
+      {
+        "id": "c10",
+        "text": "Winner, Google Cloud Gen AI hackathon (campus round), 2025",
+        "parent": "Google Cloud Gen AI hackathon",
+        "type": "technical",
+        "strength": "moderate",
+        "strength_signals": [
+          "competitive result",
+          "technical context"
+        ],
+        "weak_flags": [
+          "unclear_role"
+        ],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 10,
+        "grounded": true
+      }
+    ],
+    "competencies": [
+      {
+        "id": "k1",
+        "name": "Product ownership and execution",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c4",
+          "c5"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k2",
+        "name": "Customer discovery and product sense",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c6",
+          "c5"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k3",
+        "name": "Data-driven experimentation",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c4",
+          "c2"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k4",
+        "name": "Prioritisation and cross-functional collaboration",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c4",
+          "c5",
+          "c6"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k5",
+        "name": "Stakeholder management",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c5",
+          "c9"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k6",
+        "name": "Communication",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c3",
+          "c6",
+          "c9"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k7",
+        "name": "Data analysis",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c2",
+          "c4"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k8",
+        "name": "Technical depth",
+        "source": "jd_nice_to_have",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c1",
+          "c2",
+          "c10"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k9",
+        "name": "Merchant communication",
+        "source": "jd_nice_to_have",
+        "must_have": false,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      },
+      {
+        "id": "k10",
+        "name": "Motivation and fit",
+        "source": "always",
+        "must_have": false,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      }
+    ],
+    "concerns": [
+      {
+        "type": "switch",
+        "detail": "The candidate moved from backend engineering at Infosys into product management during the MBA."
+      }
+    ],
+    "warmup_question": "What is one thing you learned recently in your MBA that has already proved useful?",
+    "background_question": "Walk me through your career so far, including what you have focused on during your MBA.",
+    "slots": [
+      {
+        "id": "s1",
+        "kind": "claim",
+        "competency_id": "k1",
+        "anchor_claim_id": "c4",
+        "question_type": "past_behaviour",
+        "core_question": "I see you owned the frequently bought together widget at Swiggy. What product decision did you personally have to make?",
+        "intent_private": "Needs the candidate's specific decision, reasoning, trade-offs, execution with other teams, and how the 3.4% lift was measured; because this was a completed MBA internship, it also needs what they would do differently now.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which part of that decision was yours?",
+          "What option did you decide against?",
+          "What was the comparison point for the 3.4% lift?"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "s2",
+        "kind": "claim",
+        "competency_id": "k8",
+        "anchor_claim_id": "c2",
+        "question_type": "past_behaviour",
+        "core_question": "At Infosys, you reduced API latency for a loan-origination platform. What did you have to figure out first?",
+        "intent_private": "Needs the candidate's technical reasoning for using Redis, how credit bureau lookups affected the request path, what alternatives they considered, and how the move from 1.8 seconds to 600 milliseconds was measured.",
+        "probe_angle": "test_claim",
+        "technical_focus": true,
+        "likely_probes": [
+          "Why was Redis the right choice for that bottleneck?",
+          "What alternative did you decide against?",
+          "How was the 600ms figure compared with the earlier latency?"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "s3",
+        "kind": "claim",
+        "competency_id": "k6",
+        "anchor_claim_id": "c9",
+        "question_type": "past_behaviour",
+        "core_question": "You organised NITC's Tathva hackathon for 600 participants. What was the hardest part of making it work?",
+        "intent_private": "Needs a specific coordination challenge, the candidate's personal actions, decisions involving volunteers or other stakeholders, and how they kept the event on track at that scale.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "What did you personally do first when that challenge appeared?",
+          "Which people decision did you have to make?",
+          "How did you confirm that 600 participants were being supported as planned?"
+        ],
+        "priority": 3
+      },
+      {
+        "id": "s4",
+        "kind": "concerns",
+        "competency_id": "k10",
+        "anchor_claim_id": null,
+        "question_type": "concern",
+        "core_question": "You moved from backend engineering at Infosys toward product management during your MBA. What prompted that direction?",
+        "intent_private": "Needs a specific explanation for the career move, grounded in the candidate's experience, and a clear connection between that path and the merchant payments product role at Paynest.",
+        "probe_angle": "none",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which experience first made you consider product management?",
+          "What have you done during the MBA to test that direction?",
+          "What specifically about Paynest's merchant payments work fits that path?"
+        ],
+        "priority": 4
+      }
+    ],
+    "plan_notes": "The plan prioritizes the Swiggy product internship, a quantified technical achievement, and a substantive leadership activity while testing the transition from engineering to product management. Merchant-facing experience in tier-2 and tier-3 contexts is not evident, so that remains an evidence gap for live follow-up if time allows."
+  },
+  "plan_trace": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "attempts": 1,
+    "started_at": "2026-11-09T06:57:21.219Z",
+    "latency_ms": 35701,
+    "usage": {
+      "prompt_tokens": 7514,
+      "completion_tokens": 4069,
+      "total_tokens": 11583,
+      "prompt_tokens_details": {
+        "cached_tokens": 6879,
+        "cache_write_tokens": 632,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1706,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "raw_response": "{\"candidate\":{\"name\":\"Arjun\",\"experience_level\":\"early\",\"current_or_last_role\":\"PGP student, Indian Institute of Management Bangalore\",\"resume_band\":\"upper\",\"band_reason\":\"The resume shows clear ownership, quantified outcomes, named employers and projects, and a relevant product internship with strong evidence of impact.\"},\"jd\":{\"present\":true,\"company\":\"Paynest\",\"role_title\":\"Associate Product Manager - Merchant Payments\",\"role_family\":\"technical\",\"seniority\":\"2+ years of prior work experience preferred\",\"must_haves\":[{\"requirement\":\"Own part of the merchant app end to end\",\"competency\":\"Product ownership and execution\"},{\"requirement\":\"Talk to merchants regularly and turn learning into product decisions\",\"competency\":\"Customer discovery and product sense\"},{\"requirement\":\"Define success metrics and run experiments\",\"competency\":\"Data-driven experimentation\"},{\"requirement\":\"Make prioritisation calls with engineering and design\",\"competency\":\"Prioritisation and cross-functional collaboration\"},{\"requirement\":\"Work with risk, credit and operations teams on launches\",\"competency\":\"Stakeholder management\"},{\"requirement\":\"Clear communication with merchants and engineers\",\"competency\":\"Communication\"},{\"requirement\":\"Comfort with data\",\"competency\":\"Data analysis\"}],\"nice_to_haves\":[{\"requirement\":\"Engineering background\",\"competency\":\"Technical depth\"},{\"requirement\":\"SQL\",\"competency\":\"Data analysis\"},{\"requirement\":\"Hindi or a regional language\",\"competency\":\"Merchant communication\"}],\"stated_values\":[]},\"mismatch\":{\"is_mismatch\":false,\"note\":\"\"},\"claims\":[{\"id\":\"c1\",\"text\":\"Built REST APIs in Java Spring Boot for a European bank's loan-origination platform serving 2 million applications a year\",\"parent\":\"Senior Systems Engineer, Infosys\",\"type\":\"technical\",\"strength\":\"strong\",\"strength_signals\":[\"ownership verb\",\"named tools\",\"scale\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":5},{\"id\":\"c2\",\"text\":\"Reduced p95 API latency from 1.8s to 600ms by adding a Redis cache for credit bureau lookups\",\"parent\":\"Senior Systems Engineer, Infosys\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"specific metric\",\"named tool\",\"ownership verb\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":4},{\"id\":\"c3\",\"text\":\"Mentored 4 freshers; ran a weekly code-review circle\",\"parent\":\"Senior Systems Engineer, Infosys\",\"type\":\"leadership\",\"strength\":\"moderate\",\"strength_signals\":[\"quantified people responsibility\",\"recurring ownership\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":7},{\"id\":\"c4\",\"text\":\"Owned the \\\"frequently bought together\\\" widget on the Instamart cart page; A/B test on 8% of users showed a 3.4% lift in average order value\",\"parent\":\"Product Management Intern, Instamart, Swiggy\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"ownership verb\",\"quantified result\",\"experiment\",\"product scope\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":1},{\"id\":\"c5\",\"text\":\"Wrote the PRD for substitution suggestions when an item goes out of stock; shipped to 3 cities\",\"parent\":\"Product Management Intern, Instamart, Swiggy\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"ownership verb\",\"shipped product\",\"geographic scale\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":2},{\"id\":\"c6\",\"text\":\"Ran 20 customer calls with Bengaluru users to find why first-time users drop off before checkout\",\"parent\":\"Product Management Intern, Instamart, Swiggy\",\"type\":\"collaboration\",\"strength\":\"moderate\",\"strength_signals\":[\"quantified research\",\"customer contact\",\"clear problem\"],\"weak_flags\":[\"no_result\"],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":3},{\"id\":\"c7\",\"text\":\"Received PPO\",\"parent\":\"Product Management Intern, Instamart, Swiggy\",\"type\":\"other\",\"strength\":\"moderate\",\"strength_signals\":[\"selective outcome\"],\"weak_flags\":[\"no_result\"],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":8},{\"id\":\"c8\",\"text\":\"Coordinator, Product Management Club (Prodigy), IIM Bangalore\",\"parent\":\"Product Management Club, IIM Bangalore\",\"type\":\"leadership\",\"strength\":\"weak\",\"strength_signals\":[\"leadership title\"],\"weak_flags\":[\"vague\",\"no_result\",\"unclear_role\"],\"relevance\":\"high\",\"distinctive\":false,\"probe_angle\":\"find_substance\",\"rank\":6},{\"id\":\"c9\",\"text\":\"Organised NITC's tech fest Tathva hackathon (2020) with 600 participants\",\"parent\":\"Tathva hackathon, NIT Calicut\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"ownership verb\",\"quantified scale\",\"event leadership\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":9},{\"id\":\"c10\",\"text\":\"Winner, Google Cloud Gen AI hackathon (campus round), 2025\",\"parent\":\"Google Cloud Gen AI hackathon\",\"type\":\"technical\",\"strength\":\"moderate\",\"strength_signals\":[\"competitive result\",\"technical context\"],\"weak_flags\":[\"unclear_role\"],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":10}],\"competencies\":[{\"id\":\"k1\",\"name\":\"Product ownership and execution\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c4\",\"c5\"],\"is_gap\":false},{\"id\":\"k2\",\"name\":\"Customer discovery and product sense\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c6\",\"c5\"],\"is_gap\":false},{\"id\":\"k3\",\"name\":\"Data-driven experimentation\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c4\",\"c2\"],\"is_gap\":false},{\"id\":\"k4\",\"name\":\"Prioritisation and cross-functional collaboration\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c4\",\"c5\",\"c6\"],\"is_gap\":false},{\"id\":\"k5\",\"name\":\"Stakeholder management\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c5\",\"c9\"],\"is_gap\":false},{\"id\":\"k6\",\"name\":\"Communication\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c3\",\"c6\",\"c9\"],\"is_gap\":false},{\"id\":\"k7\",\"name\":\"Data analysis\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c2\",\"c4\"],\"is_gap\":false},{\"id\":\"k8\",\"name\":\"Technical depth\",\"source\":\"jd_nice_to_have\",\"must_have\":false,\"evidence_claim_ids\":[\"c1\",\"c2\",\"c10\"],\"is_gap\":false},{\"id\":\"k9\",\"name\":\"Merchant communication\",\"source\":\"jd_nice_to_have\",\"must_have\":false,\"evidence_claim_ids\":[],\"is_gap\":true},{\"id\":\"k10\",\"name\":\"Motivation and fit\",\"source\":\"always\",\"must_have\":false,\"evidence_claim_ids\":[],\"is_gap\":true}],\"concerns\":[{\"type\":\"switch\",\"detail\":\"The candidate moved from backend engineering at Infosys into product management during the MBA.\"}],\"warmup_question\":\"What is one thing you learned recently in your MBA that has already proved useful?\",\"background_question\":\"Walk me through your career so far, including what you have focused on during your MBA.\",\"slots\":[{\"id\":\"s1\",\"kind\":\"claim\",\"competency_id\":\"k1\",\"anchor_claim_id\":\"c4\",\"question_type\":\"past_behaviour\",\"core_question\":\"I see you owned the frequently bought together widget at Swiggy. What product decision did you personally have to make?\",\"intent_private\":\"Needs the candidate's specific decision, reasoning, trade-offs, execution with other teams, and how the 3.4% lift was measured; because this was a completed MBA internship, it also needs what they would do differently now.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"Which part of that decision was yours?\",\"What option did you decide against?\",\"What was the comparison point for the 3.4% lift?\"],\"priority\":1},{\"id\":\"s2\",\"kind\":\"claim\",\"competency_id\":\"k8\",\"anchor_claim_id\":\"c2\",\"question_type\":\"past_behaviour\",\"core_question\":\"At Infosys, you reduced API latency for a loan-origination platform. What did you have to figure out first?\",\"intent_private\":\"Needs the candidate's technical reasoning for using Redis, how credit bureau lookups affected the request path, what alternatives they considered, and how the move from 1.8 seconds to 600 milliseconds was measured.\",\"probe_angle\":\"test_claim\",\"technical_focus\":true,\"likely_probes\":[\"Why was Redis the right choice for that bottleneck?\",\"What alternative did you decide against?\",\"How was the 600ms figure compared with the earlier latency?\"],\"priority\":2},{\"id\":\"s3\",\"kind\":\"claim\",\"competency_id\":\"k6\",\"anchor_claim_id\":\"c9\",\"question_type\":\"past_behaviour\",\"core_question\":\"You organised NITC's Tathva hackathon for 600 participants. What was the hardest part of making it work?\",\"intent_private\":\"Needs a specific coordination challenge, the candidate's personal actions, decisions involving volunteers or other stakeholders, and how they kept the event on track at that scale.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"What did you personally do first when that challenge appeared?\",\"Which people decision did you have to make?\",\"How did you confirm that 600 participants were being supported as planned?\"],\"priority\":3},{\"id\":\"s4\",\"kind\":\"concerns\",\"competency_id\":\"k10\",\"anchor_claim_id\":null,\"question_type\":\"concern\",\"core_question\":\"You moved from backend engineering at Infosys toward product management during your MBA. What prompted that direction?\",\"intent_private\":\"Needs a specific explanation for the career move, grounded in the candidate's experience, and a clear connection between that path and the merchant payments product role at Paynest.\",\"probe_angle\":\"none\",\"technical_focus\":false,\"likely_probes\":[\"Which experience first made you consider product management?\",\"What have you done during the MBA to test that direction?\",\"What specifically about Paynest's merchant payments work fits that path?\"],\"priority\":4}],\"plan_notes\":\"The plan prioritizes the Swiggy product internship, a quantified technical achievement, and a substantive leadership activity while testing the transition from engineering to product management. Merchant-facing experience in tier-2 and tier-3 contexts is not evident, so that remains an evidence gap for live follow-up if time allows.\"}",
+    "request_user_message": "{\"target_role\":\"domain: Product Management\",\"interview_type\":\"back_your_resume\",\"placement_stage\":\"finals\",\"market\":\"india\",\"interviewer_style\":\"balanced\",\"scored_slot_count\":4,\"variation_seed\":806769,\"warmup_angle\":\"something they learned recently that turned out to be useful\",\"fit_angle\":\"a time they failed at something that mattered to them\",\"resume_text\":\"Arjun Nair\\nPGP 2025-27 | Indian Institute of Management Bangalore | arjun.nair25@iimb.ac.in\\n\\nEDUCATION\\nPGP, IIM Bangalore, 2025-27, CGPA 3.4/4\\nB.Tech, Computer Science, NIT Calicut, 2021, 8.7/10\\n\\nWORK EXPERIENCE (36 months)\\nInfosys, Bengaluru | Senior Systems Engineer | Jul 2021 - Jun 2024\\n- Built REST APIs in Java Spring Boot for a European bank's loan-origination platform serving 2 million applications a year\\n- Reduced p95 API latency from 1.8s to 600ms by adding a Redis cache for credit bureau lookups\\n- Mentored 4 freshers; ran a weekly code-review circle\\n\\nSUMMER INTERNSHIP\\nSwiggy, Bengaluru | Product Management Intern, Instamart | Apr - Jun 2026\\n- Owned the \\\"frequently bought together\\\" widget on the Instamart cart page; A/B test on 8% of users showed a 3.4% lift in average order value\\n- Wrote the PRD for substitution suggestions when an item goes out of stock; shipped to 3 cities\\n- Ran 20 customer calls with Bengaluru users to find why first-time users drop off before checkout\\n- Received PPO\\n\\nPOSITIONS OF RESPONSIBILITY\\n- Coordinator, Product Management Club (Prodigy), IIM Bangalore\\n- Organised NITC's tech fest Tathva hackathon (2020) with 600 participants\\n\\nACHIEVEMENTS\\n- Winner, Google Cloud Gen AI hackathon (campus round), 2025\",\"jd_text\":\"Associate Product Manager - Merchant Payments\\nPaynest (Bengaluru)\\n\\nPaynest is a payments company serving 4 lakh small merchants across India with UPI QR, soundboxes and working-capital loans.\\n\\nWhat you'll do\\n- Own a part of the merchant app (onboarding, settlements or the loans journey) end to end\\n- Talk to merchants regularly, especially in tier-2 and tier-3 cities, and turn what you learn into product decisions\\n- Define success metrics, run experiments and make prioritisation calls with engineering and design\\n- Work with risk, credit and operations teams on launches\\n\\nWhat we're looking for\\n- MBA from a top institute; 2+ years of prior work experience preferred (engineering background a plus)\\n- Strong product sense and comfort with data (SQL a plus)\\n- Clear communication with both merchants and engineers\\n- Hindi or a regional language is a plus\"}"
+  },
+  "plan_checks": [
+    {
+      "level": "ok",
+      "message": "All claims are quoted from the resume and all topics are valid."
+    }
+  ],
+  "slots": [
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "What is one thing you learned recently in your MBA that has already proved useful?",
+      "intent_private": "Warm-up to settle in. Not assessed.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "active",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "warmup",
+      "kind": "warmup",
+      "budget": 0
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "Walk me through your career so far, including what you have focused on during your MBA.",
+      "intent_private": "A coherent overview of the candidate's path; may surface threads for later topics.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "background",
+      "kind": "background",
+      "budget": 1
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Product ownership and execution",
+      "must_have": true,
+      "anchor_claim_id": "c4",
+      "anchor_text": "Owned the \"frequently bought together\" widget on the Instamart cart page; A/B test on 8% of users showed a 3.4% lift in average order value",
+      "anchor_parent": "Product Management Intern, Instamart, Swiggy",
+      "question_type": "past_behaviour",
+      "core_question": "I see you owned the frequently bought together widget at Swiggy. What product decision did you personally have to make?",
+      "intent_private": "Needs the candidate's specific decision, reasoning, trade-offs, execution with other teams, and how the 3.4% lift was measured; because this was a completed MBA internship, it also needs what they would do differently now.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which part of that decision was yours?",
+        "What option did you decide against?",
+        "What was the comparison point for the 3.4% lift?"
+      ],
+      "priority": 1,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s1",
+      "kind": "claim",
+      "budget": 3
+    },
+    {
+      "competency_id": "k8",
+      "competency_name": "Technical depth",
+      "must_have": false,
+      "anchor_claim_id": "c2",
+      "anchor_text": "Reduced p95 API latency from 1.8s to 600ms by adding a Redis cache for credit bureau lookups",
+      "anchor_parent": "Senior Systems Engineer, Infosys",
+      "question_type": "past_behaviour",
+      "core_question": "At Infosys, you reduced API latency for a loan-origination platform. What did you have to figure out first?",
+      "intent_private": "Needs the candidate's technical reasoning for using Redis, how credit bureau lookups affected the request path, what alternatives they considered, and how the move from 1.8 seconds to 600 milliseconds was measured.",
+      "probe_angle": "test_claim",
+      "technical_focus": true,
+      "likely_probes": [
+        "Why was Redis the right choice for that bottleneck?",
+        "What alternative did you decide against?",
+        "How was the 600ms figure compared with the earlier latency?"
+      ],
+      "priority": 2,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s2",
+      "kind": "claim",
+      "budget": 3
+    },
+    {
+      "competency_id": "k6",
+      "competency_name": "Communication",
+      "must_have": true,
+      "anchor_claim_id": "c9",
+      "anchor_text": "Organised NITC's tech fest Tathva hackathon (2020) with 600 participants",
+      "anchor_parent": "Tathva hackathon, NIT Calicut",
+      "question_type": "past_behaviour",
+      "core_question": "You organised NITC's Tathva hackathon for 600 participants. What was the hardest part of making it work?",
+      "intent_private": "Needs a specific coordination challenge, the candidate's personal actions, decisions involving volunteers or other stakeholders, and how they kept the event on track at that scale.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "What did you personally do first when that challenge appeared?",
+        "Which people decision did you have to make?",
+        "How did you confirm that 600 participants were being supported as planned?"
+      ],
+      "priority": 3,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s3",
+      "kind": "claim",
+      "budget": 3
+    },
+    {
+      "competency_id": "k10",
+      "competency_name": "Motivation and fit",
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "concern",
+      "core_question": "You moved from backend engineering at Infosys toward product management during your MBA. What prompted that direction?",
+      "intent_private": "Needs a specific explanation for the career move, grounded in the candidate's experience, and a clear connection between that path and the merchant payments product role at Paynest.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which experience first made you consider product management?",
+        "What have you done during the MBA to test that direction?",
+        "What specifically about Paynest's merchant payments work fits that path?"
+      ],
+      "priority": 4,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s4",
+      "kind": "concerns",
+      "budget": 1
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "",
+      "intent_private": "Candidate asks their questions.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "candidate_questions",
+      "kind": "candidate_questions",
+      "budget": 2
+    }
+  ],
+  "current": 0,
+  "transcript": [
+    {
+      "role": "interviewer",
+      "text": "Hi Arjun, thanks for joining. Today I'd like to go through your resume in some detail and hear the stories behind it. We have about 15 minutes, with time for your questions at the end. What is one thing you learned recently in your MBA that has already proved useful?",
+      "slot_id": "warmup",
+      "why": "This was a warm-up question to help you settle in. It isn't part of the feedback.",
+      "at": "2026-11-09T06:57:56.920Z"
+    }
+  ],
+  "turns": [],
+  "events": [],
+  "interviewer_turns": 1,
+  "max_turns": 20,
+  "candidate_questions_asked": 0,
+  "second_chances": {},
+  "opening_greeting": "Hi Arjun, thanks for joining. Today I'd like to go through your resume in some detail and hear the stories behind it. We have about 15 minutes, with time for your questions at the end."
+}

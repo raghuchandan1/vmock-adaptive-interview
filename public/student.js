@@ -71,6 +71,16 @@
     try { setResume(await VM.readPdf(file), file.name); } catch (err) { showError('setupError', err.message); }
   }
 
+  // The 30-minute round is not offered for a recruiter screen (the server refuses it too).
+  function syncLength() {
+    const full = document.querySelector('input[name="length"][value="full"]');
+    if (!full) return;
+    const screen = document.querySelector('input[name="type"]:checked')?.value === 'recruiter_screen';
+    full.closest('label').style.display = screen ? 'none' : '';
+    if (screen && full.checked) document.querySelector('input[name="length"][value="standard"]').checked = true;
+  }
+  document.addEventListener('change', (e) => { if (e.target.name === 'type') syncLength(); });
+
   function readSetup() {
     const val = (name) => document.querySelector(`input[name="${name}"]:checked`)?.value;
     return { resume_text: $('resume').value, jd_text: $('jd').value, target_role: $('role').value, domain: $('domain').value, stage: $('stage') ? $('stage').value : '', interview_type: val('type'), style: val('style'), length: val('length') };
@@ -768,6 +778,7 @@
       const radio = document.querySelector(`input[name="${name}"][value="${CSS.escape(String(inputs[key] || ''))}"]`);
       if (radio) radio.checked = true;
     }
+    syncLength();
     prepare();
     if (!state.busy) show('setup'); // prepare() stopped at a check before leaving the setup: show its error there
     return true;

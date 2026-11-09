@@ -1,0 +1,37 @@
+L02 average_we 200 33821ms
+L05 rambler 200 40567ms
+L01 strong 200 48163ms
+L03 weak 200 53152ms
+L04 hinglish 200 60319ms
+L10 adversarial 200 21415ms
+L07 average_we 200 49956ms
+L06 adversarial 200 69207ms
+L08 sensitive 200 57547ms
+L09 contradicts 200 54127ms
+NOALL1 no-thats-all 200 23900ms
+L11 average_we 200 55381ms
+THIN scripted-thin 200 36358ms
+L12 strong 200 54245ms
+L13 done_early 200 46799ms
+NOALL2 no-thats-all 200 25096ms
+L01 strong                 before ratings G12/O2/N0 verdicts G2/O2/N0  after ratings G9/O5/N0 verdicts G0/O4/N0
+   LENGTH: One answer ran past two minutes (your background), the longest about 3 minutes. In all you spoke for about 19 minutes in a 15-minute interview. Panels often cut in after two minutes, and the point you most want heard can get lost.
+L02 average_we             before ratings G14/O3/N1 verdicts G1/O4/N0  after ratings G10/O7/N1 verdicts G1/O4/N0
+L03 weak                   before ratings G14/O5/N0 verdicts G0/O5/N0  after ratings G9/O10/N0 verdicts G0/O5/N0
+L04 hinglish               before ratings G19/O3/N2 verdicts G3/O3/N0  after ratings G15/O7/N2 verdicts G1/O5/N0
+   LENGTH: 7 answers ran past two minutes (your background, Sales execution and customer relationships, Business development and market expansion, Leadership and teamwork, Commercial negotiation), the longest about 3 minutes. In all you spoke for about 27 minutes in a 15-minute interview. Panels often cut in after two minutes, and the point you most want heard can get lost. [+priority]
+L05 rambler                before ratings G9/O2/N0 verdicts G1/O2/N0  after ratings G6/O5/N0 verdicts G0/O3/N0
+   LENGTH: 9 answers ran past two minutes (your background, HR analytics and evidence-based decision making, Talent acquisition and interviewing, Employee relations and grievance management), the longest about 4 minutes. In all you spoke for about 35 minutes in a 10-minute interview. Panels often cut in after two minutes, and the point you most want heard can get lost. [+priority]
+L06 adversarial            before ratings G20/O2/N0 verdicts G4/O2/N0  after ratings G12/O10/N0 verdicts G2/O4/N0
+L07 average_we             before ratings G11/O3/N1 verdicts G1/O3/N0  after ratings G7/O8/N0 verdicts G0/O4/N0
+L08 sensitive              before ratings G16/O2/N0 verdicts G3/O2/N0  after ratings G15/O3/N0 verdicts G3/O2/N0
+L09 contradicts            before ratings G11/O2/N1 verdicts G1/O3/N0  after ratings G5/O8/N1 verdicts G0/O4/N0
+L10 adversarial            before ratings G6/O4/N1 verdicts G0/O3/N0  after ratings G2/O8/N1 verdicts G0/O3/N0
+L11 average_we             before ratings G12/O5/N1 verdicts G1/O4/N0  after ratings G5/O12/N1 verdicts G0/O5/N0
+L12 strong                 before ratings G14/O2/N0 verdicts G3/O1/N0  after ratings G11/O5/N0 verdicts G2/O2/N0
+L13 done_early             before ratings G10/O3/N1 verdicts G1/O3/N0  after ratings G7/O6/N1 verdicts G0/O4/N0
+   LENGTH: One answer ran past two minutes (your background), the longest about 2 minutes. In all you spoke for about 21 minutes in a 15-minute interview. Panels often cut in after two minutes, and the point you most want heard can get lost.
+THIN scripted-thin         before ratings G0/O2/N9 verdicts G0/O0/N3  after ratings G0/O2/N9 verdicts G0/O0/N3
+NOALL1 no-thats-all        before ratings G0/O0/N4 verdicts G0/O0/N1  after ratings G0/O0/N4 verdicts G0/O0/N1
+NOALL2 no-thats-all        before ratings G0/O2/N2 verdicts G0/O1/N0  after ratings G0/O2/N2 verdicts G0/O0/N1
+{"before":{"lv":{"good_job":168,"on_track":42,"needs_work":23},"vd":{"good_job":21,"on_track":38,"needs_work":4}},"after":{"lv":{"good_job":113,"on_track":98,"needs_work":22},"vd":{"good_job":9,"on_track":49,"needs_work":5}}}
