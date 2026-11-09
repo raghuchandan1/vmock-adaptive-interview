@@ -5,9 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Set up your interview | VMock Dashboard</title>
 <!-- Dashboard replica: the setup sheet, in the shape of the dashboard's SMART Interview sheet.
-     ?entry=mock (SMART Interview): a Question set | AI Interviewer switch, then Job description -> Select CV -> Interview
-     Questions (Question set: VMock's own list, a static placeholder here) or Interview Details (AI Interviewer; the JD can be
-     skipped). ?entry=cv (CV Deep Dive): Select CV -> Interview details. -->
+     ?entry=mock (SMART Interview): Job description (can be skipped) -> Select CV -> Interview Format (Question set or AI
+     Interviewer) -> Interview Questions (VMock's own list, a static placeholder here) or Interview Details (AI Interviewer). ?entry=cv (CV Deep Dive): Select CV -> Interview details. -->
 <link rel="stylesheet" href="https://use.typekit.net/owg1qdp.css">
 <link rel="stylesheet" href="/dash/dash.css">
 <link rel="stylesheet" href="/dash/setup.css">
@@ -34,13 +33,6 @@
 
 <div class="ds-sheet" role="dialog" aria-modal="true" aria-labelledby="dsTitle">
   <a class="ds-close" id="closeBtn" href="/dashboard/smart-interviews/practice/career-interviews" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></a>
-  <!-- SMART Interview only: how to practise. Shown on every step; the JD and CV are shared, step 3 follows the choice. -->
-  <div class="ds-format" id="formatBar" role="radiogroup" aria-label="How do you want to practise?" hidden>
-    <label class="ds-format-opt"><input type="radio" name="format" value="questions"><span class="ds-format-ic"><svg class="ic"><use href="#i-list"/></svg></span>
-      <span><strong>Question set</strong><em>Pick and edit the questions, then record your answers.</em></span></label>
-    <label class="ds-format-opt"><input type="radio" name="format" value="ai" checked><span class="ds-format-ic"><svg class="ic"><use href="#i-spark"/></svg></span>
-      <span><strong>AI Interviewer<span class="ds-new">NEW</span></strong><em>An interviewer asks you questions out loud and follows up on what you say.</em></span></label>
-  </div>
   <div class="ds-body">
     <!-- Job description (SMART Interview only; AI Interviewer can skip it) -->
     <section class="ds-step" data-step="jd" hidden>
@@ -83,6 +75,18 @@
           </div>
         </div>
         <div class="ds-preview" aria-label="CV preview"><pre id="cvPreview"></pre></div>
+      </div>
+    </section>
+
+    <!-- Interview Format (SMART Interview only): how to practise, asked once the JD and CV are in. -->
+    <section class="ds-step" data-step="format" hidden>
+      <h1 class="ds-title">How do you want to practise?</h1>
+      <p class="ds-sub" id="fmtSub">Both use your CV and the job description.</p>
+      <div class="ds-formats" role="radiogroup" aria-label="Interview format">
+        <label class="ds-format-opt" id="fmtQuestions"><input type="radio" name="format" value="questions"><span class="ds-format-ic"><svg class="ic"><use href="#i-list"/></svg></span>
+          <span><strong>Question set</strong><em>See the questions first. Reorder, edit or add your own, then record an answer to each one.</em><small class="ds-format-need" id="fmtNeed" hidden>Needs a job description. <button type="button" id="fmtAddJd">Add one</button></small></span></label>
+        <label class="ds-format-opt"><input type="radio" name="format" value="ai"><span class="ds-format-ic"><svg class="ic"><use href="#i-spark"/></svg></span>
+          <span><strong>AI Interviewer<span class="ds-new">NEW</span></strong><em>Like a real interview: an interviewer asks you questions out loud and follows up on what you say. You don't see the questions in advance.</em></span></label>
       </div>
     </section>
 

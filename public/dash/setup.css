@@ -128,14 +128,18 @@ body.ds { height: 100vh; overflow: hidden; background: #6b6e72; }
 .ds-foot-actions { display: flex; gap: 12px; }
 .ds-foot-actions .d-btn { min-width: 84px; }
 
-/* SMART Interview: how to practise (Question set | AI Interviewer), above every step. */
-.ds-format { flex: none; display: flex; flex-wrap: wrap; gap: 12px; padding: 22px 76px 0 30px; }
-.ds-format-opt { position: relative; flex: 1 1 260px; max-width: 420px; display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border: 1px solid var(--d-line-2); border-radius: 8px; cursor: pointer; }
+/* SMART Interview: Interview Format step (Question set | AI Interviewer). */
+.ds-formats { margin-top: 20px; display: grid; grid-template-columns: repeat(2, minmax(0, 380px)); gap: 16px; }
+.ds-format-opt { position: relative; display: flex; align-items: flex-start; gap: 14px; padding: 20px; border: 1px solid var(--d-line-2); border-radius: 8px; cursor: pointer; }
 .ds-format-opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
-.ds-format-opt > span:last-child { display: grid; gap: 2px; }
+.ds-format-opt > span:last-child { display: grid; gap: 6px; }
 .ds-format-opt strong { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: var(--d-ink-2); }
-.ds-format-opt em { font-style: normal; font-size: 13px; line-height: 18px; color: var(--d-muted); }
-.ds-format-ic { width: 32px; height: 32px; flex: none; display: grid; place-items: center; border-radius: 6px; color: var(--d-muted); background: var(--d-field); }
+.ds-format-opt em { font-style: normal; font-size: 14px; line-height: 20px; color: var(--d-muted); }
+.ds-format-opt:has(input:disabled) { cursor: default; opacity: .75; background: #fafafa; }
+.ds-format-opt:has(input:disabled) input { cursor: default; }
+.ds-format-need { position: relative; z-index: 1; font-size: 13px; color: var(--d-work); }
+.ds-format-need button { color: var(--d-blue); font-weight: 600; text-decoration: underline; }
+.ds-format-ic { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border-radius: 6px; color: var(--d-muted); background: var(--d-field); }
 .ds-format-ic .ic { width: 18px; height: 18px; }
 .ds-format-opt:has(input:checked) { border-color: var(--d-blue); background: var(--d-blue-soft); }
 .ds-format-opt:has(input:checked) .ds-format-ic { color: var(--d-blue); background: var(--d-blue-fill); }
@@ -172,6 +176,5 @@ body.ds { height: 100vh; overflow: hidden; background: #6b6e72; }
   .ds-foot { padding: 0 16px; }
   .ds-dot b { display: none; }
   .ds-error { margin: 0 16px 10px; }
-  .ds-format { padding: 18px 60px 0 16px; }
-  .ds-format-opt { max-width: none; }
+  .ds-formats { grid-template-columns: 1fr; }
 }

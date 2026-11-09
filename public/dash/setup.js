@@ -1,16 +1,17 @@
 // Dashboard replica: the setup sheet (copy of the dashboard's SMART Interview sheet). Same handoff as the /vmock wizard
 // (vmock/setup.js): the inputs go to sessionStorage and the room takes them; "entry" says which product it came from.
-//   entry=mock (SMART Interview): a Question set | AI Interviewer switch above every step (?format=questions|ai, default
-//     ai), then Job description -> Select CV -> step 3. Question set: Interview Questions, VMock's own list (a static
-//     placeholder here, Start Practicing stays off). AI Interviewer: the JD can be skipped; Interview Details then needs a
-//     domain and a target role (with a JD both are optional; the server needs a role, a domain or a JD).
+//   entry=mock (SMART Interview): Job description (Skip allowed) -> Select CV -> Interview Format (Question set | AI
+//     Interviewer; nothing preselected unless ?format=questions|ai) -> Interview Questions, VMock's own list (a static
+//     placeholder here, Start Practicing stays off) or Interview Details. A Question set needs a JD, so it is disabled when
+//     the JD was skipped. Without a JD, Interview Details needs a domain and a target role (with a JD both are optional;
+//     the server needs a role, a domain or a JD).
 //   entry=cv (CV Deep Dive): Select CV -> Interview details; resume only, type fixed to the resume deep dive, domain required.
 (() => {
   const $ = (id) => document.getElementById(id);
   const esc = VM.esc;
   const HANDOFF_KEY = 'vmock_adaptive_setup';
   const entry = new URLSearchParams(location.search).get('entry') === 'cv' ? 'cv' : 'mock';
-  const LABELS = { jd: 'Upload Job Description', resume: 'Select CV', details: 'Interview Details', questions: 'Interview Questions' };
+  const LABELS = { jd: 'Upload Job Description', resume: 'Select CV', format: 'Interview Format', details: 'Interview Details', questions: 'Interview Questions' };
   const ENTRY_URL = entry === 'cv' ? '/dashboard/smart-interviews/practice/cv-deep-dive' : '/dashboard/smart-interviews/practice/career-interviews';
   const STYLE_HINT = {
     supportive: 'Warm, one follow-up per topic. Good for a first try.',
@@ -18,9 +19,9 @@
     probing: 'More follow-ups; asks for numbers and your exact part.',
     surprise: 'You find out as you go.',
   };
-  const state = { step: null, resumes: [], resumeId: null, query: '', hasKey: true, format: 'ai' };
+  const state = { step: null, resumes: [], resumeId: null, query: '', hasKey: true, format: null };
   const isAi = () => entry === 'cv' || state.format === 'ai';
-  const steps = () => (entry === 'cv' ? ['resume', 'details'] : ['jd', 'resume', isAi() ? 'details' : 'questions']);
+  const steps = () => (entry === 'cv' ? ['resume', 'details'] : ['jd', 'resume', 'format', state.format === 'questions' ? 'questions' : 'details']);
   const hasJd = () => entry === 'mock' && Boolean($('jd').value.trim());
   // Without a JD the interview is planned from the CV, the domain and the role, so both are asked for.
   const needsRoleAndDomain = () => entry === 'mock' && !hasJd();
@@ -33,6 +34,7 @@
   function canGoOn() {
     if (state.step === 'jd') return hasJd();
     if (state.step === 'resume') return Boolean(selectedResume());
+    if (state.step === 'format') return state.format === 'ai' || (state.format === 'questions' && hasJd());
     if (state.step === 'details') return needsRoleAndDomain() ? Boolean($('domain').value && $('role').value.trim()) : entry === 'cv' ? Boolean($('domain').value) : true;
     return false; // questions: VMock's own flow, not in this prototype
   }
@@ -42,6 +44,7 @@
     showError('');
     document.querySelectorAll('.ds-step').forEach((s) => { s.hidden = s.dataset.step !== step; });
     if (step === 'details') { renderSummary(); renderRequired(); }
+    if (step === 'format') renderFormat();
     if (step === 'resume' && entry === 'mock') $('cvSub').textContent = hasJd() ? 'Pick a CV to build your interview from, with the job description' : 'Pick a CV to build your interview from';
     render();
     document.querySelector('.ds-body').scrollTop = 0;
@@ -58,25 +61,25 @@
     const s = steps(), i = s.indexOf(state.step);
     if (i > 0) go(s[i - 1]);
   }
-  // AI Interviewer only: go on without a job description.
+  // Go on without a job description (only the AI Interviewer can then be chosen).
   function skip() {
-    if (state.step !== 'jd' || !isAi()) return;
+    if (state.step !== 'jd') return;
     $('jd').value = '';
     document.querySelectorAll('[data-jd]').forEach((x) => x.classList.remove('on'));
     go('resume');
   }
-  // Switching keeps the JD and CV. Step 3 follows the choice; a Question set needs a JD, so it goes back to that step.
-  function setFormat(format, quiet) {
-    state.format = format === 'questions' ? 'questions' : 'ai';
-    const radio = document.querySelector(`input[name="format"][value="${state.format}"]`);
-    if (radio) radio.checked = true;
-    $('jdSub').textContent = isAi()
-      ? 'Paste the job description of the role you are practising for, or skip it and choose a domain and role later.'
-      : 'Type or paste the job description of the role you are practising for.';
-    if (quiet) return;
-    if (!isAi() && !hasJd() && state.step !== 'jd') return go('jd');
-    if (state.step === 'details' || state.step === 'questions') return go(steps()[2]);
+  function setFormat(format) {
+    state.format = ['questions', 'ai'].includes(format) ? format : null;
+    document.querySelectorAll('input[name="format"]').forEach((r) => { r.checked = r.value === state.format; });
     render();
+  }
+  // A question set is built from the JD: without one it can't be chosen.
+  function renderFormat() {
+    const q = document.querySelector('input[name="format"][value="questions"]');
+    q.disabled = !hasJd();
+    $('fmtNeed').hidden = hasJd();
+    $('fmtSub').textContent = hasJd() ? 'Both use your CV and the job description.' : 'You skipped the job description, so the AI Interviewer builds the interview from your CV, a domain and a role.';
+    if (!hasJd() && state.format === 'questions') setFormat(null);
   }
   function renderRequired() {
     const req = needsRoleAndDomain();
@@ -138,7 +141,7 @@
   function render() {
     const all = steps(), last = state.step === all[all.length - 1];
     $('backBtn').hidden = state.step === all[0];
-    $('skipBtn').hidden = !(state.step === 'jd' && isAi() && !hasJd());
+    $('skipBtn').hidden = !(state.step === 'jd' && !hasJd());
     $('nextBtn').disabled = !canGoOn();
     $('nextBtn').textContent = !last ? 'Next' : state.step === 'details' ? 'Start Interview' : 'Start Practicing';
     $('nextBtn').title = state.step === 'questions' ? 'VMock\'s question set isn\'t part of this prototype.' : '';
@@ -204,7 +207,7 @@
       const radio = document.querySelector(`input[name="${name}"][value="${CSS.escape(String(last[key] || ''))}"]`);
       if (radio) radio.checked = true;
     }
-    setFormat('ai', true); // the room only runs the AI Interviewer
+    setFormat('ai'); // the room only runs the AI Interviewer
     const sample = state.resumes.find((r) => r.text === last.resume_text);
     if (sample) state.resumeId = sample.id;
     else addResume({ id: 'last', name: String(last.resume_name || 'Your CV'), meta: 'From your last setup', source: 'Last used', text: String(last.resume_text) });
@@ -219,10 +222,10 @@
     $('closeBtn').href = ENTRY_URL;
     $('typeField').hidden = entry === 'cv';
     $('cvSub').textContent = entry === 'cv' ? 'Pick the CV to be interviewed on, line by line' : 'Pick a CV to build your interview from, with the job description';
-    document.title = `${entry === 'cv' ? 'CV Deep Dive' : 'AI Interviewer'} setup | VMock Dashboard`;
-    $('formatBar').hidden = entry === 'cv';
-    setFormat(new URLSearchParams(location.search).get('format'), true);
+    document.title = `${entry === 'cv' ? 'CV Deep Dive' : 'SMART Interview'} setup | VMock Dashboard`;
+    $('jdSub').textContent = entry === 'mock' ? 'Paste the job description of the role you are practising for, or skip this step.' : '';
     document.querySelectorAll('input[name="format"]').forEach((r) => r.addEventListener('change', () => setFormat(r.value)));
+    $('fmtAddJd').addEventListener('click', (e) => { e.preventDefault(); go('jd'); });
     $('skipBtn').addEventListener('click', skip);
     $('nextBtn').addEventListener('click', next);
     $('backBtn').addEventListener('click', back);
@@ -263,6 +266,7 @@
     document.querySelectorAll('input[name="style"]').forEach((r) => r.addEventListener('change', render));
     $('role').addEventListener('keydown', (e) => { if (e.key === 'Enter') next(); });
 
+    setFormat(new URLSearchParams(location.search).get('format'));
     go(steps()[0]);
     try {
       const [config, samples] = await Promise.all([fetch('/api/config').then((r) => r.json()), fetch('/api/samples').then((r) => r.json())]);
