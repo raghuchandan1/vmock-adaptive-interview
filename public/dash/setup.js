@@ -143,6 +143,10 @@
     $('jdCount').textContent = `${$('jd').value.length} / 30000`;
     const style = (document.querySelector('input[name="style"]:checked') || {}).value;
     $('styleHint').textContent = STYLE_HINT[style] || '';
+    const label = (name) => { const r = document.querySelector(`input[name="${name}"]:checked`); return r ? r.nextElementSibling.textContent.trim() : ''; };
+    $('moreSum').textContent = `${label('style')} style · ${label('length')}`;
+    const stage = document.querySelector('input[name="stage"]:checked');
+    $('stageHint').textContent = stage ? stage.parentElement.querySelector('em').textContent : '';
     renderStepper();
   }
 
@@ -216,6 +220,15 @@
   async function init() {
     $('closeBtn').href = ENTRY_URL;
     $('typeField').hidden = entry === 'cv';
+    // CV Deep Dive: placement stage as one compact row (its choice explained underneath), style and length folded.
+    if (entry === 'cv') {
+      $('stageField').classList.add('ds-compact');
+      $('stageHint').hidden = false;
+      $('moreOpts').open = false;
+    } else {
+      $('moreOpts').classList.add('ds-more-static');
+    }
+    document.querySelectorAll('input[name="stage"], input[name="length"]').forEach((r) => r.addEventListener('change', render));
     $('cvSub').textContent = entry === 'cv' ? 'Pick the CV to be interviewed on, line by line' : 'Pick a CV to build your interview from, with the job description';
     document.title = `${entry === 'cv' ? 'CV Deep Dive' : 'SMART Interview'} setup | VMock Dashboard`;
     $('jdSub').textContent = entry === 'mock' ? 'Paste the job description of the role you are practising for, or skip this step.' : '';
