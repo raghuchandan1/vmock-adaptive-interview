@@ -269,8 +269,11 @@ const get = async (p) => (await fetch(BASE + p)).json();
     const capped = probed && rate({ level: 'good_job', found: 'after_follow_up', quote: '' });
     const moved = probed && later && rate({ level: 'good_job', found: 'first_answer', quote: later });
     check(capped && capped.level === 'on_track' && moved && moved.found === 'after_follow_up' && moved.level === 'on_track'
-      && rate({ level: 'good_job', found: 'first_answer', quote: '' }).level === 'good_job',
-    'a story element given only after a follow-up is at most on_track (a later-reply quote marks it so)');
+      && rate({ level: 'good_job', found: 'first_answer', quote: '' }).level === 'good_job'
+      && rate({ level: 'on_track', found: 'not_given', quote: '' }).level === 'needs_work',
+    'a story element given only after a follow-up is at most on_track (a later-reply quote marks it so); one never given is needs_work');
+    const { leakCheck } = require('../lib/engine');
+    check(leakCheck('The Malayalam shelf talkers gave you a practical way to respond. Tell me about a time you failed.').length > 0, 'a judgement such as "gave you a practical way" is flagged for a rewrite');
     // A topic that starts with "can you repeat that?" (a rephrase, then the real answer) still credits the real answer.
     const repeated = JSON.parse(JSON.stringify(padded));
     const ci = repeated.transcript.findIndex((e) => e.role === 'candidate' && e.slot_id === probed.slot_id);
@@ -433,8 +436,9 @@ const get = async (p) => (await fetch(BASE + p)).json();
     Object.assign(cqs.slots[ci], { status: 'active', dont_know_count: 1 });
     let offered = [];
     const evidence = { situation: false, task: false, action: false, result: false, ownership: 'not_applicable', specificity: 'not_applicable', anchor_fit: 'not_applicable', technical_reasoning: 'not_applicable', on_topic: 'on', answer_type: 'other', new_hook: { present: false, description: '', competency_id: null } };
-    await handleAnswer(cqs, "No, that's all, thanks.", async (p) => { offered = p.allowed_decisions; return { trace: {}, data: { evidence, evidence_sufficient: true, missing: [], decision: 'close', probe_rung: 'none', pivot_target_slot_id: null, internal_rationale: 'x', why_asked_for_student: '', slot_summary: '', utterance: 'Thank you for your time. That is the end of the interview, and your feedback is ready.' } }; });
+    await handleAnswer(cqs, "No, that's all, thanks.", async (p) => { offered = p.allowed_decisions; return { trace: {}, data: { evidence, evidence_sufficient: true, missing: [], decision: 'close', probe_rung: 'none', pivot_target_slot_id: null, internal_rationale: 'x', why_asked_for_student: '', slot_summary: '', utterance: 'Thank you for your time. That is the end of the interview, and your feedback is ready.ಾನ್' } }; });
     check(offered.includes('close') && !offered.includes('move_on') && cqs.status === 'ended', 'a second "No, that\'s all" at the end questions offers close, not move_on');
+    check(cqs.transcript[cqs.transcript.length - 1].text.endsWith('your feedback is ready.'), 'stray characters from another script are dropped from what the interviewer says');
   }
 
   // Grounding: the student's own words are a false alarm; a real flag removes only its sentence
