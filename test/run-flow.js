@@ -271,6 +271,17 @@ const get = async (p) => (await fetch(BASE + p)).json();
     check(capped && capped.level === 'on_track' && moved && moved.found === 'after_follow_up' && moved.level === 'on_track'
       && rate({ level: 'good_job', found: 'first_answer', quote: '' }).level === 'good_job',
     'a story element given only after a follow-up is at most on_track (a later-reply quote marks it so)');
+    // A topic that starts with "can you repeat that?" (a rephrase, then the real answer) still credits the real answer.
+    const repeated = JSON.parse(JSON.stringify(padded));
+    const ci = repeated.transcript.findIndex((e) => e.role === 'candidate' && e.slot_id === probed.slot_id);
+    const k = repeated.transcript.slice(0, ci).filter((e) => e.role === 'candidate').length;
+    const at = repeated.transcript[ci].at;
+    repeated.transcript.splice(ci, 0, { role: 'candidate', slot_id: probed.slot_id, text: 'Sorry, can you repeat that?', at }, { role: 'interviewer', slot_id: probed.slot_id, text: 'Let me put that another way.', at });
+    repeated.turns.splice(k, 0, { slot_id: probed.slot_id, decision: 'rephrase', output: {} });
+    const opening = repeated.transcript[ci + 2].text.split(/\s+/).slice(0, 4).join(' ');
+    const afterRepeat = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: probed.slot_id, ratings: [{ dimension: 'action', reason: 'r', level: 'good_job', found: 'first_answer', quote: opening }], went_well: '', went_well_quote: '', to_fix: '', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }] }, repeated)
+      .feedback.topics.find((t) => t.slot_id === probed.slot_id).ratings[0];
+    check(afterRepeat.found === 'first_answer' && afterRepeat.level === 'good_job', 'an answer given after "can you repeat that?" still counts as the first answer');
     // Answers past about two minutes: a derived note, and a priority when it happens twice.
     const long = JSON.parse(JSON.stringify(trace));
     const filler = Array(300).fill('detail').join(' ');
@@ -406,12 +417,24 @@ const get = async (p) => (await fetch(BASE + p)).json();
       && budgetFor('claim', { ...fin, inputs: { ...fin.inputs, stage: 'summers' } }, { anchor_parent: 'Research Intern, Biocon' }) === 2
       && requiredNextRung(fin, intern(0)) === null && requiredNextRung(fin, intern(1)) === 'result' && requiredNextRung(fin, intern(2, ['result'])) === 'setback'
       && requiredRung(fin, intern(1, ['result'])) === 'setback' && requiredRung(rs, { ...intern(1, ['result']) }) === null
-      && requiredRung(fin, intern(1, [], { dont_know_count: 1, repeat_count: 1 })) === null,
-    'a finals internship topic gets one more follow-up and owes "what would you do differently" after the number check; two non-answers clear what is owed');
+      && requiredRung(fin, intern(1, [], { dont_know_count: 1, repeat_count: 1 })) === null
+      && budgetFor('claim', { ...fin, inputs: { ...fin.inputs, interview_type: 'recruiter_screen' } }, { anchor_parent: 'Product Management Intern, Swiggy' }) === 2,
+    'a finals internship topic gets one more follow-up and owes "what would you do differently" after the number check (not in recruiter screens); two non-answers clear what is owed');
     const { DONT_KNOW } = require('../lib/engine');
-    const declines = ["No, that's all I had on that.", "That's it.", 'Nothing more to add.', 'I have nothing else to add, sorry'];
-    const answers = ['Nothing else changed after we launched it, so the result held', "That's it, the pilot ran for 6 weeks", 'No questions, thank you.'];
+    const declines = ["No, that's all I had on that.", "That's it.", 'Nothing more to add.', 'I have nothing else to add, sorry', "No, that's it for now, thank you"];
+    const answers = ['Nothing else changed after we launched it, so the result held', "That's it, the pilot ran for 6 weeks", 'No questions, thank you.',
+      'Nothing more than a spreadsheet model.', "That's all I did on that project.", 'Nothing else, I think it went well', "That's it, I led the whole launch."];
     check(declines.every((t) => DONT_KNOW.test(t)) && answers.every((t) => !DONT_KNOW.test(t)), 'a plain "No, that\'s all" counts like "not sure"; an answer that starts the same way does not');
+    // A second decline while the student asks their own questions closes the interview (there is no next topic to move on to).
+    const { handleAnswer } = require('../lib/engine');
+    const cqs = JSON.parse(JSON.stringify(trace));
+    const ci = cqs.slots.findIndex((x) => x.kind === 'candidate_questions');
+    Object.assign(cqs, { current: ci, status: 'active' });
+    Object.assign(cqs.slots[ci], { status: 'active', dont_know_count: 1 });
+    let offered = [];
+    const evidence = { situation: false, task: false, action: false, result: false, ownership: 'not_applicable', specificity: 'not_applicable', anchor_fit: 'not_applicable', technical_reasoning: 'not_applicable', on_topic: 'on', answer_type: 'other', new_hook: { present: false, description: '', competency_id: null } };
+    await handleAnswer(cqs, "No, that's all, thanks.", async (p) => { offered = p.allowed_decisions; return { trace: {}, data: { evidence, evidence_sufficient: true, missing: [], decision: 'close', probe_rung: 'none', pivot_target_slot_id: null, internal_rationale: 'x', why_asked_for_student: '', slot_summary: '', utterance: 'Thank you for your time. That is the end of the interview, and your feedback is ready.' } }; });
+    check(offered.includes('close') && !offered.includes('move_on') && cqs.status === 'ended', 'a second "No, that\'s all" at the end questions offers close, not move_on');
   }
 
   // Grounding: the student's own words are a false alarm; a real flag removes only its sentence
