@@ -2,8 +2,8 @@
 // (vmock/setup.js): the inputs go to sessionStorage and the room takes them; "entry" says which product it came from.
 //   entry=mock (SMART Interview): Job description (Skip allowed) -> Select CV -> Interview Format (Question set | AI
 //     Interviewer; nothing preselected unless ?format=questions|ai) -> Interview Questions, VMock's own list (a static
-//     placeholder here, Start Practicing stays off) or Interview Details. A Question set needs a JD, so it is disabled when
-//     the JD was skipped. Without a JD, Interview Details needs a domain and a target role (with a JD both are optional;
+//     placeholder here, Start Practicing stays off) or Interview Details. Either works without a JD (as on the live
+//     sheet). Without a JD, Interview Details needs a domain and a target role (with a JD both are optional;
 //     the server needs a role, a domain or a JD).
 //   entry=cv (CV Deep Dive): Select CV -> Interview details; resume only, type fixed to the resume deep dive, domain required.
 (() => {
@@ -34,7 +34,7 @@
   function canGoOn() {
     if (state.step === 'jd') return hasJd();
     if (state.step === 'resume') return Boolean(selectedResume());
-    if (state.step === 'format') return state.format === 'ai' || (state.format === 'questions' && hasJd());
+    if (state.step === 'format') return Boolean(state.format);
     if (state.step === 'details') return needsRoleAndDomain() ? Boolean($('domain').value && $('role').value.trim()) : entry === 'cv' ? Boolean($('domain').value) : true;
     return false; // questions: VMock's own flow, not in this prototype
   }
@@ -61,7 +61,7 @@
     const s = steps(), i = s.indexOf(state.step);
     if (i > 0) go(s[i - 1]);
   }
-  // Go on without a job description (only the AI Interviewer can then be chosen).
+  // Go on without a job description.
   function skip() {
     if (state.step !== 'jd') return;
     $('jd').value = '';
@@ -73,13 +73,8 @@
     document.querySelectorAll('input[name="format"]').forEach((r) => { r.checked = r.value === state.format; });
     render();
   }
-  // A question set is built from the JD: without one it can't be chosen.
   function renderFormat() {
-    const q = document.querySelector('input[name="format"][value="questions"]');
-    q.disabled = !hasJd();
-    $('fmtNeed').hidden = hasJd();
-    $('fmtSub').textContent = hasJd() ? 'Both use your CV and the job description.' : 'You skipped the job description, so the AI Interviewer builds the interview from your CV, a domain and a role.';
-    if (!hasJd() && state.format === 'questions') setFormat(null);
+    $('fmtSub').textContent = hasJd() ? 'Both use your CV and the job description.' : 'Both use your CV.';
   }
   function renderRequired() {
     const req = needsRoleAndDomain();
@@ -225,7 +220,6 @@
     document.title = `${entry === 'cv' ? 'CV Deep Dive' : 'SMART Interview'} setup | VMock Dashboard`;
     $('jdSub').textContent = entry === 'mock' ? 'Paste the job description of the role you are practising for, or skip this step.' : '';
     document.querySelectorAll('input[name="format"]').forEach((r) => r.addEventListener('change', () => setFormat(r.value)));
-    $('fmtAddJd').addEventListener('click', (e) => { e.preventDefault(); go('jd'); });
     $('skipBtn').addEventListener('click', skip);
     $('nextBtn').addEventListener('click', next);
     $('backBtn').addEventListener('click', back);
