@@ -105,7 +105,7 @@
     // The progress is timed, not reported by the server; the last line stays open until the plan arrives.
     const role = inputs.target_role.trim();
     const lines = [
-      'Opening your resume',
+      `Opening your ${window.ROOM_CV_WORD || 'resume'}`, // the dashboard room says CV
       'Reading about your experience',
       inputs.jd_text.trim() ? 'Reading the job description' : role ? `Thinking about the ${role} role` : 'Thinking about the role',
       'Planning what to ask you',

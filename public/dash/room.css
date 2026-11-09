@@ -24,6 +24,8 @@ body.d-room #pastBtn { color: var(--d-blue); }
 .d-room .rm-meta { font-size: 13px; line-height: 18px; color: var(--d-muted); }
 
 .dr-prep { margin: 0; padding: 0; list-style: none; display: grid; gap: 16px; }
+/* Once the plan is in, "What to expect" covers the same ground: the tips give way so the panel fits without scrolling. */
+.d-room .rm-side:has(#briefBody:not([hidden])) .dr-prep { display: none; }
 .dr-prep li { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: start; }
 .dr-prep-icon { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 8px; color: var(--d-blue); background: var(--d-blue-soft); border: 1px solid var(--d-blue-fill); }
 .dr-prep-icon .ic { width: 20px; height: 20px; }
