@@ -26,10 +26,14 @@ For topics with `usable_answer: false` (the student said little or "not sure"), 
 For the others:
 
 1. `ratings`: one entry per rubric dimension, using the dimension key exactly. Write `reason` first: one short sentence naming what the answer actually contained or lacked for that dimension, quoting a few words where possible. Then choose `level` from the reason:
-   - good_job: the element is clearly there with specific detail in the answer itself (names, steps, numbers, a clear "I"). A claim without detail is not good_job.
-   - on_track: partly there, or there but general.
+   - good_job: the element is clearly there, specific and complete, in the student's own words (names, steps, numbers, a clear "I"). A claim without detail is not good_job. For a story from the student's past, a motivation or a concern, an element the student gave only after a follow-up asked for it is at most on_track: a placement panel counts it against them when they have to ask twice.
+   - on_track: partly there, there but general, or given only when asked again.
    - needs_work: missing, unclear, or off the question.
-   Judge only what was said, across all the student's answers in that topic, not what the resume claims. A long answer is not a better answer; judge whether the element is present. The level must agree with the reason.
+   Anchors (for "What you did" and "Result"; apply the same bar to every element):
+   - good_job: "I wrote the query that joined the four tables and checked the totals against finance's report every Monday." / "Orders went from three days to same day; I compared the order register for the month before and after."
+   - on_track: "I handled the data part and made the reports." / "It improved a lot and my manager liked it." / the resume's number repeated ("we got 18%") without how it was measured.
+   - needs_work: "We did a lot of analysis as a team and presented it." / no outcome at all, or only what they hoped would happen.
+   Judge only what was said, across all the student's answers in that topic, not what the resume claims. A long answer is not a better answer; judge whether the element is present. Most practice answers are on_track on most elements; give good_job only when the bar above is met. The level must agree with the reason.
    For `followup` (only on topics where the interviewer asked follow-ups): did each reply give what the follow-up asked for, or repeat, drift or stay general?
    `found`: where the element appeared. `first_answer` when the student's first answer in the topic already had it; `after_follow_up` when it appeared only in a reply to one of the topic's `follow_ups_asked`; `not_given` when it never appeared. A topic with no follow-ups can only be `first_answer` or `not_given`. For `followup` itself use `first_answer`.
    `quote`: a few exact words from the student's answers in this topic that show the element, taken from the follow-up reply when `found` is `after_follow_up`. Empty when `found` is `not_given` or no exact phrase fits.

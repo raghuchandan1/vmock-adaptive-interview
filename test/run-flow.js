@@ -196,7 +196,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const fbText = JSON.stringify([fb.overall, fb.topics.map((t) => [t.went_well, t.to_fix, t.answer_plan, (t.ratings || []).map((r) => r.reason), t.stronger_version]), fb.moments]);
   const rated = fb.topics.filter((t) => !t.too_short);
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 10 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 11 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
@@ -245,13 +245,47 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(oc.i === 3 && oc.we === 2 && fb.ownership.i === fb.topics.reduce((n, t) => n + t.ownership.i, 0), 'counts "I" versus "we" per topic and overall');
   check(topicVerdict([{ dimension: 'a', level: 'good_job' }, { dimension: 'followup', level: 'needs_work' }]) === 'good_job'
     && topicVerdict([{ dimension: 'a', level: 'needs_work' }, { dimension: 'b', level: 'needs_work' }, { dimension: 'c', level: 'good_job' }]) === 'needs_work'
-    && topicVerdict([{ dimension: 'a', level: 'needs_work' }, { dimension: 'b', level: 'good_job' }]) === 'on_track', 'topic verdict follows the content ratings, not the follow-up row');
-  const partly = [{ dimension: 'a', level: 'on_track' }, { dimension: 'b', level: 'on_track' }, { dimension: 'c', level: 'needs_work' }];
+    && topicVerdict([{ dimension: 'a', level: 'needs_work' }, { dimension: 'b', level: 'good_job' }, { dimension: 'c', level: 'good_job' }]) === 'on_track', 'topic verdict follows the content ratings, not the follow-up row');
+  const lv = (...levels) => levels.map((level, i) => ({ dimension: `d${i}`, level }));
+  check(topicVerdict(lv('needs_work', 'needs_work', 'good_job', 'good_job')) === 'needs_work' && topicVerdict(lv('on_track', 'on_track', 'on_track', 'needs_work')) === 'needs_work'
+    && topicVerdict(lv('good_job', 'on_track', 'on_track', 'needs_work')) === 'on_track' && topicVerdict(lv('on_track', 'on_track', 'good_job')) === 'on_track',
+  'needs_work when half the elements are missing, or one is missing and none is clearly there');
+  const partly = [{ dimension: 'a', level: 'good_job' }, { dimension: 'b', level: 'on_track' }, { dimension: 'c', level: 'needs_work' }];
   check(topicVerdict(partly, { dont_know_count: 1, repeat_count: 1 }) === 'needs_work' && topicVerdict(partly, { repeat_count: 2 }) === 'needs_work'
     && topicVerdict(partly, { dont_know_count: 1 }) === 'on_track' && topicVerdict(partly, {}) === 'on_track',
   'a topic moved on after two "not sure" or "repeat" answers is needs_work; one non-answer leaves the verdict to the ratings');
   const topicWith = (slotId, quote, stronger) => checkAndShapeFeedback({ overall: 'ok', priorities: [], moments: [], topics: [{ slot_id: slotId, ratings: [], went_well: '', went_well_quote: '', to_fix: 'weak', to_fix_quote: quote, answer_plan: [], stronger_version: stronger, example_answer: '' }] }, trace).feedback.topics.find((t) => t.slot_id === slotId);
   check(topicWith(rated[0].slot_id, rated[0].to_fix_quote, 'I led the work and moved the metric by X%.').stronger_version !== '' && topicWith(rated[0].slot_id, rated[0].to_fix_quote, 'I cut reporting time by 73 percent.').stronger_version === '', 'rewrite is dropped when it contains a number not in the resume or answers');
+  {
+    // A story element given only after a follow-up is at most on_track; a "first answer" quote found only in a later reply moves it there.
+    // The mock's probed topics are too short to rate, so a copy pads their replies past the minimum.
+    const padded = JSON.parse(JSON.stringify(trace));
+    const probed = fb.topics.find((t) => t.rubric === 'behavioural' && t.follow_ups.length);
+    const replies = padded.transcript.filter((e) => e.role === 'candidate' && e.slot_id === (probed || {}).slot_id);
+    replies.forEach((e, i) => { e.text = `${e.text} reply ${i} with enough words to be rated by the feedback check here`; });
+    const later = replies.length > 1 ? replies[1].text.split(/\s+/).slice(0, 4).join(' ') : '';
+    const rate = (r) => checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: probed.slot_id, ratings: [{ dimension: 'action', reason: 'r', ...r }], went_well: '', went_well_quote: '', to_fix: '', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }] }, padded)
+      .feedback.topics.find((t) => t.slot_id === probed.slot_id).ratings[0];
+    const capped = probed && rate({ level: 'good_job', found: 'after_follow_up', quote: '' });
+    const moved = probed && later && rate({ level: 'good_job', found: 'first_answer', quote: later });
+    check(capped && capped.level === 'on_track' && moved && moved.found === 'after_follow_up' && moved.level === 'on_track'
+      && rate({ level: 'good_job', found: 'first_answer', quote: '' }).level === 'good_job',
+    'a story element given only after a follow-up is at most on_track (a later-reply quote marks it so)');
+    // Answers past about two minutes: a derived note, and a priority when it happens twice.
+    const long = JSON.parse(JSON.stringify(trace));
+    const filler = Array(300).fill('detail').join(' ');
+    const lengthFb = (n) => {
+      const s = JSON.parse(JSON.stringify(trace));
+      s.transcript.filter((e) => e.role === 'candidate' && !['warmup', 'candidate_questions'].includes(e.slot_id)).slice(0, n).forEach((e) => { e.text = `${e.text} ${filler}`; });
+      return checkAndShapeFeedback({ overall: 'ok', moments: [], next_goal: { title: 'Name the result', why: 'w', when: 'you finish a story', then: 'say what changed', slot_id: rated[0].slot_id },
+        topics: [{ slot_id: rated[0].slot_id, ratings: [], went_well: '', went_well_quote: '', to_fix: '', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }] }, s).feedback;
+    };
+    const one = lengthFb(1); const two = lengthFb(2); const none = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, long).feedback;
+    check(one.moments.some((m) => m.slot_id === 'answer_length' && /One answer ran past two minutes/.test(m.note)) && !one.priorities.some((p) => /two minutes/.test(p.title))
+      && two.moments.some((m) => m.slot_id === 'answer_length' && /2 answers/.test(m.note)) && two.priorities[1] && two.priorities[1].title === 'Keep answers under two minutes'
+      && !none.moments.some((m) => m.slot_id === 'answer_length'),
+    'long answers get a derived "Answer length" note, and a priority after the goal when two or more ran long');
+  }
   check(rated[0].stronger_version.includes('X%') && rated[1] && rated[1].stronger_version === '' && rated[1].to_fix, 'unsupported rewrite text is removed after the grounding check, supported one is kept');
   check(rated[1].to_fix_quote !== rated[0].to_fix_quote ? topicWith(rated[0].slot_id, rated[1].to_fix_quote, 'I did [x].').stronger_version === '' : true, 'a quote taken from a different topic is dropped, and its rewrite with it');
   // Nothing judged: no overall line, goal or priorities. Same words in went-well and to-fix: sent back, went-well quote

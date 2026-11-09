@@ -72,7 +72,7 @@ Date: 2026-11-09. Follows the [IIM fit note](2026-11-06-iim-placement-question-f
 
 ## Fix before wide rollout
 
-3. **Feedback levels skew high for middling answers.**
+3. **Feedback levels skew high for middling answers.** (Fixed in feedback version 11; see "Fixes to items 3 and 4" below.)
    - **Across all 13 interviews:**
      - Of 214 element ratings, 168 were Good job (79%), 38 On track and 8 Needs work.
      - Of 58 topic verdicts, 21 were Good job, 37 On track and 0 Needs work.
@@ -90,7 +90,7 @@ Date: 2026-11-09. Follows the [IIM fit note](2026-11-06-iim-placement-question-f
      - Re-run these 13 sessions (the transcripts are saved) and compare the spread.
    - **Validate the target spread with a placement committee:** students practise to find weak spots, and a mock that is mostly "Good job" teaches little.
 
-4. **Long answers go unchecked.** The rambler gave 400-580-word answers, about 4,800 words in a 10-minute interview (about 35 minutes of speech). The interviewer never cut in (as the prompt intends: `LONG_ANSWER_WORDS = 350` only shortens the next question). The time rule dropped a second-chance topic, and the feedback never mentioned length or getting to the point. The Hinglish student also spoke for about 27 minutes in a 15-minute interview. IIM panels are known for cutting long answers ("tell me about yourself" in 1-2 minutes, TODO item 1). Add a "Getting to the point" note to feedback (answer word counts are already known), then the polite cut-in from TODO.md.
+4. **Long answers go unchecked.** (Feedback part fixed in version 11; the polite cut-in during the interview is still open.) The rambler gave 400-580-word answers, about 4,800 words in a 10-minute interview (about 35 minutes of speech). The interviewer never cut in (as the prompt intends: `LONG_ANSWER_WORDS = 350` only shortens the next question). The time rule dropped a second-chance topic, and the feedback never mentioned length or getting to the point. The Hinglish student also spoke for about 27 minutes in a 15-minute interview. IIM panels are known for cutting long answers ("tell me about yourself" in 1-2 minutes, TODO item 1). Add a "Getting to the point" note to feedback (answer word counts are already known), then the polite cut-in from TODO.md.
 
 5. **Wait times.** Turn latency, measured by the Node test driver (not a browser) as the HTTP round trip, was p50 4.3 s, p90 8.1 s, p95 9.4 s and max 52.8 s, over 186 turns. 5 interviews ran at once, partly alongside a 6-way planner sweep. 8 turns took over 10 s and 4 over 20 s; the 48 s outliers were single model calls. Adding TTS (about 1-2 s to first byte), a student hears silence for about 6 s at p50 and over 10 s at p95. Planning takes p50 31 s (max 35 s) before the first question, and feedback p50 54 s (max 71 s). The room shows a progress state for both, but there is no client timeout on a hung call (the server allows 3 × 150 s). Fixes:
    - Cap the turn call at about 20 s, with one retry, then fall back to the existing scripted move-on.
@@ -155,6 +155,32 @@ Date: 2026-11-09. Follows the [IIM fit note](2026-11-06-iim-placement-question-f
   - The "stronger version" keeps resume numbers and brackets what the student didn't say ("The exact counts were [number of buyers] out of [number of samplers].").
   - The goal links to a question.
   - The phone layout works.
+
+## Fixes to items 3 and 4, and re-score (same day)
+
+Built as feedback version 11 (`lib/engine.js`, `prompts/feedback.md`; the rules are in CLAUDE.md).
+
+- **Item 3 (feedback levels):**
+  - **The follow-up cap.** In behavioural, motivation and concern topics, an element the student gave only after a follow-up is at most On track. The engine enforces this. It also moves a "first answer" rating to "after a follow-up" when its quote appears only in a later reply. Scenario and knowledge questions are exempt (their follow-up is a planned second step), as is technical reasoning.
+  - **The prompt** anchors Good job, On track and Needs work with example answers.
+  - **The verdict rule.** A topic is Needs work when half or more of its elements are, or when one is and none is Good job.
+- **Item 4 (long answers):**
+  - Every answer past about two minutes (280 words at 140 words a minute; warm-up and end questions excluded) gets an "Answer length" note under "Across the interview". The note gives how many answers ran long, which topics, the longest, and total speaking time against the interview length.
+  - Two or more long answers also add "Keep answers under two minutes" to the Summary, right after the goal.
+- **Re-score.** The same 16 saved interviews, with new feedback from the same model. The before figures are the version 10 copies in the test kit.
+
+| 13 live interviews | Before | After |
+|---|---|---|
+| Ratings Good job / On track / Needs work | 168 / 38 / 8 (79% Good job) | 113 / 94 / 7 (53% Good job) |
+| Topic verdicts Good job / On track / Needs work | 21 / 37 / 0 | 9 / 49 / 0 |
+| Good job share of ratings, by persona | strong 87%, average 73%, weak 74% | strong 67%, average 43%, weak 47% |
+| "Answer length" note | none | 4 interviews (L01, L04, L05, L13) |
+| "Keep answers under two minutes" priority | none | L05 (9 long answers, about 35 minutes spoken in a 10-minute interview) and L04 (7, about 27 in 15) |
+
+- **The thin-answer and "No, that's all" runs** still get Needs work: 3 of 3 and 1 of 1 topics, and one of the "No, that's all" runs moved from On track to Needs work.
+- **What did not change:** the 13 simulated interviews still produce no Needs work topic verdicts. The model rates an element Needs work mostly when it is absent, and keeps answers with a vague result ("we could avoid confusion") at On track, though the anchors say a hoped-for outcome is Needs work.
+- **Why the weak persona sits above average:** its answers named concrete steps (WhatsApp group, Google Form, Malayalam shelf talkers).
+- **Next step:** whether On track or Needs work is the right call for the middle band is the question for the placement committee. If they want it stricter, the next lever is the verdict rule (for example, a missing result alone makes a story Needs work), not the prompt.
 
 ## Status of earlier open items
 
