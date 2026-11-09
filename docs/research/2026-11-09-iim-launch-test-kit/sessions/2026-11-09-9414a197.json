@@ -1,0 +1,3117 @@
+{
+  "id": "2026-11-09-9414a197",
+  "created_at": "2026-11-09T07:08:04.354Z",
+  "status": "ended",
+  "inputs": {
+    "resume_text": "Ishaan Kulkarni\nPGP 2025-27 | Indian Institute of Management Ahmedabad\n\nEDUCATION\nPGP, IIM Ahmedabad, 2025-27, CGPA 3.0/4.33\nB.Tech, Chemical Engineering, IIT Bombay, 2021, 8.0/10\n\nWORK EXPERIENCE (36 months)\nAsian Paints, Ankleshwar plant | Production Engineer | Jul 2021 - Jun 2024\n- Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%\n- Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes\n- Coordinated with the union committee during a 3-day contract-worker stoppage in 2023\n\nSUMMER INTERNSHIP\nAditya Birla Group, Group Executive Office | Strategy Intern | Apr - Jun 2026\n- Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study\n- Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions\n\nPOSITIONS OF RESPONSIBILITY\n- Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat\n- Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore\n\nEXTRACURRICULAR\n- Completed the Ladakh Marathon (2023)",
+    "jd_text": "",
+    "target_role": "",
+    "domain": "General Management",
+    "stage": "finals",
+    "market": "india",
+    "interview_type": "hiring_manager",
+    "style": "balanced",
+    "length": "short",
+    "seed": 728841
+  },
+  "style": "balanced",
+  "surprise": false,
+  "seed": 728841,
+  "settings": {
+    "planner_model": "gpt-5.6-luna",
+    "planner_effort": "medium",
+    "turn_model": "gpt-5.6-luna",
+    "turn_effort": "low"
+  },
+  "plan": {
+    "candidate": {
+      "name": "Ishaan",
+      "experience_level": "early",
+      "current_or_last_role": "PGP student, IIM Ahmedabad",
+      "resume_band": "upper",
+      "band_reason": "The resume shows quantified outcomes, clear ownership and substantial operating and leadership responsibilities across work, internship and campus roles."
+    },
+    "jd": {
+      "present": false,
+      "company": null,
+      "role_title": null,
+      "role_family": "other",
+      "seniority": null,
+      "must_haves": [],
+      "nice_to_haves": [],
+      "stated_values": []
+    },
+    "mismatch": {
+      "is_mismatch": false,
+      "note": ""
+    },
+    "claims": [
+      {
+        "id": "c1",
+        "text": "Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%",
+        "parent": "Production Engineer, Asian Paints",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "ownership verb",
+          "scale"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 4,
+        "grounded": true
+      },
+      {
+        "id": "c2",
+        "text": "Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes",
+        "parent": "Production Engineer, Asian Paints",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "ownership verb",
+          "quantified result",
+          "process improvement"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 5,
+        "grounded": true
+      },
+      {
+        "id": "c3",
+        "text": "Coordinated with the union committee during a 3-day contract-worker stoppage in 2023",
+        "parent": "Production Engineer, Asian Paints",
+        "type": "collaboration",
+        "strength": "moderate",
+        "strength_signals": [
+          "stakeholder exposure",
+          "specific event"
+        ],
+        "weak_flags": [
+          "no_result"
+        ],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 6,
+        "grounded": true
+      },
+      {
+        "id": "c4",
+        "text": "Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study",
+        "parent": "Strategy Intern, Aditya Birla Group",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "specific scope",
+          "recommendation ownership",
+          "business strategy"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 1,
+        "grounded": true
+      },
+      {
+        "id": "c5",
+        "text": "Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions",
+        "parent": "Strategy Intern, Aditya Birla Group",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "scale",
+          "quantified result",
+          "business case ownership"
+        ],
+        "weak_flags": [
+          "inflated_scope"
+        ],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 2,
+        "grounded": true
+      },
+      {
+        "id": "c6",
+        "text": "Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat",
+        "parent": "Secretary, Rural Immersion Program, IIM Ahmedabad",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "leadership title",
+          "quantified scale",
+          "stakeholder coordination"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 3,
+        "grounded": true
+      },
+      {
+        "id": "c7",
+        "text": "Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore",
+        "parent": "Head, Hostel Mess Committee, IIT Bombay",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "leadership title",
+          "budget scale",
+          "ownership verb"
+        ],
+        "weak_flags": [
+          "inflated_scope"
+        ],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 7,
+        "grounded": true
+      },
+      {
+        "id": "c8",
+        "text": "Completed the Ladakh Marathon (2023)",
+        "parent": "Ladakh Marathon",
+        "type": "other",
+        "strength": "weak",
+        "strength_signals": [
+          "specific accomplishment"
+        ],
+        "weak_flags": [
+          "no_result"
+        ],
+        "relevance": "low",
+        "distinctive": false,
+        "probe_angle": "find_substance",
+        "rank": 8,
+        "grounded": true
+      }
+    ],
+    "competencies": [
+      {
+        "id": "k1",
+        "name": "Business judgment and strategy",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c4",
+          "c5"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k2",
+        "name": "Execution and process improvement",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c2"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k3",
+        "name": "Stakeholder management",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c3",
+          "c6"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k4",
+        "name": "Leadership and influence",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c2",
+          "c6",
+          "c7"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k5",
+        "name": "Motivation and fit",
+        "source": "always",
+        "must_have": false,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      }
+    ],
+    "concerns": [
+      {
+        "type": "switch",
+        "detail": "Moved from plant production engineering at Asian Paints toward general management through an MBA and a strategy internship."
+      }
+    ],
+    "warmup_question": "What is one idea from your MBA so far that has proved useful in your recent work?",
+    "background_question": "Walk me through your path from chemical engineering at Asian Paints to your MBA and your recent strategy internship.",
+    "slots": [
+      {
+        "id": "s1",
+        "kind": "claim",
+        "competency_id": "k1",
+        "anchor_claim_id": "c4",
+        "question_type": "past_behaviour",
+        "core_question": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+        "intent_private": "Needs the business question, Ishaan's personal analytical and recommendation process, the trade-offs behind specialty adhesives, and what he would do differently now.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which part of the evaluation did you personally own?",
+          "What did you decide against, and why?",
+          "What would you do differently if you evaluated the adjacencies today?"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "s2",
+        "kind": "claim",
+        "competency_id": "k3",
+        "anchor_claim_id": "c6",
+        "question_type": "past_behaviour",
+        "core_question": "How did the Rural Immersion Program placements come together under your leadership?",
+        "intent_private": "Needs a specific placement challenge, Ishaan's decisions and stakeholder actions, and how he ensured the 80 students and 14 NGOs were matched effectively.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "What part of the placement process did you personally change?",
+          "How did you handle a stakeholder who resisted your approach?",
+          "How did you judge whether the placements were successful?"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "s3",
+        "kind": "gap",
+        "competency_id": "k1",
+        "anchor_claim_id": null,
+        "question_type": "knowledge",
+        "core_question": "How would you decide whether to pursue a new business adjacency when market size, capabilities and projected returns point in different directions?",
+        "intent_private": "Needs an applied prioritisation approach that weighs strategic fit, market attractiveness, capability requirements, investment risk and uncertainty rather than relying only on projected returns.",
+        "probe_angle": "find_substance",
+        "technical_focus": false,
+        "likely_probes": [
+          "Why would you use that approach instead of focusing first on projected returns?",
+          "When would you reject an adjacency despite attractive returns?",
+          "How did you apply a similar trade-off in your strategy internship?"
+        ],
+        "priority": 3
+      }
+    ],
+    "plan_notes": "The plan prioritizes Ishaan's relevant strategy internship and a distinctive stakeholder-leadership experience, then tests general-management judgment through an applied business decision. His move from plant production engineering toward general management is a clear switch; the three-slot hiring-manager template is fully used, so it is surfaced neutrally in the background walkthrough rather than receiving a separate motivation slot."
+  },
+  "plan_trace": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "attempts": 1,
+    "started_at": "2026-11-09T07:07:29.727Z",
+    "latency_ms": 34627,
+    "usage": {
+      "prompt_tokens": 7294,
+      "completion_tokens": 3514,
+      "total_tokens": 10808,
+      "prompt_tokens_details": {
+        "cached_tokens": 6879,
+        "cache_write_tokens": 412,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1889,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "raw_response": "{\"candidate\":{\"name\":\"Ishaan\",\"experience_level\":\"early\",\"current_or_last_role\":\"PGP student, IIM Ahmedabad\",\"resume_band\":\"upper\",\"band_reason\":\"The resume shows quantified outcomes, clear ownership and substantial operating and leadership responsibilities across work, internship and campus roles.\"},\"jd\":{\"present\":false,\"company\":null,\"role_title\":null,\"role_family\":\"other\",\"seniority\":null,\"must_haves\":[],\"nice_to_haves\":[],\"stated_values\":[]},\"mismatch\":{\"is_mismatch\":false,\"note\":\"\"},\"claims\":[{\"id\":\"c1\",\"text\":\"Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%\",\"parent\":\"Production Engineer, Asian Paints\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"ownership verb\",\"scale\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":4},{\"id\":\"c2\",\"text\":\"Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes\",\"parent\":\"Production Engineer, Asian Paints\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"ownership verb\",\"quantified result\",\"process improvement\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":5},{\"id\":\"c3\",\"text\":\"Coordinated with the union committee during a 3-day contract-worker stoppage in 2023\",\"parent\":\"Production Engineer, Asian Paints\",\"type\":\"collaboration\",\"strength\":\"moderate\",\"strength_signals\":[\"stakeholder exposure\",\"specific event\"],\"weak_flags\":[\"no_result\"],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":6},{\"id\":\"c4\",\"text\":\"Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study\",\"parent\":\"Strategy Intern, Aditya Birla Group\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"specific scope\",\"recommendation ownership\",\"business strategy\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":1},{\"id\":\"c5\",\"text\":\"Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions\",\"parent\":\"Strategy Intern, Aditya Birla Group\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"scale\",\"quantified result\",\"business case ownership\"],\"weak_flags\":[\"inflated_scope\"],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":2},{\"id\":\"c6\",\"text\":\"Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat\",\"parent\":\"Secretary, Rural Immersion Program, IIM Ahmedabad\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"leadership title\",\"quantified scale\",\"stakeholder coordination\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":3},{\"id\":\"c7\",\"text\":\"Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore\",\"parent\":\"Head, Hostel Mess Committee, IIT Bombay\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"leadership title\",\"budget scale\",\"ownership verb\"],\"weak_flags\":[\"inflated_scope\"],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":7},{\"id\":\"c8\",\"text\":\"Completed the Ladakh Marathon (2023)\",\"parent\":\"Ladakh Marathon\",\"type\":\"other\",\"strength\":\"weak\",\"strength_signals\":[\"specific accomplishment\"],\"weak_flags\":[\"no_result\"],\"relevance\":\"low\",\"distinctive\":false,\"probe_angle\":\"find_substance\",\"rank\":8}],\"competencies\":[{\"id\":\"k1\",\"name\":\"Business judgment and strategy\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c4\",\"c5\"],\"is_gap\":false},{\"id\":\"k2\",\"name\":\"Execution and process improvement\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c2\"],\"is_gap\":false},{\"id\":\"k3\",\"name\":\"Stakeholder management\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c3\",\"c6\"],\"is_gap\":false},{\"id\":\"k4\",\"name\":\"Leadership and influence\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c2\",\"c6\",\"c7\"],\"is_gap\":false},{\"id\":\"k5\",\"name\":\"Motivation and fit\",\"source\":\"always\",\"must_have\":false,\"evidence_claim_ids\":[],\"is_gap\":true}],\"concerns\":[{\"type\":\"switch\",\"detail\":\"Moved from plant production engineering at Asian Paints toward general management through an MBA and a strategy internship.\"}],\"warmup_question\":\"What is one idea from your MBA so far that has proved useful in your recent work?\",\"background_question\":\"Walk me through your path from chemical engineering at Asian Paints to your MBA and your recent strategy internship.\",\"slots\":[{\"id\":\"s1\",\"kind\":\"claim\",\"competency_id\":\"k1\",\"anchor_claim_id\":\"c4\",\"question_type\":\"past_behaviour\",\"core_question\":\"What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?\",\"intent_private\":\"Needs the business question, Ishaan's personal analytical and recommendation process, the trade-offs behind specialty adhesives, and what he would do differently now.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"Which part of the evaluation did you personally own?\",\"What did you decide against, and why?\",\"What would you do differently if you evaluated the adjacencies today?\"],\"priority\":1},{\"id\":\"s2\",\"kind\":\"claim\",\"competency_id\":\"k3\",\"anchor_claim_id\":\"c6\",\"question_type\":\"past_behaviour\",\"core_question\":\"How did the Rural Immersion Program placements come together under your leadership?\",\"intent_private\":\"Needs a specific placement challenge, Ishaan's decisions and stakeholder actions, and how he ensured the 80 students and 14 NGOs were matched effectively.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"What part of the placement process did you personally change?\",\"How did you handle a stakeholder who resisted your approach?\",\"How did you judge whether the placements were successful?\"],\"priority\":2},{\"id\":\"s3\",\"kind\":\"gap\",\"competency_id\":\"k1\",\"anchor_claim_id\":null,\"question_type\":\"knowledge\",\"core_question\":\"How would you decide whether to pursue a new business adjacency when market size, capabilities and projected returns point in different directions?\",\"intent_private\":\"Needs an applied prioritisation approach that weighs strategic fit, market attractiveness, capability requirements, investment risk and uncertainty rather than relying only on projected returns.\",\"probe_angle\":\"find_substance\",\"technical_focus\":false,\"likely_probes\":[\"Why would you use that approach instead of focusing first on projected returns?\",\"When would you reject an adjacency despite attractive returns?\",\"How did you apply a similar trade-off in your strategy internship?\"],\"priority\":3}],\"plan_notes\":\"The plan prioritizes Ishaan's relevant strategy internship and a distinctive stakeholder-leadership experience, then tests general-management judgment through an applied business decision. His move from plant production engineering toward general management is a clear switch; the three-slot hiring-manager template is fully used, so it is surfaced neutrally in the background walkthrough rather than receiving a separate motivation slot.\"}",
+    "request_user_message": "{\"target_role\":\"domain: General Management\",\"interview_type\":\"hiring_manager\",\"placement_stage\":\"finals\",\"market\":\"india\",\"interviewer_style\":\"balanced\",\"scored_slot_count\":3,\"variation_seed\":728841,\"warmup_angle\":\"something they learned recently that turned out to be useful\",\"fit_angle\":\"a time they failed at something that mattered to them\",\"resume_text\":\"Ishaan Kulkarni\\nPGP 2025-27 | Indian Institute of Management Ahmedabad\\n\\nEDUCATION\\nPGP, IIM Ahmedabad, 2025-27, CGPA 3.0/4.33\\nB.Tech, Chemical Engineering, IIT Bombay, 2021, 8.0/10\\n\\nWORK EXPERIENCE (36 months)\\nAsian Paints, Ankleshwar plant | Production Engineer | Jul 2021 - Jun 2024\\n- Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%\\n- Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes\\n- Coordinated with the union committee during a 3-day contract-worker stoppage in 2023\\n\\nSUMMER INTERNSHIP\\nAditya Birla Group, Group Executive Office | Strategy Intern | Apr - Jun 2026\\n- Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study\\n- Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions\\n\\nPOSITIONS OF RESPONSIBILITY\\n- Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat\\n- Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore\\n\\nEXTRACURRICULAR\\n- Completed the Ladakh Marathon (2023)\",\"jd_text\":\"\"}"
+  },
+  "plan_checks": [
+    {
+      "level": "warn",
+      "message": "Slot s1 wording: agenda word: \"evaluation\""
+    },
+    {
+      "level": "warn",
+      "message": "Slot s1 wording: two asks joined by \"and\" in one question"
+    }
+  ],
+  "slots": [
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "What is one idea from your MBA so far that has proved useful in your recent work?",
+      "intent_private": "Warm-up to settle in. Not assessed.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "done",
+      "outcome": "sufficient",
+      "summary": "The candidate mentioned that strategy courses and their case-based format have been useful and appealing. No further detail was needed for the warm-up.",
+      "pivoted_into": false,
+      "id": "warmup",
+      "kind": "warmup",
+      "budget": 0,
+      "forced_move_on": true
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "Walk me through your path from chemical engineering at Asian Paints to your MBA and your recent strategy internship.",
+      "intent_private": "A coherent overview of the candidate's path; may surface threads for later topics.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "done",
+      "outcome": "sufficient",
+      "summary": "Ishaan outlined a path from chemical engineering at IIT Bombay through three years as a production engineer at Asian Paints, IIM Ahmedabad, and a strategy internship at Aditya Birla Group. No further background detail was needed.",
+      "pivoted_into": false,
+      "id": "background",
+      "kind": "background",
+      "budget": 1,
+      "forced_move_on": false
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Business judgment and strategy",
+      "must_have": true,
+      "anchor_claim_id": "c4",
+      "anchor_text": "Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study",
+      "anchor_parent": "Strategy Intern, Aditya Birla Group",
+      "question_type": "past_behaviour",
+      "core_question": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+      "intent_private": "Needs the business question, Ishaan's personal analytical and recommendation process, the trade-offs behind specialty adhesives, and what he would do differently now.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which part of the evaluation did you personally own?",
+        "What did you decide against, and why?",
+        "What would you do differently if you evaluated the adjacencies today?"
+      ],
+      "priority": 1,
+      "follow_ups_used": 2,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [
+        "role",
+        "result"
+      ],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "done",
+      "outcome": "gap_after_budget",
+      "summary": "Ishaan confirmed that the team evaluated three adjacencies and recommended specialty adhesives, but did not provide a specific business question, personal contribution, analytical process, trade-offs, or outcome.",
+      "pivoted_into": false,
+      "id": "s1",
+      "kind": "claim",
+      "budget": 2,
+      "forced_move_on": true
+    },
+    {
+      "competency_id": "k3",
+      "competency_name": "Stakeholder management",
+      "must_have": true,
+      "anchor_claim_id": "c6",
+      "anchor_text": "Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat",
+      "anchor_parent": "Secretary, Rural Immersion Program, IIM Ahmedabad",
+      "question_type": "past_behaviour",
+      "core_question": "How did the Rural Immersion Program placements come together under your leadership?",
+      "intent_private": "Needs a specific placement challenge, Ishaan's decisions and stakeholder actions, and how he ensured the 80 students and 14 NGOs were matched effectively.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "What part of the placement process did you personally change?",
+        "How did you handle a stakeholder who resisted your approach?",
+        "How did you judge whether the placements were successful?"
+      ],
+      "priority": 2,
+      "follow_ups_used": 2,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [
+        "role",
+        "result"
+      ],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "done",
+      "outcome": "gap_after_budget",
+      "summary": "No specific placement challenge, personal actions, stakeholder handling, or matching outcome was provided; the resume claim could not be explored further.",
+      "pivoted_into": false,
+      "id": "s2",
+      "kind": "claim",
+      "budget": 2,
+      "forced_move_on": true
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Business judgment and strategy",
+      "must_have": true,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "knowledge",
+      "core_question": "How would you decide whether to pursue a new business adjacency when market size, capabilities and projected returns point in different directions?",
+      "intent_private": "Needs an applied prioritisation approach that weighs strategic fit, market attractiveness, capability requirements, investment risk and uncertainty rather than relying only on projected returns.",
+      "probe_angle": "find_substance",
+      "technical_focus": false,
+      "likely_probes": [
+        "Why would you use that approach instead of focusing first on projected returns?",
+        "When would you reject an adjacency despite attractive returns?",
+        "How did you apply a similar trade-off in your strategy internship?"
+      ],
+      "priority": 3,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "done",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s3",
+      "kind": "gap",
+      "budget": 2
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Business judgment and strategy",
+      "must_have": true,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "past_behaviour",
+      "core_question": "",
+      "intent_private": "Needs a different example showing Business judgment and strategy: a specific situation, the candidate's own actions and an outcome.",
+      "probe_angle": "find_substance",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "dropped",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "second_chance_k1",
+      "kind": "second_chance",
+      "budget": 2
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "",
+      "intent_private": "Candidate asks their questions.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "candidate_questions",
+      "kind": "candidate_questions",
+      "budget": 2
+    }
+  ],
+  "current": 4,
+  "transcript": [
+    {
+      "role": "interviewer",
+      "text": "Hi Ishaan, thanks for joining. I'm on the hiring team for this role, and I'd like to understand your experience in some depth. We have about 10 minutes, with time for your questions at the end. What is one idea from your MBA so far that has proved useful in your recent work?",
+      "slot_id": "warmup",
+      "why": "This was a warm-up question to help you settle in. It isn't part of the feedback.",
+      "at": "2026-11-09T07:08:04.354Z"
+    },
+    {
+      "role": "candidate",
+      "text": "Mostly the strategy courses, they are very case heavy which I like.",
+      "slot_id": "warmup",
+      "at": "2026-11-09T07:08:04.378Z"
+    },
+    {
+      "role": "interviewer",
+      "text": "Thanks. Walk me through your path from chemical engineering at Asian Paints to your MBA and your recent strategy internship.",
+      "slot_id": "background",
+      "why": "I moved forward because this was a warm-up question and your response addressed it directly.",
+      "at": "2026-11-09T07:08:07.357Z"
+    },
+    {
+      "role": "candidate",
+      "text": "I did chemical engineering at IIT Bombay, then three years at Asian Paints Ankleshwar as a production engineer, then IIM Ahmedabad, and my summer was at Aditya Birla group strategy.",
+      "slot_id": "background",
+      "at": "2026-11-09T07:08:07.366Z"
+    },
+    {
+      "role": "interviewer",
+      "text": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+      "slot_id": "s1",
+      "why": "Your overview covered the main stages of your education and experience, so I moved to a specific strategy project.",
+      "at": "2026-11-09T07:08:11.027Z"
+    },
+    {
+      "role": "candidate",
+      "text": "So we looked at three adjacencies and recommended specialty adhesives, it was a team effort with the GEO team.",
+      "slot_id": "s1",
+      "at": "2026-11-09T07:08:11.033Z"
+    },
+    {
+      "role": "interviewer",
+      "text": "Which part of the adjacency work did you personally own?",
+      "slot_id": "s1",
+      "why": "Your answer described the team's work but not your own part, so I asked which decisions you personally handled.",
+      "at": "2026-11-09T07:08:18.460Z"
+    },
+    {
+      "role": "candidate",
+      "text": "No, that's all I had on that.",
+      "slot_id": "s1",
+      "at": "2026-11-09T07:08:18.467Z"
+    },
+    {
+      "role": "interviewer",
+      "text": "What happened after the team recommended specialty adhesives?",
+      "slot_id": "s1",
+      "why": "Your response did not yet describe what came from the adjacency recommendation, so I asked about its outcome.",
+      "at": "2026-11-09T07:08:27.940Z"
+    },
+    {
+      "role": "candidate",
+      "text": "No, that's all.",
+      "slot_id": "s1",
+      "at": "2026-11-09T07:08:27.948Z"
+    },
+    {
+      "role": "interviewer",
+      "text": "Let’s move to your Rural Immersion Program work. How did the placements come together under your leadership?",
+      "slot_id": "s2",
+      "why": "Your answers identified the team recommendation but did not describe your own contribution or the reasoning behind it, so there was no further detail to ask about.",
+      "at": "2026-11-09T07:08:31.965Z"
+    },
+    {
+      "role": "candidate",
+      "text": "No, that's all.",
+      "slot_id": "s2",
+      "at": "2026-11-09T07:08:31.970Z"
+    },
+    {
+      "role": "interviewer",
+      "text": "Please give me one specific placement challenge from the Rural Immersion Program and describe what you personally handled.",
+      "slot_id": "s2",
+      "why": "You did not yet describe a placement situation, so I asked for one specific challenge from the program and what you personally handled.",
+      "at": "2026-11-09T07:08:35.865Z"
+    },
+    {
+      "role": "candidate",
+      "text": "No, that's all.",
+      "slot_id": "s2",
+      "at": "2026-11-09T07:08:35.872Z"
+    },
+    {
+      "role": "interviewer",
+      "text": "Understood. For one placement you coordinated, what outcome showed that the student and NGO were successfully matched?",
+      "slot_id": "s2",
+      "why": "Your reply did not provide a placement example, so I asked for the concrete outcome of the placements you coordinated.",
+      "at": "2026-11-09T07:08:40.519Z"
+    },
+    {
+      "role": "candidate",
+      "text": "No questions, thank you.",
+      "slot_id": "s2",
+      "at": "2026-11-09T07:08:40.529Z"
+    },
+    {
+      "role": "interviewer",
+      "text": "Let’s consider a general management decision. How would you decide whether to pursue a new business adjacency when market size, capabilities and projected returns point in different directions?",
+      "slot_id": "s3",
+      "why": "You did not provide an outcome for a specific placement, so I moved to the next question rather than asking again.",
+      "at": "2026-11-09T07:08:44.884Z"
+    }
+  ],
+  "turns": [
+    {
+      "n": 1,
+      "at": "2026-11-09T07:08:07.357Z",
+      "slot_id": "warmup",
+      "slot_kind": "warmup",
+      "answer": "Mostly the strategy courses, they are very case heavy which I like.",
+      "allowed_decisions": [
+        "move_on",
+        "rephrase"
+      ],
+      "decision": "move_on",
+      "output": {
+        "evidence": {
+          "situation": true,
+          "task": true,
+          "action": true,
+          "result": true,
+          "ownership": "not_applicable",
+          "specificity": "not_applicable",
+          "anchor_fit": "not_applicable",
+          "technical_reasoning": "not_applicable",
+          "on_topic": "on",
+          "answer_type": "example",
+          "new_hook": {
+            "present": false,
+            "description": "",
+            "competency_id": null
+          }
+        },
+        "evidence_sufficient": true,
+        "missing": [],
+        "decision": "move_on",
+        "probe_rung": "none",
+        "pivot_target_slot_id": null,
+        "internal_rationale": "This is a warm-up response and is on topic; warm-up answers are not assessed or probed further.",
+        "why_asked_for_student": "I moved forward because this was a warm-up question and your response addressed it directly.",
+        "slot_summary": "The candidate mentioned that strategy courses and their case-based format have been useful and appealing. No further detail was needed for the warm-up.",
+        "utterance": "Thanks. Walk me through your path from chemical engineering at Asian Paints to your MBA and your recent strategy internship."
+      },
+      "guards": [],
+      "leak_flags": [],
+      "calls": [
+        {
+          "payload": {
+            "interview": {
+              "type": "hiring_manager",
+              "style": "balanced",
+              "target_role": "domain: General Management",
+              "company": null,
+              "candidate_first_name": "Ishaan",
+              "experience_level": "early",
+              "job_description": null,
+              "resume_text": "Ishaan Kulkarni\nPGP 2025-27 | Indian Institute of Management Ahmedabad\n\nEDUCATION\nPGP, IIM Ahmedabad, 2025-27, CGPA 3.0/4.33\nB.Tech, Chemical Engineering, IIT Bombay, 2021, 8.0/10\n\nWORK EXPERIENCE (36 months)\nAsian Paints, Ankleshwar plant | Production Engineer | Jul 2021 - Jun 2024\n- Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%\n- Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes\n- Coordinated with the union committee during a 3-day contract-worker stoppage in 2023\n\nSUMMER INTERNSHIP\nAditya Birla Group, Group Executive Office | Strategy Intern | Apr - Jun 2026\n- Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study\n- Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions\n\nPOSITIONS OF RESPONSIBILITY\n- Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat\n- Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore\n\nEXTRACURRICULAR\n- Completed the Ladakh Marathon (2023)"
+            },
+            "current_slot": {
+              "id": "warmup",
+              "kind": "warmup",
+              "competency": null,
+              "must_have": false,
+              "anchor_resume_line": null,
+              "anchor_parent": null,
+              "question_type": null,
+              "intent": "Warm-up to settle in. Not assessed.",
+              "probe_angle": "none",
+              "technical_focus": false,
+              "planned_follow_ups": [],
+              "planned_opening_question": "What is one idea from your MBA so far that has proved useful in your recent work?",
+              "opened_via_pivot": false,
+              "follow_ups_used": 0,
+              "follow_up_budget": 0,
+              "rungs_already_used": [],
+              "required_next_rung": null,
+              "rung_owed_before_closing": null,
+              "rephrase_used": false,
+              "contradiction_check_used": false
+            },
+            "slot_transcript": [
+              {
+                "interviewer": "Hi Ishaan, thanks for joining. I'm on the hiring team for this role, and I'd like to understand your experience in some depth. We have about 10 minutes, with time for your questions at the end. What is one idea from your MBA so far that has proved useful in your recent work?",
+                "candidate": null
+              }
+            ],
+            "recent_exchanges": [
+              {
+                "interviewer": "Hi Ishaan, thanks for joining. I'm on the hiring team for this role, and I'd like to understand your experience in some depth. We have about 10 minutes, with time for your questions at the end. What is one idea from your MBA so far that has proved useful in your recent work?",
+                "candidate": null
+              }
+            ],
+            "earlier_slot_summaries": [],
+            "next_slot": {
+              "id": "background",
+              "kind": "background",
+              "competency": null,
+              "must_have": false,
+              "anchor_resume_line": null,
+              "anchor_parent": null,
+              "question_type": null,
+              "intent": "A coherent overview of the candidate's path; may surface threads for later topics.",
+              "probe_angle": "none",
+              "technical_focus": false,
+              "planned_follow_ups": [],
+              "planned_opening_question": "Walk me through your path from chemical engineering at Asian Paints to your MBA and your recent strategy internship.",
+              "opened_via_pivot": false
+            },
+            "pivot_options": [
+              {
+                "slot_id": "s1",
+                "kind": "claim",
+                "competency_id": "k1",
+                "competency": "Business judgment and strategy",
+                "anchor_resume_line": "Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study"
+              },
+              {
+                "slot_id": "s2",
+                "kind": "claim",
+                "competency_id": "k3",
+                "competency": "Stakeholder management",
+                "anchor_resume_line": "Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat"
+              },
+              {
+                "slot_id": "s3",
+                "kind": "gap",
+                "competency_id": "k1",
+                "competency": "Business judgment and strategy",
+                "anchor_resume_line": null
+              }
+            ],
+            "allowed_decisions": [
+              "move_on",
+              "rephrase"
+            ],
+            "flags": {
+              "answer_word_count": 12,
+              "very_long_answer": false,
+              "candidate_questions_asked": 0,
+              "interview_nearly_over": false
+            },
+            "note": null,
+            "candidate_answer": "Mostly the strategy courses, they are very case heavy which I like."
+          },
+          "trace": {
+            "model": "gpt-5.6-luna",
+            "reasoning_effort": "low",
+            "attempts": 1,
+            "started_at": "2026-11-09T07:08:04.379Z",
+            "latency_ms": 2978,
+            "usage": {
+              "prompt_tokens": 6903,
+              "completion_tokens": 217,
+              "total_tokens": 7120,
+              "prompt_tokens_details": {
+                "cached_tokens": 5910,
+                "cache_write_tokens": 990,
+                "audio_tokens": 0
+              },
+              "completion_tokens_details": {
+                "reasoning_tokens": 0,
+                "audio_tokens": 0,
+                "accepted_prediction_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "finish_reason": "stop",
+            "raw_response": "{\"evidence\":{\"situation\":true,\"task\":true,\"action\":true,\"result\":true,\"ownership\":\"not_applicable\",\"specificity\":\"not_applicable\",\"anchor_fit\":\"not_applicable\",\"technical_reasoning\":\"not_applicable\",\"on_topic\":\"on\",\"answer_type\":\"example\",\"new_hook\":{\"present\":false,\"description\":\"\",\"competency_id\":null}},\"evidence_sufficient\":true,\"missing\":[],\"decision\":\"move_on\",\"probe_rung\":\"none\",\"pivot_target_slot_id\":null,\"internal_rationale\":\"This is a warm-up response and is on topic; warm-up answers are not assessed or probed further.\",\"why_asked_for_student\":\"I moved forward because this was a warm-up question and your response addressed it directly.\",\"slot_summary\":\"The candidate mentioned that strategy courses and their case-based format have been useful and appealing. No further detail was needed for the warm-up.\",\"utterance\":\"Thanks. Walk me through your path from chemical engineering at Asian Paints to your MBA and your recent strategy internship.\"}"
+          },
+          "output": {
+            "evidence": {
+              "situation": true,
+              "task": true,
+              "action": true,
+              "result": true,
+              "ownership": "not_applicable",
+              "specificity": "not_applicable",
+              "anchor_fit": "not_applicable",
+              "technical_reasoning": "not_applicable",
+              "on_topic": "on",
+              "answer_type": "example",
+              "new_hook": {
+                "present": false,
+                "description": "",
+                "competency_id": null
+              }
+            },
+            "evidence_sufficient": true,
+            "missing": [],
+            "decision": "move_on",
+            "probe_rung": "none",
+            "pivot_target_slot_id": null,
+            "internal_rationale": "This is a warm-up response and is on topic; warm-up answers are not assessed or probed further.",
+            "why_asked_for_student": "I moved forward because this was a warm-up question and your response addressed it directly.",
+            "slot_summary": "The candidate mentioned that strategy courses and their case-based format have been useful and appealing. No further detail was needed for the warm-up.",
+            "utterance": "Thanks. Walk me through your path from chemical engineering at Asian Paints to your MBA and your recent strategy internship."
+          }
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "at": "2026-11-09T07:08:11.027Z",
+      "slot_id": "background",
+      "slot_kind": "background",
+      "answer": "I did chemical engineering at IIT Bombay, then three years at Asian Paints Ankleshwar as a production engineer, then IIM Ahmedabad, and my summer was at Aditya Birla group strategy.",
+      "allowed_decisions": [
+        "move_on",
+        "answer_and_return",
+        "probe",
+        "clarify"
+      ],
+      "decision": "move_on",
+      "output": {
+        "evidence": {
+          "situation": true,
+          "task": true,
+          "action": true,
+          "result": true,
+          "ownership": "clear_i",
+          "specificity": "concrete",
+          "anchor_fit": "not_applicable",
+          "technical_reasoning": "not_applicable",
+          "on_topic": "on",
+          "answer_type": "example",
+          "new_hook": {
+            "present": false,
+            "description": "",
+            "competency_id": null
+          }
+        },
+        "evidence_sufficient": true,
+        "missing": [],
+        "decision": "move_on",
+        "probe_rung": "none",
+        "pivot_target_slot_id": null,
+        "internal_rationale": "The candidate gave a concise, on-topic overview covering education, work experience, MBA, and internship. Background walkthroughs do not require further probing when coherent.",
+        "why_asked_for_student": "Your overview covered the main stages of your education and experience, so I moved to a specific strategy project.",
+        "slot_summary": "Ishaan outlined a path from chemical engineering at IIT Bombay through three years as a production engineer at Asian Paints, IIM Ahmedabad, and a strategy internship at Aditya Birla Group. No further background detail was needed.",
+        "utterance": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?"
+      },
+      "guards": [],
+      "leak_flags": [],
+      "calls": [
+        {
+          "payload": {
+            "interview": {
+              "type": "hiring_manager",
+              "style": "balanced",
+              "target_role": "domain: General Management",
+              "company": null,
+              "candidate_first_name": "Ishaan",
+              "experience_level": "early",
+              "job_description": null,
+              "resume_text": "Ishaan Kulkarni\nPGP 2025-27 | Indian Institute of Management Ahmedabad\n\nEDUCATION\nPGP, IIM Ahmedabad, 2025-27, CGPA 3.0/4.33\nB.Tech, Chemical Engineering, IIT Bombay, 2021, 8.0/10\n\nWORK EXPERIENCE (36 months)\nAsian Paints, Ankleshwar plant | Production Engineer | Jul 2021 - Jun 2024\n- Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%\n- Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes\n- Coordinated with the union committee during a 3-day contract-worker stoppage in 2023\n\nSUMMER INTERNSHIP\nAditya Birla Group, Group Executive Office | Strategy Intern | Apr - Jun 2026\n- Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study\n- Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions\n\nPOSITIONS OF RESPONSIBILITY\n- Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat\n- Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore\n\nEXTRACURRICULAR\n- Completed the Ladakh Marathon (2023)"
+            },
+            "current_slot": {
+              "id": "background",
+              "kind": "background",
+              "competency": null,
+              "must_have": false,
+              "anchor_resume_line": null,
+              "anchor_parent": null,
+              "question_type": null,
+              "intent": "A coherent overview of the candidate's path; may surface threads for later topics.",
+              "probe_angle": "none",
+              "technical_focus": false,
+              "planned_follow_ups": [],
+              "planned_opening_question": "Walk me through your path from chemical engineering at Asian Paints to your MBA and your recent strategy internship.",
+              "opened_via_pivot": false,
+              "follow_ups_used": 0,
+              "follow_up_budget": 1,
+              "rungs_already_used": [],
+              "required_next_rung": null,
+              "rung_owed_before_closing": null,
+              "rephrase_used": false,
+              "contradiction_check_used": false
+            },
+            "slot_transcript": [
+              {
+                "interviewer": "Thanks. Walk me through your path from chemical engineering at Asian Paints to your MBA and your recent strategy internship.",
+                "candidate": null
+              }
+            ],
+            "recent_exchanges": [
+              {
+                "interviewer": "Hi Ishaan, thanks for joining. I'm on the hiring team for this role, and I'd like to understand your experience in some depth. We have about 10 minutes, with time for your questions at the end. What is one idea from your MBA so far that has proved useful in your recent work?",
+                "candidate": "Mostly the strategy courses, they are very case heavy which I like."
+              },
+              {
+                "interviewer": "Thanks. Walk me through your path from chemical engineering at Asian Paints to your MBA and your recent strategy internship.",
+                "candidate": null
+              }
+            ],
+            "earlier_slot_summaries": [
+              {
+                "topic": "warmup",
+                "summary": "The candidate mentioned that strategy courses and their case-based format have been useful and appealing. No further detail was needed for the warm-up."
+              }
+            ],
+            "next_slot": {
+              "id": "s1",
+              "kind": "claim",
+              "competency": "Business judgment and strategy",
+              "must_have": true,
+              "anchor_resume_line": "Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study",
+              "anchor_parent": "Strategy Intern, Aditya Birla Group",
+              "question_type": "past_behaviour",
+              "intent": "Needs the business question, Ishaan's personal analytical and recommendation process, the trade-offs behind specialty adhesives, and what he would do differently now.",
+              "probe_angle": "test_claim",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "Which part of the evaluation did you personally own?",
+                "What did you decide against, and why?",
+                "What would you do differently if you evaluated the adjacencies today?"
+              ],
+              "planned_opening_question": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+              "opened_via_pivot": false
+            },
+            "pivot_options": [
+              {
+                "slot_id": "s2",
+                "kind": "claim",
+                "competency_id": "k3",
+                "competency": "Stakeholder management",
+                "anchor_resume_line": "Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat"
+              },
+              {
+                "slot_id": "s3",
+                "kind": "gap",
+                "competency_id": "k1",
+                "competency": "Business judgment and strategy",
+                "anchor_resume_line": null
+              }
+            ],
+            "allowed_decisions": [
+              "move_on",
+              "answer_and_return",
+              "probe",
+              "clarify"
+            ],
+            "flags": {
+              "answer_word_count": 30,
+              "very_long_answer": false,
+              "candidate_questions_asked": 0,
+              "interview_nearly_over": false
+            },
+            "note": null,
+            "candidate_answer": "I did chemical engineering at IIT Bombay, then three years at Asian Paints Ankleshwar as a production engineer, then IIM Ahmedabad, and my summer was at Aditya Birla group strategy."
+          },
+          "trace": {
+            "model": "gpt-5.6-luna",
+            "reasoning_effort": "low",
+            "attempts": 1,
+            "started_at": "2026-11-09T07:08:07.366Z",
+            "latency_ms": 3661,
+            "usage": {
+              "prompt_tokens": 7017,
+              "completion_tokens": 276,
+              "total_tokens": 7293,
+              "prompt_tokens_details": {
+                "cached_tokens": 5913,
+                "cache_write_tokens": 1101,
+                "audio_tokens": 0
+              },
+              "completion_tokens_details": {
+                "reasoning_tokens": 24,
+                "audio_tokens": 0,
+                "accepted_prediction_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "finish_reason": "stop",
+            "raw_response": "{\"evidence\":{\"situation\":true,\"task\":true,\"action\":true,\"result\":true,\"ownership\":\"clear_i\",\"specificity\":\"concrete\",\"anchor_fit\":\"not_applicable\",\"technical_reasoning\":\"not_applicable\",\"on_topic\":\"on\",\"answer_type\":\"example\",\"new_hook\":{\"present\":false,\"description\":\"\",\"competency_id\":null}},\"evidence_sufficient\":true,\"missing\":[],\"decision\":\"move_on\",\"probe_rung\":\"none\",\"pivot_target_slot_id\":null,\"internal_rationale\":\"The candidate gave a concise, on-topic overview covering education, work experience, MBA, and internship. Background walkthroughs do not require further probing when coherent.\",\"why_asked_for_student\":\"Your overview covered the main stages of your education and experience, so I moved to a specific strategy project.\",\"slot_summary\":\"Ishaan outlined a path from chemical engineering at IIT Bombay through three years as a production engineer at Asian Paints, IIM Ahmedabad, and a strategy internship at Aditya Birla Group. No further background detail was needed.\",\"utterance\":\"What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?\"}"
+          },
+          "output": {
+            "evidence": {
+              "situation": true,
+              "task": true,
+              "action": true,
+              "result": true,
+              "ownership": "clear_i",
+              "specificity": "concrete",
+              "anchor_fit": "not_applicable",
+              "technical_reasoning": "not_applicable",
+              "on_topic": "on",
+              "answer_type": "example",
+              "new_hook": {
+                "present": false,
+                "description": "",
+                "competency_id": null
+              }
+            },
+            "evidence_sufficient": true,
+            "missing": [],
+            "decision": "move_on",
+            "probe_rung": "none",
+            "pivot_target_slot_id": null,
+            "internal_rationale": "The candidate gave a concise, on-topic overview covering education, work experience, MBA, and internship. Background walkthroughs do not require further probing when coherent.",
+            "why_asked_for_student": "Your overview covered the main stages of your education and experience, so I moved to a specific strategy project.",
+            "slot_summary": "Ishaan outlined a path from chemical engineering at IIT Bombay through three years as a production engineer at Asian Paints, IIM Ahmedabad, and a strategy internship at Aditya Birla Group. No further background detail was needed.",
+            "utterance": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?"
+          }
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "at": "2026-11-09T07:08:18.460Z",
+      "slot_id": "s1",
+      "slot_kind": "claim",
+      "answer": "So we looked at three adjacencies and recommended specialty adhesives, it was a team effort with the GEO team.",
+      "allowed_decisions": [
+        "rephrase",
+        "answer_and_return",
+        "probe",
+        "clarify",
+        "contradiction_probe"
+      ],
+      "decision": "probe",
+      "output": {
+        "evidence": {
+          "situation": true,
+          "task": false,
+          "action": false,
+          "result": true,
+          "ownership": "mostly_we",
+          "specificity": "general",
+          "anchor_fit": "supports",
+          "technical_reasoning": "not_applicable",
+          "on_topic": "partly",
+          "answer_type": "example",
+          "new_hook": {
+            "present": false,
+            "description": "",
+            "competency_id": null
+          }
+        },
+        "evidence_sufficient": false,
+        "missing": [
+          "Ishaan's personal role in evaluating the adjacencies",
+          "The business question and trade-offs behind the recommendation"
+        ],
+        "decision": "probe",
+        "probe_rung": "role",
+        "pivot_target_slot_id": null,
+        "internal_rationale": "The answer confirms the internship work and recommendation but attributes the evaluation broadly to the team. I need to establish which decisions and analysis Ishaan personally owned before exploring the trade-offs or outcome.",
+        "why_asked_for_student": "Your answer described the team's work but not your own part, so I asked which decisions you personally handled.",
+        "slot_summary": "",
+        "utterance": "Which part of the adjacency work did you personally own? "
+      },
+      "guards": [
+        "Rewrote the message once for wording: agenda word: \"evaluation\"."
+      ],
+      "leak_flags": [],
+      "calls": [
+        {
+          "payload": {
+            "interview": {
+              "type": "hiring_manager",
+              "style": "balanced",
+              "target_role": "domain: General Management",
+              "company": null,
+              "candidate_first_name": "Ishaan",
+              "experience_level": "early",
+              "job_description": null,
+              "resume_text": "Ishaan Kulkarni\nPGP 2025-27 | Indian Institute of Management Ahmedabad\n\nEDUCATION\nPGP, IIM Ahmedabad, 2025-27, CGPA 3.0/4.33\nB.Tech, Chemical Engineering, IIT Bombay, 2021, 8.0/10\n\nWORK EXPERIENCE (36 months)\nAsian Paints, Ankleshwar plant | Production Engineer | Jul 2021 - Jun 2024\n- Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%\n- Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes\n- Coordinated with the union committee during a 3-day contract-worker stoppage in 2023\n\nSUMMER INTERNSHIP\nAditya Birla Group, Group Executive Office | Strategy Intern | Apr - Jun 2026\n- Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study\n- Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions\n\nPOSITIONS OF RESPONSIBILITY\n- Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat\n- Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore\n\nEXTRACURRICULAR\n- Completed the Ladakh Marathon (2023)"
+            },
+            "current_slot": {
+              "id": "s1",
+              "kind": "claim",
+              "competency": "Business judgment and strategy",
+              "must_have": true,
+              "anchor_resume_line": "Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study",
+              "anchor_parent": "Strategy Intern, Aditya Birla Group",
+              "question_type": "past_behaviour",
+              "intent": "Needs the business question, Ishaan's personal analytical and recommendation process, the trade-offs behind specialty adhesives, and what he would do differently now.",
+              "probe_angle": "test_claim",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "Which part of the evaluation did you personally own?",
+                "What did you decide against, and why?",
+                "What would you do differently if you evaluated the adjacencies today?"
+              ],
+              "planned_opening_question": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+              "opened_via_pivot": false,
+              "follow_ups_used": 0,
+              "follow_up_budget": 2,
+              "rungs_already_used": [
+                "role",
+                "result"
+              ],
+              "required_next_rung": null,
+              "rung_owed_before_closing": "result",
+              "rephrase_used": false,
+              "contradiction_check_used": false
+            },
+            "slot_transcript": [
+              {
+                "interviewer": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+                "candidate": null
+              }
+            ],
+            "recent_exchanges": [
+              {
+                "interviewer": "Hi Ishaan, thanks for joining. I'm on the hiring team for this role, and I'd like to understand your experience in some depth. We have about 10 minutes, with time for your questions at the end. What is one idea from your MBA so far that has proved useful in your recent work?",
+                "candidate": "Mostly the strategy courses, they are very case heavy which I like."
+              },
+              {
+                "interviewer": "Thanks. Walk me through your path from chemical engineering at Asian Paints to your MBA and your recent strategy internship.",
+                "candidate": "I did chemical engineering at IIT Bombay, then three years at Asian Paints Ankleshwar as a production engineer, then IIM Ahmedabad, and my summer was at Aditya Birla group strategy."
+              },
+              {
+                "interviewer": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+                "candidate": null
+              }
+            ],
+            "earlier_slot_summaries": [
+              {
+                "topic": "warmup",
+                "summary": "The candidate mentioned that strategy courses and their case-based format have been useful and appealing. No further detail was needed for the warm-up."
+              },
+              {
+                "topic": "background",
+                "summary": "Ishaan outlined a path from chemical engineering at IIT Bombay through three years as a production engineer at Asian Paints, IIM Ahmedabad, and a strategy internship at Aditya Birla Group. No further background detail was needed."
+              }
+            ],
+            "next_slot": {
+              "id": "s2",
+              "kind": "claim",
+              "competency": "Stakeholder management",
+              "must_have": true,
+              "anchor_resume_line": "Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat",
+              "anchor_parent": "Secretary, Rural Immersion Program, IIM Ahmedabad",
+              "question_type": "past_behaviour",
+              "intent": "Needs a specific placement challenge, Ishaan's decisions and stakeholder actions, and how he ensured the 80 students and 14 NGOs were matched effectively.",
+              "probe_angle": "test_claim",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "What part of the placement process did you personally change?",
+                "How did you handle a stakeholder who resisted your approach?",
+                "How did you judge whether the placements were successful?"
+              ],
+              "planned_opening_question": "How did the Rural Immersion Program placements come together under your leadership?",
+              "opened_via_pivot": false
+            },
+            "pivot_options": [
+              {
+                "slot_id": "s3",
+                "kind": "gap",
+                "competency_id": "k1",
+                "competency": "Business judgment and strategy",
+                "anchor_resume_line": null
+              }
+            ],
+            "allowed_decisions": [
+              "rephrase",
+              "answer_and_return",
+              "probe",
+              "clarify",
+              "contradiction_probe"
+            ],
+            "flags": {
+              "answer_word_count": 19,
+              "very_long_answer": false,
+              "candidate_questions_asked": 0,
+              "interview_nearly_over": false
+            },
+            "note": null,
+            "candidate_answer": "So we looked at three adjacencies and recommended specialty adhesives, it was a team effort with the GEO team."
+          },
+          "trace": {
+            "model": "gpt-5.6-luna",
+            "reasoning_effort": "low",
+            "attempts": 1,
+            "started_at": "2026-11-09T07:08:11.033Z",
+            "latency_ms": 3817,
+            "usage": {
+              "prompt_tokens": 7156,
+              "completion_tokens": 276,
+              "total_tokens": 7432,
+              "prompt_tokens_details": {
+                "cached_tokens": 5915,
+                "cache_write_tokens": 1238,
+                "audio_tokens": 0
+              },
+              "completion_tokens_details": {
+                "reasoning_tokens": 50,
+                "audio_tokens": 0,
+                "accepted_prediction_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "finish_reason": "stop",
+            "raw_response": "{\"evidence\":{\"situation\":true,\"task\":false,\"action\":false,\"result\":true,\"ownership\":\"mostly_we\",\"specificity\":\"general\",\"anchor_fit\":\"supports\",\"technical_reasoning\":\"not_applicable\",\"on_topic\":\"partly\",\"answer_type\":\"example\",\"new_hook\":{\"present\":false,\"description\":\"\",\"competency_id\":null}},\"evidence_sufficient\":false,\"missing\":[\"Ishaan's personal role in evaluating the adjacencies\",\"The business question and trade-offs behind the recommendation\"],\"decision\":\"probe\",\"probe_rung\":\"role\",\"pivot_target_slot_id\":null,\"internal_rationale\":\"The answer confirms the internship work and recommendation but attributes the evaluation broadly to the team. I need to establish which decisions and analysis Ishaan personally owned before exploring the trade-offs or outcome.\",\"why_asked_for_student\":\"Your answer described the team’s recommendation but not your own part in reaching it, so I asked which decisions were personally yours.\",\"slot_summary\":\"\",\"utterance\":\"Which decisions or parts of the evaluation did you personally own?\"}"
+          },
+          "output": {
+            "evidence": {
+              "situation": true,
+              "task": false,
+              "action": false,
+              "result": true,
+              "ownership": "mostly_we",
+              "specificity": "general",
+              "anchor_fit": "supports",
+              "technical_reasoning": "not_applicable",
+              "on_topic": "partly",
+              "answer_type": "example",
+              "new_hook": {
+                "present": false,
+                "description": "",
+                "competency_id": null
+              }
+            },
+            "evidence_sufficient": false,
+            "missing": [
+              "Ishaan's personal role in evaluating the adjacencies",
+              "The business question and trade-offs behind the recommendation"
+            ],
+            "decision": "probe",
+            "probe_rung": "role",
+            "pivot_target_slot_id": null,
+            "internal_rationale": "The answer confirms the internship work and recommendation but attributes the evaluation broadly to the team. I need to establish which decisions and analysis Ishaan personally owned before exploring the trade-offs or outcome.",
+            "why_asked_for_student": "Your answer described the team’s recommendation but not your own part in reaching it, so I asked which decisions were personally yours.",
+            "slot_summary": "",
+            "utterance": "Which decisions or parts of the evaluation did you personally own?"
+          }
+        },
+        {
+          "payload": {
+            "interview": {
+              "type": "hiring_manager",
+              "style": "balanced",
+              "target_role": "domain: General Management",
+              "company": null,
+              "candidate_first_name": "Ishaan",
+              "experience_level": "early",
+              "job_description": null,
+              "resume_text": "Ishaan Kulkarni\nPGP 2025-27 | Indian Institute of Management Ahmedabad\n\nEDUCATION\nPGP, IIM Ahmedabad, 2025-27, CGPA 3.0/4.33\nB.Tech, Chemical Engineering, IIT Bombay, 2021, 8.0/10\n\nWORK EXPERIENCE (36 months)\nAsian Paints, Ankleshwar plant | Production Engineer | Jul 2021 - Jun 2024\n- Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%\n- Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes\n- Coordinated with the union committee during a 3-day contract-worker stoppage in 2023\n\nSUMMER INTERNSHIP\nAditya Birla Group, Group Executive Office | Strategy Intern | Apr - Jun 2026\n- Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study\n- Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions\n\nPOSITIONS OF RESPONSIBILITY\n- Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat\n- Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore\n\nEXTRACURRICULAR\n- Completed the Ladakh Marathon (2023)"
+            },
+            "current_slot": {
+              "id": "s1",
+              "kind": "claim",
+              "competency": "Business judgment and strategy",
+              "must_have": true,
+              "anchor_resume_line": "Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study",
+              "anchor_parent": "Strategy Intern, Aditya Birla Group",
+              "question_type": "past_behaviour",
+              "intent": "Needs the business question, Ishaan's personal analytical and recommendation process, the trade-offs behind specialty adhesives, and what he would do differently now.",
+              "probe_angle": "test_claim",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "Which part of the evaluation did you personally own?",
+                "What did you decide against, and why?",
+                "What would you do differently if you evaluated the adjacencies today?"
+              ],
+              "planned_opening_question": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+              "opened_via_pivot": false,
+              "follow_ups_used": 0,
+              "follow_up_budget": 2,
+              "rungs_already_used": [
+                "role",
+                "result"
+              ],
+              "required_next_rung": null,
+              "rung_owed_before_closing": "result",
+              "rephrase_used": false,
+              "contradiction_check_used": false
+            },
+            "slot_transcript": [
+              {
+                "interviewer": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+                "candidate": null
+              }
+            ],
+            "recent_exchanges": [
+              {
+                "interviewer": "Hi Ishaan, thanks for joining. I'm on the hiring team for this role, and I'd like to understand your experience in some depth. We have about 10 minutes, with time for your questions at the end. What is one idea from your MBA so far that has proved useful in your recent work?",
+                "candidate": "Mostly the strategy courses, they are very case heavy which I like."
+              },
+              {
+                "interviewer": "Thanks. Walk me through your path from chemical engineering at Asian Paints to your MBA and your recent strategy internship.",
+                "candidate": "I did chemical engineering at IIT Bombay, then three years at Asian Paints Ankleshwar as a production engineer, then IIM Ahmedabad, and my summer was at Aditya Birla group strategy."
+              },
+              {
+                "interviewer": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+                "candidate": null
+              }
+            ],
+            "earlier_slot_summaries": [
+              {
+                "topic": "warmup",
+                "summary": "The candidate mentioned that strategy courses and their case-based format have been useful and appealing. No further detail was needed for the warm-up."
+              },
+              {
+                "topic": "background",
+                "summary": "Ishaan outlined a path from chemical engineering at IIT Bombay through three years as a production engineer at Asian Paints, IIM Ahmedabad, and a strategy internship at Aditya Birla Group. No further background detail was needed."
+              }
+            ],
+            "next_slot": {
+              "id": "s2",
+              "kind": "claim",
+              "competency": "Stakeholder management",
+              "must_have": true,
+              "anchor_resume_line": "Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat",
+              "anchor_parent": "Secretary, Rural Immersion Program, IIM Ahmedabad",
+              "question_type": "past_behaviour",
+              "intent": "Needs a specific placement challenge, Ishaan's decisions and stakeholder actions, and how he ensured the 80 students and 14 NGOs were matched effectively.",
+              "probe_angle": "test_claim",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "What part of the placement process did you personally change?",
+                "How did you handle a stakeholder who resisted your approach?",
+                "How did you judge whether the placements were successful?"
+              ],
+              "planned_opening_question": "How did the Rural Immersion Program placements come together under your leadership?",
+              "opened_via_pivot": false
+            },
+            "pivot_options": [
+              {
+                "slot_id": "s3",
+                "kind": "gap",
+                "competency_id": "k1",
+                "competency": "Business judgment and strategy",
+                "anchor_resume_line": null
+              }
+            ],
+            "allowed_decisions": [
+              "rephrase",
+              "answer_and_return",
+              "probe",
+              "clarify",
+              "contradiction_probe"
+            ],
+            "flags": {
+              "answer_word_count": 19,
+              "very_long_answer": false,
+              "candidate_questions_asked": 0,
+              "interview_nearly_over": false
+            },
+            "note": "Your utterance was flagged: agenda word: \"evaluation\". Keep the same decision (\"probe\") and rewrite the utterance so it asks one thing, offers no example answers or hints, and doesn't evaluate.",
+            "candidate_answer": "So we looked at three adjacencies and recommended specialty adhesives, it was a team effort with the GEO team."
+          },
+          "trace": {
+            "model": "gpt-5.6-luna",
+            "reasoning_effort": "low",
+            "attempts": 1,
+            "started_at": "2026-11-09T07:08:14.850Z",
+            "latency_ms": 3610,
+            "usage": {
+              "prompt_tokens": 7197,
+              "completion_tokens": 266,
+              "total_tokens": 7463,
+              "prompt_tokens_details": {
+                "cached_tokens": 5915,
+                "cache_write_tokens": 1279,
+                "audio_tokens": 0
+              },
+              "completion_tokens_details": {
+                "reasoning_tokens": 46,
+                "audio_tokens": 0,
+                "accepted_prediction_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "finish_reason": "stop",
+            "raw_response": "{\"evidence\":{\"situation\":true,\"task\":true,\"action\":false,\"result\":false,\"ownership\":\"mostly_we\",\"specificity\":\"concrete\",\"anchor_fit\":\"supports\",\"technical_reasoning\":\"not_applicable\",\"on_topic\":\"on\",\"answer_type\":\"example\",\"new_hook\":{\"present\":false,\"description\":\"\",\"competency_id\":null}},\"evidence_sufficient\":false,\"missing\":[\"Ishaan's personal role in the work\",\"The steps he took to reach the recommendation\",\"What happened after the recommendation\"],\"decision\":\"probe\",\"probe_rung\":\"role\",\"pivot_target_slot_id\":null,\"internal_rationale\":\"The answer confirms the project and recommendation but attributes the work mainly to the team. I need to understand which decisions and analysis Ishaan personally owned before asking about the outcome.\",\"why_asked_for_student\":\"Your answer described the team's work but not your own part, so I asked which decisions you personally handled.\",\"slot_summary\":\"\",\"utterance\":\"Which part of the adjacency work did you personally own? \"}"
+          },
+          "output": {
+            "evidence": {
+              "situation": true,
+              "task": true,
+              "action": false,
+              "result": false,
+              "ownership": "mostly_we",
+              "specificity": "concrete",
+              "anchor_fit": "supports",
+              "technical_reasoning": "not_applicable",
+              "on_topic": "on",
+              "answer_type": "example",
+              "new_hook": {
+                "present": false,
+                "description": "",
+                "competency_id": null
+              }
+            },
+            "evidence_sufficient": false,
+            "missing": [
+              "Ishaan's personal role in the work",
+              "The steps he took to reach the recommendation",
+              "What happened after the recommendation"
+            ],
+            "decision": "probe",
+            "probe_rung": "role",
+            "pivot_target_slot_id": null,
+            "internal_rationale": "The answer confirms the project and recommendation but attributes the work mainly to the team. I need to understand which decisions and analysis Ishaan personally owned before asking about the outcome.",
+            "why_asked_for_student": "Your answer described the team's work but not your own part, so I asked which decisions you personally handled.",
+            "slot_summary": "",
+            "utterance": "Which part of the adjacency work did you personally own? "
+          }
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "at": "2026-11-09T07:08:27.940Z",
+      "slot_id": "s1",
+      "slot_kind": "claim",
+      "answer": "No, that's all I had on that.",
+      "allowed_decisions": [
+        "rephrase",
+        "answer_and_return",
+        "probe",
+        "clarify",
+        "contradiction_probe"
+      ],
+      "decision": "probe",
+      "output": {
+        "evidence": {
+          "situation": true,
+          "task": false,
+          "action": false,
+          "result": false,
+          "ownership": "unclear",
+          "specificity": "general",
+          "anchor_fit": "not_about_line",
+          "technical_reasoning": "not_applicable",
+          "on_topic": "partly",
+          "answer_type": "other",
+          "new_hook": {
+            "present": false,
+            "description": "",
+            "competency_id": null
+          }
+        },
+        "evidence_sufficient": false,
+        "missing": [
+          "the outcome of the recommendation",
+          "Ishaan's personal analytical work and decision process"
+        ],
+        "decision": "probe",
+        "probe_rung": "result",
+        "pivot_target_slot_id": null,
+        "internal_rationale": "The candidate did not provide their personal role and closed off the prior question. The required final check is the result of the recommendation, so ask narrowly about what happened afterward.",
+        "why_asked_for_student": "Your response did not yet describe what came from the adjacency recommendation, so I asked about its outcome.",
+        "slot_summary": "",
+        "utterance": "What happened after the team recommended specialty adhesives?"
+      },
+      "guards": [
+        "Rewrote the message once for wording: offers example answers or options in the question."
+      ],
+      "leak_flags": [],
+      "calls": [
+        {
+          "payload": {
+            "interview": {
+              "type": "hiring_manager",
+              "style": "balanced",
+              "target_role": "domain: General Management",
+              "company": null,
+              "candidate_first_name": "Ishaan",
+              "experience_level": "early",
+              "job_description": null,
+              "resume_text": "Ishaan Kulkarni\nPGP 2025-27 | Indian Institute of Management Ahmedabad\n\nEDUCATION\nPGP, IIM Ahmedabad, 2025-27, CGPA 3.0/4.33\nB.Tech, Chemical Engineering, IIT Bombay, 2021, 8.0/10\n\nWORK EXPERIENCE (36 months)\nAsian Paints, Ankleshwar plant | Production Engineer | Jul 2021 - Jun 2024\n- Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%\n- Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes\n- Coordinated with the union committee during a 3-day contract-worker stoppage in 2023\n\nSUMMER INTERNSHIP\nAditya Birla Group, Group Executive Office | Strategy Intern | Apr - Jun 2026\n- Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study\n- Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions\n\nPOSITIONS OF RESPONSIBILITY\n- Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat\n- Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore\n\nEXTRACURRICULAR\n- Completed the Ladakh Marathon (2023)"
+            },
+            "current_slot": {
+              "id": "s1",
+              "kind": "claim",
+              "competency": "Business judgment and strategy",
+              "must_have": true,
+              "anchor_resume_line": "Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study",
+              "anchor_parent": "Strategy Intern, Aditya Birla Group",
+              "question_type": "past_behaviour",
+              "intent": "Needs the business question, Ishaan's personal analytical and recommendation process, the trade-offs behind specialty adhesives, and what he would do differently now.",
+              "probe_angle": "test_claim",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "Which part of the evaluation did you personally own?",
+                "What did you decide against, and why?",
+                "What would you do differently if you evaluated the adjacencies today?"
+              ],
+              "planned_opening_question": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+              "opened_via_pivot": false,
+              "follow_ups_used": 1,
+              "follow_up_budget": 2,
+              "rungs_already_used": [
+                "role",
+                "result"
+              ],
+              "required_next_rung": "result",
+              "rung_owed_before_closing": "result",
+              "rephrase_used": false,
+              "contradiction_check_used": false
+            },
+            "slot_transcript": [
+              {
+                "interviewer": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+                "candidate": "So we looked at three adjacencies and recommended specialty adhesives, it was a team effort with the GEO team."
+              },
+              {
+                "interviewer": "Which part of the adjacency work did you personally own?",
+                "candidate": null
+              }
+            ],
+            "recent_exchanges": [
+              {
+                "interviewer": "Hi Ishaan, thanks for joining. I'm on the hiring team for this role, and I'd like to understand your experience in some depth. We have about 10 minutes, with time for your questions at the end. What is one idea from your MBA so far that has proved useful in your recent work?",
+                "candidate": "Mostly the strategy courses, they are very case heavy which I like."
+              },
+              {
+                "interviewer": "Thanks. Walk me through your path from chemical engineering at Asian Paints to your MBA and your recent strategy internship.",
+                "candidate": "I did chemical engineering at IIT Bombay, then three years at Asian Paints Ankleshwar as a production engineer, then IIM Ahmedabad, and my summer was at Aditya Birla group strategy."
+              },
+              {
+                "interviewer": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+                "candidate": "So we looked at three adjacencies and recommended specialty adhesives, it was a team effort with the GEO team."
+              },
+              {
+                "interviewer": "Which part of the adjacency work did you personally own?",
+                "candidate": null
+              }
+            ],
+            "earlier_slot_summaries": [
+              {
+                "topic": "warmup",
+                "summary": "The candidate mentioned that strategy courses and their case-based format have been useful and appealing. No further detail was needed for the warm-up."
+              },
+              {
+                "topic": "background",
+                "summary": "Ishaan outlined a path from chemical engineering at IIT Bombay through three years as a production engineer at Asian Paints, IIM Ahmedabad, and a strategy internship at Aditya Birla Group. No further background detail was needed."
+              }
+            ],
+            "next_slot": {
+              "id": "s2",
+              "kind": "claim",
+              "competency": "Stakeholder management",
+              "must_have": true,
+              "anchor_resume_line": "Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat",
+              "anchor_parent": "Secretary, Rural Immersion Program, IIM Ahmedabad",
+              "question_type": "past_behaviour",
+              "intent": "Needs a specific placement challenge, Ishaan's decisions and stakeholder actions, and how he ensured the 80 students and 14 NGOs were matched effectively.",
+              "probe_angle": "test_claim",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "What part of the placement process did you personally change?",
+                "How did you handle a stakeholder who resisted your approach?",
+                "How did you judge whether the placements were successful?"
+              ],
+              "planned_opening_question": "How did the Rural Immersion Program placements come together under your leadership?",
+              "opened_via_pivot": false
+            },
+            "pivot_options": [
+              {
+                "slot_id": "s3",
+                "kind": "gap",
+                "competency_id": "k1",
+                "competency": "Business judgment and strategy",
+                "anchor_resume_line": null
+              }
+            ],
+            "allowed_decisions": [
+              "rephrase",
+              "answer_and_return",
+              "probe",
+              "clarify",
+              "contradiction_probe"
+            ],
+            "flags": {
+              "answer_word_count": 7,
+              "very_long_answer": false,
+              "candidate_questions_asked": 0,
+              "interview_nearly_over": false
+            },
+            "note": null,
+            "candidate_answer": "No, that's all I had on that."
+          },
+          "trace": {
+            "model": "gpt-5.6-luna",
+            "reasoning_effort": "low",
+            "attempts": 1,
+            "started_at": "2026-11-09T07:08:18.468Z",
+            "latency_ms": 4463,
+            "usage": {
+              "prompt_tokens": 7226,
+              "completion_tokens": 342,
+              "total_tokens": 7568,
+              "prompt_tokens_details": {
+                "cached_tokens": 5915,
+                "cache_write_tokens": 1308,
+                "audio_tokens": 0
+              },
+              "completion_tokens_details": {
+                "reasoning_tokens": 114,
+                "audio_tokens": 0,
+                "accepted_prediction_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "finish_reason": "stop",
+            "raw_response": "{\"evidence\":{\"situation\":true,\"task\":false,\"action\":false,\"result\":false,\"ownership\":\"unclear\",\"specificity\":\"general\",\"anchor_fit\":\"not_about_line\",\"technical_reasoning\":\"not_applicable\",\"on_topic\":\"partly\",\"answer_type\":\"other\",\"new_hook\":{\"present\":false,\"description\":\"\",\"competency_id\":null}},\"evidence_sufficient\":false,\"missing\":[\"the outcome of the recommendation\",\"Ishaan's personal analytical work and decision process\"],\"decision\":\"probe\",\"probe_rung\":\"result\",\"pivot_target_slot_id\":null,\"internal_rationale\":\"The candidate did not provide their personal role and closed off the prior question. The required final check is the result of the recommendation, so ask narrowly about what happened afterward.\",\"why_asked_for_student\":\"Your answer named the recommendation but not what came of it, so I asked what happened after specialty adhesives was recommended.\",\"slot_summary\":\"\",\"utterance\":\"What happened after specialty adhesives was recommended—was it taken forward for deeper study, rejected, or left undecided?\"}"
+          },
+          "output": {
+            "evidence": {
+              "situation": true,
+              "task": false,
+              "action": false,
+              "result": false,
+              "ownership": "unclear",
+              "specificity": "general",
+              "anchor_fit": "not_about_line",
+              "technical_reasoning": "not_applicable",
+              "on_topic": "partly",
+              "answer_type": "other",
+              "new_hook": {
+                "present": false,
+                "description": "",
+                "competency_id": null
+              }
+            },
+            "evidence_sufficient": false,
+            "missing": [
+              "the outcome of the recommendation",
+              "Ishaan's personal analytical work and decision process"
+            ],
+            "decision": "probe",
+            "probe_rung": "result",
+            "pivot_target_slot_id": null,
+            "internal_rationale": "The candidate did not provide their personal role and closed off the prior question. The required final check is the result of the recommendation, so ask narrowly about what happened afterward.",
+            "why_asked_for_student": "Your answer named the recommendation but not what came of it, so I asked what happened after specialty adhesives was recommended.",
+            "slot_summary": "",
+            "utterance": "What happened after specialty adhesives was recommended—was it taken forward for deeper study, rejected, or left undecided?"
+          }
+        },
+        {
+          "payload": {
+            "interview": {
+              "type": "hiring_manager",
+              "style": "balanced",
+              "target_role": "domain: General Management",
+              "company": null,
+              "candidate_first_name": "Ishaan",
+              "experience_level": "early",
+              "job_description": null,
+              "resume_text": "Ishaan Kulkarni\nPGP 2025-27 | Indian Institute of Management Ahmedabad\n\nEDUCATION\nPGP, IIM Ahmedabad, 2025-27, CGPA 3.0/4.33\nB.Tech, Chemical Engineering, IIT Bombay, 2021, 8.0/10\n\nWORK EXPERIENCE (36 months)\nAsian Paints, Ankleshwar plant | Production Engineer | Jul 2021 - Jun 2024\n- Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%\n- Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes\n- Coordinated with the union committee during a 3-day contract-worker stoppage in 2023\n\nSUMMER INTERNSHIP\nAditya Birla Group, Group Executive Office | Strategy Intern | Apr - Jun 2026\n- Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study\n- Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions\n\nPOSITIONS OF RESPONSIBILITY\n- Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat\n- Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore\n\nEXTRACURRICULAR\n- Completed the Ladakh Marathon (2023)"
+            },
+            "current_slot": {
+              "id": "s1",
+              "kind": "claim",
+              "competency": "Business judgment and strategy",
+              "must_have": true,
+              "anchor_resume_line": "Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study",
+              "anchor_parent": "Strategy Intern, Aditya Birla Group",
+              "question_type": "past_behaviour",
+              "intent": "Needs the business question, Ishaan's personal analytical and recommendation process, the trade-offs behind specialty adhesives, and what he would do differently now.",
+              "probe_angle": "test_claim",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "Which part of the evaluation did you personally own?",
+                "What did you decide against, and why?",
+                "What would you do differently if you evaluated the adjacencies today?"
+              ],
+              "planned_opening_question": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+              "opened_via_pivot": false,
+              "follow_ups_used": 1,
+              "follow_up_budget": 2,
+              "rungs_already_used": [
+                "role",
+                "result"
+              ],
+              "required_next_rung": "result",
+              "rung_owed_before_closing": "result",
+              "rephrase_used": false,
+              "contradiction_check_used": false
+            },
+            "slot_transcript": [
+              {
+                "interviewer": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+                "candidate": "So we looked at three adjacencies and recommended specialty adhesives, it was a team effort with the GEO team."
+              },
+              {
+                "interviewer": "Which part of the adjacency work did you personally own?",
+                "candidate": null
+              }
+            ],
+            "recent_exchanges": [
+              {
+                "interviewer": "Hi Ishaan, thanks for joining. I'm on the hiring team for this role, and I'd like to understand your experience in some depth. We have about 10 minutes, with time for your questions at the end. What is one idea from your MBA so far that has proved useful in your recent work?",
+                "candidate": "Mostly the strategy courses, they are very case heavy which I like."
+              },
+              {
+                "interviewer": "Thanks. Walk me through your path from chemical engineering at Asian Paints to your MBA and your recent strategy internship.",
+                "candidate": "I did chemical engineering at IIT Bombay, then three years at Asian Paints Ankleshwar as a production engineer, then IIM Ahmedabad, and my summer was at Aditya Birla group strategy."
+              },
+              {
+                "interviewer": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+                "candidate": "So we looked at three adjacencies and recommended specialty adhesives, it was a team effort with the GEO team."
+              },
+              {
+                "interviewer": "Which part of the adjacency work did you personally own?",
+                "candidate": null
+              }
+            ],
+            "earlier_slot_summaries": [
+              {
+                "topic": "warmup",
+                "summary": "The candidate mentioned that strategy courses and their case-based format have been useful and appealing. No further detail was needed for the warm-up."
+              },
+              {
+                "topic": "background",
+                "summary": "Ishaan outlined a path from chemical engineering at IIT Bombay through three years as a production engineer at Asian Paints, IIM Ahmedabad, and a strategy internship at Aditya Birla Group. No further background detail was needed."
+              }
+            ],
+            "next_slot": {
+              "id": "s2",
+              "kind": "claim",
+              "competency": "Stakeholder management",
+              "must_have": true,
+              "anchor_resume_line": "Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat",
+              "anchor_parent": "Secretary, Rural Immersion Program, IIM Ahmedabad",
+              "question_type": "past_behaviour",
+              "intent": "Needs a specific placement challenge, Ishaan's decisions and stakeholder actions, and how he ensured the 80 students and 14 NGOs were matched effectively.",
+              "probe_angle": "test_claim",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "What part of the placement process did you personally change?",
+                "How did you handle a stakeholder who resisted your approach?",
+                "How did you judge whether the placements were successful?"
+              ],
+              "planned_opening_question": "How did the Rural Immersion Program placements come together under your leadership?",
+              "opened_via_pivot": false
+            },
+            "pivot_options": [
+              {
+                "slot_id": "s3",
+                "kind": "gap",
+                "competency_id": "k1",
+                "competency": "Business judgment and strategy",
+                "anchor_resume_line": null
+              }
+            ],
+            "allowed_decisions": [
+              "rephrase",
+              "answer_and_return",
+              "probe",
+              "clarify",
+              "contradiction_probe"
+            ],
+            "flags": {
+              "answer_word_count": 7,
+              "very_long_answer": false,
+              "candidate_questions_asked": 0,
+              "interview_nearly_over": false
+            },
+            "note": "Your utterance was flagged: offers example answers or options in the question. Keep the same decision (\"probe\") and rewrite the utterance so it asks one thing, offers no example answers or hints, and doesn't evaluate.",
+            "candidate_answer": "No, that's all I had on that."
+          },
+          "trace": {
+            "model": "gpt-5.6-luna",
+            "reasoning_effort": "low",
+            "attempts": 1,
+            "started_at": "2026-11-09T07:08:22.931Z",
+            "latency_ms": 5009,
+            "usage": {
+              "prompt_tokens": 7269,
+              "completion_tokens": 370,
+              "total_tokens": 7639,
+              "prompt_tokens_details": {
+                "cached_tokens": 5915,
+                "cache_write_tokens": 1351,
+                "audio_tokens": 0
+              },
+              "completion_tokens_details": {
+                "reasoning_tokens": 157,
+                "audio_tokens": 0,
+                "accepted_prediction_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "finish_reason": "stop",
+            "raw_response": "{\"evidence\":{\"situation\":false,\"task\":false,\"action\":false,\"result\":false,\"ownership\":\"unclear\",\"specificity\":\"general\",\"anchor_fit\":\"not_about_line\",\"technical_reasoning\":\"not_applicable\",\"on_topic\":\"off\",\"answer_type\":\"other\",\"new_hook\":{\"present\":false,\"description\":\"\",\"competency_id\":null}},\"evidence_sufficient\":false,\"missing\":[\"what Ishaan personally owned\",\"the business question and analytical process\",\"the outcome of the recommendation\"],\"decision\":\"probe\",\"probe_rung\":\"result\",\"pivot_target_slot_id\":null,\"internal_rationale\":\"The candidate did not provide the requested personal ownership or a substantive example, and instead closed the exchange. A final narrow result question is required by the topic plan before moving on.\",\"why_asked_for_student\":\"Your response did not yet describe what came from the adjacency recommendation, so I asked about its outcome.\",\"slot_summary\":\"\",\"utterance\":\"What happened after the team recommended specialty adhesives?\"}"
+          },
+          "output": {
+            "evidence": {
+              "situation": false,
+              "task": false,
+              "action": false,
+              "result": false,
+              "ownership": "unclear",
+              "specificity": "general",
+              "anchor_fit": "not_about_line",
+              "technical_reasoning": "not_applicable",
+              "on_topic": "off",
+              "answer_type": "other",
+              "new_hook": {
+                "present": false,
+                "description": "",
+                "competency_id": null
+              }
+            },
+            "evidence_sufficient": false,
+            "missing": [
+              "what Ishaan personally owned",
+              "the business question and analytical process",
+              "the outcome of the recommendation"
+            ],
+            "decision": "probe",
+            "probe_rung": "result",
+            "pivot_target_slot_id": null,
+            "internal_rationale": "The candidate did not provide the requested personal ownership or a substantive example, and instead closed the exchange. A final narrow result question is required by the topic plan before moving on.",
+            "why_asked_for_student": "Your response did not yet describe what came from the adjacency recommendation, so I asked about its outcome.",
+            "slot_summary": "",
+            "utterance": "What happened after the team recommended specialty adhesives?"
+          }
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "at": "2026-11-09T07:08:31.965Z",
+      "slot_id": "s1",
+      "slot_kind": "claim",
+      "answer": "No, that's all.",
+      "allowed_decisions": [
+        "move_on",
+        "rephrase",
+        "answer_and_return",
+        "pivot"
+      ],
+      "decision": "move_on",
+      "output": {
+        "evidence": {
+          "situation": true,
+          "task": false,
+          "action": false,
+          "result": false,
+          "ownership": "unclear",
+          "specificity": "general",
+          "anchor_fit": "supports",
+          "technical_reasoning": "not_applicable",
+          "on_topic": "on",
+          "answer_type": "no_example",
+          "new_hook": {
+            "present": false,
+            "description": "",
+            "competency_id": null
+          }
+        },
+        "evidence_sufficient": false,
+        "missing": [
+          "Ishaan's personal analytical work and recommendation process",
+          "The trade-offs behind choosing specialty adhesives",
+          "What happened after the recommendation"
+        ],
+        "decision": "move_on",
+        "probe_rung": "none",
+        "pivot_target_slot_id": null,
+        "internal_rationale": "The candidate did not provide further detail and the topic has no follow-ups remaining. Move to the next planned resume topic.",
+        "why_asked_for_student": "Your answers identified the team recommendation but did not describe your own contribution or the reasoning behind it, so there was no further detail to ask about.",
+        "slot_summary": "Ishaan confirmed that the team evaluated three adjacencies and recommended specialty adhesives, but did not provide a specific business question, personal contribution, analytical process, trade-offs, or outcome.",
+        "utterance": "Let’s move to your Rural Immersion Program work. How did the placements come together under your leadership?"
+      },
+      "guards": [
+        "Added a second-chance topic for must-have \"Business judgment and strategy\" before the candidate's questions."
+      ],
+      "leak_flags": [],
+      "calls": [
+        {
+          "payload": {
+            "interview": {
+              "type": "hiring_manager",
+              "style": "balanced",
+              "target_role": "domain: General Management",
+              "company": null,
+              "candidate_first_name": "Ishaan",
+              "experience_level": "early",
+              "job_description": null,
+              "resume_text": "Ishaan Kulkarni\nPGP 2025-27 | Indian Institute of Management Ahmedabad\n\nEDUCATION\nPGP, IIM Ahmedabad, 2025-27, CGPA 3.0/4.33\nB.Tech, Chemical Engineering, IIT Bombay, 2021, 8.0/10\n\nWORK EXPERIENCE (36 months)\nAsian Paints, Ankleshwar plant | Production Engineer | Jul 2021 - Jun 2024\n- Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%\n- Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes\n- Coordinated with the union committee during a 3-day contract-worker stoppage in 2023\n\nSUMMER INTERNSHIP\nAditya Birla Group, Group Executive Office | Strategy Intern | Apr - Jun 2026\n- Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study\n- Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions\n\nPOSITIONS OF RESPONSIBILITY\n- Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat\n- Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore\n\nEXTRACURRICULAR\n- Completed the Ladakh Marathon (2023)"
+            },
+            "current_slot": {
+              "id": "s1",
+              "kind": "claim",
+              "competency": "Business judgment and strategy",
+              "must_have": true,
+              "anchor_resume_line": "Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study",
+              "anchor_parent": "Strategy Intern, Aditya Birla Group",
+              "question_type": "past_behaviour",
+              "intent": "Needs the business question, Ishaan's personal analytical and recommendation process, the trade-offs behind specialty adhesives, and what he would do differently now.",
+              "probe_angle": "test_claim",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "Which part of the evaluation did you personally own?",
+                "What did you decide against, and why?",
+                "What would you do differently if you evaluated the adjacencies today?"
+              ],
+              "planned_opening_question": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+              "opened_via_pivot": false,
+              "follow_ups_used": 2,
+              "follow_up_budget": 2,
+              "rungs_already_used": [
+                "role",
+                "result"
+              ],
+              "required_next_rung": null,
+              "rung_owed_before_closing": null,
+              "rephrase_used": false,
+              "contradiction_check_used": false
+            },
+            "slot_transcript": [
+              {
+                "interviewer": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+                "candidate": "So we looked at three adjacencies and recommended specialty adhesives, it was a team effort with the GEO team."
+              },
+              {
+                "interviewer": "Which part of the adjacency work did you personally own?",
+                "candidate": "No, that's all I had on that."
+              },
+              {
+                "interviewer": "What happened after the team recommended specialty adhesives?",
+                "candidate": null
+              }
+            ],
+            "recent_exchanges": [
+              {
+                "interviewer": "Thanks. Walk me through your path from chemical engineering at Asian Paints to your MBA and your recent strategy internship.",
+                "candidate": "I did chemical engineering at IIT Bombay, then three years at Asian Paints Ankleshwar as a production engineer, then IIM Ahmedabad, and my summer was at Aditya Birla group strategy."
+              },
+              {
+                "interviewer": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+                "candidate": "So we looked at three adjacencies and recommended specialty adhesives, it was a team effort with the GEO team."
+              },
+              {
+                "interviewer": "Which part of the adjacency work did you personally own?",
+                "candidate": "No, that's all I had on that."
+              },
+              {
+                "interviewer": "What happened after the team recommended specialty adhesives?",
+                "candidate": null
+              }
+            ],
+            "earlier_slot_summaries": [
+              {
+                "topic": "warmup",
+                "summary": "The candidate mentioned that strategy courses and their case-based format have been useful and appealing. No further detail was needed for the warm-up."
+              },
+              {
+                "topic": "background",
+                "summary": "Ishaan outlined a path from chemical engineering at IIT Bombay through three years as a production engineer at Asian Paints, IIM Ahmedabad, and a strategy internship at Aditya Birla Group. No further background detail was needed."
+              }
+            ],
+            "next_slot": {
+              "id": "s2",
+              "kind": "claim",
+              "competency": "Stakeholder management",
+              "must_have": true,
+              "anchor_resume_line": "Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat",
+              "anchor_parent": "Secretary, Rural Immersion Program, IIM Ahmedabad",
+              "question_type": "past_behaviour",
+              "intent": "Needs a specific placement challenge, Ishaan's decisions and stakeholder actions, and how he ensured the 80 students and 14 NGOs were matched effectively.",
+              "probe_angle": "test_claim",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "What part of the placement process did you personally change?",
+                "How did you handle a stakeholder who resisted your approach?",
+                "How did you judge whether the placements were successful?"
+              ],
+              "planned_opening_question": "How did the Rural Immersion Program placements come together under your leadership?",
+              "opened_via_pivot": false
+            },
+            "pivot_options": [
+              {
+                "slot_id": "s3",
+                "kind": "gap",
+                "competency_id": "k1",
+                "competency": "Business judgment and strategy",
+                "anchor_resume_line": null
+              }
+            ],
+            "allowed_decisions": [
+              "move_on",
+              "rephrase",
+              "answer_and_return",
+              "pivot"
+            ],
+            "flags": {
+              "answer_word_count": 3,
+              "very_long_answer": false,
+              "candidate_questions_asked": 0,
+              "interview_nearly_over": false
+            },
+            "note": null,
+            "candidate_answer": "No, that's all."
+          },
+          "trace": {
+            "model": "gpt-5.6-luna",
+            "reasoning_effort": "low",
+            "attempts": 1,
+            "started_at": "2026-11-09T07:08:27.948Z",
+            "latency_ms": 4017,
+            "usage": {
+              "prompt_tokens": 7181,
+              "completion_tokens": 340,
+              "total_tokens": 7521,
+              "prompt_tokens_details": {
+                "cached_tokens": 5910,
+                "cache_write_tokens": 1268,
+                "audio_tokens": 0
+              },
+              "completion_tokens_details": {
+                "reasoning_tokens": 73,
+                "audio_tokens": 0,
+                "accepted_prediction_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "finish_reason": "stop",
+            "raw_response": "{\"evidence\":{\"situation\":true,\"task\":false,\"action\":false,\"result\":false,\"ownership\":\"unclear\",\"specificity\":\"general\",\"anchor_fit\":\"supports\",\"technical_reasoning\":\"not_applicable\",\"on_topic\":\"on\",\"answer_type\":\"no_example\",\"new_hook\":{\"present\":false,\"description\":\"\",\"competency_id\":null}},\"evidence_sufficient\":false,\"missing\":[\"Ishaan's personal analytical work and recommendation process\",\"The trade-offs behind choosing specialty adhesives\",\"What happened after the recommendation\"],\"decision\":\"move_on\",\"probe_rung\":\"none\",\"pivot_target_slot_id\":null,\"internal_rationale\":\"The candidate did not provide further detail and the topic has no follow-ups remaining. Move to the next planned resume topic.\",\"why_asked_for_student\":\"Your answers identified the team recommendation but did not describe your own contribution or the reasoning behind it, so there was no further detail to ask about.\",\"slot_summary\":\"Ishaan confirmed that the team evaluated three adjacencies and recommended specialty adhesives, but did not provide a specific business question, personal contribution, analytical process, trade-offs, or outcome.\",\"utterance\":\"Let’s move to your Rural Immersion Program work. How did the placements come together under your leadership?\"}"
+          },
+          "output": {
+            "evidence": {
+              "situation": true,
+              "task": false,
+              "action": false,
+              "result": false,
+              "ownership": "unclear",
+              "specificity": "general",
+              "anchor_fit": "supports",
+              "technical_reasoning": "not_applicable",
+              "on_topic": "on",
+              "answer_type": "no_example",
+              "new_hook": {
+                "present": false,
+                "description": "",
+                "competency_id": null
+              }
+            },
+            "evidence_sufficient": false,
+            "missing": [
+              "Ishaan's personal analytical work and recommendation process",
+              "The trade-offs behind choosing specialty adhesives",
+              "What happened after the recommendation"
+            ],
+            "decision": "move_on",
+            "probe_rung": "none",
+            "pivot_target_slot_id": null,
+            "internal_rationale": "The candidate did not provide further detail and the topic has no follow-ups remaining. Move to the next planned resume topic.",
+            "why_asked_for_student": "Your answers identified the team recommendation but did not describe your own contribution or the reasoning behind it, so there was no further detail to ask about.",
+            "slot_summary": "Ishaan confirmed that the team evaluated three adjacencies and recommended specialty adhesives, but did not provide a specific business question, personal contribution, analytical process, trade-offs, or outcome.",
+            "utterance": "Let’s move to your Rural Immersion Program work. How did the placements come together under your leadership?"
+          }
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "at": "2026-11-09T07:08:35.865Z",
+      "slot_id": "s2",
+      "slot_kind": "claim",
+      "answer": "No, that's all.",
+      "allowed_decisions": [
+        "rephrase",
+        "answer_and_return",
+        "probe",
+        "clarify",
+        "contradiction_probe"
+      ],
+      "decision": "clarify",
+      "output": {
+        "evidence": {
+          "situation": false,
+          "task": false,
+          "action": false,
+          "result": false,
+          "ownership": "unclear",
+          "specificity": "general",
+          "anchor_fit": "not_about_line",
+          "technical_reasoning": "not_applicable",
+          "on_topic": "off",
+          "answer_type": "no_example",
+          "new_hook": {
+            "present": false,
+            "description": "",
+            "competency_id": null
+          }
+        },
+        "evidence_sufficient": false,
+        "missing": [
+          "a specific placement challenge",
+          "his own decisions and stakeholder actions",
+          "how placement success was judged"
+        ],
+        "decision": "clarify",
+        "probe_rung": "role",
+        "pivot_target_slot_id": null,
+        "internal_rationale": "The candidate did not provide an answer to the placement question. A narrower request for one concrete example gives him a final opportunity to provide evidence from the anchored experience.",
+        "why_asked_for_student": "You did not yet describe a placement situation, so I asked for one specific challenge from the program and what you personally handled.",
+        "slot_summary": "",
+        "utterance": "Please give me one specific placement challenge from the Rural Immersion Program and describe what you personally handled."
+      },
+      "guards": [
+        "Time rule: dropped topic second_chance_k1 (Business judgment and strategy) to finish on time."
+      ],
+      "leak_flags": [],
+      "calls": [
+        {
+          "payload": {
+            "interview": {
+              "type": "hiring_manager",
+              "style": "balanced",
+              "target_role": "domain: General Management",
+              "company": null,
+              "candidate_first_name": "Ishaan",
+              "experience_level": "early",
+              "job_description": null,
+              "resume_text": "Ishaan Kulkarni\nPGP 2025-27 | Indian Institute of Management Ahmedabad\n\nEDUCATION\nPGP, IIM Ahmedabad, 2025-27, CGPA 3.0/4.33\nB.Tech, Chemical Engineering, IIT Bombay, 2021, 8.0/10\n\nWORK EXPERIENCE (36 months)\nAsian Paints, Ankleshwar plant | Production Engineer | Jul 2021 - Jun 2024\n- Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%\n- Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes\n- Coordinated with the union committee during a 3-day contract-worker stoppage in 2023\n\nSUMMER INTERNSHIP\nAditya Birla Group, Group Executive Office | Strategy Intern | Apr - Jun 2026\n- Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study\n- Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions\n\nPOSITIONS OF RESPONSIBILITY\n- Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat\n- Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore\n\nEXTRACURRICULAR\n- Completed the Ladakh Marathon (2023)"
+            },
+            "current_slot": {
+              "id": "s2",
+              "kind": "claim",
+              "competency": "Stakeholder management",
+              "must_have": true,
+              "anchor_resume_line": "Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat",
+              "anchor_parent": "Secretary, Rural Immersion Program, IIM Ahmedabad",
+              "question_type": "past_behaviour",
+              "intent": "Needs a specific placement challenge, Ishaan's decisions and stakeholder actions, and how he ensured the 80 students and 14 NGOs were matched effectively.",
+              "probe_angle": "test_claim",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "What part of the placement process did you personally change?",
+                "How did you handle a stakeholder who resisted your approach?",
+                "How did you judge whether the placements were successful?"
+              ],
+              "planned_opening_question": "How did the Rural Immersion Program placements come together under your leadership?",
+              "opened_via_pivot": false,
+              "follow_ups_used": 0,
+              "follow_up_budget": 2,
+              "rungs_already_used": [
+                "role",
+                "result"
+              ],
+              "required_next_rung": null,
+              "rung_owed_before_closing": "result",
+              "rephrase_used": false,
+              "contradiction_check_used": false
+            },
+            "slot_transcript": [
+              {
+                "interviewer": "Let’s move to your Rural Immersion Program work. How did the placements come together under your leadership?",
+                "candidate": null
+              }
+            ],
+            "recent_exchanges": [
+              {
+                "interviewer": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+                "candidate": "So we looked at three adjacencies and recommended specialty adhesives, it was a team effort with the GEO team."
+              },
+              {
+                "interviewer": "Which part of the adjacency work did you personally own?",
+                "candidate": "No, that's all I had on that."
+              },
+              {
+                "interviewer": "What happened after the team recommended specialty adhesives?",
+                "candidate": "No, that's all."
+              },
+              {
+                "interviewer": "Let’s move to your Rural Immersion Program work. How did the placements come together under your leadership?",
+                "candidate": null
+              }
+            ],
+            "earlier_slot_summaries": [
+              {
+                "topic": "warmup",
+                "summary": "The candidate mentioned that strategy courses and their case-based format have been useful and appealing. No further detail was needed for the warm-up."
+              },
+              {
+                "topic": "background",
+                "summary": "Ishaan outlined a path from chemical engineering at IIT Bombay through three years as a production engineer at Asian Paints, IIM Ahmedabad, and a strategy internship at Aditya Birla Group. No further background detail was needed."
+              },
+              {
+                "topic": "Business judgment and strategy",
+                "summary": "Ishaan confirmed that the team evaluated three adjacencies and recommended specialty adhesives, but did not provide a specific business question, personal contribution, analytical process, trade-offs, or outcome."
+              }
+            ],
+            "next_slot": {
+              "id": "s3",
+              "kind": "gap",
+              "competency": "Business judgment and strategy",
+              "must_have": true,
+              "anchor_resume_line": null,
+              "anchor_parent": null,
+              "question_type": "knowledge",
+              "intent": "Needs an applied prioritisation approach that weighs strategic fit, market attractiveness, capability requirements, investment risk and uncertainty rather than relying only on projected returns.",
+              "probe_angle": "find_substance",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "Why would you use that approach instead of focusing first on projected returns?",
+                "When would you reject an adjacency despite attractive returns?",
+                "How did you apply a similar trade-off in your strategy internship?"
+              ],
+              "planned_opening_question": "How would you decide whether to pursue a new business adjacency when market size, capabilities and projected returns point in different directions?",
+              "opened_via_pivot": false
+            },
+            "pivot_options": [],
+            "allowed_decisions": [
+              "rephrase",
+              "answer_and_return",
+              "probe",
+              "clarify",
+              "contradiction_probe"
+            ],
+            "flags": {
+              "answer_word_count": 3,
+              "very_long_answer": false,
+              "candidate_questions_asked": 0,
+              "interview_nearly_over": false
+            },
+            "note": null,
+            "candidate_answer": "No, that's all."
+          },
+          "trace": {
+            "model": "gpt-5.6-luna",
+            "reasoning_effort": "low",
+            "attempts": 1,
+            "started_at": "2026-11-09T07:08:31.970Z",
+            "latency_ms": 3895,
+            "usage": {
+              "prompt_tokens": 7068,
+              "completion_tokens": 277,
+              "total_tokens": 7345,
+              "prompt_tokens_details": {
+                "cached_tokens": 5905,
+                "cache_write_tokens": 1160,
+                "audio_tokens": 0
+              },
+              "completion_tokens_details": {
+                "reasoning_tokens": 50,
+                "audio_tokens": 0,
+                "accepted_prediction_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "finish_reason": "stop",
+            "raw_response": "{\"evidence\":{\"situation\":false,\"task\":false,\"action\":false,\"result\":false,\"ownership\":\"unclear\",\"specificity\":\"general\",\"anchor_fit\":\"not_about_line\",\"technical_reasoning\":\"not_applicable\",\"on_topic\":\"off\",\"answer_type\":\"no_example\",\"new_hook\":{\"present\":false,\"description\":\"\",\"competency_id\":null}},\"evidence_sufficient\":false,\"missing\":[\"a specific placement challenge\",\"his own decisions and stakeholder actions\",\"how placement success was judged\"],\"decision\":\"clarify\",\"probe_rung\":\"role\",\"pivot_target_slot_id\":null,\"internal_rationale\":\"The candidate did not provide an answer to the placement question. A narrower request for one concrete example gives him a final opportunity to provide evidence from the anchored experience.\",\"why_asked_for_student\":\"You did not yet describe a placement situation, so I asked for one specific challenge from the program and what you personally handled.\",\"slot_summary\":\"\",\"utterance\":\"Please give me one specific placement challenge from the Rural Immersion Program and describe what you personally handled.\"}"
+          },
+          "output": {
+            "evidence": {
+              "situation": false,
+              "task": false,
+              "action": false,
+              "result": false,
+              "ownership": "unclear",
+              "specificity": "general",
+              "anchor_fit": "not_about_line",
+              "technical_reasoning": "not_applicable",
+              "on_topic": "off",
+              "answer_type": "no_example",
+              "new_hook": {
+                "present": false,
+                "description": "",
+                "competency_id": null
+              }
+            },
+            "evidence_sufficient": false,
+            "missing": [
+              "a specific placement challenge",
+              "his own decisions and stakeholder actions",
+              "how placement success was judged"
+            ],
+            "decision": "clarify",
+            "probe_rung": "role",
+            "pivot_target_slot_id": null,
+            "internal_rationale": "The candidate did not provide an answer to the placement question. A narrower request for one concrete example gives him a final opportunity to provide evidence from the anchored experience.",
+            "why_asked_for_student": "You did not yet describe a placement situation, so I asked for one specific challenge from the program and what you personally handled.",
+            "slot_summary": "",
+            "utterance": "Please give me one specific placement challenge from the Rural Immersion Program and describe what you personally handled."
+          }
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "at": "2026-11-09T07:08:40.519Z",
+      "slot_id": "s2",
+      "slot_kind": "claim",
+      "answer": "No, that's all.",
+      "allowed_decisions": [
+        "rephrase",
+        "answer_and_return",
+        "probe",
+        "clarify",
+        "contradiction_probe"
+      ],
+      "decision": "clarify",
+      "output": {
+        "evidence": {
+          "situation": false,
+          "task": false,
+          "action": false,
+          "result": false,
+          "ownership": "unclear",
+          "specificity": "general",
+          "anchor_fit": "not_about_line",
+          "technical_reasoning": "not_applicable",
+          "on_topic": "partly",
+          "answer_type": "no_example",
+          "new_hook": {
+            "present": false,
+            "description": "",
+            "competency_id": null
+          }
+        },
+        "evidence_sufficient": false,
+        "missing": [
+          "a specific placement challenge",
+          "what Ishaan personally did",
+          "how placement success was judged"
+        ],
+        "decision": "clarify",
+        "probe_rung": "result",
+        "pivot_target_slot_id": null,
+        "internal_rationale": "The candidate declined to provide an example after the question was narrowed. The topic still requires evidence, so I am giving one final, direct opportunity focused on the outcome of the placements.",
+        "why_asked_for_student": "Your reply did not provide a placement example, so I asked for the concrete outcome of the placements you coordinated.",
+        "slot_summary": "",
+        "utterance": "Understood. For one placement you coordinated, what outcome showed that the student and NGO were successfully matched?"
+      },
+      "guards": [],
+      "leak_flags": [],
+      "calls": [
+        {
+          "payload": {
+            "interview": {
+              "type": "hiring_manager",
+              "style": "balanced",
+              "target_role": "domain: General Management",
+              "company": null,
+              "candidate_first_name": "Ishaan",
+              "experience_level": "early",
+              "job_description": null,
+              "resume_text": "Ishaan Kulkarni\nPGP 2025-27 | Indian Institute of Management Ahmedabad\n\nEDUCATION\nPGP, IIM Ahmedabad, 2025-27, CGPA 3.0/4.33\nB.Tech, Chemical Engineering, IIT Bombay, 2021, 8.0/10\n\nWORK EXPERIENCE (36 months)\nAsian Paints, Ankleshwar plant | Production Engineer | Jul 2021 - Jun 2024\n- Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%\n- Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes\n- Coordinated with the union committee during a 3-day contract-worker stoppage in 2023\n\nSUMMER INTERNSHIP\nAditya Birla Group, Group Executive Office | Strategy Intern | Apr - Jun 2026\n- Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study\n- Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions\n\nPOSITIONS OF RESPONSIBILITY\n- Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat\n- Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore\n\nEXTRACURRICULAR\n- Completed the Ladakh Marathon (2023)"
+            },
+            "current_slot": {
+              "id": "s2",
+              "kind": "claim",
+              "competency": "Stakeholder management",
+              "must_have": true,
+              "anchor_resume_line": "Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat",
+              "anchor_parent": "Secretary, Rural Immersion Program, IIM Ahmedabad",
+              "question_type": "past_behaviour",
+              "intent": "Needs a specific placement challenge, Ishaan's decisions and stakeholder actions, and how he ensured the 80 students and 14 NGOs were matched effectively.",
+              "probe_angle": "test_claim",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "What part of the placement process did you personally change?",
+                "How did you handle a stakeholder who resisted your approach?",
+                "How did you judge whether the placements were successful?"
+              ],
+              "planned_opening_question": "How did the Rural Immersion Program placements come together under your leadership?",
+              "opened_via_pivot": false,
+              "follow_ups_used": 1,
+              "follow_up_budget": 2,
+              "rungs_already_used": [
+                "role",
+                "result"
+              ],
+              "required_next_rung": "result",
+              "rung_owed_before_closing": "result",
+              "rephrase_used": false,
+              "contradiction_check_used": false
+            },
+            "slot_transcript": [
+              {
+                "interviewer": "Let’s move to your Rural Immersion Program work. How did the placements come together under your leadership?",
+                "candidate": "No, that's all."
+              },
+              {
+                "interviewer": "Please give me one specific placement challenge from the Rural Immersion Program and describe what you personally handled.",
+                "candidate": null
+              }
+            ],
+            "recent_exchanges": [
+              {
+                "interviewer": "Which part of the adjacency work did you personally own?",
+                "candidate": "No, that's all I had on that."
+              },
+              {
+                "interviewer": "What happened after the team recommended specialty adhesives?",
+                "candidate": "No, that's all."
+              },
+              {
+                "interviewer": "Let’s move to your Rural Immersion Program work. How did the placements come together under your leadership?",
+                "candidate": "No, that's all."
+              },
+              {
+                "interviewer": "Please give me one specific placement challenge from the Rural Immersion Program and describe what you personally handled.",
+                "candidate": null
+              }
+            ],
+            "earlier_slot_summaries": [
+              {
+                "topic": "warmup",
+                "summary": "The candidate mentioned that strategy courses and their case-based format have been useful and appealing. No further detail was needed for the warm-up."
+              },
+              {
+                "topic": "background",
+                "summary": "Ishaan outlined a path from chemical engineering at IIT Bombay through three years as a production engineer at Asian Paints, IIM Ahmedabad, and a strategy internship at Aditya Birla Group. No further background detail was needed."
+              },
+              {
+                "topic": "Business judgment and strategy",
+                "summary": "Ishaan confirmed that the team evaluated three adjacencies and recommended specialty adhesives, but did not provide a specific business question, personal contribution, analytical process, trade-offs, or outcome."
+              }
+            ],
+            "next_slot": {
+              "id": "s3",
+              "kind": "gap",
+              "competency": "Business judgment and strategy",
+              "must_have": true,
+              "anchor_resume_line": null,
+              "anchor_parent": null,
+              "question_type": "knowledge",
+              "intent": "Needs an applied prioritisation approach that weighs strategic fit, market attractiveness, capability requirements, investment risk and uncertainty rather than relying only on projected returns.",
+              "probe_angle": "find_substance",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "Why would you use that approach instead of focusing first on projected returns?",
+                "When would you reject an adjacency despite attractive returns?",
+                "How did you apply a similar trade-off in your strategy internship?"
+              ],
+              "planned_opening_question": "How would you decide whether to pursue a new business adjacency when market size, capabilities and projected returns point in different directions?",
+              "opened_via_pivot": false
+            },
+            "pivot_options": [],
+            "allowed_decisions": [
+              "rephrase",
+              "answer_and_return",
+              "probe",
+              "clarify",
+              "contradiction_probe"
+            ],
+            "flags": {
+              "answer_word_count": 3,
+              "very_long_answer": false,
+              "candidate_questions_asked": 0,
+              "interview_nearly_over": false
+            },
+            "note": null,
+            "candidate_answer": "No, that's all."
+          },
+          "trace": {
+            "model": "gpt-5.6-luna",
+            "reasoning_effort": "low",
+            "attempts": 1,
+            "started_at": "2026-11-09T07:08:35.873Z",
+            "latency_ms": 4645,
+            "usage": {
+              "prompt_tokens": 7080,
+              "completion_tokens": 379,
+              "total_tokens": 7459,
+              "prompt_tokens_details": {
+                "cached_tokens": 5905,
+                "cache_write_tokens": 1172,
+                "audio_tokens": 0
+              },
+              "completion_tokens_details": {
+                "reasoning_tokens": 150,
+                "audio_tokens": 0,
+                "accepted_prediction_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "finish_reason": "stop",
+            "raw_response": "{\"evidence\":{\"situation\":false,\"task\":false,\"action\":false,\"result\":false,\"ownership\":\"unclear\",\"specificity\":\"general\",\"anchor_fit\":\"not_about_line\",\"technical_reasoning\":\"not_applicable\",\"on_topic\":\"partly\",\"answer_type\":\"no_example\",\"new_hook\":{\"present\":false,\"description\":\"\",\"competency_id\":null}},\"evidence_sufficient\":false,\"missing\":[\"a specific placement challenge\",\"what Ishaan personally did\",\"how placement success was judged\"],\"decision\":\"clarify\",\"probe_rung\":\"result\",\"pivot_target_slot_id\":null,\"internal_rationale\":\"The candidate declined to provide an example after the question was narrowed. The topic still requires evidence, so I am giving one final, direct opportunity focused on the outcome of the placements.\",\"why_asked_for_student\":\"Your reply did not provide a placement example, so I asked for the concrete outcome of the placements you coordinated.\",\"slot_summary\":\"\",\"utterance\":\"Understood. For one placement you coordinated, what outcome showed that the student and NGO were successfully matched?\"}"
+          },
+          "output": {
+            "evidence": {
+              "situation": false,
+              "task": false,
+              "action": false,
+              "result": false,
+              "ownership": "unclear",
+              "specificity": "general",
+              "anchor_fit": "not_about_line",
+              "technical_reasoning": "not_applicable",
+              "on_topic": "partly",
+              "answer_type": "no_example",
+              "new_hook": {
+                "present": false,
+                "description": "",
+                "competency_id": null
+              }
+            },
+            "evidence_sufficient": false,
+            "missing": [
+              "a specific placement challenge",
+              "what Ishaan personally did",
+              "how placement success was judged"
+            ],
+            "decision": "clarify",
+            "probe_rung": "result",
+            "pivot_target_slot_id": null,
+            "internal_rationale": "The candidate declined to provide an example after the question was narrowed. The topic still requires evidence, so I am giving one final, direct opportunity focused on the outcome of the placements.",
+            "why_asked_for_student": "Your reply did not provide a placement example, so I asked for the concrete outcome of the placements you coordinated.",
+            "slot_summary": "",
+            "utterance": "Understood. For one placement you coordinated, what outcome showed that the student and NGO were successfully matched?"
+          }
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "at": "2026-11-09T07:08:44.884Z",
+      "slot_id": "s2",
+      "slot_kind": "claim",
+      "answer": "No questions, thank you.",
+      "allowed_decisions": [
+        "move_on",
+        "rephrase",
+        "answer_and_return"
+      ],
+      "decision": "move_on",
+      "output": {
+        "evidence": {
+          "situation": false,
+          "task": false,
+          "action": false,
+          "result": false,
+          "ownership": "unclear",
+          "specificity": "general",
+          "anchor_fit": "not_about_line",
+          "technical_reasoning": "not_applicable",
+          "on_topic": "partly",
+          "answer_type": "other",
+          "new_hook": {
+            "present": false,
+            "description": "",
+            "competency_id": null
+          }
+        },
+        "evidence_sufficient": false,
+        "missing": [
+          "a specific placement challenge",
+          "Ishaan's personal actions and decisions",
+          "evidence of how the matching outcome was judged"
+        ],
+        "decision": "move_on",
+        "probe_rung": "none",
+        "pivot_target_slot_id": null,
+        "internal_rationale": "The candidate declined to provide another answer after two earlier opportunities in this topic. The topic must close despite the missing evidence.",
+        "why_asked_for_student": "You did not provide an outcome for a specific placement, so I moved to the next question rather than asking again.",
+        "slot_summary": "No specific placement challenge, personal actions, stakeholder handling, or matching outcome was provided; the resume claim could not be explored further.",
+        "utterance": "Let’s consider a general management decision. How would you decide whether to pursue a new business adjacency when market size, capabilities and projected returns point in different directions?"
+      },
+      "guards": [],
+      "leak_flags": [],
+      "calls": [
+        {
+          "payload": {
+            "interview": {
+              "type": "hiring_manager",
+              "style": "balanced",
+              "target_role": "domain: General Management",
+              "company": null,
+              "candidate_first_name": "Ishaan",
+              "experience_level": "early",
+              "job_description": null,
+              "resume_text": "Ishaan Kulkarni\nPGP 2025-27 | Indian Institute of Management Ahmedabad\n\nEDUCATION\nPGP, IIM Ahmedabad, 2025-27, CGPA 3.0/4.33\nB.Tech, Chemical Engineering, IIT Bombay, 2021, 8.0/10\n\nWORK EXPERIENCE (36 months)\nAsian Paints, Ankleshwar plant | Production Engineer | Jul 2021 - Jun 2024\n- Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%\n- Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes\n- Coordinated with the union committee during a 3-day contract-worker stoppage in 2023\n\nSUMMER INTERNSHIP\nAditya Birla Group, Group Executive Office | Strategy Intern | Apr - Jun 2026\n- Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study\n- Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions\n\nPOSITIONS OF RESPONSIBILITY\n- Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat\n- Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore\n\nEXTRACURRICULAR\n- Completed the Ladakh Marathon (2023)"
+            },
+            "current_slot": {
+              "id": "s2",
+              "kind": "claim",
+              "competency": "Stakeholder management",
+              "must_have": true,
+              "anchor_resume_line": "Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat",
+              "anchor_parent": "Secretary, Rural Immersion Program, IIM Ahmedabad",
+              "question_type": "past_behaviour",
+              "intent": "Needs a specific placement challenge, Ishaan's decisions and stakeholder actions, and how he ensured the 80 students and 14 NGOs were matched effectively.",
+              "probe_angle": "test_claim",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "What part of the placement process did you personally change?",
+                "How did you handle a stakeholder who resisted your approach?",
+                "How did you judge whether the placements were successful?"
+              ],
+              "planned_opening_question": "How did the Rural Immersion Program placements come together under your leadership?",
+              "opened_via_pivot": false,
+              "follow_ups_used": 2,
+              "follow_up_budget": 2,
+              "rungs_already_used": [
+                "role",
+                "result"
+              ],
+              "required_next_rung": null,
+              "rung_owed_before_closing": null,
+              "rephrase_used": false,
+              "contradiction_check_used": false
+            },
+            "slot_transcript": [
+              {
+                "interviewer": "Let’s move to your Rural Immersion Program work. How did the placements come together under your leadership?",
+                "candidate": "No, that's all."
+              },
+              {
+                "interviewer": "Please give me one specific placement challenge from the Rural Immersion Program and describe what you personally handled.",
+                "candidate": "No, that's all."
+              },
+              {
+                "interviewer": "Understood. For one placement you coordinated, what outcome showed that the student and NGO were successfully matched?",
+                "candidate": null
+              }
+            ],
+            "recent_exchanges": [
+              {
+                "interviewer": "What happened after the team recommended specialty adhesives?",
+                "candidate": "No, that's all."
+              },
+              {
+                "interviewer": "Let’s move to your Rural Immersion Program work. How did the placements come together under your leadership?",
+                "candidate": "No, that's all."
+              },
+              {
+                "interviewer": "Please give me one specific placement challenge from the Rural Immersion Program and describe what you personally handled.",
+                "candidate": "No, that's all."
+              },
+              {
+                "interviewer": "Understood. For one placement you coordinated, what outcome showed that the student and NGO were successfully matched?",
+                "candidate": null
+              }
+            ],
+            "earlier_slot_summaries": [
+              {
+                "topic": "warmup",
+                "summary": "The candidate mentioned that strategy courses and their case-based format have been useful and appealing. No further detail was needed for the warm-up."
+              },
+              {
+                "topic": "background",
+                "summary": "Ishaan outlined a path from chemical engineering at IIT Bombay through three years as a production engineer at Asian Paints, IIM Ahmedabad, and a strategy internship at Aditya Birla Group. No further background detail was needed."
+              },
+              {
+                "topic": "Business judgment and strategy",
+                "summary": "Ishaan confirmed that the team evaluated three adjacencies and recommended specialty adhesives, but did not provide a specific business question, personal contribution, analytical process, trade-offs, or outcome."
+              }
+            ],
+            "next_slot": {
+              "id": "s3",
+              "kind": "gap",
+              "competency": "Business judgment and strategy",
+              "must_have": true,
+              "anchor_resume_line": null,
+              "anchor_parent": null,
+              "question_type": "knowledge",
+              "intent": "Needs an applied prioritisation approach that weighs strategic fit, market attractiveness, capability requirements, investment risk and uncertainty rather than relying only on projected returns.",
+              "probe_angle": "find_substance",
+              "technical_focus": false,
+              "planned_follow_ups": [
+                "Why would you use that approach instead of focusing first on projected returns?",
+                "When would you reject an adjacency despite attractive returns?",
+                "How did you apply a similar trade-off in your strategy internship?"
+              ],
+              "planned_opening_question": "How would you decide whether to pursue a new business adjacency when market size, capabilities and projected returns point in different directions?",
+              "opened_via_pivot": false
+            },
+            "pivot_options": [],
+            "allowed_decisions": [
+              "move_on",
+              "rephrase",
+              "answer_and_return"
+            ],
+            "flags": {
+              "answer_word_count": 4,
+              "very_long_answer": false,
+              "candidate_questions_asked": 0,
+              "interview_nearly_over": false
+            },
+            "note": null,
+            "candidate_answer": "No questions, thank you."
+          },
+          "trace": {
+            "model": "gpt-5.6-luna",
+            "reasoning_effort": "low",
+            "attempts": 1,
+            "started_at": "2026-11-09T07:08:40.530Z",
+            "latency_ms": 4354,
+            "usage": {
+              "prompt_tokens": 7108,
+              "completion_tokens": 326,
+              "total_tokens": 7434,
+              "prompt_tokens_details": {
+                "cached_tokens": 5898,
+                "cache_write_tokens": 1207,
+                "audio_tokens": 0
+              },
+              "completion_tokens_details": {
+                "reasoning_tokens": 65,
+                "audio_tokens": 0,
+                "accepted_prediction_tokens": 0,
+                "rejected_prediction_tokens": 0
+              }
+            },
+            "finish_reason": "stop",
+            "raw_response": "{\"evidence\":{\"situation\":false,\"task\":false,\"action\":false,\"result\":false,\"ownership\":\"unclear\",\"specificity\":\"general\",\"anchor_fit\":\"not_about_line\",\"technical_reasoning\":\"not_applicable\",\"on_topic\":\"partly\",\"answer_type\":\"other\",\"new_hook\":{\"present\":false,\"description\":\"\",\"competency_id\":null}},\"evidence_sufficient\":false,\"missing\":[\"a specific placement challenge\",\"Ishaan's personal actions and decisions\",\"evidence of how the matching outcome was judged\"],\"decision\":\"move_on\",\"probe_rung\":\"none\",\"pivot_target_slot_id\":null,\"internal_rationale\":\"The candidate declined to provide another answer after two earlier opportunities in this topic. The topic must close despite the missing evidence.\",\"why_asked_for_student\":\"You did not provide an outcome for a specific placement, so I moved to the next question rather than asking again.\",\"slot_summary\":\"No specific placement challenge, personal actions, stakeholder handling, or matching outcome was provided; the resume claim could not be explored further.\",\"utterance\":\"Let’s consider a general management decision. How would you decide whether to pursue a new business adjacency when market size, capabilities and projected returns point in different directions?\"}"
+          },
+          "output": {
+            "evidence": {
+              "situation": false,
+              "task": false,
+              "action": false,
+              "result": false,
+              "ownership": "unclear",
+              "specificity": "general",
+              "anchor_fit": "not_about_line",
+              "technical_reasoning": "not_applicable",
+              "on_topic": "partly",
+              "answer_type": "other",
+              "new_hook": {
+                "present": false,
+                "description": "",
+                "competency_id": null
+              }
+            },
+            "evidence_sufficient": false,
+            "missing": [
+              "a specific placement challenge",
+              "Ishaan's personal actions and decisions",
+              "evidence of how the matching outcome was judged"
+            ],
+            "decision": "move_on",
+            "probe_rung": "none",
+            "pivot_target_slot_id": null,
+            "internal_rationale": "The candidate declined to provide another answer after two earlier opportunities in this topic. The topic must close despite the missing evidence.",
+            "why_asked_for_student": "You did not provide an outcome for a specific placement, so I moved to the next question rather than asking again.",
+            "slot_summary": "No specific placement challenge, personal actions, stakeholder handling, or matching outcome was provided; the resume claim could not be explored further.",
+            "utterance": "Let’s consider a general management decision. How would you decide whether to pursue a new business adjacency when market size, capabilities and projected returns point in different directions?"
+          }
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "at": "2026-11-09T07:08:31.970Z",
+      "type": "slot_dropped",
+      "slot_id": "second_chance_k1"
+    }
+  ],
+  "interviewer_turns": 9,
+  "max_turns": 16,
+  "candidate_questions_asked": 0,
+  "second_chances": {
+    "k1": true
+  },
+  "opening_greeting": "Hi Ishaan, thanks for joining. I'm on the hiring team for this role, and I'd like to understand your experience in some depth. We have about 10 minutes, with time for your questions at the end.",
+  "ended_at": "2026-11-09T07:17:07.210Z",
+  "ended_by": "candidate_ended",
+  "feedback": {
+    "version": 10,
+    "overall": "You gave the basic context that the team examined three adjacencies and recommended specialty adhesives. The main issue was stopping when asked for your own contribution, the reasoning behind the choice, and what happened afterward.",
+    "topics": [
+      {
+        "slot_id": "s1",
+        "kind": "claim",
+        "topic": "Business judgment and strategy",
+        "resume_line": "Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study",
+        "jd_line": null,
+        "outcome": "gap_after_budget",
+        "question": "What were you trying to solve when you evaluated adjacencies for Aditya Birla Group's chemicals business?",
+        "rubric": "behavioural",
+        "answer_plan": [
+          "Start with the business question the chemicals group was trying to answer.",
+          "Say which part of the adjacency work you personally owned and what analysis or decision you made.",
+          "Explain the trade-offs behind specialty adhesives compared with the other two adjacencies.",
+          "Close with what happened after the recommendation and what you would do differently now."
+        ],
+        "example_answer": "",
+        "ownership": {
+          "i": 1,
+          "we": 1
+        },
+        "segment": {
+          "start": "2026-11-09T07:08:11.027Z",
+          "end": "2026-11-09T07:08:27.948Z"
+        },
+        "too_short": false,
+        "verdict": "needs_work",
+        "ratings": [
+          {
+            "dimension": "situation",
+            "label": "Situation",
+            "level": "needs_work",
+            "reason": "You said the team looked at “three adjacencies,” but you did not explain the business problem they were trying to solve.",
+            "found": "first_answer",
+            "quote": "we looked at three adjacencies"
+          },
+          {
+            "dimension": "task",
+            "label": "Your role",
+            "level": "needs_work",
+            "reason": "You did not state your own responsibility in the project; you only described it as “a team effort.”",
+            "found": "first_answer",
+            "quote": "it was a team effort with the GEO team"
+          },
+          {
+            "dimension": "action",
+            "label": "What you did",
+            "level": "needs_work",
+            "reason": "The answer did not describe the analysis, decisions, or work you personally carried out.",
+            "found": "not_given",
+            "quote": ""
+          },
+          {
+            "dimension": "result",
+            "label": "Result",
+            "level": "needs_work",
+            "reason": "You named the recommendation but not its basis, trade-offs, or outcome after the recommendation.",
+            "found": "first_answer",
+            "quote": "recommended specialty adhesives"
+          },
+          {
+            "dimension": "followup",
+            "label": "Handling follow-ups",
+            "level": "needs_work",
+            "reason": "Both follow-ups received a closing response rather than the requested detail about your contribution and what happened next.",
+            "found": null,
+            "quote": "No, that's all."
+          }
+        ],
+        "follow_ups": [
+          {
+            "question": "Which part of the adjacency work did you personally own?",
+            "at": "2026-11-09T07:08:18.460Z",
+            "why": "Your answer described the team's work but not your own part, so I asked which decisions you personally handled.",
+            "asked_for": "task",
+            "asked_for_label": "Your role",
+            "given": true
+          },
+          {
+            "question": "What happened after the team recommended specialty adhesives?",
+            "at": "2026-11-09T07:08:27.940Z",
+            "why": "Your response did not yet describe what came from the adjacency recommendation, so I asked about its outcome.",
+            "asked_for": "result",
+            "asked_for_label": "Result",
+            "given": true
+          }
+        ],
+        "went_well": "You named the set of options considered and the recommendation that came out of the work.",
+        "went_well_quote": "recommended specialty adhesives",
+        "resume_mismatch": null,
+        "to_fix": "This stayed at team level and did not explain the business question, your analysis, or why specialty adhesives was recommended. An interviewer would still not know what you contributed.",
+        "to_fix_quote": "So we looked at three adjacencies",
+        "stronger_version": "We looked at three adjacencies, and I [the part of the work you personally owned]."
+      },
+      {
+        "slot_id": "s2",
+        "kind": "claim",
+        "topic": "Stakeholder management",
+        "resume_line": "Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat",
+        "jd_line": null,
+        "outcome": "gap_after_budget",
+        "question": "Let’s move to your Rural Immersion Program work. How did the placements come together under your leadership?",
+        "rubric": "behavioural",
+        "answer_plan": [
+          "Choose one placement challenge involving a student and an NGO.",
+          "State your responsibility and the specific actions you took to resolve the matching issue.",
+          "Explain how you handled the student’s and NGO’s needs.",
+          "End with the outcome that showed the match worked."
+        ],
+        "example_answer": "",
+        "ownership": {
+          "i": 0,
+          "we": 0
+        },
+        "segment": {
+          "start": "2026-11-09T07:08:31.965Z",
+          "end": "2026-11-09T07:08:40.529Z"
+        },
+        "follow_ups": [
+          {
+            "question": "Please give me one specific placement challenge from the Rural Immersion Program and describe what you personally handled.",
+            "at": "2026-11-09T07:08:35.865Z",
+            "why": "You did not yet describe a placement situation, so I asked for one specific challenge from the program and what you personally handled.",
+            "asked_for": "task",
+            "asked_for_label": "Your role",
+            "given": null
+          },
+          {
+            "question": "Understood. For one placement you coordinated, what outcome showed that the student and NGO were successfully matched?",
+            "at": "2026-11-09T07:08:40.519Z",
+            "why": "Your reply did not provide a placement example, so I asked for the concrete outcome of the placements you coordinated.",
+            "asked_for": "result",
+            "asked_for_label": "Result",
+            "given": null
+          }
+        ],
+        "too_short": true
+      },
+      {
+        "slot_id": "s3",
+        "kind": "gap",
+        "topic": "Business judgment and strategy",
+        "resume_line": null,
+        "jd_line": null,
+        "outcome": null,
+        "question": "Let’s consider a general management decision. How would you decide whether to pursue a new business adjacency when market size, capabilities and projected returns point in different directions?",
+        "rubric": "knowledge",
+        "answer_plan": [
+          "Start by checking strategic fit and whether the company has the capabilities to win.",
+          "Compare market attractiveness, investment needs, expected returns, and key risks.",
+          "Test uncertain assumptions with sensitivity analysis or a staged investment.",
+          "Recommend proceeding, pausing, or rejecting the adjacency based on the combined evidence, not projected returns alone."
+        ],
+        "example_answer": "I would first assess strategic fit: whether the adjacency uses existing capabilities, customers, technology, or distribution advantages. Then I would compare market attractiveness, required investment, expected returns, and the risks behind the assumptions. If the numbers were uncertain, I would test them through sensitivity analysis and consider a staged investment or pilot. I would pursue the adjacency only if the strategic fit and capability path were credible, even if the base-case returns were attractive.",
+        "ownership": {
+          "i": 0,
+          "we": 0
+        },
+        "segment": {
+          "start": "2026-11-09T07:08:44.884Z",
+          "end": null
+        },
+        "follow_ups": [],
+        "too_short": true
+      }
+    ],
+    "moments": [],
+    "ownership": {
+      "i": 1,
+      "we": 1
+    },
+    "priorities": [
+      {
+        "title": "Make your contribution clear",
+        "why": "Interviewers need to understand the decision or action you personally owned, not only the team’s conclusion.",
+        "action": "When you're asked about a project, say what you owned and the decision you made in your first answer.",
+        "slot_id": "s1"
+      },
+      {
+        "title": "Explain the evidence",
+        "why": "A recommendation is more convincing when you connect it to trade-offs and a measurable or clearly described outcome.",
+        "action": "Practise linking each recommendation to the alternatives considered, the deciding evidence, and what happened next."
+      }
+    ],
+    "jd_coverage": [],
+    "generated_at": "2026-11-09T07:17:31.005Z"
+  },
+  "feedback_trace": [
+    {
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "attempts": 1,
+      "started_at": "2026-11-09T07:17:07.223Z",
+      "latency_ms": 12492,
+      "usage": {
+        "prompt_tokens": 4948,
+        "completion_tokens": 1141,
+        "total_tokens": 6089,
+        "prompt_tokens_details": {
+          "cached_tokens": 3065,
+          "cache_write_tokens": 1880,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 116,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "finish_reason": "stop",
+      "raw_response": "{\"overall\":\"The interview established your path from IIT Bombay and Asian Paints to IIM Ahmedabad and the strategy internship, but your substantive answers stopped after naming team outcomes. The biggest improvement is to answer the question directly, state what you personally did, and finish with the result or current status.\",\"topics\":[{\"slot_id\":\"s1\",\"ratings\":[{\"dimension\":\"situation\",\"reason\":\"The answer named three adjacencies but did not explain the business problem they were meant to solve.\",\"found\":\"first_answer\",\"quote\":\"we looked at three adjacencies\",\"level\":\"needs_work\"},{\"dimension\":\"task\",\"reason\":\"The answer said it was a team effort but did not state your own responsibility.\",\"found\":\"first_answer\",\"quote\":\"it was a team effort with the GEO team\",\"level\":\"needs_work\"},{\"dimension\":\"action\",\"reason\":\"No analytical step, decision, or personal action was described.\",\"found\":\"not_given\",\"quote\":\"\",\"level\":\"needs_work\"},{\"dimension\":\"result\",\"reason\":\"The recommendation was stated, but there was no outcome beyond choosing specialty adhesives.\",\"found\":\"first_answer\",\"quote\":\"recommended specialty adhesives\",\"level\":\"on_track\"},{\"dimension\":\"followup\",\"reason\":\"Both follow-ups received a closing statement rather than the specific ownership and next-step details requested.\",\"found\":\"first_answer\",\"quote\":\"No, that's all I had on that.\",\"level\":\"needs_work\"}],\"went_well_quote\":\"recommended specialty adhesives\",\"went_well\":\"You named the three adjacencies considered and the recommendation made, giving the answer a useful starting point.\",\"resume_mismatch\":{\"quote\":\"\",\"note\":\"\",\"tip\":\"\"},\"to_fix_quote\":\"it was a team effort with the GEO team\",\"to_fix\":\"This did not clarify which part you owned. An interviewer needs to know the analysis or decision you personally handled, not only who was involved.\",\"answer_plan\":[\"Start with the business question the chemicals group was trying to answer: [state the problem].\",\"Say which part of the adjacency analysis you personally owned and the steps you took.\",\"Explain why specialty adhesives stood out against the other two adjacencies, including [the trade-off you assessed].\",\"End with what happened after the recommendation: it is now under deeper study, plus [what changed or what remains undecided].\"],\"stronger_version\":\"The business was evaluating three adjacencies for the group's chemicals business. I personally owned [the part of the analysis you handled] and [the steps you took to compare the options]. We recommended specialty adhesives because [the trade-off that made it preferable]. It is now under deeper study, with [the next decision or outcome].\",\"example_answer\":\"\"},{\"slot_id\":\"s2\",\"ratings\":[],\"went_well_quote\":\"\",\"went_well\":\"\",\"resume_mismatch\":{\"quote\":\"\",\"note\":\"\",\"tip\":\"\"},\"to_fix_quote\":\"\",\"to_fix\":\"\",\"answer_plan\":[\"Choose one placement involving one student and one NGO, and state the specific matching challenge.\",\"Explain the decision you made and the actions you personally took with the student and NGO.\",\"Describe how you checked the match and what outcome showed it worked.\",\"Use the wider result from your resume to close: 80 students placed with 14 NGOs in Gujarat.\"],\"stronger_version\":\"\",\"example_answer\":\"\"},{\"slot_id\":\"s3\",\"ratings\":[],\"went_well_quote\":\"\",\"went_well\":\"\",\"resume_mismatch\":{\"quote\":\"\",\"note\":\"\",\"tip\":\"\"},\"to_fix_quote\":\"\",\"to_fix\":\"\",\"answer_plan\":[\"Start by separating the decision into strategic fit, market attractiveness, capabilities, investment needs, and projected returns.\",\"Set thresholds for must-have factors and identify which assumptions create the most uncertainty.\",\"Compare the adjacency with alternatives using scenarios, not only the base-case return.\",\"Recommend a staged test or further analysis when the strategic case is promising but the evidence is weak.\"],\"stronger_version\":\"\",\"example_answer\":\"I would first assess strategic fit and whether the adjacency strengthens an existing advantage. Then I would size the market, study competition, and check the capabilities and investment required. I would test the returns under base, downside, and upside cases, giving extra attention to the assumptions that could change the decision. If the opportunity fits strategically but uncertainty is high, I would recommend a staged pilot or further validation before committing major capital.\"}],\"moments\":[],\"next_goal\":{\"title\":\"Make your ownership explicit\",\"why\":\"Interviewers need to separate your contribution from the team’s work before they can judge your judgment or impact.\",\"when\":\"you’re asked about a project\",\"then\":\"say the decision or analysis you personally owned in your first sentence\",\"slot_id\":\"s1\"},\"more_priorities\":[{\"title\":\"Close with the outcome\",\"why\":\"A recommendation without what happened afterward leaves the value of the work unclear.\",\"action\":\"End each project story with the measured result, current status, or what decision followed.\"},{\"title\":\"Answer follow-ups directly\",\"why\":\"A closing phrase makes the interviewer repeat the question and suggests the story is not ready.\",\"action\":\"Prepare one ownership detail and one outcome detail for every resume line.\"}]}"
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "attempts": 1,
+      "started_at": "2026-11-09T07:17:19.717Z",
+      "latency_ms": 11287,
+      "usage": {
+        "prompt_tokens": 4973,
+        "completion_tokens": 1136,
+        "total_tokens": 6109,
+        "prompt_tokens_details": {
+          "cached_tokens": 3065,
+          "cache_write_tokens": 1905,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 188,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "finish_reason": "stop",
+      "raw_response": "{\"overall\":\"You gave the basic context that the team examined three adjacencies and recommended specialty adhesives. The main issue was stopping when asked for your own contribution, the reasoning behind the choice, and what happened afterward.\",\"topics\":[{\"slot_id\":\"s1\",\"ratings\":[{\"dimension\":\"situation\",\"reason\":\"You said the team looked at “three adjacencies,” but you did not explain the business problem they were trying to solve.\",\"found\":\"first_answer\",\"quote\":\"we looked at three adjacencies\",\"level\":\"needs_work\"},{\"dimension\":\"task\",\"reason\":\"You did not state your own responsibility in the project; you only described it as “a team effort.”\",\"found\":\"first_answer\",\"quote\":\"it was a team effort with the GEO team\",\"level\":\"needs_work\"},{\"dimension\":\"action\",\"reason\":\"The answer did not describe the analysis, decisions, or work you personally carried out.\",\"found\":\"not_given\",\"quote\":\"\",\"level\":\"needs_work\"},{\"dimension\":\"result\",\"reason\":\"You named the recommendation but not its basis, trade-offs, or outcome after the recommendation.\",\"found\":\"first_answer\",\"quote\":\"recommended specialty adhesives\",\"level\":\"needs_work\"},{\"dimension\":\"followup\",\"reason\":\"Both follow-ups received a closing response rather than the requested detail about your contribution and what happened next.\",\"found\":\"first_answer\",\"quote\":\"No, that's all.\",\"level\":\"needs_work\"}],\"went_well_quote\":\"recommended specialty adhesives\",\"went_well\":\"You named the set of options considered and the recommendation that came out of the work.\",\"resume_mismatch\":{\"quote\":\"\",\"note\":\"\",\"tip\":\"\"},\"to_fix_quote\":\"So we looked at three adjacencies\",\"to_fix\":\"This stayed at team level and did not explain the business question, your analysis, or why specialty adhesives was recommended. An interviewer would still not know what you contributed.\",\"answer_plan\":[\"Start with the business question the chemicals group was trying to answer.\",\"Say which part of the adjacency work you personally owned and what analysis or decision you made.\",\"Explain the trade-offs behind specialty adhesives compared with the other two adjacencies.\",\"Close with what happened after the recommendation and what you would do differently now.\"],\"stronger_version\":\"The business question was [what the chemicals group was trying to solve]. We looked at three adjacencies, and I [the part of the work you personally owned]. We recommended specialty adhesives because [the trade-offs behind that choice]. After the recommendation, it was under deeper study, and I would now [what you would do differently].\",\"example_answer\":\"\"},{\"slot_id\":\"s2\",\"ratings\":[],\"went_well_quote\":\"\",\"went_well\":\"\",\"resume_mismatch\":{\"quote\":\"\",\"note\":\"\",\"tip\":\"\"},\"to_fix_quote\":\"\",\"to_fix\":\"\",\"answer_plan\":[\"Choose one placement challenge involving a student and an NGO.\",\"State your responsibility and the specific actions you took to resolve the matching issue.\",\"Explain how you handled the student’s and NGO’s needs.\",\"End with the outcome that showed the match worked.\"],\"stronger_version\":\"\",\"example_answer\":\"\"},{\"slot_id\":\"s3\",\"ratings\":[],\"went_well_quote\":\"\",\"went_well\":\"\",\"resume_mismatch\":{\"quote\":\"\",\"note\":\"\",\"tip\":\"\"},\"to_fix_quote\":\"\",\"to_fix\":\"\",\"answer_plan\":[\"Start by checking strategic fit and whether the company has the capabilities to win.\",\"Compare market attractiveness, investment needs, expected returns, and key risks.\",\"Test uncertain assumptions with sensitivity analysis or a staged investment.\",\"Recommend proceeding, pausing, or rejecting the adjacency based on the combined evidence, not projected returns alone.\"],\"stronger_version\":\"\",\"example_answer\":\"I would first assess strategic fit: whether the adjacency uses existing capabilities, customers, technology, or distribution advantages. Then I would compare market attractiveness, required investment, expected returns, and the risks behind the assumptions. If the numbers were uncertain, I would test them through sensitivity analysis and consider a staged investment or pilot. I would pursue the adjacency only if the strategic fit and capability path were credible, even if the base-case returns were attractive.\"}],\"moments\":[],\"next_goal\":{\"title\":\"Make your contribution clear\",\"why\":\"Interviewers need to understand the decision or action you personally owned, not only the team’s conclusion.\",\"when\":\"you're asked about a project\",\"then\":\"say what you owned and the decision you made in your first answer\",\"slot_id\":\"s1\"},\"more_priorities\":[{\"title\":\"Explain the evidence\",\"why\":\"A recommendation is more convincing when you connect it to trade-offs and a measurable or clearly described outcome.\",\"action\":\"Practise linking each recommendation to the alternatives considered, the deciding evidence, and what happened next.\"}]}"
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "attempts": 1,
+      "started_at": "2026-11-09T07:17:31.006Z",
+      "latency_ms": 1796,
+      "usage": {
+        "prompt_tokens": 946,
+        "completion_tokens": 42,
+        "total_tokens": 988,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "finish_reason": "stop",
+      "raw_response": "{\"unsupported_claims\":[\"\\\"The business question was\\\"\",\"\\\"the trade-offs behind that choice\\\"\",\"\\\"After the recommendation, it was under deeper study\\\"\"]}",
+      "grounding_for": "s1",
+      "unsupported": [
+        "\"The business question was\"",
+        "\"the trade-offs behind that choice\"",
+        "\"After the recommendation, it was under deeper study\""
+      ],
+      "checked_rewrite": "The business question was [what the chemicals group was trying to solve]. We looked at three adjacencies, and I [the part of the work you personally owned]. We recommended specialty adhesives because [the trade-offs behind that choice]. After the recommendation, it was under deeper study, and I would now [what you would do differently].",
+      "kept": "We looked at three adjacencies, and I [the part of the work you personally owned]."
+    }
+  ]
+}

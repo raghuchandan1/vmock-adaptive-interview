@@ -1,0 +1,160 @@
+# L11 2026-11-09-ae792bcc {"name":"pdf_ops","type":"hiring_manager","style":"balanced","persona":"average_we"} errors=[]
+plan_ms=33846 feedback_ms=65543 ended_by=close turns=17
+
+INTERVIEWER [warmup]: Hi Pranav, good to meet you. I'm part of the team hiring for this role, and today I'd like to hear about your experience in some depth. We have about 15 minutes, and I'll keep time for your questions at the end. What first drew you to studying mechanical engineering?
+
+  STUDENT [warmup] (127w): uh hi sir good to meet you too so actually from my school days I was always interested in like how machines work and all that you know so basically I liked physics and maths and we had some practicals in school like robotics club and all so that really got me excited and then in twelfth I realised mechanical is very core and it gives a lot of flexibility also uh like you can go to automotive or manufacturing or even supply chain after that so that's why I chose mechanical at VNIT Nagpur plus actually my brother is also from engineering background so that influenced me a bit and I genuinely wanted to understand things practically not just theory so ya that's how I decided
+  >> decision=move_on rung=none suff=true http=4208ms calls=4204ms guards=[] leak=[]
+
+INTERVIEWER [background]: Thanks. Walk me through your path from production planning at Maruti to your PGDM and summer internship.
+
+  STUDENT [background] (165w): um so basically after my engineering I joined Maruti Suzuki in production planning and it was a good learning for me because we had to basically plan the daily production for the body shop and coordinate with a lot of teams like maintenance quality and the suppliers also so in those two years I think I got a strong base in understanding how operations work and also how to deal with people from different backgrounds um after that I realised I wanted to move more towards broader decision-making roles and like strategy kind of work so that’s why I went for MBA at IIM Mumbai and in the first year we had exposure to different areas like supply chain and all so I got selected for summer internship at Hindustan Unilever where I worked on inventory reduction and some Power BI dashboards too so overall the journey helped me see both operations and analytics side and I wanted to build on that during my MBA
+  >> decision=move_on rung=none suff=true http=3846ms calls=3838ms guards=[] leak=[]
+
+INTERVIEWER [s1]: What did you have to figure out first when redesigning safety-stock norms at Hindustan Unilever?
+
+  STUDENT [s1] (138w): um so the first thing actually was to understand the current process like how they were actually deciding the safety stock for all the SKUs and especially at Khamgaon it was a bit manual earlier so we had to look at the demand patterns and like how much was the variability month to month for each SKU uh then we also checked how frequently the stockouts were happening and whether the existing norms were really matching the actual service levels so basically our team had to collect a lot of historical data and map it against the targets set by the management so once we figured out the gaps then only we could try to like redesign the safety stock logic otherwise it’s just guesswork so ya that first phase was mostly about figuring out the real baseline
+  >> decision=probe rung=role suff=false http=3588ms calls=3580ms guards=[] leak=[]
+     missing: Pranav’s specific decisions and actions in the redesign; how the safety-stock logic used demand variability; how the projected 11% reduction was measured
+
+INTERVIEWER [s1]: Which decisions in that initial analysis were yours personally?
+
+  STUDENT [s1] (128w): uh so actually most of the things were team discussions only but one thing which I took main initiative for was deciding which data points we will use to actually measure the demand variability um like some people wanted to just look at last year’s average but I suggested we should actually try to use the standard deviation for monthly sales instead so we can get a better idea of how much it is fluctuating and not just the average I also pushed for including promotions period separately because sometimes that spikes the demand and if we put it blindly then the safety stock goes too high so ya those calls I mostly took and then discussed with my manager but rest like the overall plan was collaborative
+  >> decision=probe rung=result suff=false http=3843ms calls=3838ms guards=[] leak=[]
+     missing: how the projected 11% inventory reduction and 98% service level were measured; what he would do differently now
+
+INTERVIEWER [s1]: You separated promotional periods from regular demand. What baseline did you use to calculate the projected 11% inventory reduction?
+
+  STUDENT [s1] (131w): um so basically for the baseline we took the past twelve months of regular demand data and removed the months where major promotions were there because those months really skew the numbers so after excluding that we took the average and standard deviation of the remaining months as our base and compared that to the safety stock norms they were using before which actually included everything together so once we recalculated the safety stock using the new baseline for regular demand and factored in only the necessary buffer for promos separately it showed that the overall inventory required would go down by around 11 percent compared to the earlier method um it’s based on actual service level targets but the base is the past twelve months regular demand without major promotions
+  >> decision=move_on rung=none suff=true http=4797ms calls=4791ms guards=[] leak=[]
+     missing: what he would do differently now
+
+INTERVIEWER [s2]: Let's turn to your production-planning experience at Maruti. How did the changeover sequencing come about?
+
+  STUDENT [s2] (151w): um so actually when I joined Maruti we noticed that a lot of time was getting wasted during model changeovers on the weld line like every time we had to switch from one car model to another there was some setup time and the machines had to adjust so that was actually causing loss in production every shift so our planning team along with the shopfloor engineers started discussing if there’s any way to reduce this and we realised that if we sequenced the production in such a way that similar models are grouped together in batches then the number of changeovers would go down and even when we need to change it the adjustment would be less so we tried this batching method for a few weeks and tracked the time and it improved a lot actually per shift the loss came down and that’s how the idea was implemented
+  >> decision=probe rung=role suff=false http=3265ms calls=3257ms guards=[] leak=[]
+     missing: Pranav's specific sequencing decisions; how the reported reduction was measured
+
+INTERVIEWER [s2]: Which specific sequencing decision in that batching approach did you personally make?
+
+  STUDENT [s2] (141w): uh so actually in our team I was mainly handling the sequencing for the diesel and petrol variants because those were creating the most setup issues since their tooling was slightly different so what I did was I looked at the production orders for the day and I arranged the variants in such a way that similar engine types ran together in longer batches like all petrol first then diesel or vice versa depending on demand so I had to coordinate with the line supervisor also so that there are no sudden last minute swaps uh I also made sure to check with the paint shop upstream so their plan was matching ours otherwise there would be mismatches in body input so ya that specific part of deciding which batch order should go for engine variants was mostly handled by me
+  >> decision=probe rung=result suff=false http=3362ms calls=3353ms guards=[] leak=[]
+     missing: how the 18-minute reduction was measured and what it was compared against; how the INR 1.1 crore annual saving was calculated
+
+INTERVIEWER [s2]: How was the 18-minute reduction in changeover loss measured against the earlier schedule?
+
+  STUDENT [s2] (136w): uh so basically before we changed the sequencing we were already tracking the model changeover times on a daily basis like the shift supervisor was noting how much time is being spent every time we switched models and at the end of every shift they would record the total loss from all changeovers so after we started the batching method we kept recording in the same way for around two or three weeks and then we compared the average shift-wise changeover loss before and after so the reduction of 18 minutes was just the difference between average old and new changeover times per shift actually the maintenance team also double checked the records to confirm it and it was pretty clear that this saving was mainly from doing less frequent and smoother changeovers due to batching
+  >> decision=move_on rung=none suff=false http=5248ms calls=5240ms guards=["Added a second-chance topic for must-have \"Operational improvement and problem solving\" before the candidate's questions."] leak=[]
+     missing: how the INR 1.1 crore annual saving was calculated
+
+INTERVIEWER [s3]: Understood. Let’s switch to a broader operational scenario. How would you respond if a critical supplier became unreliable while the production line was running near full capacity?
+
+  STUDENT [s3] (153w): uh so if a critical supplier becomes unreliable when the line is almost full then first thing I would do is immediately inform the production and procurement teams because any delay can stop everything so as a team we would try to check how much inventory we have on hand and see if any alternate supplier can be used at least for some quantity uh meanwhile we would also talk to the supplier to understand the real issue and whether it’s going to be a short term or long term problem if possible we can try to expedite a small shipment by air or something for urgent demand um also I think we need to prioritise which models or variants can run with the remaining stock and maybe reschedule others if required so its basically a mix of parallel actions and close coordination between production planning procurement and supplier till the situation stabilises
+  >> decision=probe rung=decision suff=false http=4573ms calls=4569ms guards=[] leak=[]
+     missing: how he would prioritise actions under the immediate capacity constraint; how customer impact and cost would influence the response; how success would be judged
+
+INTERVIEWER [s3]: You would have several actions running in parallel. Which decision would you make first to protect production continuity?
+
+  STUDENT [s3] (121w): um so actually the first thing I would decide is to check our available stock on hand and quickly calculate how long that will last at the current production rate because without knowing that we can’t plan anything else so I would immediately ask the store or inventory team for the latest numbers and based on that I’d decide if we need to slow down some lines or prioritise some models straight away and also inform production heads so they can be prepared meanwhile the procurement team can start looking for alternate sources but the first call has to be about conserving whatever material is left to buy some time and keep the most critical production running as long as possible
+  >> decision=probe rung=result suff=false http=4593ms calls=4589ms guards=[] leak=[]
+     missing: how he would judge whether the response had worked
+
+INTERVIEWER [s3]: What specific outcome would tell you that the supplier-risk response had worked?
+
+  STUDENT [s3] (124w): uh so basically if the actions we took made sure that the production line did not stop and we managed to keep at least the main models running without any shutdown then I would consider that our response worked um like if we could bridge the gap until the supplier issue was solved, either by using available stock or getting material from alternate sources, and no orders got delayed majorly then that shows our plan was effective also if the team was able to adjust schedules and communication was smooth so that there was no panic on the shopfloor then that is also a good sign actually so overall the main outcome is continuity of production and minimal impact on delivery or quality targets
+  >> decision=move_on rung=none suff=true http=3895ms calls=3888ms guards=[] leak=[]
+
+INTERVIEWER [s4]: Let’s move to your motivation. You moved from production planning at Maruti into a PGDM and a supply-chain internship. What draws you to operations and supply chain now?
+
+  STUDENT [s4] (152w): um so actually I think what really attracts me to operations and supply chain is the impact it has on the whole business like in Maruti I saw how one small planning error could affect hundreds of cars and so many teams so it’s a high responsibility kind of area and you get to solve real problems every day also I enjoy the coordination part like bringing together people from different functions and making sure things flow smoothly plus now with technology coming in there are a lot of new tools and analytics which make it even more interesting for me actually during my PGDM and at HUL internship I realised I like working with data as well as people so operations and supply chain gives a good mix of both and there’s always scope to improve things and see the results quickly that’s why I want to build my career here
+  >> decision=probe rung=transfer suff=false http=5367ms calls=5359ms guards=[] leak=[]
+     missing: a specific experience that shaped his motivation, beyond broad observations about coordination and analytics
+
+INTERVIEWER [s4]: Which part of your HUL internship most shaped your decision to build your career in operations and supply chain?
+
+  STUDENT [s4] (126w): um so actually I think the main thing that had the most impact was when I worked on redesigning the safety stock norms like before that I always saw supply chain as mostly execution work but during this project I realised how even small changes in planning parameters can lead to big savings and directly affect how smooth the operations run also I got to interact a lot with the planning team factory people and even logistics managers so I saw the bigger picture and how everything connects plus building the Power BI dashboard for OTIF actually showed me how analytics can make the whole decision process better and more transparent so that kind of exposure really made me interested to go deeper into this field
+  >> decision=move_on rung=none suff=true http=3960ms calls=3950ms guards=[] leak=[]
+
+INTERVIEWER [second_chance_k3]: Thanks. Tell me about another time you improved an operational process, using a different example from the one you shared earlier.
+
+  STUDENT [second_chance_k3] (152w): uh sure so actually another time when I got to improve a process was at Maruti with the inbound material planning so we used to have a lot of trucks coming from different tier-1 suppliers and sometimes there were delays or too many trucks queueing at the gate so what we did as a team was we coordinated with around twenty-two suppliers and tried to make a milk-run pickup plan where instead of sending separate trucks from each supplier we combined some of their material pickups in a single route actually I worked mostly on the route planning part using excel so that the truck capacity was used properly and the timings matched the production requirement after we implemented this the inbound truck count reduced quite a bit and there was less congestion and unloading became smoother it also saved some cost on logistics overall so the entire flow became more efficient
+  >> decision=probe rung=result suff=false http=9268ms calls=4255ms+5007ms guards=["Rewrote the message once for wording: two asks joined by \"and\" in one question."] leak=[]
+     missing: the measured extent of the reduction and how it was established
+
+INTERVIEWER [second_chance_k3]: What was the measured change in inbound truck count after the milk-run plan was implemented?
+
+  STUDENT [second_chance_k3] (111w): um so after we implemented the milk-run plan actually we tracked the number of inbound trucks coming to the plant every day for a few weeks and compared it to the earlier daily average so before the plan there were usually separate trucks from each supplier and sometimes it led to bottlenecks but after we started combining routes the truck count came down by about fourteen percent on average and this was also verified by the gate entry data and logistics team so we could clearly see less congestion at the gate and it also made unloading operations faster so ya overall the truck movement was more streamlined after the change
+  >> decision=move_on rung=none suff=true http=4587ms calls=4578ms guards=[] leak=[]
+
+INTERVIEWER [candidate_questions]: The 14% reduction was tied to daily gate-entry data and checked by the logistics team. That’s everything from my side—what questions do you have for me?
+
+  STUDENT [candidate_questions] (74w): uh yes sir I had a couple of questions so firstly I wanted to know like how does the team here approach continuous improvement in supply chain like do you follow any specific frameworks or is it more informal and also I was curious about what kind of learning or development opportunities are usually available for new joinees in the first year um that’s all from my side sir no more questions thank you
+  >> decision=answer_candidate_question rung=none suff=true http=5328ms calls=5316ms guards=[] leak=[]
+
+INTERVIEWER [candidate_questions]: We use continuous improvement to examine processes, identify practical changes, and track whether they improve performance, though I’d rather not guess about any specific framework here. I also can’t speak precisely to first-year development opportunities without more information; the recruiter can share those details. Since you’re done with your questions, thank you for your time—your feedback is ready.
+
+  STUDENT [candidate_questions] (39w): um thank you sir for answering my questions and for the whole discussion it was really helpful to hear about the team’s approach and I appreciate your time today looking forward to any feedback you have thanks again sir
+  >> decision=close rung=none suff=true http=3588ms calls=3574ms guards=[] leak=[]
+
+INTERVIEWER [candidate_questions]: Thank you for your time today, Pranav. That concludes the interview, and your feedback is ready.
+
+=== FEEDBACK v10
+overall: The interview gave clear examples from Maruti and HUL, including the batching decision, the 11% inventory projection, and the 14% reduction in inbound trucks. The main pattern to fix is that some answers explained the process well but stopped short of the final business result or a precise threshold.
+priorities: [{"title":"Make the result measurable","why":"Specific thresholds and business results help an interviewer understand the scale and value of your decisions.","action":"When a follow-up asks how an operational improvement worked, give the measurement method and the business result in the same answer.","slot_id":"s2"},{"title":"State the first decision","why":"A clear first move shows how you prioritise when several operational actions are possible.","action":"Open scenario answers with the first fact you would check and the decision it enables."},{"title":"Connect motivation to the role","why":"A specific fit statement shows why this role, rather than operations in general, is your next step.","action":"Prepare one sentence linking your Maruti and HUL experience to the work this role involves."}]
+moments: [{"slot_id":"candidate_questions","quote":"how does the team here approach continuous improvement in supply chain","note":"This question showed interest in the role's improvement work, but the second question about learning opportunities could be asked of almost any company.","tip":"Ask how this role measures improvement in areas such as service level, inventory, supplier performance, or production continuity."}]
+
+-- s1 verdict=on_track q=What did you have to figure out first when redesigning safety-stock norms at Hindustan Unilever?
+   situation: good_job [first_answer] You described the manual safety-stock process at Khamgaon and the need to understand demand patterns across SKUs. {it was a bit manual earlier}
+   task: on_track [first_answer] You explained that the goal was to find gaps between existing norms and service-level targets, but your own responsibility was initially general. {}
+   action: good_job [after_follow_up] You clearly named the decisions you made around standard deviation and separating promotional periods from regular demand. {I suggested we should actually try to use the standard deviation}
+   result: good_job [after_follow_up] You explained that the revised baseline projected an 11% reduction while maintaining service-level targets. {it showed that the overall inventory required would go down by around 11 percent}
+   followup: good_job [null] Both follow-ups were answered directly with your personal data choices and the twelve-month regular-demand baseline. {the base is the past twelve months regular demand without major promotions}
+   went_well: You named the specific analytical choice you made and explained why average demand alone was not enough. {I suggested we should actually try to use the standard deviation}
+   to_fix: The answer did not establish what you would do differently now, which matters because the project was completed and the question invites reflection. {}
+   plan: ["Start with the Khamgaon problem: the existing safety-stock process was manual and combined regular and promotional demand.","State the decisions you made: use monthly-demand standard deviation and separate promotional periods.","Explain that the comparison used twelve months of regular demand against the earlier norms.","End with what you would change now: explain [what you would do differently after reviewing the completed project]."]
+   stronger: 
+
+-- s2 verdict=on_track q=Let's turn to your production-planning experience at Maruti. How did the changeover sequencing come about?
+   situation: good_job [first_answer] You explained that model changes on the weld line were creating setup time and production loss on every shift. {a lot of time was getting wasted during model changeovers}
+   task: on_track [first_answer] You identified the goal of reducing changeover loss, but the original production constraint was not made fully specific. {if there’s any way to reduce this}
+   action: good_job [after_follow_up] You named your personal decision to group petrol and diesel variants into longer batches and coordinate with the line supervisor and paint shop. {I arranged the variants in such a way that similar engine types ran together}
+   result: on_track [after_follow_up] You explained how the 18-minute reduction was calculated, but did not explain the INR 1.1 crore annual saving. {the reduction of 18 minutes was just the difference between average old and new changeover times}
+   followup: on_track [null] You answered both follow-ups with a specific sequencing decision and a clear before-and-after measurement method, but did not connect the measured time saving to the annual financial saving. {we compared the average shift-wise changeover loss before and after}
+   went_well: You identified the exact sequencing decision you owned and the upstream coordination needed to make it work. {I arranged the variants in such a way that similar engine types ran together}
+   to_fix: The answer measured the time saving but did not explain how that translated into the INR 1.1 crore annual saving shown on the resume. An interviewer may question the financial impact when the calculation is missing. {the reduction of 18 minutes was just the difference between average old and new changeover times}
+   plan: ["Start with the constraint: model changes on the weld line created setup loss every shift.","Say which batch order you chose for petrol and diesel variants and how demand affected that choice.","Explain that maintenance records showed an 18-minute reduction in average shift-level changeover loss.","Finish with the annual business impact: saved INR 1.1 crore annually through [how the time saving was converted into the annual saving]."]
+   stronger: Before the change, model changes on the weld line created setup loss every shift. I arranged petrol and diesel variants into longer batches, checked the plan with the line supervisor and paint shop, and compared average shift-level loss before and after the change. The result was an 18-minute reduction in changeover loss per shift and saved INR 1.1 crore annually through [how the time saving was converted into the annual saving].
+
+-- s3 verdict=on_track q=Understood. Let’s switch to a broader operational scenario. How would you respond if a critical supplier became unreliable while the production line was running near full capacity?
+   accuracy: good_job [first_answer] You gave a practical response involving inventory coverage, alternate supply, supplier recovery, model prioritisation, and schedule changes. {check how much inventory we have on hand}
+   depth: on_track [after_follow_up] You explained why checking remaining stock first creates time to protect critical models, but the trade-offs between air freight, alternate supply, cost, and quality were only briefly covered. {conserving whatever material is left to buy some time}
+   application: needs_work [not_given] You did not connect the scenario to a specific example from your Maruti or HUL experience. {}
+   followup: on_track [null] You answered the first decision directly and described continuity as the outcome, but did not set a specific measurable threshold for success. {the first call has to be about conserving whatever material is left}
+   went_well: You prioritised the immediate decision instead of presenting all possible actions as equally urgent. {the first call has to be about conserving whatever material is left}
+   to_fix: The success measure stayed broad. A specific stock-coverage, production-continuity, delivery, or quality threshold would make the response easier to judge. {no orders got delayed majorly}
+   plan: ["Start by checking current stock and calculating how long it will support production.","Use that coverage to protect critical models, conserve material, and decide whether to slow or reschedule other production.","Run supplier recovery and alternate-source checks in parallel, while considering cost and quality approval.","Define success with a clear threshold such as [stock coverage, allowed downtime, delivery impact, or quality impact]."]
+   stronger: 
+   example: I would first confirm the supplier's remaining supply, our on-hand inventory, and how long that inventory supports the current production plan. I would then protect the most critical customer orders, conserve the material, and decide whether lower-priority production should be rescheduled. In parallel, procurement should pursue an approved alternate source while the supplier works on recovery. I would consider the response successful if production continues without an unplanned stoppage and customer deliveries remain within the agreed service target.
+
+-- s4 verdict=on_track q=Let’s move to your motivation. You moved from production planning at Maruti into a PGDM and a supply-chain internship. What draws you to operations and supply chain now?
+   reason: good_job [first_answer] You gave specific reasons: planning impact, cross-functional coordination, data, and the chance to see operational results. {I enjoy the coordination part}
+   fit: on_track [first_answer] You linked the field to planning, analytics, people, and process improvement, but did not link your motivation to a specific role or company. {operations and supply chain gives a good mix of both}
+   evidence: good_job [first_answer] You supported the motivation with Maruti planning experience and HUL safety-stock and OTIF work. {during my PGDM and at HUL internship I realised I like working with data as well as people}
+   followup: good_job [null] You answered the HUL follow-up with two specific experiences and explained how they changed your view of supply chain. {redesigning the safety stock norms}
+   went_well: You connected a specific HUL project to the kind of work you want to pursue. {building the Power BI dashboard for OTIF actually showed me how analytics can make the whole decision process better}
+   to_fix: The answer could connect your motivation more directly to the role you are seeking. The general appeal of improvement and analytics does not show which responsibilities you want to take on next. {there’s always scope to improve things and see the results quickly}
+   plan: ["Start with the planning impact you saw at Maruti when one decision affected production and several teams.","Use the HUL safety-stock and OTIF work as evidence that you enjoy combining data with operational decisions.","Name the work you want next: [the operations or supply-chain responsibilities you want to own].","Close by linking that work to the role: [specific part of the role or company that matches]."]
+   stronger: At Maruti, I saw how one planning decision could affect hundreds of cars and several teams. At HUL, redesigning safety-stock norms and building the Power BI OTIF dashboard showed me that I enjoy using data to improve operational decisions. I now want to build my career in [specific operations or supply-chain responsibility], especially [specific part of the role or company that matches].
+
+-- second_chance_k3 verdict=good_job q=Thanks. Tell me about another time you improved an operational process, using a different example from the one you shared earlier.
+   situation: good_job [first_answer] You described congestion and delays caused by separate inbound trucks from tier-1 suppliers. {too many trucks queueing at the gate}
+   task: good_job [first_answer] You made the operational goal clear: combine pickups while matching capacity and production timing. {the timings matched the production requirement}
+   action: good_job [first_answer] You named your personal route-planning and capacity-matching work using Excel. {I worked mostly on the route planning part using excel}
+   result: good_job [after_follow_up] You gave the 14% reduction and explained that it was based on daily tracking, comparison with the earlier average, and gate-entry verification. {the truck count came down by about fourteen percent on average}
+   followup: good_job [null] You answered the measured-change follow-up directly and added the data source and verification method. {verified by the gate entry data and logistics team}
+   went_well: You used a different example and clearly separated your route-planning contribution from the wider team effort. {I worked mostly on the route planning part using excel}
+   to_fix: The cost benefit was mentioned without a measure. Since the truck reduction was already verified, either quantify the cost effect or leave that claim out. {it also saved some cost on logistics overall}
+   plan: ["Set the scene with the 22 suppliers, separate trucks, gate congestion, and production-timing problem.","State that you handled Excel route planning and capacity matching.","Explain how routes were combined without disrupting required material timing.","End with the verified 14% reduction in inbound trucks and the resulting improvement in gate congestion and unloading."]
+   stronger: We coordinated with 22 suppliers to combine pickups into milk-run routes. I handled the Excel route planning so truck capacity and timings matched production requirements. The result was a 14% reduction in inbound trucks, with less congestion and smoother unloading.
+
+jd_coverage: []

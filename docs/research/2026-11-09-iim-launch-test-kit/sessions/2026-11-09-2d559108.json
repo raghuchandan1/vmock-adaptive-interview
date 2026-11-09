@@ -1,0 +1,583 @@
+{
+  "id": "2026-11-09-2d559108",
+  "created_at": "2026-11-09T06:57:21.209Z",
+  "status": "active",
+  "inputs": {
+    "resume_text": "Harsh Agarwal\nPGP 2025-27, Indian Institute of Management Lucknow | harsh.agarwal@iiml.ac.in\n\nACADEMIC QUALIFICATIONS\nPGP, IIM Lucknow, 2025-27, CGPA 6.9/10\nB.Com, Narsee Monjee College of Commerce, Mumbai, 2020, 71%\n\nWORK EXPERIENCE (36 months)\nAgarwal Textiles Pvt Ltd (family business), Surat | Business Development Lead | Jul 2021 - Jun 2024\n- Opened 3 new export markets (Bangladesh, Sri Lanka, UAE) for synthetic sarees; export share grew from 4% to 19% of revenue in 2 years\n- Moved 140 retail dealers from paper orders to a WhatsApp-based ordering catalogue; order processing time dropped from 3 days to same day\n- Negotiated yarn contracts worth INR 22 crore a year with 2 Reliance-linked suppliers\nAgarwal Textiles, Trainee | Jul 2020 - Jun 2021\n\nSUMMER INTERNSHIP\nAsian Paints | Sales and Distribution Intern, Nagpur | Apr - Jun 2026\n- Mapped 210 painters and 64 dealers in 3 tier-3 towns; designed a painter-loyalty referral scheme that brought 31 new painters into the program in 6 weeks\n- Identified that 40% of dealer stock-outs were in 12 fast-moving SKUs and proposed a weekly top-up route; pilot reduced lost orders by an estimated INR 9 lakh a month\n- Received PPO\n\nPOSITIONS OF RESPONSIBILITY\n- Coordinator, Sales and Marketing Club (Markathon), IIM Lucknow\n- Captain, college cricket team, NMCC (2018-19)",
+    "jd_text": "",
+    "target_role": "",
+    "domain": "Sales and Business Development",
+    "stage": "finals",
+    "market": "india",
+    "interview_type": "hiring_manager",
+    "style": "balanced",
+    "length": "standard",
+    "seed": 245873
+  },
+  "style": "balanced",
+  "surprise": false,
+  "seed": 245873,
+  "settings": {
+    "planner_model": "gpt-5.6-luna",
+    "planner_effort": "medium",
+    "turn_model": "gpt-5.6-luna",
+    "turn_effort": "low"
+  },
+  "plan": {
+    "candidate": {
+      "name": "Harsh",
+      "experience_level": "early",
+      "current_or_last_role": "Business Development Lead, Agarwal Textiles Pvt Ltd; PGP student at IIM Lucknow",
+      "resume_band": "upper",
+      "band_reason": "The resume shows clear ownership, quantified commercial outcomes and relevant sales experience across a family business and a strong summer internship."
+    },
+    "jd": {
+      "present": false,
+      "company": null,
+      "role_title": null,
+      "role_family": "other",
+      "seniority": null,
+      "must_haves": [],
+      "nice_to_haves": [],
+      "stated_values": []
+    },
+    "mismatch": {
+      "is_mismatch": false,
+      "note": ""
+    },
+    "claims": [
+      {
+        "id": "c1",
+        "text": "Opened 3 new export markets (Bangladesh, Sri Lanka, UAE) for synthetic sarees; export share grew from 4% to 19% of revenue in 2 years",
+        "parent": "Business Development Lead, Agarwal Textiles Pvt Ltd",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "ownership verb",
+          "scale",
+          "named markets"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 3,
+        "grounded": true
+      },
+      {
+        "id": "c2",
+        "text": "Moved 140 retail dealers from paper orders to a WhatsApp-based ordering catalogue; order processing time dropped from 3 days to same day",
+        "parent": "Business Development Lead, Agarwal Textiles Pvt Ltd",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "ownership verb",
+          "scale",
+          "process improvement"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 4,
+        "grounded": true
+      },
+      {
+        "id": "c3",
+        "text": "Negotiated yarn contracts worth INR 22 crore a year with 2 Reliance-linked suppliers",
+        "parent": "Business Development Lead, Agarwal Textiles Pvt Ltd",
+        "type": "collaboration",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified scale",
+          "ownership verb",
+          "named counterparties"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 5,
+        "grounded": true
+      },
+      {
+        "id": "c4",
+        "text": "Mapped 210 painters and 64 dealers in 3 tier-3 towns; designed a painter-loyalty referral scheme that brought 31 new painters into the program in 6 weeks",
+        "parent": "Sales and Distribution Intern, Asian Paints",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "scale",
+          "ownership verb",
+          "specific timeframe"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 1,
+        "grounded": true
+      },
+      {
+        "id": "c5",
+        "text": "Identified that 40% of dealer stock-outs were in 12 fast-moving SKUs and proposed a weekly top-up route; pilot reduced lost orders by an estimated INR 9 lakh a month",
+        "parent": "Sales and Distribution Intern, Asian Paints",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "diagnosis",
+          "scale",
+          "commercial impact"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 2,
+        "grounded": true
+      },
+      {
+        "id": "c6",
+        "text": "Coordinator, Sales and Marketing Club (Markathon), IIM Lucknow",
+        "parent": "Coordinator, Sales and Marketing Club (Markathon), IIM Lucknow",
+        "type": "leadership",
+        "strength": "weak",
+        "strength_signals": [
+          "position of responsibility"
+        ],
+        "weak_flags": [
+          "vague",
+          "no_result",
+          "unclear_role"
+        ],
+        "relevance": "medium",
+        "distinctive": false,
+        "probe_angle": "find_substance",
+        "rank": 7,
+        "grounded": true
+      },
+      {
+        "id": "c7",
+        "text": "Captain, college cricket team, NMCC (2018-19)",
+        "parent": "Captain, college cricket team, NMCC",
+        "type": "leadership",
+        "strength": "moderate",
+        "strength_signals": [
+          "leadership role",
+          "team responsibility"
+        ],
+        "weak_flags": [
+          "no_result"
+        ],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "find_substance",
+        "rank": 6,
+        "grounded": true
+      }
+    ],
+    "competencies": [
+      {
+        "id": "k1",
+        "name": "Sales and market development",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c4",
+          "c5"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k2",
+        "name": "Channel and dealer management",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c2",
+          "c4",
+          "c5"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k3",
+        "name": "Negotiation and commercial judgment",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c3"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k4",
+        "name": "Leadership and teamwork",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c6",
+          "c7"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k5",
+        "name": "Motivation and fit",
+        "source": "always",
+        "must_have": false,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      }
+    ],
+    "concerns": [],
+    "warmup_question": "Which recent skill from your MBA has been most useful so far?",
+    "background_question": "Walk me through your career so far, with a focus on your last couple of roles.",
+    "slots": [
+      {
+        "id": "s1",
+        "kind": "claim",
+        "competency_id": "k1",
+        "anchor_claim_id": "c4",
+        "question_type": "past_behaviour",
+        "core_question": "Tell me about the painter-loyalty referral scheme you designed during your Asian Paints internship.",
+        "intent_private": "Needs the customer insight behind the scheme, Harsh's specific decisions, how he influenced painters or dealers, and how the 31 new painters were verified.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which decision in the scheme was yours alone?",
+          "What did you do first to persuade painters to join?",
+          "What was the baseline for the 31 new painters?"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "s2",
+        "kind": "claim",
+        "competency_id": "k4",
+        "anchor_claim_id": "c7",
+        "question_type": "past_behaviour",
+        "core_question": "How did you lead the NMCC college cricket team as captain?",
+        "intent_private": "Needs a specific team situation, Harsh's people decisions, how he handled differing performance or commitment levels, and the resulting team outcome.",
+        "probe_angle": "find_substance",
+        "technical_focus": false,
+        "likely_probes": [
+          "What was the first leadership challenge you faced as captain?",
+          "Which decision about a teammate was yours to make?",
+          "How did you know your approach improved the team?"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "s3",
+        "kind": "gap",
+        "competency_id": "k1",
+        "anchor_claim_id": null,
+        "question_type": "knowledge",
+        "core_question": "How would you decide whether to expand a dealer network into a new tier-3 market?",
+        "intent_private": "Needs a practitioner-level approach using market potential, dealer economics, route feasibility and customer demand, with a clear trade-off between growth and execution cost.",
+        "probe_angle": "find_substance",
+        "technical_focus": false,
+        "likely_probes": [
+          "Why would you prioritise that information over another signal?",
+          "When would you decide not to enter the market?",
+          "How would you validate the decision using your own market-development experience?"
+        ],
+        "priority": 3
+      },
+      {
+        "id": "s4",
+        "kind": "motivation",
+        "competency_id": "k5",
+        "anchor_claim_id": null,
+        "question_type": "motivation",
+        "core_question": "You have built sales experience in your family business and at Asian Paints. What is pulling you toward sales and business development now?",
+        "intent_private": "Needs a reason tied to Harsh's own commercial experience, a specific attraction to this type of role, and a credible explanation of what he wants to build next.",
+        "probe_angle": "none",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which experience most shaped that choice?",
+          "What part of this role would you want to take on first?"
+        ],
+        "priority": 4
+      }
+    ],
+    "plan_notes": "The plan prioritizes the relevant Asian Paints internship, then tests people leadership through a substantial extracurricular role and sales judgment through an applied market-development question. Harsh has a strong, quantified resume with unusually broad exposure to export expansion, dealer digitization and commercial negotiations; the family-business background makes motivation toward the next sales role worth clarifying."
+  },
+  "plan_trace": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "attempts": 1,
+    "started_at": "2026-11-09T06:56:52.528Z",
+    "latency_ms": 28681,
+    "usage": {
+      "prompt_tokens": 7358,
+      "completion_tokens": 3116,
+      "total_tokens": 10474,
+      "prompt_tokens_details": {
+        "cached_tokens": 6879,
+        "cache_write_tokens": 476,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1422,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "raw_response": "{\"candidate\":{\"name\":\"Harsh\",\"experience_level\":\"early\",\"current_or_last_role\":\"Business Development Lead, Agarwal Textiles Pvt Ltd; PGP student at IIM Lucknow\",\"resume_band\":\"upper\",\"band_reason\":\"The resume shows clear ownership, quantified commercial outcomes and relevant sales experience across a family business and a strong summer internship.\"},\"jd\":{\"present\":false,\"company\":null,\"role_title\":null,\"role_family\":\"other\",\"seniority\":null,\"must_haves\":[],\"nice_to_haves\":[],\"stated_values\":[]},\"mismatch\":{\"is_mismatch\":false,\"note\":\"\"},\"claims\":[{\"id\":\"c1\",\"text\":\"Opened 3 new export markets (Bangladesh, Sri Lanka, UAE) for synthetic sarees; export share grew from 4% to 19% of revenue in 2 years\",\"parent\":\"Business Development Lead, Agarwal Textiles Pvt Ltd\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"ownership verb\",\"scale\",\"named markets\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":3},{\"id\":\"c2\",\"text\":\"Moved 140 retail dealers from paper orders to a WhatsApp-based ordering catalogue; order processing time dropped from 3 days to same day\",\"parent\":\"Business Development Lead, Agarwal Textiles Pvt Ltd\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"ownership verb\",\"scale\",\"process improvement\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":4},{\"id\":\"c3\",\"text\":\"Negotiated yarn contracts worth INR 22 crore a year with 2 Reliance-linked suppliers\",\"parent\":\"Business Development Lead, Agarwal Textiles Pvt Ltd\",\"type\":\"collaboration\",\"strength\":\"strong\",\"strength_signals\":[\"quantified scale\",\"ownership verb\",\"named counterparties\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":5},{\"id\":\"c4\",\"text\":\"Mapped 210 painters and 64 dealers in 3 tier-3 towns; designed a painter-loyalty referral scheme that brought 31 new painters into the program in 6 weeks\",\"parent\":\"Sales and Distribution Intern, Asian Paints\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"scale\",\"ownership verb\",\"specific timeframe\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":1},{\"id\":\"c5\",\"text\":\"Identified that 40% of dealer stock-outs were in 12 fast-moving SKUs and proposed a weekly top-up route; pilot reduced lost orders by an estimated INR 9 lakh a month\",\"parent\":\"Sales and Distribution Intern, Asian Paints\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"diagnosis\",\"scale\",\"commercial impact\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":2},{\"id\":\"c6\",\"text\":\"Coordinator, Sales and Marketing Club (Markathon), IIM Lucknow\",\"parent\":\"Coordinator, Sales and Marketing Club (Markathon), IIM Lucknow\",\"type\":\"leadership\",\"strength\":\"weak\",\"strength_signals\":[\"position of responsibility\"],\"weak_flags\":[\"vague\",\"no_result\",\"unclear_role\"],\"relevance\":\"medium\",\"distinctive\":false,\"probe_angle\":\"find_substance\",\"rank\":7},{\"id\":\"c7\",\"text\":\"Captain, college cricket team, NMCC (2018-19)\",\"parent\":\"Captain, college cricket team, NMCC\",\"type\":\"leadership\",\"strength\":\"moderate\",\"strength_signals\":[\"leadership role\",\"team responsibility\"],\"weak_flags\":[\"no_result\"],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"find_substance\",\"rank\":6}],\"competencies\":[{\"id\":\"k1\",\"name\":\"Sales and market development\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c4\",\"c5\"],\"is_gap\":false},{\"id\":\"k2\",\"name\":\"Channel and dealer management\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c2\",\"c4\",\"c5\"],\"is_gap\":false},{\"id\":\"k3\",\"name\":\"Negotiation and commercial judgment\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c3\"],\"is_gap\":false},{\"id\":\"k4\",\"name\":\"Leadership and teamwork\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c6\",\"c7\"],\"is_gap\":false},{\"id\":\"k5\",\"name\":\"Motivation and fit\",\"source\":\"always\",\"must_have\":false,\"evidence_claim_ids\":[],\"is_gap\":true}],\"concerns\":[],\"warmup_question\":\"Which recent skill from your MBA has been most useful so far?\",\"background_question\":\"Walk me through your career so far, with a focus on your last couple of roles.\",\"slots\":[{\"id\":\"s1\",\"kind\":\"claim\",\"competency_id\":\"k1\",\"anchor_claim_id\":\"c4\",\"question_type\":\"past_behaviour\",\"core_question\":\"Tell me about the painter-loyalty referral scheme you designed during your Asian Paints internship.\",\"intent_private\":\"Needs the customer insight behind the scheme, Harsh's specific decisions, how he influenced painters or dealers, and how the 31 new painters were verified.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"Which decision in the scheme was yours alone?\",\"What did you do first to persuade painters to join?\",\"What was the baseline for the 31 new painters?\"] ,\"priority\":1},{\"id\":\"s2\",\"kind\":\"claim\",\"competency_id\":\"k4\",\"anchor_claim_id\":\"c7\",\"question_type\":\"past_behaviour\",\"core_question\":\"How did you lead the NMCC college cricket team as captain?\",\"intent_private\":\"Needs a specific team situation, Harsh's people decisions, how he handled differing performance or commitment levels, and the resulting team outcome.\",\"probe_angle\":\"find_substance\",\"technical_focus\":false,\"likely_probes\":[\"What was the first leadership challenge you faced as captain?\",\"Which decision about a teammate was yours to make?\",\"How did you know your approach improved the team?\"] ,\"priority\":2},{\"id\":\"s3\",\"kind\":\"gap\",\"competency_id\":\"k1\",\"anchor_claim_id\":null,\"question_type\":\"knowledge\",\"core_question\":\"How would you decide whether to expand a dealer network into a new tier-3 market?\",\"intent_private\":\"Needs a practitioner-level approach using market potential, dealer economics, route feasibility and customer demand, with a clear trade-off between growth and execution cost.\",\"probe_angle\":\"find_substance\",\"technical_focus\":false,\"likely_probes\":[\"Why would you prioritise that information over another signal?\",\"When would you decide not to enter the market?\",\"How would you validate the decision using your own market-development experience?\"] ,\"priority\":3},{\"id\":\"s4\",\"kind\":\"motivation\",\"competency_id\":\"k5\",\"anchor_claim_id\":null,\"question_type\":\"motivation\",\"core_question\":\"You have built sales experience in your family business and at Asian Paints. What is pulling you toward sales and business development now?\",\"intent_private\":\"Needs a reason tied to Harsh's own commercial experience, a specific attraction to this type of role, and a credible explanation of what he wants to build next.\",\"probe_angle\":\"none\",\"technical_focus\":false,\"likely_probes\":[\"Which experience most shaped that choice?\",\"What part of this role would you want to take on first?\"] ,\"priority\":4}],\"plan_notes\":\"The plan prioritizes the relevant Asian Paints internship, then tests people leadership through a substantial extracurricular role and sales judgment through an applied market-development question. Harsh has a strong, quantified resume with unusually broad exposure to export expansion, dealer digitization and commercial negotiations; the family-business background makes motivation toward the next sales role worth clarifying.\"}",
+    "request_user_message": "{\"target_role\":\"domain: Sales and Business Development\",\"interview_type\":\"hiring_manager\",\"placement_stage\":\"finals\",\"market\":\"india\",\"interviewer_style\":\"balanced\",\"scored_slot_count\":4,\"variation_seed\":245873,\"warmup_angle\":\"a skill they picked up recently, at work or in their course, and where it came in useful\",\"fit_angle\":\"what their team or classmates would say is their biggest strength\",\"resume_text\":\"Harsh Agarwal\\nPGP 2025-27, Indian Institute of Management Lucknow | harsh.agarwal@iiml.ac.in\\n\\nACADEMIC QUALIFICATIONS\\nPGP, IIM Lucknow, 2025-27, CGPA 6.9/10\\nB.Com, Narsee Monjee College of Commerce, Mumbai, 2020, 71%\\n\\nWORK EXPERIENCE (36 months)\\nAgarwal Textiles Pvt Ltd (family business), Surat | Business Development Lead | Jul 2021 - Jun 2024\\n- Opened 3 new export markets (Bangladesh, Sri Lanka, UAE) for synthetic sarees; export share grew from 4% to 19% of revenue in 2 years\\n- Moved 140 retail dealers from paper orders to a WhatsApp-based ordering catalogue; order processing time dropped from 3 days to same day\\n- Negotiated yarn contracts worth INR 22 crore a year with 2 Reliance-linked suppliers\\nAgarwal Textiles, Trainee | Jul 2020 - Jun 2021\\n\\nSUMMER INTERNSHIP\\nAsian Paints | Sales and Distribution Intern, Nagpur | Apr - Jun 2026\\n- Mapped 210 painters and 64 dealers in 3 tier-3 towns; designed a painter-loyalty referral scheme that brought 31 new painters into the program in 6 weeks\\n- Identified that 40% of dealer stock-outs were in 12 fast-moving SKUs and proposed a weekly top-up route; pilot reduced lost orders by an estimated INR 9 lakh a month\\n- Received PPO\\n\\nPOSITIONS OF RESPONSIBILITY\\n- Coordinator, Sales and Marketing Club (Markathon), IIM Lucknow\\n- Captain, college cricket team, NMCC (2018-19)\",\"jd_text\":\"\"}"
+  },
+  "plan_checks": [
+    {
+      "level": "ok",
+      "message": "All claims are quoted from the resume and all topics are valid."
+    }
+  ],
+  "slots": [
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "Which recent skill from your MBA has been most useful so far?",
+      "intent_private": "Warm-up to settle in. Not assessed.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "active",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "warmup",
+      "kind": "warmup",
+      "budget": 0
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "Walk me through your career so far, with a focus on your last couple of roles.",
+      "intent_private": "A coherent overview of the candidate's path; may surface threads for later topics.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "background",
+      "kind": "background",
+      "budget": 1
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Sales and market development",
+      "must_have": true,
+      "anchor_claim_id": "c4",
+      "anchor_text": "Mapped 210 painters and 64 dealers in 3 tier-3 towns; designed a painter-loyalty referral scheme that brought 31 new painters into the program in 6 weeks",
+      "anchor_parent": "Sales and Distribution Intern, Asian Paints",
+      "question_type": "past_behaviour",
+      "core_question": "Tell me about the painter-loyalty referral scheme you designed during your Asian Paints internship.",
+      "intent_private": "Needs the customer insight behind the scheme, Harsh's specific decisions, how he influenced painters or dealers, and how the 31 new painters were verified.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which decision in the scheme was yours alone?",
+        "What did you do first to persuade painters to join?",
+        "What was the baseline for the 31 new painters?"
+      ],
+      "priority": 1,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s1",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k4",
+      "competency_name": "Leadership and teamwork",
+      "must_have": false,
+      "anchor_claim_id": "c7",
+      "anchor_text": "Captain, college cricket team, NMCC (2018-19)",
+      "anchor_parent": "Captain, college cricket team, NMCC",
+      "question_type": "past_behaviour",
+      "core_question": "How did you lead the NMCC college cricket team as captain?",
+      "intent_private": "Needs a specific team situation, Harsh's people decisions, how he handled differing performance or commitment levels, and the resulting team outcome.",
+      "probe_angle": "find_substance",
+      "technical_focus": false,
+      "likely_probes": [
+        "What was the first leadership challenge you faced as captain?",
+        "Which decision about a teammate was yours to make?",
+        "How did you know your approach improved the team?"
+      ],
+      "priority": 2,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [
+        "no_result"
+      ],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s2",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Sales and market development",
+      "must_have": true,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "knowledge",
+      "core_question": "How would you decide whether to expand a dealer network into a new tier-3 market?",
+      "intent_private": "Needs a practitioner-level approach using market potential, dealer economics, route feasibility and customer demand, with a clear trade-off between growth and execution cost.",
+      "probe_angle": "find_substance",
+      "technical_focus": false,
+      "likely_probes": [
+        "Why would you prioritise that information over another signal?",
+        "When would you decide not to enter the market?",
+        "How would you validate the decision using your own market-development experience?"
+      ],
+      "priority": 3,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s3",
+      "kind": "gap",
+      "budget": 2
+    },
+    {
+      "competency_id": "k5",
+      "competency_name": "Motivation and fit",
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "motivation",
+      "core_question": "You have built sales experience in your family business and at Asian Paints. What is pulling you toward sales and business development now?",
+      "intent_private": "Needs a reason tied to Harsh's own commercial experience, a specific attraction to this type of role, and a credible explanation of what he wants to build next.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which experience most shaped that choice?",
+        "What part of this role would you want to take on first?"
+      ],
+      "priority": 4,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s4",
+      "kind": "motivation",
+      "budget": 1
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "",
+      "intent_private": "Candidate asks their questions.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "candidate_questions",
+      "kind": "candidate_questions",
+      "budget": 2
+    }
+  ],
+  "current": 0,
+  "transcript": [
+    {
+      "role": "interviewer",
+      "text": "Hi Harsh, thanks for making the time. I'm on the team hiring for this role. Over the next 15 minutes or so I'd like to go into your experience, and you'll have time for questions at the end. Which recent skill from your MBA has been most useful so far?",
+      "slot_id": "warmup",
+      "why": "This was a warm-up question to help you settle in. It isn't part of the feedback.",
+      "at": "2026-11-09T06:57:21.210Z"
+    }
+  ],
+  "turns": [],
+  "events": [],
+  "interviewer_turns": 1,
+  "max_turns": 20,
+  "candidate_questions_asked": 0,
+  "second_chances": {},
+  "opening_greeting": "Hi Harsh, thanks for making the time. I'm on the team hiring for this role. Over the next 15 minutes or so I'd like to go into your experience, and you'll have time for questions at the end."
+}

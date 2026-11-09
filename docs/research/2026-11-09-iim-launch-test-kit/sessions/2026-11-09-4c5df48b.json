@@ -1,0 +1,583 @@
+{
+  "id": "2026-11-09-4c5df48b",
+  "created_at": "2026-11-09T06:57:22.358Z",
+  "status": "active",
+  "inputs": {
+    "resume_text": "Ritika Banerjee\nPGDHRM 2025-27 | Indian Institute of Management Ranchi | ritika.b@iimranchi.ac.in\n\nEDUCATION\nPGDHRM, IIM Ranchi, 2025-27, CGPA 7.8/10\nBA (Hons) Psychology, Lady Shri Ram College, Delhi University, 2025, 8.6/10\n\nSUMMER INTERNSHIP\nMahindra & Mahindra, Automotive Sector, Nashik plant | HR Intern | Apr - Jun 2026\n- Analysed exit interviews of 380 shop-floor associates; found 58% of first-year exits cited shift allocation, and proposed a shift-preference window that the plant HR head approved for 2 lines\n- Designed a 5-day onboarding buddy program for diploma trainees; first cohort of 46 trainees rated it 4.4/5\n- Redesigned the grievance tracker in Excel so the IR team could see open cases by line and age\n\nINTERNSHIPS\nTeach For India | Fellowship Recruitment Intern | Dec 2024 - Feb 2025\n- Screened 600 applications and conducted 40 first-round phone interviews\n\nPOSITIONS OF RESPONSIBILITY\n- Placement Committee member, IIM Ranchi (2025-26): coordinate with 18 recruiters for HR and general management roles\n- President, Psychology Society, LSR (2024-25): ran a mental health awareness week with 1,200 attendees\n\nACHIEVEMENTS\n- National winner, Tata Steel HR case competition \"HRchitect\" 2026",
+    "jd_text": "",
+    "target_role": "",
+    "domain": "Human Resources",
+    "stage": "finals",
+    "market": "india",
+    "interview_type": "hiring_manager",
+    "style": "balanced",
+    "length": "standard",
+    "seed": 349463
+  },
+  "style": "balanced",
+  "surprise": false,
+  "seed": 349463,
+  "settings": {
+    "planner_model": "gpt-5.6-luna",
+    "planner_effort": "medium",
+    "turn_model": "gpt-5.6-luna",
+    "turn_effort": "low"
+  },
+  "plan": {
+    "candidate": {
+      "name": "Ritika",
+      "experience_level": "fresher",
+      "current_or_last_role": "PGDHRM student, IIM Ranchi",
+      "resume_band": "upper",
+      "band_reason": "The resume shows clear ownership, quantified outcomes, and relevant HR experience across a plant internship, recruitment, leadership, and competition work."
+    },
+    "jd": {
+      "present": false,
+      "company": null,
+      "role_title": null,
+      "role_family": "other",
+      "seniority": null,
+      "must_haves": [],
+      "nice_to_haves": [],
+      "stated_values": []
+    },
+    "mismatch": {
+      "is_mismatch": false,
+      "note": ""
+    },
+    "claims": [
+      {
+        "id": "c1",
+        "text": "Analysed exit interviews of 380 shop-floor associates; found 58% of first-year exits cited shift allocation, and proposed a shift-preference window that the plant HR head approved for 2 lines",
+        "parent": "HR Intern, Mahindra & Mahindra, Automotive Sector, Nashik plant",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified analysis",
+          "specific finding",
+          "recommendation approved",
+          "clear ownership"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 1,
+        "grounded": true
+      },
+      {
+        "id": "c2",
+        "text": "Designed a 5-day onboarding buddy program for diploma trainees; first cohort of 46 trainees rated it 4.4/5",
+        "parent": "HR Intern, Mahindra & Mahindra, Automotive Sector, Nashik plant",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "designed program",
+          "quantified duration and cohort",
+          "quantified rating"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 4,
+        "grounded": true
+      },
+      {
+        "id": "c3",
+        "text": "Redesigned the grievance tracker in Excel so the IR team could see open cases by line and age",
+        "parent": "HR Intern, Mahindra & Mahindra, Automotive Sector, Nashik plant",
+        "type": "tools_ai",
+        "strength": "moderate",
+        "strength_signals": [
+          "ownership verb",
+          "named tool",
+          "process improvement"
+        ],
+        "weak_flags": [
+          "no_result"
+        ],
+        "relevance": "high",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 6,
+        "grounded": true
+      },
+      {
+        "id": "c4",
+        "text": "Screened 600 applications and conducted 40 first-round phone interviews",
+        "parent": "Fellowship Recruitment Intern, Teach For India",
+        "type": "collaboration",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified scale",
+          "two concrete activities"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 5,
+        "grounded": true
+      },
+      {
+        "id": "c5",
+        "text": "Placement Committee member, IIM Ranchi (2025-26): coordinate with 18 recruiters for HR and general management roles",
+        "parent": "Placement Committee, IIM Ranchi",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "formal responsibility",
+          "stakeholder scale",
+          "specific scope"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 3,
+        "grounded": true
+      },
+      {
+        "id": "c6",
+        "text": "President, Psychology Society, LSR (2024-25): ran a mental health awareness week with 1,200 attendees",
+        "parent": "Psychology Society, Lady Shri Ram College",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "leadership title",
+          "large attendance",
+          "event ownership"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 7,
+        "grounded": true
+      },
+      {
+        "id": "c7",
+        "text": "National winner, Tata Steel HR case competition \"HRchitect\" 2026",
+        "parent": "Tata Steel HR case competition \"HRchitect\"",
+        "type": "other",
+        "strength": "strong",
+        "strength_signals": [
+          "national-level achievement",
+          "winner",
+          "HR relevance"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 2,
+        "grounded": true
+      }
+    ],
+    "competencies": [
+      {
+        "id": "k1",
+        "name": "People analytics and problem solving",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c3"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k2",
+        "name": "Employee relations and grievance handling",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c3"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k3",
+        "name": "Stakeholder management",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c5"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k4",
+        "name": "Onboarding and employee experience",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c2"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k5",
+        "name": "Talent acquisition",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c4"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k6",
+        "name": "Motivation and fit",
+        "source": "always",
+        "must_have": false,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      }
+    ],
+    "concerns": [],
+    "warmup_question": "What has kept you busy in the last few weeks at IIM Ranchi?",
+    "background_question": "Walk me through your path from psychology at LSR to your PGDHRM and the experiences that shaped your interest in HR.",
+    "slots": [
+      {
+        "id": "s1",
+        "kind": "claim",
+        "competency_id": "k1",
+        "anchor_claim_id": "c1",
+        "question_type": "past_behaviour",
+        "core_question": "I see you analysed exit interviews at Mahindra & Mahindra’s Nashik plant. What did you do to turn that analysis into a shift-preference proposal?",
+        "intent_private": "Needs Ritika’s specific analytical steps, her personal decisions, how the 58% finding was established, why the proposal was chosen, and what she took from the internship or would do differently now.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which part of the analysis was yours?",
+          "What evidence led you to recommend a preference window?",
+          "What would you do differently now?"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "s2",
+        "kind": "claim",
+        "competency_id": "k3",
+        "anchor_claim_id": "c5",
+        "question_type": "past_behaviour",
+        "core_question": "I see you coordinated with 18 recruiters on IIM Ranchi’s placement committee. What was the hardest coordination challenge you handled?",
+        "intent_private": "Needs a specific recruiter-coordination situation, Ritika’s actions and judgment, how she managed competing expectations, and the outcome for the placement process.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "What part of that challenge did you personally own?",
+          "How did you decide what to communicate first?",
+          "What changed as a result of your intervention?"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "s3",
+        "kind": "gap",
+        "competency_id": "k2",
+        "anchor_claim_id": null,
+        "question_type": "knowledge",
+        "core_question": "How would you handle a shop-floor employee who believes their shift allocation was unfair?",
+        "intent_private": "Needs an applied employee-relations response covering fact-finding, procedural fairness, confidentiality, consistency with policy, escalation, and communicating closure without prejudging the grievance.",
+        "probe_angle": "find_substance",
+        "technical_focus": false,
+        "likely_probes": [
+          "Why would you begin with that approach?",
+          "When might that approach not be appropriate?",
+          "How have you handled a similar concern in your own work?"
+        ],
+        "priority": 3
+      },
+      {
+        "id": "s4",
+        "kind": "motivation",
+        "competency_id": "k6",
+        "anchor_claim_id": null,
+        "question_type": "motivation",
+        "core_question": "After your psychology degree and HR summer internship, what is drawing you to build your career in human resources?",
+        "intent_private": "Needs a reason grounded in Ritika’s psychology background and Mahindra experience, plus a specific aspect of an HR role she wants to pursue rather than a generic interest in people or business.",
+        "probe_angle": "none",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which part of your Mahindra experience most shaped that choice?",
+          "What HR responsibility would you want to take on early in your career?"
+        ],
+        "priority": 4
+      }
+    ],
+    "plan_notes": "The plan prioritizes the strongest and most relevant summer-internship claim, then tests stakeholder coordination through the placement committee. A practical employee-relations question adds depth beyond the resume’s quantified achievements, while the final motivation question explores her path from psychology through HR internships into a long-term HR career."
+  },
+  "plan_trace": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "attempts": 1,
+    "started_at": "2026-11-09T06:56:54.247Z",
+    "latency_ms": 28111,
+    "usage": {
+      "prompt_tokens": 7313,
+      "completion_tokens": 3105,
+      "total_tokens": 10418,
+      "prompt_tokens_details": {
+        "cached_tokens": 6879,
+        "cache_write_tokens": 431,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1371,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "raw_response": "{\"candidate\":{\"name\":\"Ritika\",\"experience_level\":\"fresher\",\"current_or_last_role\":\"PGDHRM student, IIM Ranchi\",\"resume_band\":\"upper\",\"band_reason\":\"The resume shows clear ownership, quantified outcomes, and relevant HR experience across a plant internship, recruitment, leadership, and competition work.\"},\"jd\":{\"present\":false,\"company\":null,\"role_title\":null,\"role_family\":\"other\",\"seniority\":null,\"must_haves\":[],\"nice_to_haves\":[],\"stated_values\":[]},\"mismatch\":{\"is_mismatch\":false,\"note\":\"\"},\"claims\":[{\"id\":\"c1\",\"text\":\"Analysed exit interviews of 380 shop-floor associates; found 58% of first-year exits cited shift allocation, and proposed a shift-preference window that the plant HR head approved for 2 lines\",\"parent\":\"HR Intern, Mahindra & Mahindra, Automotive Sector, Nashik plant\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified analysis\",\"specific finding\",\"recommendation approved\",\"clear ownership\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":1},{\"id\":\"c2\",\"text\":\"Designed a 5-day onboarding buddy program for diploma trainees; first cohort of 46 trainees rated it 4.4/5\",\"parent\":\"HR Intern, Mahindra & Mahindra, Automotive Sector, Nashik plant\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"designed program\",\"quantified duration and cohort\",\"quantified rating\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":4},{\"id\":\"c3\",\"text\":\"Redesigned the grievance tracker in Excel so the IR team could see open cases by line and age\",\"parent\":\"HR Intern, Mahindra & Mahindra, Automotive Sector, Nashik plant\",\"type\":\"tools_ai\",\"strength\":\"moderate\",\"strength_signals\":[\"ownership verb\",\"named tool\",\"process improvement\"],\"weak_flags\":[\"no_result\"],\"relevance\":\"high\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":6},{\"id\":\"c4\",\"text\":\"Screened 600 applications and conducted 40 first-round phone interviews\",\"parent\":\"Fellowship Recruitment Intern, Teach For India\",\"type\":\"collaboration\",\"strength\":\"strong\",\"strength_signals\":[\"quantified scale\",\"two concrete activities\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":5},{\"id\":\"c5\",\"text\":\"Placement Committee member, IIM Ranchi (2025-26): coordinate with 18 recruiters for HR and general management roles\",\"parent\":\"Placement Committee, IIM Ranchi\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"formal responsibility\",\"stakeholder scale\",\"specific scope\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":3},{\"id\":\"c6\",\"text\":\"President, Psychology Society, LSR (2024-25): ran a mental health awareness week with 1,200 attendees\",\"parent\":\"Psychology Society, Lady Shri Ram College\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"leadership title\",\"large attendance\",\"event ownership\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":7},{\"id\":\"c7\",\"text\":\"National winner, Tata Steel HR case competition \\\"HRchitect\\\" 2026\",\"parent\":\"Tata Steel HR case competition \\\"HRchitect\\\"\",\"type\":\"other\",\"strength\":\"strong\",\"strength_signals\":[\"national-level achievement\",\"winner\",\"HR relevance\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":2}],\"competencies\":[{\"id\":\"k1\",\"name\":\"People analytics and problem solving\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c3\"],\"is_gap\":false},{\"id\":\"k2\",\"name\":\"Employee relations and grievance handling\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c3\"],\"is_gap\":false},{\"id\":\"k3\",\"name\":\"Stakeholder management\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c5\"],\"is_gap\":false},{\"id\":\"k4\",\"name\":\"Onboarding and employee experience\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c2\"],\"is_gap\":false},{\"id\":\"k5\",\"name\":\"Talent acquisition\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c4\"],\"is_gap\":false},{\"id\":\"k6\",\"name\":\"Motivation and fit\",\"source\":\"always\",\"must_have\":false,\"evidence_claim_ids\":[],\"is_gap\":true}],\"concerns\":[],\"warmup_question\":\"What has kept you busy in the last few weeks at IIM Ranchi?\",\"background_question\":\"Walk me through your path from psychology at LSR to your PGDHRM and the experiences that shaped your interest in HR.\",\"slots\":[{\"id\":\"s1\",\"kind\":\"claim\",\"competency_id\":\"k1\",\"anchor_claim_id\":\"c1\",\"question_type\":\"past_behaviour\",\"core_question\":\"I see you analysed exit interviews at Mahindra & Mahindra’s Nashik plant. What did you do to turn that analysis into a shift-preference proposal?\",\"intent_private\":\"Needs Ritika’s specific analytical steps, her personal decisions, how the 58% finding was established, why the proposal was chosen, and what she took from the internship or would do differently now.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"Which part of the analysis was yours?\",\"What evidence led you to recommend a preference window?\",\"What would you do differently now?\"] ,\"priority\":1},{\"id\":\"s2\",\"kind\":\"claim\",\"competency_id\":\"k3\",\"anchor_claim_id\":\"c5\",\"question_type\":\"past_behaviour\",\"core_question\":\"I see you coordinated with 18 recruiters on IIM Ranchi’s placement committee. What was the hardest coordination challenge you handled?\",\"intent_private\":\"Needs a specific recruiter-coordination situation, Ritika’s actions and judgment, how she managed competing expectations, and the outcome for the placement process.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"What part of that challenge did you personally own?\",\"How did you decide what to communicate first?\",\"What changed as a result of your intervention?\"] ,\"priority\":2},{\"id\":\"s3\",\"kind\":\"gap\",\"competency_id\":\"k2\",\"anchor_claim_id\":null,\"question_type\":\"knowledge\",\"core_question\":\"How would you handle a shop-floor employee who believes their shift allocation was unfair?\",\"intent_private\":\"Needs an applied employee-relations response covering fact-finding, procedural fairness, confidentiality, consistency with policy, escalation, and communicating closure without prejudging the grievance.\",\"probe_angle\":\"find_substance\",\"technical_focus\":false,\"likely_probes\":[\"Why would you begin with that approach?\",\"When might that approach not be appropriate?\",\"How have you handled a similar concern in your own work?\"] ,\"priority\":3},{\"id\":\"s4\",\"kind\":\"motivation\",\"competency_id\":\"k6\",\"anchor_claim_id\":null,\"question_type\":\"motivation\",\"core_question\":\"After your psychology degree and HR summer internship, what is drawing you to build your career in human resources?\",\"intent_private\":\"Needs a reason grounded in Ritika’s psychology background and Mahindra experience, plus a specific aspect of an HR role she wants to pursue rather than a generic interest in people or business.\",\"probe_angle\":\"none\",\"technical_focus\":false,\"likely_probes\":[\"Which part of your Mahindra experience most shaped that choice?\",\"What HR responsibility would you want to take on early in your career?\"] ,\"priority\":4}],\"plan_notes\":\"The plan prioritizes the strongest and most relevant summer-internship claim, then tests stakeholder coordination through the placement committee. A practical employee-relations question adds depth beyond the resume’s quantified achievements, while the final motivation question explores her path from psychology through HR internships into a long-term HR career.\"}",
+    "request_user_message": "{\"target_role\":\"domain: Human Resources\",\"interview_type\":\"hiring_manager\",\"placement_stage\":\"finals\",\"market\":\"india\",\"interviewer_style\":\"balanced\",\"scored_slot_count\":4,\"variation_seed\":349463,\"warmup_angle\":\"what has kept them busy in the last few weeks, at work or in their studies\",\"fit_angle\":\"what their team or classmates would say is their biggest strength\",\"resume_text\":\"Ritika Banerjee\\nPGDHRM 2025-27 | Indian Institute of Management Ranchi | ritika.b@iimranchi.ac.in\\n\\nEDUCATION\\nPGDHRM, IIM Ranchi, 2025-27, CGPA 7.8/10\\nBA (Hons) Psychology, Lady Shri Ram College, Delhi University, 2025, 8.6/10\\n\\nSUMMER INTERNSHIP\\nMahindra & Mahindra, Automotive Sector, Nashik plant | HR Intern | Apr - Jun 2026\\n- Analysed exit interviews of 380 shop-floor associates; found 58% of first-year exits cited shift allocation, and proposed a shift-preference window that the plant HR head approved for 2 lines\\n- Designed a 5-day onboarding buddy program for diploma trainees; first cohort of 46 trainees rated it 4.4/5\\n- Redesigned the grievance tracker in Excel so the IR team could see open cases by line and age\\n\\nINTERNSHIPS\\nTeach For India | Fellowship Recruitment Intern | Dec 2024 - Feb 2025\\n- Screened 600 applications and conducted 40 first-round phone interviews\\n\\nPOSITIONS OF RESPONSIBILITY\\n- Placement Committee member, IIM Ranchi (2025-26): coordinate with 18 recruiters for HR and general management roles\\n- President, Psychology Society, LSR (2024-25): ran a mental health awareness week with 1,200 attendees\\n\\nACHIEVEMENTS\\n- National winner, Tata Steel HR case competition \\\"HRchitect\\\" 2026\",\"jd_text\":\"\"}"
+  },
+  "plan_checks": [
+    {
+      "level": "ok",
+      "message": "All claims are quoted from the resume and all topics are valid."
+    }
+  ],
+  "slots": [
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "What has kept you busy in the last few weeks at IIM Ranchi?",
+      "intent_private": "Warm-up to settle in. Not assessed.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "active",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "warmup",
+      "kind": "warmup",
+      "budget": 0
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "Walk me through your path from psychology at LSR to your PGDHRM and the experiences that shaped your interest in HR.",
+      "intent_private": "A coherent overview of the candidate's path; may surface threads for later topics.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "background",
+      "kind": "background",
+      "budget": 1
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "People analytics and problem solving",
+      "must_have": true,
+      "anchor_claim_id": "c1",
+      "anchor_text": "Analysed exit interviews of 380 shop-floor associates; found 58% of first-year exits cited shift allocation, and proposed a shift-preference window that the plant HR head approved for 2 lines",
+      "anchor_parent": "HR Intern, Mahindra & Mahindra, Automotive Sector, Nashik plant",
+      "question_type": "past_behaviour",
+      "core_question": "I see you analysed exit interviews at Mahindra & Mahindra’s Nashik plant. What did you do to turn that analysis into a shift-preference proposal?",
+      "intent_private": "Needs Ritika’s specific analytical steps, her personal decisions, how the 58% finding was established, why the proposal was chosen, and what she took from the internship or would do differently now.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which part of the analysis was yours?",
+        "What evidence led you to recommend a preference window?",
+        "What would you do differently now?"
+      ],
+      "priority": 1,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s1",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k3",
+      "competency_name": "Stakeholder management",
+      "must_have": true,
+      "anchor_claim_id": "c5",
+      "anchor_text": "Placement Committee member, IIM Ranchi (2025-26): coordinate with 18 recruiters for HR and general management roles",
+      "anchor_parent": "Placement Committee, IIM Ranchi",
+      "question_type": "past_behaviour",
+      "core_question": "I see you coordinated with 18 recruiters on IIM Ranchi’s placement committee. What was the hardest coordination challenge you handled?",
+      "intent_private": "Needs a specific recruiter-coordination situation, Ritika’s actions and judgment, how she managed competing expectations, and the outcome for the placement process.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "What part of that challenge did you personally own?",
+        "How did you decide what to communicate first?",
+        "What changed as a result of your intervention?"
+      ],
+      "priority": 2,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s2",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k2",
+      "competency_name": "Employee relations and grievance handling",
+      "must_have": true,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "knowledge",
+      "core_question": "How would you handle a shop-floor employee who believes their shift allocation was unfair?",
+      "intent_private": "Needs an applied employee-relations response covering fact-finding, procedural fairness, confidentiality, consistency with policy, escalation, and communicating closure without prejudging the grievance.",
+      "probe_angle": "find_substance",
+      "technical_focus": false,
+      "likely_probes": [
+        "Why would you begin with that approach?",
+        "When might that approach not be appropriate?",
+        "How have you handled a similar concern in your own work?"
+      ],
+      "priority": 3,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s3",
+      "kind": "gap",
+      "budget": 2
+    },
+    {
+      "competency_id": "k6",
+      "competency_name": "Motivation and fit",
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "motivation",
+      "core_question": "After your psychology degree and HR summer internship, what is drawing you to build your career in human resources?",
+      "intent_private": "Needs a reason grounded in Ritika’s psychology background and Mahindra experience, plus a specific aspect of an HR role she wants to pursue rather than a generic interest in people or business.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which part of your Mahindra experience most shaped that choice?",
+        "What HR responsibility would you want to take on early in your career?"
+      ],
+      "priority": 4,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s4",
+      "kind": "motivation",
+      "budget": 1
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "",
+      "intent_private": "Candidate asks their questions.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "candidate_questions",
+      "kind": "candidate_questions",
+      "budget": 2
+    }
+  ],
+  "current": 0,
+  "transcript": [
+    {
+      "role": "interviewer",
+      "text": "Hi Ritika, thanks for making the time. I'm on the team hiring for this role. Over the next 15 minutes or so I'd like to go into your experience, and you'll have time for questions at the end. What has kept you busy in the last few weeks at IIM Ranchi?",
+      "slot_id": "warmup",
+      "why": "This was a warm-up question to help you settle in. It isn't part of the feedback.",
+      "at": "2026-11-09T06:57:22.358Z"
+    }
+  ],
+  "turns": [],
+  "events": [],
+  "interviewer_turns": 1,
+  "max_turns": 20,
+  "candidate_questions_asked": 0,
+  "second_chances": {},
+  "opening_greeting": "Hi Ritika, thanks for making the time. I'm on the team hiring for this role. Over the next 15 minutes or so I'd like to go into your experience, and you'll have time for questions at the end."
+}

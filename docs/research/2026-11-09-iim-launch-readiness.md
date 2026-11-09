@@ -7,11 +7,12 @@ Date: 2026-11-09. Follows the [IIM fit note](2026-11-06-iim-placement-question-f
 **The interviewer is close to launch quality for a pilot with one IIM. The product is not ready for a wide launch.**
 
 - **What works.** The interview itself does what a good IIM panel does. It runs on CVs and PDFs from real Indian placement schools, handles typed Hinglish, odd student behaviour, sensitive disclosures and prompt injection, and never failed in 13 full interviews and 32 plans.
-- **Two content problems would undermine a launch:**
-  - The feedback is too generous to tell a weak answer from a good one: 79% of ratings were "Good job", and no topic got a "Needs work" verdict.
-  - Nothing coaches over-long answers. A student talked for about 35 minutes in a "10-minute" interview and the feedback never mentioned it.
-- **The engineering is still a prototype.** It has no auth. Any caller can read every student's resume and transcript, or swap the API key. There is no consent notice and no way to delete data. It runs as a single process with files on disk.
-- **Voice on Indian accents is unproven.** Even with clean synthetic Indian voices, 1 voice in 3 dropped or garbled numbers. Hinglish comes back in Devanagari script.
+- **Two launch blockers:**
+  - **The engineering is still a prototype.** It has no auth. Any caller can read every student's resume and transcript, or swap the API key. There is no consent notice and no way to delete data. It runs as a single process with files on disk.
+  - **Voice on Indian accents is unproven.** Even with clean synthetic Indian voices, 2 of 3 voices garbled at least one number or name. Hinglish comes back in Devanagari script.
+- **Two content problems to fix before a wide rollout:**
+  - **Feedback is generous in the middle.** Really thin answers do get "Needs work". But 79% of ratings in normal interviews were "Good job", including 48 for things the student said only after being asked again.
+  - **Nothing coaches over-long answers.** A student talked for about 35 minutes in a "10-minute" interview and the feedback never mentioned it.
 
 ## How we tested
 
@@ -23,22 +24,17 @@ Date: 2026-11-09. Follows the [IIM fit note](2026-11-06-iim-placement-question-f
 - **Scripted runs** of "No, that's all" (the open TODO item), twice.
 - **The feedback page (v3)** in a phone viewport.
 - **A code review** of the engineering for launch blockers.
-- The profiles, scripts and raw outputs stay outside the repo, in the worktree's `.launchtest/` folder. The sessions are in the worktree's `sessions/` (`2026-11-09-*`).
+- **Test kit** (all data fictional), in [2026-11-09-iim-launch-test-kit/](2026-11-09-iim-launch-test-kit/):
+  - profiles and CV PDFs: `profiles.js`, `cv_*.html`, the extracted text;
+  - scripts: `run.js` (planner sweep and live interviews), `stt.js`, `noall.js`, `thin.js`, `stats.js`, `show.js`;
+  - outputs: readable transcripts with feedback (`out/live/*.txt`), plan summaries, STT results;
+  - the 49 session JSONs (`sessions/`).
+
+  To re-run, copy the folder outside the repo, run `npm i pdfjs-dist@3.11.174`, then `node run.js plans|live` against a server on port 3417.
 
 ## Launch blockers
 
-### 1. Feedback does not separate weak answers from strong ones
-- Of 214 element ratings in 13 interviews, 168 were Good job (79%), 38 On track and 8 Needs work. Of 58 topic verdicts, 21 were Good job, 37 On track and **0 Needs work**.
-- The weak persona (20-60-word answers, "sorry, I don't remember the exact numbers") still got 14 of 19 ratings as Good job. For example, "What you did" was rated Good job for "I got to plan how to approach customers like what to say…" (L03, Nature's Basket). Another weak answer was rated Good job for "I suggested maybe we can split the performance slots", even though the student showed no result.
-- The strong persona got 26 of 30 as Good job, so there is some spread, but it all sits at the top of the scale.
-- **Why it blocks a launch:** IIM students practise to find their weak spots. A mock that says "Good job" to a thin answer teaches the wrong lesson, and placement committees will notice after a few sessions. The reasons the model writes are often right ("did not establish the exact counts"); the levels are what is too generous.
-- **Fix direction:** calibrate `prompts/feedback.md`:
-  - Good job only when the element is specific *and* complete in the student's own words.
-  - Any element the student reached only after a follow-up, or gave only partly, is at most On track.
-  - Add 2-3 anchored examples per level.
-  - Re-run these 13 sessions (the transcripts are saved) and compare the spread.
-
-### 2. Engineering and privacy (from the code review; the first three checked by hand)
+### 1. Engineering and privacy (from the code review; the first three checked by hand)
 - **No authentication.** `server.js:360-405` serves every `/api/*` route to any caller. Only binding to localhost protects it, and that goes away as soon as `HOST` is set for a deployment.
 - **Any caller can read any student's data.**
   - `GET /api/sessions` lists every session with the candidate's name (`server.js:270-288`).
@@ -55,8 +51,8 @@ Date: 2026-11-09. Follows the [IIM fit note](2026-11-06-iim-placement-question-f
 - **One process only.** The session cache in memory is never emptied, the one-request-at-a-time lock works only inside one process, writes to disk block the server, and `listSessions` reads every file (793 ms for 426 sessions).
 - **Fix direction:** sit behind VMock's own login, with an owner on every session. Remove `/api/key`, `/trace` and the session list from production and ignore client settings. Add a consent screen before "Prepare Interview", plus deletion and retention rules. Move sessions to VMock's datastore. Add per-user quotas and a queue for OpenAI calls that honours `Retry-After`.
 
-### 3. Voice for Indian students is unproven
-24 transcriptions through `gpt-transcribe` (the server sends `languages[]=en` plus resume keywords):
+### 2. Voice for Indian students is unproven
+24 transcriptions through the OpenAI voice provider (the default): `gpt-transcribe`, with the server sending `languages[]=en` plus resume keywords. Browser speech mode (`VOICE_PROVIDER=browser`) was not tested.
 
 | Sentences | Mean word error rate | What went wrong |
 |---|---|---|
@@ -76,9 +72,27 @@ Date: 2026-11-09. Follows the [IIM fit note](2026-11-06-iim-placement-question-f
 
 ## Fix before wide rollout
 
+3. **Feedback levels skew high for middling answers.**
+   - **Across all 13 interviews:**
+     - Of 214 element ratings, 168 were Good job (79%), 38 On track and 8 Needs work.
+     - Of 58 topic verdicts, 21 were Good job, 37 On track and 0 Needs work.
+     - 48 of the 168 Good job ratings were for elements the student gave only after a follow-up.
+   - **At the extremes it separates students:**
+     - A scripted interview with really thin answers ("we did a lot of analysis and research and then we presented it and the management liked it") got Needs work verdicts on all 3 judged topics.
+     - The two "No, that's all" runs got Needs work and On track.
+     - The strong persona got more Good job than the average and weak personas.
+   - **What is generous is the middle:** an answer with some specific steps but no result or measurement still gets Good job on most elements. One cause is that the simulated "weak" student was more specific than intended (WhatsApp group, Google Form, Malayalam shelf talkers), so its Good job ratings are defensible.
+   - **The other cause is in code.** `topicVerdict` (`lib/engine.js:983`) gives a Needs work verdict only when more than half of a topic's core ratings are Needs work, which is 3 of 4 on the behavioural rubric. So a topic with one missing result and one vague action still reads On track.
+   - **Fix direction:**
+     - In `prompts/feedback.md`, an element that appeared only after a follow-up is at most On track. Good job needs the element to be specific *and* complete.
+     - Add 2-3 anchored examples per level.
+     - Revisit the verdict threshold.
+     - Re-run these 13 sessions (the transcripts are saved) and compare the spread.
+   - **Validate the target spread with a placement committee:** students practise to find weak spots, and a mock that is mostly "Good job" teaches little.
+
 4. **Long answers go unchecked.** The rambler gave 400-580-word answers, about 4,800 words in a 10-minute interview (about 35 minutes of speech). The interviewer never cut in (as the prompt intends: `LONG_ANSWER_WORDS = 350` only shortens the next question). The time rule dropped a second-chance topic, and the feedback never mentioned length or getting to the point. The Hinglish student also spoke for about 27 minutes in a 15-minute interview. IIM panels are known for cutting long answers ("tell me about yourself" in 1-2 minutes, TODO item 1). Add a "Getting to the point" note to feedback (answer word counts are already known), then the polite cut-in from TODO.md.
 
-5. **Wait times.** Turn latency from the browser was p50 4.3 s, p90 8.1 s, p95 9.4 s and max 52.8 s, over 186 turns at 5 interviews at once. 8 turns took over 10 s and 4 over 20 s; the 48 s outliers were single model calls. Adding TTS (about 1-2 s to first byte), a student hears silence for about 6 s at p50 and over 10 s at p95. Planning takes p50 31 s (max 35 s) before the first question, and feedback p50 54 s (max 71 s). The room shows a progress state for both, but there is no client timeout on a hung call (the server allows 3 × 150 s). Fixes:
+5. **Wait times.** Turn latency, measured by the Node test driver (not a browser) as the HTTP round trip, was p50 4.3 s, p90 8.1 s, p95 9.4 s and max 52.8 s, over 186 turns. 5 interviews ran at once, partly alongside a 6-way planner sweep. 8 turns took over 10 s and 4 over 20 s; the 48 s outliers were single model calls. Adding TTS (about 1-2 s to first byte), a student hears silence for about 6 s at p50 and over 10 s at p95. Planning takes p50 31 s (max 35 s) before the first question, and feedback p50 54 s (max 71 s). The room shows a progress state for both, but there is no client timeout on a hung call (the server allows 3 × 150 s). Fixes:
    - Cap the turn call at about 20 s, with one retry, then fall back to the existing scripted move-on.
    - Show "still thinking" after 8 s.
    - Start planning while the student is in the lobby or doing the mic check.
@@ -90,7 +104,11 @@ Date: 2026-11-09. Follows the [IIM fit note](2026-11-06-iim-placement-question-f
 
 7. **Non-answers keep getting probed (the "No, that's all" TODO item).** The TODO worry (the interview sounding closed too early) did not reproduce in 2 runs. The opposite happened: after "No, that's all" on a new topic, the interviewer asked two or three more follow-ups ("Please give me one specific placement challenge…", "What outcome showed…"). "No, that's all" doesn't count towards the second "not sure" rule. Treat a plain decline like "not sure": one narrower question, then move on.
 
-8. **Candidate questions get non-answers when there is no JD.** With no JD (the usual VMock setup), every substantive question got "I'd rather not guess … the recruiter can share" (L01, L02, L03, L06, L10, L13: 6 of 6 sessions without a JD). This is safe: no stipend or PPO-rate figures were invented. But a real panel member says something, and the feedback then coaches the student on their questions. Allow general, clearly labelled answers about the role family ("in most FMCG sales roles the first year is…") when there is no JD, while still never inventing facts about a company.
+8. **Candidate questions mostly get non-answers.** In all 13 sessions the interviewer deflected at least one of the student's questions ("I'd rather not guess … the recruiter can share"):
+   - **Without a JD** (the usual VMock setup): 9 of 9 sessions, and the answers carried almost no content.
+   - **With a JD:** 4 of 4 sessions. The interviewer used the JD where it covered the question and deflected the rest.
+
+   This is safe: no stipend or PPO-rate figures were invented. But a real panel member says something, and the feedback then coaches the student on their questions. Allow general, clearly labelled answers about the role family ("in most FMCG sales roles the first year is…"), while still never inventing facts about a company.
 
 9. **The HR round is still missing from the scope note.** Recruiter screens now carry one HR probe (other roles or companies, postings outside metros), as built on 2026-11-06. But `room.html:181` still lists only guesstimates, cases and GDs as not covered (gap audit item 2). One line.
 
@@ -114,13 +132,13 @@ Date: 2026-11-09. Follows the [IIM fit note](2026-11-06-iim-placement-question-f
 
 - **Plans fit IIM panels.**
   - 32 of 32 planner runs succeeded.
-  - Every claim in the PDF-extracted resumes quoted the resume text exactly (0 of 46 ungrounded), despite the broken table lines.
+  - Every claim in the PDF-extracted resumes matched the resume text, despite the broken table lines. 0 of 46 failed `checkAndShapePlan`'s check, which compares the first 60 normalised characters.
   - "Male | 26 years" and "Female, 23" in PDF headers were never used.
   - Openers vary, no question is over 40 words, and the questions name the employer and one detail. Examples: "What were you trying to solve when you redesigned safety-stock norms at Hindustan Unilever?", "What was the baseline truck count used for the 14% reduction?"
 - **IIM-specific rules fire:**
   - **Knowledge topics:** a hiring manager knowledge topic in 16 of 17 hiring manager plans (the missing one is general management, a summers resume with an injection). Applied, not definitions: "How would you handle a shop-floor employee who believes their shift allocation was unfair?" (HR), "How would you decide whether to expand a dealer network into a new tier-3 market?" (sales).
   - **Summers:** the background question ends with the first MBA term; the 5.9 CGPA and the B.Sc.-to-marketing move become an academics and a switch concern; a fit question rotates (failure / disagreement / strength); the motivation question asks what they have done in the MBA so far.
-  - **Finals:** the summer internship comes first, with "what would you do differently".
+  - **Finals:** the summer internship comes first. "What would you do differently" is planned in only 14 of 22 finals plans; it is missing from most hiring manager plans for the Army, consulting, ops, TAS and family-business students. Worth a look.
   - **Moves:** the Army-to-civilian, CA-to-marketing, audit-to-marketing, credit-to-corporate-finance and engineering-to-PM moves are named in motivation.
   - **JD placeholder:** "A leading global strategy consulting firm" was never spoken; the interviewer said "this firm".
 - **Family business is fine (gap audit item 3 closed).** The textile family business was treated as work: export markets and yarn negotiations were tested. The interviewer never asked about family, even when the student mentioned "papa and chachu".
@@ -159,5 +177,7 @@ Date: 2026-11-09. Follows the [IIM fit note](2026-11-06-iim-placement-question-f
 - **Not checked:**
   - real Android low-end devices and campus networks (the pdf.js and Typekit CDNs may be blocked; there is a paste fallback);
   - XSS in feedback rendering;
+  - a Devanagari transcript reaching the turn and feedback models (Hinglish was tested typed, in Roman script, only);
+  - browser speech mode;
   - cost in rupees at the configured model's prices.
-- **Before release, validate with one IIM placement committee:** the feedback calibration (blocker 1) and the long-answer norm (item 4).
+- **Before release, validate with one IIM placement committee:** the feedback calibration (item 3) and the long-answer norm (item 4).

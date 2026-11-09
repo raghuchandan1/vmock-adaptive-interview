@@ -1,0 +1,634 @@
+{
+  "id": "2026-11-09-8ca4781b",
+  "created_at": "2026-11-09T06:58:01.979Z",
+  "status": "active",
+  "inputs": {
+    "resume_text": "Meera Krishnan\nPGP 2025-27, Indian Institute of Management Kozhikode | meerak@iimk.edu.in\n\nEDUCATION\nPGP, IIM Kozhikode, 2025-27, CGPA 7.6/10\nB.E., Electronics and Communication, PSG College of Technology, Coimbatore, 2018, 8.2/10\n\nWORK EXPERIENCE\nMu Sigma, Bengaluru | Decision Scientist | Jul 2018 - Feb 2022\n- Built a weekly demand forecasting model in R for a US retailer's 1,800 stores; forecast error (MAPE) fell from 22% to 14%\n- Automated a markdown-optimisation report in SQL and Tableau used by 40 category managers\n- Trained 9 new joiners on the client's data model\nCareer break | Mar 2022 - May 2023\nFreelance Data Analyst (part-time) | Jun 2023 - Mar 2025\n- Built dashboards for 3 small D2C brands on Shopify data; one brand used my cohort analysis to cut discount spend by 15%\n\nSUMMER INTERNSHIP\nICICI Bank | Business Analytics Intern, Retail Liabilities | Apr - Jun 2026\n- Built a savings-account attrition early-warning score; top-decile customers were 4.2x more likely to close the account in 90 days\n- Recommended a branch call-back list for 2 regions; the bank piloted it in Chennai\n\nPOSITIONS OF RESPONSIBILITY\n- Co-lead, Analytics Club (Cognizance), IIM Kozhikode",
+    "jd_text": "Business Analyst - Customer Analytics\nKestrel Retail (Mumbai)\n\nKestrel Retail runs 600 grocery and fashion stores across India and a growing app business.\n\nResponsibilities\n- Build customer segmentation and churn models that drive marketing campaigns\n- Partner with category and marketing teams to size opportunities and measure campaign impact\n- Own weekly business reviews: KPIs, root-cause analysis and recommendations\n- Write clean SQL and Python; build dashboards in Power BI\n\nRequirements (must have)\n- 2+ years of analytics experience\n- Strong SQL and one of Python or R\n- Experience measuring the impact of campaigns or experiments\n- Ability to explain analysis to non-technical stakeholders\nNice to have: retail or banking domain experience",
+    "target_role": "",
+    "domain": "Business Analytics",
+    "stage": "finals",
+    "market": "india",
+    "interview_type": "back_your_resume",
+    "style": "balanced",
+    "length": "standard",
+    "seed": 786062
+  },
+  "style": "balanced",
+  "surprise": false,
+  "seed": 786062,
+  "settings": {
+    "planner_model": "gpt-5.6-luna",
+    "planner_effort": "medium",
+    "turn_model": "gpt-5.6-luna",
+    "turn_effort": "low"
+  },
+  "plan": {
+    "candidate": {
+      "name": "Meera",
+      "experience_level": "mid",
+      "current_or_last_role": "PGP student, IIM Kozhikode",
+      "resume_band": "upper",
+      "band_reason": "The resume shows clear ownership, strong quantified outcomes, named tools and meaningful analytics experience across multiple settings."
+    },
+    "jd": {
+      "present": true,
+      "company": "Kestrel Retail",
+      "role_title": "Business Analyst - Customer Analytics",
+      "role_family": "technical",
+      "seniority": "2+ years of analytics experience",
+      "must_haves": [
+        {
+          "requirement": "2+ years of analytics experience",
+          "competency": "Analytics experience"
+        },
+        {
+          "requirement": "Strong SQL and one of Python or R",
+          "competency": "SQL and analytical tools"
+        },
+        {
+          "requirement": "Experience measuring the impact of campaigns or experiments",
+          "competency": "Impact measurement"
+        },
+        {
+          "requirement": "Ability to explain analysis to non-technical stakeholders",
+          "competency": "Stakeholder communication"
+        }
+      ],
+      "nice_to_haves": [
+        {
+          "requirement": "Retail or banking domain experience",
+          "competency": "Retail and banking domain knowledge"
+        }
+      ],
+      "stated_values": []
+    },
+    "mismatch": {
+      "is_mismatch": false,
+      "note": ""
+    },
+    "claims": [
+      {
+        "id": "c1",
+        "text": "Built a weekly demand forecasting model in R for a US retailer's 1,800 stores; forecast error (MAPE) fell from 22% to 14%",
+        "parent": "Decision Scientist, Mu Sigma",
+        "type": "technical",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "named tool",
+          "scale",
+          "ownership verb"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 2,
+        "grounded": true
+      },
+      {
+        "id": "c2",
+        "text": "Automated a markdown-optimisation report in SQL and Tableau used by 40 category managers",
+        "parent": "Decision Scientist, Mu Sigma",
+        "type": "tools_ai",
+        "strength": "strong",
+        "strength_signals": [
+          "ownership verb",
+          "named tools",
+          "scale"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 3,
+        "grounded": true
+      },
+      {
+        "id": "c3",
+        "text": "Trained 9 new joiners on the client's data model",
+        "parent": "Decision Scientist, Mu Sigma",
+        "type": "collaboration",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "ownership verb"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 6,
+        "grounded": true
+      },
+      {
+        "id": "c4",
+        "text": "Built dashboards for 3 small D2C brands on Shopify data; one brand used my cohort analysis to cut discount spend by 15%",
+        "parent": "Freelance Data Analyst",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "scale",
+          "ownership verb",
+          "named data source"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 4,
+        "grounded": true
+      },
+      {
+        "id": "c5",
+        "text": "Built a savings-account attrition early-warning score; top-decile customers were 4.2x more likely to close the account in 90 days",
+        "parent": "Business Analytics Intern, ICICI Bank",
+        "type": "technical",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "named analytical output",
+          "ownership verb"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 1,
+        "grounded": true
+      },
+      {
+        "id": "c6",
+        "text": "Recommended a branch call-back list for 2 regions; the bank piloted it in Chennai",
+        "parent": "Business Analytics Intern, ICICI Bank",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified scope",
+          "ownership verb",
+          "implementation evidence"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 5,
+        "grounded": true
+      },
+      {
+        "id": "c7",
+        "text": "Co-lead, Analytics Club (Cognizance), IIM Kozhikode",
+        "parent": "Analytics Club, IIM Kozhikode",
+        "type": "leadership",
+        "strength": "moderate",
+        "strength_signals": [
+          "leadership title",
+          "ownership verb"
+        ],
+        "weak_flags": [
+          "no_result"
+        ],
+        "relevance": "medium",
+        "distinctive": false,
+        "probe_angle": "find_substance",
+        "rank": 8,
+        "grounded": true
+      }
+    ],
+    "competencies": [
+      {
+        "id": "k1",
+        "name": "Analytics experience",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c4",
+          "c5"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k2",
+        "name": "SQL and analytical tools",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c2",
+          "c4"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k3",
+        "name": "Impact measurement",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c4",
+          "c5",
+          "c6"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k4",
+        "name": "Stakeholder communication",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c2",
+          "c3",
+          "c6",
+          "c7"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k5",
+        "name": "Retail and banking domain knowledge",
+        "source": "jd_nice_to_have",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c5",
+          "c6"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k6",
+        "name": "Motivation and fit",
+        "source": "always",
+        "must_have": false,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      }
+    ],
+    "concerns": [
+      {
+        "type": "gap",
+        "detail": "Career break from March 2022 to May 2023, before the freelance analyst work began."
+      }
+    ],
+    "warmup_question": "What topic from your first year at IIM Kozhikode has held your attention recently?",
+    "background_question": "Walk me through your career so far, with a focus on your last couple of roles.",
+    "slots": [
+      {
+        "id": "s1",
+        "kind": "claim",
+        "competency_id": "k1",
+        "anchor_claim_id": "c5",
+        "question_type": "past_behaviour",
+        "core_question": "I see you built an attrition early-warning score at ICICI Bank. What problem were you trying to solve?",
+        "intent_private": "Needs Meera's specific role in framing the attrition problem, the modelling choices behind the score, how the 4.2x finding was measured, and what she would do differently now.",
+        "probe_angle": "test_claim",
+        "technical_focus": true,
+        "likely_probes": [
+          "Which part of the scoring work was yours?",
+          "How did you choose the signals for the score?",
+          "What would you do differently if you built that score today?"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "s2",
+        "kind": "claim",
+        "competency_id": "k3",
+        "anchor_claim_id": "c1",
+        "question_type": "past_behaviour",
+        "core_question": "Tell me about the demand forecasting model you built at Mu Sigma.",
+        "intent_private": "Needs the forecasting problem, Meera's modelling decisions in R, how she contributed to the work, and how the change from 22% to 14% MAPE was established.",
+        "probe_angle": "test_claim",
+        "technical_focus": true,
+        "likely_probes": [
+          "Which part of the forecasting work was yours?",
+          "Why did you choose that forecasting approach?",
+          "What was the 22% MAPE compared with?"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "s3",
+        "kind": "claim",
+        "competency_id": "k4",
+        "anchor_claim_id": "c7",
+        "question_type": "past_behaviour",
+        "core_question": "How did your co-lead role in the Analytics Club come about?",
+        "intent_private": "Needs a specific club situation, Meera's contribution as co-lead, a people or prioritisation decision, and the resulting effect on the club's work.",
+        "probe_angle": "find_substance",
+        "technical_focus": false,
+        "likely_probes": [
+          "What did you take responsibility for first?",
+          "Tell me about a decision you made with the other club leaders.",
+          "How did you know the club's work had improved?"
+        ],
+        "priority": 3
+      },
+      {
+        "id": "s4",
+        "kind": "concerns",
+        "competency_id": "k1",
+        "anchor_claim_id": null,
+        "question_type": "concern",
+        "core_question": "There was a career break between March 2022 and June 2023. What were you focused on during that period?",
+        "intent_private": "Needs a clear, comfortable account of Meera's focus during the career break and how she moved into freelance analytics afterward.",
+        "probe_angle": "none",
+        "technical_focus": false,
+        "likely_probes": [
+          "What was the main thing you were working toward during that period?",
+          "What did you do first when you began freelancing?",
+          "How did that period shape your approach to analytics?"
+        ],
+        "priority": 4
+      }
+    ],
+    "plan_notes": "The plan prioritises the relevant ICICI internship and Mu Sigma modelling claims, then includes the Analytics Club leadership line because this is a final-round resume review. The career break is raised neutrally, while the strong quantified claims receive technical and measurement-focused follow-ups; the freelance work and motivation are left for live follow-up if time permits."
+  },
+  "plan_trace": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "attempts": 1,
+    "started_at": "2026-11-09T06:57:24.690Z",
+    "latency_ms": 37289,
+    "usage": {
+      "prompt_tokens": 7471,
+      "completion_tokens": 3872,
+      "total_tokens": 11343,
+      "prompt_tokens_details": {
+        "cached_tokens": 6879,
+        "cache_write_tokens": 589,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 2036,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "raw_response": "{\"candidate\":{\"name\":\"Meera\",\"experience_level\":\"mid\",\"current_or_last_role\":\"PGP student, IIM Kozhikode\",\"resume_band\":\"upper\",\"band_reason\":\"The resume shows clear ownership, strong quantified outcomes, named tools and meaningful analytics experience across multiple settings.\"},\"jd\":{\"present\":true,\"company\":\"Kestrel Retail\",\"role_title\":\"Business Analyst - Customer Analytics\",\"role_family\":\"technical\",\"seniority\":\"2+ years of analytics experience\",\"must_haves\":[{\"requirement\":\"2+ years of analytics experience\",\"competency\":\"Analytics experience\"},{\"requirement\":\"Strong SQL and one of Python or R\",\"competency\":\"SQL and analytical tools\"},{\"requirement\":\"Experience measuring the impact of campaigns or experiments\",\"competency\":\"Impact measurement\"},{\"requirement\":\"Ability to explain analysis to non-technical stakeholders\",\"competency\":\"Stakeholder communication\"}],\"nice_to_haves\":[{\"requirement\":\"Retail or banking domain experience\",\"competency\":\"Retail and banking domain knowledge\"}],\"stated_values\":[]},\"mismatch\":{\"is_mismatch\":false,\"note\":\"\"},\"claims\":[{\"id\":\"c1\",\"text\":\"Built a weekly demand forecasting model in R for a US retailer's 1,800 stores; forecast error (MAPE) fell from 22% to 14%\",\"parent\":\"Decision Scientist, Mu Sigma\",\"type\":\"technical\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"named tool\",\"scale\",\"ownership verb\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":2},{\"id\":\"c2\",\"text\":\"Automated a markdown-optimisation report in SQL and Tableau used by 40 category managers\",\"parent\":\"Decision Scientist, Mu Sigma\",\"type\":\"tools_ai\",\"strength\":\"strong\",\"strength_signals\":[\"ownership verb\",\"named tools\",\"scale\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":3},{\"id\":\"c3\",\"text\":\"Trained 9 new joiners on the client's data model\",\"parent\":\"Decision Scientist, Mu Sigma\",\"type\":\"collaboration\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"ownership verb\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":6},{\"id\":\"c4\",\"text\":\"Built dashboards for 3 small D2C brands on Shopify data; one brand used my cohort analysis to cut discount spend by 15%\",\"parent\":\"Freelance Data Analyst\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"scale\",\"ownership verb\",\"named data source\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":4},{\"id\":\"c5\",\"text\":\"Built a savings-account attrition early-warning score; top-decile customers were 4.2x more likely to close the account in 90 days\",\"parent\":\"Business Analytics Intern, ICICI Bank\",\"type\":\"technical\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"named analytical output\",\"ownership verb\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":1},{\"id\":\"c6\",\"text\":\"Recommended a branch call-back list for 2 regions; the bank piloted it in Chennai\",\"parent\":\"Business Analytics Intern, ICICI Bank\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified scope\",\"ownership verb\",\"implementation evidence\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":5},{\"id\":\"c7\",\"text\":\"Co-lead, Analytics Club (Cognizance), IIM Kozhikode\",\"parent\":\"Analytics Club, IIM Kozhikode\",\"type\":\"leadership\",\"strength\":\"moderate\",\"strength_signals\":[\"leadership title\",\"ownership verb\"],\"weak_flags\":[\"no_result\"],\"relevance\":\"medium\",\"distinctive\":false,\"probe_angle\":\"find_substance\",\"rank\":8}],\"competencies\":[{\"id\":\"k1\",\"name\":\"Analytics experience\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c4\",\"c5\"],\"is_gap\":false},{\"id\":\"k2\",\"name\":\"SQL and analytical tools\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c2\",\"c4\"],\"is_gap\":false},{\"id\":\"k3\",\"name\":\"Impact measurement\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c4\",\"c5\",\"c6\"],\"is_gap\":false},{\"id\":\"k4\",\"name\":\"Stakeholder communication\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c2\",\"c3\",\"c6\",\"c7\"],\"is_gap\":false},{\"id\":\"k5\",\"name\":\"Retail and banking domain knowledge\",\"source\":\"jd_nice_to_have\",\"must_have\":false,\"evidence_claim_ids\":[\"c5\",\"c6\"],\"is_gap\":false},{\"id\":\"k6\",\"name\":\"Motivation and fit\",\"source\":\"always\",\"must_have\":false,\"evidence_claim_ids\":[],\"is_gap\":true}],\"concerns\":[{\"type\":\"gap\",\"detail\":\"Career break from March 2022 to May 2023, before the freelance analyst work began.\"}],\"warmup_question\":\"What topic from your first year at IIM Kozhikode has held your attention recently?\",\"background_question\":\"Walk me through your career so far, with a focus on your last couple of roles.\",\"slots\":[{\"id\":\"s1\",\"kind\":\"claim\",\"competency_id\":\"k1\",\"anchor_claim_id\":\"c5\",\"question_type\":\"past_behaviour\",\"core_question\":\"I see you built an attrition early-warning score at ICICI Bank. What problem were you trying to solve?\",\"intent_private\":\"Needs Meera's specific role in framing the attrition problem, the modelling choices behind the score, how the 4.2x finding was measured, and what she would do differently now.\",\"probe_angle\":\"test_claim\",\"technical_focus\":true,\"likely_probes\":[\"Which part of the scoring work was yours?\",\"How did you choose the signals for the score?\",\"What would you do differently if you built that score today?\"],\"priority\":1},{\"id\":\"s2\",\"kind\":\"claim\",\"competency_id\":\"k3\",\"anchor_claim_id\":\"c1\",\"question_type\":\"past_behaviour\",\"core_question\":\"Tell me about the demand forecasting model you built at Mu Sigma.\",\"intent_private\":\"Needs the forecasting problem, Meera's modelling decisions in R, how she contributed to the work, and how the change from 22% to 14% MAPE was established.\",\"probe_angle\":\"test_claim\",\"technical_focus\":true,\"likely_probes\":[\"Which part of the forecasting work was yours?\",\"Why did you choose that forecasting approach?\",\"What was the 22% MAPE compared with?\"],\"priority\":2},{\"id\":\"s3\",\"kind\":\"claim\",\"competency_id\":\"k4\",\"anchor_claim_id\":\"c7\",\"question_type\":\"past_behaviour\",\"core_question\":\"How did your co-lead role in the Analytics Club come about?\",\"intent_private\":\"Needs a specific club situation, Meera's contribution as co-lead, a people or prioritisation decision, and the resulting effect on the club's work.\",\"probe_angle\":\"find_substance\",\"technical_focus\":false,\"likely_probes\":[\"What did you take responsibility for first?\",\"Tell me about a decision you made with the other club leaders.\",\"How did you know the club's work had improved?\"],\"priority\":3},{\"id\":\"s4\",\"kind\":\"concerns\",\"competency_id\":\"k1\",\"anchor_claim_id\":null,\"question_type\":\"concern\",\"core_question\":\"There was a career break between March 2022 and June 2023. What were you focused on during that period?\",\"intent_private\":\"Needs a clear, comfortable account of Meera's focus during the career break and how she moved into freelance analytics afterward.\",\"probe_angle\":\"none\",\"technical_focus\":false,\"likely_probes\":[\"What was the main thing you were working toward during that period?\",\"What did you do first when you began freelancing?\",\"How did that period shape your approach to analytics?\"],\"priority\":4}],\"plan_notes\":\"The plan prioritises the relevant ICICI internship and Mu Sigma modelling claims, then includes the Analytics Club leadership line because this is a final-round resume review. The career break is raised neutrally, while the strong quantified claims receive technical and measurement-focused follow-ups; the freelance work and motivation are left for live follow-up if time permits.\"}",
+    "request_user_message": "{\"target_role\":\"domain: Business Analytics\",\"interview_type\":\"back_your_resume\",\"placement_stage\":\"finals\",\"market\":\"india\",\"interviewer_style\":\"balanced\",\"scored_slot_count\":4,\"variation_seed\":786062,\"warmup_angle\":\"a course, project or piece of work from the last few months they found interesting\",\"fit_angle\":\"what their team or classmates would say is their biggest strength\",\"resume_text\":\"Meera Krishnan\\nPGP 2025-27, Indian Institute of Management Kozhikode | meerak@iimk.edu.in\\n\\nEDUCATION\\nPGP, IIM Kozhikode, 2025-27, CGPA 7.6/10\\nB.E., Electronics and Communication, PSG College of Technology, Coimbatore, 2018, 8.2/10\\n\\nWORK EXPERIENCE\\nMu Sigma, Bengaluru | Decision Scientist | Jul 2018 - Feb 2022\\n- Built a weekly demand forecasting model in R for a US retailer's 1,800 stores; forecast error (MAPE) fell from 22% to 14%\\n- Automated a markdown-optimisation report in SQL and Tableau used by 40 category managers\\n- Trained 9 new joiners on the client's data model\\nCareer break | Mar 2022 - May 2023\\nFreelance Data Analyst (part-time) | Jun 2023 - Mar 2025\\n- Built dashboards for 3 small D2C brands on Shopify data; one brand used my cohort analysis to cut discount spend by 15%\\n\\nSUMMER INTERNSHIP\\nICICI Bank | Business Analytics Intern, Retail Liabilities | Apr - Jun 2026\\n- Built a savings-account attrition early-warning score; top-decile customers were 4.2x more likely to close the account in 90 days\\n- Recommended a branch call-back list for 2 regions; the bank piloted it in Chennai\\n\\nPOSITIONS OF RESPONSIBILITY\\n- Co-lead, Analytics Club (Cognizance), IIM Kozhikode\",\"jd_text\":\"Business Analyst - Customer Analytics\\nKestrel Retail (Mumbai)\\n\\nKestrel Retail runs 600 grocery and fashion stores across India and a growing app business.\\n\\nResponsibilities\\n- Build customer segmentation and churn models that drive marketing campaigns\\n- Partner with category and marketing teams to size opportunities and measure campaign impact\\n- Own weekly business reviews: KPIs, root-cause analysis and recommendations\\n- Write clean SQL and Python; build dashboards in Power BI\\n\\nRequirements (must have)\\n- 2+ years of analytics experience\\n- Strong SQL and one of Python or R\\n- Experience measuring the impact of campaigns or experiments\\n- Ability to explain analysis to non-technical stakeholders\\nNice to have: retail or banking domain experience\"}"
+  },
+  "plan_checks": [
+    {
+      "level": "warn",
+      "message": "Slot s1 wording: agenda word: \"score\""
+    },
+    {
+      "level": "warn",
+      "message": "Slot s1 wording: agenda word: \"scoring\""
+    },
+    {
+      "level": "warn",
+      "message": "Slot s1 wording: agenda word: \"score\""
+    },
+    {
+      "level": "warn",
+      "message": "Slot s1 wording: agenda word: \"score\""
+    }
+  ],
+  "slots": [
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "What topic from your first year at IIM Kozhikode has held your attention recently?",
+      "intent_private": "Warm-up to settle in. Not assessed.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "active",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "warmup",
+      "kind": "warmup",
+      "budget": 0
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "Walk me through your career so far, with a focus on your last couple of roles.",
+      "intent_private": "A coherent overview of the candidate's path; may surface threads for later topics.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "background",
+      "kind": "background",
+      "budget": 1
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Analytics experience",
+      "must_have": true,
+      "anchor_claim_id": "c5",
+      "anchor_text": "Built a savings-account attrition early-warning score; top-decile customers were 4.2x more likely to close the account in 90 days",
+      "anchor_parent": "Business Analytics Intern, ICICI Bank",
+      "question_type": "past_behaviour",
+      "core_question": "I see you built an attrition early-warning score at ICICI Bank. What problem were you trying to solve?",
+      "intent_private": "Needs Meera's specific role in framing the attrition problem, the modelling choices behind the score, how the 4.2x finding was measured, and what she would do differently now.",
+      "probe_angle": "test_claim",
+      "technical_focus": true,
+      "likely_probes": [
+        "Which part of the scoring work was yours?",
+        "How did you choose the signals for the score?",
+        "What would you do differently if you built that score today?"
+      ],
+      "priority": 1,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s1",
+      "kind": "claim",
+      "budget": 3
+    },
+    {
+      "competency_id": "k3",
+      "competency_name": "Impact measurement",
+      "must_have": true,
+      "anchor_claim_id": "c1",
+      "anchor_text": "Built a weekly demand forecasting model in R for a US retailer's 1,800 stores; forecast error (MAPE) fell from 22% to 14%",
+      "anchor_parent": "Decision Scientist, Mu Sigma",
+      "question_type": "past_behaviour",
+      "core_question": "Tell me about the demand forecasting model you built at Mu Sigma.",
+      "intent_private": "Needs the forecasting problem, Meera's modelling decisions in R, how she contributed to the work, and how the change from 22% to 14% MAPE was established.",
+      "probe_angle": "test_claim",
+      "technical_focus": true,
+      "likely_probes": [
+        "Which part of the forecasting work was yours?",
+        "Why did you choose that forecasting approach?",
+        "What was the 22% MAPE compared with?"
+      ],
+      "priority": 2,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s2",
+      "kind": "claim",
+      "budget": 3
+    },
+    {
+      "competency_id": "k4",
+      "competency_name": "Stakeholder communication",
+      "must_have": true,
+      "anchor_claim_id": "c7",
+      "anchor_text": "Co-lead, Analytics Club (Cognizance), IIM Kozhikode",
+      "anchor_parent": "Analytics Club, IIM Kozhikode",
+      "question_type": "past_behaviour",
+      "core_question": "How did your co-lead role in the Analytics Club come about?",
+      "intent_private": "Needs a specific club situation, Meera's contribution as co-lead, a people or prioritisation decision, and the resulting effect on the club's work.",
+      "probe_angle": "find_substance",
+      "technical_focus": false,
+      "likely_probes": [
+        "What did you take responsibility for first?",
+        "Tell me about a decision you made with the other club leaders.",
+        "How did you know the club's work had improved?"
+      ],
+      "priority": 3,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [
+        "no_result"
+      ],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s3",
+      "kind": "claim",
+      "budget": 3
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Analytics experience",
+      "must_have": true,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "concern",
+      "core_question": "There was a career break between March 2022 and June 2023. What were you focused on during that period?",
+      "intent_private": "Needs a clear, comfortable account of Meera's focus during the career break and how she moved into freelance analytics afterward.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [
+        "What was the main thing you were working toward during that period?",
+        "What did you do first when you began freelancing?",
+        "How did that period shape your approach to analytics?"
+      ],
+      "priority": 4,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s4",
+      "kind": "concerns",
+      "budget": 1
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "",
+      "intent_private": "Candidate asks their questions.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "candidate_questions",
+      "kind": "candidate_questions",
+      "budget": 2
+    }
+  ],
+  "current": 0,
+  "transcript": [
+    {
+      "role": "interviewer",
+      "text": "Hi Meera, thanks for joining. Today we'll walk through your resume in some detail. We have about 15 minutes, with time for your questions at the end. What topic from your first year at IIM Kozhikode has held your attention recently?",
+      "slot_id": "warmup",
+      "why": "This was a warm-up question to help you settle in. It isn't part of the feedback.",
+      "at": "2026-11-09T06:58:01.979Z"
+    }
+  ],
+  "turns": [],
+  "events": [],
+  "interviewer_turns": 1,
+  "max_turns": 20,
+  "candidate_questions_asked": 0,
+  "second_chances": {},
+  "opening_greeting": "Hi Meera, thanks for joining. Today we'll walk through your resume in some detail. We have about 15 minutes, with time for your questions at the end."
+}

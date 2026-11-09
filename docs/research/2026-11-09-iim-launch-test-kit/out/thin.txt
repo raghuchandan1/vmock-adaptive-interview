@@ -1,0 +1,43 @@
+
+### 2026-11-09-3880bf64
+overall: The interview included relevant experiences, such as the specialty adhesives recommendation and placing students with NGOs, but the answers stayed general and often did not address the question asked. The biggest improvement is to give a specific situation, name the decision or action you handled, and finish with evidence of the result.
+-- s1 verdict=needs_work 
+   situation: needs_work — The answer only said the team looked at “a few options” and gave no specific business situation or starting question.
+   task: needs_work — The answer did not state the candidate's own responsibility within the internship project.
+   action: needs_work — The answer described shared work and “analysis and research” without naming a decision or step handled personally.
+   result: on_track — The answer said management liked the work but gave no concrete outcome beyond a general positive impression.
+   followup: needs_work — The replies did not answer which work the candidate personally handled or what evidence supported specialty adhesives; they repeated that the work went well.
+-- s2 verdict=needs_work 
+   situation: needs_work — The first reply described an unrelated plant situation instead of the Rural Immersion Program and its 80 students and 14 NGOs.
+   task: needs_work — The answers did not state the responsibility held as Secretary or the goal for completing the placements.
+   action: needs_work — The answer mentioned coordination and communication but did not name a specific decision or action personally handled.
+   result: needs_work — The answer claimed that “everyone was happy” but gave no evidence that the student placements worked.
+   followup: needs_work — The follow-ups asked for a difficult coordination issue and evidence of success, but the replies stayed general and did not provide either detail.
+-- s3 verdict=needs_work 
+   accuracy: on_track — The answer named market research and stakeholder discussions but did not cover the specific business factors needed to make an investment decision.
+   depth: needs_work — The replies did not explain how to weigh demand against capabilities, economics, risks, or execution complexity.
+   application: needs_work — The answer did not connect the proposed approach to the chemicals adjacency work or another real experience.
+   followup: needs_work — The follow-up replies did not answer what factor or opportunity detail would be examined first and then shifted to general career motivation.
+-- s4 verdict=undefined (too short)
+
+### 2026-11-09-9414a197
+overall: You gave the basic context that the team examined three adjacencies and recommended specialty adhesives. The main issue was stopping when asked for your own contribution, the reasoning behind the choice, and what happened afterward.
+-- s1 verdict=needs_work 
+   situation: needs_work — You said the team looked at “three adjacencies,” but you did not explain the business problem they were trying to solve.
+   task: needs_work — You did not state your own responsibility in the project; you only described it as “a team effort.”
+   action: needs_work — The answer did not describe the analysis, decisions, or work you personally carried out.
+   result: needs_work — You named the recommendation but not its basis, trade-offs, or outcome after the recommendation.
+   followup: needs_work — Both follow-ups received a closing response rather than the requested detail about your contribution and what happened next.
+-- s2 verdict=undefined (too short)
+-- s3 verdict=undefined (too short)
+
+### 2026-11-09-aceeb13b
+overall: The interview had one useful starting point: you named the three adjacencies and the specialty adhesives recommendation. The biggest improvement is to answer directly with your own actions, decision logic, and results instead of ending with “No, that’s all.”
+-- s1 verdict=on_track 
+   situation: on_track — You identified that the team evaluated “three adjacencies,” but you did not explain the business question or context for the case.
+   task: needs_work — You described it as “a team effort” but did not state your own responsibility or goal.
+   action: needs_work — The answer did not describe any analysis, assumptions, or decision you personally made.
+   result: on_track — You gave the recommendation of specialty adhesives but not the outcome or why that option was selected.
+   followup: needs_work — Both follow-up replies ended without addressing which part of the analysis you owned.
+-- s2 verdict=undefined (too short)
+-- s3 verdict=undefined (too short)

@@ -1,0 +1,665 @@
+{
+  "id": "2026-11-09-a6eb608f",
+  "created_at": "2026-11-09T06:56:58.844Z",
+  "status": "active",
+  "inputs": {
+    "resume_text": "VIKRAM SINGH RATHORE\nPGP 2025-27, Indian Institute of Management Indore | vikram.rathore@iimidr.ac.in\n\nEDUCATION\nPGP, IIM Indore, 2025-27, CGPA 7.4/10 (Term 1-3)\nB.Tech, Mechanical Engineering, Military College of Electronics and Mechanical Engineering (JNU), 2017, 7.9/10\n\nWORK EXPERIENCE (60 months)\nIndian Army, Corps of EME, Captain | Jun 2018 - May 2023\n- Commanded a 120-member Light Repair Workshop supporting an armoured regiment in Rajasthan\n- Cut average vehicle turnaround time from 9 days to 5 days by redesigning the spares indent cycle and setting up a forward spares cell\n- Managed spares inventory worth INR 14 crore across 3 depots; brought audit discrepancies down to zero in two consecutive annual audits\n- Led recovery of 22 vehicles during a flash flood exercise in Barmer with no casualties\nIndian Army, Lieutenant | Jun 2017 - May 2018\n- Officer-in-charge of a training cadre of 40 craftsmen\nCareer note: Jun 2023 - Jun 2025, prepared for CAT and worked as a volunteer instructor at a veterans' skilling centre in Jaipur\n\nSUMMER INTERNSHIP\nTata Steel, Kalinganagar | Operations Intern | Apr - Jun 2026\n- Built a criticality-based spares stocking model for 312 hot strip mill spares; projected INR 3.2 crore reduction in inventory holding with no rise in breakdown risk\n- Mapped the breakdown-to-repair process across 4 departments and proposed a single work-order queue; adopted for the cold rolling mill pilot\n- Received Pre-Placement Interview (PPI)\n\nPOSITIONS OF RESPONSIBILITY\n- Member, Operations Club (OpsCom), IIM Indore: organised Supply Chain Summit with 9 industry speakers\n- Sports Secretary, Officers' Mess, 2021-22\n\nACHIEVEMENTS\n- Chief of Army Staff Commendation Card, 2022\n- National finalist, Mahindra War Room 2025 (top 8 of 1,100 teams)",
+    "jd_text": "",
+    "target_role": "",
+    "domain": "Operations and Supply Chain",
+    "stage": "finals",
+    "market": "india",
+    "interview_type": "hiring_manager",
+    "style": "balanced",
+    "length": "standard",
+    "seed": 840120
+  },
+  "style": "balanced",
+  "surprise": false,
+  "seed": 840120,
+  "settings": {
+    "planner_model": "gpt-5.6-luna",
+    "planner_effort": "medium",
+    "turn_model": "gpt-5.6-luna",
+    "turn_effort": "low"
+  },
+  "plan": {
+    "candidate": {
+      "name": "Vikram",
+      "experience_level": "mid",
+      "current_or_last_role": "PGP student, IIM Indore",
+      "resume_band": "upper",
+      "band_reason": "The resume shows substantial ownership, quantified operational outcomes, clear scale and strong evidence across military operations and the Tata Steel internship."
+    },
+    "jd": {
+      "present": false,
+      "company": null,
+      "role_title": null,
+      "role_family": "other",
+      "seniority": null,
+      "must_haves": [],
+      "nice_to_haves": [],
+      "stated_values": []
+    },
+    "mismatch": {
+      "is_mismatch": false,
+      "note": ""
+    },
+    "claims": [
+      {
+        "id": "c1",
+        "text": "Built a criticality-based spares stocking model for 312 hot strip mill spares; projected INR 3.2 crore reduction in inventory holding with no rise in breakdown risk",
+        "parent": "Operations Intern, Tata Steel",
+        "type": "technical",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified scale",
+          "quantified projected impact",
+          "named method",
+          "clear ownership verb"
+        ],
+        "weak_flags": [
+          "inflated_scope"
+        ],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 1,
+        "grounded": true
+      },
+      {
+        "id": "c2",
+        "text": "Mapped the breakdown-to-repair process across 4 departments and proposed a single work-order queue; adopted for the cold rolling mill pilot",
+        "parent": "Operations Intern, Tata Steel",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "cross-functional scale",
+          "clear ownership verb",
+          "adoption outcome"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 2,
+        "grounded": true
+      },
+      {
+        "id": "c3",
+        "text": "Cut average vehicle turnaround time from 9 days to 5 days by redesigning the spares indent cycle and setting up a forward spares cell",
+        "parent": "Captain, Indian Army, Corps of EME",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "clear ownership verb",
+          "named operational changes"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 3,
+        "grounded": true
+      },
+      {
+        "id": "c4",
+        "text": "Commanded a 120-member Light Repair Workshop supporting an armoured regiment in Rajasthan",
+        "parent": "Captain, Indian Army, Corps of EME",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "scale",
+          "clear ownership verb",
+          "operational responsibility"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 4,
+        "grounded": true
+      },
+      {
+        "id": "c5",
+        "text": "Managed spares inventory worth INR 14 crore across 3 depots; brought audit discrepancies down to zero in two consecutive annual audits",
+        "parent": "Captain, Indian Army, Corps of EME",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified scale",
+          "quantified result",
+          "multi-site scope",
+          "clear ownership verb"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 5,
+        "grounded": true
+      },
+      {
+        "id": "c6",
+        "text": "Led recovery of 22 vehicles during a flash flood exercise in Barmer with no casualties",
+        "parent": "Captain, Indian Army, Corps of EME",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified scale",
+          "clear ownership verb",
+          "high-pressure context"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 6,
+        "grounded": true
+      },
+      {
+        "id": "c7",
+        "text": "Officer-in-charge of a training cadre of 40 craftsmen",
+        "parent": "Lieutenant, Indian Army, Corps of EME",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "scale",
+          "clear responsibility"
+        ],
+        "weak_flags": [
+          "no_result"
+        ],
+        "relevance": "medium",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 7,
+        "grounded": true
+      },
+      {
+        "id": "c8",
+        "text": "organised Supply Chain Summit with 9 industry speakers",
+        "parent": "Member, Operations Club, IIM Indore",
+        "type": "collaboration",
+        "strength": "moderate",
+        "strength_signals": [
+          "quantified scale",
+          "clear ownership verb"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 8,
+        "grounded": true
+      },
+      {
+        "id": "c9",
+        "text": "Sports Secretary, Officers' Mess, 2021-22",
+        "parent": "Sports Secretary, Officers' Mess",
+        "type": "leadership",
+        "strength": "moderate",
+        "strength_signals": [
+          "leadership responsibility"
+        ],
+        "weak_flags": [
+          "no_result"
+        ],
+        "relevance": "low",
+        "distinctive": false,
+        "probe_angle": "find_substance",
+        "rank": 9,
+        "grounded": true
+      },
+      {
+        "id": "c10",
+        "text": "National finalist, Mahindra War Room 2025 (top 8 of 1,100 teams)",
+        "parent": "Mahindra War Room 2025",
+        "type": "other",
+        "strength": "strong",
+        "strength_signals": [
+          "national-level distinction",
+          "quantified competitive scale"
+        ],
+        "weak_flags": [
+          "unclear_role"
+        ],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 10,
+        "grounded": true
+      },
+      {
+        "id": "c11",
+        "text": "Chief of Army Staff Commendation Card, 2022",
+        "parent": "Indian Army",
+        "type": "other",
+        "strength": "moderate",
+        "strength_signals": [
+          "formal recognition"
+        ],
+        "weak_flags": [
+          "unclear_role"
+        ],
+        "relevance": "low",
+        "distinctive": true,
+        "probe_angle": "find_substance",
+        "rank": 11,
+        "grounded": true
+      }
+    ],
+    "competencies": [
+      {
+        "id": "k1",
+        "name": "Inventory and replenishment planning",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c5"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k2",
+        "name": "Operational excellence and process improvement",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c2",
+          "c3"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k3",
+        "name": "Leadership and team management",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c4",
+          "c6",
+          "c7"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k4",
+        "name": "Analytical problem solving",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c1",
+          "c2",
+          "c3"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k5",
+        "name": "Stakeholder management",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c2",
+          "c8"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k6",
+        "name": "Motivation and fit",
+        "source": "always",
+        "must_have": false,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      }
+    ],
+    "concerns": [],
+    "warmup_question": "What have you been learning in your MBA recently?",
+    "background_question": "Walk me through your career so far, with a focus on your last couple of roles.",
+    "slots": [
+      {
+        "id": "s1",
+        "kind": "claim",
+        "competency_id": "k1",
+        "anchor_claim_id": "c1",
+        "question_type": "past_behaviour",
+        "core_question": "Walk me through how you built the spares stocking model during your Tata Steel internship.",
+        "intent_private": "Needs Vikram's specific analytical approach, personal decisions about criticality and stock levels, and how the projected INR 3.2 crore benefit and breakdown-risk assumption were established.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "What was your personal contribution to the model?",
+          "Which inventory decision required the most judgement?",
+          "What baseline was the projected INR 3.2 crore reduction compared with?"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "s2",
+        "kind": "claim",
+        "competency_id": "k3",
+        "anchor_claim_id": "c4",
+        "question_type": "past_behaviour",
+        "core_question": "What was the hardest leadership decision you faced while commanding the Light Repair Workshop?",
+        "intent_private": "Needs a specific situation involving the 120-member workshop, Vikram's own leadership decision, the trade-off he weighed and the resulting operational or people outcome.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "What did you personally do first in that situation?",
+          "How did you decide which priority to address?",
+          "How did you respond when someone on the team was not meeting the required standard?"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "s3",
+        "kind": "gap",
+        "competency_id": "k1",
+        "anchor_claim_id": null,
+        "question_type": "knowledge",
+        "core_question": "How would you set a replenishment policy for a critical spare whose demand and lead time both vary?",
+        "intent_private": "Needs an applied approach using criticality, service levels, demand and lead-time variability, and the trade-off between inventory cost and breakdown risk.",
+        "probe_angle": "find_substance",
+        "technical_focus": false,
+        "likely_probes": [
+          "What would you prioritise first in that decision?",
+          "When would that approach be unsuitable?",
+          "How would you validate the policy using data from your own work?"
+        ],
+        "priority": 3
+      },
+      {
+        "id": "s4",
+        "kind": "motivation",
+        "competency_id": "k6",
+        "anchor_claim_id": null,
+        "question_type": "motivation",
+        "core_question": "After five years in Army maintenance and a Tata Steel internship, what draws you to a career in operations and supply chain?",
+        "intent_private": "Needs a specific reason rooted in Vikram's military and internship experience, plus a clear explanation of what he is seeking in an operations and supply chain role rather than a generic career preference.",
+        "probe_angle": "none",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which experience most influenced that direction?",
+          "What part of an operations and supply chain role do you want to develop next?"
+        ],
+        "priority": 4
+      }
+    ],
+    "plan_notes": "The plan prioritises Vikram's highly relevant Tata Steel internship, then tests the scale and substance of his military leadership before using an applied inventory question. The resume is unusually strong and quantified, with the CAT preparation and veterans' centre period explained in the career note; there is no clear mismatch or separate concern to raise."
+  },
+  "plan_trace": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "attempts": 1,
+    "started_at": "2026-11-09T06:56:24.358Z",
+    "latency_ms": 34486,
+    "usage": {
+      "prompt_tokens": 7445,
+      "completion_tokens": 3755,
+      "total_tokens": 11200,
+      "prompt_tokens_details": {
+        "cached_tokens": 6879,
+        "cache_write_tokens": 563,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1735,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "raw_response": "{\"candidate\":{\"name\":\"Vikram\",\"experience_level\":\"mid\",\"current_or_last_role\":\"PGP student, IIM Indore\",\"resume_band\":\"upper\",\"band_reason\":\"The resume shows substantial ownership, quantified operational outcomes, clear scale and strong evidence across military operations and the Tata Steel internship.\"},\"jd\":{\"present\":false,\"company\":null,\"role_title\":null,\"role_family\":\"other\",\"seniority\":null,\"must_haves\":[],\"nice_to_haves\":[],\"stated_values\":[]},\"mismatch\":{\"is_mismatch\":false,\"note\":\"\"},\"claims\":[{\"id\":\"c1\",\"text\":\"Built a criticality-based spares stocking model for 312 hot strip mill spares; projected INR 3.2 crore reduction in inventory holding with no rise in breakdown risk\",\"parent\":\"Operations Intern, Tata Steel\",\"type\":\"technical\",\"strength\":\"strong\",\"strength_signals\":[\"quantified scale\",\"quantified projected impact\",\"named method\",\"clear ownership verb\"],\"weak_flags\":[\"inflated_scope\"],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":1},{\"id\":\"c2\",\"text\":\"Mapped the breakdown-to-repair process across 4 departments and proposed a single work-order queue; adopted for the cold rolling mill pilot\",\"parent\":\"Operations Intern, Tata Steel\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"cross-functional scale\",\"clear ownership verb\",\"adoption outcome\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":2},{\"id\":\"c3\",\"text\":\"Cut average vehicle turnaround time from 9 days to 5 days by redesigning the spares indent cycle and setting up a forward spares cell\",\"parent\":\"Captain, Indian Army, Corps of EME\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"clear ownership verb\",\"named operational changes\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":3},{\"id\":\"c4\",\"text\":\"Commanded a 120-member Light Repair Workshop supporting an armoured regiment in Rajasthan\",\"parent\":\"Captain, Indian Army, Corps of EME\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"scale\",\"clear ownership verb\",\"operational responsibility\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":4},{\"id\":\"c5\",\"text\":\"Managed spares inventory worth INR 14 crore across 3 depots; brought audit discrepancies down to zero in two consecutive annual audits\",\"parent\":\"Captain, Indian Army, Corps of EME\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified scale\",\"quantified result\",\"multi-site scope\",\"clear ownership verb\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":5},{\"id\":\"c6\",\"text\":\"Led recovery of 22 vehicles during a flash flood exercise in Barmer with no casualties\",\"parent\":\"Captain, Indian Army, Corps of EME\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"quantified scale\",\"clear ownership verb\",\"high-pressure context\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":6},{\"id\":\"c7\",\"text\":\"Officer-in-charge of a training cadre of 40 craftsmen\",\"parent\":\"Lieutenant, Indian Army, Corps of EME\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"scale\",\"clear responsibility\"],\"weak_flags\":[\"no_result\"],\"relevance\":\"medium\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":7},{\"id\":\"c8\",\"text\":\"organised Supply Chain Summit with 9 industry speakers\",\"parent\":\"Member, Operations Club, IIM Indore\",\"type\":\"collaboration\",\"strength\":\"moderate\",\"strength_signals\":[\"quantified scale\",\"clear ownership verb\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":8},{\"id\":\"c9\",\"text\":\"Sports Secretary, Officers' Mess, 2021-22\",\"parent\":\"Sports Secretary, Officers' Mess\",\"type\":\"leadership\",\"strength\":\"moderate\",\"strength_signals\":[\"leadership responsibility\"],\"weak_flags\":[\"no_result\"],\"relevance\":\"low\",\"distinctive\":false,\"probe_angle\":\"find_substance\",\"rank\":9},{\"id\":\"c10\",\"text\":\"National finalist, Mahindra War Room 2025 (top 8 of 1,100 teams)\",\"parent\":\"Mahindra War Room 2025\",\"type\":\"other\",\"strength\":\"strong\",\"strength_signals\":[\"national-level distinction\",\"quantified competitive scale\"],\"weak_flags\":[\"unclear_role\"],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":10},{\"id\":\"c11\",\"text\":\"Chief of Army Staff Commendation Card, 2022\",\"parent\":\"Indian Army\",\"type\":\"other\",\"strength\":\"moderate\",\"strength_signals\":[\"formal recognition\"],\"weak_flags\":[\"unclear_role\"],\"relevance\":\"low\",\"distinctive\":true,\"probe_angle\":\"find_substance\",\"rank\":11}],\"competencies\":[{\"id\":\"k1\",\"name\":\"Inventory and replenishment planning\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c5\"],\"is_gap\":false},{\"id\":\"k2\",\"name\":\"Operational excellence and process improvement\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c2\",\"c3\"],\"is_gap\":false},{\"id\":\"k3\",\"name\":\"Leadership and team management\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c4\",\"c6\",\"c7\"],\"is_gap\":false},{\"id\":\"k4\",\"name\":\"Analytical problem solving\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c1\",\"c2\",\"c3\"],\"is_gap\":false},{\"id\":\"k5\",\"name\":\"Stakeholder management\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c2\",\"c8\"],\"is_gap\":false},{\"id\":\"k6\",\"name\":\"Motivation and fit\",\"source\":\"always\",\"must_have\":false,\"evidence_claim_ids\":[],\"is_gap\":true}],\"concerns\":[],\"warmup_question\":\"What have you been learning in your MBA recently?\",\"background_question\":\"Walk me through your career so far, with a focus on your last couple of roles.\",\"slots\":[{\"id\":\"s1\",\"kind\":\"claim\",\"competency_id\":\"k1\",\"anchor_claim_id\":\"c1\",\"question_type\":\"past_behaviour\",\"core_question\":\"Walk me through how you built the spares stocking model during your Tata Steel internship.\",\"intent_private\":\"Needs Vikram's specific analytical approach, personal decisions about criticality and stock levels, and how the projected INR 3.2 crore benefit and breakdown-risk assumption were established.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"What was your personal contribution to the model?\",\"Which inventory decision required the most judgement?\",\"What baseline was the projected INR 3.2 crore reduction compared with?\"],\"priority\":1},{\"id\":\"s2\",\"kind\":\"claim\",\"competency_id\":\"k3\",\"anchor_claim_id\":\"c4\",\"question_type\":\"past_behaviour\",\"core_question\":\"What was the hardest leadership decision you faced while commanding the Light Repair Workshop?\",\"intent_private\":\"Needs a specific situation involving the 120-member workshop, Vikram's own leadership decision, the trade-off he weighed and the resulting operational or people outcome.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"What did you personally do first in that situation?\",\"How did you decide which priority to address?\",\"How did you respond when someone on the team was not meeting the required standard?\"],\"priority\":2},{\"id\":\"s3\",\"kind\":\"gap\",\"competency_id\":\"k1\",\"anchor_claim_id\":null,\"question_type\":\"knowledge\",\"core_question\":\"How would you set a replenishment policy for a critical spare whose demand and lead time both vary?\",\"intent_private\":\"Needs an applied approach using criticality, service levels, demand and lead-time variability, and the trade-off between inventory cost and breakdown risk.\",\"probe_angle\":\"find_substance\",\"technical_focus\":false,\"likely_probes\":[\"What would you prioritise first in that decision?\",\"When would that approach be unsuitable?\",\"How would you validate the policy using data from your own work?\"],\"priority\":3},{\"id\":\"s4\",\"kind\":\"motivation\",\"competency_id\":\"k6\",\"anchor_claim_id\":null,\"question_type\":\"motivation\",\"core_question\":\"After five years in Army maintenance and a Tata Steel internship, what draws you to a career in operations and supply chain?\",\"intent_private\":\"Needs a specific reason rooted in Vikram's military and internship experience, plus a clear explanation of what he is seeking in an operations and supply chain role rather than a generic career preference.\",\"probe_angle\":\"none\",\"technical_focus\":false,\"likely_probes\":[\"Which experience most influenced that direction?\",\"What part of an operations and supply chain role do you want to develop next?\"] ,\"priority\":4}],\"plan_notes\":\"The plan prioritises Vikram's highly relevant Tata Steel internship, then tests the scale and substance of his military leadership before using an applied inventory question. The resume is unusually strong and quantified, with the CAT preparation and veterans' centre period explained in the career note; there is no clear mismatch or separate concern to raise.\"}",
+    "request_user_message": "{\"target_role\":\"domain: Operations and Supply Chain\",\"interview_type\":\"hiring_manager\",\"placement_stage\":\"finals\",\"market\":\"india\",\"interviewer_style\":\"balanced\",\"scored_slot_count\":4,\"variation_seed\":840120,\"warmup_angle\":\"what they have been working on or learning lately\",\"fit_angle\":\"a time they failed at something that mattered to them\",\"resume_text\":\"VIKRAM SINGH RATHORE\\nPGP 2025-27, Indian Institute of Management Indore | vikram.rathore@iimidr.ac.in\\n\\nEDUCATION\\nPGP, IIM Indore, 2025-27, CGPA 7.4/10 (Term 1-3)\\nB.Tech, Mechanical Engineering, Military College of Electronics and Mechanical Engineering (JNU), 2017, 7.9/10\\n\\nWORK EXPERIENCE (60 months)\\nIndian Army, Corps of EME, Captain | Jun 2018 - May 2023\\n- Commanded a 120-member Light Repair Workshop supporting an armoured regiment in Rajasthan\\n- Cut average vehicle turnaround time from 9 days to 5 days by redesigning the spares indent cycle and setting up a forward spares cell\\n- Managed spares inventory worth INR 14 crore across 3 depots; brought audit discrepancies down to zero in two consecutive annual audits\\n- Led recovery of 22 vehicles during a flash flood exercise in Barmer with no casualties\\nIndian Army, Lieutenant | Jun 2017 - May 2018\\n- Officer-in-charge of a training cadre of 40 craftsmen\\nCareer note: Jun 2023 - Jun 2025, prepared for CAT and worked as a volunteer instructor at a veterans' skilling centre in Jaipur\\n\\nSUMMER INTERNSHIP\\nTata Steel, Kalinganagar | Operations Intern | Apr - Jun 2026\\n- Built a criticality-based spares stocking model for 312 hot strip mill spares; projected INR 3.2 crore reduction in inventory holding with no rise in breakdown risk\\n- Mapped the breakdown-to-repair process across 4 departments and proposed a single work-order queue; adopted for the cold rolling mill pilot\\n- Received Pre-Placement Interview (PPI)\\n\\nPOSITIONS OF RESPONSIBILITY\\n- Member, Operations Club (OpsCom), IIM Indore: organised Supply Chain Summit with 9 industry speakers\\n- Sports Secretary, Officers' Mess, 2021-22\\n\\nACHIEVEMENTS\\n- Chief of Army Staff Commendation Card, 2022\\n- National finalist, Mahindra War Room 2025 (top 8 of 1,100 teams)\",\"jd_text\":\"\"}"
+  },
+  "plan_checks": [
+    {
+      "level": "ok",
+      "message": "All claims are quoted from the resume and all topics are valid."
+    }
+  ],
+  "slots": [
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "What have you been learning in your MBA recently?",
+      "intent_private": "Warm-up to settle in. Not assessed.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "active",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "warmup",
+      "kind": "warmup",
+      "budget": 0
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "Walk me through your career so far, with a focus on your last couple of roles.",
+      "intent_private": "A coherent overview of the candidate's path; may surface threads for later topics.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "background",
+      "kind": "background",
+      "budget": 1
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Inventory and replenishment planning",
+      "must_have": true,
+      "anchor_claim_id": "c1",
+      "anchor_text": "Built a criticality-based spares stocking model for 312 hot strip mill spares; projected INR 3.2 crore reduction in inventory holding with no rise in breakdown risk",
+      "anchor_parent": "Operations Intern, Tata Steel",
+      "question_type": "past_behaviour",
+      "core_question": "Walk me through how you built the spares stocking model during your Tata Steel internship.",
+      "intent_private": "Needs Vikram's specific analytical approach, personal decisions about criticality and stock levels, and how the projected INR 3.2 crore benefit and breakdown-risk assumption were established.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "What was your personal contribution to the model?",
+        "Which inventory decision required the most judgement?",
+        "What baseline was the projected INR 3.2 crore reduction compared with?"
+      ],
+      "priority": 1,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [
+        "inflated_scope"
+      ],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s1",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k3",
+      "competency_name": "Leadership and team management",
+      "must_have": true,
+      "anchor_claim_id": "c4",
+      "anchor_text": "Commanded a 120-member Light Repair Workshop supporting an armoured regiment in Rajasthan",
+      "anchor_parent": "Captain, Indian Army, Corps of EME",
+      "question_type": "past_behaviour",
+      "core_question": "What was the hardest leadership decision you faced while commanding the Light Repair Workshop?",
+      "intent_private": "Needs a specific situation involving the 120-member workshop, Vikram's own leadership decision, the trade-off he weighed and the resulting operational or people outcome.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "What did you personally do first in that situation?",
+        "How did you decide which priority to address?",
+        "How did you respond when someone on the team was not meeting the required standard?"
+      ],
+      "priority": 2,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s2",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Inventory and replenishment planning",
+      "must_have": true,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "knowledge",
+      "core_question": "How would you set a replenishment policy for a critical spare whose demand and lead time both vary?",
+      "intent_private": "Needs an applied approach using criticality, service levels, demand and lead-time variability, and the trade-off between inventory cost and breakdown risk.",
+      "probe_angle": "find_substance",
+      "technical_focus": false,
+      "likely_probes": [
+        "What would you prioritise first in that decision?",
+        "When would that approach be unsuitable?",
+        "How would you validate the policy using data from your own work?"
+      ],
+      "priority": 3,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s3",
+      "kind": "gap",
+      "budget": 2
+    },
+    {
+      "competency_id": "k6",
+      "competency_name": "Motivation and fit",
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "motivation",
+      "core_question": "After five years in Army maintenance and a Tata Steel internship, what draws you to a career in operations and supply chain?",
+      "intent_private": "Needs a specific reason rooted in Vikram's military and internship experience, plus a clear explanation of what he is seeking in an operations and supply chain role rather than a generic career preference.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which experience most influenced that direction?",
+        "What part of an operations and supply chain role do you want to develop next?"
+      ],
+      "priority": 4,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s4",
+      "kind": "motivation",
+      "budget": 1
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "",
+      "intent_private": "Candidate asks their questions.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "candidate_questions",
+      "kind": "candidate_questions",
+      "budget": 2
+    }
+  ],
+  "current": 0,
+  "transcript": [
+    {
+      "role": "interviewer",
+      "text": "Hi Vikram, thanks for joining. I'm on the hiring team for this role, and I'd like to understand your experience in some depth. We have about 15 minutes, with time for your questions at the end. What have you been learning in your MBA recently?",
+      "slot_id": "warmup",
+      "why": "This was a warm-up question to help you settle in. It isn't part of the feedback.",
+      "at": "2026-11-09T06:56:58.844Z"
+    }
+  ],
+  "turns": [],
+  "events": [],
+  "interviewer_turns": 1,
+  "max_turns": 20,
+  "candidate_questions_asked": 0,
+  "second_chances": {},
+  "opening_greeting": "Hi Vikram, thanks for joining. I'm on the hiring team for this role, and I'd like to understand your experience in some depth. We have about 15 minutes, with time for your questions at the end."
+}

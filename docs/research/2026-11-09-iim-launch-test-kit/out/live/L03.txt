@@ -1,0 +1,154 @@
+# L03 2026-11-09-5159fccb {"name":"bsc_lowcgpa_mkt","type":"recruiter_screen","style":"balanced","persona":"weak"} errors=[]
+plan_ms=30953 feedback_ms=52929 ended_by=close turns=16
+
+INTERVIEWER [warmup]: Hi Sneha, good to meet you. I'd like to have a first conversation with you about this role. It should take about 15 minutes, and there'll be time for your questions at the end. What course or project at IIM Kozhikode has caught your attention recently?
+
+  STUDENT [warmup] (63w): um hi sir nice to meet you too so actually one course that I found quite interesting is the marketing management basics one in term one because like we discussed a lot about consumer behavior and it felt very practical also um project wise I liked working on a group case for rural marketing but sorry I don’t remember all the details now
+  >> decision=move_on rung=none suff=true http=3166ms calls=3160ms guards=[] leak=[]
+
+INTERVIEWER [background]: Thanks. Walk me through your background, up to how your first term at the MBA has gone.
+
+  STUDENT [background] (89w): um so basically I did my BSc in biotechnology from Christ University in Bangalore and during that time I was quite active with extracurriculars also like leading the cultural committee and all then after that I did two internships one in research at Biocon Biologics and another in retail marketing at Nature’s Basket and now I’ve just completed my first term at IIM Kozhikode where honestly it was a bit tough in the academic sense but I’m learning a lot and trying to catch up with the fast pace
+  >> decision=move_on rung=none suff=true http=3505ms calls=3501ms guards=[] leak=[]
+
+INTERVIEWER [s1]: Thanks, that gives me the outline of your path. You’ve moved from biotechnology into marketing. What’s pulling you toward marketing after your first term at IIM Kozhikode?
+
+  STUDENT [s1] (57w): um actually sir I feel like marketing is more dynamic and people-oriented and I enjoyed that part more during my internships especially when we got to interact with customers also in classes I realized I like thinking about what makes consumers behave in certain ways instead of just lab research so I want to explore that more
+  >> decision=clarify rung=how suff=false http=4039ms calls=4030ms guards=[] leak=[]
+     missing: a specific experience that shifted her interest toward marketing
+
+INTERVIEWER [s1]: Which specific moment during your Nature’s Basket or Biocon internship first made marketing feel like a direction you wanted to pursue?
+
+  STUDENT [s1] (63w): um so actually during my Nature’s Basket internship when I did the in-store sampling for the millet range I got to talk directly with a lot of customers and listen to their feedback and it was really interesting to see how just conversations or small changes can affect what people buy so that made me feel marketing is exciting and suits me better
+  >> decision=move_on rung=none suff=true http=4031ms calls=4024ms guards=[] leak=[]
+
+INTERVIEWER [s2]: Let’s look more closely at that Nature’s Basket work. I see you ran in-store sampling for an organic millet range. What were you trying to achieve?
+
+  STUDENT [s2] (52w): um so mainly the goal was to increase awareness for that millet range and encourage more customers to actually try and buy it because before that those products were just sitting on the shelf and not moving much so in-store sampling was meant to get more people to taste and consider buying
+  >> decision=probe rung=role suff=false http=3712ms calls=3705ms guards=[] leak=[]
+     missing: Sneha’s specific decisions and actions during the sampling; how the 18% conversion figure was defined and compared with 11%
+
+INTERVIEWER [s2]: Which part of the sampling activity did you personally decide or handle?
+
+  STUDENT [s2] (57w): um so actually I got to plan how to approach customers like what to say during the sampling and I also kept track of who tried the samples and their feedback plus I suggested that we put up simple signs in Malayalam because many shoppers preferred that language and then I shared the feedback with my manager
+  >> decision=probe rung=result suff=false http=4088ms calls=4074ms guards=[] leak=[]
+     missing: how the 18% conversion figure was defined and measured; what specifically was counted in the comparison with 11%
+
+INTERVIEWER [s2]: How did you calculate the 18% conversion figure?
+
+  STUDENT [s2] (54w): um so basically I counted how many people actually tasted the samples during the sampling days and then noted how many of them ended up buying the millet product immediately after that and then I divided the buyers by total samplers to get the percentage um sorry I don’t remember the exact numbers now
+  >> decision=move_on rung=none suff=false http=5223ms calls=5218ms guards=["Added a second-chance topic for must-have \"Marketing execution\" before the candidate's questions."] leak=[]
+     missing: the exact number of samplers and buyers used to produce the 18% figure
+
+INTERVIEWER [s3]: Understood. Let’s move to a different situation. Tell me about a time you disagreed with your team or took a stance.
+
+  STUDENT [s3] (68w): um okay so during my cultural committee work in college there was once a disagreement about which external artists to invite for the fest like most of the team wanted to go for energetic bands but I felt a classical act would reach more of our audience so I shared my view and explained why but later we did a mix of both so it was a compromise
+  >> decision=probe rung=how suff=false http=4580ms calls=4570ms guards=[] leak=[]
+     missing: the specific steps she took to build support for the classical act
+
+INTERVIEWER [s3]: After explaining your view, what did you do first to move the discussion toward a decision?
+
+  STUDENT [s3] (53w): um so after I explained I actually asked everyone to share their opinions and like why they preferred certain artists and I tried to listen to both sides and see if there was any common ground then I suggested maybe we can split the performance slots between both types so everyone feels included
+  >> decision=move_on rung=none suff=true http=4052ms calls=4045ms guards=[] leak=[]
+
+INTERVIEWER [s4]: Let’s turn to your leadership experience. What was the hardest part of leading the cultural committee’s annual fest?
+
+  STUDENT [s4] (52w): um so actually the hardest part was managing the coordination between so many different teams like logistics, finance, promotions and even the volunteers because everyone was busy with their own college work also so getting everyone on the same page and making sure things happened on time was quite challenging for me
+  >> decision=probe rung=role suff=false http=4148ms calls=4142ms guards=[] leak=[]
+     missing: Sneha’s personal actions in coordinating the teams; What changed or how she knew execution stayed on track
+
+INTERVIEWER [s4]: Which part of coordinating logistics, finance, promotions, and volunteers did you personally handle?
+
+  STUDENT [s4] (55w): um so mainly I was involved in coordinating with the promotions and volunteer teams like setting up schedules for volunteers and discussing with the promotions lead how to spread the word on campus and on social media for logistics and finance I mostly just checked in on progress but didn’t handle the main planning directly
+  >> decision=probe rung=how suff=false http=3888ms calls=3882ms guards=[] leak=[]
+     missing: how she kept the volunteer and promotions work on schedule; the outcome of her coordination
+
+INTERVIEWER [s4]: When you were setting volunteer schedules, what was the first thing you did to keep everyone aligned?
+
+  STUDENT [s4] (59w): um so the first thing I did was make a WhatsApp group with all the volunteers and then I put up the full event schedule and like assigned time slots for everyone based on their availability which I collected using a simple Google form so that everyone could see who is on duty when and we could avoid confusion
+  >> decision=move_on rung=none suff=false http=4522ms calls=4517ms guards=["Added a second-chance topic for must-have \"Leadership and execution\" before the candidate's questions."] leak=[]
+     missing: what changed or how she knew the volunteer scheduling worked
+
+INTERVIEWER [second_chance_k1]: Let’s try a different marketing example. Tell me about another time you had to understand what customers wanted or improve how something was presented.
+
+  STUDENT [second_chance_k1] (87w): um so during my Biocon internship even though it was more on the research side I did a small literature summary about cold-chain failures and I had to check with some staff about what kind of issues usually happen when insulin gets transported and why it matters for patients in South India so I tried to present those findings in a way that would be easy for my mentor and their team to use but um sorry I don’t have a very marketing-heavy example apart from that
+  >> decision=probe rung=result suff=false http=3746ms calls=3740ms guards=["Time rule: dropped topic second_chance_k3 (Leadership and execution) to finish on time."] leak=[]
+     missing: what changed or was done with the summary; specific steps she took to make the findings usable
+
+INTERVIEWER [second_chance_k1]: What did your mentor or team do with the summary after you presented it?
+
+  STUDENT [second_chance_k1] (59w): um so after I shared the summary my mentor actually said it was helpful for their ongoing project on improving the cold chain systems and I think they used some of the cases I found for their team discussions but honestly I don’t know a lot about what happened with it after that since my internship ended soon after
+  >> decision=move_on rung=none suff=true http=4041ms calls=4030ms guards=[] leak=[]
+
+INTERVIEWER [candidate_questions]: Thanks, Sneha. That’s everything from my side. What questions do you have for me?
+
+  STUDENT [candidate_questions] (63w): um thank you sir so I wanted to ask how does the company usually support new joiners who are transitioning from science backgrounds like is there some kind of structured training or mentorship also if I get selected what kind of roles or projects can a fresher expect in the first year that’s all I wanted to know I don’t have more questions
+  >> decision=answer_candidate_question rung=none suff=true http=5099ms calls=4952ms guards=[] leak=[]
+
+INTERVIEWER [candidate_questions]: I’d rather not guess about the company’s specific training, mentorship structure, or first-year assignments. The hiring team can share those details, including how science backgrounds are supported. Is there anything else you’d like to know?
+
+  STUDENT [candidate_questions] (22w): um no sir that’s all right thank you for clarifying I don’t have any more questions right now thanks for your time
+  >> decision=close rung=none suff=true http=3532ms calls=3524ms guards=[] leak=[]
+
+INTERVIEWER [candidate_questions]: Thank you for your time, Sneha. That concludes the interview, and your feedback is ready.
+
+=== FEEDBACK v10
+overall: The interview showed a clear move from biotechnology toward customer-focused work, especially through the millet sampling and shopper feedback. The main pattern to fix is making your personal actions and measured outcomes clear instead of stopping at general descriptions.
+priorities: [{"title":"Make outcomes concrete","why":"Specific results help an interviewer judge the value of your actions rather than only hearing what you intended.","action":"When a follow-up asks what changed after your action, state the measured result or clearly label what you do not know.","slot_id":"s2"},{"title":"Name your marketing direction","why":"A specific target helps the interviewer understand why this role fits your move from biotechnology.","action":"Prepare a short link between customer insight, marketing execution, and your biotechnology background."},{"title":"Clarify your leadership scope","why":"Clear ownership shows what you can be trusted to handle in a team setting.","action":"Practise separating the areas you coordinated from the areas you only monitored."}]
+moments: [{"slot_id":"candidate_questions","quote":"what kind of roles or projects can a fresher expect in the first year","note":"Your questions showed interest in how a science background could transfer into the role, but they were broad enough to apply to many companies.","tip":"Ask which marketing projects a fresher with a science background would typically support during the first year."}]
+
+-- s1 verdict=on_track q=Thanks, that gives me the outline of your path. You’ve moved from biotechnology into marketing. What’s pulling you toward marketing after your first term at IIM Kozhikode?
+   reason: good_job [first_answer] You gave a personal reason based on enjoying customer interaction and consumer behaviour, rather than only saying marketing is interesting. {I like thinking about what makes consumers behave}
+   fit: on_track [first_answer] You linked your interest to customer-facing work and consumer behaviour, but did not connect it to a specific marketing role or type of work. {marketing is more dynamic and people-oriented}
+   evidence: good_job [after_follow_up] You used the Nature’s Basket sampling experience and customer conversations as evidence for your interest. {during my Nature’s Basket internship when I did the in-store sampling}
+   followup: good_job [null] You answered the follow-up with a specific internship moment and explained what you noticed from customer conversations. {small changes can affect what people buy}
+   went_well: You connected your motivation to a real customer-facing experience and explained what you learned from it. {during my Nature’s Basket internship when I did the in-store sampling}
+   to_fix: This ending states an intention but does not say what kind of marketing work you want to explore or why your experience prepares you for it. {I want to explore that more}
+   plan: ["Start with the contrast: you enjoyed understanding customers more than laboratory research.","Use the millet sampling as the specific moment that confirmed this interest.","Name the marketing work you want to explore, such as customer insight, in-store activation, or brand communication.","End with the skill your biotechnology background adds, such as understanding technical products and explaining them clearly."]
+   stronger: I found that I enjoyed understanding customers more than laboratory research. During my Nature’s Basket internship, I spoke with shoppers during millet sampling and saw how conversations and small changes could affect what people buy.
+
+-- s2 verdict=on_track q=Let’s look more closely at that Nature’s Basket work. I see you ran in-store sampling for an organic millet range. What were you trying to achieve?
+   situation: good_job [first_answer] You described a specific millet range that was sitting on the shelf and needed more customer trial and purchase. {those products were just sitting on the shelf}
+   task: good_job [first_answer] You clearly stated the goal of increasing awareness, trial, and purchase of the millet range. {increase awareness for that millet range}
+   action: good_job [first_answer] You explained how you approached shoppers, tracked samplers and feedback, and suggested Malayalam signs. {I suggested that we put up simple signs in Malayalam}
+   result: on_track [first_answer] You reported the conversion comparison from the resume, but the answer did not establish the exact counts behind the figure. {I divided the buyers by total samplers}
+   followup: on_track [null] You explained the calculation method, but could not provide the exact counts used to produce the conversion figure. {I don’t remember the exact numbers now}
+   went_well: You named a concrete decision you made and connected it to shopper feedback and communication. {I suggested that we put up simple signs in Malayalam}
+   to_fix: The calculation method was clear, but the missing counts made the reported conversion figure harder to verify. An interviewer would notice that the result was not fully supported by the explanation. {I don’t remember the exact numbers now}
+   plan: ["State the objective: increase trial and purchase for a millet range that was not moving from the shelf.","Say which parts you handled, including customer approach, feedback tracking, and the Malayalam shelf-talk suggestion.","Explain that conversion was buyers divided by people who tasted samples, then give the exact counts if you can confirm them.","End with the comparison between sampling and the shelf-only period and what changed in stores."]
+   stronger: I calculated conversion by dividing the number of buyers by the total number of people who tasted the samples. The sampling footfall converted at eighteen percent compared with eleven percent during the shelf-only week. I also tracked shopper feedback and suggested Malayalam shelf talkers, which were printed for the Kochi stores. The exact counts were [number of buyers] out of [number of samplers].
+
+-- s3 verdict=on_track q=Understood. Let’s move to a different situation. Tell me about a time you disagreed with your team or took a stance.
+   situation: good_job [first_answer] You gave a specific disagreement about choosing performances for the college fest. {there was once a disagreement about which external artists to invite}
+   task: good_job [first_answer] You stated the position you personally took: choosing a classical act for the audience. {I felt a classical act would reach more of our audience}
+   action: good_job [after_follow_up] You described listening to both sides and proposing a split between the two performance types. {I suggested maybe we can split the performance slots}
+   result: on_track [first_answer] You explained that the discussion ended in a compromise, but did not describe the event outcome or how the decision worked in practice. {it was a compromise}
+   followup: good_job [null] You answered what you did first by describing how you gathered views and moved toward common ground. {}
+   went_well: You showed a clear first step after stating your view: hearing the reasons behind other positions before suggesting a decision. {}
+   to_fix: The answer stopped at the decision and did not show what happened after the compromise. The interviewer would want to know whether the combined plan worked for the fest and audience. {it was a compromise}
+   plan: ["Set the situation in the cultural committee and state the disagreement about the fest performances.","Explain why you supported a classical act and how you first gathered the team’s views.","Describe the combined performance plan you proposed and how the team agreed to it.","End with [what changed at the fest or how the audience responded]."]
+   stronger: During my cultural committee work, the team disagreed about which external artists to invite for the fest. I felt a classical act would reach more of our audience, so I explained my view and asked everyone to share their reasons. I then suggested splitting the performance slots between both types so everyone felt included. The result was a compromise, and [describe how the final programme worked or how the audience responded].
+
+-- s4 verdict=on_track q=Let’s turn to your leadership experience. What was the hardest part of leading the cultural committee’s annual fest?
+   situation: good_job [first_answer] You identified the challenge as coordinating logistics, finance, promotions, and volunteers for the annual fest. {managing the coordination between so many different teams}
+   task: good_job [after_follow_up] You explained that you were responsible for coordinating the promotions and volunteer teams, while checking progress in other areas. {I was involved in coordinating with the promotions and volunteer teams}
+   action: good_job [after_follow_up] You gave a concrete scheduling process using a WhatsApp group, a Google Form, and assigned time slots. {assigned time slots for everyone based on their availability}
+   result: on_track [after_follow_up] You explained how the schedule could avoid confusion, but did not state whether attendance, coverage, or event execution actually improved. {we could avoid confusion}
+   followup: good_job [null] You answered both follow-ups directly by naming your areas of responsibility and the first scheduling step. {make a WhatsApp group with all the volunteers}
+   went_well: You gave a specific coordination process rather than only saying that you kept people aligned. {assigned time slots for everyone based on their availability}
+   to_fix: This describes the intended benefit of the schedule but not what happened afterward. The answer needed evidence that volunteers were covered and the event stayed on track. {we could avoid confusion}
+   plan: ["State that the hardest challenge was coordinating several teams while members had competing college commitments.","Clarify that you personally coordinated promotions and volunteers, rather than claiming responsibility for finance and logistics planning.","End with [how volunteer coverage or event execution changed] and connect it to the fest’s final outcome."]
+   stronger: The hardest part was coordinating different teams while everyone was managing college work. I coordinated the promotions and volunteer teams, collected volunteer availability through a Google Form, and assigned event time slots in a WhatsApp group. This gave everyone a shared schedule and helped avoid confusion. The result was [what happened with volunteer coverage or event execution].
+
+-- second_chance_k1 verdict=on_track q=Let’s try a different marketing example. Tell me about another time you had to understand what customers wanted or improve how something was presented.
+   situation: good_job [first_answer] You gave a specific Biocon situation involving research into cold-chain failures in insulin distribution in South India. {a small literature summary about cold-chain failures}
+   task: good_job [first_answer] You explained that you needed to understand common transport issues and present the findings in a usable way. {what kind of issues usually happen when insulin gets transported}
+   action: on_track [first_answer] You described consulting staff, researching cases, and presenting the findings in an accessible format. {I tried to present those findings in a way that would be easy}
+   result: good_job [after_follow_up] You reported that the mentor found the summary helpful and used some cases in team discussions, while being clear that you did not know the longer-term impact. {they used some of the cases I found for their team discussions}
+   followup: good_job [null] You answered the follow-up with the immediate use of the summary and honestly limited the claim to what you knew. {my mentor actually said it was helpful}
+   went_well: You gave a clear immediate outcome and did not claim knowledge of results you had not observed. {they used some of the cases I found for their team discussions}
+   to_fix: This disclaimer weakened a relevant example by framing it as unsuitable before explaining its customer or user insight. The answer would be clearer if it focused on how you gathered information and made it useful to others. {I don’t have a very marketing-heavy example apart from that}
+   plan: ["Start with the Biocon problem: understanding cold-chain failures affecting insulin distribution in South India.","Explain that you consulted staff, researched cases, and shaped the summary for your mentor and team.","State what the team did with it: the mentor found it helpful and some cases were used in discussions.","Clarify that you do not know the longer-term impact, then link the experience to presenting complex information clearly."]
+   stronger: During my Biocon internship, I researched cold-chain failures affecting insulin distribution in South India. I consulted staff about common transport issues, reviewed the relevant cases, and presented the findings in a format that was easy for my mentor and team to use. My mentor said the summary was helpful, and some of the cases were used in team discussions. I do not know the longer-term impact because my internship ended soon after.
+
+jd_coverage: []

@@ -1,0 +1,610 @@
+{
+  "id": "2026-11-09-5f19b3e7",
+  "created_at": "2026-11-09T06:58:21.584Z",
+  "status": "active",
+  "inputs": {
+    "resume_text": "Ishaan Kulkarni\nPGP 2025-27 | Indian Institute of Management Ahmedabad\n\nEDUCATION\nPGP, IIM Ahmedabad, 2025-27, CGPA 3.0/4.33\nB.Tech, Chemical Engineering, IIT Bombay, 2021, 8.0/10\n\nWORK EXPERIENCE (36 months)\nAsian Paints, Ankleshwar plant | Production Engineer | Jul 2021 - Jun 2024\n- Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%\n- Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes\n- Coordinated with the union committee during a 3-day contract-worker stoppage in 2023\n\nSUMMER INTERNSHIP\nAditya Birla Group, Group Executive Office | Strategy Intern | Apr - Jun 2026\n- Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study\n- Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions\n\nPOSITIONS OF RESPONSIBILITY\n- Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat\n- Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore\n\nEXTRACURRICULAR\n- Completed the Ladakh Marathon (2023)",
+    "jd_text": "",
+    "target_role": "",
+    "domain": "General Management",
+    "stage": "finals",
+    "market": "india",
+    "interview_type": "hiring_manager",
+    "style": "balanced",
+    "length": "standard",
+    "seed": 346511
+  },
+  "style": "balanced",
+  "surprise": false,
+  "seed": 346511,
+  "settings": {
+    "planner_model": "gpt-5.6-luna",
+    "planner_effort": "medium",
+    "turn_model": "gpt-5.6-luna",
+    "turn_effort": "low"
+  },
+  "plan": {
+    "candidate": {
+      "name": "Ishaan",
+      "experience_level": "early",
+      "current_or_last_role": "PGP student, IIM Ahmedabad",
+      "resume_band": "upper",
+      "band_reason": "The resume shows clear ownership, quantified operational results, meaningful scale and specific business recommendations across work, internship and leadership roles."
+    },
+    "jd": {
+      "present": false,
+      "company": null,
+      "role_title": null,
+      "role_family": "other",
+      "seniority": null,
+      "must_haves": [],
+      "nice_to_haves": [],
+      "stated_values": []
+    },
+    "mismatch": {
+      "is_mismatch": false,
+      "note": ""
+    },
+    "claims": [
+      {
+        "id": "c1",
+        "text": "Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%",
+        "parent": "Production Engineer, Asian Paints, Ankleshwar plant",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "scale",
+          "ownership verb"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 3,
+        "grounded": true
+      },
+      {
+        "id": "c2",
+        "text": "Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes",
+        "parent": "Production Engineer, Asian Paints, Ankleshwar plant",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "ownership verb"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 4,
+        "grounded": true
+      },
+      {
+        "id": "c3",
+        "text": "Coordinated with the union committee during a 3-day contract-worker stoppage in 2023",
+        "parent": "Production Engineer, Asian Paints, Ankleshwar plant",
+        "type": "collaboration",
+        "strength": "moderate",
+        "strength_signals": [
+          "stakeholder context",
+          "specific event"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 2,
+        "grounded": true
+      },
+      {
+        "id": "c4",
+        "text": "Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study",
+        "parent": "Strategy Intern, Aditya Birla Group, Group Executive Office",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "specific scope",
+          "recommendation",
+          "business judgment"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 1,
+        "grounded": true
+      },
+      {
+        "id": "c5",
+        "text": "Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions",
+        "parent": "Strategy Intern, Aditya Birla Group, Group Executive Office",
+        "type": "technical",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified scale",
+          "quantified result",
+          "named financial metric"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 5,
+        "grounded": true
+      },
+      {
+        "id": "c6",
+        "text": "Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat",
+        "parent": "Secretary, Rural Immersion Program, IIM Ahmedabad",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "leadership title",
+          "quantified scale",
+          "ownership verb"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 6,
+        "grounded": true
+      },
+      {
+        "id": "c7",
+        "text": "Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore",
+        "parent": "Head, Hostel Mess Committee, IIT Bombay",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "leadership title",
+          "quantified scale",
+          "budget ownership"
+        ],
+        "weak_flags": [
+          "inflated_scope"
+        ],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 7,
+        "grounded": true
+      },
+      {
+        "id": "c8",
+        "text": "Completed the Ladakh Marathon (2023)",
+        "parent": "Extracurricular",
+        "type": "other",
+        "strength": "weak",
+        "strength_signals": [
+          "specific achievement"
+        ],
+        "weak_flags": [
+          "no_result"
+        ],
+        "relevance": "low",
+        "distinctive": true,
+        "probe_angle": "find_substance",
+        "rank": 8,
+        "grounded": true
+      }
+    ],
+    "competencies": [
+      {
+        "id": "k1",
+        "name": "Problem solving and execution",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c2"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k2",
+        "name": "Stakeholder management",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c3",
+          "c6"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k3",
+        "name": "Business judgment",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c4",
+          "c5"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k4",
+        "name": "Leadership and people management",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c2",
+          "c6",
+          "c7"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k5",
+        "name": "Analytical decision-making",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c4",
+          "c5"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k6",
+        "name": "Motivation and fit",
+        "source": "always",
+        "must_have": false,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      }
+    ],
+    "concerns": [
+      {
+        "type": "switch",
+        "detail": "The candidate is moving from plant production engineering toward general management after an MBA and a strategy internship."
+      }
+    ],
+    "warmup_question": "What has kept you busy in the last few weeks at IIM Ahmedabad?",
+    "background_question": "Walk me through your career so far, from Asian Paints through your MBA and summer internship.",
+    "slots": [
+      {
+        "id": "s1",
+        "kind": "claim",
+        "competency_id": "k3",
+        "anchor_claim_id": "c4",
+        "question_type": "past_behaviour",
+        "core_question": "What were you trying to solve during your strategy internship at Aditya Birla Group?",
+        "intent_private": "Needs the business question behind the adjacency review, Ishaan's personal analysis and recommendation process, the evidence supporting specialty adhesives, and what the deeper study indicates about the work's impact.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which part of the recommendation was your decision?",
+          "What alternative did you decide against?",
+          "What evidence supported the specialty adhesives recommendation?"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "s2",
+        "kind": "claim",
+        "competency_id": "k2",
+        "anchor_claim_id": "c3",
+        "question_type": "past_behaviour",
+        "core_question": "Tell me about the contract-worker stoppage you handled at Asian Paints.",
+        "intent_private": "Needs a specific account of the stoppage, Ishaan's role with the union committee, the stakeholder trade-offs he managed, and the outcome of his actions.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "What did you do first when the stoppage began?",
+          "Which decision was yours during the discussions?",
+          "How long did the stoppage last after your intervention?"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "s3",
+        "kind": "gap",
+        "competency_id": "k3",
+        "anchor_claim_id": null,
+        "question_type": "knowledge",
+        "core_question": "How would you decide whether to invest in a new business adjacency when the market data is limited?",
+        "intent_private": "Needs a structured approach to market attractiveness, customer need, capabilities, economics and downside risk, with a clear trade-off between speed of learning and commitment of capital.",
+        "probe_angle": "find_substance",
+        "technical_focus": false,
+        "likely_probes": [
+          "Why would you use that approach over relying mainly on financial projections?",
+          "When would you decide not to pursue the adjacency?",
+          "How did you handle limited evidence in your own adjacency work?"
+        ],
+        "priority": 3
+      },
+      {
+        "id": "s4",
+        "kind": "motivation",
+        "competency_id": "k6",
+        "anchor_claim_id": null,
+        "question_type": "motivation",
+        "core_question": "After three years in plant production and a strategy internship, what is pulling you toward general management?",
+        "intent_private": "Needs a coherent reason for the move from production to general management, tied to Ishaan's own operating and strategy experiences and to the type of work he seeks next.",
+        "probe_angle": "none",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which experience most influenced this move?",
+          "What part of general management work are you trying to build next?",
+          "How does your plant experience prepare you for that work?"
+        ],
+        "priority": 4
+      }
+    ],
+    "plan_notes": "The plan prioritizes the strategy internship, a high-stakes stakeholder situation at the plant, and an applied business-judgment question suitable for a final-round MBA general management discussion. The motivation question neutrally covers the clear move from plant production into general management; the resume otherwise has strong quantified evidence and no clearly documentable gap or short stint."
+  },
+  "plan_trace": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "attempts": 1,
+    "started_at": "2026-11-09T06:57:56.928Z",
+    "latency_ms": 24656,
+    "usage": {
+      "prompt_tokens": 7302,
+      "completion_tokens": 2801,
+      "total_tokens": 10103,
+      "prompt_tokens_details": {
+        "cached_tokens": 6879,
+        "cache_write_tokens": 420,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1014,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "raw_response": "{\"candidate\":{\"name\":\"Ishaan\",\"experience_level\":\"early\",\"current_or_last_role\":\"PGP student, IIM Ahmedabad\",\"resume_band\":\"upper\",\"band_reason\":\"The resume shows clear ownership, quantified operational results, meaningful scale and specific business recommendations across work, internship and leadership roles.\"},\"jd\":{\"present\":false,\"company\":null,\"role_title\":null,\"role_family\":\"other\",\"seniority\":null,\"must_haves\":[],\"nice_to_haves\":[],\"stated_values\":[]},\"mismatch\":{\"is_mismatch\":false,\"note\":\"\"},\"claims\":[{\"id\":\"c1\",\"text\":\"Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%\",\"parent\":\"Production Engineer, Asian Paints, Ankleshwar plant\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"scale\",\"ownership verb\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":3},{\"id\":\"c2\",\"text\":\"Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes\",\"parent\":\"Production Engineer, Asian Paints, Ankleshwar plant\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"ownership verb\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":4},{\"id\":\"c3\",\"text\":\"Coordinated with the union committee during a 3-day contract-worker stoppage in 2023\",\"parent\":\"Production Engineer, Asian Paints, Ankleshwar plant\",\"type\":\"collaboration\",\"strength\":\"moderate\",\"strength_signals\":[\"stakeholder context\",\"specific event\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":2},{\"id\":\"c4\",\"text\":\"Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study\",\"parent\":\"Strategy Intern, Aditya Birla Group, Group Executive Office\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"specific scope\",\"recommendation\",\"business judgment\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":1},{\"id\":\"c5\",\"text\":\"Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions\",\"parent\":\"Strategy Intern, Aditya Birla Group, Group Executive Office\",\"type\":\"technical\",\"strength\":\"strong\",\"strength_signals\":[\"quantified scale\",\"quantified result\",\"named financial metric\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":5},{\"id\":\"c6\",\"text\":\"Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat\",\"parent\":\"Secretary, Rural Immersion Program, IIM Ahmedabad\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"leadership title\",\"quantified scale\",\"ownership verb\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":6},{\"id\":\"c7\",\"text\":\"Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore\",\"parent\":\"Head, Hostel Mess Committee, IIT Bombay\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"leadership title\",\"quantified scale\",\"budget ownership\"],\"weak_flags\":[\"inflated_scope\"],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":7},{\"id\":\"c8\",\"text\":\"Completed the Ladakh Marathon (2023)\",\"parent\":\"Extracurricular\",\"type\":\"other\",\"strength\":\"weak\",\"strength_signals\":[\"specific achievement\"],\"weak_flags\":[\"no_result\"],\"relevance\":\"low\",\"distinctive\":true,\"probe_angle\":\"find_substance\",\"rank\":8}],\"competencies\":[{\"id\":\"k1\",\"name\":\"Problem solving and execution\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c2\"],\"is_gap\":false},{\"id\":\"k2\",\"name\":\"Stakeholder management\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c3\",\"c6\"],\"is_gap\":false},{\"id\":\"k3\",\"name\":\"Business judgment\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c4\",\"c5\"],\"is_gap\":false},{\"id\":\"k4\",\"name\":\"Leadership and people management\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c2\",\"c6\",\"c7\"],\"is_gap\":false},{\"id\":\"k5\",\"name\":\"Analytical decision-making\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c4\",\"c5\"],\"is_gap\":false},{\"id\":\"k6\",\"name\":\"Motivation and fit\",\"source\":\"always\",\"must_have\":false,\"evidence_claim_ids\":[],\"is_gap\":true}],\"concerns\":[{\"type\":\"switch\",\"detail\":\"The candidate is moving from plant production engineering toward general management after an MBA and a strategy internship.\"}],\"warmup_question\":\"What has kept you busy in the last few weeks at IIM Ahmedabad?\",\"background_question\":\"Walk me through your career so far, from Asian Paints through your MBA and summer internship.\",\"slots\":[{\"id\":\"s1\",\"kind\":\"claim\",\"competency_id\":\"k3\",\"anchor_claim_id\":\"c4\",\"question_type\":\"past_behaviour\",\"core_question\":\"What were you trying to solve during your strategy internship at Aditya Birla Group?\",\"intent_private\":\"Needs the business question behind the adjacency review, Ishaan's personal analysis and recommendation process, the evidence supporting specialty adhesives, and what the deeper study indicates about the work's impact.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"Which part of the recommendation was your decision?\",\"What alternative did you decide against?\",\"What evidence supported the specialty adhesives recommendation?\"],\"priority\":1},{\"id\":\"s2\",\"kind\":\"claim\",\"competency_id\":\"k2\",\"anchor_claim_id\":\"c3\",\"question_type\":\"past_behaviour\",\"core_question\":\"Tell me about the contract-worker stoppage you handled at Asian Paints.\",\"intent_private\":\"Needs a specific account of the stoppage, Ishaan's role with the union committee, the stakeholder trade-offs he managed, and the outcome of his actions.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"What did you do first when the stoppage began?\",\"Which decision was yours during the discussions?\",\"How long did the stoppage last after your intervention?\"],\"priority\":2},{\"id\":\"s3\",\"kind\":\"gap\",\"competency_id\":\"k3\",\"anchor_claim_id\":null,\"question_type\":\"knowledge\",\"core_question\":\"How would you decide whether to invest in a new business adjacency when the market data is limited?\",\"intent_private\":\"Needs a structured approach to market attractiveness, customer need, capabilities, economics and downside risk, with a clear trade-off between speed of learning and commitment of capital.\",\"probe_angle\":\"find_substance\",\"technical_focus\":false,\"likely_probes\":[\"Why would you use that approach over relying mainly on financial projections?\",\"When would you decide not to pursue the adjacency?\",\"How did you handle limited evidence in your own adjacency work?\"],\"priority\":3},{\"id\":\"s4\",\"kind\":\"motivation\",\"competency_id\":\"k6\",\"anchor_claim_id\":null,\"question_type\":\"motivation\",\"core_question\":\"After three years in plant production and a strategy internship, what is pulling you toward general management?\",\"intent_private\":\"Needs a coherent reason for the move from production to general management, tied to Ishaan's own operating and strategy experiences and to the type of work he seeks next.\",\"probe_angle\":\"none\",\"technical_focus\":false,\"likely_probes\":[\"Which experience most influenced this move?\",\"What part of general management work are you trying to build next?\",\"How does your plant experience prepare you for that work?\"],\"priority\":4}],\"plan_notes\":\"The plan prioritizes the strategy internship, a high-stakes stakeholder situation at the plant, and an applied business-judgment question suitable for a final-round MBA general management discussion. The motivation question neutrally covers the clear move from plant production into general management; the resume otherwise has strong quantified evidence and no clearly documentable gap or short stint.\"}",
+    "request_user_message": "{\"target_role\":\"domain: General Management\",\"interview_type\":\"hiring_manager\",\"placement_stage\":\"finals\",\"market\":\"india\",\"interviewer_style\":\"balanced\",\"scored_slot_count\":4,\"variation_seed\":346511,\"warmup_angle\":\"what has kept them busy in the last few weeks, at work or in their studies\",\"fit_angle\":\"what their team or classmates would say is their biggest strength\",\"resume_text\":\"Ishaan Kulkarni\\nPGP 2025-27 | Indian Institute of Management Ahmedabad\\n\\nEDUCATION\\nPGP, IIM Ahmedabad, 2025-27, CGPA 3.0/4.33\\nB.Tech, Chemical Engineering, IIT Bombay, 2021, 8.0/10\\n\\nWORK EXPERIENCE (36 months)\\nAsian Paints, Ankleshwar plant | Production Engineer | Jul 2021 - Jun 2024\\n- Ran the emulsion section on rotating shifts with 35 operators; raised batch yield from 92.1% to 95.4%\\n- Led a Kaizen team that cut changeover time on the tinting line from 70 to 40 minutes\\n- Coordinated with the union committee during a 3-day contract-worker stoppage in 2023\\n\\nSUMMER INTERNSHIP\\nAditya Birla Group, Group Executive Office | Strategy Intern | Apr - Jun 2026\\n- Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study\\n- Built the business case for a 50 KTPA plant; IRR of 19% under base-case assumptions\\n\\nPOSITIONS OF RESPONSIBILITY\\n- Secretary, Rural Immersion Program, IIM Ahmedabad: placed 80 students with 14 NGOs in Gujarat\\n- Head, Hostel Mess Committee, IIT Bombay (2019-20): managed a budget of INR 1.2 crore\\n\\nEXTRACURRICULAR\\n- Completed the Ladakh Marathon (2023)\",\"jd_text\":\"\"}"
+  },
+  "plan_checks": [
+    {
+      "level": "ok",
+      "message": "All claims are quoted from the resume and all topics are valid."
+    }
+  ],
+  "slots": [
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "What has kept you busy in the last few weeks at IIM Ahmedabad?",
+      "intent_private": "Warm-up to settle in. Not assessed.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "active",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "warmup",
+      "kind": "warmup",
+      "budget": 0
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "Walk me through your career so far, from Asian Paints through your MBA and summer internship.",
+      "intent_private": "A coherent overview of the candidate's path; may surface threads for later topics.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "background",
+      "kind": "background",
+      "budget": 1
+    },
+    {
+      "competency_id": "k3",
+      "competency_name": "Business judgment",
+      "must_have": true,
+      "anchor_claim_id": "c4",
+      "anchor_text": "Evaluated 3 adjacencies for the group's chemicals business; recommended specialty adhesives, now under deeper study",
+      "anchor_parent": "Strategy Intern, Aditya Birla Group, Group Executive Office",
+      "question_type": "past_behaviour",
+      "core_question": "What were you trying to solve during your strategy internship at Aditya Birla Group?",
+      "intent_private": "Needs the business question behind the adjacency review, Ishaan's personal analysis and recommendation process, the evidence supporting specialty adhesives, and what the deeper study indicates about the work's impact.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which part of the recommendation was your decision?",
+        "What alternative did you decide against?",
+        "What evidence supported the specialty adhesives recommendation?"
+      ],
+      "priority": 1,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s1",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k2",
+      "competency_name": "Stakeholder management",
+      "must_have": true,
+      "anchor_claim_id": "c3",
+      "anchor_text": "Coordinated with the union committee during a 3-day contract-worker stoppage in 2023",
+      "anchor_parent": "Production Engineer, Asian Paints, Ankleshwar plant",
+      "question_type": "past_behaviour",
+      "core_question": "Tell me about the contract-worker stoppage you handled at Asian Paints.",
+      "intent_private": "Needs a specific account of the stoppage, Ishaan's role with the union committee, the stakeholder trade-offs he managed, and the outcome of his actions.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "What did you do first when the stoppage began?",
+        "Which decision was yours during the discussions?",
+        "How long did the stoppage last after your intervention?"
+      ],
+      "priority": 2,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s2",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k3",
+      "competency_name": "Business judgment",
+      "must_have": true,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "knowledge",
+      "core_question": "How would you decide whether to invest in a new business adjacency when the market data is limited?",
+      "intent_private": "Needs a structured approach to market attractiveness, customer need, capabilities, economics and downside risk, with a clear trade-off between speed of learning and commitment of capital.",
+      "probe_angle": "find_substance",
+      "technical_focus": false,
+      "likely_probes": [
+        "Why would you use that approach over relying mainly on financial projections?",
+        "When would you decide not to pursue the adjacency?",
+        "How did you handle limited evidence in your own adjacency work?"
+      ],
+      "priority": 3,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s3",
+      "kind": "gap",
+      "budget": 2
+    },
+    {
+      "competency_id": "k6",
+      "competency_name": "Motivation and fit",
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "motivation",
+      "core_question": "After three years in plant production and a strategy internship, what is pulling you toward general management?",
+      "intent_private": "Needs a coherent reason for the move from production to general management, tied to Ishaan's own operating and strategy experiences and to the type of work he seeks next.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which experience most influenced this move?",
+        "What part of general management work are you trying to build next?",
+        "How does your plant experience prepare you for that work?"
+      ],
+      "priority": 4,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s4",
+      "kind": "motivation",
+      "budget": 1
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "",
+      "intent_private": "Candidate asks their questions.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "candidate_questions",
+      "kind": "candidate_questions",
+      "budget": 2
+    }
+  ],
+  "current": 0,
+  "transcript": [
+    {
+      "role": "interviewer",
+      "text": "Hi Ishaan, thanks for making the time. I'm on the team hiring for this role. Over the next 15 minutes or so I'd like to go into your experience, and you'll have time for questions at the end. What has kept you busy in the last few weeks at IIM Ahmedabad?",
+      "slot_id": "warmup",
+      "why": "This was a warm-up question to help you settle in. It isn't part of the feedback.",
+      "at": "2026-11-09T06:58:21.585Z"
+    }
+  ],
+  "turns": [],
+  "events": [],
+  "interviewer_turns": 1,
+  "max_turns": 20,
+  "candidate_questions_asked": 0,
+  "second_chances": {},
+  "opening_greeting": "Hi Ishaan, thanks for making the time. I'm on the team hiring for this role. Over the next 15 minutes or so I'd like to go into your experience, and you'll have time for questions at the end."
+}

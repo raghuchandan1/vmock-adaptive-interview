@@ -1,0 +1,643 @@
+{
+  "id": "2026-11-09-383e7635",
+  "created_at": "2026-11-09T06:57:56.447Z",
+  "status": "active",
+  "inputs": {
+    "resume_text": "Meera Krishnan\nPGP 2025-27, Indian Institute of Management Kozhikode | meerak@iimk.edu.in\n\nEDUCATION\nPGP, IIM Kozhikode, 2025-27, CGPA 7.6/10\nB.E., Electronics and Communication, PSG College of Technology, Coimbatore, 2018, 8.2/10\n\nWORK EXPERIENCE\nMu Sigma, Bengaluru | Decision Scientist | Jul 2018 - Feb 2022\n- Built a weekly demand forecasting model in R for a US retailer's 1,800 stores; forecast error (MAPE) fell from 22% to 14%\n- Automated a markdown-optimisation report in SQL and Tableau used by 40 category managers\n- Trained 9 new joiners on the client's data model\nCareer break | Mar 2022 - May 2023\nFreelance Data Analyst (part-time) | Jun 2023 - Mar 2025\n- Built dashboards for 3 small D2C brands on Shopify data; one brand used my cohort analysis to cut discount spend by 15%\n\nSUMMER INTERNSHIP\nICICI Bank | Business Analytics Intern, Retail Liabilities | Apr - Jun 2026\n- Built a savings-account attrition early-warning score; top-decile customers were 4.2x more likely to close the account in 90 days\n- Recommended a branch call-back list for 2 regions; the bank piloted it in Chennai\n\nPOSITIONS OF RESPONSIBILITY\n- Co-lead, Analytics Club (Cognizance), IIM Kozhikode",
+    "jd_text": "Business Analyst - Customer Analytics\nKestrel Retail (Mumbai)\n\nKestrel Retail runs 600 grocery and fashion stores across India and a growing app business.\n\nResponsibilities\n- Build customer segmentation and churn models that drive marketing campaigns\n- Partner with category and marketing teams to size opportunities and measure campaign impact\n- Own weekly business reviews: KPIs, root-cause analysis and recommendations\n- Write clean SQL and Python; build dashboards in Power BI\n\nRequirements (must have)\n- 2+ years of analytics experience\n- Strong SQL and one of Python or R\n- Experience measuring the impact of campaigns or experiments\n- Ability to explain analysis to non-technical stakeholders\nNice to have: retail or banking domain experience",
+    "target_role": "",
+    "domain": "Business Analytics",
+    "stage": "finals",
+    "market": "india",
+    "interview_type": "hiring_manager",
+    "style": "balanced",
+    "length": "standard",
+    "seed": 406577
+  },
+  "style": "balanced",
+  "surprise": false,
+  "seed": 406577,
+  "settings": {
+    "planner_model": "gpt-5.6-luna",
+    "planner_effort": "medium",
+    "turn_model": "gpt-5.6-luna",
+    "turn_effort": "low"
+  },
+  "plan": {
+    "candidate": {
+      "name": "Meera",
+      "experience_level": "early",
+      "current_or_last_role": "PGP student, Indian Institute of Management Kozhikode",
+      "resume_band": "upper",
+      "band_reason": "The resume shows clear ownership, quantified outcomes, named tools and measurable impact across analytics roles and internships."
+    },
+    "jd": {
+      "present": true,
+      "company": "Kestrel Retail",
+      "role_title": "Business Analyst - Customer Analytics",
+      "role_family": "technical",
+      "seniority": "2+ years of analytics experience",
+      "must_haves": [
+        {
+          "requirement": "Build customer segmentation and churn models that drive marketing campaigns",
+          "competency": "Customer analytics and churn modeling"
+        },
+        {
+          "requirement": "Strong SQL and one of Python or R",
+          "competency": "SQL and R-based analytics"
+        },
+        {
+          "requirement": "Experience measuring the impact of campaigns or experiments",
+          "competency": "Campaign impact measurement"
+        },
+        {
+          "requirement": "Ability to explain analysis to non-technical stakeholders",
+          "competency": "Stakeholder communication"
+        },
+        {
+          "requirement": "Own weekly business reviews: KPIs, root-cause analysis and recommendations",
+          "competency": "Business reviews and root-cause analysis"
+        }
+      ],
+      "nice_to_haves": [
+        {
+          "requirement": "Retail or banking domain experience",
+          "competency": "Retail and banking domain knowledge"
+        }
+      ],
+      "stated_values": []
+    },
+    "mismatch": {
+      "is_mismatch": false,
+      "note": ""
+    },
+    "claims": [
+      {
+        "id": "c1",
+        "text": "Built a weekly demand forecasting model in R for a US retailer's 1,800 stores; forecast error (MAPE) fell from 22% to 14%",
+        "parent": "Decision Scientist, Mu Sigma",
+        "type": "technical",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "named tool",
+          "scale",
+          "clear ownership"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 2,
+        "grounded": true
+      },
+      {
+        "id": "c2",
+        "text": "Automated a markdown-optimisation report in SQL and Tableau used by 40 category managers",
+        "parent": "Decision Scientist, Mu Sigma",
+        "type": "technical",
+        "strength": "strong",
+        "strength_signals": [
+          "named tools",
+          "scale",
+          "clear ownership"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 3,
+        "grounded": true
+      },
+      {
+        "id": "c3",
+        "text": "Trained 9 new joiners on the client's data model",
+        "parent": "Decision Scientist, Mu Sigma",
+        "type": "collaboration",
+        "strength": "moderate",
+        "strength_signals": [
+          "quantified result",
+          "clear ownership"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 6,
+        "grounded": true
+      },
+      {
+        "id": "c4",
+        "text": "Built dashboards for 3 small D2C brands on Shopify data; one brand used my cohort analysis to cut discount spend by 15%",
+        "parent": "Freelance Data Analyst",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "scale",
+          "named tool",
+          "clear ownership"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 1,
+        "grounded": true
+      },
+      {
+        "id": "c5",
+        "text": "Built a savings-account attrition early-warning score; top-decile customers were 4.2x more likely to close the account in 90 days",
+        "parent": "Business Analytics Intern, ICICI Bank",
+        "type": "technical",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "clear ownership",
+          "named business application"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 4,
+        "grounded": true
+      },
+      {
+        "id": "c6",
+        "text": "Recommended a branch call-back list for 2 regions; the bank piloted it in Chennai",
+        "parent": "Business Analytics Intern, ICICI Bank",
+        "type": "impact",
+        "strength": "moderate",
+        "strength_signals": [
+          "scale",
+          "clear ownership",
+          "real-world pilot"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 5,
+        "grounded": true
+      },
+      {
+        "id": "c7",
+        "text": "Co-lead, Analytics Club (Cognizance), IIM Kozhikode",
+        "parent": "Analytics Club, IIM Kozhikode",
+        "type": "leadership",
+        "strength": "moderate",
+        "strength_signals": [
+          "leadership title"
+        ],
+        "weak_flags": [
+          "no_result"
+        ],
+        "relevance": "medium",
+        "distinctive": false,
+        "probe_angle": "find_substance",
+        "rank": 7,
+        "grounded": true
+      }
+    ],
+    "competencies": [
+      {
+        "id": "k1",
+        "name": "Customer analytics and churn modeling",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c4",
+          "c5"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k2",
+        "name": "SQL and R-based analytics",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c2"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k3",
+        "name": "Campaign impact measurement",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c4"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k4",
+        "name": "Stakeholder communication",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c2",
+          "c3",
+          "c6"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k5",
+        "name": "Business reviews and root-cause analysis",
+        "source": "jd_must_have",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c2",
+          "c4",
+          "c6"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k6",
+        "name": "Retail and banking domain knowledge",
+        "source": "jd_nice_to_have",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c1",
+          "c5",
+          "c6"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k7",
+        "name": "Motivation and fit",
+        "source": "always",
+        "must_have": false,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      }
+    ],
+    "concerns": [
+      {
+        "type": "gap",
+        "detail": "Career break from March 2022 to May 2023, followed by part-time freelance work."
+      }
+    ],
+    "warmup_question": "What analytics skill have you picked up recently in your course, and where has it been useful?",
+    "background_question": "Walk me through your career so far, including what you focused on between February 2022 and June 2023.",
+    "slots": [
+      {
+        "id": "s1",
+        "kind": "claim",
+        "competency_id": "k1",
+        "anchor_claim_id": "c5",
+        "question_type": "past_behaviour",
+        "core_question": "I see you built an attrition early-warning score at ICICI Bank. What business decision were you trying to improve?",
+        "intent_private": "Needs the business problem, Meera's own modeling choices, how the 4.2x result was validated, and what she would do differently if rebuilding the score today.",
+        "probe_angle": "test_claim",
+        "technical_focus": true,
+        "likely_probes": [
+          "How did you decide which signals belonged in the score?",
+          "How did you test whether the score ranked customers usefully?",
+          "What would you do differently if you rebuilt the score today?"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "s2",
+        "kind": "claim",
+        "competency_id": "k3",
+        "anchor_claim_id": "c4",
+        "question_type": "past_behaviour",
+        "core_question": "Tell me about the cohort analysis you built for the D2C brands.",
+        "intent_private": "Needs the business question, Meera's analytical approach, the recommendation behind the 15% reduction in discount spend, and how that result was measured.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "What decision did the cohort analysis change?",
+          "Which comparison supported the claim that discount spend fell by 15%?",
+          "What did the brand decide not to do based on your analysis?"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "s3",
+        "kind": "gap",
+        "competency_id": "k3",
+        "anchor_claim_id": null,
+        "question_type": "knowledge",
+        "core_question": "A retention campaign targets customers flagged as likely to churn. How would you measure whether the campaign actually improved retention?",
+        "intent_private": "Needs an applied approach to incremental impact, including a suitable comparison group, selection bias, retention timing and the business value of any lift.",
+        "probe_angle": "find_substance",
+        "technical_focus": false,
+        "likely_probes": [
+          "What comparison would you use to estimate the campaign's incremental effect?",
+          "How would you handle customers selected because they already looked likely to churn?",
+          "What result would make you recommend scaling it?"
+        ],
+        "priority": 3
+      },
+      {
+        "id": "s4",
+        "kind": "motivation",
+        "competency_id": "k7",
+        "anchor_claim_id": null,
+        "question_type": "motivation",
+        "core_question": "What draws you from analytics work and your MBA to the Business Analyst role at Kestrel Retail?",
+        "intent_private": "Needs a reason tied to Meera's own analytics experience and MBA path, plus a specific connection to Kestrel's customer analytics, retail scale or team responsibilities.",
+        "probe_angle": "none",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which part of Kestrel's customer analytics work is most relevant to your experience?",
+          "What have you done during your MBA to prepare for this role?",
+          "Why is this role the right next step now?"
+        ],
+        "priority": 4
+      }
+    ],
+    "plan_notes": "The plan prioritizes the ICICI churn-scoring claim, the quantified D2C customer-analysis outcome and an applied campaign-measurement question because these best match Kestrel's customer analytics requirements. The visible career break should be covered in the background walkthrough, while the hiring-manager template uses the knowledge slot for campaign impact measurement; the resume also provides relevant retail and banking exposure but does not show Python or direct experiment ownership."
+  },
+  "plan_trace": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "attempts": 1,
+    "started_at": "2026-11-09T06:57:22.365Z",
+    "latency_ms": 34082,
+    "usage": {
+      "prompt_tokens": 7474,
+      "completion_tokens": 3825,
+      "total_tokens": 11299,
+      "prompt_tokens_details": {
+        "cached_tokens": 6879,
+        "cache_write_tokens": 592,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1871,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "raw_response": "{\"candidate\":{\"name\":\"Meera\",\"experience_level\":\"early\",\"current_or_last_role\":\"PGP student, Indian Institute of Management Kozhikode\",\"resume_band\":\"upper\",\"band_reason\":\"The resume shows clear ownership, quantified outcomes, named tools and measurable impact across analytics roles and internships.\"},\"jd\":{\"present\":true,\"company\":\"Kestrel Retail\",\"role_title\":\"Business Analyst - Customer Analytics\",\"role_family\":\"technical\",\"seniority\":\"2+ years of analytics experience\",\"must_haves\":[{\"requirement\":\"Build customer segmentation and churn models that drive marketing campaigns\",\"competency\":\"Customer analytics and churn modeling\"},{\"requirement\":\"Strong SQL and one of Python or R\",\"competency\":\"SQL and R-based analytics\"},{\"requirement\":\"Experience measuring the impact of campaigns or experiments\",\"competency\":\"Campaign impact measurement\"},{\"requirement\":\"Ability to explain analysis to non-technical stakeholders\",\"competency\":\"Stakeholder communication\"},{\"requirement\":\"Own weekly business reviews: KPIs, root-cause analysis and recommendations\",\"competency\":\"Business reviews and root-cause analysis\"}],\"nice_to_haves\":[{\"requirement\":\"Retail or banking domain experience\",\"competency\":\"Retail and banking domain knowledge\"}],\"stated_values\":[]},\"mismatch\":{\"is_mismatch\":false,\"note\":\"\"},\"claims\":[{\"id\":\"c1\",\"text\":\"Built a weekly demand forecasting model in R for a US retailer's 1,800 stores; forecast error (MAPE) fell from 22% to 14%\",\"parent\":\"Decision Scientist, Mu Sigma\",\"type\":\"technical\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"named tool\",\"scale\",\"clear ownership\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":2},{\"id\":\"c2\",\"text\":\"Automated a markdown-optimisation report in SQL and Tableau used by 40 category managers\",\"parent\":\"Decision Scientist, Mu Sigma\",\"type\":\"technical\",\"strength\":\"strong\",\"strength_signals\":[\"named tools\",\"scale\",\"clear ownership\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":3},{\"id\":\"c3\",\"text\":\"Trained 9 new joiners on the client's data model\",\"parent\":\"Decision Scientist, Mu Sigma\",\"type\":\"collaboration\",\"strength\":\"moderate\",\"strength_signals\":[\"quantified result\",\"clear ownership\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":6},{\"id\":\"c4\",\"text\":\"Built dashboards for 3 small D2C brands on Shopify data; one brand used my cohort analysis to cut discount spend by 15%\",\"parent\":\"Freelance Data Analyst\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"scale\",\"named tool\",\"clear ownership\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":1},{\"id\":\"c5\",\"text\":\"Built a savings-account attrition early-warning score; top-decile customers were 4.2x more likely to close the account in 90 days\",\"parent\":\"Business Analytics Intern, ICICI Bank\",\"type\":\"technical\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"clear ownership\",\"named business application\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":4},{\"id\":\"c6\",\"text\":\"Recommended a branch call-back list for 2 regions; the bank piloted it in Chennai\",\"parent\":\"Business Analytics Intern, ICICI Bank\",\"type\":\"impact\",\"strength\":\"moderate\",\"strength_signals\":[\"scale\",\"clear ownership\",\"real-world pilot\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":5},{\"id\":\"c7\",\"text\":\"Co-lead, Analytics Club (Cognizance), IIM Kozhikode\",\"parent\":\"Analytics Club, IIM Kozhikode\",\"type\":\"leadership\",\"strength\":\"moderate\",\"strength_signals\":[\"leadership title\"],\"weak_flags\":[\"no_result\"],\"relevance\":\"medium\",\"distinctive\":false,\"probe_angle\":\"find_substance\",\"rank\":7}],\"competencies\":[{\"id\":\"k1\",\"name\":\"Customer analytics and churn modeling\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c4\",\"c5\"],\"is_gap\":false},{\"id\":\"k2\",\"name\":\"SQL and R-based analytics\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c2\"],\"is_gap\":false},{\"id\":\"k3\",\"name\":\"Campaign impact measurement\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c4\"],\"is_gap\":false},{\"id\":\"k4\",\"name\":\"Stakeholder communication\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c2\",\"c3\",\"c6\"],\"is_gap\":false},{\"id\":\"k5\",\"name\":\"Business reviews and root-cause analysis\",\"source\":\"jd_must_have\",\"must_have\":true,\"evidence_claim_ids\":[\"c2\",\"c4\",\"c6\"],\"is_gap\":false},{\"id\":\"k6\",\"name\":\"Retail and banking domain knowledge\",\"source\":\"jd_nice_to_have\",\"must_have\":false,\"evidence_claim_ids\":[\"c1\",\"c5\",\"c6\"],\"is_gap\":false},{\"id\":\"k7\",\"name\":\"Motivation and fit\",\"source\":\"always\",\"must_have\":false,\"evidence_claim_ids\":[],\"is_gap\":true}],\"concerns\":[{\"type\":\"gap\",\"detail\":\"Career break from March 2022 to May 2023, followed by part-time freelance work.\"}],\"warmup_question\":\"What analytics skill have you picked up recently in your course, and where has it been useful?\",\"background_question\":\"Walk me through your career so far, including what you focused on between February 2022 and June 2023.\",\"slots\":[{\"id\":\"s1\",\"kind\":\"claim\",\"competency_id\":\"k1\",\"anchor_claim_id\":\"c5\",\"question_type\":\"past_behaviour\",\"core_question\":\"I see you built an attrition early-warning score at ICICI Bank. What business decision were you trying to improve?\",\"intent_private\":\"Needs the business problem, Meera's own modeling choices, how the 4.2x result was validated, and what she would do differently if rebuilding the score today.\",\"probe_angle\":\"test_claim\",\"technical_focus\":true,\"likely_probes\":[\"How did you decide which signals belonged in the score?\",\"How did you test whether the score ranked customers usefully?\",\"What would you do differently if you rebuilt the score today?\"],\"priority\":1},{\"id\":\"s2\",\"kind\":\"claim\",\"competency_id\":\"k3\",\"anchor_claim_id\":\"c4\",\"question_type\":\"past_behaviour\",\"core_question\":\"Tell me about the cohort analysis you built for the D2C brands.\",\"intent_private\":\"Needs the business question, Meera's analytical approach, the recommendation behind the 15% reduction in discount spend, and how that result was measured.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"What decision did the cohort analysis change?\",\"Which comparison supported the claim that discount spend fell by 15%?\",\"What did the brand decide not to do based on your analysis?\"],\"priority\":2},{\"id\":\"s3\",\"kind\":\"gap\",\"competency_id\":\"k3\",\"anchor_claim_id\":null,\"question_type\":\"knowledge\",\"core_question\":\"A retention campaign targets customers flagged as likely to churn. How would you measure whether the campaign actually improved retention?\",\"intent_private\":\"Needs an applied approach to incremental impact, including a suitable comparison group, selection bias, retention timing and the business value of any lift.\",\"probe_angle\":\"find_substance\",\"technical_focus\":false,\"likely_probes\":[\"What comparison would you use to estimate the campaign's incremental effect?\",\"How would you handle customers selected because they already looked likely to churn?\",\"What result would make you recommend scaling it?\"],\"priority\":3},{\"id\":\"s4\",\"kind\":\"motivation\",\"competency_id\":\"k7\",\"anchor_claim_id\":null,\"question_type\":\"motivation\",\"core_question\":\"What draws you from analytics work and your MBA to the Business Analyst role at Kestrel Retail?\",\"intent_private\":\"Needs a reason tied to Meera's own analytics experience and MBA path, plus a specific connection to Kestrel's customer analytics, retail scale or team responsibilities.\",\"probe_angle\":\"none\",\"technical_focus\":false,\"likely_probes\":[\"Which part of Kestrel's customer analytics work is most relevant to your experience?\",\"What have you done during your MBA to prepare for this role?\",\"Why is this role the right next step now?\"],\"priority\":4}],\"plan_notes\":\"The plan prioritizes the ICICI churn-scoring claim, the quantified D2C customer-analysis outcome and an applied campaign-measurement question because these best match Kestrel's customer analytics requirements. The visible career break should be covered in the background walkthrough, while the hiring-manager template uses the knowledge slot for campaign impact measurement; the resume also provides relevant retail and banking exposure but does not show Python or direct experiment ownership.\"}",
+    "request_user_message": "{\"target_role\":\"domain: Business Analytics\",\"interview_type\":\"hiring_manager\",\"placement_stage\":\"finals\",\"market\":\"india\",\"interviewer_style\":\"balanced\",\"scored_slot_count\":4,\"variation_seed\":406577,\"warmup_angle\":\"a skill they picked up recently, at work or in their course, and where it came in useful\",\"fit_angle\":\"what their team or classmates would say is their biggest strength\",\"resume_text\":\"Meera Krishnan\\nPGP 2025-27, Indian Institute of Management Kozhikode | meerak@iimk.edu.in\\n\\nEDUCATION\\nPGP, IIM Kozhikode, 2025-27, CGPA 7.6/10\\nB.E., Electronics and Communication, PSG College of Technology, Coimbatore, 2018, 8.2/10\\n\\nWORK EXPERIENCE\\nMu Sigma, Bengaluru | Decision Scientist | Jul 2018 - Feb 2022\\n- Built a weekly demand forecasting model in R for a US retailer's 1,800 stores; forecast error (MAPE) fell from 22% to 14%\\n- Automated a markdown-optimisation report in SQL and Tableau used by 40 category managers\\n- Trained 9 new joiners on the client's data model\\nCareer break | Mar 2022 - May 2023\\nFreelance Data Analyst (part-time) | Jun 2023 - Mar 2025\\n- Built dashboards for 3 small D2C brands on Shopify data; one brand used my cohort analysis to cut discount spend by 15%\\n\\nSUMMER INTERNSHIP\\nICICI Bank | Business Analytics Intern, Retail Liabilities | Apr - Jun 2026\\n- Built a savings-account attrition early-warning score; top-decile customers were 4.2x more likely to close the account in 90 days\\n- Recommended a branch call-back list for 2 regions; the bank piloted it in Chennai\\n\\nPOSITIONS OF RESPONSIBILITY\\n- Co-lead, Analytics Club (Cognizance), IIM Kozhikode\",\"jd_text\":\"Business Analyst - Customer Analytics\\nKestrel Retail (Mumbai)\\n\\nKestrel Retail runs 600 grocery and fashion stores across India and a growing app business.\\n\\nResponsibilities\\n- Build customer segmentation and churn models that drive marketing campaigns\\n- Partner with category and marketing teams to size opportunities and measure campaign impact\\n- Own weekly business reviews: KPIs, root-cause analysis and recommendations\\n- Write clean SQL and Python; build dashboards in Power BI\\n\\nRequirements (must have)\\n- 2+ years of analytics experience\\n- Strong SQL and one of Python or R\\n- Experience measuring the impact of campaigns or experiments\\n- Ability to explain analysis to non-technical stakeholders\\nNice to have: retail or banking domain experience\"}"
+  },
+  "plan_checks": [
+    {
+      "level": "warn",
+      "message": "Slot s1 wording: agenda word: \"score\""
+    },
+    {
+      "level": "warn",
+      "message": "Slot s1 wording: agenda word: \"score\""
+    },
+    {
+      "level": "warn",
+      "message": "Slot s1 wording: agenda word: \"score\""
+    },
+    {
+      "level": "warn",
+      "message": "Slot s1 wording: agenda word: \"score\""
+    }
+  ],
+  "slots": [
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "What analytics skill have you picked up recently in your course, and where has it been useful?",
+      "intent_private": "Warm-up to settle in. Not assessed.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "active",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "warmup",
+      "kind": "warmup",
+      "budget": 0
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "Walk me through your career so far, including what you focused on between February 2022 and June 2023.",
+      "intent_private": "A coherent overview of the candidate's path; may surface threads for later topics.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "background",
+      "kind": "background",
+      "budget": 1
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Customer analytics and churn modeling",
+      "must_have": true,
+      "anchor_claim_id": "c5",
+      "anchor_text": "Built a savings-account attrition early-warning score; top-decile customers were 4.2x more likely to close the account in 90 days",
+      "anchor_parent": "Business Analytics Intern, ICICI Bank",
+      "question_type": "past_behaviour",
+      "core_question": "I see you built an attrition early-warning score at ICICI Bank. What business decision were you trying to improve?",
+      "intent_private": "Needs the business problem, Meera's own modeling choices, how the 4.2x result was validated, and what she would do differently if rebuilding the score today.",
+      "probe_angle": "test_claim",
+      "technical_focus": true,
+      "likely_probes": [
+        "How did you decide which signals belonged in the score?",
+        "How did you test whether the score ranked customers usefully?",
+        "What would you do differently if you rebuilt the score today?"
+      ],
+      "priority": 1,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s1",
+      "kind": "claim",
+      "budget": 3
+    },
+    {
+      "competency_id": "k3",
+      "competency_name": "Campaign impact measurement",
+      "must_have": true,
+      "anchor_claim_id": "c4",
+      "anchor_text": "Built dashboards for 3 small D2C brands on Shopify data; one brand used my cohort analysis to cut discount spend by 15%",
+      "anchor_parent": "Freelance Data Analyst",
+      "question_type": "past_behaviour",
+      "core_question": "Tell me about the cohort analysis you built for the D2C brands.",
+      "intent_private": "Needs the business question, Meera's analytical approach, the recommendation behind the 15% reduction in discount spend, and how that result was measured.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "What decision did the cohort analysis change?",
+        "Which comparison supported the claim that discount spend fell by 15%?",
+        "What did the brand decide not to do based on your analysis?"
+      ],
+      "priority": 2,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s2",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k3",
+      "competency_name": "Campaign impact measurement",
+      "must_have": true,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "knowledge",
+      "core_question": "A retention campaign targets customers flagged as likely to churn. How would you measure whether the campaign actually improved retention?",
+      "intent_private": "Needs an applied approach to incremental impact, including a suitable comparison group, selection bias, retention timing and the business value of any lift.",
+      "probe_angle": "find_substance",
+      "technical_focus": false,
+      "likely_probes": [
+        "What comparison would you use to estimate the campaign's incremental effect?",
+        "How would you handle customers selected because they already looked likely to churn?",
+        "What result would make you recommend scaling it?"
+      ],
+      "priority": 3,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s3",
+      "kind": "gap",
+      "budget": 2
+    },
+    {
+      "competency_id": "k7",
+      "competency_name": "Motivation and fit",
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "motivation",
+      "core_question": "What draws you from analytics work and your MBA to the Business Analyst role at Kestrel Retail?",
+      "intent_private": "Needs a reason tied to Meera's own analytics experience and MBA path, plus a specific connection to Kestrel's customer analytics, retail scale or team responsibilities.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which part of Kestrel's customer analytics work is most relevant to your experience?",
+        "What have you done during your MBA to prepare for this role?",
+        "Why is this role the right next step now?"
+      ],
+      "priority": 4,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s4",
+      "kind": "motivation",
+      "budget": 1
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "",
+      "intent_private": "Candidate asks their questions.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "candidate_questions",
+      "kind": "candidate_questions",
+      "budget": 2
+    }
+  ],
+  "current": 0,
+  "transcript": [
+    {
+      "role": "interviewer",
+      "text": "Hi Meera, thanks for making the time. I'm on the team hiring for the Business Analyst - Customer Analytics role at Kestrel Retail. Over the next 15 minutes or so I'd like to go into your experience, and you'll have time for questions at the end. What analytics skill have you picked up recently in your course, and where has it been useful?",
+      "slot_id": "warmup",
+      "why": "This was a warm-up question to help you settle in. It isn't part of the feedback.",
+      "at": "2026-11-09T06:57:56.447Z"
+    }
+  ],
+  "turns": [],
+  "events": [],
+  "interviewer_turns": 1,
+  "max_turns": 20,
+  "candidate_questions_asked": 0,
+  "second_chances": {},
+  "opening_greeting": "Hi Meera, thanks for making the time. I'm on the team hiring for the Business Analyst - Customer Analytics role at Kestrel Retail. Over the next 15 minutes or so I'd like to go into your experience, and you'll have time for questions at the end."
+}

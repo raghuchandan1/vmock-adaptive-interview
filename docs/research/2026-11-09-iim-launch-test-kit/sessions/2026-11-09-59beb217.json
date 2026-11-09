@@ -1,0 +1,645 @@
+{
+  "id": "2026-11-09-59beb217",
+  "created_at": "2026-11-09T06:59:27.029Z",
+  "status": "active",
+  "inputs": {
+    "resume_text": "KABIR MALHOTRA\nPGP 2025-27 | Indian Institute of Management Calcutta | kabirm2027@email.iimcal.ac.in\n\nACADEMIC QUALIFICATIONS\nPGP, IIM Calcutta, 2025-27, CGPA 8.2/10 (Top 10% of batch)\nB.Com (Hons), Shri Ram College of Commerce, 2025, 9.1/10 (Rank 3)\nCAT 2024: 99.86 percentile\n\nSUMMER INTERNSHIP\nBain & Company, New Delhi | Summer Associate | Apr - Jun 2026\n- Market-entry assessment for a Japanese two-wheeler EV maker in India: sized the electric scooter market across 40 cities and built a city-prioritisation model on charging density and ownership cost\n- Interviewed 35 dealers and 12 fleet operators; findings shifted the client's launch city list from Delhi NCR first to Pune and Bengaluru first\n- Received Pre-Placement Offer (PPO)\n\nCORPORATE INTERNSHIP\nKotak Mahindra Bank | Strategy Intern | May - Jul 2024\n- Benchmarked 6 private banks' credit card rewards programs and recommended cutting 2 low-use reward categories\n\nCASE COMPETITIONS\n- National Winner, HUL L.I.M.E. Season 16 (2026): rural distribution of a premium detergent; 1 of 3 winners from 21,000 teams\n- National Finalist, Flipkart WiRED 7.0 (2025)\n- Campus Winner, ITC Interrobang Season 14 (2025)\n\nPOSITIONS OF RESPONSIBILITY\n- Coordinator, Consult Club, IIM Calcutta: ran 12 case-prep sessions for 140 first-years\n- General Secretary, Commerce Society, SRCC (2023-24): led a 30-member team; raised INR 8 lakh in sponsorship for the annual fest\n\nEXTRACURRICULAR\n- State-level chess player (Delhi, U-19)",
+    "jd_text": "",
+    "target_role": "",
+    "domain": "Strategy and Consulting",
+    "stage": "finals",
+    "market": "india",
+    "interview_type": "hiring_manager",
+    "style": "balanced",
+    "length": "standard",
+    "seed": 198971
+  },
+  "style": "balanced",
+  "surprise": false,
+  "seed": 198971,
+  "settings": {
+    "planner_model": "gpt-5.6-luna",
+    "planner_effort": "medium",
+    "turn_model": "gpt-5.6-luna",
+    "turn_effort": "low"
+  },
+  "plan": {
+    "candidate": {
+      "name": "Kabir",
+      "experience_level": "fresher",
+      "current_or_last_role": "PGP student, IIM Calcutta",
+      "resume_band": "upper",
+      "band_reason": "The resume shows highly specific, quantified achievements with clear ownership across consulting, leadership and competitions."
+    },
+    "jd": {
+      "present": false,
+      "company": null,
+      "role_title": null,
+      "role_family": "other",
+      "seniority": null,
+      "must_haves": [],
+      "nice_to_haves": [],
+      "stated_values": []
+    },
+    "mismatch": {
+      "is_mismatch": false,
+      "note": ""
+    },
+    "claims": [
+      {
+        "id": "c1",
+        "text": "Market-entry assessment for a Japanese two-wheeler EV maker in India: sized the electric scooter market across 40 cities and built a city-prioritisation model on charging density and ownership cost",
+        "parent": "Summer Associate, Bain & Company",
+        "type": "technical",
+        "strength": "strong",
+        "strength_signals": [
+          "scale",
+          "specific analytical approach",
+          "ownership verb"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 1,
+        "grounded": true
+      },
+      {
+        "id": "c2",
+        "text": "Interviewed 35 dealers and 12 fleet operators; findings shifted the client's launch city list from Delhi NCR first to Pune and Bengaluru first",
+        "parent": "Summer Associate, Bain & Company",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified result",
+          "stakeholder scale",
+          "clear outcome"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 2,
+        "grounded": true
+      },
+      {
+        "id": "c3",
+        "text": "Received Pre-Placement Offer (PPO)",
+        "parent": "Summer Associate, Bain & Company",
+        "type": "impact",
+        "strength": "moderate",
+        "strength_signals": [
+          "recognition",
+          "clear outcome"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 8,
+        "grounded": true
+      },
+      {
+        "id": "c4",
+        "text": "Benchmarked 6 private banks' credit card rewards programs and recommended cutting 2 low-use reward categories",
+        "parent": "Strategy Intern, Kotak Mahindra Bank",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified scope",
+          "specific recommendation"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 3,
+        "grounded": true
+      },
+      {
+        "id": "c5",
+        "text": "National Winner, HUL L.I.M.E. Season 16 (2026): rural distribution of a premium detergent; 1 of 3 winners from 21,000 teams",
+        "parent": "HUL L.I.M.E. Season 16",
+        "type": "other",
+        "strength": "strong",
+        "strength_signals": [
+          "national result",
+          "scale",
+          "distinctive achievement"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 5,
+        "grounded": true
+      },
+      {
+        "id": "c6",
+        "text": "National Finalist, Flipkart WiRED 7.0 (2025)",
+        "parent": "Flipkart WiRED 7.0",
+        "type": "other",
+        "strength": "moderate",
+        "strength_signals": [
+          "national result"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 7,
+        "grounded": true
+      },
+      {
+        "id": "c7",
+        "text": "Campus Winner, ITC Interrobang Season 14 (2025)",
+        "parent": "ITC Interrobang Season 14",
+        "type": "other",
+        "strength": "moderate",
+        "strength_signals": [
+          "winner result"
+        ],
+        "weak_flags": [],
+        "relevance": "medium",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 9,
+        "grounded": true
+      },
+      {
+        "id": "c8",
+        "text": "Coordinator, Consult Club, IIM Calcutta: ran 12 case-prep sessions for 140 first-years",
+        "parent": "Consult Club, IIM Calcutta",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "ownership verb",
+          "quantified scale",
+          "teaching responsibility"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 4,
+        "grounded": true
+      },
+      {
+        "id": "c9",
+        "text": "General Secretary, Commerce Society, SRCC (2023-24): led a 30-member team; raised INR 8 lakh in sponsorship for the annual fest",
+        "parent": "Commerce Society, SRCC",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "leadership scope",
+          "quantified result",
+          "ownership verb"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 6,
+        "grounded": true
+      },
+      {
+        "id": "c10",
+        "text": "State-level chess player (Delhi, U-19)",
+        "parent": "Chess",
+        "type": "other",
+        "strength": "moderate",
+        "strength_signals": [
+          "competitive achievement"
+        ],
+        "weak_flags": [
+          "no_result"
+        ],
+        "relevance": "low",
+        "distinctive": false,
+        "probe_angle": "find_substance",
+        "rank": 10,
+        "grounded": true
+      }
+    ],
+    "competencies": [
+      {
+        "id": "k1",
+        "name": "Strategic problem solving",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c2",
+          "c4",
+          "c5",
+          "c6",
+          "c7"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k2",
+        "name": "Stakeholder management",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c2",
+          "c4",
+          "c9"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k3",
+        "name": "Leadership and execution",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c8",
+          "c9"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k4",
+        "name": "Communication and influence",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c2",
+          "c8",
+          "c9"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k5",
+        "name": "Strategic judgment",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c1",
+          "c2",
+          "c4"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k6",
+        "name": "Motivation and fit",
+        "source": "always",
+        "must_have": false,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      }
+    ],
+    "concerns": [],
+    "warmup_question": "What is one idea from your MBA coursework that has proved useful outside the classroom?",
+    "background_question": "Walk me through your background: your studies and the experiences that led you to apply for this role.",
+    "slots": [
+      {
+        "id": "s1",
+        "kind": "claim",
+        "competency_id": "k1",
+        "anchor_claim_id": "c1",
+        "question_type": "past_behaviour",
+        "core_question": "Tell me about the market-entry assessment you worked on at Bain for the Japanese electric two-wheeler maker.",
+        "intent_private": "Needs Kabir's specific analytical approach, personal decisions in sizing and city prioritisation, how the recommendation was reached, and what he would do differently now.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which part of the analysis was personally yours?",
+          "What did you decide against when building the city-prioritisation model?",
+          "What would you do differently now in that assessment?"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "s2",
+        "kind": "claim",
+        "competency_id": "k3",
+        "anchor_claim_id": "c9",
+        "question_type": "past_behaviour",
+        "core_question": "What was the hardest part of leading the Commerce Society team while raising sponsorship for the annual fest?",
+        "intent_private": "Needs a concrete leadership situation, Kabir's own decisions, how he handled stakeholders and team execution, and how the INR 8 lakh result was measured.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "What decision did you personally make when the sponsorship effort was not progressing?",
+          "How did you respond when a team member was not delivering?",
+          "What did the INR 8 lakh figure represent?"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "s3",
+        "kind": "gap",
+        "competency_id": "k5",
+        "anchor_claim_id": null,
+        "question_type": "knowledge",
+        "core_question": "Suppose a client has strong market-growth data but limited ability to execute; how would you decide whether to recommend entering that market?",
+        "intent_private": "Needs a structured consulting judgment that weighs market attractiveness against execution feasibility, identifies the most decision-relevant evidence, and explains the trade-off.",
+        "probe_angle": "find_substance",
+        "technical_focus": false,
+        "likely_probes": [
+          "Why would you prioritise that approach over another?",
+          "When would that approach give you the wrong answer?",
+          "Where have you faced a similar trade-off in your own work?"
+        ],
+        "priority": 3
+      },
+      {
+        "id": "s4",
+        "kind": "motivation",
+        "competency_id": "k6",
+        "anchor_claim_id": null,
+        "question_type": "motivation",
+        "core_question": "You have a PPO from Bain; what draws you to build your career in strategy and consulting?",
+        "intent_private": "Needs a reason grounded in Kabir's own Bain, banking or competition experience and a specific understanding of what a strategy and consulting role offers, rather than a generic interest.",
+        "probe_angle": "none",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which part of your Bain experience most influenced that choice?",
+          "What would you want to do in consulting that your other experiences did not offer?",
+          "What other career paths are you considering?"
+        ],
+        "priority": 4
+      }
+    ],
+    "plan_notes": "The plan prioritizes Kabir's high-impact Bain market-entry work, then tests leadership through a substantial team and sponsorship responsibility. The knowledge slot checks strategic judgment beyond the strong resume claims, while the final motivation slot explores his career choice despite already holding a Bain PPO."
+  },
+  "plan_trace": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "attempts": 1,
+    "started_at": "2026-11-09T06:58:53.438Z",
+    "latency_ms": 33591,
+    "usage": {
+      "prompt_tokens": 7398,
+      "completion_tokens": 3631,
+      "total_tokens": 11029,
+      "prompt_tokens_details": {
+        "cached_tokens": 6879,
+        "cache_write_tokens": 516,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1693,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "raw_response": "{\"candidate\":{\"name\":\"Kabir\",\"experience_level\":\"fresher\",\"current_or_last_role\":\"PGP student, IIM Calcutta\",\"resume_band\":\"upper\",\"band_reason\":\"The resume shows highly specific, quantified achievements with clear ownership across consulting, leadership and competitions.\"},\"jd\":{\"present\":false,\"company\":null,\"role_title\":null,\"role_family\":\"other\",\"seniority\":null,\"must_haves\":[],\"nice_to_haves\":[],\"stated_values\":[]},\"mismatch\":{\"is_mismatch\":false,\"note\":\"\"},\"claims\":[{\"id\":\"c1\",\"text\":\"Market-entry assessment for a Japanese two-wheeler EV maker in India: sized the electric scooter market across 40 cities and built a city-prioritisation model on charging density and ownership cost\",\"parent\":\"Summer Associate, Bain & Company\",\"type\":\"technical\",\"strength\":\"strong\",\"strength_signals\":[\"scale\",\"specific analytical approach\",\"ownership verb\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":1},{\"id\":\"c2\",\"text\":\"Interviewed 35 dealers and 12 fleet operators; findings shifted the client's launch city list from Delhi NCR first to Pune and Bengaluru first\",\"parent\":\"Summer Associate, Bain & Company\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified result\",\"stakeholder scale\",\"clear outcome\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":2},{\"id\":\"c3\",\"text\":\"Received Pre-Placement Offer (PPO)\",\"parent\":\"Summer Associate, Bain & Company\",\"type\":\"impact\",\"strength\":\"moderate\",\"strength_signals\":[\"recognition\",\"clear outcome\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":8},{\"id\":\"c4\",\"text\":\"Benchmarked 6 private banks' credit card rewards programs and recommended cutting 2 low-use reward categories\",\"parent\":\"Strategy Intern, Kotak Mahindra Bank\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"quantified scope\",\"specific recommendation\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":3},{\"id\":\"c5\",\"text\":\"National Winner, HUL L.I.M.E. Season 16 (2026): rural distribution of a premium detergent; 1 of 3 winners from 21,000 teams\",\"parent\":\"HUL L.I.M.E. Season 16\",\"type\":\"other\",\"strength\":\"strong\",\"strength_signals\":[\"national result\",\"scale\",\"distinctive achievement\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":5},{\"id\":\"c6\",\"text\":\"National Finalist, Flipkart WiRED 7.0 (2025)\",\"parent\":\"Flipkart WiRED 7.0\",\"type\":\"other\",\"strength\":\"moderate\",\"strength_signals\":[\"national result\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":7},{\"id\":\"c7\",\"text\":\"Campus Winner, ITC Interrobang Season 14 (2025)\",\"parent\":\"ITC Interrobang Season 14\",\"type\":\"other\",\"strength\":\"moderate\",\"strength_signals\":[\"winner result\"],\"weak_flags\":[],\"relevance\":\"medium\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":9},{\"id\":\"c8\",\"text\":\"Coordinator, Consult Club, IIM Calcutta: ran 12 case-prep sessions for 140 first-years\",\"parent\":\"Consult Club, IIM Calcutta\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"ownership verb\",\"quantified scale\",\"teaching responsibility\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":4},{\"id\":\"c9\",\"text\":\"General Secretary, Commerce Society, SRCC (2023-24): led a 30-member team; raised INR 8 lakh in sponsorship for the annual fest\",\"parent\":\"Commerce Society, SRCC\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"leadership scope\",\"quantified result\",\"ownership verb\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":6},{\"id\":\"c10\",\"text\":\"State-level chess player (Delhi, U-19)\",\"parent\":\"Chess\",\"type\":\"other\",\"strength\":\"moderate\",\"strength_signals\":[\"competitive achievement\"],\"weak_flags\":[\"no_result\"],\"relevance\":\"low\",\"distinctive\":false,\"probe_angle\":\"find_substance\",\"rank\":10}],\"competencies\":[{\"id\":\"k1\",\"name\":\"Strategic problem solving\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c2\",\"c4\",\"c5\",\"c6\",\"c7\"],\"is_gap\":false},{\"id\":\"k2\",\"name\":\"Stakeholder management\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c2\",\"c4\",\"c9\"],\"is_gap\":false},{\"id\":\"k3\",\"name\":\"Leadership and execution\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c8\",\"c9\"],\"is_gap\":false},{\"id\":\"k4\",\"name\":\"Communication and influence\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c2\",\"c8\",\"c9\"],\"is_gap\":false},{\"id\":\"k5\",\"name\":\"Strategic judgment\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c1\",\"c2\",\"c4\"],\"is_gap\":false},{\"id\":\"k6\",\"name\":\"Motivation and fit\",\"source\":\"always\",\"must_have\":false,\"evidence_claim_ids\":[],\"is_gap\":true}],\"concerns\":[],\"warmup_question\":\"What is one idea from your MBA coursework that has proved useful outside the classroom?\",\"background_question\":\"Walk me through your background: your studies and the experiences that led you to apply for this role.\",\"slots\":[{\"id\":\"s1\",\"kind\":\"claim\",\"competency_id\":\"k1\",\"anchor_claim_id\":\"c1\",\"question_type\":\"past_behaviour\",\"core_question\":\"Tell me about the market-entry assessment you worked on at Bain for the Japanese electric two-wheeler maker.\",\"intent_private\":\"Needs Kabir's specific analytical approach, personal decisions in sizing and city prioritisation, how the recommendation was reached, and what he would do differently now.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"Which part of the analysis was personally yours?\",\"What did you decide against when building the city-prioritisation model?\",\"What would you do differently now in that assessment?\"],\"priority\":1},{\"id\":\"s2\",\"kind\":\"claim\",\"competency_id\":\"k3\",\"anchor_claim_id\":\"c9\",\"question_type\":\"past_behaviour\",\"core_question\":\"What was the hardest part of leading the Commerce Society team while raising sponsorship for the annual fest?\",\"intent_private\":\"Needs a concrete leadership situation, Kabir's own decisions, how he handled stakeholders and team execution, and how the INR 8 lakh result was measured.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"What decision did you personally make when the sponsorship effort was not progressing?\",\"How did you respond when a team member was not delivering?\",\"What did the INR 8 lakh figure represent?\"],\"priority\":2},{\"id\":\"s3\",\"kind\":\"gap\",\"competency_id\":\"k5\",\"anchor_claim_id\":null,\"question_type\":\"knowledge\",\"core_question\":\"Suppose a client has strong market-growth data but limited ability to execute; how would you decide whether to recommend entering that market?\",\"intent_private\":\"Needs a structured consulting judgment that weighs market attractiveness against execution feasibility, identifies the most decision-relevant evidence, and explains the trade-off.\",\"probe_angle\":\"find_substance\",\"technical_focus\":false,\"likely_probes\":[\"Why would you prioritise that approach over another?\",\"When would that approach give you the wrong answer?\",\"Where have you faced a similar trade-off in your own work?\"],\"priority\":3},{\"id\":\"s4\",\"kind\":\"motivation\",\"competency_id\":\"k6\",\"anchor_claim_id\":null,\"question_type\":\"motivation\",\"core_question\":\"You have a PPO from Bain; what draws you to build your career in strategy and consulting?\",\"intent_private\":\"Needs a reason grounded in Kabir's own Bain, banking or competition experience and a specific understanding of what a strategy and consulting role offers, rather than a generic interest.\",\"probe_angle\":\"none\",\"technical_focus\":false,\"likely_probes\":[\"Which part of your Bain experience most influenced that choice?\",\"What would you want to do in consulting that your other experiences did not offer?\",\"What other career paths are you considering?\"],\"priority\":4}],\"plan_notes\":\"The plan prioritizes Kabir's high-impact Bain market-entry work, then tests leadership through a substantial team and sponsorship responsibility. The knowledge slot checks strategic judgment beyond the strong resume claims, while the final motivation slot explores his career choice despite already holding a Bain PPO.\"}",
+    "request_user_message": "{\"target_role\":\"domain: Strategy and Consulting\",\"interview_type\":\"hiring_manager\",\"placement_stage\":\"finals\",\"market\":\"india\",\"interviewer_style\":\"balanced\",\"scored_slot_count\":4,\"variation_seed\":198971,\"warmup_angle\":\"something they learned recently that turned out to be useful\",\"fit_angle\":\"what their team or classmates would say is their biggest strength\",\"resume_text\":\"KABIR MALHOTRA\\nPGP 2025-27 | Indian Institute of Management Calcutta | kabirm2027@email.iimcal.ac.in\\n\\nACADEMIC QUALIFICATIONS\\nPGP, IIM Calcutta, 2025-27, CGPA 8.2/10 (Top 10% of batch)\\nB.Com (Hons), Shri Ram College of Commerce, 2025, 9.1/10 (Rank 3)\\nCAT 2024: 99.86 percentile\\n\\nSUMMER INTERNSHIP\\nBain & Company, New Delhi | Summer Associate | Apr - Jun 2026\\n- Market-entry assessment for a Japanese two-wheeler EV maker in India: sized the electric scooter market across 40 cities and built a city-prioritisation model on charging density and ownership cost\\n- Interviewed 35 dealers and 12 fleet operators; findings shifted the client's launch city list from Delhi NCR first to Pune and Bengaluru first\\n- Received Pre-Placement Offer (PPO)\\n\\nCORPORATE INTERNSHIP\\nKotak Mahindra Bank | Strategy Intern | May - Jul 2024\\n- Benchmarked 6 private banks' credit card rewards programs and recommended cutting 2 low-use reward categories\\n\\nCASE COMPETITIONS\\n- National Winner, HUL L.I.M.E. Season 16 (2026): rural distribution of a premium detergent; 1 of 3 winners from 21,000 teams\\n- National Finalist, Flipkart WiRED 7.0 (2025)\\n- Campus Winner, ITC Interrobang Season 14 (2025)\\n\\nPOSITIONS OF RESPONSIBILITY\\n- Coordinator, Consult Club, IIM Calcutta: ran 12 case-prep sessions for 140 first-years\\n- General Secretary, Commerce Society, SRCC (2023-24): led a 30-member team; raised INR 8 lakh in sponsorship for the annual fest\\n\\nEXTRACURRICULAR\\n- State-level chess player (Delhi, U-19)\",\"jd_text\":\"\"}"
+  },
+  "plan_checks": [
+    {
+      "level": "warn",
+      "message": "Slot s1 wording: agenda word: \"assessment\""
+    },
+    {
+      "level": "warn",
+      "message": "Slot s1 wording: agenda word: \"assessment\""
+    }
+  ],
+  "slots": [
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "What is one idea from your MBA coursework that has proved useful outside the classroom?",
+      "intent_private": "Warm-up to settle in. Not assessed.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "active",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "warmup",
+      "kind": "warmup",
+      "budget": 0
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "Walk me through your background: your studies and the experiences that led you to apply for this role.",
+      "intent_private": "A coherent overview of the candidate's path; may surface threads for later topics.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "background",
+      "kind": "background",
+      "budget": 1
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Strategic problem solving",
+      "must_have": true,
+      "anchor_claim_id": "c1",
+      "anchor_text": "Market-entry assessment for a Japanese two-wheeler EV maker in India: sized the electric scooter market across 40 cities and built a city-prioritisation model on charging density and ownership cost",
+      "anchor_parent": "Summer Associate, Bain & Company",
+      "question_type": "past_behaviour",
+      "core_question": "Tell me about the market-entry assessment you worked on at Bain for the Japanese electric two-wheeler maker.",
+      "intent_private": "Needs Kabir's specific analytical approach, personal decisions in sizing and city prioritisation, how the recommendation was reached, and what he would do differently now.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which part of the analysis was personally yours?",
+        "What did you decide against when building the city-prioritisation model?",
+        "What would you do differently now in that assessment?"
+      ],
+      "priority": 1,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s1",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k3",
+      "competency_name": "Leadership and execution",
+      "must_have": true,
+      "anchor_claim_id": "c9",
+      "anchor_text": "General Secretary, Commerce Society, SRCC (2023-24): led a 30-member team; raised INR 8 lakh in sponsorship for the annual fest",
+      "anchor_parent": "Commerce Society, SRCC",
+      "question_type": "past_behaviour",
+      "core_question": "What was the hardest part of leading the Commerce Society team while raising sponsorship for the annual fest?",
+      "intent_private": "Needs a concrete leadership situation, Kabir's own decisions, how he handled stakeholders and team execution, and how the INR 8 lakh result was measured.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "What decision did you personally make when the sponsorship effort was not progressing?",
+        "How did you respond when a team member was not delivering?",
+        "What did the INR 8 lakh figure represent?"
+      ],
+      "priority": 2,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s2",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k5",
+      "competency_name": "Strategic judgment",
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "knowledge",
+      "core_question": "Suppose a client has strong market-growth data but limited ability to execute; how would you decide whether to recommend entering that market?",
+      "intent_private": "Needs a structured consulting judgment that weighs market attractiveness against execution feasibility, identifies the most decision-relevant evidence, and explains the trade-off.",
+      "probe_angle": "find_substance",
+      "technical_focus": false,
+      "likely_probes": [
+        "Why would you prioritise that approach over another?",
+        "When would that approach give you the wrong answer?",
+        "Where have you faced a similar trade-off in your own work?"
+      ],
+      "priority": 3,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s3",
+      "kind": "gap",
+      "budget": 2
+    },
+    {
+      "competency_id": "k6",
+      "competency_name": "Motivation and fit",
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "motivation",
+      "core_question": "You have a PPO from Bain; what draws you to build your career in strategy and consulting?",
+      "intent_private": "Needs a reason grounded in Kabir's own Bain, banking or competition experience and a specific understanding of what a strategy and consulting role offers, rather than a generic interest.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which part of your Bain experience most influenced that choice?",
+        "What would you want to do in consulting that your other experiences did not offer?",
+        "What other career paths are you considering?"
+      ],
+      "priority": 4,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s4",
+      "kind": "motivation",
+      "budget": 1
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "",
+      "intent_private": "Candidate asks their questions.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "candidate_questions",
+      "kind": "candidate_questions",
+      "budget": 2
+    }
+  ],
+  "current": 0,
+  "transcript": [
+    {
+      "role": "interviewer",
+      "text": "Hi Kabir, thanks for making the time. I'm on the team hiring for this role. Over the next 15 minutes or so I'd like to go into your experience, and you'll have time for questions at the end. What is one idea from your MBA coursework that has proved useful outside the classroom?",
+      "slot_id": "warmup",
+      "why": "This was a warm-up question to help you settle in. It isn't part of the feedback.",
+      "at": "2026-11-09T06:59:27.030Z"
+    }
+  ],
+  "turns": [],
+  "events": [],
+  "interviewer_turns": 1,
+  "max_turns": 20,
+  "candidate_questions_asked": 0,
+  "second_chances": {},
+  "opening_greeting": "Hi Kabir, thanks for making the time. I'm on the team hiring for this role. Over the next 15 minutes or so I'd like to go into your experience, and you'll have time for questions at the end."
+}

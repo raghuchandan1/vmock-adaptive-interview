@@ -1,0 +1,587 @@
+{
+  "id": "2026-11-09-df1dae06",
+  "created_at": "2026-11-09T06:56:54.237Z",
+  "status": "active",
+  "inputs": {
+    "resume_text": "SNEHA PILLAI\nPGP 2026-28, Indian Institute of Management Kozhikode\nsneha.pillai@iimk.ac.in\n\nEDUCATION\nPGP, IIM Kozhikode, 2026-28, CGPA 5.9/10 (Term 1)\nB.Sc. Biotechnology, Christ University, Bengaluru, 2026, 8.1/10\nClass XII (CBSE), Kendriya Vidyalaya Pattom, 2023, 91%\n\nINTERNSHIPS\nBiocon Biologics | Research Intern | May - Jul 2025\n- Assisted in stability testing of 2 biosimilar formulations; documented 60+ test runs\n- Prepared a literature summary on cold-chain failures in insulin distribution in South India\nNature's Basket (Godrej) | Retail Marketing Intern, Kochi | Dec 2024 - Jan 2025\n- Ran in-store sampling for an organic millet range across 3 outlets; sampling footfall converted at 18% vs 11% for the shelf-only week\n- Collected feedback from 150 shoppers and suggested Malayalam shelf talkers, which were printed for the Kochi stores\n\nPOSITIONS OF RESPONSIBILITY\n- Head, Cultural Committee, Christ University (2024-25): led a 25-member team for the annual fest with a footfall of 8,000\n- Volunteer, Kerala flood relief collection drive, 2024\n\nSKILLS AND INTERESTS\n- Excel, Canva, basic R\n- Classical Carnatic vocalist; Malayalam, Tamil, Hindi, English",
+    "jd_text": "",
+    "target_role": "",
+    "domain": "Marketing",
+    "stage": "summers",
+    "market": "india",
+    "interview_type": "recruiter_screen",
+    "style": "balanced",
+    "length": "standard",
+    "seed": 563542
+  },
+  "style": "balanced",
+  "surprise": false,
+  "seed": 563542,
+  "settings": {
+    "planner_model": "gpt-5.6-luna",
+    "planner_effort": "medium",
+    "turn_model": "gpt-5.6-luna",
+    "turn_effort": "low"
+  },
+  "plan": {
+    "candidate": {
+      "name": "Sneha",
+      "experience_level": "fresher",
+      "current_or_last_role": "PGP student, Indian Institute of Management Kozhikode",
+      "resume_band": "upper",
+      "band_reason": "The resume contains several quantified outcomes, clear ownership signals and specific evidence across internships and leadership."
+    },
+    "jd": {
+      "present": false,
+      "company": null,
+      "role_title": null,
+      "role_family": "other",
+      "seniority": null,
+      "must_haves": [],
+      "nice_to_haves": [],
+      "stated_values": []
+    },
+    "mismatch": {
+      "is_mismatch": false,
+      "note": ""
+    },
+    "claims": [
+      {
+        "id": "c1",
+        "text": "Assisted in stability testing of 2 biosimilar formulations; documented 60+ test runs",
+        "parent": "Research Intern, Biocon Biologics",
+        "type": "technical",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified scale",
+          "named domain",
+          "specific deliverable"
+        ],
+        "weak_flags": [
+          "unclear_role"
+        ],
+        "relevance": "low",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 5,
+        "grounded": true
+      },
+      {
+        "id": "c2",
+        "text": "Prepared a literature summary on cold-chain failures in insulin distribution in South India",
+        "parent": "Research Intern, Biocon Biologics",
+        "type": "other",
+        "strength": "moderate",
+        "strength_signals": [
+          "specific topic",
+          "defined output"
+        ],
+        "weak_flags": [
+          "no_result"
+        ],
+        "relevance": "medium",
+        "distinctive": false,
+        "probe_angle": "test_claim",
+        "rank": 4,
+        "grounded": true
+      },
+      {
+        "id": "c3",
+        "text": "Ran in-store sampling for an organic millet range across 3 outlets; sampling footfall converted at 18% vs 11% for the shelf-only week",
+        "parent": "Retail Marketing Intern, Nature's Basket (Godrej)",
+        "type": "impact",
+        "strength": "strong",
+        "strength_signals": [
+          "ownership verb",
+          "quantified result",
+          "comparison",
+          "scale"
+        ],
+        "weak_flags": [],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 1,
+        "grounded": true
+      },
+      {
+        "id": "c4",
+        "text": "Collected feedback from 150 shoppers and suggested Malayalam shelf talkers, which were printed for the Kochi stores",
+        "parent": "Retail Marketing Intern, Nature's Basket (Godrej)",
+        "type": "collaboration",
+        "strength": "strong",
+        "strength_signals": [
+          "quantified scale",
+          "customer contact",
+          "implemented recommendation"
+        ],
+        "weak_flags": [
+          "unclear_role"
+        ],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 2,
+        "grounded": true
+      },
+      {
+        "id": "c5",
+        "text": "Head, Cultural Committee, Christ University (2024-25): led a 25-member team for the annual fest with a footfall of 8,000",
+        "parent": "Cultural Committee, Christ University",
+        "type": "leadership",
+        "strength": "strong",
+        "strength_signals": [
+          "leadership title",
+          "team scale",
+          "quantified result"
+        ],
+        "weak_flags": [
+          "inflated_scope"
+        ],
+        "relevance": "high",
+        "distinctive": true,
+        "probe_angle": "test_claim",
+        "rank": 3,
+        "grounded": true
+      },
+      {
+        "id": "c6",
+        "text": "Volunteer, Kerala flood relief collection drive, 2024",
+        "parent": "Kerala flood relief collection drive",
+        "type": "collaboration",
+        "strength": "weak",
+        "strength_signals": [],
+        "weak_flags": [
+          "vague",
+          "no_result",
+          "unclear_role"
+        ],
+        "relevance": "low",
+        "distinctive": false,
+        "probe_angle": "find_substance",
+        "rank": 6,
+        "grounded": true
+      }
+    ],
+    "competencies": [
+      {
+        "id": "k1",
+        "name": "Customer focus",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c3",
+          "c4"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k2",
+        "name": "Analytical thinking",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c1",
+          "c2",
+          "c3"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k3",
+        "name": "Communication",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c2",
+          "c4"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k4",
+        "name": "Ownership and execution",
+        "source": "role_default",
+        "must_have": true,
+        "evidence_claim_ids": [
+          "c3",
+          "c5"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k5",
+        "name": "Conviction and teamwork",
+        "source": "role_default",
+        "must_have": false,
+        "evidence_claim_ids": [
+          "c5"
+        ],
+        "is_gap": false
+      },
+      {
+        "id": "k6",
+        "name": "Motivation and fit",
+        "source": "always",
+        "must_have": false,
+        "evidence_claim_ids": [],
+        "is_gap": true
+      }
+    ],
+    "concerns": [
+      {
+        "type": "academics",
+        "detail": "The PGP Term 1 CGPA is 5.9/10."
+      },
+      {
+        "type": "switch",
+        "detail": "The candidate is moving from biotechnology and scientific research into marketing."
+      }
+    ],
+    "warmup_question": "What has kept you busy in your studies over the last few weeks?",
+    "background_question": "Walk me through your background, from your biotechnology degree through your internships, and what you've focused on since starting your MBA.",
+    "slots": [
+      {
+        "id": "s1",
+        "kind": "motivation",
+        "competency_id": "k6",
+        "anchor_claim_id": null,
+        "question_type": "motivation",
+        "core_question": "You are moving from biotechnology into marketing. What is pulling you toward marketing?",
+        "intent_private": "Needs a reason grounded in Sneha's own biotechnology, retail internship or MBA experience, plus something specific about the marketing work she wants to pursue.",
+        "probe_angle": "none",
+        "technical_focus": false,
+        "likely_probes": [
+          "What in your experience at Nature's Basket made marketing appealing?",
+          "What have you done in the MBA so far to explore marketing?",
+          "What other roles or companies are you considering alongside marketing?"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "s2",
+        "kind": "claim",
+        "competency_id": "k1",
+        "anchor_claim_id": "c3",
+        "question_type": "past_behaviour",
+        "core_question": "What were you trying to solve when you ran in-store sampling for Nature's Basket?",
+        "intent_private": "Needs the business objective, Sneha's specific actions in the three outlets, how the 18% versus 11% comparison was measured, and what she personally concluded from it.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "Which parts of the sampling activity were your responsibility?",
+          "What decision did you make that shaped the sampling approach?",
+          "What was the 18% conversion rate compared with in the underlying data?"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "s3",
+        "kind": "gap",
+        "competency_id": "k5",
+        "anchor_claim_id": null,
+        "question_type": "past_behaviour",
+        "core_question": "Tell me about a time you disagreed with your team or took a stance.",
+        "intent_private": "Needs a specific disagreement from college, an internship or the MBA, Sneha's position and actions, and what changed because she took that stance.",
+        "probe_angle": "find_substance",
+        "technical_focus": false,
+        "likely_probes": [
+          "What was your position in that disagreement?",
+          "How did you decide which view to support?",
+          "What changed after you took that stance?"
+        ],
+        "priority": 3
+      },
+      {
+        "id": "s4",
+        "kind": "claim",
+        "competency_id": "k4",
+        "anchor_claim_id": "c5",
+        "question_type": "past_behaviour",
+        "core_question": "What was the hardest part of leading the cultural committee at Christ University?",
+        "intent_private": "Needs a concrete leadership challenge involving the 25-member team, Sneha's own decisions and actions, and evidence of how the annual fest was delivered.",
+        "probe_angle": "test_claim",
+        "technical_focus": false,
+        "likely_probes": [
+          "What decision did you personally make to address that challenge?",
+          "How did you handle a team member who was not meeting expectations?",
+          "How did you know the fest reached its reported footfall of 8,000?"
+        ],
+        "priority": 4
+      }
+    ],
+    "plan_notes": "The plan prioritizes Sneha's quantified retail marketing result, then covers conviction and teamwork and her substantial student leadership activity, which is important for a summer-placement fresher. The biotechnology-to-marketing switch is raised in motivation, while the low first-term CGPA is covered neutrally through the required MBA background walkthrough rather than as a separate question."
+  },
+  "plan_trace": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "attempts": 1,
+    "started_at": "2026-11-09T06:56:24.392Z",
+    "latency_ms": 29845,
+    "usage": {
+      "prompt_tokens": 7316,
+      "completion_tokens": 3275,
+      "total_tokens": 10591,
+      "prompt_tokens_details": {
+        "cached_tokens": 6879,
+        "cache_write_tokens": 434,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1627,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "finish_reason": "stop",
+    "raw_response": "{\"candidate\":{\"name\":\"Sneha\",\"experience_level\":\"fresher\",\"current_or_last_role\":\"PGP student, Indian Institute of Management Kozhikode\",\"resume_band\":\"upper\",\"band_reason\":\"The resume contains several quantified outcomes, clear ownership signals and specific evidence across internships and leadership.\"},\"jd\":{\"present\":false,\"company\":null,\"role_title\":null,\"role_family\":\"other\",\"seniority\":null,\"must_haves\":[],\"nice_to_haves\":[],\"stated_values\":[]},\"mismatch\":{\"is_mismatch\":false,\"note\":\"\"},\"claims\":[{\"id\":\"c1\",\"text\":\"Assisted in stability testing of 2 biosimilar formulations; documented 60+ test runs\",\"parent\":\"Research Intern, Biocon Biologics\",\"type\":\"technical\",\"strength\":\"strong\",\"strength_signals\":[\"quantified scale\",\"named domain\",\"specific deliverable\"],\"weak_flags\":[\"unclear_role\"],\"relevance\":\"low\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":5},{\"id\":\"c2\",\"text\":\"Prepared a literature summary on cold-chain failures in insulin distribution in South India\",\"parent\":\"Research Intern, Biocon Biologics\",\"type\":\"other\",\"strength\":\"moderate\",\"strength_signals\":[\"specific topic\",\"defined output\"],\"weak_flags\":[\"no_result\"],\"relevance\":\"medium\",\"distinctive\":false,\"probe_angle\":\"test_claim\",\"rank\":4},{\"id\":\"c3\",\"text\":\"Ran in-store sampling for an organic millet range across 3 outlets; sampling footfall converted at 18% vs 11% for the shelf-only week\",\"parent\":\"Retail Marketing Intern, Nature's Basket (Godrej)\",\"type\":\"impact\",\"strength\":\"strong\",\"strength_signals\":[\"ownership verb\",\"quantified result\",\"comparison\",\"scale\"],\"weak_flags\":[],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":1},{\"id\":\"c4\",\"text\":\"Collected feedback from 150 shoppers and suggested Malayalam shelf talkers, which were printed for the Kochi stores\",\"parent\":\"Retail Marketing Intern, Nature's Basket (Godrej)\",\"type\":\"collaboration\",\"strength\":\"strong\",\"strength_signals\":[\"quantified scale\",\"customer contact\",\"implemented recommendation\"],\"weak_flags\":[\"unclear_role\"],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":2},{\"id\":\"c5\",\"text\":\"Head, Cultural Committee, Christ University (2024-25): led a 25-member team for the annual fest with a footfall of 8,000\",\"parent\":\"Cultural Committee, Christ University\",\"type\":\"leadership\",\"strength\":\"strong\",\"strength_signals\":[\"leadership title\",\"team scale\",\"quantified result\"],\"weak_flags\":[\"inflated_scope\"],\"relevance\":\"high\",\"distinctive\":true,\"probe_angle\":\"test_claim\",\"rank\":3},{\"id\":\"c6\",\"text\":\"Volunteer, Kerala flood relief collection drive, 2024\",\"parent\":\"Kerala flood relief collection drive\",\"type\":\"collaboration\",\"strength\":\"weak\",\"strength_signals\":[],\"weak_flags\":[\"vague\",\"no_result\",\"unclear_role\"],\"relevance\":\"low\",\"distinctive\":false,\"probe_angle\":\"find_substance\",\"rank\":6}],\"competencies\":[{\"id\":\"k1\",\"name\":\"Customer focus\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c3\",\"c4\"],\"is_gap\":false},{\"id\":\"k2\",\"name\":\"Analytical thinking\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c1\",\"c2\",\"c3\"],\"is_gap\":false},{\"id\":\"k3\",\"name\":\"Communication\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c2\",\"c4\"],\"is_gap\":false},{\"id\":\"k4\",\"name\":\"Ownership and execution\",\"source\":\"role_default\",\"must_have\":true,\"evidence_claim_ids\":[\"c3\",\"c5\"],\"is_gap\":false},{\"id\":\"k5\",\"name\":\"Conviction and teamwork\",\"source\":\"role_default\",\"must_have\":false,\"evidence_claim_ids\":[\"c5\"],\"is_gap\":false},{\"id\":\"k6\",\"name\":\"Motivation and fit\",\"source\":\"always\",\"must_have\":false,\"evidence_claim_ids\":[],\"is_gap\":true}],\"concerns\":[{\"type\":\"academics\",\"detail\":\"The PGP Term 1 CGPA is 5.9/10.\"},{\"type\":\"switch\",\"detail\":\"The candidate is moving from biotechnology and scientific research into marketing.\"}],\"warmup_question\":\"What has kept you busy in your studies over the last few weeks?\",\"background_question\":\"Walk me through your background, from your biotechnology degree through your internships, and what you've focused on since starting your MBA.\",\"slots\":[{\"id\":\"s1\",\"kind\":\"motivation\",\"competency_id\":\"k6\",\"anchor_claim_id\":null,\"question_type\":\"motivation\",\"core_question\":\"You are moving from biotechnology into marketing. What is pulling you toward marketing?\",\"intent_private\":\"Needs a reason grounded in Sneha's own biotechnology, retail internship or MBA experience, plus something specific about the marketing work she wants to pursue.\",\"probe_angle\":\"none\",\"technical_focus\":false,\"likely_probes\":[\"What in your experience at Nature's Basket made marketing appealing?\",\"What have you done in the MBA so far to explore marketing?\",\"What other roles or companies are you considering alongside marketing?\"],\"priority\":1},{\"id\":\"s2\",\"kind\":\"claim\",\"competency_id\":\"k1\",\"anchor_claim_id\":\"c3\",\"question_type\":\"past_behaviour\",\"core_question\":\"What were you trying to solve when you ran in-store sampling for Nature's Basket?\",\"intent_private\":\"Needs the business objective, Sneha's specific actions in the three outlets, how the 18% versus 11% comparison was measured, and what she personally concluded from it.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"Which parts of the sampling activity were your responsibility?\",\"What decision did you make that shaped the sampling approach?\",\"What was the 18% conversion rate compared with in the underlying data?\"],\"priority\":2},{\"id\":\"s3\",\"kind\":\"gap\",\"competency_id\":\"k5\",\"anchor_claim_id\":null,\"question_type\":\"past_behaviour\",\"core_question\":\"Tell me about a time you disagreed with your team or took a stance.\",\"intent_private\":\"Needs a specific disagreement from college, an internship or the MBA, Sneha's position and actions, and what changed because she took that stance.\",\"probe_angle\":\"find_substance\",\"technical_focus\":false,\"likely_probes\":[\"What was your position in that disagreement?\",\"How did you decide which view to support?\",\"What changed after you took that stance?\"],\"priority\":3},{\"id\":\"s4\",\"kind\":\"claim\",\"competency_id\":\"k4\",\"anchor_claim_id\":\"c5\",\"question_type\":\"past_behaviour\",\"core_question\":\"What was the hardest part of leading the cultural committee at Christ University?\",\"intent_private\":\"Needs a concrete leadership challenge involving the 25-member team, Sneha's own decisions and actions, and evidence of how the annual fest was delivered.\",\"probe_angle\":\"test_claim\",\"technical_focus\":false,\"likely_probes\":[\"What decision did you personally make to address that challenge?\",\"How did you handle a team member who was not meeting expectations?\",\"How did you know the fest reached its reported footfall of 8,000?\"],\"priority\":4}],\"plan_notes\":\"The plan prioritizes Sneha's quantified retail marketing result, then covers conviction and teamwork and her substantial student leadership activity, which is important for a summer-placement fresher. The biotechnology-to-marketing switch is raised in motivation, while the low first-term CGPA is covered neutrally through the required MBA background walkthrough rather than as a separate question.\"}",
+    "request_user_message": "{\"target_role\":\"domain: Marketing\",\"interview_type\":\"recruiter_screen\",\"placement_stage\":\"summers\",\"market\":\"india\",\"interviewer_style\":\"balanced\",\"scored_slot_count\":4,\"variation_seed\":563542,\"warmup_angle\":\"what has kept them busy in the last few weeks, at work or in their studies\",\"fit_angle\":\"a time they disagreed with their team or took a stance\",\"resume_text\":\"SNEHA PILLAI\\nPGP 2026-28, Indian Institute of Management Kozhikode\\nsneha.pillai@iimk.ac.in\\n\\nEDUCATION\\nPGP, IIM Kozhikode, 2026-28, CGPA 5.9/10 (Term 1)\\nB.Sc. Biotechnology, Christ University, Bengaluru, 2026, 8.1/10\\nClass XII (CBSE), Kendriya Vidyalaya Pattom, 2023, 91%\\n\\nINTERNSHIPS\\nBiocon Biologics | Research Intern | May - Jul 2025\\n- Assisted in stability testing of 2 biosimilar formulations; documented 60+ test runs\\n- Prepared a literature summary on cold-chain failures in insulin distribution in South India\\nNature's Basket (Godrej) | Retail Marketing Intern, Kochi | Dec 2024 - Jan 2025\\n- Ran in-store sampling for an organic millet range across 3 outlets; sampling footfall converted at 18% vs 11% for the shelf-only week\\n- Collected feedback from 150 shoppers and suggested Malayalam shelf talkers, which were printed for the Kochi stores\\n\\nPOSITIONS OF RESPONSIBILITY\\n- Head, Cultural Committee, Christ University (2024-25): led a 25-member team for the annual fest with a footfall of 8,000\\n- Volunteer, Kerala flood relief collection drive, 2024\\n\\nSKILLS AND INTERESTS\\n- Excel, Canva, basic R\\n- Classical Carnatic vocalist; Malayalam, Tamil, Hindi, English\",\"jd_text\":\"\"}"
+  },
+  "plan_checks": [
+    {
+      "level": "ok",
+      "message": "All claims are quoted from the resume and all topics are valid."
+    }
+  ],
+  "slots": [
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "What has kept you busy in your studies over the last few weeks?",
+      "intent_private": "Warm-up to settle in. Not assessed.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "active",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "warmup",
+      "kind": "warmup",
+      "budget": 0
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "Walk me through your background, from your biotechnology degree through your internships, and what you've focused on since starting your MBA.",
+      "intent_private": "A coherent overview of the candidate's path; may surface threads for later topics.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "background",
+      "kind": "background",
+      "budget": 1
+    },
+    {
+      "competency_id": "k6",
+      "competency_name": "Motivation and fit",
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "motivation",
+      "core_question": "You are moving from biotechnology into marketing. What is pulling you toward marketing?",
+      "intent_private": "Needs a reason grounded in Sneha's own biotechnology, retail internship or MBA experience, plus something specific about the marketing work she wants to pursue.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [
+        "What in your experience at Nature's Basket made marketing appealing?",
+        "What have you done in the MBA so far to explore marketing?",
+        "What other roles or companies are you considering alongside marketing?"
+      ],
+      "priority": 1,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s1",
+      "kind": "motivation",
+      "budget": 1
+    },
+    {
+      "competency_id": "k1",
+      "competency_name": "Customer focus",
+      "must_have": true,
+      "anchor_claim_id": "c3",
+      "anchor_text": "Ran in-store sampling for an organic millet range across 3 outlets; sampling footfall converted at 18% vs 11% for the shelf-only week",
+      "anchor_parent": "Retail Marketing Intern, Nature's Basket (Godrej)",
+      "question_type": "past_behaviour",
+      "core_question": "What were you trying to solve when you ran in-store sampling for Nature's Basket?",
+      "intent_private": "Needs the business objective, Sneha's specific actions in the three outlets, how the 18% versus 11% comparison was measured, and what she personally concluded from it.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "Which parts of the sampling activity were your responsibility?",
+        "What decision did you make that shaped the sampling approach?",
+        "What was the 18% conversion rate compared with in the underlying data?"
+      ],
+      "priority": 2,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s2",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": "k5",
+      "competency_name": "Conviction and teamwork",
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": "past_behaviour",
+      "core_question": "Tell me about a time you disagreed with your team or took a stance.",
+      "intent_private": "Needs a specific disagreement from college, an internship or the MBA, Sneha's position and actions, and what changed because she took that stance.",
+      "probe_angle": "find_substance",
+      "technical_focus": false,
+      "likely_probes": [
+        "What was your position in that disagreement?",
+        "How did you decide which view to support?",
+        "What changed after you took that stance?"
+      ],
+      "priority": 3,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s3",
+      "kind": "gap",
+      "budget": 2
+    },
+    {
+      "competency_id": "k4",
+      "competency_name": "Ownership and execution",
+      "must_have": true,
+      "anchor_claim_id": "c5",
+      "anchor_text": "Head, Cultural Committee, Christ University (2024-25): led a 25-member team for the annual fest with a footfall of 8,000",
+      "anchor_parent": "Cultural Committee, Christ University",
+      "question_type": "past_behaviour",
+      "core_question": "What was the hardest part of leading the cultural committee at Christ University?",
+      "intent_private": "Needs a concrete leadership challenge involving the 25-member team, Sneha's own decisions and actions, and evidence of how the annual fest was delivered.",
+      "probe_angle": "test_claim",
+      "technical_focus": false,
+      "likely_probes": [
+        "What decision did you personally make to address that challenge?",
+        "How did you handle a team member who was not meeting expectations?",
+        "How did you know the fest reached its reported footfall of 8,000?"
+      ],
+      "priority": 4,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [
+        "inflated_scope"
+      ],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "s4",
+      "kind": "claim",
+      "budget": 2
+    },
+    {
+      "competency_id": null,
+      "competency_name": null,
+      "must_have": false,
+      "anchor_claim_id": null,
+      "anchor_text": null,
+      "anchor_parent": null,
+      "question_type": null,
+      "core_question": "",
+      "intent_private": "Candidate asks their questions.",
+      "probe_angle": "none",
+      "technical_focus": false,
+      "likely_probes": [],
+      "priority": 0,
+      "follow_ups_used": 0,
+      "rephrase_used": false,
+      "contradiction_used": false,
+      "rungs_used": [],
+      "anchor_flags": [],
+      "answer_return_count": 0,
+      "dont_know_count": 0,
+      "status": "pending",
+      "outcome": null,
+      "summary": "",
+      "pivoted_into": false,
+      "id": "candidate_questions",
+      "kind": "candidate_questions",
+      "budget": 2
+    }
+  ],
+  "current": 0,
+  "transcript": [
+    {
+      "role": "interviewer",
+      "text": "Hi Sneha, good to meet you. I'd like to have a first conversation with you about this role. It should take about 15 minutes, and there'll be time for your questions at the end. What has kept you busy in your studies over the last few weeks?",
+      "slot_id": "warmup",
+      "why": "This was a warm-up question to help you settle in. It isn't part of the feedback.",
+      "at": "2026-11-09T06:56:54.237Z"
+    }
+  ],
+  "turns": [],
+  "events": [],
+  "interviewer_turns": 1,
+  "max_turns": 20,
+  "candidate_questions_asked": 0,
+  "second_chances": {},
+  "opening_greeting": "Hi Sneha, good to meet you. I'd like to have a first conversation with you about this role. It should take about 15 minutes, and there'll be time for your questions at the end."
+}

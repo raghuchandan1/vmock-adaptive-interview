@@ -1,0 +1,231 @@
+# L04 2026-11-09-937f8a5d {"name":"fambiz_sales","type":"back_your_resume","style":"probing","persona":"hinglish"} errors=[]
+plan_ms=24014 feedback_ms=60370 ended_by=close turns=14
+
+INTERVIEWER [warmup]: Hi Harsh, thanks for joining. Today I'd like to go through your resume in some detail and hear the stories behind it. We have about 15 minutes, with time for your questions at the end. Tell me about a sales skill you picked up recently in your MBA.
+
+  STUDENT [warmup] (200w): Achha toh basically, ekdum recent wala sales skill jo maine pick kiya hai na IIML mein, woh consultative selling hai, pehle jab family business mein tha tab zyada transactional approach hota tha matlab product dikhao, rate batao, deal close karo, lekin yahan pe kya hota hai ki matlab humne ek course mein case studies ki thi, jismein focus tha ki pehle samjho client ko kya pain point hai, fir apna solution customise karke pitch karna, matlab unko feel ho ki unke liye hi bana hai, toh ek example bolu toh markstrat simulation mein humne ek segment select kiya tha jahan pe competitors zyada aggressive the, toh I went and actually tried to talk to team mates as if they're customers, poocha unko kya chahiye, kis price pe lenge, aur feedback use karke humne apna product bundle adjust kiya, toh na yeh learning hui ki pehle sunna padta hai, baad mein bechna padta hai, aur ek aur cheez jo seekhi woh rapport build karna, matlab chalo sales pitch chal rahi hai but thoda personal connect banana bohot zaroori hota hai, toh ab mai yeh dono cheeze consciously implement karta hoon, not just business mein but clubs aur group projects mein bhi.
+  >> decision=move_on rung=none suff=true http=3590ms calls=3573ms guards=[] leak=[]
+
+INTERVIEWER [background]: Thanks. Walk me through your career so far, with a focus on your last couple of roles.
+
+  STUDENT [background] (391w): Haan, toh main apna career thoda bata deta hoon, matlab after BCom woh toh maine NM College se kiya Mumbai mein, fir directly family business join kiya tha Surat mein, jo ki Agarwal Textiles hai, yeh ek synthetic sarees ka manufacturing and trading ka business hai. Pehle ek saal toh main trainee tha, matlab literally har department mein ghooma, production dekha, accounts bhi, even factory floor pe bhi kaam kiya, toh basics samjhe pura, uske baad main business development lead ban gaya.
+
+Wahan main jo main focus liya tha na woh naya naya sales channels dhoondne par aur exports push karne par tha, kyunki hum log pehle bilkul limited the Gujarat aur Maharashtra tak, toh phir main thoda market research kiya, exporters se milke poocha kaunsi country mein demand hai, baad mein bangladesh, Sri Lanka, aur UAE ke buyers ko target kiya, unko samples bheje, thoda personal connect kiya, us process mein maine yeh bhi seekha ki har market ka apna ek taste hota hai, matlab Bangladesh ke buyers ko darker colours pasand hai, Sri Lanka mein lightweight fabric chahiye, toh customize bhi kiya offering ko.
+
+Dusra jaise digital process lana, woh covid ke time realize hua ki physical order dena time-consuming hai, fir maine WhatsApp catalogue banaya, sab dealers ko train kiya ki apna order WhatsApp pe bheje, toh usse kaafi jaldi processing hone laga, matlab jo pehle teen din lagte the woh same day mein ho ja raha tha. Saath mein jo negotiation skills aayi especially yarn contracts mein, Reliance ke suppliers ke saath dealing ki, bhaari volume tha toh thoda pressure bhi tha, lekin waisa bhi manage karna padta.
+
+Phir Asian Paints ka summer internship aaya MBA ke baad, Nagpur region mein tha, wahan sales distribution ka exposure mila, basically ground pe utar ke, toh dealers aur painters ke saath kaam kiya, loyalty program launch kiya, usse engagement badhi, aur jo ek MTP top-up route ka project kiya, waisa operational driven process seekha matlab actual field data collect karke proposed solution diya, important tha ki pilot successful raha. PPO mil gaya toh kaafi boost mila confidence ko.
+
+Toh overall na jo bhi kiya hai abhi tak, ek mix raha hai sales ka, operations ka, thoda digital transformation ka, har jagah thoda hands-on approach rakha hai aur seekhne ki koshish ki hai, toh yeh mera career journey ab tak.
+  >> decision=move_on rung=none suff=true http=4140ms calls=4136ms guards=["Time rule: limited the remaining topics to one follow-up each instead of dropping a topic."] leak=[]
+
+INTERVIEWER [s1]: You mentioned the Asian Paints stock-out project. What did you personally analyse first when identifying the 12 fast-moving SKUs?
+
+  STUDENT [s1] (245w): Achha, toh jab yeh project mila na, pehle toh mujhe data samajhna tha ki stock-outs actually ho kitne frequently rahe hain aur kaha pe, toh sabse pehle main dealer-wise aur SKU-wise sales data mangwaya, matlab pichle 3-6 mahine ka secondary sales aur inventory movement ka report, sab excel sheet mein bana liya. Uske baad main yeh dekh raha tha ki kis product ki demand zyadah hai aur kis pe regular stock-out aa raha hai, toh main ratio nikalke dekha, jaise ki out-of-stock events per SKU, aur then overall contribution to lost sales. Jahaan pe lag raha tha ki chhote chhote product hai but wahaan demand peak par hai, woh sab list banayi. 
+
+Main khud ground par gaya aur dealers se bhi baat kiya, poocha ki bhaiyya, sabse zyada kis cheez ka demand hai aur kiska stock jaldi finish ho jata hai -- kuch toh voh bolte bhi the ki yeh 10 litre ka emulsion ya yeh putty jaldi bik jaata hai lekin stock nahi aata timely. Toh uske basis par jo 12 SKUs short-list hua woh basically mix tha paints ka, putty ka, thinners ka... aur actually us mein se bhi 4-5 SKUs repeatedly issue aa raha tha alag-alag dealers ke saath.
+
+Toh summary mein, pehle toh excel mein sales aur inventory data analyze kiya, patterns dekhe, fir qualitative feedback liya dealers aur company sales officers se, dono ko merge karke woh 12 fast-movers identify kiya jinka stock-out business ko zyada impact kar raha tha.
+  >> decision=probe rung=role suff=false http=4901ms calls=4897ms guards=[] leak=[]
+     missing: how the INR 9 lakh monthly estimate was measured; the specific decision Harsh personally made in moving from the analysis to the weekly route
+
+INTERVIEWER [s1]: Which decision was personally yours when you turned those findings into the weekly top-up route?
+
+  STUDENT [s1] (286w): Matlab, ismein jo sabse main decision meri taraf se tha na, woh yeh tha ki instead of waiting for monthly beat plan, hum log ek naya micro top-up route try karein jo specially un 12 fast-movers ke liye ho, baaki ke liye nahi. Matlab, jo normally hota kya hai ki distributor aur area sales executive ki monthly ya fortnightly routing hoti hai sab dealers pe, ek hi saath sab products ke liye order lete hain aur supply dete hain, but yeh fast-movers waale products mein dekha ki demand unpredictable hai, weekends ya local festival ke aas-paas spike aa jata hai.
+
+Maine yeh propose kiya tha ki ek pilot karein, jahaan pe har week ek extra gaadi niklegi sirf in SKUs ke liye, order collection bhi WhatsApp pe ya call pe ho jaaye by Wednesday, Thursday tak supply ho jaaye, toh matlab business as usual disturb nahi ho par yeh critical SKUs jaldi reach ho jaye dealers tak. Plus, maine insist kiya ki yeh route logistics ke saath kaam karein, matlab truck ek extra chakkar lage, lekin mix pe focus rahe -- jo dealers repeatedly in SKUs ka stock-out face kar rahe hain, pehle unko cover karo.
+
+Aur ek chhota sa tweak bhi maine suggest kiya tha, ki weekly top-up ke liye minimum order quantity bahut kam rakh lein, jaise 2 doodh dabba type ka, so ki dealers hesitant na ho place karne mein. Isse response achha aaya.
+
+Toh main decisions jo mujhe lagta hai personally maine push kiya -- ek toh micro weekly route sirf fast-movers ke liye, doosra, low MOQ tak limit karna, aur teesra, pilot mein khud daily follow-ups kiya with logistics aur dealers, ki koi operational bottleneck aa toh turant solve kar saken.
+  >> decision=move_on rung=none suff=false http=4807ms calls=4801ms guards=["Added a second-chance topic for must-have \"Sales execution and customer relationships\" before the candidate's questions."] leak=[]
+     missing: how the estimated INR 9 lakh monthly reduction was measured
+
+INTERVIEWER [s2]: Understood. Let’s move to your export work at Agarwal Textiles. How did opening the Bangladesh, Sri Lanka and UAE markets come about?
+
+  STUDENT [s2] (400w): Haan toh sir actually yeh export waala jo kaam hua na, woh thoda accidental bhi tha aur thoda deliberate bhi, matlab pehle toh honestly hum log sirf domestic pe hi focus karte the, mostly Gujarat aur Maharashtra ke distributors ke through. Lekin covid ke baad market kaafi stagnant ho gaya tha, domestic orders slow ho rahe the, toh tab papa and chachu dono bole ki kuch naya try karte hain, and mujhe bhi laga abhi badiya time hai explore karne ka.
+
+Main waise ek exporter conference attend kiya tha Surat mein, wahaan pe kuch export houses ke log mil gaye, toh unse generally poocha ki synthetic sarees ka demand kahan hai Indian market ke bahar. Unhone bataya ki Bangladesh aur Sri Lanka mein kaafi demand hai because unko affordable aur colourful sarees chahiye, plus unka logon ka taste Indian style kafi pasand aata hai.
+
+Toh fir main online, IndiaMART aur alibaba pe buyer leads search kiya, outreach chalu kiya -- pehle cold email, LinkedIn aur thoda trade body contacts, matlab idhar-idhar sab jugad kiya. Kuch buyers ne revert kiya, pehle samples bheje, phir WhatsApp pe regular coordination hota tha, unko portfolio samjhaya, rates discuss kiya, shipping ka bhi pura process inko bataya. Bangladesh ke ek buyer ne toh first sample ke baad 400 pieces ka order diya tha and woh repeat ho gaya.
+
+Sri Lanka mein jo buyers hain wahan feedback aaya ki unko light-weight aur soft finish chahiye so humne apne loom par waisa design run kiya, catalogue bana kar bheja. Trial orders chote the, but repeat milne laga. Basically ek learning yeh hui ki apna normal stock har market ke liye fit nahi baithta, thoda customization zaroori hai.
+
+UAE mein thoda alag tha, wahan par mainly Indian expat audience target tha, toh wahan ke ek distributor ko approach kiya jo Mumbai ke event mein mila tha, usne genuinely help kiya entry mein. Qatar aur Oman bhi try kiya tha but returns nahi mil paye.
+
+Saath hi yeh export process mein documentation waali kaafi cheezein seekhi, jaise LC open karna, INR-USD ke conversion se risk manage karna, freight ka coordination, aur export samples ke approvals bhi face kiye.
+
+Toh overall pehle market mapping kiya, har market mein jo fit tha woh offering adjust ki, kaafi follow ups and thoda patience laga, but jab ek baar unko trust dikh gaya delivery aur quality ka, fir order flow steady ho gaya.
+  >> decision=probe rung=result suff=false http=3874ms calls=3867ms guards=[] leak=[]
+     missing: how the increase from 4% to 19% of revenue was calculated and what period or revenue figures it used
+
+INTERVIEWER [s2]: You described the buyer outreach and repeat orders clearly. How was the increase from 4% to 19% of revenue calculated?
+
+  STUDENT [s2] (263w): Haan, toh sir woh export revenue ka calculation actually hum logon ne bhot simply sales register se hi nikala tha, matlab jab maine process chalu kiya toh pehle year me, SAUDA register main jo export invoices banti thi woh total domestic ke comparison mein sirf 4% thi, mainly kuch hi buyers Bangladeshi the aur ek do Dubai ke, toh vaise hi basic percentage nikal liya--export sales divided by total net sales.
+
+Fir jab Bangladesh, Sri Lanka aur UAE regular ho gaya, jaise jo bhi new buyers aaye unse jo orders aaye, har ek invoice mein export flag tha toh back-end pe tally se aur apni excel sales summary se monthly tracking karta tha ki iss mahine domestic kitna gaya, export kitna. Jaise jab peak period tha, tab ek mahine mein even 30-35% bhi aa gaya tha kabhi kabhi, but yearly nikalte hain hum log, toh average ho ke 19% ke aas paas aa gaya.
+
+Aur reporting for management ke liye bhi main quarterly graph banata tha, pura break-up dikhata ki yeh saal itna increase hua, so simple calculation, koi fancy analytics nahi, just ki monthly ya yearly basis pe total FOB value of exports divided by total company sales, multiplying by hundred. Ek baar auditor se bhi confirm kar liya tha ki jo export order ke against jo remittance aayi hai woh hi count karen, not just invoice, toh vaise Thoda cautious bhi rehte hain.
+
+Toh basically, Excel mein hi manually aur Tally register cross check karke woh percentage nikala, every quarter management ko dikhaya, isi se woh growth ka story ban gaya.
+  >> decision=move_on rung=none suff=true http=4805ms calls=4800ms guards=[] leak=[]
+
+INTERVIEWER [s3]: Let’s move to your role as Coordinator of the Sales and Marketing Club at IIM Lucknow. Tell me about one initiative or challenge you handled there.
+
+  STUDENT [s3] (302w): Achha toh actually club mein coordinator banna matlab kaafi responsibility aa jaati hai, kyunki yeh Markathon ka role sirf event manage karne ka nahi hai, pura ecosystem chalu rakhna padta hai. Ek main initiative jo maine lead kiya tha na, woh tha humlog ka annual inter-college case competition. Pehle yeh problem ho raha tha ki participation utna zyada nahi aata tha, aur sponsors bhi attract nahi ho rahe the, matlab last year mein Covid ke baad thoda lull aa gaya tha.
+
+Maine socha ki scale badhate hain toh sabse pehle, colleges ke outreach ko formalise kiya, email blasts kiya, LinkedIn pe campaigns chalaya, aur seniors se connect lekar jaise IIMs, NM, SRCC waale se directly pitch karwaya. Sponsorship ke liye bhi personalized deck banaya, jaa ke ek ek sponsor ko bataya ki is competition se unko kya fayda hoga, kya campus brand dikhega, aur unke liye shortlist bhi hum bana sakte hain summer interns waale profiles ka.
+
+Dusra challenge aaya tha execution mein, jab cases shortlist hone the, toh judges ki bhi shortage ho gayi, aur time schedule clash ho raha tha kai teams ka, toh main personally co-ordinate kiya, backup judges plus batches ke team slots jugad kiya, matlab har ek ka samna kiya, ek tarah se mediation ka role bhi le liya.
+
+Aur mujhe lagta hai biggest learning yeh hui ki communication transparent rakhna padta hai, participants ko real time update karte rahna, plus thoda feedback bhi lena ki kya acha laga, kya nahin, taki next time aur improve kar saken. So overall, event ka scale 1.5X ho gaya tha previous year se, and club ki visibility bhi campus pe badh gayi. 
+
+Toh initiative mein outreach, sponsorship aur kaafi operational jugad tha, challenge bhi tha ki sari cheezein time pe ho, but teamwork aur proactive approach se manage ho gaya.
+  >> decision=probe rung=result suff=false http=4042ms calls=4035ms guards=[] leak=[]
+     missing: How the 1.5x increase was measured
+
+INTERVIEWER [s3]: You mentioned the event grew 1.5 times versus the previous year. What exactly was compared to calculate that figure?
+
+  STUDENT [s3] (178w): Haan, toh yeh 1.5 times ka jo growth bola na maine, woh majorly do cheeze compare karke nikala--pehla tha registered participants aur doosra tha actual team entries jo final shortlist mein aaye. Matlab last year club ke records se dekha toh humare paas sath-sath 60 odd teams thi all India se, is baar promote kiya, campaigns wagairah kiye toh total 90 plus teams registered ho gaye, toh approx 1.5X ho gaya. Aur waise bhi individual participant count bhi previous year mein around 180 tha aur abhi 270 ke around touch kiya tha.
+
+Sponsorship side pe bhi, maine dekha ki jo pool amount mila, woh bhi thoda 40-45% badh gaya tha, toh voh bhi internal metric tha club ka, but main generally teams ya participant number se hi growth dikhata ho, kyunki usme sabko dikhta hai impact. Matlab event ka reach aur participation scale up hua, woh exact count se prove ho gaya.
+
+Issi reason se woh 1.5 times ka data confidently bola, sirf estimate nahi tha, actual entry sheet aur registration portal ke numbers dekh ke nikala tha.
+  >> decision=move_on rung=none suff=true http=4029ms calls=4024ms guards=[] leak=[]
+
+INTERVIEWER [s4]: What was the hardest part of negotiating the yarn contracts at Agarwal Textiles?
+
+  STUDENT [s4] (322w): Achha toh sir, honestly yarn contract negotiate karna sabse tough tab lagta hai jab dono parties ko pata hai ki dependency kaafi hai, matlab Reliance-linked suppliers ka monopoly type hold bhi hota hai Surat market mein, aur humein bhi consistent quality aur timely supply chahiye, warna pura production line disturb ho jata hai. Sabse badi challenge yeh thi ki ek taraf volume secure karna tha fixed price pe, doosri taraf fibre rates fluctuate karte hain global market ki wajah se, toh supplier bhi maximum locking period nahi dena chahta tha.
+
+Sabse main tension mujhe laga price lock ke time pe--humari side se toh papa aur uncle chahte the ki kam se kam price risk lein, toh maine pichle 12 mahine ka rate trend nikala aur ek base price pe negotiate kiya, lekin supplier kehte the ki quarterly escalation dalna padega. Matlab, har 3 mahine ke baad revise ho sakta hai, toh wahan thoda tug of war ho gaya, main try kiya ki at least half-yearly fix ho jaaye, jabardasti vo log nahi maane.
+
+Dusra struggle yeh tha ki supplier minimum order quantity ka ek slab introduce karna chahte the, jisse chhote lots pe rate benefit nahi mile, toh fir mujhe aggregate demand pool karna pada from multiple looms, pura internal coordination kiya ki ek baar mein bulk ka order ban sake.
+
+Aur ek last point--terms of payment, kyunki covid mein sab cash flow tight tha, toh main push kar raha tha 60 days credit terms, supplier ready nahi tha beyond 30 days, toh beech ka solution nikala advance plus post-dated cheque waisa kuch arrangement kiya.
+
+Toh sabse tough cheez mujhe price volatility aur contract period lock pe lagi, plus cash flow ka pressure, dono side balance karna padta tha--kabhi toh feel hota tha supplier ka upper hand hai, lekin thoda patience, extra data aur long-term relation dikhane se last mein workable deal ho jata tha, but process mentally exhausting ho jaata hai.
+  >> decision=probe rung=role suff=false http=3528ms calls=3522ms guards=[] leak=[]
+     missing: which negotiation decisions were personally Harsh's rather than his family's or the supplier team's
+
+INTERVIEWER [s4]: Which negotiation decision in that process was personally yours to make?
+
+  STUDENT [s4] (258w): Haan toh sir actually jo sabse important decision mujhe khud se lena pada, woh tha ki hum contract ka duration thoda flexible rakhen ya nahi, matlab ghar pe sab chahte the ki at least ek saal ka price lock mil jaaye, lekin market kaafi volatile tha aur supplier bilkul ready nahi tha long term ke liye. Toh mainne ek middle path propose kiya tha--ki price toh quarterly revise ho sakta hai, but ek cap laga dein ki har quarter mein maximum 4% hi increase ho sakta hai, matlab agar global rate bhi jyada badh gaya toh bhi woh limit ke andar hi hume denge. Yeh clause add karwana pura mera call tha, aur waise unhone pehle manna kiya, but thoda data dikha ke, aur yeh bhi promise kiya ki agar future mein hamara off-take volume badhega toh next time renewal pe unki priority list pe aa jayenge, toh us tarah samjhota ho gaya.
+
+Dusra, payment terms wala bhi mere side se initiate hua, kyunki papa uncle dono bol rahe the ki pura advance de dete hain toh relations strong rahenge, lekin mujhe lagta tha cash flow blockage ho jayega, toh main insist kiya ki partial advance aur baaki PDC (post dated cheque) se kar den, jisse working capital par load na aaye. Yeh cheez supplier ko bhi feasible laga aur ghar pe bhi sab maan gaye. 
+
+Toh in do points pe -- price escalation cap aur staggered payment structure -- yeh personally maine lead kiya tha negotiation mein, aur dono mein give and take karke balance bitha diya.
+  >> decision=move_on rung=none suff=false http=4659ms calls=4653ms guards=["Added a second-chance topic for must-have \"Commercial negotiation\" before the candidate's questions."] leak=[]
+     missing: how the INR 22 crore annual contract value was defined; the commercial outcome of the negotiated terms
+
+INTERVIEWER [second_chance_k2]: Let’s switch gears. Tell me about another time you had to handle a sales or customer-relationship challenge, using a different example from the ones you’ve shared.
+
+  STUDENT [second_chance_k2] (362w): Haan sir, ek alag example bolta hoon, yeh actually family business ka hi hai but thoda routine sales se alag hai--matlab yeh tha jab ek bade dealer ne, jo humare liye top 5 volume wale the, achanak order size cut kar diya aur bola ki abhi se voh dusre supplier se bhi lene lag rahe hain. Mujhe laga ki yeh account lose ho jayega, kyunki usko jo naya supplier tha thoda sasta de raha tha rates main. 
+
+Pehle toh honestly thoda dar lag raha tha ki revenue ka impact ayega, but fir main directly unke paas gaya Surat market mein, face to face milne ka thoda apna hi charm hota hai na, toh pehle toh poora clearly poocha ki kya issue chal raha hai. Unhone bola ki rate ek part hai lekin doosra problem yeh hai ki kuch designs unko fast moving chahiye, laikin humare catalogue mein voh latest nahi aa rahe the. Matlab catalogue update pe hum log thoda slack ho gaye the, Aur delivery cycle bhi kabhi kabhi late ho jaati thi.
+
+Maine same week mein production team ke saath brainstorm kiya, kuch new designs jaldi final karwaye, sample unko personally deliver kiya, aur delivery ki problem pe bhi WhatsApp tracker chalu kara diya jisse unko har consignment ka live update milta raha. Iske alawa mainne unko ek exclusive preview diya sare naya design ka, jaise hi ready hua, matlab baaki dealers se pehle unko dikhaya.
+
+Saath mein, rate match toh poori tarah nahi ho paya, lekin thoda loyalty discount diya volume ke hisab se, aur yeh bhi bola ki saal ke end pe ek extra credit cycle dedenge agar business maintain hua toh. Toh unke liye value add kiya, matlab sirf price war nahi khela, design aur service ke through relationship save kiya.
+
+Result yeh hua ki 2 mahine baad unhone apna order volume restore kar diya, aur feedback diya ki service ab better lag raha hai, aur abhi bhi woh humare regular client hai. 
+
+Toh yahan challenge main tha relationship bachana, competitive market mein differentiate kaise karen, aur personally jaake listen and act approach lena, yeh key tha, rates pe ladte rehte toh shayad customer chala bhi jaata.
+  >> decision=move_on rung=none suff=true http=4109ms calls=4055ms guards=[] leak=[]
+
+INTERVIEWER [second_chance_k3]: Let’s move to a different commercial negotiation example. Tell me about another time you had to negotiate terms or reach a difficult commercial agreement.
+
+  STUDENT [second_chance_k3] (361w): Haan sir, ek aur example deta hoon jo negotiation ka thoda tricky tha, woh dealer onboarding waale phase ka hai jab hum log WhatsApp-based ordering system introduce kar rahe the. Matlab, humare kaafi purane dealers paper order books mein hi comfortable the, especially jo slightly aged hai, woh digital switch karne se reluctant the. Problem yeh tha ki humein process streamline karna tha, orders jaldi lena tha, lekin dealers bolte the ki WhatsApp pe order dene pe unko record ka tension hai, aur kuch log extra discount ya incentive ki demand karne lage just for adopting the new method.
+
+Maine yahan pe negotiation strategy aise rakhi ki pehle sabse bada 8 ya 10 dealers group bana liya, ek pilot batch type ka, aur sabko individually call kiya, unki problem samjhi--koi bolta tha barobar dikhta nahi app pe, koi bolta tracking ka issue hai. Toh main personally har ek ka demo karwane gaya, unke staff ko train kiya, aur fir bola ki pehle mahine mein jo bhi WhatsApp pe order dega usko ek flat incentive milega, aur jo repeat karega uske liye 2% additional discount next consignment pe, lekin woh discount limited time ke liye hi tha.
+
+Thoda aur negotiation hua ki aapka credit term extend kar den, ya express delivery ki guarantee de sakte hain kya. Yahaan pe forced adoption nahi kiya, soft push rakha, aur jo dealer sabse zyada hesitant tha, usko convince kiya ki ek chhota order WhatsApp pe bheje, agar koi dikkat aaye toh hum khud solve kar denge. 
+
+Result yeh nikla ki pehle mahine mein 30% dealers hi switch hue, lekin incentive aur thoda personal attention dene se next quarter tak 140 mein se kareeb 100 plus dealers pura digital ho gaye. Basic negotiation yeh tha ki aap process adopt karo toh hum bhi kuch give karte hain--ya incentive, ya better terms ya thoda hand-holding wala support. Aur wahaan pe jo calls aur face time mein invest kiya uska payback bhi ho gaya, kyunki baad mein process sabke liye easy ho gaya.
+
+Matlab, negotiation yahan one-time deal nahi tha, thoda relationship-driven repeated push tha--har cheez par mutual understanding aur thoda customized solution offer karke final conversion hua.
+  >> decision=move_on rung=none suff=true http=4397ms calls=4387ms guards=[] leak=[]
+
+INTERVIEWER [candidate_questions]: That’s everything from my side. What questions do you have for me?
+
+  STUDENT [candidate_questions] (97w): Haan sir, thanks for asking. Main actually yeh jaana chahta tha ki agar ek candidate aapke team mein join karta hai, toh first 3-6 months mein kis type ka learning ya impact expect karte hain aap, matlab onboarding process ya responsibilities kaise assign ki jaati hain? Aur dusra, aapko kya lagta hai ki jo successful hires rehte hain woh kaunsi habits ya skills show karte hain day to day, specially in sales or BD roles? 
+
+Baaki mujhe lagta hai I have covered most things, aapne kaafi clarity diya. Thank you sir, I don’t have any other questions.
+  >> decision=answer_candidate_question rung=none suff=false http=4324ms calls=4286ms guards=[] leak=[]
+
+INTERVIEWER [candidate_questions]: I’d rather not guess about this team’s exact onboarding process or first 3–6 month expectations; the recruiter can confirm those specifics. In sales and BD, successful hires usually demonstrate consistent customer follow-up, learning agility, and disciplined execution. Is there anything else you’d like to know?
+
+  STUDENT [candidate_questions] (48w): Nahi sir, I think that covers my doubts, aapne jo qualities batayi hai woh bhi kaafi relevant lagti hain mujhe, matlab day to day par bhi uska impact dikhta hai. Main recruiter se onboarding waale details pooch lunga. Thank you so much for your time and guidance, sir.
+  >> decision=close rung=none suff=true http=3410ms calls=3373ms guards=[] leak=[]
+
+INTERVIEWER [candidate_questions]: Thank you for your time, Harsh. That concludes the interview, and your feedback is ready.
+
+=== FEEDBACK v10
+overall: The interview gave clear examples from export growth, dealer retention, and WhatsApp ordering, with specific actions and outcomes. The main pattern holding the answers back was that some results and personal decisions were not tied to a clear measurement or ownership statement.
+priorities: [{"title":"Make results measurable","why":"A clear measurement lets the interviewer trust the business impact behind your resume claims.","action":"When a follow-up asks how a result was calculated, state the comparison used to measure the result.","slot_id":"s1"},{"title":"Clarify commercial outcomes","why":"Specific deal value and business effects make negotiation stories credible and commercially meaningful.","action":"Prepare the agreed outcome and annual-value calculation for the yarn contracts."},{"title":"Lead with the business problem","why":"A direct opening helps the interviewer understand the stakes before hearing the actions.","action":"Open each story with the customer, market, or supplier problem before describing your response."}]
+moments: [{"slot_id":"candidate_questions","quote":"first 3-6 months mein kis type ka learning ya impact expect karte hain","note":"Your questions showed interest in the role's early responsibilities and success habits, but they were broad enough to fit many sales or BD roles.","tip":"Ask how a new hire would build a first territory or customer pipeline during the first few months."}]
+
+-- s1 verdict=on_track q=You mentioned the Asian Paints stock-out project. What did you personally analyse first when identifying the 12 fast-moving SKUs?
+   situation: good_job [first_answer] You described stock-outs across dealers and SKUs using “dealer-wise and SKU-wise sales data” from the previous three to six months. {}
+   task: on_track [first_answer] You explained that the project required identifying the fast-moving products creating the greatest lost-sales risk. {12 fast-movers identify}
+   action: good_job [first_answer] You clearly named the analysis, dealer conversations, weekly route, low order quantity, and follow-up with logistics. {}
+   result: needs_work [not_given] You said the pilot received a good response, but did not explain how the estimated INR 9 lakh monthly reduction was measured. {}
+   followup: good_job [null] You answered the follow-up directly by naming the weekly route, low order quantity, and daily coordination as your decisions. {}
+   went_well: You named the specific route design and the operating choices behind it, rather than describing the project generally. {}
+   to_fix: The answer ended with a general positive response instead of explaining how the INR 9 lakh monthly impact was calculated. An interviewer will notice that the resume's headline result remains unsupported. {Isse response achha aaya}
+   plan: ["Start with the stock-out problem: 40% of stock-outs were concentrated in 12 fast-moving SKUs.","Explain the data you compared and the dealer feedback you added.","State the weekly route and low order quantity as your decisions.","End with how the pilot result was measured: [comparison, period, and records used]."]
+   stronger: The pilot covered the 12 fast-moving SKUs, with a weekly route and low minimum order quantity. I [explain how you measured the change in lost orders], using [the records and comparison period]. The result was the estimated INR 9 lakh monthly reduction in lost orders.
+
+-- s2 verdict=good_job q=Understood. Let’s move to your export work at Agarwal Textiles. How did opening the Bangladesh, Sri Lanka and UAE markets come about?
+   situation: good_job [first_answer] You explained that domestic orders had slowed after Covid and that the business needed new markets beyond Gujarat and Maharashtra. {domestic orders slow ho rahe the}
+   task: good_job [first_answer] You described taking responsibility for exploring markets, finding buyers, adapting products, and building repeat orders. {buyer leads search kiya}
+   action: good_job [first_answer] You gave concrete actions including exporter contacts, online outreach, samples, product changes, shipping coordination, and follow-up. {samples bheje, phir WhatsApp pe regular coordination}
+   result: good_job [after_follow_up] You explained the increase from 4% to 19% as export sales divided by total net sales, cross-checked with Tally, Excel, invoices, and remittances. {export sales divided by total net sales}
+   followup: good_job [null] You answered the measurement question directly and added the records and reporting process used. {Tally register cross check karke}
+   went_well: You connected market activity to a clear calculation and explained how the figures were checked. {export sales divided by total net sales}
+   to_fix: Calling the expansion partly accidental weakens the opening because the rest of the answer shows deliberate market research and outreach. Start with the business problem and your market-selection logic instead. {woh thoda accidental bhi tha}
+   plan: ["Start with the domestic slowdown and the goal of finding export markets.","Explain why Bangladesh, Sri Lanka, and UAE were selected.","Describe your outreach, samples, product changes, and repeat-order work.","Close with the 4% to 19% calculation and the records used to verify it."]
+   stronger: Domestic orders were slowing, so I researched export demand and targeted Bangladesh, Sri Lanka, and UAE. I searched buyer leads, sent samples, adapted the offering, and coordinated delivery and follow-ups. Export share grew from 4% to 19% of revenue, calculated as export sales divided by total net sales and cross-checked in Tally and Excel.
+
+-- s3 verdict=on_track q=Let’s move to your role as Coordinator of the Sales and Marketing Club at IIM Lucknow. Tell me about one initiative or challenge you handled there.
+   situation: good_job [first_answer] You gave a specific challenge: an inter-college case competition had low participation and weak sponsor interest after Covid. {participation utna zyada nahi aata tha}
+   task: on_track [first_answer] You described responsibility for outreach, sponsorship, judges, schedules, and event execution. {pura ecosystem chalu rakhna padta hai}
+   action: good_job [first_answer] You named formal outreach, sponsor decks, judge coordination, backup planning, and participant updates. {colleges ke outreach ko formalise kiya}
+   result: good_job [after_follow_up] You gave team, participant, and sponsorship comparisons, including growth from about 60 to over 90 teams. {}
+   followup: good_job [null] You explained exactly which records and measures produced the 1.5 times figure. {}
+   went_well: You connected the challenge to specific coordination actions across outreach, sponsors, judges, and schedules. {colleges ke outreach ko formalise kiya}
+   to_fix: The conclusion shifts into general teamwork language instead of stating your own contribution and the measured change. Keep the closing tied to the event result. {teamwork aur proactive approach se manage ho gaya}
+   plan: ["Set up the participation and sponsorship problem after Covid.","State the parts you owned: outreach, sponsor pitches, judge coordination, and schedules.","Give the event comparison using teams or participants and the records used.","End with the practical effect on reach, sponsorship, or event execution."]
+   stronger: The event had low participation and sponsor interest after Covid. I formalised college outreach, created sponsor pitches, and coordinated judges and schedules. Registrations increased from about 60 to over 90 teams, based on the entry sheet and registration portal.
+
+-- s4 verdict=on_track q=What was the hardest part of negotiating the yarn contracts at Agarwal Textiles?
+   situation: good_job [first_answer] You explained the commercial stakes: supplier concentration, volatile fibre prices, supply continuity, order quantities, and cash-flow pressure. {fibre rates fluctuate karte hain}
+   task: on_track [first_answer] You described balancing price protection, supply security, volume, and payment terms, but did not clearly state the goal for the INR 22 crore annual contracts. {volume secure karna tha fixed price pe}
+   action: good_job [after_follow_up] You named the four percent escalation cap, pooled demand, and partial advance with post-dated cheques as your decisions. {maximum 4% hi increase ho sakta hai}
+   result: needs_work [not_given] You said the deal became workable, but did not explain the contract's annual value or the commercial effect of the terms. {}
+   followup: good_job [null] You answered the follow-up with two clear decisions and explained the trade-off behind each. {}
+   went_well: You identified a precise negotiation decision and explained why it protected the business from price volatility. {maximum 4% hi increase ho sakta hai}
+   to_fix: The answer did not connect the agreement to the INR 22 crore annual value or state what changed commercially. That leaves the scale of the negotiation and its outcome unclear. {last mein workable deal ho jata tha}
+   plan: ["Set up the supplier dependence, price volatility, and cash-flow constraints.","State the annual contract scope: INR 22 crore with two Reliance-linked suppliers.","Explain the four percent cap and partial-advance/PDC structure as your decisions.","End with [the agreed commercial result and how the annual value was defined]."]
+   stronger: The negotiation covered yarn contracts worth INR 22 crore a year with two Reliance-linked suppliers. I proposed a maximum 4% quarterly increase and partial advance with the balance through post-dated cheques. The result was [the agreed commercial outcome and how the annual value was defined].
+
+-- second_chance_k2 verdict=good_job q=Let’s switch gears. Tell me about another time you had to handle a sales or customer-relationship challenge, using a different example from the ones you’ve shared.
+   situation: good_job [first_answer] You described a major dealer reducing orders after receiving lower prices and facing design and delivery issues. {order size cut kar diya}
+   task: good_job [first_answer] You clearly stated that the aim was to retain the dealer relationship and prevent the account from being lost. {}
+   action: good_job [first_answer] You described listening to the dealer, coordinating new designs, adding delivery tracking, offering previews, and using a limited discount. {delivery ki problem pe bhi WhatsApp tracker chalu kara}
+   result: good_job [first_answer] You reported that order volume was restored after two months and the dealer remained a regular client. {2 mahine baad unhone apna order volume restore kar diya}
+   went_well: You showed a clear customer problem, a tailored response beyond price cutting, and a concrete retention outcome. {2 mahine baad unhone apna order volume restore kar diya}
+   to_fix: The opening spends time on your personal worry before stating the customer problem. Lead with the dealer's change in orders and the business risk. {pehle toh honestly thoda dar lag raha tha}
+   plan: ["Open with the dealer's reduced orders and the reasons they gave.","State that your goal was to retain the account without relying only on price.","Describe the design, delivery-tracking, preview, and pricing actions.","Close with the restored volume after two months and continued relationship."]
+   stronger: A top-five dealer reduced orders because a competitor was cheaper, our designs were less current, and deliveries were sometimes late. I met the dealer, coordinated new designs, started a WhatsApp delivery tracker, offered an exclusive preview, and used a volume-based loyalty discount. After two months, the dealer restored order volume and remained a regular client.
+
+-- second_chance_k3 verdict=good_job q=Let’s move to a different commercial negotiation example. Tell me about another time you had to negotiate terms or reach a difficult commercial agreement.
+   situation: good_job [first_answer] You described older dealers resisting the move from paper orders to WhatsApp ordering because of record-keeping concerns and requests for incentives. {paper order books mein hi comfortable the}
+   task: good_job [first_answer] You explained the goal of streamlining order processing while gaining dealer adoption without forcing the change. {process streamline karna tha}
+   action: good_job [first_answer] You described piloting with dealers, making calls, giving demonstrations, training staff, and negotiating limited incentives and support. {har ek ka demo karwane gaya}
+   result: good_job [first_answer] You reported adoption rising from 30% initially to over 100 of 140 dealers by the next quarter. {140 mein se kareeb 100 plus dealers}
+   went_well: You showed how you adjusted the offer to dealer concerns and gave a measurable adoption outcome. {140 mein se kareeb 100 plus dealers pura digital ho gaye}
+   to_fix: The result is clear, but the answer could distinguish which incentive or support changed adoption most. That would make the negotiation logic easier to follow. {thoda personal attention dene se}
+   plan: ["Describe the dealer concern about records, training, or discounts.","Explain the pilot and the specific support or incentive you offered.","State how you handled the most hesitant dealers.","Close with adoption moving from 30% to over 100 of 140 dealers by the next quarter."]
+   stronger: Dealers were reluctant to leave paper order books because of record-keeping concerns. I ran a pilot, gave demonstrations, trained staff, and offered a limited incentive and additional support. Adoption rose from 30% initially to over 100 of 140 dealers by the next quarter.
+
+jd_coverage: []
