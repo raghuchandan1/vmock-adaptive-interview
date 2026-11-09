@@ -54,7 +54,7 @@
     const TYPE = { 'Recruiter screen': 'Screening round', 'Hiring manager': 'Hiring manager round', 'Back your resume': 'CV Deep Dive' };
     const date = (iso) => new Date(iso).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
     const row = (x) => `<a class="d-past-row" href="/interviews/adaptive/room?entry=${entry}&feedback=${encodeURIComponent(x.id)}">
-        <span class="d-past-main"><strong>${esc(x.role || 'Practice interview')}</strong><span>${esc(TYPE[x.interview_type] || 'Adaptive interview')} · ${esc(date(x.created_at))} · ${x.turns} answer${x.turns === 1 ? '' : 's'}</span></span>
+        <span class="d-past-main"><strong>${esc(x.role || 'Practice interview')}</strong><span>${esc(TYPE[x.interview_type] || 'AI Interviewer')} · ${esc(date(x.created_at))} · ${x.turns} answer${x.turns === 1 ? '' : 's'}</span></span>
         <span class="d-past-cta">${x.has_feedback ? 'View Feedback' : 'Get Feedback'}<svg class="ic"><use href="#i-arrow"/></svg></span></a>`;
     box.innerHTML = `<div class="d-past-head"><h2 class="d-h">Your past interviews</h2>${list.length ? `<span>${list.length} interview${list.length === 1 ? '' : 's'}</span>` : ''}</div>
       ${list.length ? `<div class="d-past-list">${list.map(row).join('')}</div>` : '<p class="d-empty">No interviews yet. Your feedback shows up here after each one.</p>'}`;

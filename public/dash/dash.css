@@ -125,7 +125,7 @@ body.d-page {
 .d-main { flex: 1; min-width: 0; padding: 22px 24px 32px; }
 .d-h { font-size: 16px; line-height: 22px; font-weight: 700; color: var(--d-ink-2); }
 
-/* Sub-tabs (Mock Interview | Recommended | Resume + JD) with the tools on the right. */
+/* Sub-tabs (Mock Interview | Recommended | AI Interviewer) with the tools on the right. */
 .d-subbar { margin-top: 18px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid var(--d-line); }
 .d-subtabs { display: flex; gap: 8px; }
 .d-subtabs a { flex: none; white-space: nowrap; position: relative; height: 42px; padding: 0 10px; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--d-muted); }

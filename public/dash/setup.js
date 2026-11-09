@@ -1,6 +1,6 @@
 // Dashboard replica: the setup sheet (copy of the dashboard's SMART Interview sheet). Same handoff as the /vmock wizard
 // (vmock/setup.js): the inputs go to sessionStorage and the room takes them; "entry" says which product it came from.
-//   entry=mock (Mock Interview, Resume + JD): Job description (required) -> Select CV -> Interview details.
+//   entry=mock (Mock Interviews > AI Interviewer): Job description (required) -> Select CV -> Interview details.
 //   entry=cv (CV Deep Dive): Select CV -> Interview details; resume only, type fixed to the resume deep dive.
 (() => {
   const $ = (id) => document.getElementById(id);
@@ -172,7 +172,7 @@
     $('closeBtn').href = ENTRY_URL;
     $('typeField').hidden = entry === 'cv';
     $('cvSub').textContent = entry === 'cv' ? 'Pick the CV to be interviewed on, line by line' : 'Pick a CV to build your interview from, with the job description';
-    document.title = `${entry === 'cv' ? 'CV Deep Dive' : 'Mock Interview'} setup | VMock Dashboard`;
+    document.title = `${entry === 'cv' ? 'CV Deep Dive' : 'AI Interviewer'} setup | VMock Dashboard`;
     $('nextBtn').addEventListener('click', next);
     $('backBtn').addEventListener('click', back);
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') location.href = ENTRY_URL; });

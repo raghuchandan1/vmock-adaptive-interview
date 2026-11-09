@@ -176,8 +176,8 @@
       <div class="rm-titlecard">
         <span class="rm-titleicon" aria-hidden="true"><svg class="ic"><use href="#i-mic"/></svg></span>
         <div class="rm-titletext">
-          <div class="rm-eyebrow" id="roomType">Adaptive Interview</div>
-          <div class="rm-title" id="briefTitle">Adaptive Interview</div>
+          <div class="rm-eyebrow" id="roomType">AI Interviewer</div>
+          <div class="rm-title" id="briefTitle">AI Interviewer</div>
           <div class="rm-titlesub" id="roomCompany" hidden></div>
           <div class="rm-meta" id="roomSub"></div>
         </div>
@@ -248,7 +248,7 @@
     <div class="rm-call">
       <div class="rm-call-meta">
         <div>
-          <div class="rm-eyebrow" id="liveType">Adaptive Interview</div>
+          <div class="rm-eyebrow" id="liveType">AI Interviewer</div>
           <div class="rm-call-role" id="liveSub"></div>
         </div>
         <div class="rm-clock">
@@ -356,7 +356,7 @@
     let s = null;
     try { s = JSON.parse(sessionStorage.getItem('vmock_adaptive_setup') || 'null'); } catch (_) { /* storage blocked */ }
     if (!s) return;
-    const type = TYPE[s.interview_type] || 'Adaptive Interview';
+    const type = TYPE[s.interview_type] || 'AI Interviewer';
     document.getElementById('roomType').textContent = type;
     document.getElementById('liveType').textContent = type;
     window.ROOM_DOMAIN = s.domain || ''; // for the title once the plan arrives (the plan summary has no domain)

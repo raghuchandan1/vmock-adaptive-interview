@@ -84,7 +84,7 @@
 
   // ---------- Header bar ----------
   function header(s, fb) {
-    const type = TYPE[s.inputs?.interview_type] || 'Adaptive interview';
+    const type = TYPE[s.inputs?.interview_type] || 'AI Interviewer';
     const role = s.plan?.jd?.role_title || s.inputs?.target_role || (s.inputs?.domain ? `${s.inputs.domain} interview` : 'Practice interview');
     const company = s.plan?.jd?.company;
     const style = s.surprise ? `Surprise style (${STYLE[s.style] || s.style})` : `${STYLE[s.style] || s.style} style`;
