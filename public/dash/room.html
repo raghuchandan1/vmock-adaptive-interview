@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://use.typekit.net/owg1qdp.css">
 <!-- Dashboard replica room: the same markup contract and student.js as /vmock/adaptive-interview/room (vmock/room.html),
      restyled in the dashboard design: vmock/room.css gives the structure, dash/room.css the dashboard look, and
-     dash/feedback.js renders the feedback as the dashboard's results page. -->
+     dash/feedback-v2.js renders the feedback (topic by topic, in the dashboard's look). -->
 <link rel="stylesheet" href="/vmock/vmock.css">
 <link rel="stylesheet" href="/styles.css">
 <link rel="stylesheet" href="/student.css">
@@ -16,13 +16,10 @@
 <link rel="stylesheet" href="/dash/room.css">
 <link rel="stylesheet" href="/dash/feedback.css">
 <script>
-  // Feedback version: v2 (topic by topic) by default; ?fbview=v1 loads the first dashboard version for comparing.
-  // Both share feedback.css; v2 adds feedback-v2.css. Remove the losing version once one is chosen.
-  // A second "?" (…&feedback=ID?fbview=v1) would end up inside the feedback id: read it as "&" before anything parses the URL.
+  // A second "?" in a hand-edited link (…&feedback=ID?x=1) would end up inside the feedback id: read it as "&".
   if (location.search.indexOf('?', 1) > 0) history.replaceState(null, '', location.pathname + '?' + location.search.slice(1).replace(/\?/g, '&') + location.hash);
-  window.DASH_FB = new URLSearchParams(location.search).get('fbview') === 'v1' ? 'feedback' : 'feedback-v2';
-  if (window.DASH_FB === 'feedback-v2') document.write('<link rel="stylesheet" href="/dash/feedback-v2.css">');
 </script>
+<link rel="stylesheet" href="/dash/feedback-v2.css">
 <script>
   // Which product this interview came from: the setup's handoff, else ?entry= (past feedback links), else the last setup.
   // It decides where "Change setup" / "New interview" go and the product name in the top bar.
@@ -324,13 +321,13 @@
     </aside>
   </section>
 
-  <!-- Feedback, as the dashboard's results page (dash/feedback.js): a bar with the interview, Summary | Detailed Feedback
+  <!-- Feedback, as the dashboard's results page (dash/feedback-v2.js): a bar with the interview, Summary | Detailed Feedback
        and the actions, then the view. -->
   <section id="screen-feedback" class="screen dr-fb-screen" hidden>
     <div class="dr-fbbar">
       <div class="dr-fbbar-id">
         <div class="dr-fbbar-type" id="fbType">Feedback</div>
-        <div class="dr-fbbar-role"><span id="fbRole">Your feedback</span><span class="dr-fbbar-meta" id="feedbackMeta"></span></div>
+        <div class="dr-fbbar-role"><h1 class="dr-fbbar-h1" id="fbRole">Your feedback</h1><span class="dr-fbbar-meta" id="feedbackMeta"></span></div>
       </div>
       <div class="dr-fbtabs" role="tablist" aria-label="Feedback" id="fbTabs"></div>
       <div class="dr-fbbar-actions">
@@ -356,7 +353,7 @@
 <audio id="voice" preload="none"></audio>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="/shared.js"></script>
-<script>document.write(`<script src="/dash/${window.DASH_FB}.js"><\/script>`);</script>
+<script src="/dash/feedback-v2.js"></script>
 <script src="/student.js"></script>
 <script>
   // Title card: until the plan arrives (student.js then sets the title from it), show the type and role the student

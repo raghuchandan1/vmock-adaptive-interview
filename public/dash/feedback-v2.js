@@ -1,10 +1,12 @@
-/* Dashboard replica room, feedback v2 (default; ?fbview=v1 loads feedback.js for comparing). Same data and look as v1,
+/* Dashboard replica room: the feedback screen (base styles in feedback.css, this version's in feedback-v2.css),
    organised topic by topic (each topic is an opening question plus its follow-ups):
-   - Summary: how it went and the tally, then "Topic by topic" as the main list (question asked, one line, follow-ups,
-     result), then Content Strength across your answers (VMock's group names); goal and priorities on the right.
-   - Detailed: one topic per page, read top to bottom with no sub-menu: what you did, how to answer it next time, the
-     checklist (each element, where it appeared, its level), the follow-ups; the transcript on the right, and any quote
-     scrolls to its line. Previous / Next topic at the bottom.
+   - Summary: how it went and the tally; the habit to fix first beside it (where it happened, in the student's words,
+     and how to say it), then "Topic by topic" (question asked, one line, follow-ups, result) and Content Strength
+     across your answers as one divided list. On a phone the habit comes straight after the summary.
+   - Detailed: one topic per page with section links at its top: a glance strip (said unprompted / after a follow-up /
+     missing), what you did, how to answer it next time, the checklist (Good Job rows folded), the follow-ups. The
+     transcript on the right marks every quoted line by level; a quote scrolls to its line. A topic from a CV line
+     offers "Practise this line again" (CV Deep Dive with the line chosen).
    Content only: no Non Verbal or Delivery of Speech. Replaces VM.renderFeedback on dash/room.html only. */
 (() => {
   const esc = VM.esc;
@@ -19,6 +21,7 @@
   const reEscape = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
   const firstSentence = (x) => (String(x || '').match(/^.*?[.!?](\s|$)/) || [String(x || '')])[0].trim();
+  const sentences = (x, n) => (String(x || '').match(/[^.!?]+[.!?]+(\s|$)/g) || [String(x || '')]).slice(0, n).join('').trim();
 
   // The row icon follows the level (a tick only for Good Job), so a red tick never says "good" next to Needs Work.
   const LEVEL_ICON = { good_job: 'i-check', on_track: 'i-minus', needs_work: 'i-alert' };
@@ -108,18 +111,46 @@
     const sec = Math.max(0, Math.round(ms / 1000));
     return `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`;
   }
+  // Marks every quoted line in the student's answer, coloured by level, with what it shows on hover. Works on the
+  // plain text (first match per quote, overlaps skipped), so marks never nest or cut through each other.
+  function annotate(text, marks) {
+    const low = text.toLowerCase();
+    const ranges = [];
+    for (const m of marks) {
+      const i = m.q ? low.indexOf(m.q.toLowerCase()) : -1;
+      if (i < 0) continue;
+      const r = { s: i, e: i + m.q.length, m };
+      if (!ranges.some((x) => r.s < x.e && x.s < r.e)) ranges.push(r);
+    }
+    ranges.sort((a, b) => a.s - b.s);
+    let html = '', at = 0;
+    for (const r of ranges) {
+      html += `${esc(text.slice(at, r.s))}<mark class="dr2-mark ${r.m.cls}" title="${esc(r.m.label)}">${esc(text.slice(r.s, r.e))}</mark>`;
+      at = r.e;
+    }
+    return html + esc(text.slice(at));
+  }
+  const ORDER = { needs_work: 0, on_track: 1, good_job: 2 };
+  function marksFor(t) {
+    const out = [{ q: t.to_fix_quote, cls: 'work', label: 'What to fix' }];
+    if (t.resume_mismatch) out.push({ q: t.resume_mismatch.quote, cls: 'work', label: "Doesn't match your CV" });
+    out.push({ q: t.went_well_quote, cls: 'good', label: 'What went well' });
+    [...(t.ratings || [])].filter((r) => r.quote && LEVEL[r.level]).sort((a, b) => ORDER[a.level] - ORDER[b.level])
+      .forEach((r) => out.push({ q: r.quote, cls: LEVEL[r.level][1], label: `${r.label}: ${LEVEL[r.level][0]}` }));
+    return out.filter((m) => m.q);
+  }
   function scriptPane(s, t) {
     const t0 = Date.parse((s.transcript[0] || {}).at || s.created_at);
     const lines = s.transcript.filter((e) => e.slot_id === t.slot_id);
-    const marks = [t.went_well_quote, t.to_fix_quote, t.resume_mismatch && t.resume_mismatch.quote];
+    const marks = marksFor(t);
     const seg = t.segment && t.segment.start ? `<span class="dr-seg">${clock(Date.parse(t.segment.start) - t0)} - ${t.segment.end ? clock(Date.parse(t.segment.end) - t0) : '…'}</span>` : '';
     return `<aside class="dr-script" aria-label="Script">
       <div class="dr-script-tabs"><span class="dr-script-tab" aria-current="true">Script</span>${seg}</div>
       <div class="dr-script-body">${lines.length ? lines.map((e) => `<div class="dr-line ${e.role === 'candidate' ? 'you' : 'ai'}">
           <div class="dr-line-who">${e.role === 'candidate' ? 'You' : 'Interviewer'}<time>${e.at ? clock(Date.parse(e.at) - t0) : ''}</time></div>
-          <p>${e.role === 'candidate' ? highlight(e.text, marks) : esc(e.text)}</p></div>`).join('')
-        : '<p class="dr-muted">No transcript for this question.</p>'}</div>
-      ${marks.some(Boolean) ? '<p class="dr-script-key"><mark>Highlighted</mark> the lines your feedback quotes.</p>' : ''}
+          <p>${e.role === 'candidate' ? annotate(e.text, marks) : esc(e.text)}</p></div>`).join('')
+        : '<p class="dr-muted">No transcript for this topic.</p>'}</div>
+      ${marks.length ? '<p class="dr-script-key"><mark class="dr2-mark good">Strong</mark> <mark class="dr2-mark track">Partly there</mark> <mark class="dr2-mark work">To fix</mark> Hover a highlight to see what it shows.</p>' : ''}
     </aside>`;
   }
 
@@ -147,17 +178,16 @@
     if (t.resume_mismatch) boxes.push(`<div class="dr-box fix dr2-wide"><h4>Doesn't match your CV</h4>${quote(t.resume_mismatch.quote)}<p>${esc(t.resume_mismatch.note)}</p>${t.resume_mismatch.tip ? `<p class="dr-tip">${esc(t.resume_mismatch.tip)}</p>` : ''}</div>`);
     return boxes.join('') || '<p class="dr-muted">Nothing to note here.</p>';
   }
-  // Checklist: every element of the answer in one table, under VMock's group names. Where it appeared shows whether
-  // the student gave it unprompted, only after a follow-up, or not at all.
+  // Checklist: every element of the answer under VMock's group names, with where it appeared (unprompted, only after a
+  // follow-up, or not at all) and its level. Good Job rows are folded to one line; the rest open with the reason.
   function checklist(t) {
     return `<div class="dr2-check">${groupsFor(t).map((g) => {
       const lv = moduleLevel(g.items.map((r) => r.level));
       return `<div class="dr2-check-group">
-        <div class="dr2-check-head"><span class="dr-row-icon ${lv ? LEVEL[lv][1] : ''}" aria-hidden="true"><svg class="ic"><use href="#${levelIcon(lv)}"/></svg></span>
-          <strong>${esc(g.name)}</strong>${GROUP_HELP[g.name] ? `<span class="dr2-check-help">${GROUP_HELP[g.name]}</span>` : ''}</div>
-        ${g.items.map((r) => `<div class="dr2-check-row">
-          <div class="dr2-check-main"><strong>${esc(r.label)}</strong><p>${esc(r.reason)}</p>${quote(r.quote)}</div>
-          <span class="dr2-found ${r.found || ''}">${r.found ? FOUND[r.found] : ''}</span>${pill(r.level, 'sm')}</div>`).join('')}
+        <div class="dr2-check-head"><strong>${esc(g.name)}</strong>${GROUP_HELP[g.name] ? `<span class="dr2-check-help">${GROUP_HELP[g.name]}</span>` : ''}${pill(lv, 'sm')}</div>
+        ${g.items.map((r) => `<details class="dr2-check-row"${r.level === 'good_job' ? '' : ' open'}>
+          <summary><strong>${esc(r.label)}</strong><span class="dr2-found ${r.found || ''}">${r.found ? FOUND[r.found] : ''}</span>${pill(r.level, 'sm')}</summary>
+          <div class="dr2-check-main"><p>${esc(r.reason)}</p>${quote(r.quote)}</div></details>`).join('')}
       </div>`;
     }).join('')}</div>`;
   }
@@ -165,25 +195,36 @@
     return `<ul class="dr-fus">${t.follow_ups.map((f) => `<li><p class="dr-fu-q">“${esc(f.question)}”</p>${f.why ? `<p class="dr-muted">${esc(f.why)}</p>` : ''}
       ${f.asked_for_label && f.given !== null ? `<span class="d-pill sm ${f.given ? 'good' : 'work'}">${f.given ? 'You added' : 'Still missing'}: ${esc(f.asked_for_label.toLowerCase())}</span>` : ''}</li>`).join('')}</ul>`;
   }
-  const section = (title, body, extra = '') => (body ? `<section class="dr2-sec"><div class="dr2-sec-head"><h3>${title}</h3>${extra}</div>${body}</section>` : '');
+  const section = (id, title, body, extra = '') => (body ? `<section class="dr2-sec" id="${id}"><div class="dr2-sec-head"><h3>${title}</h3>${extra}</div>${body}</section>` : '');
+  // What the topic's lesson is at a glance: which parts came unprompted, which only after a follow-up, which never.
+  function glance(t) {
+    const rs = (t.ratings || []).filter((r) => r.dimension !== 'followup' && r.found);
+    const parts = [['first_answer', 'Said unprompted'], ['after_follow_up', 'After a follow-up'], ['not_given', 'Missing']]
+      .map(([f, name]) => [f, name, rs.filter((r) => r.found === f).map((r) => r.label)]).filter(([, , ls]) => ls.length);
+    return parts.length ? `<div class="dr2-glance">${parts.map(([f, name, ls]) => `<span class="dr2-glance-item ${f}"><b>${name}:</b> ${esc(ls.join(', '))}</span>`).join('')}</div>` : '';
+  }
   function topicPane(s, t, i, n, open) {
     const source = t.resume_line ? `<p class="dr-from"><span>From your CV</span>“${esc(t.resume_line)}”</p>`
       : t.jd_line ? `<p class="dr-from"><span>From the job description</span>${esc(t.jd_line)}</p>` : '';
     const fus = (t.follow_ups || []).length;
+    const secs = [
+      !t.too_short && ['did', 'What you did', didBody(t)],
+      ['next', 'How to answer it next time', nextTimeBody(t)],
+      !t.too_short && groupsFor(t).length && ['check', 'Checklist', checklist(t), '<span class="dr-muted">What a strong answer to this topic has, and where yours showed it</span>'],
+      fus && ['fu', 'Follow-ups', followUpsBody(t)],
+    ].filter(Boolean);
     const nav = `<div class="dr2-nav">${i > 0 ? `<button class="d-btn outline sm" type="button" data-goto="${i - 1}">Previous topic</button>` : '<span></span>'}
       ${i < n - 1 ? `<button class="d-btn primary sm" type="button" data-goto="${i + 1}">Next topic</button>` : '<button class="d-btn outline sm" type="button" data-goto="across">Across the interview</button>'}</div>`;
     return `<article class="dr-qpane" id="dr-q-${i}" data-q="${i}" role="tabpanel" aria-labelledby="dr-qpill-${i}"${open ? '' : ' hidden'}>
       <div class="dr2-topic">
-        <div><p class="dr2-eyebrow">Topic ${i + 1} of ${n} · ${esc(topicName(t))}${fus ? ` · ${plural(fus, 'follow-up')}` : ''}</p>
-          <p class="dr2-q">${esc(t.question || topicName(t))}</p>${source}</div>
-        ${resultPill(t)}
+        <div class="dr2-topic-main"><p class="dr2-eyebrow">Topic ${i + 1} of ${n} · ${esc(topicName(t))}${fus ? ` · ${plural(fus, 'follow-up')}` : ''}</p>
+          <p class="dr2-q">${esc(t.question || topicName(t))}</p>${source}${t.too_short ? '' : glance(t)}</div>
+        <div class="dr2-topic-side">${resultPill(t)}${t.resume_line ? `<button class="d-btn outline sm" type="button" data-practise="${i}">Practise this line again</button>` : ''}</div>
       </div>
       <div class="dr-qgrid">
         <div class="dr2-body">
-          ${t.too_short ? '' : section('What you did', didBody(t))}
-          ${section('How to answer it next time', nextTimeBody(t))}
-          ${t.too_short ? '' : section('Checklist', groupsFor(t).length ? checklist(t) : '', '<span class="dr-muted">What a strong answer to this topic has, and where yours showed it</span>')}
-          ${fus ? section('Follow-ups', followUpsBody(t)) : ''}
+          ${secs.length > 1 ? `<nav class="dr2-secnav" aria-label="Sections">${secs.map(([id, title]) => `<a href="#dr2-${i}-${id}" data-sec="dr2-${i}-${id}">${title}</a>`).join('')}</nav>` : ''}
+          ${secs.map(([id, title, body, extra]) => section(`dr2-${i}-${id}`, title, body, extra)).join('')}
           ${nav}
         </div>
         ${scriptPane(s, t)}
@@ -221,7 +262,8 @@
     const count = (v) => fb.topics.filter((t) => t.verdict === v).length;
     const tally = ['good_job', 'on_track', 'needs_work'].filter(count).map((v) => `<span class="d-pill ${LEVEL[v][1]}">${count(v)} ${LEVEL[v][0]}</span>`).join('');
     const goalQ = goal && goal.slot_id ? fb.topics.findIndex((t) => t.slot_id === goal.slot_id) : -1;
-    const left = `<section class="dr-sum-main">
+    const gt = goalQ >= 0 ? fb.topics[goalQ] : null;
+    const head = `<section class="dr-sum-main dr2-head">
       <div class="dr-sum-head">
         <span class="dr-sum-icon" aria-hidden="true"><svg class="ic"><use href="#i-doc"/></svg></span>
         <div><h2>How your interview went</h2>
@@ -229,6 +271,22 @@
           ${judged ? '' : '<p class="dr-overall">None of your answers was long enough to judge. Open a topic for the steps to answer it next time.</p>'}</div>
         ${tally ? `<div class="dr-tally" role="group" aria-label="Results across your answers">${tally}</div>` : ''}
       </div>
+    </section>`;
+    // The habit to fix first: where it happened, in the student's own words, and how to say it (from that topic).
+    const rail = `<aside class="dr-sum-side">
+      <h2>How to improve?</h2>
+      ${goal ? `<div class="dr-goal"><div class="dr-goal-meta"><span>Fix this first</span><span class="dr-impact"><svg class="ic" aria-hidden="true"><use href="#i-up"/></svg>High impact</span></div>
+        <h3>${esc(goal.title)}</h3>${goal.action ? `<p><strong>Try this:</strong> ${esc(goal.action)}</p>` : ''}${goal.why ? `<p class="dr-muted">${esc(goal.why)}</p>` : ''}
+        ${gt ? `<div class="dr2-where"><span class="dr2-where-h">Where it happened</span>
+          <button class="dr2-where-link" type="button" data-open="${goalQ}">Topic ${goalQ + 1} · ${esc(topicName(gt))}</button>
+          ${gt.to_fix_quote ? `<p class="dr2-where-q">“${esc(gt.to_fix_quote)}”</p>` : ''}</div>
+          ${gt.stronger_version ? `<div class="dr2-sayit"><span class="dr2-where-h">Say it like this</span><p>${blanks(sentences(gt.stronger_version, 2))}</p>
+            <button class="dr-link" type="button" data-open="${goalQ}">See the full answer in topic ${goalQ + 1}</button></div>` : ''}` : ''}
+      </div>` : ''}
+      ${fb.topics.length ? '<button class="d-btn primary dr-wide" type="button" data-detailed>View Detailed Feedback</button>' : ''}
+      ${more.length ? `<h3 class="dr-also-h">Also work on</h3><ul class="dr-also">${more.map((x) => `<li><span class="dr-dot" aria-hidden="true"></span><div><strong>${esc(x.title)}</strong>${x.action ? `<p>${esc(x.action)}</p>` : ''}</div></li>`).join('')}</ul>` : ''}
+    </aside>`;
+    const rest = `<section class="dr-sum-main dr2-rest">
       <h3 class="dr2-h">Topic by topic</h3>
       <ol class="dr2-topics">${fb.topics.map((t, i) => {
         const fus = (t.follow_ups || []).length;
@@ -242,20 +300,10 @@
       }).join('')}</ol>
       ${across.length ? `<h3 class="dr2-h">Content Strength across your answers</h3>
         <p class="dr-muted dr2-sub">Whether your answers had the parts a strong answer needs, by VMock's content checks.</p>
-        <ul class="dr2-across">${across.map((g) => `<li><span class="dr-row-icon ${LEVEL[g.level][1]}" aria-hidden="true"><svg class="ic"><use href="#${levelIcon(g.level)}"/></svg></span>
-          <span><strong>${esc(g.name)}</strong>${GROUP_HELP[g.name] ? `<span>${GROUP_HELP[g.name]}</span>` : ''}</span>${pill(g.level, 'sm')}</li>`).join('')}</ul>` : ''}
+        <ul class="dr2-cs">${across.map((g) => `<li><span><strong>${esc(g.name)}</strong>${GROUP_HELP[g.name] ? `<span>${GROUP_HELP[g.name]}</span>` : ''}</span>${pill(g.level, 'sm')}</li>`).join('')}</ul>` : ''}
       <div class="dr-legend" aria-hidden="true"><span class="good">Good Job</span><span class="track">On Track</span><span class="work">Needs Work</span></div>
     </section>`;
-
-    const right = `<aside class="dr-sum-side">
-      <h2>How to improve?</h2>
-      ${goal ? `<div class="dr-goal"><div class="dr-goal-meta"><span>Your goal for next time</span><span class="dr-impact"><svg class="ic" aria-hidden="true"><use href="#i-up"/></svg>High impact</span></div>
-        <h3>${esc(goal.title)}</h3>${goal.action ? `<p><strong>Try this:</strong> ${esc(goal.action)}</p>` : ''}${goal.why ? `<p class="dr-muted">${esc(goal.why)}</p>` : ''}
-        ${goalQ >= 0 ? `<button class="dr-link" type="button" data-open="${goalQ}">See it in topic ${goalQ + 1}</button>` : ''}</div>` : ''}
-      ${fb.topics.length ? '<button class="d-btn primary dr-wide" type="button" data-detailed>View Detailed Feedback</button>' : ''}
-      ${more.length ? `<h3 class="dr-also-h">Also work on</h3><ul class="dr-also">${more.map((x) => `<li><span class="dr-dot" aria-hidden="true"></span><div><strong>${esc(x.title)}</strong>${x.action ? `<p>${esc(x.action)}</p>` : ''}</div></li>`).join('')}</ul>` : ''}
-    </aside>`;
-    return `<div class="dr-view" id="dr-view-summary" role="tabpanel" aria-labelledby="dr-tab-summary"><div class="dr-sum">${left}${right}</div></div>`;
+    return `<div class="dr-view" id="dr-view-summary" role="tabpanel" aria-labelledby="dr-tab-summary"><div class="dr-sum dr2-sum">${head}${rail}${rest}</div></div>`;
   }
 
   const EMPTY = '<p class="dr-empty">The interview ended before any question was answered, so there is nothing to give feedback on yet. Practise again to get feedback on your answers.</p>';
@@ -277,10 +325,10 @@
       ${fb.topics.map((t, i) => topicPane(s, t, i, fb.topics.length, i === open)).join('')}${across}
     </div>`;
     panel.innerHTML = summaryHtml(s, fb, judged, goal, more) + detailed;
-    wire(panel, tabs);
+    wire(panel, tabs, s, fb);
   }
 
-  function wire(panel, tabs) {
+  function wire(panel, tabs, s, fb) {
     const smooth = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
     const tabBtns = [...tabs.querySelectorAll('.dr-fbtab')];
     const showView = (id) => {
@@ -315,6 +363,29 @@
       line.classList.remove('dr2-flash');
       void line.offsetWidth; // restart the animation on a second click
       line.classList.add('dr2-flash');
+    }));
+    // Section links: jump within the topic, and mark the section being read.
+    panel.querySelectorAll('.dr2-secnav a').forEach((a) => a.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById(a.dataset.sec).scrollIntoView({ behavior: smooth, block: 'start' });
+    }));
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        const nav = en.target.closest('.dr2-body').querySelector('.dr2-secnav');
+        if (nav) nav.querySelectorAll('a').forEach((a) => a.classList.toggle('on', a.dataset.sec === en.target.id));
+      }), { rootMargin: '-35% 0px -60% 0px' });
+      panel.querySelectorAll('.dr2-sec').forEach((sec) => io.observe(sec));
+    }
+    // Practise this line again: CV Deep Dive setup with this topic's CV line already chosen (as "Change setup" does).
+    panel.querySelectorAll('[data-practise]').forEach((b) => b.addEventListener('click', () => {
+      const t = fb.topics[Number(b.dataset.practise)];
+      const line = t ? t.resume_line : '';
+      if (!line) return;
+      try {
+        sessionStorage.setItem('vmock_adaptive_last', JSON.stringify({ entry: 'cv', resume_text: s.inputs.resume_text, resume_name: 'Your CV', domain: s.inputs.domain || '', stage: s.inputs.stage || '', interview_type: 'back_your_resume', style: s.inputs.style || 'balanced', length: 'short', focus_lines: [line] }));
+      } catch (_) { return; }
+      location.href = '/dashboard/smart-interviews/practice/adaptive/setup?entry=cv&back=1';
     }));
     panel.querySelectorAll('[data-open]').forEach((b) => b.addEventListener('click', () => goToQ(b.dataset.open)));
     panel.querySelectorAll('[data-detailed]').forEach((b) => b.addEventListener('click', () => showView('detailed')));

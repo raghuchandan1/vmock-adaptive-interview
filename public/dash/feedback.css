@@ -1,4 +1,4 @@
-/* Dashboard replica room: feedback as the dashboard's results page (dash/feedback.js). Tokens from dash.css. */
+/* Dashboard replica room: base styles for the feedback screen (dash/feedback-v2.js; feedback-v2.css adds its own). Tokens from dash.css. */
 body.d-room:has(#screen-feedback:not([hidden])) { background: #f0f0f8; }
 body.d-room:has(#screen-feedback:not([hidden])) main { max-width: none; margin: 0; padding: 0; }
 body.d-room:has(#screen-feedback:not([hidden])) #pastBtn { display: none; }
@@ -14,7 +14,8 @@ body.d-room:has(#screen-feedback:not([hidden])) #pastBtn { display: none; }
 .dr-fbbar-id { min-width: 0; flex: 0 1 400px; padding: 4px 10px; border: 1px solid var(--d-line-2); border-radius: 4px; }
 .dr-fbbar-type { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; line-height: 14px; font-weight: 600; color: var(--d-blue); text-transform: uppercase; letter-spacing: .02em; }
 .dr-fbbar-role { display: flex; gap: 8px; align-items: baseline; min-width: 0; font-size: 14px; font-weight: 500; }
-.dr-fbbar-role > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dr-fbbar-role > span:first-child, .dr-fbbar-h1 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dr-fbbar-h1 { margin: 0; font: inherit; } /* the screen's h1: the role being practised for */
 .dr-fbbar-meta { display: none; }
 .dr-fbtabs { display: flex; gap: 8px; align-self: stretch; }
 .dr-fbtab { position: relative; padding: 0 20px; font: 400 14px var(--d-font); color: var(--d-ink-2); background: none; border: 0; cursor: pointer; }

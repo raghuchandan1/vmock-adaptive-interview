@@ -37,16 +37,21 @@
   // ---------- CV Deep Dive: chosen lines ----------
   // Sections (short capitals or "Heading:"), groups (a role or degree line) and bullets ("-", "•", "*", "1." …). A group
   // with bullets only toggles them; a group without bullets is a line of its own. CVs without bullets (messy PDF text)
-  // end up with every line selectable. Contact lines before the first section are left out.
+  // end up with every line selectable. Lines above the first section (name, contact, headline) are left out.
   const BULLET = /^([-•*▪–·]|\d+[.)])\s+/;
-  const isHeading = (l) => !BULLET.test(l) && l.length <= 40 && /[A-Za-z]/.test(l) && !/\d/.test(l) && (l === l.toUpperCase() || /:$/.test(l)); // "CGPA: 8.4/10" is a line, not a heading
+  // A heading is short, in capitals or ending in ":", without digits ("CGPA: 8.4/10" is a line); a bracketed note is
+  // ignored ("WORK EXPERIENCE (7 years)").
+  const isHeading = (l) => {
+    const base = l.replace(/\([^)]*\)/g, '').trim();
+    return !BULLET.test(l) && base.length <= 40 && /[A-Za-z]{3}/.test(base) && !/\d/.test(base) && (base === base.toUpperCase() || /:$/.test(base));
+  };
   function parseCv(text) {
     const sections = [];
     let sec = null, grp = null;
     for (const raw of String(text || '').split('\n').map((l) => l.trim()).filter(Boolean)) {
       if (isHeading(raw)) { sec = { title: raw.replace(/:$/, ''), groups: [] }; sections.push(sec); grp = null; continue; }
       if (!sections.some((x) => x.groups.length) && /@|\|/.test(raw)) continue; // contact details under the name
-      if (!sec) { sec = { title: '', groups: [] }; sections.push(sec); }
+      if (!sec) continue; // the name, contact and headline lines above the first section
       if (BULLET.test(raw)) {
         if (!grp) { grp = { text: '', lines: [] }; sec.groups.push(grp); }
         grp.lines.push(raw.replace(BULLET, '').trim());
@@ -296,12 +301,16 @@
     else addResume({ id: 'last', name: String(last.resume_name || 'Your CV'), meta: 'From your last setup', source: 'Last used', text: String(last.resume_text) });
     renderResumes();
     if (entry === 'cv' && Array.isArray(last.focus_lines) && last.focus_lines.length) { // the same lines, matched by text
-      const want = new Set(last.focus_lines);
-      state.picked = new Set(state.parsed.lines.filter((l) => want.has(l.text)).map((l) => l.id));
+      // A feedback topic's CV line can be part of a line, or a line plus more: match either way.
+      const n = (x) => String(x).toLowerCase().replace(/\s+/g, ' ').trim();
+      const want = last.focus_lines.map(n);
+      state.picked = new Set(state.parsed.lines.filter((l) => want.some((w) => n(l.text).includes(w) || w.includes(n(l.text)))).map((l) => l.id));
       state.focus = 'lines';
       document.querySelector('input[name="focus"][value="lines"]').checked = true;
       renderPick();
     }
+    // Too few lines chosen (from "Practise this line again"): open on Select CV so the student can add more.
+    if (!focusOk()) { go('resume'); return; }
     go('details');
     let err = '';
     try { err = sessionStorage.getItem('vmock_adaptive_error') || ''; sessionStorage.removeItem('vmock_adaptive_error'); } catch (_) { /* no message */ }

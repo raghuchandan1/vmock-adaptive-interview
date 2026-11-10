@@ -1,7 +1,24 @@
-/* Feedback v2 (dash/feedback-v2.js), loaded after dash/feedback.css: topic by topic. Summary leads with the topic
-   list; Detailed is one topic per page read top to bottom (no sub-menu). */
+/* Dashboard feedback (dash/feedback-v2.js), loaded after dash/feedback.css: topic by topic. Summary leads with how it
+   went and the habit to fix first; Detailed is one topic per page with section links at its top. */
 
-/* ---------- Summary ---------- */
+/* Level text dark enough to read on its pale tint (VMock's own hues fail 4.5:1: On Track was 1.9:1). The hue stays on
+   the tint and the legend dot; colour on this screen means a level and nothing else. */
+.dr-fb { --lv-good-ink: #14532d; --lv-track-ink: #92400e; --lv-work-ink: #9b1c1c; }
+.dr-fb .d-pill.good { color: var(--lv-good-ink); }
+.dr-fb .d-pill.track { color: var(--lv-track-ink); }
+.dr-fb .d-pill.work { color: var(--lv-work-ink); }
+.dr-fb .dr-legend span { color: var(--d-ink-3); }
+.dr-fb .dr-legend .good::before { background: var(--d-good); }
+.dr-fb .dr-legend .track::before { background: var(--d-track); }
+.dr-fb .dr-legend .work::before { background: var(--d-work); }
+.dr-fb .dr-goal-meta { text-transform: none; letter-spacing: 0; font-size: 13px; }
+
+/* ---------- Summary: head and the habit to fix first, then the topics ---------- */
+.dr2-sum { grid-template-columns: minmax(0, 1fr) 360px; }
+.dr2-sum > .dr2-head { grid-column: 1; grid-row: 1; }
+.dr2-sum > .dr-sum-side { grid-column: 2; grid-row: 1 / span 2; }
+.dr2-sum > .dr2-rest { grid-column: 1; grid-row: 2; }
+.dr2-rest > .dr2-h:first-child { margin-top: 0; }
 .dr2-h { margin-top: 24px; font-size: 16px; line-height: 22px; font-weight: 600; color: var(--d-ink-2); }
 .dr2-sub { margin-top: 2px; font-size: 13px; }
 .dr2-topics { margin: 10px 0 0; padding: 0; list-style: none; border: 1px solid var(--d-line); border-radius: 8px; overflow: hidden; }
@@ -16,24 +33,50 @@
 .dr2-topic-text strong { font-size: 15px; font-weight: 600; color: var(--d-ink-2); }
 .dr2-asked { font-size: 13px; line-height: 18px; color: var(--d-ink-3); font-style: italic; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .dr2-line { font-size: 13px; line-height: 18px; color: var(--d-muted); }
-.dr2-meta { font-size: 12px; color: var(--d-muted-2); }
-.dr2-chev { width: 16px; height: 16px; margin-top: 4px; color: var(--d-muted-2); }
-.dr2-across { margin: 10px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
-.dr2-across li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 10px; align-items: start; padding: 12px; border: 1px solid var(--d-line); border-radius: 8px; }
-.dr2-across li > span:nth-child(2) { display: grid; gap: 2px; font-size: 14px; }
-.dr2-across li > span:nth-child(2) span { font-size: 12px; line-height: 17px; color: var(--d-muted); }
+.dr2-meta { font-size: 12px; color: var(--d-muted); }
+.dr2-chev { width: 16px; height: 16px; margin-top: 4px; color: var(--d-muted); }
+/* Content Strength across answers: one divided list, so five groups never leave an orphan cell. */
+.dr2-cs { margin: 10px 0 0; padding: 0; list-style: none; border: 1px solid var(--d-line); border-radius: 8px; }
+.dr2-cs li { padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.dr2-cs li + li { border-top: 1px solid var(--d-line); }
+.dr2-cs li > span:first-child { display: grid; gap: 2px; font-size: 14px; }
+.dr2-cs li > span:first-child span { font-size: 13px; line-height: 18px; color: var(--d-muted); }
+
+/* The habit card: where it happened and how to say it, from the topic that shows it. */
+.dr2-where, .dr2-sayit { margin-top: 6px; padding-top: 10px; border-top: 1px solid var(--d-blue-fill); display: grid; gap: 6px; justify-items: start; }
+.dr2-where-h { font-size: 13px; font-weight: 600; color: var(--d-ink-2); }
+.dr2-where-link { padding: 0; border: 0; background: none; font: 500 14px var(--d-font); color: var(--d-blue); cursor: pointer; text-align: left; }
+.dr2-where-link:hover { text-decoration: underline; }
+.dr2-where-q { font-size: 14px; line-height: 20px; font-style: italic; color: var(--d-ink-3); }
+.dr2-sayit p { font-size: 14px; line-height: 21px; color: var(--d-ink-2); }
 
 /* ---------- Detailed: one topic, top to bottom ---------- */
 .dr2-topic { padding: 4px 16px 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; background: #fff; border-bottom: 8px solid #f0f0f8; }
-.dr2-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--d-blue); text-transform: uppercase; }
+.dr2-topic-main { min-width: 0; }
+.dr2-topic-side { flex: none; display: grid; justify-items: end; gap: 10px; }
+.dr2-eyebrow { font-size: 13px; font-weight: 600; color: var(--d-blue); }
 .dr2-q { margin-top: 4px; font-size: 16px; line-height: 24px; font-weight: 500; color: var(--d-ink-2); }
-.dr2-body { min-width: 0; padding: 4px 20px 20px; background: #fff; border-radius: 0 0 4px 4px; display: grid; gap: 4px; }
-.dr2-sec { padding: 16px 0; display: grid; gap: 12px; }
+/* The topic's lesson at a glance. */
+.dr2-glance { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 13px; line-height: 19px; color: var(--d-ink-3); }
+.dr2-glance-item b { font-weight: 600; color: var(--d-ink-2); }
+.dr2-glance-item.not_given b { color: var(--lv-work-ink); }
+
+.dr2-body { min-width: 0; padding: 0 20px 20px; background: #fff; border-radius: 0 0 4px 4px; display: grid; gap: 4px; }
+/* Section links, sticky under the feedback bar and the topic tabs. */
+.dr2-secnav {
+  position: sticky; top: calc(var(--d-top-h) + 52px); z-index: 2; margin: 0 -20px; padding: 10px 20px;
+  display: flex; gap: 6px; flex-wrap: wrap; background: #fff; border-bottom: 1px solid var(--d-line);
+}
+.dr2-secnav a { padding: 6px 12px; border-radius: 60px; font-size: 13px; font-weight: 500; color: var(--d-ink-3); text-decoration: none; }
+.dr2-secnav a:hover { background: var(--d-field); }
+.dr2-secnav a.on { color: var(--d-blue); background: var(--d-blue-fill); }
+.dr2-secnav a:focus-visible { outline: 2px solid var(--d-blue); outline-offset: 1px; }
+.dr2-sec { padding: 16px 0; display: grid; gap: 12px; scroll-margin-top: calc(var(--d-top-h) + 104px); }
 .dr2-sec + .dr2-sec { border-top: 1px solid var(--d-line); }
 .dr2-sec-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .dr2-sec-head h3 { font-size: 16px; font-weight: 600; color: var(--d-ink-2); }
 .dr2-sec-head .dr-muted { font-size: 13px; }
-/* What went well / what to fix side by side when there is room. */
+/* What went well / what to fix side by side; a CV mismatch runs full width under them. */
 .dr2-sec:has(> .dr-box + .dr-box) { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 .dr2-sec:has(> .dr-box + .dr-box) > .dr2-sec-head, .dr2-sec > .dr2-wide { grid-column: 1 / -1; }
 .dr2-sec .dr-box { align-content: start; }
@@ -46,28 +89,47 @@ button.dr-quote:focus-visible { outline: 2px solid var(--d-blue); outline-offset
 @keyframes dr2-flash { 0%, 30% { box-shadow: 0 0 0 3px var(--d-blue); } 100% { box-shadow: 0 0 0 3px transparent; } }
 @media (prefers-reduced-motion: reduce) { .dr-line.dr2-flash { animation: none; box-shadow: 0 0 0 3px var(--d-blue); } }
 
-/* Checklist: groups (VMock's names), then each element with where it appeared and its level. */
+/* The transcript marks every quoted line by level. */
+mark.dr2-mark { padding: 0 2px; border-radius: 2px; color: var(--d-ink-2); }
+mark.dr2-mark.good { background: #d3f3df; }
+mark.dr2-mark.track { background: #ffe9c2; }
+mark.dr2-mark.work { background: #ffd9d4; }
+.dr-script-key mark.dr2-mark { margin-right: 4px; }
+
+/* Checklist: one line per element (where it appeared, level); the reason opens under it, Good Job rows start folded. */
 .dr2-check { display: grid; gap: 14px; }
 .dr2-check-group { border: 1px solid var(--d-line); border-radius: 8px; overflow: hidden; }
 .dr2-check-head { padding: 10px 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: #f7f8fa; border-bottom: 1px solid var(--d-line); }
 .dr2-check-head strong { font-size: 14px; font-weight: 600; color: var(--d-ink-2); }
-.dr2-check-help { font-size: 12px; color: var(--d-muted); }
-.dr2-check-row { padding: 12px 14px; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 12px; align-items: start; }
+.dr2-check-help { flex: 1; font-size: 13px; color: var(--d-muted); }
 .dr2-check-row + .dr2-check-row { border-top: 1px solid var(--d-line); }
-.dr2-check-main { min-width: 0; display: grid; gap: 4px; }
-.dr2-check-main strong { font-size: 14px; font-weight: 600; color: var(--d-ink-2); }
+.dr2-check-row summary { padding: 10px 14px; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 12px; align-items: center; cursor: pointer; list-style: none; }
+.dr2-check-row summary::-webkit-details-marker { display: none; }
+.dr2-check-row summary strong { font-size: 14px; font-weight: 600; color: var(--d-ink-2); }
+.dr2-check-row summary strong::before { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 10px 2px 0; border-right: 1.5px solid var(--d-muted); border-bottom: 1.5px solid var(--d-muted); transform: rotate(-45deg); transition: transform .15s; }
+.dr2-check-row[open] summary strong::before { transform: rotate(45deg); }
+.dr2-check-row summary:hover { background: #fafbfc; }
+.dr2-check-row summary:focus-visible { outline: 2px solid var(--d-blue); outline-offset: -2px; }
+.dr2-check-main { padding: 0 14px 12px 30px; display: grid; gap: 6px; }
 .dr2-check-main p { font-size: 13px; line-height: 19px; color: var(--d-ink-3); }
-.dr2-check-main .dr-quote { margin-top: 2px; font-size: 13px; }
-.dr2-found { padding: 2px 8px; border-radius: 12px; font-size: 12px; white-space: nowrap; color: var(--d-good); background: var(--d-good-bg); }
-.dr2-found.after_follow_up { color: var(--d-track); background: var(--d-track-bg); }
-.dr2-found.not_given { color: var(--d-work); background: var(--d-work-bg); }
+.dr2-check-main .dr-quote { font-size: 13px; }
+/* Where it appeared: neutral chips (colour is for levels only). */
+.dr2-found { padding: 2px 8px; border-radius: 12px; font-size: 12px; white-space: nowrap; color: #3f3f46; background: #f1f2f4; }
+.dr2-found.not_given { background: #fff; box-shadow: inset 0 0 0 1px #c9ccd1; }
 .dr2-found:empty { display: none; }
 
 .dr2-nav { padding-top: 16px; display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid var(--d-line); }
 
+@media (max-width: 1100px) {
+  .dr2-sum { grid-template-columns: minmax(0, 1fr); }
+  .dr2-sum > .dr2-head, .dr2-sum > .dr-sum-side, .dr2-sum > .dr2-rest { grid-column: auto; grid-row: auto; }
+}
 @media (max-width: 900px) {
   .dr2-topics button { grid-template-columns: 26px minmax(0, 1fr) auto; }
   .dr2-chev { display: none; }
-  .dr2-check-row { grid-template-columns: minmax(0, 1fr); }
+  .dr2-check-row summary { grid-template-columns: minmax(0, 1fr) auto; }
+  .dr2-check-row summary .dr2-found { grid-column: 1; grid-row: 2; justify-self: start; }
   .dr2-topic { flex-direction: column; }
+  .dr2-topic-side { justify-items: start; }
+  .dr2-secnav { top: var(--d-top-h); flex-wrap: nowrap; overflow-x: auto; }
 }
