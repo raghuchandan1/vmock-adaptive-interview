@@ -106,11 +106,11 @@
           </div>
         </section>
 
-        <!-- Previously Recorded (?view=recorded): past AI Interviewer sessions. The other chips are a static copy. -->
+        <!-- Previously Recorded (?view=recorded[&kind=cv]): past AI Interviewer or CV Deep Dive sessions. The other chips are a static copy. -->
         <section data-entry-panel="recorded" hidden>
           <h1 class="d-h">Previously Recorded</h1>
-          <div class="d-chips"><span class="d-chip on">AI Interviewer</span><span class="d-chip">Mock Interviews</span><span class="d-chip">Requested Interviews</span><span class="d-chip">Community Interviews</span><span class="d-chip">Career Conversations</span></div>
-          <div class="d-past" data-past="mock"></div>
+          <div class="d-chips"><a class="d-chip" data-kind="mock" href="?view=recorded">AI Interviewer</a><a class="d-chip" data-kind="cv" href="?view=recorded&amp;kind=cv">CV Deep Dive</a><span class="d-chip">Mock Interviews</span><span class="d-chip">Requested Interviews</span><span class="d-chip">Community Interviews</span><span class="d-chip">Career Conversations</span></div>
+          <div class="d-past" data-past="recorded"></div>
         </section>
 
         <!-- CV Deep Dive: resume only, line by line. -->
@@ -118,11 +118,11 @@
           <h1 class="d-h">CV Deep Dive</h1>
           <div class="d-hero">
             <div>
-              <span class="d-hero-eyebrow"><svg class="ic"><use href="#i-cv"/></svg>Resume only</span>
+              <span class="d-hero-eyebrow"><svg class="ic"><use href="#i-cv"/></svg>CV Deep Dive</span>
               <h2>Be ready to back up every line of your CV</h2>
               <p>The interviewer goes through your CV line by line, the way panels do: what you did yourself, how you measured it, and what you would do differently.</p>
               <ul class="d-hero-points">
-                <li><svg class="ic"><use href="#i-check"/></svg>Only your CV needed</li>
+                <li><svg class="ic"><use href="#i-check"/></svg>Your whole CV, or just the lines you choose</li>
                 <li><svg class="ic"><use href="#i-check"/></svg>About 10 to 15 minutes</li>
                 <li><svg class="ic"><use href="#i-check"/></svg>How to answer each question next time</li>
               </ul>

@@ -48,15 +48,20 @@
   document.querySelector('[data-tiles="recommended"]').innerHTML = [TILES[1], TILES[4], TILES[10], TILES[11]].map(tile).join('');
 
   // ---------- Past adaptive interviews, split by entry (CV Deep Dive = the resume deep dive type) ----------
+  // On Previously Recorded the AI Interviewer | CV Deep Dive chips pick the list (?kind=cv); CV Deep Dive's own page keeps its list.
+  const kind = recorded ? (new URLSearchParams(location.search).get('kind') === 'cv' ? 'cv' : 'mock') : entry;
+  document.querySelectorAll('[data-kind]').forEach((c) => { c.classList.toggle('on', c.dataset.kind === kind); if (c.dataset.kind === kind) c.setAttribute('aria-current', 'page'); });
   (async () => {
-    const box = document.querySelector(`[data-past="${entry}"]`);
+    const box = document.querySelector(`[data-past="${recorded ? 'recorded' : entry}"]`);
     let list = [];
     try { list = (await (await fetch('/api/sessions')).json()).filter((x) => x.status === 'ended' && x.turns > 0 && !x.test_run); } catch (_) { return; }
-    list = list.filter((x) => (x.interview_type === 'Back your resume') === (entry === 'cv'));
+    list = list.filter((x) => (x.interview_type === 'Back your resume') === (kind === 'cv'));
     const TYPE = { 'Recruiter screen': 'Screening round', 'Hiring manager': 'Hiring manager round', 'Back your resume': 'CV Deep Dive' };
     const date = (iso) => new Date(iso).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-    const row = (x) => `<a class="d-past-row" href="/interviews/adaptive/room?entry=${entry}&feedback=${encodeURIComponent(x.id)}">
-        <span class="d-past-main"><strong>${esc(x.role || 'Practice interview')}</strong><span>${esc(TYPE[x.interview_type] || 'AI Interviewer')} · ${esc(date(x.created_at))} · ${x.turns} answer${x.turns === 1 ? '' : 's'}</span></span>
+    const STAGE = { summers: 'Summer placements', finals: 'Final placements', laterals: 'Lateral hiring' };
+    // Title: the role, else the domain (CV Deep Dive rarely has a role); the line under it says how the interview was set up.
+    const row = (x) => `<a class="d-past-row" href="/interviews/adaptive/room?entry=${kind}&feedback=${encodeURIComponent(x.id)}">
+        <span class="d-past-main"><strong>${esc(x.role || (x.domain ? `${x.domain} interview` : 'Practice interview'))}</strong><span>${[TYPE[x.interview_type] || 'AI Interviewer', STAGE[x.stage], x.focus_count ? `Focused on ${x.focus_count} line${x.focus_count === 1 ? '' : 's'}` : '', date(x.created_at), `${x.turns} answer${x.turns === 1 ? '' : 's'}`].filter(Boolean).map(esc).join(' · ')}</span></span>
         <span class="d-past-cta">${x.has_feedback ? 'View Feedback' : 'Get Feedback'}<svg class="ic"><use href="#i-arrow"/></svg></span></a>`;
     box.innerHTML = `<div class="d-past-head"><h2 class="d-h">Your past interviews</h2>${list.length ? `<span>${list.length} interview${list.length === 1 ? '' : 's'}</span>` : ''}</div>
       ${list.length ? `<div class="d-past-list">${list.map(row).join('')}</div>` : '<p class="d-empty">No interviews yet. Your feedback shows up here after each one.</p>'}`;
