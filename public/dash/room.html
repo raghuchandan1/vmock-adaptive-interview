@@ -18,6 +18,8 @@
 <script>
   // Feedback version: v2 (topic by topic) by default; ?fbview=v1 loads the first dashboard version for comparing.
   // Both share feedback.css; v2 adds feedback-v2.css. Remove the losing version once one is chosen.
+  // A second "?" (…&feedback=ID?fbview=v1) would end up inside the feedback id: read it as "&" before anything parses the URL.
+  if (location.search.indexOf('?', 1) > 0) history.replaceState(null, '', location.pathname + '?' + location.search.slice(1).replace(/\?/g, '&') + location.hash);
   window.DASH_FB = new URLSearchParams(location.search).get('fbview') === 'v1' ? 'feedback' : 'feedback-v2';
   if (window.DASH_FB === 'feedback-v2') document.write('<link rel="stylesheet" href="/dash/feedback-v2.css">');
 </script>
