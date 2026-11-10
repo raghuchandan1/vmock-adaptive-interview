@@ -37,7 +37,8 @@
   // ---------- CV Deep Dive: chosen lines ----------
   // Sections (short capitals or "Heading:"), groups (a role or degree line) and bullets ("-", "•", "*", "1." …). A group
   // with bullets only toggles them; a group without bullets is a line of its own. CVs without bullets (messy PDF text)
-  // end up with every line selectable. Lines above the first section (name, contact, headline) are left out.
+  // end up with every line selectable. Lines above the first section (name, contact, headline) are left out when the
+  // CV has a recognised heading; a CV without one keeps every line.
   const BULLET = /^([-•*▪–·]|\d+[.)])\s+/;
   // A heading is short, in capitals or ending in ":", without digits ("CGPA: 8.4/10" is a line); a bracketed note is
   // ignored ("WORK EXPERIENCE (7 years)").
@@ -48,10 +49,13 @@
   function parseCv(text) {
     const sections = [];
     let sec = null, grp = null;
-    for (const raw of String(text || '').split('\n').map((l) => l.trim()).filter(Boolean)) {
+    const raws = String(text || '').split('\n').map((l) => l.trim()).filter(Boolean);
+    const hasHeading = raws.some(isHeading); // without one (title-case headings, messy PDF text) every line is kept
+    for (const raw of raws) {
       if (isHeading(raw)) { sec = { title: raw.replace(/:$/, ''), groups: [] }; sections.push(sec); grp = null; continue; }
       if (!sections.some((x) => x.groups.length) && /@|\|/.test(raw)) continue; // contact details under the name
-      if (!sec) continue; // the name, contact and headline lines above the first section
+      if (!sec && hasHeading) continue; // the name, contact and headline lines above the first section
+      if (!sec) { sec = { title: '', groups: [] }; sections.push(sec); }
       if (BULLET.test(raw)) {
         if (!grp) { grp = { text: '', lines: [] }; sec.groups.push(grp); }
         grp.lines.push(raw.replace(BULLET, '').trim());

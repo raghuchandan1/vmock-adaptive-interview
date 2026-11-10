@@ -131,5 +131,6 @@ mark.dr2-mark.work { background: #ffd9d4; }
   .dr2-check-row summary .dr2-found { grid-column: 1; grid-row: 2; justify-self: start; }
   .dr2-topic { flex-direction: column; }
   .dr2-topic-side { justify-items: start; }
-  .dr2-secnav { top: var(--d-top-h); flex-wrap: nowrap; overflow-x: auto; }
+  .dr2-secnav { position: static; flex-wrap: nowrap; overflow-x: auto; } /* the feedback bar is tall and sticky here */
+  .dr2-sec { scroll-margin-top: calc(var(--d-top-h) + 150px); }
 }

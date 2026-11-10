@@ -18,25 +18,17 @@
   const FOUND = { first_answer: 'In your first answer', after_follow_up: 'After a follow-up', not_given: 'Not given' };
   const JD = { covered: ['Covered', 'good'], partly: ['Partly covered', 'track'], not_reached: ['Not reached', 'none'] };
   const MOMENT = { warmup: 'Warm-up', background: 'Your background', candidate_questions: 'Your questions at the end' };
-  const reEscape = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
   const firstSentence = (x) => (String(x || '').match(/^.*?[.!?](\s|$)/) || [String(x || '')])[0].trim();
-  const sentences = (x, n) => (String(x || '').match(/[^.!?]+[.!?]+(\s|$)/g) || [String(x || '')]).slice(0, n).join('').trim();
+  // The first n sentences; a stop only ends a sentence before a space and a capital (or the end), so "14.2" stays whole.
+  const sentences = (x, n) => (String(x || '').match(/[\s\S]+?[.!?](?=\s+[A-Z"“(\[]|\s*$)/g) || [String(x || '')]).slice(0, n).join(' ').replace(/\s+/g, ' ').trim();
 
-  // The row icon follows the level (a tick only for Good Job), so a red tick never says "good" next to Needs Work.
-  const LEVEL_ICON = { good_job: 'i-check', on_track: 'i-minus', needs_work: 'i-alert' };
-  const levelIcon = (level) => LEVEL_ICON[level] || 'i-check';
   const pill = (level, cls = '') => (LEVEL[level] ? `<span class="d-pill ${LEVEL[level][1]} ${cls}">${LEVEL[level][0]}</span>` : '');
   const resultPill = (t, cls = '') => (t.too_short ? `<span class="d-pill none ${cls}">Too short</span>` : pill(t.verdict, cls));
   const topicName = (t) => (t.kind === 'second_chance' ? `${t.topic || 'Earlier topic'} (second try)` : t.topic || KIND[t.kind] || 'Question');
   // A quote is a button: it scrolls the transcript to the line it came from.
   const quote = (q) => (q ? `<button class="dr-quote" type="button" data-quote="${esc(q)}">“${esc(q)}”</button>` : '');
   const blanks = (text) => esc(text).replace(/\[([^\]]+)\]/g, '<span class="dr-blank"><span class="sr">fill in: </span>$1</span>');
-  function highlight(text, quotes) {
-    let html = esc(text);
-    for (const q of quotes.filter(Boolean)) html = html.replace(new RegExp(reEscape(esc(q)), 'i'), (m) => `<mark>${m}</mark>`);
-    return html;
-  }
   function rowLine(t) {
     if (t.too_short) return 'Your answer was too short to give feedback on. Open the topic to see how to answer next time.';
     if (t.verdict === 'good_job' && t.went_well) return firstSentence(t.went_well);
@@ -320,7 +312,7 @@
     const open = firstOpenOf(fb);
     const across = acrossPane(fb, false);
     const detailed = `<div class="dr-view" id="dr-view-detailed" role="tabpanel" aria-labelledby="dr-tab-detailed" hidden>
-      <div class="dr-qbar" role="tablist" aria-label="Topics">${fb.topics.map((t, i) => `<button class="dr-qp ${t.too_short ? '' : (LEVEL[t.verdict] || [])[1] || ''}" type="button" role="tab" id="dr-qpill-${i}" aria-controls="dr-q-${i}" aria-selected="${i === open}" data-q="${i}" title="${esc(topicName(t))}">Topic ${i + 1}</button>`).join('')}
+      <div class="dr-qbar" role="tablist" aria-label="Topics">${fb.topics.map((t, i) => `<button class="dr-qp ${t.too_short ? '' : (LEVEL[t.verdict] || [])[1] || ''}" type="button" role="tab" id="dr-qpill-${i}" aria-controls="dr-q-${i}" aria-selected="${i === open}" data-q="${i}" title="${esc(topicName(t))}" aria-label="Topic ${i + 1}, ${esc(topicName(t))}, ${t.too_short ? 'too short' : esc((LEVEL[t.verdict] || [''])[0])}">Topic ${i + 1}</button>`).join('')}
         ${across ? '<button class="dr-qp" type="button" role="tab" id="dr-qpill-across" aria-controls="dr-q-across" aria-selected="false" data-q="across">Across the interview</button>' : ''}</div>
       ${fb.topics.map((t, i) => topicPane(s, t, i, fb.topics.length, i === open)).join('')}${across}
     </div>`;
