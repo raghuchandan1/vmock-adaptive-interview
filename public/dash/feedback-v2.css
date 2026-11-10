@@ -20,7 +20,8 @@
 .dr2-sum { grid-template-columns: minmax(0, 1fr) 360px; }
 .dr2-sum > .dr2-head { grid-column: 1; grid-row: 1; }
 .dr2-sum > .dr-sum-side { grid-column: 2; grid-row: 1 / span 2; }
-.dr2-sum > .dr2-rest { grid-column: 1; grid-row: 2; }
+.dr2-sum > .dr2-restcol { grid-column: 1; grid-row: 2; display: grid; gap: 12px; } /* topics, then Content Strength as its own section */
+.dr2-csec > .dr2-h { margin-top: 0; }
 .dr2-rest > .dr2-h:first-child { margin-top: 0; }
 .dr2-h { margin-top: 24px; font-size: 16px; line-height: 22px; font-weight: 600; color: var(--d-ink-2); }
 .dr2-sub { margin-top: 2px; font-size: 13px; }
@@ -122,12 +123,16 @@ mark.dr2-mark.track { background: #ffe9c2; }
 mark.dr2-mark.work { background: #ffd9d4; }
 .dr-script-key mark.dr2-mark { margin-right: 4px; }
 
-/* What a strong answer covers: per group a heading with its level, then aligned rows: level | element | reason. */
-.dr2-check { display: grid; gap: 22px; }
+/* What a strong answer covers: each group a boxed card, a tinted header (name, level, what it checks), then rows
+   split by rules: level | element | reason with where it appeared and the student's words. */
+.dr2-check { display: grid; gap: 16px; }
+.dr2-check-group { border: 1px solid var(--d-line); border-radius: 10px; overflow: hidden; background: #fff; }
+.dr2-check-top { padding: 12px 16px; background: #f6f7f9; border-bottom: 1px solid var(--d-line); }
 .dr2-check-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .dr2-check-head strong { font-size: 15px; font-weight: 700; color: var(--d-ink-2); }
 .dr2-check-help { margin-top: 4px; font-size: 13px; color: var(--d-muted); }
-.dr2-crit { padding: 12px 0; display: grid; grid-template-columns: 128px 150px minmax(0, 1fr); gap: 14px; align-items: start; }
+.dr2-crit { padding: 14px 16px; display: grid; grid-template-columns: 128px 150px minmax(0, 1fr); gap: 14px; align-items: start; }
+.dr2-crit.single { grid-template-columns: minmax(0, 1fr); }
 .dr2-crit + .dr2-crit { border-top: 1px solid var(--d-line); }
 .dr2-crit-name { padding-top: 2px; font-size: 14px; font-weight: 600; color: var(--d-ink-2); }
 .dr2-crit-body { min-width: 0; display: grid; gap: 8px; }
@@ -139,7 +144,7 @@ mark.dr2-mark.work { background: #ffd9d4; }
 
 @media (max-width: 1100px) {
   .dr2-sum { grid-template-columns: minmax(0, 1fr); }
-  .dr2-sum > .dr2-head, .dr2-sum > .dr-sum-side, .dr2-sum > .dr2-rest { grid-column: auto; grid-row: auto; }
+  .dr2-sum > .dr2-head, .dr2-sum > .dr-sum-side, .dr2-sum > .dr2-restcol { grid-column: auto; grid-row: auto; }
 }
 @media (max-width: 900px) {
   .dr2-topics button { grid-template-columns: 26px minmax(0, 1fr) auto; }

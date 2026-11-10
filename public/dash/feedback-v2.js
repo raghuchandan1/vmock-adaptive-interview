@@ -176,15 +176,17 @@
   // What a strong answer covers: each element on one aligned row (level, element, then the reason with where it
   // appeared and the student's words), under VMock's group names with the group's level.
   function checklist(t) {
-    return `<div class="dr2-check">${groupsFor(t).map((g) => `<div class="dr2-check-group">
-        <div class="dr2-check-head"><strong>${esc(g.name)}</strong>${pill(moduleLevel(g.items.map((r) => r.level)))}</div>
-        ${GROUP_HELP[g.name] ? `<p class="dr2-check-help">${GROUP_HELP[g.name]}</p>` : ''}
-        ${g.items.map((r) => `<div class="dr2-crit">
-          <div class="dr2-crit-level">${pill(r.level)}</div>
-          <strong class="dr2-crit-name">${esc(r.label)}</strong>
+    return `<div class="dr2-check">${groupsFor(t).map((g) => {
+      const single = g.items.length === 1 && g.items[0].label === g.name; // "Handling follow-ups" under "Handling follow-ups"
+      return `<div class="dr2-check-group">
+        <div class="dr2-check-top"><div class="dr2-check-head"><strong>${esc(g.name)}</strong>${pill(moduleLevel(g.items.map((r) => r.level)))}</div>
+          ${GROUP_HELP[g.name] ? `<p class="dr2-check-help">${GROUP_HELP[g.name]}</p>` : ''}</div>
+        ${g.items.map((r) => `<div class="dr2-crit${single ? ' single' : ''}">
+          ${single ? '' : `<div class="dr2-crit-level">${pill(r.level)}</div><strong class="dr2-crit-name">${esc(r.label)}</strong>`}
           <div class="dr2-crit-body"><p>${esc(r.reason)}${r.found ? ` <span class="dr2-crit-found">· ${FOUND[r.found]}</span>` : ''}</p>${quote(r.quote)}</div>
         </div>`).join('')}
-      </div>`).join('')}</div>`;
+      </div>`;
+    }).join('')}</div>`;
   }
   function followUpsBody(t) {
     return `<ul class="dr-fus">${t.follow_ups.map((f) => `<li><p class="dr-fu-q">“${esc(f.question)}”</p>${f.why ? `<p class="dr-muted">${esc(f.why)}</p>` : ''}
@@ -293,12 +295,15 @@
             ${fus ? `<span class="dr2-meta">${plural(fus, 'follow-up')}</span>` : ''}</span>
           ${resultPill(t, 'sm')}<svg class="ic dr2-chev" aria-hidden="true"><use href="#i-chev"/></svg></button></li>`;
       }).join('')}</ol>
-      ${across.length ? `<h3 class="dr2-h">Content Strength across your answers</h3>
-        <p class="dr-muted dr2-sub">Whether your answers had the parts a strong answer needs, by VMock's content checks.</p>
-        <ul class="dr2-cs">${across.map((g) => `<li><span><strong>${esc(g.name)}</strong>${GROUP_HELP[g.name] ? `<span>${GROUP_HELP[g.name]}</span>` : ''}</span>${pill(g.level, 'sm')}</li>`).join('')}</ul>` : ''}
-      <div class="dr-legend" aria-hidden="true"><span class="good">Good Job</span><span class="track">On Track</span><span class="work">Needs Work</span></div>
     </section>`;
-    return `<div class="dr-view" id="dr-view-summary" role="tabpanel" aria-labelledby="dr-tab-summary"><div class="dr-sum dr2-sum">${head}${rail}${rest}</div></div>`;
+    // Content Strength across the answers, as its own section under the topics.
+    const cs = across.length ? `<section class="dr-sum-main dr2-csec">
+      <h3 class="dr2-h">Content Strength across your answers</h3>
+      <p class="dr-muted dr2-sub">Whether your answers had the parts a strong answer needs, by VMock's content checks.</p>
+      <ul class="dr2-cs">${across.map((g) => `<li><span><strong>${esc(g.name)}</strong>${GROUP_HELP[g.name] ? `<span>${GROUP_HELP[g.name]}</span>` : ''}</span>${pill(g.level, 'sm')}</li>`).join('')}</ul>
+      <div class="dr-legend" aria-hidden="true"><span class="good">Good Job</span><span class="track">On Track</span><span class="work">Needs Work</span></div>
+    </section>` : '';
+    return `<div class="dr-view" id="dr-view-summary" role="tabpanel" aria-labelledby="dr-tab-summary"><div class="dr-sum dr2-sum">${head}${rail}<div class="dr2-restcol">${rest}${cs}</div></div></div>`;
   }
 
   const EMPTY = '<p class="dr-empty">The interview ended before any question was answered, so there is nothing to give feedback on yet. Practise again to get feedback on your answers.</p>';
