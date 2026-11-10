@@ -124,8 +124,9 @@
   }
   const ORDER = { needs_work: 0, on_track: 1, good_job: 2 };
   function marksFor(t) {
-    const out = [{ q: t.to_fix_quote, cls: 'work', label: 'What to fix' }];
-    if (t.resume_mismatch) out.push({ q: t.resume_mismatch.quote, cls: 'work', label: "Doesn't match your CV" });
+    // The fix and CV-mismatch quotes take their cards' amber; each element's quote takes its level's colour.
+    const out = [{ q: t.to_fix_quote, cls: 'track', label: 'What to fix' }];
+    if (t.resume_mismatch) out.push({ q: t.resume_mismatch.quote, cls: 'track', label: "Doesn't match your CV" });
     out.push({ q: t.went_well_quote, cls: 'good', label: 'What went well' });
     [...(t.ratings || [])].filter((r) => r.quote && LEVEL[r.level]).sort((a, b) => ORDER[a.level] - ORDER[b.level])
       .forEach((r) => out.push({ q: r.quote, cls: LEVEL[r.level][1], label: `${r.label}: ${LEVEL[r.level][0]}` }));
@@ -142,7 +143,7 @@
           <div class="dr-line-who">${e.role === 'candidate' ? 'You' : 'Interviewer'}<time>${e.at ? clock(Date.parse(e.at) - t0) : ''}</time></div>
           <p>${e.role === 'candidate' ? annotate(e.text, marks) : esc(e.text)}</p></div>`).join('')
         : '<p class="dr-muted">No transcript for this topic.</p>'}</div>
-      ${marks.length ? '<p class="dr-script-key"><mark class="dr2-mark good">Strong</mark> <mark class="dr2-mark track">Partly there</mark> <mark class="dr2-mark work">To fix</mark> Hover a highlight to see what it shows.</p>' : ''}
+      ${marks.length ? '<p class="dr-script-key"><mark class="dr2-mark good">Went well</mark> <mark class="dr2-mark track">To fix or partly there</mark> <mark class="dr2-mark work">Needs work</mark> Hover a highlight to see what it shows.</p>' : ''}
     </aside>`;
   }
 
@@ -151,16 +152,18 @@
     const plan = t.answer_plan || [];
     let html = '';
     if (t.too_short) html += `<div class="dr-banner">Your answer here was too short to give feedback on. Use the ${plan.length === 1 ? 'step' : 'steps'} below to prepare this one.</div>`;
-    if (plan.length) html += `<ol class="dr-steps">${plan.map((p) => `<li>${blanks(p)}</li>`).join('')}</ol>`;
+    if (plan.length) html += `<ol class="dr2-steps">${plan.map((p) => `<li>${blanks(p)}</li>`).join('')}</ol>`;
+    // A rewrite reaches the screen only after its grounding check (the server empties it when the check fails).
     if (t.stronger_version) {
-      html += `<div class="dr-sample"><span class="dr-sample-tag">YOUR ANSWER, IMPROVED</span><p>${blanks(t.stronger_version)}</p>
-        <p class="dr-muted">Fill in the boxes with your own details. Uses only facts from your CV, the job description and your answers.</p></div>`;
+      html += `<div class="dr2-better"><span class="dr2-better-tag">Your answer, improved</span><p>${blanks(t.stronger_version)}</p>
+        <p class="dr2-better-hint">Fill in the boxes with your own details.</p>
+        <p class="dr2-checked"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Checked: uses only facts from your CV, the job description and your answers.</p></div>`;
     }
     if (t.example_answer) {
       html += `<div class="dr-sample"><span class="dr-sample-tag">SAMPLE RESPONSE</span><p>${esc(t.example_answer)}</p>
         <p class="dr-muted">From a sample candidate, to show the approach. Use your own example.</p></div>`;
     }
-    return html || '<p class="dr-muted">No steps for this question.</p>';
+    return html || '<p class="dr-muted">No steps for this topic.</p>';
   }
   function didBody(t) {
     const boxes = [];
@@ -170,18 +173,18 @@
     if (t.resume_mismatch) boxes.push(`<div class="dr-box fix dr2-wide"><h4>Doesn't match your CV</h4>${quote(t.resume_mismatch.quote)}<p>${esc(t.resume_mismatch.note)}</p>${t.resume_mismatch.tip ? `<p class="dr-tip">${esc(t.resume_mismatch.tip)}</p>` : ''}</div>`);
     return boxes.join('') || '<p class="dr-muted">Nothing to note here.</p>';
   }
-  // Checklist: every element of the answer under VMock's group names, with where it appeared (unprompted, only after a
-  // follow-up, or not at all) and its level. Good Job rows are folded to one line; the rest open with the reason.
+  // What a strong answer covers: each element on one aligned row (level, element, then the reason with where it
+  // appeared and the student's words), under VMock's group names with the group's level.
   function checklist(t) {
-    return `<div class="dr2-check">${groupsFor(t).map((g) => {
-      const lv = moduleLevel(g.items.map((r) => r.level));
-      return `<div class="dr2-check-group">
-        <div class="dr2-check-head"><strong>${esc(g.name)}</strong>${GROUP_HELP[g.name] ? `<span class="dr2-check-help">${GROUP_HELP[g.name]}</span>` : ''}${pill(lv, 'sm')}</div>
-        ${g.items.map((r) => `<details class="dr2-check-row"${r.level === 'good_job' ? '' : ' open'}>
-          <summary><strong>${esc(r.label)}</strong><span class="dr2-found ${r.found || ''}">${r.found ? FOUND[r.found] : ''}</span>${pill(r.level, 'sm')}</summary>
-          <div class="dr2-check-main"><p>${esc(r.reason)}</p>${quote(r.quote)}</div></details>`).join('')}
-      </div>`;
-    }).join('')}</div>`;
+    return `<div class="dr2-check">${groupsFor(t).map((g) => `<div class="dr2-check-group">
+        <div class="dr2-check-head"><strong>${esc(g.name)}</strong>${pill(moduleLevel(g.items.map((r) => r.level)))}</div>
+        ${GROUP_HELP[g.name] ? `<p class="dr2-check-help">${GROUP_HELP[g.name]}</p>` : ''}
+        ${g.items.map((r) => `<div class="dr2-crit">
+          <div class="dr2-crit-level">${pill(r.level)}</div>
+          <strong class="dr2-crit-name">${esc(r.label)}</strong>
+          <div class="dr2-crit-body"><p>${esc(r.reason)}${r.found ? ` <span class="dr2-crit-found">· ${FOUND[r.found]}</span>` : ''}</p>${quote(r.quote)}</div>
+        </div>`).join('')}
+      </div>`).join('')}</div>`;
   }
   function followUpsBody(t) {
     return `<ul class="dr-fus">${t.follow_ups.map((f) => `<li><p class="dr-fu-q">“${esc(f.question)}”</p>${f.why ? `<p class="dr-muted">${esc(f.why)}</p>` : ''}
@@ -202,7 +205,7 @@
     const secs = [
       !t.too_short && ['did', 'What you did', didBody(t)],
       ['next', 'How to answer it next time', nextTimeBody(t)],
-      !t.too_short && groupsFor(t).length && ['check', 'Checklist', checklist(t), '<span class="dr-muted">What a strong answer to this topic has, and where yours showed it</span>'],
+      !t.too_short && groupsFor(t).length && ['check', 'What a strong answer covers', checklist(t), `<span class="dr2-count">${(t.ratings || []).length}</span>`],
       fus && ['fu', 'Follow-ups', followUpsBody(t)],
     ].filter(Boolean);
     const nav = `<div class="dr2-nav">${i > 0 ? `<button class="d-btn outline sm" type="button" data-goto="${i - 1}">Previous topic</button>` : '<span></span>'}

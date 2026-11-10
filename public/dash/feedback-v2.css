@@ -4,9 +4,12 @@
 /* Level text dark enough to read on its pale tint (VMock's own hues fail 4.5:1: On Track was 1.9:1). The hue stays on
    the tint and the legend dot; colour on this screen means a level and nothing else. */
 .dr-fb { --lv-good-ink: #14532d; --lv-track-ink: #92400e; --lv-work-ink: #9b1c1c; }
-.dr-fb .d-pill.good { color: var(--lv-good-ink); }
-.dr-fb .d-pill.track { color: var(--lv-track-ink); }
-.dr-fb .d-pill.work { color: var(--lv-work-ink); }
+.dr-fb .d-pill { gap: 6px; border-radius: 999px; font-weight: 600; white-space: nowrap; }
+.dr-fb .d-pill.good, .dr-fb .d-pill.track, .dr-fb .d-pill.work { display: inline-flex; align-items: center; }
+.dr-fb .d-pill.good::before, .dr-fb .d-pill.track::before, .dr-fb .d-pill.work::before { content: ""; width: 7px; height: 7px; flex: none; border-radius: 50%; background: currentColor; }
+.dr-fb .d-pill.good { color: var(--lv-good-ink); background: #eaf7ef; }
+.dr-fb .d-pill.track { color: var(--lv-track-ink); background: #fff4e2; }
+.dr-fb .d-pill.work { color: var(--lv-work-ink); background: #fdeeea; }
 .dr-fb .dr-legend span { color: var(--d-ink-3); }
 .dr-fb .dr-legend .good::before { background: var(--d-good); }
 .dr-fb .dr-legend .track::before { background: var(--d-track); }
@@ -79,7 +82,30 @@
 /* What went well / what to fix side by side; a CV mismatch runs full width under them. */
 .dr2-sec:has(> .dr-box + .dr-box) { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 .dr2-sec:has(> .dr-box + .dr-box) > .dr2-sec-head, .dr2-sec > .dr2-wide { grid-column: 1 / -1; }
-.dr2-sec .dr-box { align-content: start; }
+.dr2-sec .dr-box { align-content: start; border-radius: 12px; border: 1px solid var(--d-line); border-left-width: 1px; }
+.dr2-sec .dr-box h4 { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.dr2-sec .dr-box h4::before { content: ""; width: 20px; height: 20px; flex: none; border-radius: 50%; background: currentColor center / 12px no-repeat; }
+.dr2-sec .dr-box.well { background: #f6fbf8; border-color: #cfe9dc; }
+.dr2-sec .dr-box.well h4 { color: var(--lv-good-ink); }
+.dr2-sec .dr-box.well h4::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E"); }
+.dr2-sec .dr-box.fix { background: #fffaf2; border-color: #f3dcb6; }
+.dr2-sec .dr-box.fix h4 { color: var(--lv-track-ink); }
+.dr2-sec .dr-box.fix h4::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M12 7v6M12 17h.01'/%3E%3C/svg%3E"); }
+.dr2-sec .dr-box.well .dr-quote { background: #e7f4ec; }
+.dr2-sec .dr-box.fix .dr-quote { background: #fcefd9; }
+
+/* How to answer it next time: numbered steps, then the improved answer in a tinted box. */
+.dr2-steps { margin: 0; padding: 0; list-style: none; counter-reset: dr2-step; display: grid; gap: 10px; }
+.dr2-steps li { position: relative; padding-left: 38px; min-height: 26px; font-size: 14px; line-height: 22px; color: var(--d-ink-2); counter-increment: dr2-step; }
+.dr2-steps li::before { content: counter(dr2-step); position: absolute; left: 0; top: -1px; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; font-size: 12px; font-weight: 600; color: var(--d-blue); background: var(--d-blue-fill); }
+.dr2-better { padding: 16px 18px; border-radius: 12px; background: #f3f7fc; border: 1px solid #d6e4f3; display: grid; gap: 8px; }
+.dr2-better-tag { font-size: 13px; font-weight: 600; color: var(--d-blue); }
+.dr2-better p { font-size: 15px; line-height: 26px; color: var(--d-ink-2); }
+.dr2-better .dr-blank { background: #fff; }
+.dr2-better .dr2-better-hint { font-size: 13px; line-height: 18px; color: var(--d-muted); }
+.dr2-better .dr2-checked { display: flex; align-items: center; gap: 6px; font-size: 13px; line-height: 18px; color: var(--lv-good-ink); }
+.dr2-better .dr2-checked .ic { width: 14px; height: 14px; stroke-width: 2.5; }
+.dr2-count { padding: 0 8px; height: 22px; display: inline-grid; place-items: center; border-radius: 11px; font-size: 12px; font-weight: 600; color: var(--d-ink-3); background: var(--d-field); }
 
 /* Quotes are buttons that scroll the transcript to their line. */
 button.dr-quote { display: block; width: 100%; text-align: left; border: 0; cursor: pointer; font-family: var(--d-font); }
@@ -96,27 +122,18 @@ mark.dr2-mark.track { background: #ffe9c2; }
 mark.dr2-mark.work { background: #ffd9d4; }
 .dr-script-key mark.dr2-mark { margin-right: 4px; }
 
-/* Checklist: one line per element (where it appeared, level); the reason opens under it, Good Job rows start folded. */
-.dr2-check { display: grid; gap: 14px; }
-.dr2-check-group { border: 1px solid var(--d-line); border-radius: 8px; overflow: hidden; }
-.dr2-check-head { padding: 10px 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: #f7f8fa; border-bottom: 1px solid var(--d-line); }
-.dr2-check-head strong { font-size: 14px; font-weight: 600; color: var(--d-ink-2); }
-.dr2-check-help { flex: 1; font-size: 13px; color: var(--d-muted); }
-.dr2-check-row + .dr2-check-row { border-top: 1px solid var(--d-line); }
-.dr2-check-row summary { padding: 10px 14px; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 12px; align-items: center; cursor: pointer; list-style: none; }
-.dr2-check-row summary::-webkit-details-marker { display: none; }
-.dr2-check-row summary strong { font-size: 14px; font-weight: 600; color: var(--d-ink-2); }
-.dr2-check-row summary strong::before { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 10px 2px 0; border-right: 1.5px solid var(--d-muted); border-bottom: 1.5px solid var(--d-muted); transform: rotate(-45deg); transition: transform .15s; }
-.dr2-check-row[open] summary strong::before { transform: rotate(45deg); }
-.dr2-check-row summary:hover { background: #fafbfc; }
-.dr2-check-row summary:focus-visible { outline: 2px solid var(--d-blue); outline-offset: -2px; }
-.dr2-check-main { padding: 0 14px 12px 30px; display: grid; gap: 6px; }
-.dr2-check-main p { font-size: 13px; line-height: 19px; color: var(--d-ink-3); }
-.dr2-check-main .dr-quote { font-size: 13px; }
-/* Where it appeared: neutral chips (colour is for levels only). */
-.dr2-found { padding: 2px 8px; border-radius: 12px; font-size: 12px; white-space: nowrap; color: #3f3f46; background: #f1f2f4; }
-.dr2-found.not_given { background: #fff; box-shadow: inset 0 0 0 1px #c9ccd1; }
-.dr2-found:empty { display: none; }
+/* What a strong answer covers: per group a heading with its level, then aligned rows: level | element | reason. */
+.dr2-check { display: grid; gap: 22px; }
+.dr2-check-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.dr2-check-head strong { font-size: 15px; font-weight: 700; color: var(--d-ink-2); }
+.dr2-check-help { margin-top: 4px; font-size: 13px; color: var(--d-muted); }
+.dr2-crit { padding: 12px 0; display: grid; grid-template-columns: 128px 150px minmax(0, 1fr); gap: 14px; align-items: start; }
+.dr2-crit + .dr2-crit { border-top: 1px solid var(--d-line); }
+.dr2-crit-name { padding-top: 2px; font-size: 14px; font-weight: 600; color: var(--d-ink-2); }
+.dr2-crit-body { min-width: 0; display: grid; gap: 8px; }
+.dr2-crit-body p { font-size: 14px; line-height: 21px; color: var(--d-ink-2); }
+.dr2-crit-found { color: var(--d-muted); white-space: nowrap; }
+.dr2-crit-body .dr-quote { font-size: 13px; }
 
 .dr2-nav { padding-top: 16px; display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid var(--d-line); }
 
@@ -127,8 +144,8 @@ mark.dr2-mark.work { background: #ffd9d4; }
 @media (max-width: 900px) {
   .dr2-topics button { grid-template-columns: 26px minmax(0, 1fr) auto; }
   .dr2-chev { display: none; }
-  .dr2-check-row summary { grid-template-columns: minmax(0, 1fr) auto; }
-  .dr2-check-row summary .dr2-found { grid-column: 1; grid-row: 2; justify-self: start; }
+  .dr2-crit { grid-template-columns: auto minmax(0, 1fr); gap: 8px 12px; }
+  .dr2-crit-body { grid-column: 1 / -1; }
   .dr2-topic { flex-direction: column; }
   .dr2-topic-side { justify-items: start; }
   .dr2-secnav { position: static; flex-wrap: nowrap; overflow-x: auto; } /* the feedback bar is tall and sticky here */
