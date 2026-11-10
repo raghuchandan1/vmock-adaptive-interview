@@ -156,7 +156,7 @@
     // A rewrite reaches the screen only after its grounding check (the server empties it when the check fails).
     if (t.stronger_version) {
       html += `<div class="dr2-better"><span class="dr2-better-tag">Your answer, improved</span><p>${blanks(t.stronger_version)}</p>
-        <p class="dr2-better-hint">Fill in the boxes with your own details.</p>
+        ${/\[[^\]]+\]/.test(t.stronger_version) ? '<p class="dr2-better-hint">Fill in the boxes with your own details.</p>' : ''}
         <p class="dr2-checked"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Checked: uses only facts from your CV, the job description and your answers.</p></div>`;
     }
     if (t.example_answer) {

@@ -65,19 +65,19 @@
 .dr2-glance-item b { font-weight: 600; color: var(--d-ink-2); }
 .dr2-glance-item.not_given b { color: var(--lv-work-ink); }
 
-.dr2-body { min-width: 0; padding: 0 20px 20px; background: #fff; border-radius: 0 0 4px 4px; display: grid; gap: 4px; }
+/* Each section is its own white card on the page ground, 12px apart, so the parts of a topic never run together. */
+.dr2-body { min-width: 0; display: grid; gap: 12px; }
 /* Section links, sticky under the feedback bar and the topic tabs. */
 .dr2-secnav {
-  position: sticky; top: calc(var(--d-top-h) + 52px); z-index: 2; margin: 0 -20px; padding: 10px 20px;
-  display: flex; gap: 6px; flex-wrap: wrap; background: #fff; border-bottom: 1px solid var(--d-line);
+  position: sticky; top: calc(var(--d-top-h) + 52px); z-index: 2; padding: 8px 12px; border-radius: 8px;
+  display: flex; gap: 6px; flex-wrap: wrap; background: #fff; box-shadow: 0 0 0 1px var(--d-line); /* floats over the cards while scrolling */
 }
 .dr2-secnav a { padding: 6px 12px; border-radius: 60px; font-size: 13px; font-weight: 500; color: var(--d-ink-3); text-decoration: none; }
 .dr2-secnav a:hover { background: var(--d-field); }
 .dr2-secnav a.on { color: var(--d-blue); background: var(--d-blue-fill); }
 .dr2-secnav a:focus-visible { outline: 2px solid var(--d-blue); outline-offset: 1px; }
-.dr2-sec { padding: 16px 0; display: grid; gap: 12px; scroll-margin-top: calc(var(--d-top-h) + 104px); }
-.dr2-sec + .dr2-sec { border-top: 1px solid var(--d-line); }
-.dr2-sec-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.dr2-sec { padding: 20px 24px 24px; display: grid; gap: 14px; background: #fff; border-radius: 8px; scroll-margin-top: calc(var(--d-top-h) + 112px); }
+.dr2-sec-head { padding-bottom: 12px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--d-line); }
 .dr2-sec-head h3 { font-size: 16px; font-weight: 600; color: var(--d-ink-2); }
 .dr2-sec-head .dr-muted { font-size: 13px; }
 /* What went well / what to fix side by side; a CV mismatch runs full width under them. */
@@ -140,7 +140,7 @@ mark.dr2-mark.work { background: #ffd9d4; }
 .dr2-crit-found { color: var(--d-muted); white-space: nowrap; }
 .dr2-crit-body .dr-quote { font-size: 13px; }
 
-.dr2-nav { padding-top: 16px; display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid var(--d-line); }
+.dr2-nav { padding: 12px 16px; display: flex; justify-content: space-between; gap: 12px; background: #fff; border-radius: 8px; }
 
 @media (max-width: 1100px) {
   .dr2-sum { grid-template-columns: minmax(0, 1fr); }
