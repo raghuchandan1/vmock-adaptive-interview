@@ -16,6 +16,12 @@
 <link rel="stylesheet" href="/dash/room.css">
 <link rel="stylesheet" href="/dash/feedback.css">
 <script>
+  // Feedback version: v2 (topic by topic) by default; ?fbview=v1 loads the first dashboard version for comparing.
+  // Both share feedback.css; v2 adds feedback-v2.css. Remove the losing version once one is chosen.
+  window.DASH_FB = new URLSearchParams(location.search).get('fbview') === 'v1' ? 'feedback' : 'feedback-v2';
+  if (window.DASH_FB === 'feedback-v2') document.write('<link rel="stylesheet" href="/dash/feedback-v2.css">');
+</script>
+<script>
   // Which product this interview came from: the setup's handoff, else ?entry= (past feedback links), else the last setup.
   // It decides where "Change setup" / "New interview" go and the product name in the top bar.
   window.ROOM_ENTRY = (() => {
@@ -348,7 +354,7 @@
 <audio id="voice" preload="none"></audio>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="/shared.js"></script>
-<script src="/dash/feedback.js"></script>
+<script>document.write(`<script src="/dash/${window.DASH_FB}.js"><\/script>`);</script>
 <script src="/student.js"></script>
 <script>
   // Title card: until the plan arrives (student.js then sets the title from it), show the type and role the student

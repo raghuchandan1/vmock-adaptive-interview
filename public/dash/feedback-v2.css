@@ -1,0 +1,73 @@
+/* Feedback v2 (dash/feedback-v2.js), loaded after dash/feedback.css: topic by topic. Summary leads with the topic
+   list; Detailed is one topic per page read top to bottom (no sub-menu). */
+
+/* ---------- Summary ---------- */
+.dr2-h { margin-top: 24px; font-size: 16px; line-height: 22px; font-weight: 600; color: var(--d-ink-2); }
+.dr2-sub { margin-top: 2px; font-size: 13px; }
+.dr2-topics { margin: 10px 0 0; padding: 0; list-style: none; border: 1px solid var(--d-line); border-radius: 8px; overflow: hidden; }
+.dr2-topics li + li { border-top: 1px solid var(--d-line); }
+.dr2-topics button {
+  width: 100%; padding: 14px 16px; display: grid; grid-template-columns: 26px minmax(0, 1fr) auto 16px; gap: 12px; align-items: start;
+  text-align: left; border: 0; background: #fff; cursor: pointer; font-family: var(--d-font);
+}
+.dr2-topics button:hover { background: #fafcff; }
+.dr2-topics button:focus-visible { outline: 2px solid var(--d-blue); outline-offset: -2px; }
+.dr2-topic-text { min-width: 0; display: grid; gap: 3px; }
+.dr2-topic-text strong { font-size: 15px; font-weight: 600; color: var(--d-ink-2); }
+.dr2-asked { font-size: 13px; line-height: 18px; color: var(--d-ink-3); font-style: italic; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dr2-line { font-size: 13px; line-height: 18px; color: var(--d-muted); }
+.dr2-meta { font-size: 12px; color: var(--d-muted-2); }
+.dr2-chev { width: 16px; height: 16px; margin-top: 4px; color: var(--d-muted-2); }
+.dr2-across { margin: 10px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.dr2-across li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 10px; align-items: start; padding: 12px; border: 1px solid var(--d-line); border-radius: 8px; }
+.dr2-across li > span:nth-child(2) { display: grid; gap: 2px; font-size: 14px; }
+.dr2-across li > span:nth-child(2) span { font-size: 12px; line-height: 17px; color: var(--d-muted); }
+
+/* ---------- Detailed: one topic, top to bottom ---------- */
+.dr2-topic { padding: 4px 16px 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; background: #fff; border-bottom: 8px solid #f0f0f8; }
+.dr2-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--d-blue); text-transform: uppercase; }
+.dr2-q { margin-top: 4px; font-size: 16px; line-height: 24px; font-weight: 500; color: var(--d-ink-2); }
+.dr2-body { min-width: 0; padding: 4px 20px 20px; background: #fff; border-radius: 0 0 4px 4px; display: grid; gap: 4px; }
+.dr2-sec { padding: 16px 0; display: grid; gap: 12px; }
+.dr2-sec + .dr2-sec { border-top: 1px solid var(--d-line); }
+.dr2-sec-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.dr2-sec-head h3 { font-size: 16px; font-weight: 600; color: var(--d-ink-2); }
+.dr2-sec-head .dr-muted { font-size: 13px; }
+/* What went well / what to fix side by side when there is room. */
+.dr2-sec:has(> .dr-box + .dr-box) { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.dr2-sec:has(> .dr-box + .dr-box) > .dr2-sec-head, .dr2-sec > .dr2-wide { grid-column: 1 / -1; }
+.dr2-sec .dr-box { align-content: start; }
+
+/* Quotes are buttons that scroll the transcript to their line. */
+button.dr-quote { display: block; width: 100%; text-align: left; border: 0; cursor: pointer; font-family: var(--d-font); }
+button.dr-quote:hover { background: var(--d-blue-soft); color: var(--d-ink-2); }
+button.dr-quote:focus-visible { outline: 2px solid var(--d-blue); outline-offset: 1px; }
+.dr-line.dr2-flash { animation: dr2-flash 1.6s ease-out; }
+@keyframes dr2-flash { 0%, 30% { box-shadow: 0 0 0 3px var(--d-blue); } 100% { box-shadow: 0 0 0 3px transparent; } }
+@media (prefers-reduced-motion: reduce) { .dr-line.dr2-flash { animation: none; box-shadow: 0 0 0 3px var(--d-blue); } }
+
+/* Checklist: groups (VMock's names), then each element with where it appeared and its level. */
+.dr2-check { display: grid; gap: 14px; }
+.dr2-check-group { border: 1px solid var(--d-line); border-radius: 8px; overflow: hidden; }
+.dr2-check-head { padding: 10px 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: #f7f8fa; border-bottom: 1px solid var(--d-line); }
+.dr2-check-head strong { font-size: 14px; font-weight: 600; color: var(--d-ink-2); }
+.dr2-check-help { font-size: 12px; color: var(--d-muted); }
+.dr2-check-row { padding: 12px 14px; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 12px; align-items: start; }
+.dr2-check-row + .dr2-check-row { border-top: 1px solid var(--d-line); }
+.dr2-check-main { min-width: 0; display: grid; gap: 4px; }
+.dr2-check-main strong { font-size: 14px; font-weight: 600; color: var(--d-ink-2); }
+.dr2-check-main p { font-size: 13px; line-height: 19px; color: var(--d-ink-3); }
+.dr2-check-main .dr-quote { margin-top: 2px; font-size: 13px; }
+.dr2-found { padding: 2px 8px; border-radius: 12px; font-size: 12px; white-space: nowrap; color: var(--d-good); background: var(--d-good-bg); }
+.dr2-found.after_follow_up { color: var(--d-track); background: var(--d-track-bg); }
+.dr2-found.not_given { color: var(--d-work); background: var(--d-work-bg); }
+.dr2-found:empty { display: none; }
+
+.dr2-nav { padding-top: 16px; display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid var(--d-line); }
+
+@media (max-width: 900px) {
+  .dr2-topics button { grid-template-columns: 26px minmax(0, 1fr) auto; }
+  .dr2-chev { display: none; }
+  .dr2-check-row { grid-template-columns: minmax(0, 1fr); }
+  .dr2-topic { flex-direction: column; }
+}

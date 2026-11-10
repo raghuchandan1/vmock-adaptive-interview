@@ -247,7 +247,7 @@
           <button class="dr-viewmore" type="button" data-viewmore>View in Detailed Feedback</button>
         </article>
         <article class="dr-cs dr-glance">
-          <div class="dr-cs-head"><h3>Question by question</h3></div>
+          <div class="dr-cs-head"><h3>Topic by topic</h3></div>
           <ol class="dr-glance-list">${fb.topics.map((t, i) => `<li><button type="button" data-open="${i}"><span class="dr-num">${i + 1}</span>
             <span class="dr-glance-text"><strong>${esc(topicName(t))}</strong><span>${esc(rowLine(t))}</span></span>${resultPill(t, 'sm')}</button></li>`).join('')}</ol>
         </article>
