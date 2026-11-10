@@ -88,6 +88,11 @@ async function createInterview(body) {
     style: body.style,
     length: body.length,
     seed: crypto.randomInt(1, 1_000_000),
+    // CV Deep Dive only: the CV lines the student chose to be tested on (empty = whole CV). A cost guard, not a check
+    // against the resume: the lines come from the same resume text, which the sender controls anyway.
+    focus_lines: body.interview_type === 'back_your_resume' && Array.isArray(body.focus_lines)
+      ? body.focus_lines.filter((l) => typeof l === 'string').map((l) => l.trim().slice(0, 300)).filter(Boolean).slice(0, 100)
+      : [],
   };
   if (inputs.resume_text.length > MAX_INPUT_CHARS || inputs.jd_text.length > MAX_INPUT_CHARS) throw httpError(400, 'The resume or job description is too long. Please trim it to the essentials.');
   if (inputs.resume_text.length < 200) throw httpError(400, 'Add a resume of at least a few lines (200+ characters).');
@@ -114,6 +119,7 @@ async function createInterview(body) {
     fit_angle: engine.fitAngle(inputs.seed),
     resume_text: inputs.resume_text,
     jd_text: inputs.jd_text,
+    focus_lines: inputs.focus_lines,
   };
   const system = readPrompt('planner');
   const user = JSON.stringify(plannerInput); // compact: indentation only costs tokens

@@ -107,6 +107,13 @@ const get = async (p) => (await fetch(BASE + p)).json();
     check(await post('/api/sessions', { ...base, length: 'full', interview_type: 'recruiter_screen' }).then(() => false, (e) => /30-minute round/.test(e.message)),
       'the 30-minute round is refused for a recruiter screen');
     check(await post('/api/sessions', { ...base, length: 'standard', market: 'uk' }).then(() => false, (e) => /market/.test(e.message)), 'an unknown market is refused');
+    const lines = resume.split('\n').map((l) => l.replace(/^[-•*]\s*/, '').trim()).filter((l) => l.length > 30).slice(0, 4);
+    const cv = await post('/api/sessions', { ...base, length: 'standard', interview_type: 'back_your_resume', focus_lines: [...lines, 7, '  '] });
+    const cvSent = JSON.parse((await get(`/api/sessions/${cv.id}/trace`)).plan_trace.request_user_message);
+    const hm = await post('/api/sessions', { ...base, length: 'standard', focus_lines: lines });
+    const hmSent = JSON.parse((await get(`/api/sessions/${hm.id}/trace`)).plan_trace.request_user_message);
+    check(JSON.stringify(cvSent.focus_lines) === JSON.stringify(lines) && cvSent.resume_text === resume.trim() && JSON.stringify(hmSent.focus_lines) === '[]',
+      'CV Deep Dive passes the chosen lines (strings only) with the whole resume; other types ignore them');
   }
   const { fitAngle, FIT_ANGLES } = require('../lib/engine');
   check(JSON.parse(trace.plan_trace.request_user_message).fit_angle === fitAngle(trace.inputs.seed) && new Set([0, 1, 2].map(fitAngle)).size === FIT_ANGLES.length,

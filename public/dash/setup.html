@@ -75,7 +75,19 @@
             <p class="ds-none" id="cvNone" hidden>No CV matches your search.</p>
           </div>
         </div>
-        <div class="ds-preview" aria-label="CV preview"><pre id="cvPreview"></pre></div>
+        <div class="ds-preview" aria-label="CV preview">
+          <!-- CV Deep Dive: test on the whole CV, or on chosen sections and lines (sent as focus_lines with the whole CV). -->
+          <div class="ds-focus" id="focusBar" role="radiogroup" aria-label="Test me on" hidden>
+            <span>Test me on</span>
+            <div class="ds-seg">
+              <label><input type="radio" name="focus" value="whole" checked><span>Whole CV</span></label>
+              <label><input type="radio" name="focus" value="lines"><span>Chosen lines</span></label>
+            </div>
+          </div>
+          <pre id="cvPreview"></pre>
+          <div class="ds-pick" id="cvPick" hidden></div>
+          <p class="ds-pick-count" id="pickCount" role="status" hidden></p>
+        </div>
       </div>
     </section>
 
@@ -142,6 +154,10 @@
             <!-- Placeholder: VMock's JD parser fills these on the real sheet; this prototype doesn't extract skills before the interview. -->
             <div class="ds-skills src-vmock" aria-label="Skills placeholder"><span></span><span></span><span></span><span></span><span></span></div>
             <p class="ds-note">Filled in by VMock's job description parser.</p>
+          </div>
+          <div id="sumFocusWrap" hidden>
+            <h2>Testing on</h2>
+            <p class="ds-fixed"><strong id="sumFocus"></strong><span id="sumFocusList"></span></p>
           </div>
           <div id="sumTypeWrap" hidden>
             <h2>Interview type</h2>

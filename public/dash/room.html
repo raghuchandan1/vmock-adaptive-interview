@@ -363,6 +363,7 @@
     document.getElementById('roomType').textContent = type;
     document.getElementById('liveType').textContent = type;
     window.ROOM_DOMAIN = s.domain || ''; // for the title once the plan arrives (the plan summary has no domain)
+    window.ROOM_FOCUS = Array.isArray(s.focus_lines) ? s.focus_lines.length : 0; // CV Deep Dive: lines the student chose
     document.getElementById('briefTitle').textContent = s.target_role || (s.domain ? `${s.domain} interview` : 'Practice interview');
     document.getElementById('roomSub').textContent = [s.target_role && s.domain, STAGE[s.stage], STYLE[s.style], MIN[s.length]].filter(Boolean).join(' · ');
   })();
@@ -384,7 +385,7 @@
     company.hidden = !b.company;
     const STAGE_NAME = { summers: 'Summer placements', finals: 'Final placements', laterals: 'Lateral hiring' };
     document.getElementById('roomSub').textContent = [b.role && domain, STAGE_NAME[b.stage], style, `${b.minutes} min`, `${b.topics} topics`].filter(Boolean).join(' · ');
-    const source = b.jd_used ? 'your CV and the job description' : 'your CV';
+    const source = window.ROOM_FOCUS ? 'the lines you picked from your CV' : b.jd_used ? 'your CV and the job description' : 'your CV';
     const items = [
       'A short warm-up question to settle in.',
       `${b.topics} topics from ${source}. The interviewer follows up on what you say, as in a real interview.`,

@@ -6,6 +6,8 @@
 //     sheet). Without a JD, Interview Details needs a domain and a target role (with a JD both are optional;
 //     the server needs a role, a domain or a JD).
 //   entry=cv (CV Deep Dive): Select CV -> Interview details; resume only, type fixed to the resume deep dive, domain required.
+//     On Select CV, "Test me on: Whole CV | Chosen lines": the preview becomes a checklist (sections, role lines, bullets);
+//     the chosen lines go as focus_lines with the whole CV, at least one per topic; all lines ticked = whole CV.
 (() => {
   const $ = (id) => document.getElementById(id);
   const esc = VM.esc;
@@ -19,7 +21,8 @@
     probing: 'More follow-ups; asks for numbers and your exact part.',
     surprise: 'You find out as you go.',
   };
-  const state = { step: null, resumes: [], resumeId: null, query: '', hasKey: true, format: null };
+  const state = { step: null, resumes: [], resumeId: null, query: '', hasKey: true, format: null, focus: 'whole', picked: new Set(), parsed: null };
+  const TOPICS = { short: 3, standard: 4 }; // topics per length (engine SCORED_SLOTS): one chosen line per topic
   const isAi = () => entry === 'cv' || state.format === 'ai';
   const steps = () => (entry === 'cv' ? ['resume', 'details'] : ['jd', 'resume', 'format', state.format === 'questions' ? 'questions' : 'details']);
   const hasJd = () => entry === 'mock' && Boolean($('jd').value.trim());
@@ -31,10 +34,79 @@
   const showError = (msg) => { $('dsError').textContent = msg || ''; $('dsError').hidden = !msg; };
   const firstLine = (t) => String(t || '').split('\n').map((x) => x.trim()).find(Boolean) || '';
 
+  // ---------- CV Deep Dive: chosen lines ----------
+  // Sections (short capitals or "Heading:"), groups (a role or degree line) and bullets ("-", "•", "*", "1." …). A group
+  // with bullets only toggles them; a group without bullets is a line of its own. CVs without bullets (messy PDF text)
+  // end up with every line selectable. Contact lines before the first section are left out.
+  const BULLET = /^([-•*▪–·]|\d+[.)])\s+/;
+  const isHeading = (l) => !BULLET.test(l) && l.length <= 40 && /[A-Za-z]/.test(l) && !/\d/.test(l) && (l === l.toUpperCase() || /:$/.test(l)); // "CGPA: 8.4/10" is a line, not a heading
+  function parseCv(text) {
+    const sections = [];
+    let sec = null, grp = null;
+    for (const raw of String(text || '').split('\n').map((l) => l.trim()).filter(Boolean)) {
+      if (isHeading(raw)) { sec = { title: raw.replace(/:$/, ''), groups: [] }; sections.push(sec); grp = null; continue; }
+      if (!sections.some((x) => x.groups.length) && /@|\|/.test(raw)) continue; // contact details under the name
+      if (!sec) { sec = { title: '', groups: [] }; sections.push(sec); }
+      if (BULLET.test(raw)) {
+        if (!grp) { grp = { text: '', lines: [] }; sec.groups.push(grp); }
+        grp.lines.push(raw.replace(BULLET, '').trim());
+      } else { grp = { text: raw, lines: [] }; sec.groups.push(grp); }
+    }
+    let n = 0;
+    const lines = [];
+    for (const s of sections) {
+      for (const g of s.groups) {
+        g.ids = (g.lines.length ? g.lines : [g.text]).map((text) => { lines.push({ id: n, text }); return n++; });
+      }
+      s.ids = s.groups.flatMap((g) => g.ids);
+    }
+    return { sections: sections.filter((s) => s.ids.length), lines };
+  }
+  const focusNeed = () => TOPICS[(document.querySelector('input[name="length"]:checked') || {}).value] || 4;
+  const allPicked = () => state.parsed && state.picked.size === state.parsed.lines.length;
+  const focusLines = () => (entry === 'cv' && state.focus === 'lines' && state.parsed && !allPicked()
+    ? state.parsed.lines.filter((l) => state.picked.has(l.id)).map((l) => l.text) : []);
+  const focusOk = () => entry !== 'cv' || state.focus === 'whole' || allPicked() || state.picked.size >= focusNeed();
+
+  function renderPick() {
+    const on = entry === 'cv' && state.focus === 'lines' && Boolean(selectedResume());
+    $('cvPick').hidden = !on;
+    $('pickCount').hidden = !on;
+    $('cvPreview').hidden = on;
+    if (!on) return;
+    const box = (ids, extra) => {
+      const n = ids.filter((id) => state.picked.has(id)).length;
+      return `<input type="checkbox" ${extra}${n === ids.length ? ' checked' : ''}${n && n < ids.length ? ' data-mixed' : ''}>`;
+    };
+    $('cvPick').innerHTML = state.parsed.sections.map((s, si) => `<div class="ds-pick-sec">
+      ${s.title ? `<label class="ds-pick-h">${box(s.ids, `data-sec="${si}"`)}<span>${esc(s.title)}</span></label>` : ''}
+      ${s.groups.map((g, gi) => (g.lines.length
+        ? `${g.text ? `<label class="ds-pick-g">${box(g.ids, `data-grp="${si}.${gi}"`)}<span>${esc(g.text)}</span></label>` : ''}
+           ${g.lines.map((t, li) => `<label class="ds-pick-b">${box([g.ids[li]], `data-ids="${g.ids[li]}"`)}<span>${esc(t)}</span></label>`).join('')}`
+        : `<label class="ds-pick-g one">${box(g.ids, `data-ids="${g.ids[0]}"`)}<span>${esc(g.text)}</span></label>`)).join('')}
+    </div>`).join('');
+    $('cvPick').querySelectorAll('[data-mixed]').forEach((x) => { x.indeterminate = true; });
+    const need = focusNeed(), n = state.picked.size;
+    $('pickCount').textContent = allPicked() ? 'All lines chosen, same as Whole CV.'
+      : n >= need ? `${n} lines chosen. Each topic comes from one of them.`
+      : `${n} of at least ${need} lines chosen (one per topic).`;
+    $('pickCount').classList.toggle('short', !focusOk());
+  }
+  function togglePick(input) {
+    const p = state.parsed;
+    const ids = input.dataset.sec !== undefined ? p.sections[input.dataset.sec].ids
+      : input.dataset.grp !== undefined ? (([si, gi]) => p.sections[si].groups[gi].ids)(input.dataset.grp.split('.'))
+      : [Number(input.dataset.ids)];
+    ids.forEach((id) => (input.checked ? state.picked.add(id) : state.picked.delete(id)));
+    renderPick();
+    render();
+  }
+
   function canGoOn() {
     if (state.step === 'jd') return hasJd();
-    if (state.step === 'resume') return Boolean(selectedResume());
+    if (state.step === 'resume') return Boolean(selectedResume()) && focusOk();
     if (state.step === 'format') return Boolean(state.format);
+    if (state.step === 'details' && !focusOk()) return false;
     if (state.step === 'details') return needsRoleAndDomain() ? Boolean($('domain').value && $('role').value.trim()) : entry === 'cv' ? Boolean($('domain').value) : true;
     return false; // questions: VMock's own flow, not in this prototype
   }
@@ -116,6 +188,12 @@
     const r = selectedResume();
     $('cvPreview').textContent = r ? r.text : 'Select a CV to see it here.';
     $('cvPreview').classList.toggle('empty', !r);
+    if (entry === 'cv' && r && state.parsed?.for !== r.id) { // a different CV: parse it, start with nothing chosen
+      state.parsed = Object.assign(parseCv(r.text), { for: r.id });
+      state.picked = new Set();
+    }
+    $('focusBar').hidden = entry !== 'cv' || !r;
+    renderPick();
   }
 
   function renderSummary() {
@@ -126,6 +204,11 @@
     $('sumSkipWrap').hidden = entry === 'cv' || hasJd();
     $('sumSkillsWrap').hidden = !hasJd();
     $('sumTypeWrap').hidden = entry !== 'cv';
+    const chosen = focusLines();
+    $('sumFocusWrap').hidden = !chosen.length;
+    $('sumFocus').textContent = `${chosen.length} chosen line${chosen.length === 1 ? '' : 's'}`;
+    $('sumFocusList').textContent = chosen.slice(0, 3).map((t) => (t.length > 60 ? `${t.slice(0, 60)}…` : t)).join(' · ') + (chosen.length > 3 ? ` · and ${chosen.length - 3} more` : '');
+    if (entry === 'cv' && !focusOk()) showError(`Choose at least ${focusNeed()} lines for this length, or test on the whole CV.`);
     if (hasJd()) {
       const jd = $('jd').value.trim();
       $('sumJd').textContent = firstLine(jd).slice(0, 80);
@@ -179,6 +262,7 @@
       interview_type: entry === 'cv' ? 'back_your_resume' : document.querySelector('input[name="type"]:checked').value,
       style: document.querySelector('input[name="style"]:checked').value,
       length: document.querySelector('input[name="length"]:checked').value,
+      focus_lines: focusLines(),
     };
     if (!state.hasKey) return showError('No OpenAI key found. Add OPENAI_API_KEY to the .env file and restart the server.');
     if (!isAi()) return;
@@ -211,6 +295,13 @@
     if (sample) state.resumeId = sample.id;
     else addResume({ id: 'last', name: String(last.resume_name || 'Your CV'), meta: 'From your last setup', source: 'Last used', text: String(last.resume_text) });
     renderResumes();
+    if (entry === 'cv' && Array.isArray(last.focus_lines) && last.focus_lines.length) { // the same lines, matched by text
+      const want = new Set(last.focus_lines);
+      state.picked = new Set(state.parsed.lines.filter((l) => want.has(l.text)).map((l) => l.id));
+      state.focus = 'lines';
+      document.querySelector('input[name="focus"][value="lines"]').checked = true;
+      renderPick();
+    }
     go('details');
     let err = '';
     try { err = sessionStorage.getItem('vmock_adaptive_error') || ''; sessionStorage.removeItem('vmock_adaptive_error'); } catch (_) { /* no message */ }
@@ -269,6 +360,9 @@
       render();
     });
     $('domain').addEventListener('change', render);
+    document.querySelectorAll('input[name="focus"]').forEach((r) => r.addEventListener('change', () => { state.focus = r.value; renderPick(); render(); }));
+    $('cvPick').addEventListener('change', (e) => { if (e.target.matches('input[type="checkbox"]')) togglePick(e.target); });
+    document.querySelectorAll('input[name="length"]').forEach((r) => r.addEventListener('change', () => { showError(''); renderSummary(); render(); }));
     $('role').addEventListener('input', render);
     document.querySelectorAll('input[name="style"]').forEach((r) => r.addEventListener('change', render));
     $('role').addEventListener('keydown', (e) => { if (e.key === 'Enter') next(); });

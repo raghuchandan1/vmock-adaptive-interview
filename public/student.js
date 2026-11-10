@@ -83,7 +83,7 @@
 
   function readSetup() {
     const val = (name) => document.querySelector(`input[name="${name}"]:checked`)?.value;
-    return { resume_text: $('resume').value, jd_text: $('jd').value, target_role: $('role').value, domain: $('domain').value, stage: $('stage') ? $('stage').value : '', interview_type: val('type'), style: val('style'), length: val('length') };
+    return { resume_text: $('resume').value, jd_text: $('jd').value, target_role: $('role').value, domain: $('domain').value, stage: $('stage') ? $('stage').value : '', interview_type: val('type'), style: val('style'), length: val('length'), focus_lines: state.focusLines || [] };
   }
 
   async function prepare() {
@@ -767,6 +767,7 @@
       if (inputs) sessionStorage.setItem('vmock_adaptive_last', JSON.stringify(inputs));
     } catch (_) { return false; }
     if (!inputs || typeof inputs !== 'object') return false;
+    state.focusLines = Array.isArray(inputs.focus_lines) ? inputs.focus_lines : []; // CV Deep Dive: chosen lines (dashboard setup)
     setResume(String(inputs.resume_text || ''), String(inputs.resume_name || 'Resume'));
     $('jd').value = String(inputs.jd_text || '');
     $('jdDetails').open = Boolean($('jd').value);
