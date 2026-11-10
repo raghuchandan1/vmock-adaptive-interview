@@ -16,6 +16,9 @@
   const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
   const firstSentence = (x) => (String(x || '').match(/^.*?[.!?](\s|$)/) || [String(x || '')])[0].trim();
 
+  // The row icon follows the level (a tick only for Good Job), so a red tick never says "good" next to Needs Work.
+  const LEVEL_ICON = { good_job: 'i-check', on_track: 'i-minus', needs_work: 'i-alert' };
+  const levelIcon = (level) => LEVEL_ICON[level] || 'i-check';
   const pill = (level, cls = '') => (LEVEL[level] ? `<span class="d-pill ${LEVEL[level][1]} ${cls}">${LEVEL[level][0]}</span>` : '');
   const resultPill = (t, cls = '') => (t.too_short ? `<span class="d-pill none ${cls}">Too short</span>` : pill(t.verdict, cls));
   const topicName = (t) => (t.kind === 'second_chance' ? `${t.topic || 'Earlier topic'} (second try)` : t.topic || KIND[t.kind] || 'Question');
@@ -89,8 +92,9 @@
     const company = s.plan?.jd?.company;
     const style = s.surprise ? `Surprise style (${STYLE[s.style] || s.style})` : `${STYLE[s.style] || s.style} style`;
     const date = new Date(s.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-    document.getElementById('fbType').textContent = type;
-    document.getElementById('fbRole').textContent = company ? `${role} at ${company}` : role;
+    document.getElementById('fbType').textContent = company ? `${type} · ${company}` : type; // company here so the role fits
+    document.getElementById('fbRole').textContent = role;
+    document.getElementById('fbRole').title = company ? `${role} at ${company}` : role;
     document.getElementById('feedbackMeta').textContent = [date, `${MINUTES[s.inputs?.length] || 15} min`, style, plural(fb.topics.length, 'question')].join(' · ');
   }
 
@@ -154,7 +158,7 @@
     const items = [{ id: 'next', name: 'Next time', icon: 'i-target', title: 'How to answer it next time', level: null, body: nextTimeBody(t) }];
     if (!t.too_short) {
       items.push({ id: 'did', name: 'What you did', icon: 'i-doc', title: 'What you did', level: t.verdict, body: didBody(t) });
-      groupsFor(t).forEach((g, k) => items.push({ id: `g${k}`, name: g.name, icon: 'i-check', title: g.name, level: moduleLevel(g.items.map((r) => r.level)), body: groupBody(g) }));
+      groupsFor(t).forEach((g, k) => items.push({ id: `g${k}`, name: g.name, icon: levelIcon(moduleLevel(g.items.map((r) => r.level))), title: g.name, level: moduleLevel(g.items.map((r) => r.level)), body: groupBody(g) }));
     }
     if ((t.follow_ups || []).length) items.push({ id: 'fu', name: 'Follow-ups', icon: 'i-chat', title: 'Follow-up questions', level: null, body: followUpsBody(t) });
     return items;
@@ -216,12 +220,12 @@
     const goalQ = goal && goal.slot_id ? fb.topics.findIndex((t) => t.slot_id === goal.slot_id) : -1;
     const qpills = [`<button class="dr-qp" type="button" data-sum="all" aria-pressed="true">Overall</button>`, ...fb.topics.map((t, i) => `<button class="dr-qp" type="button" data-sum="${i}" aria-pressed="false">Q${i + 1}</button>`)].join('');
     // Content Strength card: Overall shows each group across the interview; Qn shows that question's groups.
-    const overallRows = across.map((g) => `<li><span class="dr-row-icon ${LEVEL[g.level][1]}" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span><span>${esc(g.name)}</span>${pill(g.level, 'sm tag')}</li>`).join('');
+    const overallRows = across.map((g) => `<li><span class="dr-row-icon ${LEVEL[g.level][1]}" aria-hidden="true"><svg class="ic"><use href="#${levelIcon(g.level)}"/></svg></span><span>${esc(g.name)}</span>${pill(g.level, 'sm tag')}</li>`).join('');
     const qBlocks = fb.topics.map((t, i) => {
       const gs = groupsFor(t);
       return `<div class="dr-cs-q" data-sumq="${i}" hidden>
         <p class="dr-cs-topic"><strong>${esc(topicName(t))}</strong>${resultPill(t, 'sm')}</p>
-        ${gs.length && !t.too_short ? `<ul class="dr-rows">${gs.map((g) => { const lv = moduleLevel(g.items.map((r) => r.level)); return `<li><span class="dr-row-icon ${lv ? LEVEL[lv][1] : ''}" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span><span>${esc(g.name)}</span>${pill(lv, 'sm tag')}</li>`; }).join('')}</ul>` : ''}
+        ${gs.length && !t.too_short ? `<ul class="dr-rows">${gs.map((g) => { const lv = moduleLevel(g.items.map((r) => r.level)); return `<li><span class="dr-row-icon ${lv ? LEVEL[lv][1] : ''}" aria-hidden="true"><svg class="ic"><use href="#${levelIcon(lv)}"/></svg></span><span>${esc(g.name)}</span>${pill(lv, 'sm tag')}</li>`; }).join('')}</ul>` : ''}
         <p class="dr-cs-line">${esc(rowLine(t))}</p></div>`;
     }).join('');
 
@@ -243,7 +247,7 @@
           <button class="dr-viewmore" type="button" data-viewmore>View in Detailed Feedback</button>
         </article>
         <article class="dr-cs dr-glance">
-          <div class="dr-cs-head"><h3>Your questions</h3></div>
+          <div class="dr-cs-head"><h3>Question by question</h3></div>
           <ol class="dr-glance-list">${fb.topics.map((t, i) => `<li><button type="button" data-open="${i}"><span class="dr-num">${i + 1}</span>
             <span class="dr-glance-text"><strong>${esc(topicName(t))}</strong><span>${esc(rowLine(t))}</span></span>${resultPill(t, 'sm')}</button></li>`).join('')}</ol>
         </article>
