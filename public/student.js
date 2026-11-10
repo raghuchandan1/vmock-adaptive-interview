@@ -650,17 +650,34 @@
     panel.innerHTML = `<div class="sv-host sv-host-wait" data-state="left">
       <div class="sv-host-head"><span class="sv-avatar sv-host-avatar">AI</span><div><div class="sv-host-name">Your interviewer</div><div class="sv-presence">Left the call</div></div></div>
       <ol class="sv-steps" aria-live="polite"><li class="now">Going over your answers</li><li>Writing your feedback</li></ol>
-      <p class="hint">This takes about a minute.</p></div>`;
+      <p class="hint" id="fbWaitHint">This takes about a minute.</p></div>`;
     const steps = panel.querySelectorAll('.sv-steps li');
     const stepTimer = setTimeout(() => { steps[0].className = 'done'; steps[1].className = 'now'; }, 8000);
+    // A running clock so a minute of writing never looks frozen.
+    const started = Date.now();
+    const clock = setInterval(() => {
+      const hint = document.getElementById('fbWaitHint');
+      if (!hint) return clearInterval(clock);
+      const sec = Math.round((Date.now() - started) / 1000);
+      hint.textContent = sec < 90 ? `This takes about a minute. ${sec}s so far.` : `Still writing, ${sec}s so far. Long interviews take a little longer.`;
+    }, 1000);
     try {
       const session = await api(`/api/sessions/${state.sessionId}/trace`);
       const role = session.plan?.jd?.role_title || session.inputs?.target_role;
       $('feedbackMeta').textContent = `${role ? `${role}, ` : ''}${fmtDate(session.created_at)}`;
-      const fb = await api(`/api/sessions/${state.sessionId}/feedback`, { method: 'POST' });
+      // Opened again while the first request is still writing (a reload, a second tab): wait for it instead of failing.
+      let fb = null;
+      for (let tries = 0; !fb; tries += 1) {
+        try { fb = await api(`/api/sessions/${state.sessionId}/feedback`, { method: 'POST' }); } catch (err) {
+          if (!/still being written/i.test(err.message) || tries >= 60) throw err;
+          await new Promise((r) => setTimeout(r, 4000));
+        }
+      }
+      clearInterval(clock);
       VM.renderFeedback(panel, session, fb);
     } catch (err) {
       clearTimeout(stepTimer);
+      clearInterval(clock);
       panel.innerHTML = `<p class="error">${esc(err.message)}</p><button class="secondary" id="retryFeedback" type="button">Try again</button>`;
       $('retryFeedback').addEventListener('click', loadFeedback);
     }

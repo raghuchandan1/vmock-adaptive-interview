@@ -149,16 +149,27 @@ async function answer(id, body) {
 
 // Second model call per rewrite: a "stronger version" may only contain facts from the resume or the student's
 // answers or the JD, plus placeholders. An unsupported claim removes its sentence; a failed check removes the rewrite.
+// Feedback is written later than the interview, sometimes much later: when the model saved on an old session is no
+// longer available to this key, it is written with the current default model instead (the session keeps its own).
+const MODEL_GONE = /OpenAI API error (403|404)\b.*model|model_not_found|does not have access to model|does not exist/i;
+async function withModelFallback(session, call) {
+  const own = { model: session.settings.turn_model, reasoningEffort: session.settings.turn_effort };
+  try { return await call(own); } catch (err) {
+    if (!MODEL_GONE.test(err.message) || own.model === DEFAULTS.turn_model) throw err;
+    return call({ model: DEFAULTS.turn_model, reasoningEffort: DEFAULTS.turn_effort });
+  }
+}
+
 async function groundRewrites(session, feedback, traces) {
   const answers = engine.candidateTextBySlot(session);
   const system = readPrompt('grounding');
   await Promise.all(feedback.topics.filter((t) => t.stronger_version).map(async (t) => {
     try {
-      const { data, trace } = await callStructured({
-        apiKey: apiKey(), baseUrl: BASE_URL, model: session.settings.turn_model, reasoningEffort: session.settings.turn_effort,
+      const { data, trace } = await withModelFallback(session, (m) => callStructured({
+        apiKey: apiKey(), baseUrl: BASE_URL, ...m,
         system, user: JSON.stringify({ resume_text: session.inputs.resume_text, job_description: session.inputs.jd_text, student_answers: String(answers[t.slot_id] || '').trim(), rewrite: t.stronger_version }),
         schemaName: 'rewrite_grounding', schema: groundingSchema,
-      });
+      }));
       const kept = engine.applyGrounding(t.stronger_version, data.unsupported_claims, `${session.inputs.resume_text} ${session.inputs.jd_text} ${answers[t.slot_id] || ''}`);
       traces.push({ ...trace, grounding_for: t.slot_id, unsupported: data.unsupported_claims, checked_rewrite: t.stronger_version, kept });
       t.stronger_version = kept;
@@ -191,12 +202,12 @@ async function feedback(id) {
       const payload = engine.buildFeedbackPayload(session);
       if (note) payload.note = note;
       const user = JSON.stringify(payload);
-      const result = await callStructured({
-        apiKey: apiKey(), baseUrl: BASE_URL, model: session.settings.turn_model, reasoningEffort: session.settings.turn_effort,
+      const result = await withModelFallback(session, (m) => callStructured({
+        apiKey: apiKey(), baseUrl: BASE_URL, ...m,
         system, user, schemaName: 'interview_feedback',
         // Only the topics in this payload and their rubric dimensions can appear in the output.
         schema: feedbackSchemaFor(payload.topics.map((t) => t.slot_id), [...new Set(payload.topics.flatMap((t) => t.rubric.map((r) => r.dimension)))]),
-      });
+      }));
       return { ...result, shaped: engine.checkAndShapeFeedback(result.data, session) };
     };
     let result = await run();

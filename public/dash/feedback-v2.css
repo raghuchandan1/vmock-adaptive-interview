@@ -140,7 +140,7 @@ mark.dr2-mark.work { background: #ffd9d4; }
 .dr2-crit-found { color: var(--d-muted); white-space: nowrap; }
 .dr2-crit-body .dr-quote { font-size: 13px; }
 
-.dr2-nav { padding: 12px 16px; display: flex; justify-content: space-between; gap: 12px; background: #fff; border-radius: 8px; }
+.dr2-nav { display: flex; justify-content: space-between; gap: 12px; } /* plain row under the cards, no card of its own */
 
 @media (max-width: 1100px) {
   .dr2-sum { grid-template-columns: minmax(0, 1fr); }
