@@ -190,6 +190,7 @@
     }).join('');
     return { html, marked };
   }
+  const ownWords = (s, t) => s.transcript.filter((e) => e.role === 'candidate' && e.slot_id === t.slot_id).map((e) => e.text).join(' ');
   function nextTimeBody(s, t) {
     const plan = t.answer_plan || [];
     let html = '';
@@ -197,8 +198,7 @@
     if (plan.length) html += `<ol class="dr2-steps">${plan.map((p) => `<li>${blanks(p)}</li>`).join('')}</ol>`;
     // A rewrite reaches the screen only after its grounding check (the server empties it when the check fails).
     if (t.stronger_version) {
-      const own = s.transcript.filter((e) => e.role === 'candidate' && e.slot_id === t.slot_id).map((e) => e.text).join(' ');
-      const better = markNew(t.stronger_version, own);
+      const better = markNew(t.stronger_version, ownWords(s, t));
       html += `<div class="dr2-better"><span class="dr2-better-tag">Your answer, improved</span><p>${better.html}</p>
         ${better.marked ? '<p class="dr2-better-key"><mark class="dr2-new">Highlighted</mark> what this version adds to your answer. The rest is in your own words.</p>' : ''}
         ${/\[[^\]]+\]/.test(t.stronger_version) ? '<p class="dr2-better-hint">Fill in the boxes with your own details.</p>' : ''}
@@ -332,7 +332,7 @@
         ${gt ? `<div class="dr2-where"><span class="dr2-where-h">Where it happened</span>
           <button class="dr2-where-link" type="button" data-open="${goalQ}">Topic ${goalQ + 1} · ${esc(topicName(gt))}</button>
           ${gt.to_fix_quote ? `<p class="dr2-where-q">“${esc(gt.to_fix_quote)}”</p>` : ''}</div>
-          ${gt.stronger_version ? `<div class="dr2-sayit"><span class="dr2-where-h">Say it like this</span><p>${blanks(sentences(gt.stronger_version, 2))}</p>
+          ${gt.stronger_version ? `<div class="dr2-sayit"><span class="dr2-where-h">Say it like this</span><p>${markNew(sentences(gt.stronger_version, 2), ownWords(s, gt)).html}</p>
             <button class="dr-link" type="button" data-open="${goalQ}">See the full answer in topic ${goalQ + 1}</button></div>` : ''}` : ''}
       </div>` : ''}
       ${fb.topics.length ? '<button class="d-btn primary dr-wide" type="button" data-detailed>View Detailed Feedback</button>' : ''}

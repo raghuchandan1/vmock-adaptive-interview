@@ -161,8 +161,8 @@ mark.dr2-mark.work { background: #ffd9d4; }
    A soft wash of the brand blue and a teal behind the view; the topic tabs and section links as frosted glass; every
    card white with a hairline, a 16px radius and a low two-layer shadow; tints only where they mean something (went
    well, to fix, the improved answer, level pills). Scoped to the Detailed view so the Summary is unchanged. */
-.dr-fb:has(> #dr-view-detailed:not([hidden])) { padding: 0; }
-#dr-view-detailed {
+.dr-fb:has(> .dr-view) { padding: 0; }
+#dr-view-detailed, #dr-view-summary {
   --m-edge: rgba(16, 42, 84, .08);
   --m-lift: 0 1px 2px rgba(16, 32, 64, .04), 0 12px 32px -18px rgba(16, 42, 84, .22);
   --m-glass: rgba(255, 255, 255, .72);
@@ -174,7 +174,7 @@ mark.dr2-mark.work { background: #ffd9d4; }
     radial-gradient(760px 380px at 96% -80px, rgba(20, 170, 170, .10), transparent 70%),
     #f2f5fa;
 }
-#dr-view-detailed > * { max-width: 1320px; margin-left: auto; margin-right: auto; }
+#dr-view-detailed > *, #dr-view-summary > * { max-width: 1320px; margin-left: auto; margin-right: auto; }
 
 /* Topic tabs and the topic head read as one frosted header card. */
 #dr-view-detailed .dr-qbar {
@@ -290,8 +290,54 @@ mark.dr2-new { padding: 1px 2px; border-radius: 3px; color: var(--d-ink-2); back
   #dr-view-detailed .dr-qp, #dr-view-detailed .dr2-secnav a, #dr-view-detailed .dr2-crit { transition: none; }
 }
 @media (max-width: 900px) {
-  #dr-view-detailed { padding: 12px 12px 32px; }
+  #dr-view-detailed, #dr-view-summary { padding: 12px 12px 32px; }
   #dr-view-detailed .dr2-secnav { border-radius: 14px; }
   #dr-view-detailed .dr2-topic { padding: 8px 16px 18px; }
   #dr-view-detailed .dr2-q { font-size: 17px; line-height: 24px; }
+}
+
+/* ---------- Summary: the same modern layer (same layout and order; only how it looks) ----------
+   How it went as a frosted header card, the habit to fix first as a tinted card in the sticky rail, the topics and
+   Content Strength as soft-edged lists, Across the interview as rounded cards. */
+#dr-view-summary .dr-sum { gap: 16px; }
+#dr-view-summary .dr-sum-main, #dr-view-summary .dr-sum-side { padding: 24px 26px; border-radius: var(--m-r); border: 1px solid var(--m-edge); box-shadow: var(--m-lift); }
+#dr-view-summary .dr2-head { background: linear-gradient(180deg, var(--m-glass), rgba(255, 255, 255, .95)); backdrop-filter: blur(12px) saturate(140%); -webkit-backdrop-filter: blur(12px) saturate(140%); }
+#dr-view-summary .dr-sum-icon { color: #fff; background: linear-gradient(135deg, #0a84d8, #14aaaa); box-shadow: 0 8px 18px -8px rgba(0, 98, 173, .6); }
+#dr-view-summary .dr-sum-head h2 { font-size: 20px; line-height: 27px; font-weight: 700; letter-spacing: -.01em; color: var(--d-ink); }
+#dr-view-summary .dr-overall { margin-top: 6px; font-size: 14.5px; line-height: 22px; color: var(--d-ink-3); }
+#dr-view-summary .dr-tally .d-pill { padding: 5px 12px; font-size: 13px; }
+/* Section headings carry the same blue-teal bar as the Detailed sections. */
+#dr-view-summary .dr2-h { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700; color: var(--d-ink); }
+#dr-view-summary .dr2-h::before { content: ""; width: 4px; height: 18px; border-radius: 4px; background: linear-gradient(#0a84d8, #14aaaa); }
+#dr-view-summary .dr2-sub { margin-left: 14px; }
+/* Topic by topic and Content Strength: soft-edged lists with a lift on hover. */
+#dr-view-summary .dr2-topics, #dr-view-summary .dr2-cs { border-radius: 14px; border-color: var(--m-edge); }
+#dr-view-summary .dr2-topics li + li, #dr-view-summary .dr2-cs li + li { border-top-color: var(--m-edge); }
+#dr-view-summary .dr2-topics button { padding: 16px 18px; transition: background-color .18s; }
+#dr-view-summary .dr2-topics button:hover { background: linear-gradient(90deg, rgba(0, 117, 203, .05), rgba(20, 170, 170, .03)); }
+#dr-view-summary .dr2-topics button:hover .dr2-chev { color: var(--d-blue); transform: translateX(2px); }
+#dr-view-summary .dr2-chev { transition: transform .18s, color .18s; }
+#dr-view-summary .dr-num { color: #fff; background: linear-gradient(135deg, #0a84d8, #0062ad); box-shadow: 0 4px 10px -4px rgba(0, 98, 173, .6); }
+#dr-view-summary .dr2-cs li { padding: 14px 18px; }
+/* The rail: the habit to fix first as a tinted card; "Say it like this" lights what it adds, as in Detailed. */
+#dr-view-summary .dr-sum-side { background: rgba(255, 255, 255, .92); }
+#dr-view-summary .dr-goal { padding: 18px; border-radius: 14px; border: 1px solid rgba(0, 117, 203, .18); background: linear-gradient(160deg, rgba(0, 117, 203, .1), rgba(20, 170, 170, .05) 60%, #fff); }
+#dr-view-summary .dr-impact { background: linear-gradient(135deg, #0a84d8, #0062ad); box-shadow: 0 4px 10px -4px rgba(0, 98, 173, .6); }
+#dr-view-summary .dr-goal h3 { font-size: 16px; font-weight: 700; color: var(--d-ink); }
+#dr-view-summary .dr2-where, #dr-view-summary .dr2-sayit { border-top-color: rgba(0, 117, 203, .14); }
+#dr-view-summary .dr2-where-q { padding: 8px 10px; border-radius: 10px; background: rgba(255, 255, 255, .75); box-shadow: inset 3px 0 0 #e48a0c; }
+#dr-view-summary .dr-wide { border-radius: 999px; padding-top: 11px; padding-bottom: 11px; box-shadow: 0 8px 18px -8px rgba(0, 98, 173, .6); }
+#dr-view-summary .dr-also-h { border-top-color: var(--m-edge); }
+#dr-view-summary .dr-dot { background: linear-gradient(135deg, #0a84d8, #14aaaa); }
+/* Across the interview. */
+#dr-view-summary .dr2-acrosssec .dr-across { gap: 14px; }
+#dr-view-summary .dr2-acrosssec .dr-card { padding: 18px 20px; border-radius: 14px; border-color: var(--m-edge); background: linear-gradient(180deg, #fff, #fafcff); }
+#dr-view-summary .dr2-acrosssec .dr-quote { border-radius: 10px; background: #f3f6fa; }
+#dr-view-summary .dr-iwe { height: 10px; background: rgba(245, 158, 11, .18); }
+#dr-view-summary .dr-iwe span { background: linear-gradient(90deg, #0a84d8, #14aaaa); border-radius: 10px; }
+@media (prefers-reduced-motion: reduce) {
+  #dr-view-summary .dr2-topics button, #dr-view-summary .dr2-chev { transition: none; }
+}
+@media (max-width: 720px) {
+  #dr-view-summary .dr-sum-main, #dr-view-summary .dr-sum-side { padding: 18px; }
 }
