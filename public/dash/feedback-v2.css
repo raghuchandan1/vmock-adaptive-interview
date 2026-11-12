@@ -1,5 +1,5 @@
 /* Dashboard feedback (dash/feedback-v2.js), loaded after dash/feedback.css: topic by topic. Summary leads with how it
-   went and the habit to fix first; Detailed is one topic per page with section links at its top. */
+   went and the habit to fix first; Detailed is a topic stepper over one topic: its answer beside sticky coaching. */
 
 /* Level text dark enough to read on its pale tint (VMock's own hues fail 4.5:1: On Track was 1.9:1). The hue stays on
    the tint and the legend dot; colour on this screen means a level and nothing else. */
@@ -54,105 +54,240 @@
 .dr2-where-q { font-size: 14px; line-height: 20px; font-style: italic; color: var(--d-ink-3); }
 .dr2-sayit p { font-size: 14px; line-height: 21px; color: var(--d-ink-2); }
 
-/* ---------- Detailed: one topic, top to bottom ---------- */
-.dr2-topic { padding: 4px 16px 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; background: #fff; border-bottom: 8px solid #f0f0f8; }
-.dr2-topic-main { min-width: 0; }
-.dr2-topic-side { flex: none; display: grid; justify-items: end; gap: 10px; }
-.dr2-eyebrow { font-size: 13px; font-weight: 600; color: var(--d-blue); }
-.dr2-q { margin-top: 4px; font-size: 16px; line-height: 24px; font-weight: 500; color: var(--d-ink-2); }
-/* The topic's lesson at a glance. */
-.dr2-glance { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 13px; line-height: 19px; color: var(--d-ink-3); }
-.dr2-glance-item b { font-weight: 600; color: var(--d-ink-2); }
-.dr2-glance-item.not_given b { color: var(--lv-work-ink); }
 
-/* Each section is its own white card on the page ground, 12px apart, so the parts of a topic never run together. */
-.dr2-body { min-width: 0; display: grid; gap: 12px; }
-/* Section links, sticky under the feedback bar and the topic tabs. */
-.dr2-secnav {
-  position: sticky; top: calc(var(--d-top-h) + 52px); z-index: 2; padding: 8px 12px; border-radius: 8px;
-  display: flex; gap: 6px; flex-wrap: wrap; background: #fff; box-shadow: 0 0 0 1px var(--d-line); /* floats over the cards while scrolling */
+/* ---------- Detailed: a topic stepper, then one topic: its answer beside sticky coaching ----------
+   The ground carries a soft wash of the brand blue and a teal; the stepper floats over it as frosted glass; surfaces
+   are white with a hairline and a low two-layer shadow; level colour tints only the verdict and the coaching cards. */
+.dr-fb:has(> .dr3-view:not([hidden])) { padding: 0; }
+.dr3-view {
+  --dr3-glass: rgba(255, 255, 255, .72);
+  --dr3-edge: rgba(16, 42, 84, .08);
+  --dr3-lift: 0 1px 2px rgba(16, 32, 64, .04), 0 12px 32px -18px rgba(16, 42, 84, .22);
+  --dr3-r: 16px;
+  --dr3-sticky: calc(var(--d-top-h) + 52px);
+  min-height: calc(100vh - var(--d-top-h) - 52px);
+  padding: 0 max(16px, 2vw) 48px;
+  background:
+    radial-gradient(900px 420px at 8% -120px, rgba(0, 117, 203, .13), transparent 70%),
+    radial-gradient(760px 380px at 96% -80px, rgba(20, 170, 170, .10), transparent 70%),
+    #f2f5fa;
 }
-.dr2-secnav a { padding: 6px 12px; border-radius: 60px; font-size: 13px; font-weight: 500; color: var(--d-ink-3); text-decoration: none; }
-.dr2-secnav a:hover { background: var(--d-field); }
-.dr2-secnav a.on { color: var(--d-blue); background: var(--d-blue-fill); }
-.dr2-secnav a:focus-visible { outline: 2px solid var(--d-blue); outline-offset: 1px; }
-.dr2-sec { padding: 20px 24px 24px; display: grid; gap: 14px; background: #fff; border-radius: 8px; scroll-margin-top: calc(var(--d-top-h) + 112px); }
-.dr2-sec-head { padding-bottom: 12px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--d-line); }
-.dr2-sec-head h3 { font-size: 16px; font-weight: 600; color: var(--d-ink-2); }
-.dr2-sec-head .dr-muted { font-size: 13px; }
-/* What went well / what to fix side by side; a CV mismatch runs full width under them. */
-.dr2-sec:has(> .dr-box + .dr-box) { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.dr2-sec:has(> .dr-box + .dr-box) > .dr2-sec-head, .dr2-sec > .dr2-wide { grid-column: 1 / -1; }
-.dr2-sec .dr-box { align-content: start; border-radius: 12px; border: 1px solid var(--d-line); border-left-width: 1px; }
-.dr2-sec .dr-box h4 { display: flex; align-items: center; gap: 8px; font-size: 14px; }
-.dr2-sec .dr-box h4::before { content: ""; width: 20px; height: 20px; flex: none; border-radius: 50%; background: currentColor center / 12px no-repeat; }
-.dr2-sec .dr-box.well { background: #f6fbf8; border-color: #cfe9dc; }
-.dr2-sec .dr-box.well h4 { color: var(--lv-good-ink); }
-.dr2-sec .dr-box.well h4::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E"); }
-.dr2-sec .dr-box.fix { background: #fffaf2; border-color: #f3dcb6; }
-.dr2-sec .dr-box.fix h4 { color: var(--lv-track-ink); }
-.dr2-sec .dr-box.fix h4::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M12 7v6M12 17h.01'/%3E%3C/svg%3E"); }
-.dr2-sec .dr-box.well .dr-quote { background: #e7f4ec; }
-.dr2-sec .dr-box.fix .dr-quote { background: #fcefd9; }
+.dr3-view > * { max-width: 1320px; margin-left: auto; margin-right: auto; }
 
-/* How to answer it next time: numbered steps, then the improved answer in a tinted box. */
+/* The stepper: frosted, sticky under the feedback bar; each topic shows its result and follow-ups. */
+.dr3-stepper {
+  position: sticky; top: var(--dr3-sticky); z-index: 5; margin-bottom: 4px; padding: 14px 0 12px;
+  display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none;
+}
+.dr3-stepper::-webkit-scrollbar { display: none; }
+.dr3-stepper::before { /* the glass band behind the steps, full width */
+  content: ""; position: fixed; left: 0; right: 0; top: var(--dr3-sticky); height: 116px; z-index: -1; pointer-events: none;
+  background: linear-gradient(rgba(242, 245, 250, .86), rgba(242, 245, 250, .62)); backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%);
+  mask-image: linear-gradient(#000 88%, transparent);
+}
+.dr3-step {
+  flex: 1 0 172px; min-width: 0; display: grid; gap: 3px; padding: 10px 14px 11px; text-align: left; cursor: pointer;
+  font-family: var(--d-font); color: var(--d-ink-2); background: var(--dr3-glass); border: 1px solid var(--dr3-edge); border-radius: 14px;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  transition: background-color .18s, border-color .18s, box-shadow .18s, transform .18s;
+}
+.dr3-step:hover { background: rgba(255, 255, 255, .92); border-color: rgba(0, 117, 203, .28); }
+.dr3-step:active { transform: translateY(1px); }
+.dr3-step:focus-visible { outline: 2px solid var(--d-blue); outline-offset: 2px; }
+.dr3-step[aria-selected="true"] { background: #fff; border-color: rgba(0, 117, 203, .45); box-shadow: 0 0 0 3px rgba(0, 117, 203, .12), var(--dr3-lift); }
+.dr3-step-n { display: flex; align-items: center; gap: 8px; font-size: 12px; line-height: 16px; font-weight: 600; color: var(--d-muted); }
+.dr3-first { padding: 1px 7px; border-radius: 999px; font-size: 11px; line-height: 15px; font-weight: 700; color: var(--d-blue-dark); background: rgba(0, 117, 203, .1); }
+.dr3-step-t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; line-height: 19px; font-weight: 600; }
+.dr3-step-l { display: flex; align-items: center; gap: 6px; font-size: 12.5px; line-height: 17px; color: var(--d-ink-3); }
+.dr3-step-l i { width: 8px; height: 8px; border-radius: 50%; flex: none; background: #b8c0cc; }
+.dr3-step.good .dr3-step-l i { background: var(--d-good); }
+.dr3-step.track .dr3-step-l i { background: var(--d-track); }
+.dr3-step.work .dr3-step-l i { background: var(--d-work); }
+.dr3-step.wrap .dr3-step-l i { display: none; }
+
+/* The topic's head: the question, where it came from, the result and the way to practise it. */
+.dr3-pane { display: grid; gap: 16px; }
+.dr3-head {
+  padding: 22px 26px; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px;
+  background: rgba(255, 255, 255, .86); border: 1px solid var(--dr3-edge); border-radius: var(--dr3-r); box-shadow: var(--dr3-lift);
+}
+.dr3-head-main { min-width: 0; display: grid; gap: 8px; }
+.dr3-eyebrow { font-size: 13px; line-height: 18px; font-weight: 600; color: var(--d-blue); }
+.dr3-q { max-width: 68ch; font-size: 21px; line-height: 29px; font-weight: 700; letter-spacing: -.01em; color: var(--d-ink); text-wrap: balance; }
+.dr3-sub { font-size: 14px; color: var(--d-ink-3); }
+.dr3-from { max-width: 80ch; margin-top: 2px; padding: 8px 12px; border-radius: 10px; font-size: 14px; line-height: 20px; color: var(--d-ink-3); background: rgba(0, 117, 203, .06); }
+.dr3-from span { display: block; font-size: 12px; font-weight: 600; color: var(--d-blue-dark); }
+.dr3-head-side { flex: none; display: grid; justify-items: end; gap: 12px; }
+.dr3-head-side .d-pill { padding: 5px 12px; font-size: 13px; }
+
+.dr3-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, 420px); gap: 16px; align-items: start; }
+
+/* Your answer: the exchange as a conversation. */
+.dr3-ans { min-width: 0; background: #fff; border: 1px solid var(--dr3-edge); border-radius: var(--dr3-r); box-shadow: var(--dr3-lift); }
+.dr3-ans-top { padding: 14px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--dr3-edge); }
+.dr3-ans-top h3 { font-size: 16px; font-weight: 600; }
+.dr3-seg { padding: 3px 10px; border-radius: 999px; font-size: 12.5px; color: var(--d-ink-3); background: #f1f4f8; font-variant-numeric: tabular-nums; }
+.dr3-switch { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--d-ink-3); cursor: pointer; }
+.dr3-switch input { appearance: none; -webkit-appearance: none; margin: 0; width: 32px; height: 18px; flex: none; border-radius: 999px; background: #c9d1dc; position: relative; cursor: pointer; transition: background-color .18s; }
+.dr3-switch input::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, .2); transition: transform .18s; }
+.dr3-switch input:checked { background: var(--d-blue); }
+.dr3-switch input:checked::after { transform: translateX(14px); }
+.dr3-switch input:focus-visible { outline: 2px solid var(--d-blue); outline-offset: 2px; }
+.dr3-read { display: none; }
+.dr3-thread { padding: 18px 20px 22px; display: grid; gap: 14px; }
+.dr3-ans:not(.whole) .dr3-other { display: none; }
+.dr3-ans.whole .dr3-msg.dr3-other { opacity: .62; }
+.dr3-div { display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--d-muted); }
+.dr3-div::before, .dr3-div::after { content: ""; flex: 1; height: 1px; background: var(--dr3-edge); }
+.dr3-div span { max-width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 3px 12px; border-radius: 999px; background: #f1f4f8; }
+.dr3-ans:not(.whole) .dr3-div { display: none; }
+.dr3-msg { max-width: 86%; display: grid; gap: 5px; }
+.dr3-msg p { padding: 12px 16px; font-size: 15px; line-height: 24px; color: var(--d-ink-2); white-space: pre-line; overflow-wrap: anywhere; }
+.dr3-msg.ai p { border-radius: 4px 16px 16px 16px; background: #f1f4f8; }
+.dr3-msg.ai.fu p { background: #fff; box-shadow: inset 0 0 0 1px rgba(16, 42, 84, .14); }
+.dr3-msg.you { justify-self: end; }
+.dr3-msg.you p { border-radius: 16px 4px 16px 16px; background: rgba(0, 117, 203, .07); box-shadow: inset 0 0 0 1px rgba(0, 117, 203, .14); }
+.dr3-who { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12px; color: var(--d-muted); }
+.dr3-who b { font-weight: 600; color: var(--d-ink-2); }
+.dr3-who time { font-variant-numeric: tabular-nums; }
+.dr3-msg.you .dr3-who { justify-content: flex-end; }
+.dr3-tag { padding: 1px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 600; color: var(--d-ink-3); background: #eef1f6; }
+.dr3-added { padding: 1px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 700; }
+.dr3-added.yes { color: var(--lv-good-ink); background: #e3f5ea; }
+.dr3-added.no { color: var(--lv-work-ink); background: #fde8e4; }
+
+/* Coaching: sticky beside the answer, scrolling on its own when it is taller than the window. */
+.dr3-coach {
+  position: sticky; top: calc(var(--dr3-sticky) + 96px); max-height: calc(100vh - var(--dr3-sticky) - 108px); overflow-y: auto;
+  display: grid; gap: 12px; align-content: start; padding: 2px; margin: -2px; scrollbar-width: thin; overscroll-behavior: contain;
+}
+.dr3-coach h3 { display: flex; align-items: center; gap: 8px; font-size: 15px; line-height: 20px; font-weight: 700; color: var(--d-ink); }
+.dr3-coach p { font-size: 14px; line-height: 22px; color: var(--d-ink-2); }
+.dr3-verdict, .dr3-card { padding: 16px 18px; display: grid; gap: 12px; border-radius: var(--dr3-r); border: 1px solid var(--dr3-edge); background: #fff; box-shadow: var(--dr3-lift); }
+/* The verdict takes its level's hue, fading into white. */
+.dr3-verdict { --hue: 148, 163, 184; background: linear-gradient(160deg, rgba(var(--hue), .16), rgba(var(--hue), .04) 55%, #fff); border-color: rgba(var(--hue), .28); }
+.dr3-verdict.good { --hue: 34, 160, 90; }
+.dr3-verdict.track { --hue: 245, 158, 11; }
+.dr3-verdict.work { --hue: 225, 72, 60; }
+.dr3-verdict-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.dr3-verdict-top h3 { font-size: 17px; }
+.dr3-glance { margin: 0; display: grid; gap: 8px; }
+.dr3-glance > div { display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 8px; align-items: start; }
+.dr3-glance dt { padding-top: 3px; font-size: 12.5px; line-height: 17px; color: var(--d-ink-3); }
+.dr3-glance dd { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.dr3-chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font: 500 12.5px/17px var(--d-font); color: var(--d-ink-2); background: rgba(255, 255, 255, .85); border: 1px solid var(--dr3-edge); }
+.dr3-chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #b8c0cc; }
+.dr3-chip.good::before { background: var(--d-good); }
+.dr3-chip.track::before { background: var(--d-track); }
+.dr3-chip.work::before { background: var(--d-work); }
+button.dr3-chip { cursor: pointer; transition: border-color .15s, color .15s; }
+button.dr3-chip:hover { border-color: rgba(0, 117, 203, .45); color: var(--d-blue-dark); }
+button.dr3-chip:focus-visible { outline: 2px solid var(--d-blue); outline-offset: 1px; }
+.dr3-none { font-size: 12.5px; line-height: 23px; color: var(--d-muted); }
+/* The cards: a small coloured mark before the title; fix in amber, say-it in green, went-well in blue. */
+.dr3-ic { width: 22px; height: 22px; flex: none; border-radius: 7px; display: grid; place-items: center; }
+.dr3-ic::before { content: ""; width: 12px; height: 12px; background: #fff; -webkit-mask: var(--m) center / contain no-repeat; mask: var(--m) center / contain no-repeat; }
+.dr3-card.fix { background: linear-gradient(170deg, rgba(245, 158, 11, .09), #fff 60%); border-color: rgba(245, 158, 11, .26); }
+.dr3-card.fix .dr3-ic { background: #e48a0c; --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E"); }
+.dr3-card.say { background: linear-gradient(170deg, rgba(34, 160, 90, .09), #fff 60%); border-color: rgba(34, 160, 90, .24); }
+.dr3-card.say .dr3-ic { background: #1f9d55; --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E"); }
+.dr3-card.well .dr3-ic { background: var(--d-blue); --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E"); }
+.dr3-say { padding: 12px 14px; border-radius: 12px; background: rgba(255, 255, 255, .8); box-shadow: inset 0 0 0 1px rgba(34, 160, 90, .18); }
+.dr3-say .dr-blank { background: #fff; }
+.dr3-say-foot { display: flex; align-items: center; gap: 10px; }
+.dr3-say-foot .dr2-checked { display: flex; align-items: center; gap: 6px; font-size: 12.5px; line-height: 17px; color: var(--lv-good-ink); }
+.dr3-say-foot .dr2-checked .ic { width: 14px; height: 14px; flex: none; stroke-width: 2.5; }
+.dr3-copy { margin-left: auto; flex: none; padding: 5px 12px; border-radius: 8px; font: 600 13px var(--d-font); color: var(--d-blue-dark); background: #fff; border: 1px solid rgba(0, 117, 203, .3); cursor: pointer; }
+.dr3-copy:hover { background: rgba(0, 117, 203, .06); }
+.dr3-copy:focus-visible { outline: 2px solid var(--d-blue); outline-offset: 1px; }
+.dr3-hint { font-size: 13px !important; line-height: 18px !important; color: var(--d-muted) !important; }
+.dr3-h { font-size: 12.5px; font-weight: 700; color: var(--d-ink-3); }
+.dr3-jump {
+  display: block; width: 100%; padding: 10px 12px; text-align: left; cursor: pointer; border-radius: 10px;
+  font: italic 14px/21px var(--d-font); color: var(--d-ink-2); background: rgba(245, 158, 11, .1); border: 0; box-shadow: inset 3px 0 0 #e48a0c;
+}
+.dr3-jump.ok { background: rgba(34, 160, 90, .08); box-shadow: inset 3px 0 0 var(--d-good); }
+.dr3-jump span { display: block; margin-top: 4px; font-style: normal; font-size: 12.5px; font-weight: 600; color: var(--d-blue-dark); }
+.dr3-jump:hover span { text-decoration: underline; }
+.dr3-jump:focus-visible { outline: 2px solid var(--d-blue); outline-offset: 1px; }
+.dr3-card .dr2-steps li { font-size: 14px; }
+.dr3-card .dr2-steps li::before { color: #fff; background: #e48a0c; }
+.dr3-card.plan .dr2-steps li::before { background: var(--d-blue); }
+.dr3-card.sample { background: #f7f9fc; box-shadow: none; }
+/* What a strong answer covers, folded. */
+.dr3-card.cover > summary { list-style: none; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.dr3-card.cover > summary::-webkit-details-marker { display: none; }
+.dr3-card.cover > summary::after { content: ""; margin-left: auto; width: 8px; height: 8px; border-right: 2px solid var(--d-muted); border-bottom: 2px solid var(--d-muted); transform: rotate(45deg) translateY(-3px); transition: transform .18s; }
+.dr3-card.cover[open] > summary::after { transform: rotate(-135deg) translateY(-1px); }
+.dr3-card.cover > summary:focus-visible { outline: 2px solid var(--d-blue); outline-offset: 4px; border-radius: 4px; }
+.dr3-cgroup { display: grid; gap: 2px; }
+.dr3-cgroup + .dr3-cgroup { margin-top: 8px; }
+.dr3-cgroup-h { padding: 6px 0; display: flex; align-items: center; gap: 8px; justify-content: space-between; font-size: 13.5px; }
+.dr3-crow { padding: 10px 0; display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 10px; border-top: 1px solid var(--dr3-edge); }
+.dr3-crow .d-pill { justify-self: start; }
+.dr3-crow strong { font-size: 13.5px; }
+.dr3-crow p { margin-top: 2px; font-size: 13px !important; line-height: 19px !important; }
+.dr3-crow .dr-quote { margin-top: 6px; font-size: 13px; }
+.dr3-found { color: var(--d-muted); }
+.dr3-nav { display: flex; justify-content: flex-end; gap: 8px; padding-top: 2px; }
+.dr3-nav .d-btn { flex: 1 1 0; }
+
+/* Wrap-up. */
+.dr3-pane .dr-across { margin: 0; }
+.dr3-pane .dr-card { border-radius: var(--dr3-r); border: 1px solid var(--dr3-edge); box-shadow: var(--dr3-lift); }
+.dr3-goal { background: linear-gradient(160deg, rgba(0, 117, 203, .1), #fff 60%) !important; display: grid; gap: 10px; align-content: start; }
+.dr3-goal .d-btn { justify-self: start; }
+.dr3-goal-tag { font-size: 12.5px; font-weight: 700; color: var(--d-blue-dark); }
+.dr3-more { margin: 4px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.dr3-more li { padding-top: 8px; border-top: 1px solid var(--dr3-edge); display: grid; gap: 2px; font-size: 14px; }
+.dr3-more span { color: var(--d-ink-3); }
+
+/* How to answer it next time: numbered steps. */
 .dr2-steps { margin: 0; padding: 0; list-style: none; counter-reset: dr2-step; display: grid; gap: 10px; }
 .dr2-steps li { position: relative; padding-left: 38px; min-height: 26px; font-size: 14px; line-height: 22px; color: var(--d-ink-2); counter-increment: dr2-step; }
 .dr2-steps li::before { content: counter(dr2-step); position: absolute; left: 0; top: -1px; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; font-size: 12px; font-weight: 600; color: var(--d-blue); background: var(--d-blue-fill); }
-.dr2-better { padding: 16px 18px; border-radius: 12px; background: #f3f7fc; border: 1px solid #d6e4f3; display: grid; gap: 8px; }
-.dr2-better-tag { font-size: 13px; font-weight: 600; color: var(--d-blue); }
-.dr2-better p { font-size: 15px; line-height: 26px; color: var(--d-ink-2); }
-.dr2-better .dr-blank { background: #fff; }
-.dr2-better .dr2-better-hint { font-size: 13px; line-height: 18px; color: var(--d-muted); }
-.dr2-better .dr2-checked { display: flex; align-items: center; gap: 6px; font-size: 13px; line-height: 18px; color: var(--lv-good-ink); }
-.dr2-better .dr2-checked .ic { width: 14px; height: 14px; stroke-width: 2.5; }
 .dr2-count { padding: 0 8px; height: 22px; display: inline-grid; place-items: center; border-radius: 11px; font-size: 12px; font-weight: 600; color: var(--d-ink-3); background: var(--d-field); }
 
-/* Quotes are buttons that scroll the transcript to their line. */
+/* Quotes are buttons that scroll the answer to their words. */
 button.dr-quote { display: block; width: 100%; text-align: left; border: 0; cursor: pointer; font-family: var(--d-font); }
 button.dr-quote:hover { background: var(--d-blue-soft); color: var(--d-ink-2); }
 button.dr-quote:focus-visible { outline: 2px solid var(--d-blue); outline-offset: 1px; }
-.dr-line.dr2-flash { animation: dr2-flash 1.6s ease-out; }
+.dr2-flash { animation: dr2-flash 1.6s ease-out; }
 @keyframes dr2-flash { 0%, 30% { box-shadow: 0 0 0 3px var(--d-blue); } 100% { box-shadow: 0 0 0 3px transparent; } }
-@media (prefers-reduced-motion: reduce) { .dr-line.dr2-flash { animation: none; box-shadow: 0 0 0 3px var(--d-blue); } }
+@media (prefers-reduced-motion: reduce) {
+  .dr2-flash { animation: none; box-shadow: 0 0 0 3px var(--d-blue); }
+  .dr3-step, .dr3-switch input, .dr3-switch input::after, .dr3-card.cover > summary::after { transition: none; }
+}
 
-/* The transcript marks every quoted line by level. */
-mark.dr2-mark { padding: 0 2px; border-radius: 2px; color: var(--d-ink-2); }
-mark.dr2-mark.good { background: #d3f3df; }
-mark.dr2-mark.track { background: #ffe9c2; }
+/* The answer marks the fix in amber and what went well in green; an element lights up when asked for. */
+mark.dr2-mark { padding: 1px 2px; border-radius: 3px; color: var(--d-ink-2); background: none; scroll-margin: 160px; }
+mark.dr2-mark.good { background: #d3f3df; box-shadow: inset 0 -2px 0 rgba(34, 160, 90, .55); }
+mark.dr2-mark.track { background: #ffe9c2; box-shadow: inset 0 -2px 0 rgba(228, 138, 12, .6); }
 mark.dr2-mark.work { background: #ffd9d4; }
-.dr-script-key mark.dr2-mark { margin-right: 4px; }
-
-/* What a strong answer covers: each group a boxed card, a tinted header (name, level, what it checks), then rows
-   split by rules: level | element | reason with where it appeared and the student's words. */
-.dr2-check { display: grid; gap: 16px; }
-.dr2-check-group { border: 1px solid var(--d-line); border-radius: 10px; overflow: hidden; background: #fff; }
-.dr2-check-top { padding: 12px 16px; background: #f6f7f9; border-bottom: 1px solid var(--d-line); }
-.dr2-check-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.dr2-check-head strong { font-size: 15px; font-weight: 700; color: var(--d-ink-2); }
-.dr2-check-help { margin-top: 4px; font-size: 13px; color: var(--d-muted); }
-.dr2-crit { padding: 14px 16px; display: grid; grid-template-columns: 128px 150px minmax(0, 1fr); gap: 14px; align-items: start; }
-.dr2-crit.single { grid-template-columns: minmax(0, 1fr); }
-.dr2-crit + .dr2-crit { border-top: 1px solid var(--d-line); }
-.dr2-crit-name { padding-top: 2px; font-size: 14px; font-weight: 600; color: var(--d-ink-2); }
-.dr2-crit-body { min-width: 0; display: grid; gap: 8px; }
-.dr2-crit-body p { font-size: 14px; line-height: 21px; color: var(--d-ink-2); }
-.dr2-crit-found { color: var(--d-muted); white-space: nowrap; }
-.dr2-crit-body .dr-quote { font-size: 13px; }
-
-.dr2-nav { display: flex; justify-content: space-between; gap: 12px; } /* plain row under the cards, no card of its own */
+mark.dr2-mark.dr3-lit { background: rgba(0, 117, 203, .14); box-shadow: inset 0 -2px 0 var(--d-blue); }
 
 @media (max-width: 1100px) {
   .dr2-sum { grid-template-columns: minmax(0, 1fr); }
   .dr2-sum > .dr2-head, .dr2-sum > .dr-sum-side, .dr2-sum > .dr2-restcol { grid-column: auto; grid-row: auto; }
+  .dr3-grid { grid-template-columns: minmax(0, 1fr) 360px; }
 }
 @media (max-width: 900px) {
   .dr2-topics button { grid-template-columns: 26px minmax(0, 1fr) auto; }
   .dr2-chev { display: none; }
-  .dr2-crit { grid-template-columns: auto minmax(0, 1fr); gap: 8px 12px; }
-  .dr2-crit-body { grid-column: 1 / -1; }
-  .dr2-topic { flex-direction: column; }
-  .dr2-topic-side { justify-items: start; }
-  .dr2-secnav { position: static; flex-wrap: nowrap; overflow-x: auto; } /* the feedback bar is tall and sticky here */
-  .dr2-sec { scroll-margin-top: calc(var(--d-top-h) + 150px); }
+  /* The feedback bar wraps and is taller here: the stepper scrolls with the page instead of sticking. */
+  .dr3-stepper { position: static; padding-top: 12px; }
+  .dr3-stepper::before { display: none; }
+  .dr3-step { flex-basis: 150px; }
+  .dr3-head { flex-direction: column; padding: 18px; gap: 14px; }
+  .dr3-head-side { justify-items: start; grid-auto-flow: column; align-items: center; }
+  .dr3-q { font-size: 18px; line-height: 25px; }
+  /* Coaching first; the answer folds behind "Read your answer" (a quote opens it). */
+  .dr3-grid { grid-template-columns: minmax(0, 1fr); }
+  .dr3-coach { position: static; max-height: none; overflow: visible; order: -1; padding: 0; margin: 0; }
+  .dr3-read { display: inline-flex; margin-left: auto; }
+  .dr3-switch { margin-left: 0; }
+  .dr3-ans:not(.open) .dr3-thread, .dr3-ans:not(.open) .dr3-switch, .dr3-ans:not(.open) .dr3-seg { display: none; }
+  .dr3-msg { max-width: 94%; }
+  .dr3-glance > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .dr3-crow { grid-template-columns: minmax(0, 1fr); gap: 6px; }
 }

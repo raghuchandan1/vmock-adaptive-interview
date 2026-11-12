@@ -3,10 +3,13 @@
    - Summary: how it went and the tally; the habit to fix first beside it (where it happened, in the student's words,
      and how to say it), then "Topic by topic" (question asked, one line, follow-ups, result) and Content Strength
      across your answers as one divided list. On a phone the habit comes straight after the summary.
-   - Detailed: one topic per page with section links at its top: a glance strip (said unprompted / after a follow-up /
-     missing), what you did, how to answer it next time, the checklist (Good Job rows folded), the follow-ups. The
-     transcript on the right marks every quoted line by level; a quote scrolls to its line. A topic from a CV line
-     offers "Practise this line again" (CV Deep Dive with the line chosen).
+   - Detailed: a sticky topic stepper (result, follow-ups, the goal's topic marked "Fix first", then the wrap-up), and
+     one topic: its question and source, then the answer (this topic's exchange, each follow-up with what it asked for
+     and whether the reply added it; "Whole interview" shows the rest) beside sticky coaching in the order it is used:
+     the verdict (a line from the ratings, parts said unprompted / after a follow-up / missing), fix this next time
+     with the steps, say it like this, what went well, and the checklist folded. Every quote jumps to its words in the
+     answer. A topic from a CV line offers "Practise this line again" (CV Deep Dive with the line chosen). On a phone
+     the coaching comes first and the answer folds behind "Read your answer".
    Content only: no Non Verbal or Delivery of Speech. Replaces VM.renderFeedback on dash/room.html only. */
 (() => {
   const esc = VM.esc;
@@ -98,10 +101,10 @@
     document.getElementById('feedbackMeta').textContent = [date, `${MINUTES[s.inputs?.length] || 15} min`, style, plural(fb.topics.length, 'topic')].join(' · ');
   }
 
-  // ---------- Transcript ("Script") for one question, with times from the start of the interview ----------
+  // ---------- Detailed Feedback: a topic stepper, then one topic: its answer beside the coaching ----------
   function clock(ms) {
     const sec = Math.max(0, Math.round(ms / 1000));
-    return `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`;
+    return `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
   }
   // Marks every quoted line in the student's answer, coloured by level, with what it shows on hover. Works on the
   // plain text (first match per quote, overlaps skipped), so marks never nest or cut through each other.
@@ -122,116 +125,152 @@
     }
     return html + esc(text.slice(at));
   }
-  const ORDER = { needs_work: 0, on_track: 1, good_job: 2 };
+  // Only the fix (and a CV mismatch) and what went well are marked at rest; an element's own quote lights up when the
+  // student asks for it (glance chips, checklist), so the answer is not a wall of colour.
   function marksFor(t) {
-    // The fix and CV-mismatch quotes take their cards' amber; each element's quote takes its level's colour.
     const out = [{ q: t.to_fix_quote, cls: 'track', label: 'What to fix' }];
     if (t.resume_mismatch) out.push({ q: t.resume_mismatch.quote, cls: 'track', label: "Doesn't match your CV" });
     out.push({ q: t.went_well_quote, cls: 'good', label: 'What went well' });
-    [...(t.ratings || [])].filter((r) => r.quote && LEVEL[r.level]).sort((a, b) => ORDER[a.level] - ORDER[b.level])
-      .forEach((r) => out.push({ q: r.quote, cls: LEVEL[r.level][1], label: `${r.label}: ${LEVEL[r.level][0]}` }));
     return out.filter((m) => m.q);
   }
-  function scriptPane(s, t) {
+  const slotName = (fb, id) => {
+    const i = fb.topics.findIndex((t) => t.slot_id === id);
+    return i >= 0 ? `Topic ${i + 1} · ${topicName(fb.topics[i])}` : MOMENT[id] || 'Earlier';
+  };
+  // The topic's exchange. Each follow-up says what it asked for, and the reply after it whether the student added it.
+  // The rest of the interview is in the DOM too, shown by the "Whole interview" switch.
+  function answerThread(s, fb, t) {
     const t0 = Date.parse((s.transcript[0] || {}).at || s.created_at);
-    const lines = s.transcript.filter((e) => e.slot_id === t.slot_id);
+    const fus = new Map((t.follow_ups || []).map((f) => [f.at, f]));
     const marks = marksFor(t);
-    const seg = t.segment && t.segment.start ? `<span class="dr-seg">${clock(Date.parse(t.segment.start) - t0)} - ${t.segment.end ? clock(Date.parse(t.segment.end) - t0) : '…'}</span>` : '';
-    return `<aside class="dr-script" aria-label="Script">
-      <div class="dr-script-tabs"><span class="dr-script-tab" aria-current="true">Script</span>${seg}</div>
-      <div class="dr-script-body">${lines.length ? lines.map((e) => `<div class="dr-line ${e.role === 'candidate' ? 'you' : 'ai'}">
-          <div class="dr-line-who">${e.role === 'candidate' ? 'You' : 'Interviewer'}<time>${e.at ? clock(Date.parse(e.at) - t0) : ''}</time></div>
-          <p>${e.role === 'candidate' ? annotate(e.text, marks) : esc(e.text)}</p></div>`).join('')
-        : '<p class="dr-muted">No transcript for this topic.</p>'}</div>
-      ${marks.length ? '<p class="dr-script-key"><mark class="dr2-mark good">Went well</mark> <mark class="dr2-mark track">To fix or partly there</mark> <mark class="dr2-mark work">Needs work</mark> Hover a highlight to see what it shows.</p>' : ''}
-    </aside>`;
-  }
-
-  // ---------- Detailed Feedback: one question, sub-nav on the left, content in the middle, script on the right ----------
-  function nextTimeBody(t) {
-    const plan = t.answer_plan || [];
-    let html = '';
-    if (t.too_short) html += `<div class="dr-banner">Your answer here was too short to give feedback on. Use the ${plan.length === 1 ? 'step' : 'steps'} below to prepare this one.</div>`;
-    if (plan.length) html += `<ol class="dr2-steps">${plan.map((p) => `<li>${blanks(p)}</li>`).join('')}</ol>`;
-    // A rewrite reaches the screen only after its grounding check (the server empties it when the check fails).
-    if (t.stronger_version) {
-      html += `<div class="dr2-better"><span class="dr2-better-tag">Your answer, improved</span><p>${blanks(t.stronger_version)}</p>
-        ${/\[[^\]]+\]/.test(t.stronger_version) ? '<p class="dr2-better-hint">Fill in the boxes with your own details.</p>' : ''}
-        <p class="dr2-checked"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Checked: uses only facts from your CV, the job description and your answers.</p></div>`;
+    let last = null, pending = null, html = '';
+    for (const e of s.transcript) {
+      const mine = e.slot_id === t.slot_id;
+      if (e.slot_id !== last) html += `<div class="dr3-div${mine ? '' : ' dr3-other'}"><span>${esc(slotName(fb, e.slot_id))}</span></div>`;
+      last = e.slot_id;
+      const time = e.at ? `<time>${clock(Date.parse(e.at) - t0)}</time>` : '';
+      if (e.role !== 'candidate') {
+        const f = mine ? fus.get(e.at) : null;
+        pending = f || null;
+        html += `<div class="dr3-msg ai${mine ? '' : ' dr3-other'}${f ? ' fu' : ''}"><div class="dr3-who"><b>Interviewer</b>${time}${f ? '<span class="dr3-tag">Follow-up</span>' : ''}${f && f.asked_for_label ? `<span class="dr3-tag">Asked for: ${esc(f.asked_for_label.toLowerCase())}</span>` : ''}</div><p>${esc(e.text)}</p></div>`;
+      } else {
+        const f = mine ? pending : null;
+        const added = f && f.asked_for_label && f.given !== null && f.given !== undefined
+          ? `<span class="dr3-added ${f.given ? 'yes' : 'no'}">${f.given ? 'You added' : 'Still missing'}: ${esc(f.asked_for_label.toLowerCase())}</span>` : '';
+        html += `<div class="dr3-msg you dr-line${mine ? '' : ' dr3-other'}"><div class="dr3-who">${added}${time}<b>You</b></div><p>${mine ? annotate(e.text, marks) : esc(e.text)}</p></div>`;
+        pending = null;
+      }
     }
-    if (t.example_answer) {
-      html += `<div class="dr-sample"><span class="dr-sample-tag">SAMPLE RESPONSE</span><p>${esc(t.example_answer)}</p>
-        <p class="dr-muted">From a sample candidate, to show the approach. Use your own example.</p></div>`;
-    }
-    return html || '<p class="dr-muted">No steps for this topic.</p>';
+    return html;
   }
-  function didBody(t) {
-    const boxes = [];
-    if (t.went_well) boxes.push(`<div class="dr-box well"><h4>What went well</h4>${quote(t.went_well_quote)}<p>${esc(t.went_well)}</p></div>`);
-    // Went well and what to fix side by side; a CV mismatch runs full width under them.
-    if (t.to_fix) boxes.push(`<div class="dr-box fix"><h4>What to fix</h4>${quote(t.to_fix_quote)}<p>${esc(t.to_fix)}</p></div>`);
-    if (t.resume_mismatch) boxes.push(`<div class="dr-box fix dr2-wide"><h4>Doesn't match your CV</h4>${quote(t.resume_mismatch.quote)}<p>${esc(t.resume_mismatch.note)}</p>${t.resume_mismatch.tip ? `<p class="dr-tip">${esc(t.resume_mismatch.tip)}</p>` : ''}</div>`);
-    return boxes.join('') || '<p class="dr-muted">Nothing to note here.</p>';
+  // One plain line from the ratings: what came unprompted, what needed a follow-up, what never came.
+  function verdictLine(t) {
+    const rs = (t.ratings || []).filter((r) => r.dimension !== 'followup');
+    const by = (f) => rs.filter((r) => r.found === f).map((r) => r.label.toLowerCase());
+    const list = (a) => (a.length > 1 ? `${a.slice(0, -1).join(', ')} and ${a[a.length - 1]}` : a[0]);
+    const cap = (x) => x.charAt(0).toUpperCase() + x.slice(1);
+    const parts = [];
+    if (by('first_answer').length) parts.push(`You covered ${list(by('first_answer'))} on your own.`);
+    if (by('after_follow_up').length) parts.push(`${cap(list(by('after_follow_up')))} came only after a follow-up.`);
+    if (by('not_given').length) parts.push(`${cap(list(by('not_given')))} ${by('not_given').length > 1 ? 'were' : 'was'} missing.`);
+    return parts.join(' ') || firstSentence(t.went_well || t.to_fix || '');
   }
-  // What a strong answer covers: each element on one aligned row (level, element, then the reason with where it
-  // appeared and the student's words), under VMock's group names with the group's level.
-  function checklist(t) {
-    return `<div class="dr2-check">${groupsFor(t).map((g) => {
-      const single = g.items.length === 1 && g.items[0].label === g.name; // "Handling follow-ups" under "Handling follow-ups"
-      return `<div class="dr2-check-group">
-        <div class="dr2-check-top"><div class="dr2-check-head"><strong>${esc(g.name)}</strong>${pill(moduleLevel(g.items.map((r) => r.level)))}</div>
-          ${GROUP_HELP[g.name] ? `<p class="dr2-check-help">${GROUP_HELP[g.name]}</p>` : ''}</div>
-        ${g.items.map((r) => `<div class="dr2-crit${single ? ' single' : ''}">
-          ${single ? '' : `<div class="dr2-crit-level">${pill(r.level)}</div><strong class="dr2-crit-name">${esc(r.label)}</strong>`}
-          <div class="dr2-crit-body"><p>${esc(r.reason)}${r.found ? ` <span class="dr2-crit-found">· ${FOUND[r.found]}</span>` : ''}</p>${quote(r.quote)}</div>
-        </div>`).join('')}
-      </div>`;
-    }).join('')}</div>`;
-  }
-  function followUpsBody(t) {
-    return `<ul class="dr-fus">${t.follow_ups.map((f) => `<li><p class="dr-fu-q">“${esc(f.question)}”</p>${f.why ? `<p class="dr-muted">${esc(f.why)}</p>` : ''}
-      ${f.asked_for_label && f.given !== null ? `<span class="d-pill sm ${f.given ? 'good' : 'work'}">${f.given ? 'You added' : 'Still missing'}: ${esc(f.asked_for_label.toLowerCase())}</span>` : ''}</li>`).join('')}</ul>`;
-  }
-  const section = (id, title, body, extra = '') => (body ? `<section class="dr2-sec" id="${id}"><div class="dr2-sec-head"><h3>${title}</h3>${extra}</div>${body}</section>` : '');
-  // What the topic's lesson is at a glance: which parts came unprompted, which only after a follow-up, which never.
+  // Which parts came unprompted, after a follow-up, or never; each part with a quote jumps to it in the answer.
   function glance(t) {
     const rs = (t.ratings || []).filter((r) => r.dimension !== 'followup' && r.found);
-    const parts = [['first_answer', 'Said unprompted'], ['after_follow_up', 'After a follow-up'], ['not_given', 'Missing']]
-      .map(([f, name]) => [f, name, rs.filter((r) => r.found === f).map((r) => r.label)]).filter(([, , ls]) => ls.length);
-    return parts.length ? `<div class="dr2-glance">${parts.map(([f, name, ls]) => `<span class="dr2-glance-item ${f}"><b>${name}:</b> ${esc(ls.join(', '))}</span>`).join('')}</div>` : '';
+    if (!rs.length) return '';
+    return `<dl class="dr3-glance">${Object.entries(FOUND).map(([f, name]) => {
+      const items = rs.filter((r) => r.found === f);
+      return `<div class="${f}"><dt>${name}</dt><dd>${items.length ? items.map((r) => (r.quote
+        ? `<button type="button" class="dr3-chip ${LEVEL[r.level][1]}" data-quote="${esc(r.quote)}" title="Show it in your answer">${esc(r.label)}</button>`
+        : `<span class="dr3-chip ${LEVEL[r.level][1]}">${esc(r.label)}</span>`)).join('') : '<span class="dr3-none">None</span>'}</dd></div>`;
+    }).join('')}</dl>`;
   }
-  function topicPane(s, t, i, n, open) {
-    const source = t.resume_line ? `<p class="dr-from"><span>From your CV</span>“${esc(t.resume_line)}”</p>`
-      : t.jd_line ? `<p class="dr-from"><span>From the job description</span>${esc(t.jd_line)}</p>` : '';
-    const fus = (t.follow_ups || []).length;
-    const secs = [
-      !t.too_short && ['did', 'What you did', didBody(t)],
-      ['next', 'How to answer it next time', nextTimeBody(t)],
-      !t.too_short && groupsFor(t).length && ['check', 'What a strong answer covers', checklist(t), `<span class="dr2-count">${(t.ratings || []).length}</span>`],
-      fus && ['fu', 'Follow-ups', followUpsBody(t)],
-    ].filter(Boolean);
-    const nav = `<div class="dr2-nav">${i > 0 ? `<button class="d-btn outline sm" type="button" data-goto="${i - 1}">Previous topic</button>` : '<span></span>'}
-      ${i < n - 1 ? `<button class="d-btn primary sm" type="button" data-goto="${i + 1}">Next topic</button>` : '<button class="d-btn outline sm" type="button" data-goto="across">Across the interview</button>'}</div>`;
-    return `<article class="dr-qpane" id="dr-q-${i}" data-q="${i}" role="tabpanel" aria-labelledby="dr-qpill-${i}"${open ? '' : ' hidden'}>
-      <div class="dr2-topic">
-        <div class="dr2-topic-main"><p class="dr2-eyebrow">Topic ${i + 1} of ${n} · ${esc(topicName(t))}${fus ? ` · ${plural(fus, 'follow-up')}` : ''}</p>
-          <p class="dr2-q">${esc(t.question || topicName(t))}</p>${source}${t.too_short ? '' : glance(t)}</div>
-        <div class="dr2-topic-side">${resultPill(t)}${t.resume_line ? `<button class="d-btn outline sm" type="button" data-practise="${i}">Practise this line again</button>` : ''}</div>
-      </div>
-      <div class="dr-qgrid">
-        <div class="dr2-body">
-          ${secs.length > 1 ? `<nav class="dr2-secnav" aria-label="Sections">${secs.map(([id, title]) => `<a href="#dr2-${i}-${id}" data-sec="dr2-${i}-${id}">${title}</a>`).join('')}</nav>` : ''}
-          ${secs.map(([id, title, body, extra]) => section(`dr2-${i}-${id}`, title, body, extra)).join('')}
-          ${nav}
-        </div>
-        ${scriptPane(s, t)}
+  // What a strong answer covers, compact for the coaching column: group, then level | element | reason.
+  function checklist(t) {
+    return groupsFor(t).map((g) => `<div class="dr3-cgroup"><div class="dr3-cgroup-h"><strong>${esc(g.name)}</strong>${pill(moduleLevel(g.items.map((r) => r.level)), 'sm')}</div>
+      ${g.items.map((r) => `<div class="dr3-crow">${pill(r.level, 'sm')}<div><strong>${esc(r.label)}</strong><p>${esc(r.reason)}${r.found ? ` <span class="dr3-found">· ${FOUND[r.found].toLowerCase()}</span>` : ''}</p>${quote(r.quote)}</div></div>`).join('')}</div>`).join('');
+  }
+  const VERDICT = { good_job: 'A strong answer', on_track: 'Nearly there', needs_work: 'Needs work' };
+  function coach(t, i, n) {
+    const plan = t.answer_plan || [];
+    const steps = plan.length ? `<div class="dr3-h">How to answer it next time</div><ol class="dr2-steps">${plan.map((p) => `<li>${blanks(p)}</li>`).join('')}</ol>` : '';
+    const cards = [];
+    if (t.too_short) {
+      cards.push(`<section class="dr3-verdict none"><div class="dr3-verdict-top">${resultPill(t)}<h3>Too short to judge</h3></div>
+        <p>Your answer here was too short to give feedback on. Use the ${plan.length === 1 ? 'step' : 'steps'} below to prepare this one.</p></section>`);
+      if (steps) cards.push(`<section class="dr3-card plan">${steps}</section>`);
+    } else {
+      cards.push(`<section class="dr3-verdict ${LEVEL[t.verdict] ? LEVEL[t.verdict][1] : 'none'}"><div class="dr3-verdict-top">${resultPill(t)}<h3>${VERDICT[t.verdict] || 'Your result'}</h3></div>
+        <p>${esc(verdictLine(t))}</p>${glance(t)}</section>`);
+      if (t.to_fix || steps) {
+        cards.push(`<section class="dr3-card fix"><h3><span class="dr3-ic" aria-hidden="true"></span>Fix this next time</h3>
+          ${t.to_fix ? `<p>${esc(t.to_fix)}</p>` : ''}
+          ${t.to_fix_quote ? `<button class="dr3-jump" type="button" data-quote="${esc(t.to_fix_quote)}">“${esc(t.to_fix_quote)}”<span>Show in your answer</span></button>` : ''}
+          ${steps}</section>`);
+      }
+    }
+    // A rewrite reaches the screen only after its grounding check (the server empties it when the check fails).
+    if (t.stronger_version) {
+      cards.push(`<section class="dr3-card say"><h3><span class="dr3-ic" aria-hidden="true"></span>Say it like this</h3>
+        <p class="dr3-say">${blanks(t.stronger_version)}</p>
+        ${/\[[^\]]+\]/.test(t.stronger_version) ? '<p class="dr3-hint">Fill in the boxes with your own details.</p>' : ''}
+        <div class="dr3-say-foot"><span class="dr2-checked"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Uses only facts from your CV, the job description and your answers</span>
+          <button class="dr3-copy" type="button" data-copy="${i}">Copy</button></div></section>`);
+    }
+    if (t.example_answer) {
+      cards.push(`<section class="dr3-card sample"><h3>Sample answer</h3><p>${esc(t.example_answer)}</p><p class="dr3-hint">From a sample candidate, to show the approach. Use your own example.</p></section>`);
+    }
+    if (t.resume_mismatch) {
+      cards.push(`<section class="dr3-card fix"><h3><span class="dr3-ic" aria-hidden="true"></span>Doesn't match your CV</h3>
+        ${t.resume_mismatch.quote ? `<button class="dr3-jump" type="button" data-quote="${esc(t.resume_mismatch.quote)}">“${esc(t.resume_mismatch.quote)}”<span>Show in your answer</span></button>` : ''}
+        <p>${esc(t.resume_mismatch.note)}</p>${t.resume_mismatch.tip ? `<p class="dr3-hint">${esc(t.resume_mismatch.tip)}</p>` : ''}</section>`);
+    }
+    if (!t.too_short && t.went_well) {
+      cards.push(`<section class="dr3-card well"><h3><span class="dr3-ic" aria-hidden="true"></span>What went well</h3><p>${esc(t.went_well)}</p>
+        ${t.went_well_quote ? `<button class="dr3-jump ok" type="button" data-quote="${esc(t.went_well_quote)}">“${esc(t.went_well_quote)}”<span>Show in your answer</span></button>` : ''}</section>`);
+    }
+    if (!t.too_short && groupsFor(t).length) {
+      cards.push(`<details class="dr3-card cover"><summary><h3>What a strong answer covers</h3><span class="dr2-count">${(t.ratings || []).length}</span></summary>${checklist(t)}</details>`);
+    }
+    cards.push(`<div class="dr3-nav">${i > 0 ? `<button class="d-btn outline sm" type="button" data-goto="${i - 1}">Topic ${i}</button>` : ''}
+      <button class="d-btn primary sm" type="button" data-goto="${i < n - 1 ? i + 1 : 'across'}">${i < n - 1 ? `Next: Topic ${i + 2}` : 'Across the interview'}</button></div>`);
+    return cards.join('');
+  }
+  function topicPane(s, fb, t, i, open) {
+    const n = fb.topics.length;
+    const source = t.resume_line ? `<p class="dr3-from"><span>From your CV</span>“${esc(t.resume_line)}”</p>`
+      : t.jd_line ? `<p class="dr3-from"><span>From the job description</span>${esc(t.jd_line)}</p>` : '';
+    const t0 = Date.parse((s.transcript[0] || {}).at || s.created_at);
+    const seg = t.segment && t.segment.start ? `<span class="dr3-seg">${clock(Date.parse(t.segment.start) - t0)} – ${t.segment.end ? clock(Date.parse(t.segment.end) - t0) : '…'} in the interview</span>` : '';
+    return `<article class="dr-qpane dr3-pane" id="dr-q-${i}" data-q="${i}" role="tabpanel" aria-labelledby="dr-qpill-${i}"${open ? '' : ' hidden'}>
+      <header class="dr3-head">
+        <div class="dr3-head-main"><p class="dr3-eyebrow">Topic ${i + 1} of ${n} · ${esc(topicName(t))}</p>
+          <h2 class="dr3-q">${esc(t.question || topicName(t))}</h2>${source}</div>
+        <div class="dr3-head-side">${resultPill(t)}${t.resume_line ? `<button class="d-btn outline sm" type="button" data-practise="${i}">Practise this line again</button>` : ''}</div>
+      </header>
+      <div class="dr3-grid">
+        <section class="dr3-ans" aria-label="Your answer">
+          <div class="dr3-ans-top"><h3>Your answer</h3>${seg}
+            <label class="dr3-switch"><input type="checkbox" data-whole>Whole interview</label>
+            <button class="d-btn outline sm dr3-read" type="button" data-read aria-expanded="false">Read your answer</button></div>
+          <div class="dr3-thread">${answerThread(s, fb, t)}</div>
+        </section>
+        <aside class="dr3-coach" aria-label="Coaching for this topic">${coach(t, i, n)}</aside>
       </div>
     </article>`;
   }
 
   // Across the interview: talking about your own work, moments, JD coverage (a last pill after the questions).
-  function acrossPane(fb, open) {
+  function acrossPane(fb, open, goal, more) {
     const parts = [];
+    // The goal first, with a way back to the topic that shows it; then the other habits.
+    if (goal) {
+      const gi = goal.slot_id ? fb.topics.findIndex((t) => t.slot_id === goal.slot_id) : -1;
+      parts.push(`<div class="dr-card dr3-goal"><span class="dr3-goal-tag">Your goal for next time</span><h3>${esc(goal.title)}</h3>${goal.action ? `<p>${esc(goal.action)}</p>` : ''}
+        ${gi >= 0 ? `<button class="d-btn outline sm" type="button" data-goto="${gi}">See it in Topic ${gi + 1}</button>` : ''}
+        ${more.length ? `<ul class="dr3-more">${more.map((x) => `<li><strong>${esc(x.title)}</strong>${x.action ? `<span>${esc(x.action)}</span>` : ''}</li>`).join('')}</ul>` : ''}</div>`);
+    }
     const own = fb.ownership || { i: 0, we: 0 };
     if (own.i + own.we > 0) {
       const pct = Math.round((own.i / (own.i + own.we)) * 100);
@@ -248,8 +287,9 @@
         <ul class="dr-jd">${fb.jd_coverage.map((c) => `<li><span class="d-pill sm ${(JD[c.status] || JD.not_reached)[1]}">${(JD[c.status] || JD.not_reached)[0]}</span>${esc(c.name)}</li>`).join('')}</ul></div>`);
     }
     if (!parts.length) return '';
-    return `<article class="dr-qpane" id="dr-q-across" data-q="across" role="tabpanel" aria-labelledby="dr-qpill-across"${open ? '' : ' hidden'}>
-      <div class="dr-question"><p>Across the interview</p><p class="dr-muted">How you came across overall, beyond single answers.</p></div>
+    return `<article class="dr-qpane dr3-pane" id="dr-q-across" data-q="across" role="tabpanel" aria-labelledby="dr-qpill-across"${open ? '' : ' hidden'}>
+      <header class="dr3-head"><div class="dr3-head-main"><p class="dr3-eyebrow">Wrap-up</p><h2 class="dr3-q">Across the interview</h2>
+        <p class="dr3-sub">What to carry into your next interview, beyond single answers.</p></div></header>
       <div class="dr-across">${parts.join('')}</div></article>`;
   }
 
@@ -318,11 +358,21 @@
     if (!fb.topics.length) { panel.innerHTML = EMPTY; tabs.innerHTML = ''; return; }
 
     const open = firstOpenOf(fb);
-    const across = acrossPane(fb, false);
-    const detailed = `<div class="dr-view" id="dr-view-detailed" role="tabpanel" aria-labelledby="dr-tab-detailed" hidden>
-      <div class="dr-qbar" role="tablist" aria-label="Topics">${fb.topics.map((t, i) => `<button class="dr-qp ${t.too_short ? '' : (LEVEL[t.verdict] || [])[1] || ''}" type="button" role="tab" id="dr-qpill-${i}" aria-controls="dr-q-${i}" aria-selected="${i === open}" data-q="${i}" title="${esc(topicName(t))}" aria-label="Topic ${i + 1}, ${esc(topicName(t))}, ${t.too_short ? 'too short' : esc((LEVEL[t.verdict] || [''])[0])}">Topic ${i + 1}</button>`).join('')}
-        ${across ? '<button class="dr-qp" type="button" role="tab" id="dr-qpill-across" aria-controls="dr-q-across" aria-selected="false" data-q="across">Across the interview</button>' : ''}</div>
-      ${fb.topics.map((t, i) => topicPane(s, t, i, fb.topics.length, i === open)).join('')}${across}
+    const across = acrossPane(fb, false, goal, more);
+    const goalI = goal && goal.slot_id ? fb.topics.findIndex((t) => t.slot_id === goal.slot_id) : -1;
+    // The stepper: every topic with its result and follow-ups, the goal's topic marked, then the wrap-up.
+    const step = (t, i) => {
+      const lv = t.too_short ? ['Too short', 'none'] : LEVEL[t.verdict] || ['', 'none'];
+      const fus = (t.follow_ups || []).length;
+      return `<button class="dr3-step ${lv[1]}" type="button" role="tab" id="dr-qpill-${i}" aria-controls="dr-q-${i}" aria-selected="${i === open}" tabindex="${i === open ? 0 : -1}" data-q="${i}">
+        <span class="dr3-step-n">Topic ${i + 1}${i === goalI ? '<span class="dr3-first">Fix first</span>' : ''}</span>
+        <span class="dr3-step-t">${esc(topicName(t))}</span>
+        <span class="dr3-step-l"><i aria-hidden="true"></i>${lv[0]}${fus ? ` · ${plural(fus, 'follow-up')}` : ''}</span></button>`;
+    };
+    const detailed = `<div class="dr-view dr3-view" id="dr-view-detailed" role="tabpanel" aria-labelledby="dr-tab-detailed" hidden>
+      <div class="dr3-stepper" role="tablist" aria-label="Topics">${fb.topics.map(step).join('')}
+        ${across ? `<button class="dr3-step wrap" type="button" role="tab" id="dr-qpill-across" aria-controls="dr-q-across" aria-selected="false" tabindex="-1" data-q="across"><span class="dr3-step-n">Wrap-up</span><span class="dr3-step-t">Across the interview</span><span class="dr3-step-l">Your goal and habits</span></button>` : ''}</div>
+      ${fb.topics.map((t, i) => topicPane(s, fb, t, i, i === open)).join('')}${across}
     </div>`;
     panel.innerHTML = summaryHtml(s, fb, judged, goal, more) + detailed;
     wire(panel, tabs, s, fb);
@@ -344,39 +394,66 @@
       next.focus();
     });
 
-    // Detailed: question pills, and the sub-nav inside each question.
-    const qBtns = [...panel.querySelectorAll('.dr-qbar .dr-qp')];
+    // Detailed: the topic stepper (a tablist: arrow keys move between topics).
+    const qBtns = [...panel.querySelectorAll('.dr3-stepper .dr3-step')];
     const openQ = (q) => {
-      qBtns.forEach((b) => b.setAttribute('aria-selected', String(b.dataset.q === String(q))));
+      qBtns.forEach((b) => { const on = b.dataset.q === String(q); b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; });
       panel.querySelectorAll('.dr-qpane').forEach((p) => { p.hidden = p.dataset.q !== String(q); });
+      const step = panel.querySelector(`.dr3-step[data-q="${q}"]`);
+      if (step) step.parentNode.scrollLeft = step.offsetLeft - 16; // keep the open topic in view in a scrolled stepper
+      window.scrollTo({ top: 0, behavior: smooth }); // a new topic opens at its top
     };
     qBtns.forEach((b) => b.addEventListener('click', () => openQ(b.dataset.q)));
+    panel.querySelector('.dr3-stepper')?.addEventListener('keydown', (e) => {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+      e.preventDefault();
+      const k = qBtns.findIndex((b) => b.getAttribute('aria-selected') === 'true');
+      const next = qBtns[e.key === 'Home' ? 0 : e.key === 'End' ? qBtns.length - 1 : Math.max(0, Math.min(qBtns.length - 1, k + (e.key === 'ArrowRight' ? 1 : -1)))];
+      openQ(next.dataset.q);
+      next.focus();
+    });
     const goToQ = (q) => { showView('detailed'); openQ(q); };
 
-    panel.querySelectorAll('[data-goto]').forEach((b) => b.addEventListener('click', () => { openQ(b.dataset.goto); window.scrollTo({ top: 0, behavior: smooth }); }));
-    // A quote scrolls the transcript to the answer it came from and flashes that line.
+    panel.querySelectorAll('[data-goto]').forEach((b) => b.addEventListener('click', () => { showView('detailed'); openQ(b.dataset.goto); }));
+    // A quote scrolls the answer to the words it came from and flashes them (the whole line if the words are not marked).
     panel.querySelectorAll('[data-quote]').forEach((b) => b.addEventListener('click', () => {
+      const pane = b.closest('.dr-qpane');
       const want = b.dataset.quote.toLowerCase().replace(/\s+/g, ' ');
-      const line = [...b.closest('.dr-qpane').querySelectorAll('.dr-line.you')].find((l) => l.textContent.toLowerCase().replace(/\s+/g, ' ').includes(want));
+      const norm = (el) => el.textContent.toLowerCase().replace(/\s+/g, ' ');
+      const line = [...pane.querySelectorAll('.dr3-msg.you:not(.dr3-other)')].find((l) => norm(l).includes(want));
       if (!line) return;
-      line.scrollIntoView({ behavior: smooth, block: 'center' });
-      line.classList.remove('dr2-flash');
-      void line.offsetWidth; // restart the animation on a second click
-      line.classList.add('dr2-flash');
+      pane.querySelector('.dr3-ans').classList.add('open');
+      pane.querySelector('[data-read]')?.setAttribute('aria-expanded', 'true');
+      pane.querySelectorAll('mark.dr3-lit').forEach((m) => { const p = m.parentNode; m.replaceWith(...m.childNodes); p.normalize(); });
+      let target = [...line.querySelectorAll('mark')].find((m) => norm(m).includes(want) || want.includes(norm(m)));
+      if (!target) { // light the words up for as long as they are being looked at
+        const p = line.querySelector('p');
+        const i = p.textContent.toLowerCase().indexOf(b.dataset.quote.toLowerCase());
+        if (i >= 0 && p.childNodes.length === 1) {
+          const txt = p.firstChild, range = document.createRange();
+          range.setStart(txt, i); range.setEnd(txt, i + b.dataset.quote.length);
+          target = document.createElement('mark'); target.className = 'dr2-mark dr3-lit';
+          range.surroundContents(target);
+        }
+      }
+      const el = target || line;
+      el.scrollIntoView({ behavior: smooth, block: 'center' });
+      el.classList.remove('dr2-flash');
+      void el.offsetWidth; // restart the animation on a second click
+      el.classList.add('dr2-flash');
     }));
-    // Section links: jump within the topic, and mark the section being read.
-    panel.querySelectorAll('.dr2-secnav a').forEach((a) => a.addEventListener('click', (e) => {
-      e.preventDefault();
-      document.getElementById(a.dataset.sec).scrollIntoView({ behavior: smooth, block: 'start' });
+    // The rest of the interview around this topic, and on a phone the answer itself, folded until asked for.
+    panel.querySelectorAll('[data-whole]').forEach((c) => c.addEventListener('change', () => c.closest('.dr3-ans').classList.toggle('whole', c.checked)));
+    panel.querySelectorAll('[data-read]').forEach((b) => b.addEventListener('click', () => {
+      const open = b.closest('.dr3-ans').classList.toggle('open');
+      b.setAttribute('aria-expanded', String(open));
     }));
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver((entries) => entries.forEach((en) => {
-        if (!en.isIntersecting) return;
-        const nav = en.target.closest('.dr2-body').querySelector('.dr2-secnav');
-        if (nav) nav.querySelectorAll('a').forEach((a) => a.classList.toggle('on', a.dataset.sec === en.target.id));
-      }), { rootMargin: '-35% 0px -60% 0px' });
-      panel.querySelectorAll('.dr2-sec').forEach((sec) => io.observe(sec));
-    }
+    panel.querySelectorAll('[data-copy]').forEach((b) => b.addEventListener('click', () => {
+      const text = fb.topics[Number(b.dataset.copy)].stronger_version;
+      const done = (msg) => { b.textContent = msg; setTimeout(() => { b.textContent = 'Copy'; }, 1800); };
+      if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => done('Copied'), () => done('Select and copy'));
+      else done('Select and copy');
+    }));
     // Practise this line again: CV Deep Dive setup with this topic's CV line already chosen (as "Change setup" does).
     panel.querySelectorAll('[data-practise]').forEach((b) => b.addEventListener('click', () => {
       const t = fb.topics[Number(b.dataset.practise)];
