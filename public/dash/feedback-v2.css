@@ -269,13 +269,22 @@ mark.dr2-mark.work { background: #ffd9d4; }
 #dr-view-detailed mark.dr2-mark.track { box-shadow: inset 0 -2px 0 rgba(228, 138, 12, .55); }
 #dr-view-detailed mark.dr2-mark.work { box-shadow: inset 0 -2px 0 rgba(225, 72, 60, .5); }
 
-/* Across the interview. */
-#dr-view-detailed .dr-question { padding: 20px 22px; border: 1px solid var(--m-edge); border-radius: var(--m-r); background: var(--m-glass); box-shadow: var(--m-lift); }
-#dr-view-detailed .dr-question > p:first-child { font-size: 19px; font-weight: 700; }
-#dr-view-detailed .dr-across { gap: 16px; padding-top: 16px; }
-#dr-view-detailed .dr-card { padding: 20px 22px; border-radius: var(--m-r); border: 1px solid var(--m-edge); box-shadow: var(--m-lift); }
-#dr-view-detailed .dr-iwe { height: 10px; background: rgba(245, 158, 11, .18); }
-#dr-view-detailed .dr-iwe span { background: linear-gradient(90deg, #0a84d8, #14aaaa); border-radius: 10px; }
+/* The improved answer: what it adds to the student's own words, in a soft teal mark. */
+mark.dr2-new { padding: 1px 2px; border-radius: 3px; color: var(--d-ink-2); background: rgba(20, 170, 170, .16); box-shadow: inset 0 -2px 0 rgba(20, 150, 150, .45); }
+.dr2-better-key { font-size: 13px; line-height: 18px; color: var(--d-muted); }
+.dr2-better-key mark.dr2-new { font-weight: 600; }
+.dr2-sec-sub { margin-top: -6px; font-size: 13px; }
+/* Follow-ups: how they were handled, under the list of follow-ups. */
+.dr2-handled { padding: 14px 16px; border-radius: 12px; display: grid; gap: 8px; background: #f6f8fb; border: 1px solid var(--d-line); }
+.dr2-handled-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.dr2-handled-head strong { font-size: 14px; color: var(--d-ink-2); }
+.dr2-handled p { font-size: 14px; line-height: 21px; color: var(--d-ink-2); }
+#dr-view-detailed .dr2-handled { border-radius: 14px; border-color: var(--m-edge); background: linear-gradient(160deg, rgba(0, 117, 203, .06), #fff 60%); }
+
+/* Across the interview, on the Summary: its cards sit inside a white section, so they take a hairline. */
+.dr2-acrosssec .dr-across { padding-top: 14px; }
+.dr2-acrosssec .dr-card { border: 1px solid var(--d-line); border-radius: 8px; }
+@media (max-width: 720px) { .dr2-acrosssec .dr-across { grid-template-columns: minmax(0, 1fr); } }
 
 @media (prefers-reduced-motion: reduce) {
   #dr-view-detailed .dr-qp, #dr-view-detailed .dr2-secnav a, #dr-view-detailed .dr2-crit { transition: none; }

@@ -2,11 +2,14 @@
    organised topic by topic (each topic is an opening question plus its follow-ups):
    - Summary: how it went and the tally; the habit to fix first beside it (where it happened, in the student's words,
      and how to say it), then "Topic by topic" (question asked, one line, follow-ups, result) and Content Strength
-     across your answers as one divided list. On a phone the habit comes straight after the summary.
-   - Detailed: one topic per page with section links at its top: a glance strip (said unprompted / after a follow-up /
-     missing), what you did, how to answer it next time, the checklist (Good Job rows folded), the follow-ups. The
-     transcript on the right marks every quoted line by level; a quote scrolls to its line. A topic from a CV line
-     offers "Practise this line again" (CV Deep Dive with the line chosen).
+     across your answers as one divided list, then Across the interview (I/we, moments, JD coverage). On a phone the
+     habit comes straight after the summary.
+   - Detailed: one topic per page with section links at its top and a glance strip (said unprompted / after a
+     follow-up / missing), in the order a student works through it: what you did, how your answer measured up (the
+     structure a strong answer has), the follow-ups (each one, then how they were handled), and last how to answer it
+     next time (steps, then the improved answer with what it adds to the student's words highlighted). The transcript
+     on the right marks every quoted line by level; a quote scrolls to its line. A topic from a CV line offers
+     "Practise this line again" (CV Deep Dive with the line chosen).
    Content only: no Non Verbal or Delivery of Speech. Replaces VM.renderFeedback on dash/room.html only. */
 (() => {
   const esc = VM.esc;
@@ -148,14 +151,56 @@
   }
 
   // ---------- Detailed Feedback: one question, sub-nav on the left, content in the middle, script on the right ----------
-  function nextTimeBody(t) {
+  // The improved answer with what it adds marked: a word stays plain when it is part of a three-word run the student
+  // said in this topic; a run of new words is marked only if it holds a real word (4+ letters or a number), so
+  // "the" or "and" between the student's own phrases is not lit up. "[brackets]" stay fill-in boxes.
+  function markNew(text, own) {
+    const key = (w) => w.toLowerCase().replace(/[^a-z0-9%]/g, '');
+    const mine = own.split(/\s+/).map(key).filter(Boolean);
+    const grams = new Set(mine.slice(2).map((w, i) => `${mine[i]} ${mine[i + 1]} ${w}`));
+    let marked = false;
+    const html = text.split(/(\[[^\]]+\])/).map((part, k) => {
+      if (k % 2) return blanks(part);
+      const words = part.split(/(\s+)/);
+      const idx = words.map((w, i) => (i % 2 ? null : key(w)));
+      const real = idx.map((w, i) => (w ? i : -1)).filter((i) => i >= 0);
+      const covered = new Set();
+      real.forEach((i, n) => {
+        const run = real.slice(n, n + 3);
+        if (run.length === 3 && grams.has(run.map((j) => idx[j]).join(' '))) run.forEach((j) => covered.add(j));
+      });
+      let out = '', run = [];
+      const flush = () => {
+        if (!run.length) return;
+        const tail = /^\s+$/.test(run[run.length - 1]) ? run.pop() : ''; // the space after a run stays outside its mark
+        const hit = run.some((w) => key(w).length >= 4 || /\d/.test(w));
+        const body = esc(run.join(''));
+        out += (hit ? `<mark class="dr2-new">${body}</mark>` : body) + tail;
+        marked = marked || hit;
+        run = [];
+      };
+      words.forEach((w, i) => {
+        if (i % 2) { if (run.length) run.push(w); else out += esc(w); return; }
+        const isNew = idx[i] ? !covered.has(i) : run.length > 0; // punctuation joins the run it sits in
+        if (isNew) run.push(w);
+        else { flush(); out += esc(w); }
+      });
+      flush();
+      return out;
+    }).join('');
+    return { html, marked };
+  }
+  function nextTimeBody(s, t) {
     const plan = t.answer_plan || [];
     let html = '';
     if (t.too_short) html += `<div class="dr-banner">Your answer here was too short to give feedback on. Use the ${plan.length === 1 ? 'step' : 'steps'} below to prepare this one.</div>`;
     if (plan.length) html += `<ol class="dr2-steps">${plan.map((p) => `<li>${blanks(p)}</li>`).join('')}</ol>`;
     // A rewrite reaches the screen only after its grounding check (the server empties it when the check fails).
     if (t.stronger_version) {
-      html += `<div class="dr2-better"><span class="dr2-better-tag">Your answer, improved</span><p>${blanks(t.stronger_version)}</p>
+      const own = s.transcript.filter((e) => e.role === 'candidate' && e.slot_id === t.slot_id).map((e) => e.text).join(' ');
+      const better = markNew(t.stronger_version, own);
+      html += `<div class="dr2-better"><span class="dr2-better-tag">Your answer, improved</span><p>${better.html}</p>
+        ${better.marked ? '<p class="dr2-better-key"><mark class="dr2-new">Highlighted</mark> what this version adds to your answer. The rest is in your own words.</p>' : ''}
         ${/\[[^\]]+\]/.test(t.stronger_version) ? '<p class="dr2-better-hint">Fill in the boxes with your own details.</p>' : ''}
         <p class="dr2-checked"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Checked: uses only facts from your CV, the job description and your answers.</p></div>`;
     }
@@ -175,8 +220,10 @@
   }
   // What a strong answer covers: each element on one aligned row (level, element, then the reason with where it
   // appeared and the student's words), under VMock's group names with the group's level.
+  // The answer's structure only: how follow-ups were handled is judged under Follow-ups.
+  const structureGroups = (t) => groupsFor(t).filter((g) => g.name !== 'Handling follow-ups');
   function checklist(t) {
-    return `<div class="dr2-check">${groupsFor(t).map((g) => {
+    return `<div class="dr2-check">${structureGroups(t).map((g) => {
       const single = g.items.length === 1 && g.items[0].label === g.name; // "Handling follow-ups" under "Handling follow-ups"
       return `<div class="dr2-check-group">
         <div class="dr2-check-top"><div class="dr2-check-head"><strong>${esc(g.name)}</strong>${pill(moduleLevel(g.items.map((r) => r.level)))}</div>
@@ -188,9 +235,13 @@
       </div>`;
     }).join('')}</div>`;
   }
+  // Each follow-up (what it asked for, whether the reply added it), then how the follow-ups were handled overall.
   function followUpsBody(t) {
-    return `<ul class="dr-fus">${t.follow_ups.map((f) => `<li><p class="dr-fu-q">“${esc(f.question)}”</p>${f.why ? `<p class="dr-muted">${esc(f.why)}</p>` : ''}
-      ${f.asked_for_label && f.given !== null ? `<span class="d-pill sm ${f.given ? 'good' : 'work'}">${f.given ? 'You added' : 'Still missing'}: ${esc(f.asked_for_label.toLowerCase())}</span>` : ''}</li>`).join('')}</ul>`;
+    const handled = (t.ratings || []).find((r) => r.dimension === 'followup');
+    const list = (t.follow_ups || []).length ? `<ul class="dr-fus">${t.follow_ups.map((f) => `<li><p class="dr-fu-q">“${esc(f.question)}”</p>${f.why ? `<p class="dr-muted">${esc(f.why)}</p>` : ''}
+      ${f.asked_for_label && f.given !== null ? `<span class="d-pill sm ${f.given ? 'good' : 'work'}">${f.given ? 'You added' : 'Still missing'}: ${esc(f.asked_for_label.toLowerCase())}</span>` : ''}</li>`).join('')}</ul>` : '';
+    const how = handled ? `<div class="dr2-handled"><div class="dr2-handled-head"><strong>How you handled them</strong>${pill(handled.level)}</div><p>${esc(handled.reason)}</p>${quote(handled.quote)}</div>` : '';
+    return list + how;
   }
   const section = (id, title, body, extra = '') => (body ? `<section class="dr2-sec" id="${id}"><div class="dr2-sec-head"><h3>${title}</h3>${extra}</div>${body}</section>` : '');
   // What the topic's lesson is at a glance: which parts came unprompted, which only after a follow-up, which never.
@@ -204,14 +255,17 @@
     const source = t.resume_line ? `<p class="dr-from"><span>From your CV</span>“${esc(t.resume_line)}”</p>`
       : t.jd_line ? `<p class="dr-from"><span>From the job description</span>${esc(t.jd_line)}</p>` : '';
     const fus = (t.follow_ups || []).length;
+    const handled = (t.ratings || []).some((r) => r.dimension === 'followup');
+    const parts = structureGroups(t).reduce((k, g) => k + g.items.length, 0);
+    // What you did, how it measured up against a strong answer, how the follow-ups went, then what to do next time.
     const secs = [
       !t.too_short && ['did', 'What you did', didBody(t)],
-      ['next', 'How to answer it next time', nextTimeBody(t)],
-      !t.too_short && groupsFor(t).length && ['check', 'What a strong answer covers', checklist(t), `<span class="dr2-count">${(t.ratings || []).length}</span>`],
-      fus && ['fu', 'Follow-ups', followUpsBody(t)],
+      !t.too_short && parts && ['check', 'How your answer measured up', `<p class="dr-muted dr2-sec-sub">The parts a strong answer to this question has, and whether yours had them.</p>${checklist(t)}`, `<span class="dr2-count">${parts}</span>`],
+      (fus || handled) && ['fu', 'Follow-ups', followUpsBody(t), fus ? `<span class="dr2-count">${fus}</span>` : ''],
+      ['next', 'How to answer it next time', nextTimeBody(s, t)],
     ].filter(Boolean);
     const nav = `<div class="dr2-nav">${i > 0 ? `<button class="d-btn outline sm" type="button" data-goto="${i - 1}">Previous topic</button>` : '<span></span>'}
-      ${i < n - 1 ? `<button class="d-btn primary sm" type="button" data-goto="${i + 1}">Next topic</button>` : '<button class="d-btn outline sm" type="button" data-goto="across">Across the interview</button>'}</div>`;
+      ${i < n - 1 ? `<button class="d-btn primary sm" type="button" data-goto="${i + 1}">Next topic</button>` : '<button class="d-btn outline sm" type="button" data-summary>Back to Summary</button>'}</div>`;
     return `<article class="dr-qpane" id="dr-q-${i}" data-q="${i}" role="tabpanel" aria-labelledby="dr-qpill-${i}"${open ? '' : ' hidden'}>
       <div class="dr2-topic">
         <div class="dr2-topic-main"><p class="dr2-eyebrow">Topic ${i + 1} of ${n} · ${esc(topicName(t))}${fus ? ` · ${plural(fus, 'follow-up')}` : ''}</p>
@@ -229,8 +283,8 @@
     </article>`;
   }
 
-  // Across the interview: talking about your own work, moments, JD coverage (a last pill after the questions).
-  function acrossPane(fb, open) {
+  // Across the interview, on the Summary after Content Strength: talking about your own work, moments, JD coverage.
+  function acrossSection(fb) {
     const parts = [];
     const own = fb.ownership || { i: 0, we: 0 };
     if (own.i + own.we > 0) {
@@ -248,9 +302,10 @@
         <ul class="dr-jd">${fb.jd_coverage.map((c) => `<li><span class="d-pill sm ${(JD[c.status] || JD.not_reached)[1]}">${(JD[c.status] || JD.not_reached)[0]}</span>${esc(c.name)}</li>`).join('')}</ul></div>`);
     }
     if (!parts.length) return '';
-    return `<article class="dr-qpane" id="dr-q-across" data-q="across" role="tabpanel" aria-labelledby="dr-qpill-across"${open ? '' : ' hidden'}>
-      <div class="dr-question"><p>Across the interview</p><p class="dr-muted">How you came across overall, beyond single answers.</p></div>
-      <div class="dr-across">${parts.join('')}</div></article>`;
+    return `<section class="dr-sum-main dr2-acrosssec">
+      <h3 class="dr2-h">Across the interview</h3>
+      <p class="dr-muted dr2-sub">How you came across overall, beyond single answers.</p>
+      <div class="dr-across">${parts.join('')}</div></section>`;
   }
 
   // ---------- Summary ----------
@@ -303,7 +358,7 @@
       <ul class="dr2-cs">${across.map((g) => `<li><span><strong>${esc(g.name)}</strong>${GROUP_HELP[g.name] ? `<span>${GROUP_HELP[g.name]}</span>` : ''}</span>${pill(g.level, 'sm')}</li>`).join('')}</ul>
       <div class="dr-legend" aria-hidden="true"><span class="good">Good Job</span><span class="track">On Track</span><span class="work">Needs Work</span></div>
     </section>` : '';
-    return `<div class="dr-view" id="dr-view-summary" role="tabpanel" aria-labelledby="dr-tab-summary"><div class="dr-sum dr2-sum">${head}${rail}<div class="dr2-restcol">${rest}${cs}</div></div></div>`;
+    return `<div class="dr-view" id="dr-view-summary" role="tabpanel" aria-labelledby="dr-tab-summary"><div class="dr-sum dr2-sum">${head}${rail}<div class="dr2-restcol">${rest}${cs}${acrossSection(fb)}</div></div></div>`;
   }
 
   const EMPTY = '<p class="dr-empty">The interview ended before any question was answered, so there is nothing to give feedback on yet. Practise again to get feedback on your answers.</p>';
@@ -318,11 +373,9 @@
     if (!fb.topics.length) { panel.innerHTML = EMPTY; tabs.innerHTML = ''; return; }
 
     const open = firstOpenOf(fb);
-    const across = acrossPane(fb, false);
     const detailed = `<div class="dr-view" id="dr-view-detailed" role="tabpanel" aria-labelledby="dr-tab-detailed" hidden>
-      <div class="dr-qbar" role="tablist" aria-label="Topics">${fb.topics.map((t, i) => `<button class="dr-qp ${t.too_short ? '' : (LEVEL[t.verdict] || [])[1] || ''}" type="button" role="tab" id="dr-qpill-${i}" aria-controls="dr-q-${i}" aria-selected="${i === open}" data-q="${i}" title="${esc(topicName(t))}" aria-label="Topic ${i + 1}, ${esc(topicName(t))}, ${t.too_short ? 'too short' : esc((LEVEL[t.verdict] || [''])[0])}">Topic ${i + 1}</button>`).join('')}
-        ${across ? '<button class="dr-qp" type="button" role="tab" id="dr-qpill-across" aria-controls="dr-q-across" aria-selected="false" data-q="across">Across the interview</button>' : ''}</div>
-      ${fb.topics.map((t, i) => topicPane(s, t, i, fb.topics.length, i === open)).join('')}${across}
+      <div class="dr-qbar" role="tablist" aria-label="Topics">${fb.topics.map((t, i) => `<button class="dr-qp ${t.too_short ? '' : (LEVEL[t.verdict] || [])[1] || ''}" type="button" role="tab" id="dr-qpill-${i}" aria-controls="dr-q-${i}" aria-selected="${i === open}" data-q="${i}" title="${esc(topicName(t))}" aria-label="Topic ${i + 1}, ${esc(topicName(t))}, ${t.too_short ? 'too short' : esc((LEVEL[t.verdict] || [''])[0])}">Topic ${i + 1}</button>`).join('')}</div>
+      ${fb.topics.map((t, i) => topicPane(s, t, i, fb.topics.length, i === open)).join('')}
     </div>`;
     panel.innerHTML = summaryHtml(s, fb, judged, goal, more) + detailed;
     wire(panel, tabs, s, fb);
@@ -389,6 +442,7 @@
     }));
     panel.querySelectorAll('[data-open]').forEach((b) => b.addEventListener('click', () => goToQ(b.dataset.open)));
     panel.querySelectorAll('[data-detailed]').forEach((b) => b.addEventListener('click', () => showView('detailed')));
+    panel.querySelectorAll('[data-summary]').forEach((b) => b.addEventListener('click', () => showView('summary')));
 
     // The overall line shows two lines; "Read more" only when it is longer (measured again once fonts load).
     const overall = panel.querySelector('#drOverall');
