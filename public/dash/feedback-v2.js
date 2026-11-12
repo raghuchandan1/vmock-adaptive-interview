@@ -191,8 +191,8 @@
     return groupsFor(t).map((g) => `<div class="dr3-cgroup"><div class="dr3-cgroup-h"><strong>${esc(g.name)}</strong>${pill(moduleLevel(g.items.map((r) => r.level)), 'sm')}</div>
       ${g.items.map((r) => `<div class="dr3-crow">${pill(r.level, 'sm')}<div><strong>${esc(r.label)}</strong><p>${esc(r.reason)}${r.found ? ` <span class="dr3-found">· ${FOUND[r.found].toLowerCase()}</span>` : ''}</p>${quote(r.quote)}</div></div>`).join('')}</div>`).join('');
   }
-  const VERDICT = { good_job: 'A strong answer', on_track: 'Nearly there', needs_work: 'Needs work' };
-  function coach(t, i, n) {
+  const VERDICT = { good_job: 'A strong answer', on_track: 'Nearly there', needs_work: 'Work on this one' };
+  function coach(t, i, n, wrapUp) {
     const plan = t.answer_plan || [];
     const steps = plan.length ? `<div class="dr3-h">How to answer it next time</div><ol class="dr2-steps">${plan.map((p) => `<li>${blanks(p)}</li>`).join('')}</ol>` : '';
     const cards = [];
@@ -234,10 +234,10 @@
       cards.push(`<details class="dr3-card cover"><summary><h3>What a strong answer covers</h3><span class="dr2-count">${(t.ratings || []).length}</span></summary>${checklist(t)}</details>`);
     }
     cards.push(`<div class="dr3-nav">${i > 0 ? `<button class="d-btn outline sm" type="button" data-goto="${i - 1}">Topic ${i}</button>` : ''}
-      <button class="d-btn primary sm" type="button" data-goto="${i < n - 1 ? i + 1 : 'across'}">${i < n - 1 ? `Next: Topic ${i + 2}` : 'Across the interview'}</button></div>`);
+      ${i < n - 1 || wrapUp ? `<button class="d-btn primary sm" type="button" data-goto="${i < n - 1 ? i + 1 : 'across'}">${i < n - 1 ? `Next: Topic ${i + 2}` : 'Across the interview'}</button>` : ''}</div>`);
     return cards.join('');
   }
-  function topicPane(s, fb, t, i, open) {
+  function topicPane(s, fb, t, i, open, wrapUp) {
     const n = fb.topics.length;
     const source = t.resume_line ? `<p class="dr3-from"><span>From your CV</span>“${esc(t.resume_line)}”</p>`
       : t.jd_line ? `<p class="dr3-from"><span>From the job description</span>${esc(t.jd_line)}</p>` : '';
@@ -256,7 +256,7 @@
             <button class="d-btn outline sm dr3-read" type="button" data-read aria-expanded="false">Read your answer</button></div>
           <div class="dr3-thread">${answerThread(s, fb, t)}</div>
         </section>
-        <aside class="dr3-coach" aria-label="Coaching for this topic">${coach(t, i, n)}</aside>
+        <aside class="dr3-coach" aria-label="Coaching for this topic">${coach(t, i, n, wrapUp)}</aside>
       </div>
     </article>`;
   }
@@ -372,7 +372,7 @@
     const detailed = `<div class="dr-view dr3-view" id="dr-view-detailed" role="tabpanel" aria-labelledby="dr-tab-detailed" hidden>
       <div class="dr3-stepper" role="tablist" aria-label="Topics">${fb.topics.map(step).join('')}
         ${across ? `<button class="dr3-step wrap" type="button" role="tab" id="dr-qpill-across" aria-controls="dr-q-across" aria-selected="false" tabindex="-1" data-q="across"><span class="dr3-step-n">Wrap-up</span><span class="dr3-step-t">Across the interview</span><span class="dr3-step-l">Your goal and habits</span></button>` : ''}</div>
-      ${fb.topics.map((t, i) => topicPane(s, fb, t, i, i === open)).join('')}${across}
+      ${fb.topics.map((t, i) => topicPane(s, fb, t, i, i === open, !!across)).join('')}${across}
     </div>`;
     panel.innerHTML = summaryHtml(s, fb, judged, goal, more) + detailed;
     wire(panel, tabs, s, fb);
