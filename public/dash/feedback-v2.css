@@ -325,7 +325,7 @@ mark.dr2-new { padding: 1px 2px; border-radius: 3px; color: var(--d-ink-2); back
 #dr-view-summary .dr-impact { background: linear-gradient(135deg, #0a84d8, #0062ad); box-shadow: 0 4px 10px -4px rgba(0, 98, 173, .6); }
 #dr-view-summary .dr-goal h3 { font-size: 16px; font-weight: 700; color: var(--d-ink); }
 #dr-view-summary .dr2-where, #dr-view-summary .dr2-sayit { border-top-color: rgba(0, 117, 203, .14); }
-#dr-view-summary .dr2-where-q { padding: 8px 10px; border-radius: 10px; background: rgba(255, 255, 255, .75); box-shadow: inset 3px 0 0 #e48a0c; }
+#dr-view-summary .dr2-where-q { padding: 8px 10px; border-radius: 10px; background: rgba(245, 158, 11, .1); }
 #dr-view-summary .dr-wide { border-radius: 999px; padding-top: 11px; padding-bottom: 11px; box-shadow: 0 8px 18px -8px rgba(0, 98, 173, .6); }
 #dr-view-summary .dr-also-h { border-top-color: var(--m-edge); }
 #dr-view-summary .dr-dot { background: linear-gradient(135deg, #0a84d8, #14aaaa); }
