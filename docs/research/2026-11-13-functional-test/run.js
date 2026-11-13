@@ -454,6 +454,10 @@ const LIVE = [
     st.done = true; st.turn = s.turns.length; return 'I think the main thing about me is that I am very passionate about consulting and I love solving problems. I have always been a curious person and I like learning new things every day.';
   }, check: (s, st) => [['brings them back to the question (rephrase or follow-up), not move on', ['rephrase', 'clarify', 'probe'].includes(s.turns[st.turn]?.decision), `${s.turns[st.turn]?.decision}: ${s.turns[st.turn]?.output?.utterance}`]] },
   { id: 'S16', name: 'Weak student, recruiter screen, summers', persona: 'weak', inputs: { interview_type: 'recruiter_screen', stage: 'summers' } },
+  { id: 'S18', name: '30-minute probing interview', persona: 'strong', inputs: { length: 'full', style: 'probing' }, check: (s) => {
+    const sc = s.slots.filter((x) => ['claim', 'gap', 'motivation', 'concerns'].includes(x.kind));
+    return [['every planned topic reached, within the turn cap', sc.every((x) => x.status !== 'pending') && s.interviewer_turns <= s.max_turns, `${sc.map((x) => `${x.id}:${x.status}`).join(' ')}; ${s.interviewer_turns}/${s.max_turns} turns`]];
+  } },
   { id: 'S17', name: 'Fresher, hiring manager, FMCG', persona: 'average', inputs: { resume_text: FRESHER, jd_text: FMCG_JD, domain: 'Sales and Business Development', stage: 'summers' } },
 ];
 
