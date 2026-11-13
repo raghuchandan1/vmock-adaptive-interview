@@ -415,6 +415,11 @@ const get = async (p) => (await fetch(BASE + p)).json();
     && leakCheck('Would you choose the same vendor or a different one?').length === 0, 'flags two questions joined by "or what"');
   check(['I see you evaluated four kiosk vendors at PwC. What decision were you trying to support?', 'How would you evaluate a digital onboarding investment for a bank?', 'How did you assess the ROI?', 'What criteria did the client use to choose a vendor?', 'How did the credit scores change?'].every((t) => leakCheck(t).length === 0),
     'business words such as evaluate, assess, criteria and scores are not agenda leaks');
+  const { DONT_KNOW } = require('../lib/engine');
+  const redos = `That's all${',thank'.repeat(30)}thanksX`;
+  const t0 = Date.now();
+  DONT_KNOW.test(redos);
+  check(Date.now() - t0 < 50 && DONT_KNOW.test("No, that's all, thank you.") && DONT_KNOW.test('No, that\'s all, thanks.'), 'the "not sure" check stays fast on adversarial input and still matches plain declines');
   const { openerOffLine } = require('../lib/engine');
   const caseComp = { kind: 'claim', anchor_text: 'National Runners Up, 2/400+ teams, Corp. ConQuest 3.0, DEI Case Comp.', core_question: 'I see you were a national runner-up in the Corp. ConQuest case competition. What was your contribution to the case?' };
   const discharge = { kind: 'claim', anchor_text: 'Modernised OP/IP discharge flow, 8+ stakeholders, AI-Enabled 5+ processes, cut discharge TAT by 40%', core_question: 'How did the discharge-flow project come about at PwC?' };

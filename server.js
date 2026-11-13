@@ -56,6 +56,8 @@ function saveSession(session) {
 }
 
 function getSession(id) {
+  // One canonical id per session: "3AC88EA0" would load a second in-memory copy and slip past the inFlight lock.
+  if (!/^\d{4}-\d{2}-\d{2}-[0-9a-f]{8}$/.test(id)) return null;
   if (sessions.has(id)) return sessions.get(id);
   const file = path.join(SESSIONS_DIR, `${path.basename(id)}.json`);
   if (!fs.existsSync(file)) return null;
@@ -80,7 +82,7 @@ async function createInterview(body) {
   const inputs = {
     resume_text: String(body.resume_text || '').trim(),
     jd_text: String(body.jd_text || '').trim(),
-    target_role: String(body.target_role || '').trim(),
+    target_role: String(body.target_role || '').trim().slice(0, 200),
     domain: String(body.domain || '').trim().slice(0, 100),
     stage: String(body.stage || ''), // placement stage: '' (not for placements), summers, finals or laterals
     market: String(body.market || process.env.MARKET || 'india'), // which country's recruiting the plan follows
@@ -367,7 +369,8 @@ const PAGES = { '/': 'index.html', '/student': 'student.html', '/vmock/interview
   '/dashboard/smart-interviews/practice/adaptive/setup': 'dash/setup.html', '/interviews/adaptive/room': 'dash/room.html' };
 
 function serveStatic(req, res) {
-  const urlPath = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+  let urlPath;
+  try { urlPath = decodeURIComponent(new URL(req.url, 'http://x').pathname); } catch (_) { return send(res, 400, 'Bad request', 'text/plain'); }
   const rel = PAGES[urlPath] || urlPath.replace(/^\/+/, '');
   const file = path.join(ROOT, 'public', path.normalize(rel));
   if (!file.startsWith(path.join(ROOT, 'public')) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
