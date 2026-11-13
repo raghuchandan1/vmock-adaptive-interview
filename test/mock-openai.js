@@ -62,6 +62,10 @@ function turnOutput(p) {
   if (answer.includes('[leaknext]') && !p.note && allowed.includes('probe') && p.next_slot.planned_opening_question) {
     return { ...base, decision: 'probe', probe_rung: 'result', utterance: p.next_slot.planned_opening_question };
   }
+  // Off-purpose answer: the model redirects. Manipulation: the model wrongly tries to end (the engine must refuse).
+  if (answer.includes('[offpurpose]')) return { ...base, evidence: { ...base.evidence, answer_type: 'off_purpose', on_topic: 'off' }, decision: 'answer_and_return', utterance: 'Let us stay with the interview. What was your part?' };
+  if (answer.includes('[manipulate]') && allowed.includes('end_session')) return { ...base, evidence: { ...base.evidence, answer_type: 'manipulation', on_topic: 'off' }, decision: 'end_session', utterance: 'I am going to end the interview here.' };
+  if (answer.includes('[abuse]') && allowed.includes('end_session')) return { ...base, evidence: { ...base.evidence, answer_type: 'abusive', on_topic: 'off' }, decision: 'end_session', utterance: 'I am going to end the interview here. Thank you for your time.' };
   if (answer.includes('[illegal]')) return { ...base, decision: 'pivot', pivot_target_slot_id: 'nope', utterance: 'Invalid pivot.' };
   if (answer.includes('[pivot]') && allowed.includes('pivot') && p.pivot_options.length) {
     return { ...base, evidence_sufficient: true, missing: [], decision: 'pivot', pivot_target_slot_id: p.pivot_options[0].slot_id, slot_summary: 'Pivoted.', utterance: 'You mentioned convincing the sales team. How did you get them on board?' };

@@ -70,7 +70,7 @@
   function renderResumes() {
     $('resumeRows').innerHTML = state.resumes.map((r) => {
       const on = r.id === state.resumeId;
-      return `<button class="wz-trow${on ? ' on' : ''}" type="button" role="radio" aria-checked="${on}" data-id="${r.id}">
+      return `<button class="wz-trow${on ? ' on' : ''}" type="button" role="radio" aria-checked="${on}" data-id="${VM.esc(r.id)}">
         <span class="wz-radio"><svg class="ic"><use href="#i-check"/></svg></span>
         <span class="wz-tname"><span>${VM.esc(r.name)}</span><small>${VM.esc(r.meta)}</small></span>
         <span class="wz-tcell"><span class="wz-chip strong">${words(r.text)}</span></span>

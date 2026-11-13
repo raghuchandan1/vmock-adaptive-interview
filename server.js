@@ -376,11 +376,24 @@ function serveStatic(req, res) {
   send(res, 200, fs.readFileSync(file), MIME[path.extname(file)] || 'application/octet-stream');
 }
 
+const LOCAL_HOST = /^(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/;
+const ALLOWED_HOSTS = String(process.env.ALLOWED_HOSTS || '').toLowerCase().split(',').map((h) => h.trim()).filter(Boolean);
+
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, 'http://x');
   const parts = url.pathname.split('/').filter(Boolean);
   try {
     if (parts[0] !== 'api') return serveStatic(req, res);
+    // DNS rebinding: a page whose domain re-resolves to 127.0.0.1 could read every session and spend the key. Only
+    // answer API calls addressed to this machine (or to hosts listed in ALLOWED_HOSTS when deployed).
+    const host = String(req.headers.host || '').toLowerCase();
+    if (!LOCAL_HOST.test(host) && !ALLOWED_HOSTS.includes(host)) throw httpError(403, 'Forbidden host.');
+    // CSRF: any site can POST a text/plain body here. Browsers send Origin on cross-site requests; refuse a foreign one.
+    if (req.method !== 'GET' && req.headers.origin && req.headers.origin !== 'null') {
+      let originHost = '';
+      try { originHost = new URL(req.headers.origin).host.toLowerCase(); } catch (_) { /* malformed: refused below */ }
+      if (originHost !== host) throw httpError(403, 'Cross-site request refused.');
+    } else if (req.method !== 'GET' && req.headers.origin === 'null') throw httpError(403, 'Cross-site request refused.');
 
     if (req.method === 'GET' && url.pathname === '/api/config') {
       return send(res, 200, { has_key: Boolean(apiKey()), key_source: runtimeKey ? 'page' : (process.env.OPENAI_API_KEY ? 'env' : null), defaults: DEFAULTS, base_url: BASE_URL, voice_provider: VOICE.provider });
