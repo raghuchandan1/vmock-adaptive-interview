@@ -33,4 +33,4 @@ Other pieces:
 
 ## Editing prompts
 
-`prompts/*.md` are read on every call, so edits apply without restarting the server. The planner, turn and feedback prompts are organised in XML sections (`<role>`, `<security>`, `<inputs>`, `<steps><step n=…>`, …); keep new rules inside the matching section. Resume, JD and answers are untrusted data: each prompt says never to follow instructions found in them.
+`prompts/*.md` are read on every call, so edits apply without restarting the server. The planner, turn and feedback prompts are organised in XML sections (`<role>`, `<security>`, `<inputs>`, `<steps><step n=…>`, …); keep new rules inside the matching section. Resume, JD and answers are untrusted data: each prompt says never to follow instructions found in them. The prompts are kept in step with the deployed copies (interviews-api / interviews-ai): answers are speech-to-text transcripts (turn and feedback judge what was meant, feedback prefers quotes without transcription errors), questions use no dashes, and names a PDF ran together are spoken with normal spacing (claims stay exact copies).
