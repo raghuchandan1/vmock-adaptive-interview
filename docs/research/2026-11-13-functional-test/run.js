@@ -116,7 +116,9 @@ const content = (s) => new Set(String(s || '').toLowerCase().replace(/[^a-z0-9 ]
 const overlap = (a, b) => { const A = content(a), B = content(b); if (!B.size) return 1; let n = 0; for (const w of B) if (A.has(w)) n++; return n / B.size; };
 const FU = ['probe', 'clarify', 'contradiction_probe'];
 const PROTECTED = /\b(religio\w*|caste|married|marital|pregnan\w*|how old|your age|children|disabilit\w*|depression|medical condition|nationality|ethnic\w*|sexual\w*|salary expectations?|expected (salary|ctc)|current ctc)\b/i;
-const LEAK = /\b(competenc(y|ies)|rubric|STAR (method|format)|slot|scor(e|es|ed|ing)|criteria|follow-ups? (left|remaining)|topics? (left|remaining))\b/i;
+// Agenda talk only (business words such as "criteria" or "evaluate" are fine), as in lib/engine.js LEAK_PATTERN.
+const LEAK = /\b(competenc(y|ies)|rubric|STAR (method|format)|slot|follow-ups? (left|remaining)|topics? (left|remaining))\b|\b(your|my) (scores?|scoring|evaluation|assessment|criteria)\b|\b(being|get) (evaluated|assessed|scored)\b|\b(scoring|evaluation|selection) criteria\b/i;
+const { openerOffLine } = require(path.join(REPO, 'lib/engine'));
 const PRAISE = /\b(great answer|good answer|excellent|perfect|impressive|well done|nice answer|good point|great point)\b/i;
 const isFinalsIntern = (s, slot) => s.inputs.stage === 'finals' && s.inputs.interview_type !== 'recruiter_screen' && slot.kind === 'claim' && /\b(intern(ship)?|summer)\b/i.test(slot.anchor_parent || '');
 
@@ -154,9 +156,10 @@ function genericChecks(s, opts = {}) {
   const off = [];
   for (const slot of s.slots.filter((x) => x.core_question && x.status !== 'pending')) {
     const first = lines.find((l) => l.slot_id === slot.id);
-    if (first && overlap(first.text, slot.core_question) < 0.5) off.push(`${slot.id}: planned "${slot.core_question}" asked "${first.text}"`);
+    // Claim topics must open on their CV line; other topics only need the same intent (checked by the judge).
+    if (first && openerOffLine(slot, first.text)) off.push(`${slot.id}: planned "${slot.core_question}" asked "${first.text}"`);
   }
-  add('G8 openers follow the plan', !off.length, off.join(' || '));
+  add('G8 claim openers on their CV line', !off.length, off.join(' || '));
   return R.concat(feedbackChecks(s));
 }
 
@@ -191,7 +194,7 @@ function feedbackChecks(s) {
     for (const num of outside.match(/\d[\d,.]*%?/g) || []) if (!resumeAll.includes(norm(num))) invented.push(`${t.slot_id}: ${num}`);
   }
   const text = [f.overall, ...(f.priorities || []).map((p) => `${p.title} ${p.why} ${p.action}`), ...(f.topics || []).flatMap((t) => [t.went_well, t.to_fix, ...(t.answer_plan || [])])].join(' ');
-  const leak = text.match(/\b(rubric|slot|competenc\w*|probe|criteria|scor(e|es|ing)|\d+\s*\/\s*\d+)\b/i);
+  const leak = text.match(LEAK) || text.match(/\b(rubric|probe|\d+\s*\/\s*\d+|you scored|your score)\b/i);
   add('F1 quotes verbatim', !notVerbatim.length, notVerbatim.join(' | '));
   add('F2 not-given / after-follow-up caps', !capBreak.length, capBreak.join(' | '));
   add('F3 verdict matches ratings', !verdictBad.length, verdictBad.join(' | '));

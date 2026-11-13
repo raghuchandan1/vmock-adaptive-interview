@@ -411,12 +411,28 @@ const get = async (p) => (await fetch(BASE + p)).json();
     && leakCheck('Your answer focused on a different part of the work. Walk me through the joins.').length > 0
     && leakCheck('That connection is relevant. How would you compare the groups?').length > 0
     && leakCheck('Tell me about the settlement logic you built.').length === 0, 'flags two asks in a "Tell me about" question and comments on the answer');
+  check(leakCheck('What part of that approach did not work as expected, or what would you change if you were doing it again?').length > 0
+    && leakCheck('Would you choose the same vendor or a different one?').length === 0, 'flags two questions joined by "or what"');
+  check(['I see you evaluated four kiosk vendors at PwC. What decision were you trying to support?', 'How would you evaluate a digital onboarding investment for a bank?', 'How did you assess the ROI?', 'What criteria did the client use to choose a vendor?', 'How did the credit scores change?'].every((t) => leakCheck(t).length === 0),
+    'business words such as evaluate, assess, criteria and scores are not agenda leaks');
+  const { openerOffLine } = require('../lib/engine');
+  const caseComp = { kind: 'claim', anchor_text: 'National Runners Up, 2/400+ teams, Corp. ConQuest 3.0, DEI Case Comp.', core_question: 'I see you were a national runner-up in the Corp. ConQuest case competition. What was your contribution to the case?' };
+  const discharge = { kind: 'claim', anchor_text: 'Modernised OP/IP discharge flow, 8+ stakeholders, AI-Enabled 5+ processes, cut discharge TAT by 40%', core_question: 'How did the discharge-flow project come about at PwC?' };
+  check(openerOffLine(caseComp, 'You mentioned involving the nursing staff earlier would have helped. How did you engage the nurses during the pilot?')
+    && openerOffLine(caseComp, "Let's move to another area. I see you worked on application operations at Cognizant. Tell me about a time you had to handle a difficult stakeholder.")
+    && !openerOffLine(discharge, 'You mapped the process across more than eight stakeholders. How did you bring those groups to agreement on the redesigned flow?')
+    && !openerOffLine(caseComp, "Let's switch gears. What was your contribution to the DEI case at ConQuest?")
+    && !openerOffLine({ kind: 'gap', core_question: 'Tell me about a time you failed.' }, 'Anything at all.'), 'a claim topic opening that is not about its CV line is caught; an adapted opening on the same line is not');
+  check(['Your score so far is good.', 'You are being assessed on structure.', 'I am evaluating your answers on ownership.', 'The selection criteria here are simple.', 'This tests a competency from the rubric.', 'We have two topics left.'].every((t) => leakCheck(t).length > 0),
+    'talk about the candidate\'s score, assessment, criteria or the plan is still flagged');
 
   // The number check is owed before a claim topic closes, but only required on its last follow-up; freshers get no extra
   const { requiredRung, requiredNextRung, budgetFor } = require('../lib/engine');
   const rs = { interviewer_turns: 0, max_turns: 20, inputs: { interview_type: 'hiring_manager' }, style: 'balanced', plan: { candidate: { experience_level: 'fresher' } } };
   const numSlot = (used) => ({ kind: 'claim', anchor_text: 'Cut reporting by 6 hours', probe_angle: 'test_claim', anchor_flags: [], rungs_used: [], follow_ups_used: used, budget: 2 });
   check(requiredRung(rs, numSlot(0)) === 'result' && requiredNextRung(rs, numSlot(0)) === null && requiredNextRung(rs, numSlot(1)) === 'result', 'measurement follow-up is owed from the start but required only as the last follow-up');
+  const measured = { ...numSlot(1), rungs_used: ['result'] };
+  check(requiredRung({ ...rs, slots: [measured, numSlot(0)] }, numSlot(0)) === null, 'a second topic on the same CV line does not owe the measurement follow-up again');
   check(budgetFor('claim', rs, { technical_focus: true }) === 2 && budgetFor('claim', { ...rs, plan: { candidate: { experience_level: 'early' } } }, { technical_focus: true }) === 3, 'technical claim topics get an extra follow-up except for freshers');
   {
     // Finals: a finished internship owes "what would you do differently now?", after the number check, with one extra follow-up for it.
