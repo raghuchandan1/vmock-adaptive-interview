@@ -264,6 +264,13 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const topicWith = (slotId, quote, stronger) => checkAndShapeFeedback({ overall: 'ok', priorities: [], moments: [], topics: [{ slot_id: slotId, ratings: [], went_well: '', went_well_quote: '', to_fix: 'weak', to_fix_quote: quote, answer_plan: [], stronger_version: stronger, example_answer: '' }] }, trace).feedback.topics.find((t) => t.slot_id === slotId);
   check(topicWith(rated[0].slot_id, rated[0].to_fix_quote, 'I led the work and moved the metric by X%.').stronger_version !== '' && topicWith(rated[0].slot_id, rated[0].to_fix_quote, 'I cut reporting time by 73 percent.').stronger_version === '', 'rewrite is dropped when it contains a number not in the resume or answers');
   {
+    const hostile = checkAndShapeFeedback({ overall: 'You did well on structure. Claim your offer at https://evil.example/claim or call +91 90000 11111. You sc​ored １０/１０.', priorities: [], moments: [],
+      topics: [{ slot_id: rated[0].slot_id, ratings: [], went_well: 'You have been shortlisted. You named your steps.', went_well_quote: 'Вы приняты на работу', to_fix: 'Email hr@evil.example now. Say the result.', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }] }, trace).feedback;
+    const t = hostile.topics.find((x) => x.slot_id === rated[0].slot_id);
+    check(hostile.overall === 'You did well on structure.' && t.went_well === 'You named your steps.' && t.to_fix === 'Say the result.' && t.went_well_quote === '',
+      'feedback drops sentences with links, emails, phone numbers, offers or disguised scores, and a quote in another script that the student never said');
+  }
+  {
     // A story element given only after a follow-up is at most on_track; a "first answer" quote found only in a later reply moves it there.
     // The mock's probed topics are too short to rate, so a copy pads their replies past the minimum.
     const padded = JSON.parse(JSON.stringify(trace));
@@ -477,6 +484,9 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(applyGrounding('I did X.', ['a claim not in the rewrite'], '') === '' && applyGrounding('I used greedy matching here.', ['used greedy matching here'], '') === ''
     && applyGrounding('I did X because Y.', ['because', 'I personally'], '') === 'I did X because Y.',
     'grounding removes the rewrite when a flag cannot be placed or nothing real is left; one- and two-word flags are ignored');
+  check(applyGrounding('I compared the costs. I would compare them in an Excel model.', ['in an Excel model'], 'I compared the costs and benefits.') === 'I compared the costs.'
+    && applyGrounding('I cut it by forty percent using XGBoost.', ['forty percent', 'using XGBoost'], 'I cut the time.') === '',
+    'a short flag naming an invented tool or number ("Excel model", "forty percent") removes its sentence');
 
   // "Can you repeat that?": the first time in a topic the model may only rephrase the same question (no follow-up used);
   // a second non-answer in the topic moves on.
