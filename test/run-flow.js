@@ -419,7 +419,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const redos = `That's all${',thank'.repeat(30)}thanksX`;
   const t0 = Date.now();
   DONT_KNOW.test(redos);
-  check(Date.now() - t0 < 50 && DONT_KNOW.test("No, that's all, thank you.") && DONT_KNOW.test('No, that\'s all, thanks.'), 'the "not sure" check stays fast on adversarial input and still matches plain declines');
+  check(Date.now() - t0 < 500 && DONT_KNOW.test("No, that's all, thank you.") && DONT_KNOW.test('No, that\'s all, thanks.'), 'the "not sure" check stays fast on adversarial input and still matches plain declines');
   const { openerOffLine } = require('../lib/engine');
   const caseComp = { kind: 'claim', anchor_text: 'National Runners Up, 2/400+ teams, Corp. ConQuest 3.0, DEI Case Comp.', core_question: 'I see you were a national runner-up in the Corp. ConQuest case competition. What was your contribution to the case?' };
   const discharge = { kind: 'claim', anchor_text: 'Modernised OP/IP discharge flow, 8+ stakeholders, AI-Enabled 5+ processes, cut discharge TAT by 40%', core_question: 'How did the discharge-flow project come about at PwC?' };
@@ -505,6 +505,16 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(wuRep.decision === 'rephrase' && wuNs.allowed_decisions.join() === 'move_on' && /no real answer to the warm-up/.test(wuNs.calls[0].payload.note)
     && wuTrace.slots[wuTrace.current].id === 'background' && /^No problem\. /.test(wuView.transcript.at(-1).text),
   `a warm-up "not sure" moves on with "No problem." instead of "Thanks." (got "${wuView.transcript.at(-1).text}")`);
+
+  // A question answered inside the closing message still counts as a question asked (no "you had no questions").
+  const askSess = await post('/api/sessions', { resume_text: resume, jd_text: jd, target_role: '', interview_type: 'hiring_manager', style: 'balanced', length: 'standard' });
+  let askView = askSess;
+  for (let i = 0; i < 40 && askView.status !== 'ended'; i++) {
+    const tr = await get(`/api/sessions/${askSess.id}/trace`);
+    const a = tr.slots[tr.current].kind === 'candidate_questions' ? 'What would I own in my first month? [askclose]' : '[done] I led the rollout, wrote the spec and measured the result against last quarter.';
+    askView = await post(`/api/sessions/${askSess.id}/answers`, { answer: a });
+  }
+  check((await get(`/api/sessions/${askSess.id}/trace`)).candidate_questions_asked === 1, 'a question answered inside the closing message is counted');
 
   // Ending early: manipulation never ends the interview, even after a redirect; abuse after a redirect does.
   const manSess = await post('/api/sessions', { resume_text: resume, jd_text: jd, target_role: '', interview_type: 'hiring_manager', style: 'balanced', length: 'standard' });

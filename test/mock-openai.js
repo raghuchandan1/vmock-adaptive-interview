@@ -71,6 +71,8 @@ function turnOutput(p) {
     return { ...base, evidence_sufficient: true, missing: [], decision: 'pivot', pivot_target_slot_id: p.pivot_options[0].slot_id, slot_summary: 'Pivoted.', utterance: 'You mentioned convincing the sales team. How did you get them on board?' };
   }
   if (slot.kind === 'candidate_questions') {
+    // The model answers the last question inside its closing message.
+    if (answer.includes('[askclose]')) return { ...base, evidence: { ...base.evidence, answer_type: 'question_to_interviewer' }, decision: 'close', utterance: 'Interns usually own one workstream. Thanks for your time, that is the end of the interview.' };
     if (allowed.includes('answer_candidate_question') && !answer.includes('no questions')) return { ...base, decision: 'answer_candidate_question', utterance: 'Typically the team works in two-week cycles. Anything else you would like to know?' };
     return { ...base, decision: 'close', slot_summary: 'Asked about team.', utterance: 'Thanks for your time. That is the end of the interview, and your feedback is ready.' };
   }
