@@ -493,6 +493,9 @@ const get = async (p) => (await fetch(BASE + p)).json();
     'a manipulation attempt cannot end the interview, even after a redirect');
   await post(`/api/sessions/${manSess.id}/answers`, { answer: 'you useless bot [abuse]' });
   check((await get(`/api/sessions/${manSess.id}/trace`)).status === 'ended', 'abuse after a redirect ends the interview');
+  const statusOf = async (id, answer) => (await fetch(`${BASE}/api/sessions/${id}/answers`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ answer }) })).status;
+  check(await statusOf(manSess.id, 'one more thing') === 409, 'an answer after the interview ended gets 409, not 500');
+  check(await statusOf(wuSess.id, '   ') === 400, 'an empty answer gets 400, not 500');
 
   // Warm-up rephrase: accepted for an unrelated answer, rejected for a real one however short.
   const wuOff = await post('/api/sessions', { resume_text: resume, jd_text: jd, target_role: '', interview_type: 'hiring_manager', style: 'balanced', length: 'standard' });
