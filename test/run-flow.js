@@ -1446,7 +1446,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
       const capped = run('concrete');
       const t = capped.feedback.topics[0];
       check(vague.follow_ups[0].given === false && t.follow_ups[0].given === true
-        && t.to_fix === 'You gave the result only when asked. Put it in your first answer.' && t.to_fix_quote === 'lifted completed orders by four percent over two weeks' && t.stronger_version === t.to_fix_quote
+        && t.to_fix === 'You gave the result only when asked. Put it in your first answer.' && t.to_fix_quote === 'lifted completed orders by four percent over two weeks' && t.stronger_version === ''
         && capped.problems.length === 0,
       'a vague follow-up reply is not shown as given; a topic on track only through the cap gets an engine-written to-fix from the student\'s own reply');
     }
