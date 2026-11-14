@@ -132,7 +132,7 @@ function feedbackOutput(input) {
       { slot_id: 'candidate_questions', quote: '', note: 'Model-written closing note.', tip: '' },
     ],
     next_goal: { title: 'Lead with your own part', why: 'It makes answers verifiable.', when: 'When you are asked about a project', then: bad ? 'say your role, two actions, and the result' : 'say what you did yourself in your first sentence.', slot_id: (input.topics.find((t) => t.usable_answer) || {}).slot_id || '' },
-    more_priorities: ['Say what you personally did.', 'Name how you measured it.', 'A fourth item.'].map((t) => ({ title: t, why: 'It makes answers verifiable.', action: 'Add one number.' })),
+    more_priorities: ['Say what you personally did.', 'Name how you measured it.', 'A fourth item.'].map((t) => ({ title: t, why: 'It makes answers verifiable.', action: 'Add one number.', slot_id: (input.topics.find((x) => x.usable_answer) || {}).slot_id || '' })),
   };
 }
 

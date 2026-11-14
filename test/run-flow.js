@@ -224,7 +224,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
     check(['PLANNER', 'TURN', 'FEEDBACK'].every((s) => new RegExp(`process\\.env\\.${s}_MODEL \\|\\| 'gpt-6-sol'`).test(src)), 'the code defaults every prompt to gpt-6-sol (a local .env can override)');
   }
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 14 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 15 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
@@ -733,7 +733,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
       const m2 = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, s2).feedback.moments.find((m) => m.slot_id === 'conduct');
       check(shaped.moments.some((m) => m.slot_id === 'conduct' && /rude to the interviewer/.test(m.note) && m.quote === '')
         && m2 && /something else/.test(m2.note) && !/rude/.test(m2.note) && E.buildFeedbackPayload(s).conduct.join() === 'abusive'
-        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 14,
+        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 15,
       'an abusive answer or a refusal gets a plain derived note (none otherwise), and the feedback model is told');
     }
 
@@ -745,7 +745,9 @@ const get = async (p) => (await fetch(BASE + p)).json();
       check(E.budgetFor('motivation', rsS) === 2 && E.budgetFor('motivation', sess('recruiter_screen', 'finals')) === 1 && E.budgetFor('motivation', sess('recruiter_screen', '', 'probing')) === 2
         && E.unaskedRungs(rsS, mot()).join() === 'hr_round,domain_prep' && E.requiredNextRung(rsS, mot()) === 'hr_round' && E.requiredRung(rsS, mot(1, ['hr_round'])) === 'domain_prep'
         && E.unaskedRungs(sess('recruiter_screen', 'finals'), mot()).join() === 'hr_round' && E.unaskedRungs(sess('recruiter_screen', ''), mot()).length === 0
-        && E.unaskedRungs(sess('hiring_manager', 'summers'), mot()).length === 0 && E.rungDimension({ kind: 'motivation' }, 'domain_prep') === 'evidence'
+        // R4-4: the MBA probe is owed in summers in a hiring manager interview too (no HR-round probe there).
+        && E.unaskedRungs(sess('hiring_manager', 'summers'), mot()).join() === 'domain_prep' && E.requiredNextRung(sess('hiring_manager', 'summers'), mot(0, [], 1)) === 'domain_prep'
+        && E.budgetFor('motivation', sess('hiring_manager', 'summers')) === 1 && E.rungDimension({ kind: 'motivation' }, 'domain_prep') === 'evidence'
         // R3-2: laterals owe "why now?" in any interview type.
         && E.unaskedRungs(sess('hiring_manager', 'laterals'), mot()).join() === 'why_now' && E.unaskedRungs(sess('recruiter_screen', 'laterals'), mot()).join() === 'why_now,hr_round'
         && E.budgetFor('motivation', sess('hiring_manager', 'laterals', 'balanced')) === 1 && E.rungDimension({ kind: 'motivation' }, 'why_now') === 'reason',
@@ -819,12 +821,17 @@ const get = async (p) => (await fetch(BASE + p)).json();
       const plan = (anchor) => {
         const pl = JSON.parse(JSON.stringify(trace.plan));
         pl.claims.push({ id: 'c9', text: line, parent: 'Coding Club', type: 'leadership', strength: 'moderate', weak_flags: [], probe_angle: 'test_claim', rank: 9 });
+        pl.claims.find((c) => c.id === 'c1').strength = 'moderate'; // slot 1's claim; a strong one may take the activity's place (R4-5)
         if (anchor) pl.slots.find((x) => x.id === 's2').anchor_claim_id = 'c9';
         return pl;
       };
       const warns = (pl, inp) => E.checkAndShapePlan(pl, inp).checks.some((c) => /No topic from a position of responsibility/.test(c.message));
-      check(warns(plan(false), inputs) && !warns(plan(true), inputs) && !warns(plan(false), { ...inputs, stage: '' }),
-        'a summers or fresher plan with no topic from a listed activity is flagged (warning only)');
+      const strong = plan(false);
+      strong.claims.find((c) => c.id === 'c1').strength = 'strong';
+      check(warns(plan(false), inputs) && !warns(plan(true), inputs) && !warns(plan(false), { ...inputs, stage: '' })
+        // R4-5: a hiring manager plan whose slot 1 is a strong job claim is not warned; a recruiter screen still would be.
+        && !warns(strong, inputs) && warns(JSON.parse(JSON.stringify(strong)), { ...inputs, interview_type: 'recruiter_screen' }),
+        'a summers or fresher plan with no topic from a listed activity is flagged (warning only), unless a strong job claim takes slot 1 in a hiring manager plan');
     }
 
     // 11. Two asks: ", including …?" and "the X or your Y?"; a plain choice or a normal question is not flagged.
@@ -874,6 +881,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
       const inputs = { ...trace.inputs, stage: 'summers', resume_text: `${trace.inputs.resume_text}\n${line}` };
       const pl = JSON.parse(JSON.stringify(trace.plan));
       pl.claims.push({ id: 'c9', text: line, parent: 'Coding Club', type: 'leadership', strength: 'moderate', weak_flags: [], probe_angle: 'test_claim', rank: 9 });
+      pl.claims.find((c) => c.id === 'c1').strength = 'moderate';
       pl.slots.filter((x) => x.kind === 'claim').slice(1).forEach((x) => { x.kind = 'gap'; });
       const warns = (inp) => E.checkAndShapePlan(JSON.parse(JSON.stringify(pl)), inp).checks.some((c) => /No topic from a position of responsibility/.test(c.message));
       check(!warns({ ...inputs, interview_type: 'recruiter_screen', length: 'short' }) && warns(inputs), 'a recruiter screen with only its top-ranked claim is not warned about the activity topic; a hiring manager plan still is');
@@ -1008,7 +1016,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
       await E.handleAnswer(s, 'I compared the pricing records against the intended prices for each seller.', stub([out({ decision: 'probe', probe_rung: 'how', utterance: 'Which part of the fix did you decide on yourself?', missing: ['how the annual saving was calculated', 'their own decision'] })], payloads));
       const cs = payloads[0].current_slot;
       const fp = E.buildFeedbackPayload(s).topics.find((t) => t.slot_id === 's2');
-      const plan = (anchor) => { const pl = JSON.parse(JSON.stringify(trace.plan)); pl.slots.find((x) => x.id === 's2').anchor_claim_id = anchor; return E.checkAndShapePlan(pl, trace.inputs).checks.some((c) => /both plan how its number was measured/.test(c.message)); };
+      const plan = (anchor) => { const pl = JSON.parse(JSON.stringify(trace.plan)); pl.slots.find((x) => x.id === 's2').anchor_claim_id = anchor; return E.checkAndShapePlan(pl, trace.inputs).checks.some((c) => /same CV line/.test(c.message)); };
       const sh = shape({ slot_id: 's2', to_fix: 'You did not explain how the annual saving was calculated.' }, s);
       check(/already asked in an earlier topic/.test(cs.intent) && cs.planned_follow_ups.join('|') === 'What business action followed from the finding?'
         && s.turns.at(-1).output.missing.join() === 'their own decision' && /covered in topic|asked in topic s1/.test(fp.covered_in_other_topic.join()) && /already asked/.test(fp.what_a_complete_answer_needs)
@@ -1077,6 +1085,128 @@ const get = async (p) => (await fetch(BASE + p)).json();
         && whyNow('You did not say why now is the right time for this move.') && !whyNow('You gave no reason tied to the company.')
         && E.buildFeedbackPayload(w).topics.find((t) => t.slot_id === rated[0].slot_id).not_asked.some((x) => /why now/.test(x)),
       'a manipulation attempt gets a brief neutral conduct note; a "why now?" nobody asked is in not_asked and is not faulted');
+    }
+
+    // QA round 4.
+    // R4-1. The number-drop check: a number in words or a rewrite only reusing a line word ("data", "source") passes; a
+    // result stated without its number, or a bracket for the changing measure, is still sent back.
+    {
+      const s = clone();
+      const sl = s.slots.find((x) => x.id === rated[0].slot_id);
+      const p = (line, text) => { sl.anchor_text = line; return shape({ slot_id: sl.id, to_fix: 'x', to_fix_quote: rated[0].to_fix_quote, stronger_version: text }, s).problems.some((x) => /write it in where the rewrite talks about/.test(x)); };
+      const sql = 'Wrote SQL queries to clean and join data from 4 source tables, reducing manual reporting time by 6 hours a week';
+      check(!p(sql, 'I wrote the queries myself, reducing manual reporting time by six hours a week.') && !p(sql, 'I joined the data from each source table myself and checked the totals.')
+        && !p(sql, 'I [what you did to clean the data]. That cut the reporting work.') && p(sql, 'That reduced the manual reporting time every week.')
+        && p('Ran a workshop series attended by 120 students', 'The series reached students across the sessions.') && !p('Ran a workshop series attended by 120 students', 'The series reached a hundred and twenty students.')
+        && p('Redesigned onboarding, raising day-7 activation from 22% to 29%', 'Day-seven activation increased after the redesign.')
+        && p('Owned the checkout redesign, cutting cart abandonment from 71% to 58%', 'The result was [the reported abandonment change].')
+        && !p('Built an ordering app used by 600 store managers', 'After release, [what changed for store managers].'),
+      'a rewrite with the number in words, or reusing only "data"/"source" from the line, is not sent back; a result or a changing measure without its number is');
+    }
+
+    // R4-2. A later topic on a CV line whose role an earlier topic asked: the turn is told, and its feedback may not fault the role.
+    {
+      const s = noSecondChance(clone());
+      const line = 'Owned the checkout redesign end to end, cutting cart abandonment from 71% to 58%';
+      const other = s.slots.find((x) => x.kind === 'claim' && x.id !== rated[0].slot_id);
+      Object.assign(other, { anchor_text: line, rungs_used: ['role'], status: 'done' });
+      const target = s.slots.find((x) => x.id === rated[0].slot_id);
+      Object.assign(target, { anchor_text: line, rungs_used: [] });
+      const fp = E.buildFeedbackPayload(s).topics.find((t) => t.slot_id === target.id);
+      const own = (topic) => shape({ slot_id: target.id, ...topic }, s).problems.some((x) => new RegExp(`asked in topic ${other.id}, so the interviewer could not ask it again`).test(x));
+      const t = noSecondChance(clone());
+      const t2 = live(t, 's2', { budget: 3 });
+      Object.assign(t.slots.find((x) => x.id === 's1'), { anchor_text: t2.anchor_text, rungs_used: ['role'], status: 'done' });
+      const payloads = [];
+      await E.handleAnswer(t, 'We compared the pricing records against the intended prices for each seller.', stub([out({ decision: 'probe', probe_rung: 'how' })], payloads));
+      check(fp.covered_in_other_topic.some((x) => new RegExp(`personally did.*asked in topic ${other.id}`).test(x)) && /personally did on this resume line was already asked/.test(fp.what_a_complete_answer_needs)
+        && /personally did on this resume line was already asked/.test(payloads[0].current_slot.intent)
+        && own({ ratings: [{ dimension: 'task', reason: 'The answer never said.', level: 'needs_work', found: 'not_given', quote: '' }] })
+        && own({ to_fix: 'Your own part in the rollout was not clear.' }) && own({ ratings: [{ dimension: 'action', reason: 'You did not say which action was yours.', level: 'on_track', found: 'first_answer', quote: '' }] })
+        && !own({ to_fix: 'The answer did not name the segments you checked.' }) && !shape({ slot_id: other.id, to_fix: 'Your own part was not clear.' }, s).problems.some((x) => /could not ask it again/.test(x)),
+      'a role asked in another topic on the CV line is in covered_in_other_topic and the turn intent, and is not faulted in this topic (to_fix, role not given, reasons)');
+    }
+
+    // R4-3. A second topic on a CV line loses its measurement and attribution follow-ups (the first keeps them) and is
+    // warned; attribution wording counts as asking about the measurement again.
+    {
+      const pl = JSON.parse(JSON.stringify(trace.plan));
+      const s2 = pl.slots.find((x) => x.id === 's2');
+      Object.assign(s2, { anchor_claim_id: 'c1', intent_private: 'Needs the method used to attribute the result to the work.',
+        likely_probes: ['What steps did you take to isolate the pattern?', "How did you isolate the redesign's effect from other changes?", 'What would have happened without the intervention?', 'Over what period did you compare the rates?'] });
+      const shaped = E.checkAndShapePlan(pl, trace.inputs);
+      const msgs = shaped.checks.map((c) => c.message).join('\n');
+      const s = noSecondChance(clone());
+      const live2 = live(s, 's2', { budget: 3 });
+      Object.assign(s.slots.find((x) => x.id === 's1'), { anchor_text: live2.anchor_text, rungs_used: ['result'], status: 'done' });
+      await E.handleAnswer(s, 'We rolled it out in stages and watched the funnel every week.', stub([
+        out({ decision: 'probe', probe_rung: 'how', utterance: "Walk me through how you separated the redesign's effect from other changes happening then." }),
+        out({ decision: 'probe', probe_rung: 'how', utterance: 'What did you change after the first week?' })]));
+      check(shaped.slots.find((x) => x.id === 's2').likely_probes.join('|') === 'What steps did you take to isolate the pattern?'
+        && shaped.slots.find((x) => x.id === 's1').likely_probes.some((q) => /measure/.test(q))
+        && /Slot s2: removed 3 follow-ups/.test(msgs) && /s2 also plans how its number was measured or attributed/.test(msgs)
+        && s.turns.at(-1).guards.some((g) => /already asked how its number was measured/.test(g)) && /What did you change/.test(s.transcript.at(-1).text),
+      'a second topic on a CV line loses its measurement and attribution follow-ups and is warned; asking how the effect was separated is caught as a repeat');
+    }
+
+    // R4-6. A topic rated good_job throughout has nothing to fix and gives no priority; a goal on it is sent back when
+    // another topic has a gap.
+    {
+      const ids = rated.map((t) => t.slot_id);
+      const good = (id) => E.rubricFor(trace.slots.find((x) => x.id === id)).map(([k]) => ({ dimension: k, reason: 'Clear.', level: 'good_job', found: 'first_answer', quote: '' }));
+      const topic = { went_well: 'You named the step.', went_well_quote: '', to_fix: 'It lacks a measurable result.', to_fix_quote: rated[0].to_fix_quote, answer_plan: ['Start with the problem.'], stronger_version: 'I led the work.', example_answer: '' };
+      const raw = { overall: 'ok', moments: [], topics: [{ slot_id: ids[0], ratings: good(ids[0]), ...topic }, ...ids.slice(1).map((id) => ({ slot_id: id, ratings: [{ dimension: 'situation', reason: 'It was vague.', level: 'needs_work', found: 'first_answer', quote: '' }], ...topic, to_fix_quote: '' }))],
+        next_goal: { title: 'Lead with your part', why: 'x', when: 'you are asked about a project', then: 'say what you did first', slot_id: ids[0] },
+        more_priorities: [{ title: 'Add the outcome', why: 'x', action: 'End with what changed.', slot_id: ids[0] }, { title: 'Name the tool', why: 'x', action: 'Say which tool you used.', slot_id: ids[1] || ids[0] }] };
+      const r = checkAndShapeFeedback(raw, trace);
+      const t0 = r.feedback.topics.find((t) => t.slot_id === ids[0]);
+      check(ids.length >= 2 && t0.verdict === 'good_job' && t0.to_fix === '' && t0.to_fix_quote === '' && t0.stronger_version === '' && t0.went_well && t0.answer_plan.length === 1
+        && !r.feedback.priorities.some((p) => p.title === 'Add the outcome') && r.feedback.priorities.some((p) => p.title === 'Name the tool' && p.slot_id === ids[1])
+        && r.problems.some((x) => new RegExp(`next_goal: topic ${ids[0]} was rated good_job on every element`).test(x)),
+      'a topic rated good_job on every element has no to-fix or rewrite and no priority from it; a goal on it is sent back while another topic has a gap');
+    }
+
+    // R4-7/9. A fit or gap story whose number nobody asked how was measured: not faulted, not the goal. A long reply judged
+    // honest_unknown still counts as answered.
+    {
+      const at = (m) => `2026-01-01T00:0${m}:00.000Z`;
+      const mk = (slot, followUp, reply, type = 'example', rung = 'how') => ({ inputs: { resume_text: 'Resume', jd_text: '', interview_type: 'hiring_manager' }, plan: {}, candidate_questions_asked: 0,
+        slots: [{ id: 's3', kind: 'gap', question_type: 'past_behaviour', status: 'done', competency_name: 'Resilience', core_question: 'Tell me about a time you failed at something that mattered to you.', follow_ups_used: 1, rungs_used: [rung], ...slot }],
+        transcript: [{ role: 'interviewer', slot_id: 's3', text: 'Tell me about a time you failed at something that mattered to you.', at: at(1) },
+          { role: 'candidate', slot_id: 's3', text: 'My first forecast report was too detailed, so I rebuilt it with the store managers and stock-outs fell 15% over the next quarter.', at: at(2) },
+          { role: 'interviewer', slot_id: 's3', text: followUp, at: at(3) }, { role: 'candidate', slot_id: 's3', text: reply, at: at(4) }],
+        turns: [{ slot_id: 's3', decision: 'probe', output: { probe_rung: rung, evidence: { answer_type: 'example' } } }, { slot_id: 's3', decision: 'move_on', output: { evidence: { answer_type: type } } }] });
+      const g = mk({}, 'How did you share the change with the stores?', 'I walked each store manager through the new report on a call and followed up a week later.');
+      const fb7 = (sess, extra) => checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: 's3', ratings: [{ dimension: 'result', reason: 'The answer did not explain how the 15% fall was measured.', level: 'on_track', found: 'first_answer', quote: '' }], went_well: '', went_well_quote: '', to_fix: 'The answer did not explain how the 15% fall was measured.', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }],
+        next_goal: { title: 'Explain how impact was measured', why: 'x', when: 'you give a result', then: 'name the comparison you used', slot_id: 's3' }, more_priorities: [], ...extra }, sess).problems;
+      const asked = mk({}, 'How did you measure the 15% fall?', 'We compared stock-outs in the quarter before and after the change.', 'example', 'result');
+      const scenario = mk({ question_type: 'situational' }, 'What would you do first?', 'I would check the data first.');
+      const noResult = mk({}, 'How did you share the change with the stores?', 'I called each of them.');
+      noResult.transcript[1].text = 'In 2019 I led a team of 4 volunteers at the college fest, and we planned every event together over two months.';
+      const long = "It was calculated as an annualised estimate from the affected orders and the price gap, projected over a year, but honestly I don't remember the exact period or the formula finance used to sign it off.";
+      const lu = mk({}, 'How was the saving calculated?', long, 'honest_unknown', 'result');
+      const su = mk({}, 'How was the saving calculated?', 'Finance did that part, I only saw the final figure.', 'honest_unknown');
+      const given = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: 's3', ratings: [{ dimension: 'result', reason: 'x', level: 'on_track', found: 'after_follow_up', quote: 'calculated as an annualised estimate' }], went_well: '', went_well_quote: '', to_fix: '', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }] }, lu).feedback.topics[0];
+      check(E.notAskedRungs(g, g.slots[0]).join() === 'result' && E.buildFeedbackPayload(g).topics[0].not_asked.some((x) => /number the student gave/.test(x))
+        && fb7(g).some((x) => /to_fix: the interviewer never asked how this topic's number was measured, so don't fault/.test(x)) && fb7(g).some((x) => /never asked how this topic's number was measured, so the reason/.test(x))
+        && fb7(g).some((x) => /can't be the goal/.test(x)) && !fb7(asked).some((x) => /never asked|can't be the goal/.test(x)) && E.notAskedRungs(scenario, scenario.slots[0]).length === 0 && E.notAskedRungs(noResult, noResult.slots[0]).length === 0
+        && E.followUpsFor(lu, 's3')[0].answered === true && E.followUpsFor(su, 's3')[0].answered === false && given.follow_ups[0].given === true,
+      'a number the student gave in a fit story is not faulted for its measurement, nor made the goal, unless a follow-up asked; a long reply judged honest_unknown counts as answered');
+    }
+
+    // R4-8/10/11. Placement stage reaches the feedback; "measure X and attribute it" is two asks; one off-topic remark
+    // followed by a real answer gets the softer conduct line.
+    {
+      const s = clone();
+      s.inputs = { ...s.inputs, stage: 'summers' };
+      const fp = E.buildFeedbackPayload(s);
+      const twoAsks = (t) => E.leakCheck(t).some((f) => /two asks/.test(f));
+      const conductNote = (i) => { const c = clone(); c.turns[i].output.evidence.answer_type = 'off_purpose'; return checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, c).feedback.moments.find((m) => m.slot_id === 'conduct').note; };
+      check(fp.placement_stage === 'summers' && 'jd_role_title' in fp
+        && ['How did you measure the change in abandonment from 71% to 58% and attribute it to the redesign?', 'How did you calculate the saving and validate it with finance?'].every(twoAsks)
+        && !['How did you design and test it?', 'How did you compare sales and returns?', 'How did you test the new flow and the old one?'].some(twoAsks)
+        && /got back on track/.test(conductNote(3)) && !/lack of interest/.test(conductNote(3)) && /lack of interest/.test(conductNote(trace.turns.length - 1)),
+      'the placement stage reaches the feedback; "measure X and attribute it" is two asks ("design and test it" is one); one off-topic remark followed by a real answer gets a softer conduct line');
     }
   }
 
