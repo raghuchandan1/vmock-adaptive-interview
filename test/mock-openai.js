@@ -49,7 +49,7 @@ function turnOutput(p) {
     pivot_target_slot_id: null,
     internal_rationale: 'Mock rationale.',
     why_asked_for_student: 'Mock reason shown to the student.',
-    reacts_to_detail: false,
+    specifics: [],
     slot_summary: '',
   };
   const answer = p.candidate_answer.toLowerCase();

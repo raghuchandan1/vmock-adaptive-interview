@@ -240,7 +240,7 @@
   function followUpsBody(t) {
     const handled = (t.ratings || []).find((r) => r.dimension === 'followup');
     const list = (t.follow_ups || []).length ? `<ul class="dr-fus">${t.follow_ups.map((f) => `<li><p class="dr-fu-q">“${esc(f.question)}”</p>${f.why ? `<p class="dr-muted">${esc(f.why)}</p>` : ''}
-      ${f.unanswered ? '<span class="d-pill sm">Not answered (the interview ended)</span>' : f.asked_for_label && f.given !== null ? `<span class="d-pill sm ${f.given ? 'good' : 'work'}">${f.given ? 'You added' : 'Still missing'}: ${esc(f.asked_for_label.toLowerCase())}</span>` : ''}</li>`).join('')}</ul>` : '';
+      ${f.unanswered ? '<span class="d-pill sm">Not answered (the interview ended)</span>' : f.react ? '<span class="d-pill sm">A detail you mentioned</span>' : f.asked_for_label && f.given !== null ? `<span class="d-pill sm ${f.given ? 'good' : 'work'}">${f.given ? 'You added' : 'Still missing'}: ${esc(f.asked_for_label.toLowerCase())}</span>` : ''}</li>`).join('')}</ul>` : '';
     const how = handled ? `<div class="dr2-handled"><div class="dr2-handled-head"><strong>How you handled them</strong>${pill(handled.level)}</div><p>${esc(handled.reason)}</p>${quote(handled.quote)}</div>` : '';
     return list + how;
   }
