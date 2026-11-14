@@ -1690,7 +1690,13 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
     const failed = (await raw('/api/sessions', inputs('MOCK_FAIL_PLAN'))).body;
     const fa = await raw(`/api/sessions/${failed.id}/answers`, { answer: 'Lately I have been reading about onboarding experiments.' });
     const fv = await get(`/api/sessions/${failed.id}`);
+    const greet = (jdText) => E.openingText({ plan: null, style: 'balanced', inputs: { resume_text: 'ROHAN MEHTA', jd_text: jdText, target_role: '', domain: 'Marketing', interview_type: 'hiring_manager', length: 'standard', seed: 1 } });
+    check(/the Product Manager, Learner Growth role\b/.test(greet('Product Manager, Learner Growth – Brightpath Learning (Bengaluru / Hybrid)\nAbout us')) && !/Brightpath/.test(greet('Product Manager, Learner Growth – Brightpath Learning (Bengaluru / Hybrid)'))
+      && /the Brand Manager role\b/.test(greet('Brand Manager - a leading FMCG company\nAbout the role')) && !/FMCG|leading/.test(greet('Brand Manager - a leading FMCG company'))
+      && /the Marketing role\b/.test(greet('We are a fast-growing startup looking for a marketer to join our team.')) && /the Marketing role\b/.test(greet('')),
+    'before the plan, the greeting takes the role title from the JD\'s first line (never the company), else the domain');
     if (v.pre_brief.planning !== undefined) check(early.status === 200 && createdIn < 1000 && v.pre_brief.planning === true && v.pre_brief.topics === 4 && /^Hi Rohan,/.test(v.transcript[0].text)
+      && /the Product Manager, Learner Growth role\b/.test(v.transcript[0].text) && !/Brightpath/.test(v.transcript[0].text)
       && E.WARMUP_QUESTIONS.some((q) => v.transcript[0].text.endsWith(q)) && before.plan === null
       && a.status === 200 && waited > 500 && a.body.transcript.length === 3 && after.plan && after.slots[0].core_question === before.slots[0].core_question
       && a.body.transcript[2].text.length > 0 && after.slots.some((x) => x.id === 'background' && x.status === 'active')

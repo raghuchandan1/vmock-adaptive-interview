@@ -273,8 +273,10 @@
       interview_type: s.inputs.interview_type, style: s.inputs.style, length: s.inputs.length,
     };
     $('reviewTitle').textContent = s.status === 'ended' ? 'Interview complete' : 'Interview in progress';
-    const who = s.plan.candidate?.name ? `${s.plan.candidate.name}, ` : '';
-    $('reviewLede').textContent = `${who}${s.plan.candidate?.current_or_last_role || ''}. ${s.turns.length} answers. Style: ${s.style}${s.surprise ? ' (surprise)' : ''}.`;
+    // An interview ended before its plan arrived (early start) has no plan to show.
+    const cand = s.plan?.candidate || {};
+    const who = cand.name ? `${cand.name}, ` : '';
+    $('reviewLede').textContent = `${who}${cand.current_or_last_role || ''}. ${s.turns.length} answers. Style: ${s.style}${s.surprise ? ' (surprise)' : ''}.`;
     renderReveal(s);
     renderPlanner(s);
     renderTurns(s);
@@ -326,7 +328,7 @@
     const scored = s.slots.filter((x) => !['warmup', 'candidate_questions'].includes(x.kind));
     let html = `<p class="lede">Here's what the interviewer was quietly working through, and why each question was asked. Your personal feedback is in the first tab.</p>`;
     html += `<dl class="kv"><dt>Interviewer style</dt><dd>${esc(cap(s.style))}${s.surprise ? ' (picked at random)' : ''}</dd>
-      <dt>Resume read as</dt><dd>${esc(cap(s.plan.candidate.resume_band))} band, ${esc(s.plan.candidate.experience_level)}</dd></dl>`;
+      ${s.plan ? `<dt>Resume read as</dt><dd>${esc(cap(s.plan.candidate.resume_band))} band, ${esc(s.plan.candidate.experience_level)}</dd>` : ''}</dl>`;
     for (const slot of scored) {
       const qas = qaForSlot(s, slot.id);
       const status = slot.status === 'dropped' ? 'Not reached (dropped to finish on time)'
@@ -347,6 +349,7 @@
 
   function renderPlanner(s) {
     const p = s.plan;
+    if (!p) { $('panel-planner').innerHTML = `<p class="empty">${s.plan_error ? `The plan failed: ${esc(s.plan_error)}` : 'The interview ended before its plan was ready.'}</p>`; return; }
     const tr = s.plan_trace || {};
     let html = '<h2 class="section-title">Plan checks</h2><ul class="check-list">';
     for (const c of s.plan_checks) html += `<li class="${c.level}">${c.level === 'ok' ? 'OK' : 'Check'}: ${esc(c.message)}</li>`;
