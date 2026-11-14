@@ -365,8 +365,12 @@
   }
 
   // The browser's own voice: works with no audio model access. Picks a natural-sounding English voice if there is one.
-  function browserSpeak(text, next) {
-    if (!window.speechSynthesis || !text) { showError('liveError', 'The interviewer\'s voice didn\'t play. Read the question on the right.'); return next(); }
+  // fail: called instead of next when the browser has no voice or its voice errors (not when it was cut off).
+  function browserSpeak(text, next, fail) {
+    if (!window.speechSynthesis || !text) {
+      if (fail && text) return fail();
+      showError('liveError', 'The interviewer\'s voice didn\'t play. Read the question on the right.'); return next();
+    }
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     // Local voices only when there are any: Chrome's network voices can stop about 15 s into a long question.
@@ -380,14 +384,18 @@
     let ended = false;
     const spoken = () => { if (ended) return; ended = true; clearTimeout(watchdog); next(); };
     u.onend = spoken;
-    u.onerror = spoken;
+    u.onerror = (e) => {
+      if (!fail || ended || ['interrupted', 'canceled'].includes(e && e.error)) return spoken();
+      ended = true; clearTimeout(watchdog); fail();
+    };
     speechSynthesis.speak(u);
   }
 
   // The first message is a greeting plus the warm-up question: say the greeting, pause, then ask the question,
   // so the question isn't buried at the end of a long paragraph. Only the captions split; the transcript keeps it as one message.
-  // The interviewer's voice failed (a live key was refused with 401): the question is read on screen, never shown as
-  // "Speaking" with no sound. The next message tries again once; after two failures the session stops asking for audio.
+  // The interviewer's voice failed (a live key was refused with 401): the browser's own voice takes over; only when that is
+  // missing or errors too is the question read on screen, never shown as "Speaking" with no sound. The next message tries
+  // again once; after two such failures the session stops asking for audio.
   const VOICE_OFF = 'Voice unavailable, reading on screen.';
   function speakLatest() {
     state.ttsSkip = false;
@@ -411,20 +419,25 @@
   function speakText(text, part, then) {
     let done = false;
     const next = () => { if (done) return; done = true; audio.onended = null; audio.onerror = null; then(); };
-    if (state.tts === 'browser') return browserSpeak(text, next);
-    if (state.ttsOff || state.ttsSkip) return next(); // already failed in this message (the greeting) or for the session
-    // The OpenAI voice failed (no audio model access, a refused key, network): the rest of this message is read on screen.
+    if (state.ttsOff || state.ttsSkip) return next(); // no voice worked in this message (the greeting) or for the session
+    // No voice at all: the rest of this message is read on screen.
+    const noVoice = () => {
+      state.ttsFailures = (state.ttsFailures || 0) + 1;
+      state.ttsOff = state.ttsFailures >= 2;
+      state.ttsSkip = true;
+      state.voiceNote = VOICE_OFF;
+      next();
+    };
+    if (state.tts === 'browser') return browserSpeak(text, next, noVoice);
+    // The OpenAI voice failed (no audio model access, a refused key, network): use the browser's voice from now on.
     // onerror and the play() rejection can both fire, so this runs once.
     let fellBack = false;
     const fallback = () => {
       if (done || fellBack) return;
       fellBack = true;
       audio.onended = null; audio.onerror = null;
-      state.ttsFailures = (state.ttsFailures || 0) + 1;
-      state.ttsOff = state.ttsFailures >= 2;
-      state.ttsSkip = true;
-      state.voiceNote = VOICE_OFF;
-      next();
+      state.tts = 'browser';
+      browserSpeak(text, next, noVoice);
     };
     audio.onended = next;
     audio.onerror = fallback;
