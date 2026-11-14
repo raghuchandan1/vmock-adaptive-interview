@@ -321,7 +321,7 @@
         <span class="dr-sum-icon" aria-hidden="true"><svg class="ic"><use href="#i-doc"/></svg></span>
         <div><h2>How your interview went</h2>
           ${judged && fb.overall ? `<p class="dr-overall" id="drOverall">${esc(fb.overall)}</p><button class="dr-more" type="button" id="drOverallMore" aria-expanded="false" hidden>Read more</button>` : ''}
-          ${judged ? '' : '<p class="dr-overall">None of your answers was long enough to judge. Open a topic for the steps to answer it next time.</p>'}</div>
+          ${judged || !fb.topics.every((t) => t.too_short) ? '' : '<p class="dr-overall">None of your answers was long enough to judge. Open a topic for the steps to answer it next time.</p>'}</div>
         ${tally ? `<div class="dr-tally" role="group" aria-label="Results across your answers">${tally}</div>` : ''}
       </div>
     </section>`;

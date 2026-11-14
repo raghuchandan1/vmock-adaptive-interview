@@ -261,6 +261,16 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(topicVerdict(partly, { dont_know_count: 1, repeat_count: 1 }) === 'needs_work' && topicVerdict(partly, { repeat_count: 2 }) === 'needs_work'
     && topicVerdict(partly, { dont_know_count: 1 }) === 'on_track' && topicVerdict(partly, {}) === 'on_track',
   'a topic moved on after two "not sure" or "repeat" answers is needs_work; one non-answer leaves the verdict to the ratings');
+  {
+    const unrated = checkAndShapeFeedback({ overall: 'ok', moments: [], more_priorities: [], topics: [{ slot_id: rated[0].slot_id, ratings: [], went_well: '', went_well_quote: '', to_fix: 'weak', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }] }, trace);
+    check(unrated.problems.some((p) => p.startsWith(`${rated[0].slot_id} ratings`)) && unrated.problems.some((p) => /missing; return feedback/.test(p)),
+      'a long-enough topic returned without ratings, or not returned, is sent back');
+    const { redirected } = require('../lib/engine');
+    const tt = (type, decision = 'probe') => ({ decision, output: { evidence: { answer_type: type } } });
+    check(redirected({ turns: [tt('example'), tt('abusive', 'rephrase')] }) && redirected({ turns: [tt('off_purpose', 'rephrase'), tt('manipulation', 'answer_and_return')] })
+      && !redirected({ turns: [tt('abusive', 'rephrase'), tt('example')] }),
+      'end_session needs the answer just before to have been abusive or a refusal; a normal answer since resets it');
+  }
   const topicWith = (slotId, quote, stronger) => checkAndShapeFeedback({ overall: 'ok', priorities: [], moments: [], topics: [{ slot_id: slotId, ratings: [], went_well: '', went_well_quote: '', to_fix: 'weak', to_fix_quote: quote, answer_plan: [], stronger_version: stronger, example_answer: '' }] }, trace).feedback.topics.find((t) => t.slot_id === slotId);
   check(topicWith(rated[0].slot_id, rated[0].to_fix_quote, 'I led the work and moved the metric by X%.').stronger_version !== '' && topicWith(rated[0].slot_id, rated[0].to_fix_quote, 'I cut reporting time by 73 percent.').stronger_version === '', 'rewrite is dropped when it contains a number not in the resume or answers');
   {
@@ -396,7 +406,20 @@ const get = async (p) => (await fetch(BASE + p)).json();
     slots: [{ ...slot('now', 'claim', true, 1), status: 'active' }, slot('mh1', 'claim', true, 2), slot('mh2', 'gap', true, 3)] };
   const sqGuards = [];
   applyTimeRule(sq, sqGuards);
-  check(sq.events.length === 0 && sq.slots.slice(1).every((x) => x.budget === 1) && sqGuards.some((g) => /one follow-up each/.test(g)), 'time rule limits follow-ups on must-have topics before dropping any');
+  check(sq.events.length === 0 && sq.slots.slice(1).every((x) => x.budget === 1) && sqGuards.some((g) => /fewer follow-ups/.test(g)), 'time rule limits follow-ups on must-have topics before dropping any');
+  // ...one at a time, from the topic with the most left, so the topics share the time
+  const share = { current: 0, interviewer_turns: 0, max_turns: 11, events: [],
+    slots: [{ ...slot('now', 'claim', true, 1), status: 'active' }, slot('p2', 'claim', true, 2), slot('p3', 'claim', true, 3)] };
+  applyTimeRule(share, []);
+  check(share.events.length === 0 && share.slots.map((x) => x.budget).join() === '2,2,2', `time rule shares follow-ups across topics (budgets ${share.slots.map((x) => x.budget).join()})`);
+  {
+    const { candidateTextBySlot } = require('../lib/engine');
+    const turn = (slot_id, answer, type) => ({ slot_id, answer, output: { evidence: { answer_type: type } } });
+    const s = { transcript: [{ role: 'candidate', slot_id: 's1', text: 'I built the model.' }, { role: 'candidate', slot_id: 's1', text: 'This is a stupid question.' }],
+      turns: [turn('s1', 'I built the model.', 'example'), turn('s1', 'This is a stupid question.', 'abusive')] };
+    check(candidateTextBySlot(s, { skipNonAnswers: true }).s1.trim() === 'I built the model.' && /stupid/.test(candidateTextBySlot(s).s1),
+      'feedback quotes and answer length leave out abusive answers');
+  }
   // ...but keeps the follow-ups a topic still owes (a finals internship's measurement and "what would you do differently")
   const intern = { ...slot('bain', 'claim', true, 1), status: 'active', follow_ups_used: 1, rungs_used: ['role'], probe_angle: 'test_claim',
     anchor_text: 'Built market sizing model across 4 customer segments', anchor_parent: 'Summer Consultant, Bain & Company' };

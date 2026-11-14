@@ -274,7 +274,7 @@
       <section class="fb-card fb-summary" aria-labelledby="fbSummaryTitle">
       <h2 class="sr" id="fbSummaryTitle">How it went</h2>
       ${judged && fb.overall ? `<div class="fb-overall-wrap"><p class="fb-overall" id="fbOverall">${esc(fb.overall)}</p><button class="fb-link" type="button" id="fbOverallMore" aria-controls="fbOverall" aria-expanded="false" hidden>Read more</button></div>` : ''}
-      ${judged ? '' : fb.topics.length ? '<p class="fb-short">None of your answers was long enough to judge. Open a question below for the steps to answer it next time.</p>' : EMPTY}`;
+      ${judged || (fb.topics.length && !fb.topics.every((t) => t.too_short)) ? '' : fb.topics.length ? '<p class="fb-short">None of your answers was long enough to judge. Open a question below for the steps to answer it next time.</p>' : EMPTY}`;
     if (goal) {
       html += `<div class="fb-goal">
         <div class="fb-goal-icon" aria-hidden="true"><svg class="ic"><use href="#i-target"/></svg></div>
