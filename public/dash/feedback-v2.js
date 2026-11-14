@@ -20,7 +20,7 @@
   const KIND = { claim: 'From your CV', gap: 'For the role', motivation: 'Motivation and fit', concerns: 'About your CV', second_chance: 'Second try', background: 'Your background' };
   const FOUND = { first_answer: 'In your first answer', after_follow_up: 'After a follow-up', not_given: 'Not given' };
   const JD = { covered: ['Covered', 'good'], partly: ['Partly covered', 'track'], not_reached: ['Not reached', 'none'] };
-  const MOMENT = { warmup: 'Warm-up', background: 'Your background', candidate_questions: 'Your questions at the end' };
+  const MOMENT = { warmup: 'Warm-up', background: 'Your background', candidate_questions: 'Your questions at the end', conduct: 'Keeping to the interview' };
   const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
   const firstSentence = (x) => (String(x || '').match(/^.*?[.!?](\s|$)/) || [String(x || '')])[0].trim();
   // The first n sentences; a stop only ends a sentence before a space and a capital (or the end), so "14.2" stays whole.
