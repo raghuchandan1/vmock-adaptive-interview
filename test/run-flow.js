@@ -496,6 +496,19 @@ const get = async (p) => (await fetch(BASE + p)).json();
     transcript: [{ role: 'interviewer', slot_id: 's1', text: 'Thanks for walking me through that. I see you estimated a serviceable addressable market at Bain. How did you arrive at that figure?' }] };
   check(questionAsked(bridged, 's2').startsWith('Turning to your Deloitte') && questionAsked(kept, 's1') === 'I see you estimated a serviceable addressable market at Bain. How did you arrive at that figure?',
     'the question asked drops the bridge from the previous topic and keeps a lead-in about this topic');
+  check(leakCheck('Thanks for being clear about the limitation in that comparison. What did you test next?').some((f) => /evaluative/.test(f))
+    && leakCheck('I appreciate your honesty. What happened next?').some((f) => /evaluative/.test(f))
+    && leakCheck('Thanks. What did you test next?').length === 0 && leakCheck('Thanks for sharing that. What did you test next?').length === 0,
+    'thanking the student for a quality of the answer is evaluative; a plain thanks is not');
+  check(leakCheck('The exact priority is team-specific, so the recruiter or hiring team can confirm those. Anything else?').some((f) => /outside the hiring team/.test(f))
+    && leakCheck('The recruiter can share those. Is there anything else you\'d like to know?').length === 0,
+    'speaking as if outside the hiring team is flagged; the recruiter alone is fine');
+  {
+    const imp = { slots: [{ id: 's3', anchor_text: '', core_question: 'Tell me about a time you had to learn an unfamiliar customer domain before making a product decision.' }],
+      transcript: [{ role: 'interviewer', slot_id: 's3', text: "Thanks. Let's move to a different kind of product challenge. Tell me about a time you had to learn an unfamiliar customer domain before making a product decision. It could be from logistics or e-commerce." }] };
+    check(questionAsked(imp, 's3') === 'Tell me about a time you had to learn an unfamiliar customer domain before making a product decision. It could be from logistics or e-commerce.',
+      `"question asked" drops the bridge before a "Tell me about…" question (got "${questionAsked(imp, 's3')}")`);
+  }
   const { openerOffLine } = require('../lib/engine');
   const caseComp = { kind: 'claim', anchor_text: 'National Runners Up, 2/400+ teams, Corp. ConQuest 3.0, DEI Case Comp.', core_question: 'I see you were a national runner-up in the Corp. ConQuest case competition. What was your contribution to the case?' };
   const discharge = { kind: 'claim', anchor_text: 'Modernised OP/IP discharge flow, 8+ stakeholders, AI-Enabled 5+ processes, cut discharge TAT by 40%', core_question: 'How did the discharge-flow project come about at PwC?' };
