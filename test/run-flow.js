@@ -1223,7 +1223,11 @@ const get = async (p) => (await fetch(BASE + p)).json();
           { role: 'interviewer', slot_id: 'sc', text: 'Could you share an example where you ran an experiment?', at: at(3) }, { role: 'candidate', slot_id: 'sc', text: 'I ran a listing-page test where clicks rose but conversion did not, so I recommended not shipping the variant.', at: at(4) }],
         turns: [ex('clarify'), ex('move_on')] });
       const level = (core) => checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: 'sc', ratings: [{ dimension: 'result', reason: 'Clear decision.', level: 'good_job', found: 'after_follow_up', quote: 'I recommended not shipping the variant' }], went_well: '', went_well_quote: '', to_fix: '', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }] }, mk(core)).feedback.topics[0].ratings[0].level;
+      const fromLine = (line) => E.secondChanceQuestion({ core_question: 'What did you do?', anchor_text: line }).split('. Tell')[0];
       check(/^Earlier you told me about the time you ran A\/B tests on Kitecart's product listing page\. /.test(k) && level(neutral) === 'good_job'
+        && fromLine('Organised a 3-week product teardown series attended by 120 students') === 'Earlier you told me about the time you organised a product teardown series'
+        && fromLine('Grew Instagram following to 10k in 3 months') === 'Earlier you told me about the time you grew Instagram following'
+        && fromLine('Saved Rs 2.4 crore annually by automating reconciliation') === neutral.split('. Tell')[0]
         && level('Tell me about another time you ran an experiment, a different example from the one you shared.') === 'on_track'
         && /not a fault/.test(E.buildFeedbackPayload(mk(neutral)).topics[0].what_a_complete_answer_needs),
       'a second chance names the earlier story without its numbers; after the neutral opener, an element given once the follow-up asked for that work is not capped');
