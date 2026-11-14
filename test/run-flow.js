@@ -224,7 +224,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
     check(['PLANNER', 'TURN', 'FEEDBACK'].every((s) => new RegExp(`process\\.env\\.${s}_MODEL \\|\\| 'gpt-6-sol'`).test(src)), 'the code defaults every prompt to gpt-6-sol (a local .env can override)');
   }
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 16 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 17 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
@@ -267,7 +267,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
       resume_mismatch: { quote: rated[0].to_fix_quote, note: 'The resume says X; the answer said Y.', tip: 'Tell that story.' }, to_fix_quote: rated[0].to_fix_quote, to_fix: 'Same moment again.' }] }, trace);
   const dupTopic = dup.feedback.topics.find((t) => t.slot_id === rated[0].slot_id);
   check(dupTopic.resume_mismatch && dupTopic.to_fix === '' && dupTopic.to_fix_quote === '' && dupTopic.stronger_version === '', 'a "what to fix" that repeats the resume mismatch is dropped');
-  check(dup.problems.some((p) => /next_goal\.then must be ONE action/.test(p)) && severalActions('say your role, two actions, and the result') && !severalActions('say what you did yourself in your first sentence') && severalActions('define the outcome and state how you would compare the old and new') && !severalActions('name the SQL and Python steps you took yourself'), 'a goal with several actions is sent back for a rewrite');
+  check(!dup.problems.some((p) => /next_goal/.test(p)) && severalActions('say your role, two actions, and the result') && !severalActions('say what you did yourself in your first sentence') && severalActions('define the outcome and state how you would compare the old and new') && !severalActions('name the SQL and Python steps you took yourself'), 'a goal with several actions is cut in code, not sent back');
   const { ownershipCounts } = require('../lib/engine');
   const oc = ownershipCounts("We launched it, I wrote the spec and my manager and I reviewed our numbers.");
   check(oc.i === 3 && oc.we === 2 && fb.ownership.i === fb.topics.reduce((n, t) => n + t.ownership.i, 0), 'counts "I" versus "we" per topic and overall');
@@ -733,7 +733,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
       const m2 = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, s2).feedback.moments.find((m) => m.slot_id === 'conduct');
       check(shaped.moments.some((m) => m.slot_id === 'conduct' && /rude to the interviewer/.test(m.note) && m.quote === '')
         && m2 && /something else/.test(m2.note) && !/rude/.test(m2.note) && E.buildFeedbackPayload(s).conduct.join() === 'abusive'
-        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 16,
+        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 17,
       'an abusive answer or a refusal gets a plain derived note (none otherwise), and the feedback model is told');
     }
 
@@ -914,7 +914,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
       s.turns[s.turns.length - 2].output.evidence.answer_type = 'abusive';
       s.turns[s.turns.length - 3].output.evidence.answer_type = 'abusive';
       const rude = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, s).feedback.moments.find((m) => m.slot_id === 'conduct');
-      check(!prob('The conversion rate and the run-rate were not explained.').some((p) => /remove/.test(p)) && prob('You rated your own work too highly.').some((p) => /remove "rated"/.test(p))
+      check(!prob('The conversion rate and the run-rate were not explained.').some((p) => /remove/.test(p)) && prob('You rated your own work too highly.').some((p) => /remove "rated/.test(p))
         && praise("That's a useful final question. The recruiter can share it.") && praise('What a great question.') && !praise('What was the conversion rate before the change?')
         && /rude to the interviewer twice/.test(rude.note),
       '"rate" as a business noun is not a score word; praise with an extra word is caught; rudeness twice is named as twice');
@@ -1229,7 +1229,9 @@ const get = async (p) => (await fetch(BASE + p)).json();
         && fromLine('Grew Instagram following to 10k in 3 months') === 'Earlier you told me about the time you grew Instagram following'
         && fromLine('Saved Rs 2.4 crore annually by automating reconciliation') === neutral.split('. Tell')[0]
         && level('Tell me about another time you ran an experiment, a different example from the one you shared.') === 'on_track'
-        && /not a fault/.test(E.buildFeedbackPayload(mk(neutral)).topics[0].what_a_complete_answer_needs),
+        && /not a fault/.test(E.buildFeedbackPayload(mk(neutral)).topics[0].what_a_complete_answer_needs)
+        // R6: a level lowered only by that cap asks for no to-fix (the model had nothing to fix).
+        && !checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: 'sc', ratings: [{ dimension: 'result', reason: 'Clear decision.', level: 'good_job', found: 'after_follow_up', quote: 'I recommended not shipping the variant' }], went_well: '', went_well_quote: '', to_fix: '', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }] }, mk('Tell me about another time you ran an experiment.')).problems.some((x) => /held this topic back/.test(x)),
       'a second chance names the earlier story without its numbers; after the neutral opener, an element given once the follow-up asked for that work is not capped');
     }
 
@@ -1301,7 +1303,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
         turns: [{ slot_id: 's3', decision: 'move_on', output: { probe_rung: 'none', evidence: { answer_type: 'example' } } }] };
       const gapProbs = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: 's3', ratings: [{ dimension: 'result', reason: 'The effect of this change was not clearly isolated.', level: 'on_track', found: 'first_answer', quote: '' }], went_well: '', went_well_quote: '', to_fix: 'The consequence of this change alone remains cautious rather than clearly isolated.', to_fix_quote: 'contributed to abandonment falling', answer_plan: [], stronger_version: '', example_answer: '' }] }, gap).problems;
       check(fix('on_track') && !fix('good_job') && E.firstAction('Choose one example and state your decision immediately') === 'Choose one example'
-        && goal.problems.some((x) => /next_goal\.then must be ONE action/.test(x)) && goal.feedback.priorities[0].action === "When you're asked about a project, choose one example."
+        && !goal.problems.some((x) => /next_goal/.test(x)) && goal.feedback.priorities[0].action === "When you're asked about a project, choose one example."
         && gapProbs.some((x) => /s3 \(to_fix, result\): no follow-up asked how much of the outcome/.test(x)) && E.buildFeedbackPayload(gap).topics[0].not_asked.some((x) => /rather than other factors/.test(x)),
       'a topic below good_job with no to-fix is sent back; a goal with two actions keeps the first; a gap story is not faulted for unasked attribution');
     }
@@ -1315,6 +1317,78 @@ const get = async (p) => (await fetch(BASE + p)).json();
       const note = (checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, s).feedback.moments.find((m) => m.slot_id === 'conduct') || {}).note || '';
       check(/asked for the score or the interview plan/.test(note) && E.buildFeedbackPayload(s).conduct.includes('manipulation'),
         'asking which topics are left or what is scored counts as manipulation in the conduct note, whatever the turn labelled it');
+    }
+
+    // QA round 6 (fewer resends).
+    // R6-1. "Probe" in feedback text is reworded in code; "rating" only counts about the student; a bracket for an input
+    // the line doesn't give is not sent back.
+    {
+      const id = rated[0].slot_id;
+      const r = shape({ slot_id: id, to_fix: 'Your part only came out before the interviewer has to probe. Probing questions came later.', answer_plan: ['Mention the app rating summaries you built.', 'Say what your rating was.'] });
+      const t = r.feedback.topics.find((x) => x.slot_id === id);
+      const s = clone();
+      const sl = s.slots.find((x) => x.id === id);
+      const blank = (line, text) => { sl.anchor_text = line; return shape({ slot_id: id, to_fix: 'x', to_fix_quote: rated[0].to_fix_quote, stronger_version: text }, s).problems.some((x) => /write the number in instead of/.test(x)); };
+      const a = 'Identified a pricing error pattern that saved the company Rs 2.4 crore annually';
+      check(!r.problems.some((x) => /probe|probing|rating summaries/.test(x)) && /has to ask\. Follow-up questions came later\./.test(t.to_fix)
+        && t.answer_plan.length === 1 && /app rating summaries/.test(t.answer_plan[0]) && r.problems.some((x) => /remove "your rating"/.test(x))
+        && !blank(a, 'The saving came from [historical leakage amount] across [affected order volume].') && blank(a, 'That saved [the annual saving amount].')
+        && blank('Owned the checkout redesign, cutting cart abandonment from 71% to 58% across 2 million monthly sessions', 'It moved from [starting rate] across [monthly traffic scale].'),
+      '"probe" in feedback text is reworded in code; "rating" counts only about the student; a bracket for an input the line does not give is not sent back');
+    }
+
+    // R6-2. A decision blocked by another topic on the line is not faulted as a rejected alternative, and a further
+    // priority on that fault is dropped in code.
+    {
+      const s = noSecondChance(clone());
+      const line = 'Identified a pricing error pattern that saved the company Rs 2.4 crore annually';
+      const target = s.slots.find((x) => x.id === rated[0].slot_id);
+      const other = s.slots.find((x) => x.kind === 'claim' && x.id !== target.id);
+      Object.assign(target, { anchor_text: line, rungs_used: ['setback', 'how'] });
+      Object.assign(other, { anchor_text: line, rungs_used: ['technical', 'result', 'decision'], status: 'done' });
+      const r = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: target.id, ratings: [{ dimension: 'result', reason: 'You did not name the alternative response you rejected.', level: 'on_track', found: 'first_answer', quote: '' }], went_well: '', went_well_quote: '', to_fix: 'You explained the choice, but not the competing option you rejected.', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }],
+        next_goal: { title: 'Lead with your decision', why: 'w', when: 'you are asked about a project', then: 'state your decision first', slot_id: target.id },
+        more_priorities: [{ title: 'Name the rejected alternative', why: 'It shows the trade-off.', action: 'State the chosen option and the rejected one.', slot_id: target.id }, { title: 'Add the outcome', why: 'w', action: 'End with what changed.', slot_id: target.id }] }, s);
+      check(r.problems.some((x) => new RegExp(`${target.id} \\(to_fix, result\\): what the student personally did or decided`).test(x))
+        && !r.feedback.priorities.some((p) => /rejected alternative/.test(p.title)) && r.feedback.priorities.some((p) => p.title === 'Add the outcome'),
+      'a decision blocked by another topic on the line is not faulted as a rejected alternative, and a priority on it is dropped');
+    }
+
+    // R6-3. Second chance: a lead-in naming the skill is cut; the opener says "Your resume mentions" when the student never
+    // talked about the subject; an unasked calculation in a second chance is in not_asked.
+    {
+      const s = noSecondChance(clone());
+      const s2 = live(s, 's2', { budget: 2, anchor_flags: [], probe_angle: 'find_substance' });
+      const i = s.slots.indexOf(s2);
+      s.slots.forEach((x, j) => { if (j > i && x.status === 'pending') x.status = 'done'; });
+      s.slots.splice(i + 1, 0, { id: 'second_chance_kx', kind: 'second_chance', competency_id: 'kx', competency_name: 'Experimentation and metric interpretation', must_have: true, question_type: 'past_behaviour', status: 'pending',
+        core_question: 'Earlier you told me about the time you ran tests on the listing page. Tell me about another example from your experience, different from that one, where you had to do similar work.', origin_text: 'Ran tests on the listing page', follow_ups_used: 0, budget: 2, rungs_used: [], likely_probes: [] });
+      await E.handleAnswer(s, 'We compared the pricing records against the intended prices for each seller and fixed the rule.', stub([out({ evidence_sufficient: true, decision: 'move_on',
+        utterance: "Thanks. Let's take a different experimentation example. Earlier you told me about tests on the listing page. Tell me about another time you had to do similar work." })]));
+      const said = s.transcript.at(-1).text;
+      const q = (said2) => E.secondChanceQuestion({ core_question: 'I see you ran 14 A/B tests on the product listing page. Which one was hardest?' }, said2);
+      const at = (m) => `2026-01-01T00:0${m}:00.000Z`;
+      const sc = { inputs: { resume_text: 'Resume', jd_text: '', interview_type: 'hiring_manager' }, plan: {}, candidate_questions_asked: 0,
+        slots: [{ id: 'sc', kind: 'second_chance', question_type: 'past_behaviour', status: 'done', competency_name: 'Experimentation', core_question: 'Tell me about another time.', follow_ups_used: 0, rungs_used: [] }],
+        transcript: [{ role: 'interviewer', slot_id: 'sc', text: 'Tell me about another time.', at: at(1) }, { role: 'candidate', slot_id: 'sc', text: 'I redesigned the onboarding emails and click-through rose 10% in the experiment.', at: at(2) }],
+        turns: [{ slot_id: 'sc', decision: 'move_on', output: { probe_rung: 'none', evidence: { answer_type: 'example' } } }] };
+      check(!/experimentation example/.test(said) && /Earlier you told me about tests on the listing page/.test(said) && s.turns.at(-1).guards.some((g) => /Cut a lead-in naming the skill/.test(g))
+        && /^Earlier you told me about the time you ran A\/B tests/.test(q('I ran fourteen A/B tests on the product listing page over a quarter.')) && /^Your resume mentions that you ran A\/B tests/.test(q('I mostly worked on pricing data.'))
+        && E.notAskedRungs(sc, sc.slots[0]).includes('result') && E.buildFeedbackPayload(sc).topics[0].not_asked.some((x) => /rather than other factors/.test(x)),
+      'a second-chance lead-in naming the skill is cut; the opener says "Your resume mentions" when the student never told that story; its unasked calculation is in not_asked');
+    }
+
+    // R6-4. Guards: "the X was clear" in an acknowledgement, a passive "calculated and attributed", and ", including…" on an
+    // instruction are flagged and cut.
+    {
+      const flags = (t) => E.leakCheck(t).join(' ');
+      check(/evaluative/.test(flags('The attendance process was clear, including how you consolidated repeat attendees. What happened next?'))
+        && !/evaluative/.test(flags('How did you know the process was clear to the team?')) && !/evaluative/.test(flags('Suppose the data is good but late. What would you do first?'))
+        && /two asks/.test(flags('How was the increase in sign-ups calculated and attributed to the redesign?')) && /two asks/.test(flags('Tell me about one test you ran, including what it was intended to change.'))
+        && !/two asks/.test(flags('Tell me about one test you ran.')) && !/two asks/.test(flags('How was it designed and built?'))
+        && E.trimUtterance('The attendance process was clear, including how you consolidated repeat attendees. What happened next?') === 'What happened next?'
+        && E.trimUtterance('Okay. Tell me about one test you ran, including what it was intended to change.', true) === 'Okay. Tell me about one test you ran.',
+      '"the X was clear" acknowledgements, passive "calculated and attributed" and ", including…" on an instruction are flagged and cut');
     }
   }
 
