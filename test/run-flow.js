@@ -224,7 +224,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
     check(['PLANNER', 'TURN', 'FEEDBACK'].every((s) => new RegExp(`process\\.env\\.${s}_MODEL \\|\\| 'gpt-6-sol'`).test(src)), 'the code defaults every prompt to gpt-6-sol (a local .env can override)');
   }
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 18 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 19 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
@@ -733,7 +733,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
       const m2 = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, s2).feedback.moments.find((m) => m.slot_id === 'conduct');
       check(shaped.moments.some((m) => m.slot_id === 'conduct' && /rude to the interviewer/.test(m.note) && m.quote === '')
         && m2 && /something else/.test(m2.note) && !/rude/.test(m2.note) && E.buildFeedbackPayload(s).conduct.join() === 'abusive'
-        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 18,
+        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 19,
       'an abusive answer or a refusal gets a plain derived note (none otherwise), and the feedback model is told');
     }
 
@@ -1303,7 +1303,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
         turns: [{ slot_id: 's3', decision: 'move_on', output: { probe_rung: 'none', evidence: { answer_type: 'example' } } }] };
       const gapProbs = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: 's3', ratings: [{ dimension: 'result', reason: 'The effect of this change was not clearly isolated.', level: 'on_track', found: 'first_answer', quote: '' }], went_well: '', went_well_quote: '', to_fix: 'The consequence of this change alone remains cautious rather than clearly isolated.', to_fix_quote: 'contributed to abandonment falling', answer_plan: [], stronger_version: '', example_answer: '' }] }, gap).problems;
       check(fix('on_track') && !fix('good_job') && E.firstAction('Choose one example and state your decision immediately') === 'Choose one example'
-        && !goal.problems.some((x) => /next_goal/.test(x)) && goal.feedback.priorities[0].action === "When you're asked about a project, choose one example."
+        && !goal.problems.some((x) => /next_goal/.test(x)) && goal.feedback.priorities[0].action === "When you're asked about a project, state your decision immediately."
         && gapProbs.some((x) => /s3 \(to_fix, result\): no follow-up asked how much of the outcome/.test(x)) && E.buildFeedbackPayload(gap).topics[0].not_asked.some((x) => /rather than other factors/.test(x)),
       'a topic below good_job with no to-fix is sent back; a goal with two actions keeps the first; a gap story is not faulted for unasked attribution');
     }
@@ -1460,10 +1460,21 @@ const get = async (p) => (await fetch(BASE + p)).json();
       await E.handleAnswer(s, long, stub([out({ decision: 'probe', probe_rung: 'how', utterance: 'To keep us on time, in a sentence or two: what did you do first?' }), out({ decision: 'probe', probe_rung: 'decision', utterance: 'Which choice was yours?' })], payloads));
       const firstNote = payloads[0].note;
       const firstGuards = s.turns.at(-1).guards;
-      await E.handleAnswer(s, long, stub([out({ decision: 'probe', probe_rung: 'decision', utterance: 'Which choice was yours?' })], payloads));
-      check(/ran past two minutes/.test(firstNote) && /To keep us on time, in a sentence or two/.test(firstNote) && s.brevity_asked === true && !firstGuards.some((g) => /Rewrote|options/.test(g))
-        && /ran past two minutes/.test(payloads.at(-1).note) && !/To keep us on time/.test(payloads.at(-1).note),
-      'a long answer gets a short next question, and the brevity ask comes once per interview');
+      // R8-5: a second long answer may get one cut-in ("Let me stop you there."), then neither; a lead-in on the
+      // walkthrough question is cut.
+      await E.handleAnswer(s, long, stub([out({ decision: 'probe', probe_rung: 'decision', utterance: 'Let me stop you there. Which choice was yours?' })], payloads));
+      const secondNote = payloads.at(-1).note;
+      await E.handleAnswer(s, long, stub([out({ decision: 'probe', probe_rung: 'result', utterance: 'What changed after the launch?' })], payloads));
+      const w = noSecondChance(clone());
+      live(w, 'warmup');
+      w.slots.find((x) => x.id === 'background').status = 'pending';
+      const wp = [];
+      await E.handleAnswer(w, long, stub([out({ decision: 'move_on', utterance: 'To keep us on time, in a sentence or two: walk me through your background.' })], wp));
+      check(/ran past two minutes/.test(firstNote) && /To keep us on time, in a sentence or two/.test(firstNote) && !firstGuards.some((g) => /Rewrote|options/.test(g))
+        && /Let me stop you there/.test(secondNote) && !/To keep us on time/.test(secondNote) && s.length_interventions === 2
+        && /ran past two minutes/.test(payloads.at(-1).note) && !/To keep us on time|Let me stop/.test(payloads.at(-1).note)
+        && !/keep us on time|stop you there/i.test(wp[0].note) && w.transcript.at(-1).text === 'Walk me through your background.',
+      'a long answer gets a short next question; a brevity ask, then one cut-in, at most, and never on the warm-up or walkthrough');
     }
 
     // R7-9. A second example the time rule dropped gets a derived moment, and the earlier topic says it was not revisited.
@@ -1476,6 +1487,80 @@ const get = async (p) => (await fetch(BASE + p)).json();
       check(r.moments.some((m) => m.slot_id === 'second_example' && new RegExp(`second example for ${target.competency_name}`).test(m.note)) && t.not_revisited && /ran out of time/.test(t.to_fix)
         && !checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, { ...clone(), slots: trace.slots.filter((x) => x.status !== 'dropped') }).feedback.moments.some((m) => m.slot_id === 'second_example'),
       'a dropped second example gets a derived moment and the earlier topic notes it was not revisited');
+    }
+
+    // QA round 8.
+    // R8-1/2. The goal keeps its most relevant action (never a stub) and one object of a list; an outcome fault that only
+    // mentions measures is not a measurement fault.
+    {
+      check(E.oneAction('select one test and state the decision you personally handled', 'Lead with your decision. Your own decision shows judgment.') === 'state the decision you personally handled'
+        && E.oneAction('name the problem, your owned decision, and the observed outcome', 'Show the outcome. Interviewers need to hear what changed.') === 'name the observed outcome'
+        && E.oneAction('state the verified treatment result, control result and decision threshold', 'Name the decision threshold') === 'state the decision threshold'
+        && E.oneAction('name the problem, your owned decision, and the observed outcome', 'x') === 'name the problem'
+        && !E.MEASURE_FAULT.test('You said it would be tracked against funnel measures, but you did not state what the decision eventually achieved.')
+        && E.MEASURE_FAULT.test('The answer did not explain how the 15% fall was measured.') && E.MEASURE_FAULT.test('You did not give the baseline.'),
+      'the goal keeps its most relevant action and one object of a list; a missing outcome that mentions measures is not a measurement fault');
+    }
+
+    // R8-3/7. After "not sure" to a measurement follow-up, asking about the measurement again under another label is
+    // refused; a follow-up opening like an earlier one is reworded once.
+    {
+      const s = noSecondChance(clone());
+      const sl = live(s, 's2', { budget: 3, anchor_flags: [], probe_angle: 'find_substance', anchor_text: 'Built a weekly demand-forecast report for 40 grocery stores, cutting stock-outs by 15% in 6 months' });
+      const at = '2026-01-01T00:00:00.000Z';
+      s.transcript.push({ role: 'interviewer', slot_id: 's2', text: 'Tell me about the forecast report.', at }, { role: 'candidate', slot_id: 's2', text: 'I built the report in a spreadsheet for the stores.', at },
+        { role: 'interviewer', slot_id: 's2', text: 'How was the 15% fall in stock-outs measured?', at });
+      s.turns.push({ n: 98, slot_id: 's2', decision: 'probe', output: { probe_rung: 'result', evidence: { answer_type: 'example' } } });
+      Object.assign(sl, { follow_ups_used: 1, rungs_used: ['result'] });
+      const payloads = [];
+      await E.handleAnswer(s, 'Honestly I am not sure how it was measured, my manager did that.', stub([out({ decision: 'probe', probe_rung: 'decision', ev: { answer_type: 'honest_unknown' }, utterance: 'What was the basis for attributing the fall in stock-outs to your report?' }),
+        out({ decision: 'probe', probe_rung: 'decision', ev: { answer_type: 'honest_unknown' }, utterance: 'Which stores did you start with first?' })], payloads));
+      const f = noSecondChance(clone());
+      live(f, 's2', { budget: 3, anchor_flags: [], probe_angle: 'find_substance' });
+      const earlier = f.slots.flatMap((o) => E.followUpsFor(f, o.id)).map((x) => x.question).find((q) => E.leakCheck(q).length === 0 && /\?/.test(q));
+      const fp = [];
+      await E.handleAnswer(f, 'I compared the pricing records against the intended prices for each seller.', stub([out({ decision: 'probe', probe_rung: 'how', utterance: earlier }), out({ decision: 'probe', probe_rung: 'how', utterance: 'Where did the pricing records come from?' })], fp));
+      check(s.turns.at(-1).guards.some((g) => /already said they don't know or didn't measure/.test(g)) && /Which stores/.test(s.transcript.at(-1).text)
+        && Boolean(earlier) && /opens like an earlier follow-up/.test(fp[1]?.note || '') && /Where did the pricing records/.test(f.transcript.at(-1).text),
+      'a measurement asked again after "not sure" is refused under any label; a follow-up opening like an earlier one is reworded');
+    }
+
+    // R8-4. "Your progression into product is clear." and "walk me through X and what happened next." are flagged.
+    {
+      const flags = (t) => E.leakCheck(t).join(' ');
+      check(/evaluative/.test(flags('Your progression into product is clear. What drew you to Brightpath?'))
+        && /two asks/.test(flags('Take one listing-page test and walk me through the first step you took and what happened next.'))
+        && E.trimUtterance('Take one listing-page test and walk me through the first step you took and what happened next.') === 'Take one listing-page test and walk me through the first step you took.',
+      '"Your X is clear." and "walk me through X and what happened next." are flagged and cut');
+    }
+
+    // R8-5c. When long answers are half or more of the judged answers, keeping answers short becomes the goal, on the
+    // topic with the longest answer, and the model's goal follows it.
+    {
+      const s = clone();
+      const ids = rated.map((t) => t.slot_id);
+      const long = Array(320).fill('word').join(' ');
+      for (const id of ids) { const e = s.transcript.find((x) => x.role === 'candidate' && x.slot_id === id); e.text = `${long}${id === ids[0] ? ' word word word' : ''}`; }
+      const r = checkAndShapeFeedback({ overall: 'ok', moments: [], more_priorities: [], topics: ids.map((id) => ({ slot_id: id, ratings: [], went_well: '', went_well_quote: '', to_fix: '', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' })),
+        next_goal: { title: 'Lead with your part', why: 'w', when: 'you are asked about a project', then: 'say what you did first', slot_id: ids[1] } }, s).feedback;
+      check(r.priorities[0].title === 'Keep answers under two minutes' && r.priorities[0].slot_id === ids[0] && r.priorities[1].title === 'Lead with your part'
+        && fb.priorities[0].title !== 'Keep answers under two minutes',
+      'when long answers are half or more of the judged answers, keeping answers short becomes the goal and the model\'s goal follows');
+    }
+
+    // R8-6. The second scored topic's first follow-up is asked to react to a detail, once per interview.
+    {
+      const s = noSecondChance(clone());
+      const ids = [...new Set(s.transcript.filter((e) => e.role === 'interviewer').map((e) => e.slot_id))].filter((id) => ['claim', 'gap', 'motivation', 'concerns', 'second_chance'].includes((s.slots.find((x) => x.id === id) || {}).kind));
+      const second = live(s, ids[1], { budget: 3, anchor_flags: [], probe_angle: 'find_substance' });
+      const payloads = [];
+      await E.handleAnswer(s, 'We only had two days of data, so I checked the weekend orders by hand.', stub([out({ decision: 'probe', probe_rung: 'how', reacts_to_detail: true, utterance: 'With only two days of data, how did you decide it was enough?' })], payloads));
+      const again = [];
+      live(s, ids[2] || ids[0], { budget: 3, anchor_flags: [], probe_angle: 'find_substance' });
+      await E.handleAnswer(s, 'We only had two days of data, so I checked the weekend orders by hand.', stub([out({ decision: 'probe', probe_rung: 'how', utterance: 'How did you check them?' })], again));
+      check(payloads[0].flags.react_to_detail === true && s.reacted_to_detail === true && s.turns.at(-2).guards.some((g) => /react to a detail/.test(g))
+        && again[0].flags.react_to_detail === false && second.follow_ups_used === 1,
+      'the second scored topic\'s first follow-up is asked to react to a detail, and the session records that it did');
     }
   }
 
