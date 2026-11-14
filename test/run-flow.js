@@ -228,7 +228,7 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
     check(['PLANNER', 'TURN', 'FEEDBACK'].every((s) => new RegExp(`process\\.env\\.${s}_MODEL \\|\\| 'gpt-6-sol'`).test(src)), 'the code defaults every prompt to gpt-6-sol (a local .env can override)');
   }
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 21 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 22 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
@@ -737,7 +737,7 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
       const m2 = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, s2).feedback.moments.find((m) => m.slot_id === 'conduct');
       check(shaped.moments.some((m) => m.slot_id === 'conduct' && /rude to the interviewer/.test(m.note) && m.quote === '')
         && m2 && /something else/.test(m2.note) && !/rude/.test(m2.note) && E.buildFeedbackPayload(s).conduct.join() === 'abusive'
-        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 21,
+        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 22,
       'an abusive answer or a refusal gets a plain derived note (none otherwise), and the feedback model is told');
     }
 
@@ -1572,10 +1572,10 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
       const ids = [...new Set(s.transcript.filter((e) => e.role === 'interviewer').map((e) => e.slot_id))].filter((id) => ['claim', 'gap', 'motivation', 'concerns', 'second_chance'].includes((s.slots.find((x) => x.id === id) || {}).kind));
       const second = live(s, ids[1], { budget: 3, anchor_flags: [], probe_angle: 'find_substance' });
       const payloads = [];
-      await E.handleAnswer(s, 'We only had two days of data, so I checked the weekend orders by hand.', stub([out({ decision: 'probe', probe_rung: 'how', reacts_to_detail: true, utterance: 'With only two days of data, how did you decide it was enough?' })], payloads));
+      await E.handleAnswer(s, 'We only had two days of Diwali traffic, so I checked the weekend orders by hand.', stub([out({ decision: 'probe', probe_rung: 'how', reacts_to_detail: true, utterance: 'With only two days of Diwali traffic, how did you decide it was enough?' })], payloads));
       const again = [];
       live(s, ids[2] || ids[0], { budget: 3, anchor_flags: [], probe_angle: 'find_substance' });
-      await E.handleAnswer(s, 'We only had two days of data, so I checked the weekend orders by hand.', stub([out({ decision: 'probe', probe_rung: 'how', utterance: 'How did you check them?' })], again));
+      await E.handleAnswer(s, 'We only had two days of Diwali traffic, so I checked the weekend orders by hand.', stub([out({ decision: 'probe', probe_rung: 'how', utterance: 'How did you check them?' })], again));
       check(payloads[0].flags.react_to_detail === true && s.reacted_to_detail === true && s.turns.at(-2).guards.some((g) => /react to a detail/.test(g))
         && again[0].flags.react_to_detail === false && second.follow_ups_used === 1,
       'the second scored topic\'s first follow-up is asked to react to a detail, and the session records that it did');
@@ -1598,13 +1598,13 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
       const s = noSecondChance(clone());
       const ids = [...new Set(s.transcript.filter((e) => e.role === 'interviewer').map((e) => e.slot_id))].filter((id) => ['claim', 'gap', 'motivation', 'concerns', 'second_chance'].includes((s.slots.find((x) => x.id === id) || {}).kind));
       live(s, ids[1], { budget: 3, anchor_flags: [], probe_angle: 'find_substance' });
-      const ans = 'The hardest was a badge test during the Diwali sale. We only had two days of data, so I checked the weekend orders by hand.';
+      const ans = 'The hardest was a badge test during the Diwali sale. We only had two days of Diwali traffic, so I checked the weekend orders by hand.';
       const p1 = [];
       await E.handleAnswer(s, ans, stub([out({ decision: 'probe', probe_rung: 'role', reacts_to_detail: true, utterance: 'Which decisions in that test were yours?' }), out({ decision: 'probe', probe_rung: 'role', utterance: 'Which decisions in that test were yours personally?' })], p1));
       const missed = !s.reacted_to_detail && /only takes the next rung/.test(p1[1]?.note || '') && /Diwali/.test(p1[1]?.note || '');
       live(s, ids[2], { budget: 3, anchor_flags: [], probe_angle: 'find_substance' });
       const p2 = [];
-      await E.handleAnswer(s, ans, stub([out({ decision: 'probe', probe_rung: 'how', utterance: 'With only two days of data, how did you decide it was enough to act on?' })], p2));
+      await E.handleAnswer(s, ans, stub([out({ decision: 'probe', probe_rung: 'how', utterance: 'With only two days of Diwali traffic, how did you decide it was enough to act on?' })], p2));
       check(missed && p2[0].flags.react_to_detail === true && s.reacted_to_detail === true && s.turns.at(-1).guards.some((g) => /the follow-up does/.test(g)),
       'a due reaction is checked in code: a stock follow-up is reworded once with a term from the answer, and a miss is carried to the next topic');
     }
@@ -1668,6 +1668,63 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
         && !/two asks/.test(flags('Walk me through the design and testing.')) && !/two asks/.test(flags('Walk me through the steps you and the team took.'))
         && E.trimUtterance("Let's turn to the tests. Walk me through the hypothesis and the part you personally handled.", true) === "Let's turn to the tests. Walk me through the hypothesis.",
       'one test\'s change on an aggregate line is not sent back; a removed to-fix sentence leaves a bracket; "walk me through X and the Y" is two asks');
+    }
+
+    // QA round 11.
+    // R11-1. The reaction check judges the question sentence alone, and resume words show no reaction.
+    {
+      const slot = { anchor_text: 'Identified a pricing error pattern that saved the company Rs 2.4 crore annually', core_question: 'How did you find the pattern?', likely_probes: [] };
+      const ans = 'We traced the mismatches through the seller workflow in Looker, slicing by SKU and promotion status, and the retry schedule was fairly generic.';
+      const r = (u, resume = '') => E.reactsToAnswer(slot, ans, u, resume).ok;
+      check(!r('You traced the mismatches through the seller workflow in Looker. Which part of that was yours?')
+        && !r('You found the retry schedule was fairly generic. What retry logic did you personally choose to change?')
+        && !r('You sliced by SKU. What specific calculation produced the Rs 2.4 crore figure?') && !r('When you sliced by SKU in Looker, what did you do first?')
+        && r('How did slicing by SKU in Looker show you which sellers to contact first?') && !r('How did slicing by SKU in Looker show you which sellers to contact first?', 'Looker SKU slicing sellers contact show'),
+      'the reaction check judges the question sentence alone, widens the stock list, and ignores words the resume already has');
+    }
+
+    // R11-2. A move-on into the background walkthrough that drops the planned gap or employers asks the planned question.
+    {
+      const s = noSecondChance(clone());
+      live(s, 'warmup');
+      const bg = s.slots.find((x) => x.id === 'background');
+      Object.assign(bg, { status: 'pending', core_question: 'Walk me through your career so far, including the period between Northline Logistics and Kitecart.' });
+      await E.handleAnswer(s, 'Lately I have been reading about onboarding experiments in learning apps.', stub([out({ decision: 'move_on', utterance: 'Thanks. Walk me through your career so far.' })]));
+      const kept = noSecondChance(clone());
+      live(kept, 'warmup');
+      Object.assign(kept.slots.find((x) => x.id === 'background'), { status: 'pending', core_question: bg.core_question });
+      await E.handleAnswer(kept, 'Lately I have been reading about onboarding experiments in learning apps.', stub([out({ decision: 'move_on', utterance: 'Thanks. Walk me through your path from Northline Logistics to Kitecart.' })]));
+      check(s.transcript.at(-1).text === `Thanks. ${bg.core_question}` && s.turns.at(-1).guards.some((g) => /planned background question/.test(g))
+        && /from Northline Logistics to Kitecart/.test(kept.transcript.at(-1).text),
+      'a walkthrough question that drops the planned gap or employers is replaced by the planned one');
+    }
+
+    // R11-3. An interview ended on an unanswered follow-up: shown as not answered, never rated or faulted.
+    {
+      const s = noSecondChance(clone());
+      const sl = live(s, 's2', { budget: 3, anchor_flags: [], probe_angle: 'find_substance' });
+      await E.handleAnswer(s, 'I compared the pricing records against the intended prices for each seller and flagged the gaps.', stub([out({ decision: 'probe', probe_rung: 'result', utterance: 'What changed because of the fix?' })]));
+      E.endEarly(s);
+      const fb2 = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: 's2', ratings: [{ dimension: 'situation', reason: 'x', level: 'on_track', found: 'first_answer', quote: '' }, { dimension: 'result', reason: 'x', level: 'good_job', found: 'first_answer', quote: '' }], went_well: '', went_well_quote: '', to_fix: 'You did not answer the last question about what changed.', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }] }, s);
+      const t = fb2.feedback.topics.find((x) => x.slot_id === 's2');
+      const fu = t.follow_ups.at(-1);
+      check(sl.unanswered_follow_up === true && fu.unanswered === true && fu.given === null && !E.rubricFor(sl).some(([k]) => k === 'followup')
+        && fb2.problems.some((x) => /ended before the student could answer the last follow-up/.test(x))
+        && E.buildFeedbackPayload(s).topics.find((x) => x.slot_id === 's2').follow_up_not_answered === 'What changed because of the fix?',
+      'a follow-up the interview ended on is shown as not answered and is never rated or faulted');
+    }
+
+    // R11-4/5. Grounding never empties a rewrite over a placeholder or the student's own words reordered; "How exactly
+    // was X calculated and compared?" is two asks.
+    {
+      const ans = 'I worked with design to simplify the flow and with engineering to make sure the key events were instrumented consistently across devices. I believed simplifying checkout would reduce abandonment.';
+      const rw = 'The hypothesis was that [specific checkout change] would reduce abandonment around the address steps. I worked with design on [the exact flow change], while engineering instrumented the key events consistently across devices.';
+      const kept = E.applyGrounding(rw, ['The hypothesis was that [specific checkout change] would reduce abandonment', 'engineering instrumented the key events consistently across devices'], ans, 'The answer did not specify the change being tested.');
+      check(/^I worked with design on \[the exact flow change\]/.test(kept) && !/hypothesis/.test(kept)
+        && E.applyGrounding('[what you changed first] and [how you knew]. I simplified the flow.', ['[what you changed first] and [how you knew]'], ans, 'x') === '[what you changed first] and [how you knew]. I simplified the flow.'
+        && E.applyGrounding('We simplified the flow with design. I personally rebuilt the payment API in Go.', ['I personally rebuilt the payment API in Go'], ans, 'Your role was not clear.') === 'We simplified the flow with design. I [what you personally did].'
+        && /two asks/.test(E.leakCheck('How exactly was the 30% increase calculated and compared?').join(' ')) && E.leakCheck('How exactly was the 30% increase calculated?').length === 0,
+      'grounding ignores placeholder flags and reordered student words, keeps a rewrite with the student\'s words; "how exactly was X calculated and compared" is two asks');
     }
   }
 

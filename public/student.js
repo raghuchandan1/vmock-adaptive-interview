@@ -386,7 +386,12 @@
 
   // The first message is a greeting plus the warm-up question: say the greeting, pause, then ask the question,
   // so the question isn't buried at the end of a long paragraph. Only the captions split; the transcript keeps it as one message.
+  // The interviewer's voice failed (a live key was refused with 401): the question is read on screen, never shown as
+  // "Speaking" with no sound. The next message tries again once; after two failures the session stops asking for audio.
+  const VOICE_OFF = 'Voice unavailable, reading on screen.';
   function speakLatest() {
+    state.ttsSkip = false;
+    if (state.ttsOff) { setPhase('speaking', VOICE_OFF); $('interviewerState').textContent = ''; return afterSpeech(); }
     setPhase('speaking');
     const t = state.view.transcript;
     const g = state.view.greeting;
@@ -407,15 +412,19 @@
     let done = false;
     const next = () => { if (done) return; done = true; audio.onended = null; audio.onerror = null; then(); };
     if (state.tts === 'browser') return browserSpeak(text, next);
-    // The OpenAI voice failed (no audio model access, network): use the browser's voice from now on.
+    if (state.ttsOff || state.ttsSkip) return next(); // already failed in this message (the greeting) or for the session
+    // The OpenAI voice failed (no audio model access, a refused key, network): the rest of this message is read on screen.
     // onerror and the play() rejection can both fire, so this runs once.
     let fellBack = false;
     const fallback = () => {
       if (done || fellBack) return;
       fellBack = true;
       audio.onended = null; audio.onerror = null;
-      state.tts = 'browser';
-      browserSpeak(text, next);
+      state.ttsFailures = (state.ttsFailures || 0) + 1;
+      state.ttsOff = state.ttsFailures >= 2;
+      state.ttsSkip = true;
+      state.voiceNote = VOICE_OFF;
+      next();
     };
     audio.onended = next;
     audio.onerror = fallback;
@@ -426,7 +435,9 @@
   function afterSpeech() {
     if (state.phase === 'ended') return; // a cancelled voice still fires its end event
     if (state.view.status === 'ended') return finish();
-    setPhase(state.mode === 'voice' && state.micOk ? 'ready' : 'typing');
+    const phase = state.mode === 'voice' && state.micOk ? 'ready' : 'typing';
+    setPhase(phase, state.voiceNote ? `${state.voiceNote} ${LABELS[phase] || ''}`.trim() : undefined);
+    state.voiceNote = state.ttsOff ? VOICE_OFF : ''; // shown with each turn once voice is off for the session
   }
 
   // Transcribers sometimes return filler for near-silence; such a transcript is not an answer.

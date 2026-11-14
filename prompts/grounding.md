@@ -6,7 +6,7 @@ The rewrite is meant to be a template. It may contain only:
 1. facts that are stated in the resume or the answers, and
 2. bracketed placeholders such as [what you did] or X%, for details the student did not state.
 
-List every claim in the rewrite that is NOT supported by the resume or the answers and is NOT inside a bracketed placeholder. Count as unsupported:
+List every claim in the rewrite that is NOT supported by the resume or the answers and is NOT inside a bracketed placeholder. Text inside square brackets is a placeholder the student will fill in, never a claim: don't flag it, and judge a sentence with a placeholder only on its words outside the brackets. Count as unsupported:
 - a method, tool, technique, algorithm, test or process the student never mentioned
 - a role, decision or action the student never said they personally took (for example "I personally designed…" when they only said "we")
 - a result, number, duration, team size or who-did-what the student never stated
