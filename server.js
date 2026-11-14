@@ -134,10 +134,10 @@ async function createInterview(body) {
   };
   const system = readPrompt('planner');
   const user = JSON.stringify(plannerInput); // compact: indentation only costs tokens
-  const { data: plan, trace } = await callStructured({
-    apiKey: apiKey(), baseUrl: BASE_URL, model: settings.planner_model, reasoningEffort: settings.planner_effort,
+  const { data: plan, trace } = await withFallback('planner', { model: settings.planner_model, reasoningEffort: settings.planner_effort }, (m) => callStructured({
+    apiKey: apiKey(), baseUrl: BASE_URL, ...m,
     system, user, schemaName: 'interview_plan', schema: plannerSchema,
-  });
+  }));
   trace.request_user_message = user;
 
   const session = engine.createSession({ inputs, settings, plan, planTrace: trace, resolvedStyle });
@@ -160,20 +160,43 @@ async function answer(id, body) {
 
 // Second model call per rewrite: a "stronger version" may only contain facts from the resume or the student's
 // answers or the JD, plus placeholders. An unsupported claim removes its sentence; a failed check removes the rewrite.
-// Feedback is written later than the interview, sometimes much later: when the model saved on an old session is no
-// longer available to this key, it is written with the current default model instead (the session keeps its own).
+// A model the key can't use (403/404: the project has no access, or the model was retired) falls back to the next
+// model for that prompt, ranked by the 2026-11-14 comparison (quality first). A live test failed outright because the
+// key had no gpt-6 access. Models that failed are remembered, so later turns don't pay for the 403 again.
 const MODEL_GONE = /OpenAI API error (403|404)\b.*model|model_not_found|does not have access to model|does not exist/i;
+const FALLBACKS = {
+  planner: ['gpt-5.6-sol', 'gpt-6.1-terra', 'gpt-5.6-terra', 'gpt-6-luna', 'gpt-5', 'gpt-5.6-luna', 'gpt-5-mini'],
+  turn: ['gpt-5.6-luna', 'gpt-6.1-terra', 'gpt-5.6-terra', 'gpt-6-luna', 'gpt-5', 'gpt-5.6-sol', 'gpt-5-mini'],
+  feedback: ['gpt-6.1-terra', 'gpt-6-luna', 'gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna', 'gpt-5', 'gpt-5-mini'],
+};
+FALLBACKS.grounding = FALLBACKS.feedback;
+// MODEL_FALLBACKS (comma-separated) replaces the built-in lists for every prompt.
+if (process.env.MODEL_FALLBACKS) for (const s of STEPS) FALLBACKS[s] = process.env.MODEL_FALLBACKS.split(',').map((m) => m.trim()).filter(Boolean);
+const unavailable = new Set();
+async function withFallback(step, own, call) {
+  const chain = [...new Set([own.model, DEFAULTS[`${step}_model`], ...FALLBACKS[step]])];
+  const usable = chain.filter((m) => !unavailable.has(m));
+  let lastErr;
+  for (const model of usable.length ? usable : chain) {
+    try {
+      const result = await call({ model, reasoningEffort: own.reasoningEffort });
+      if (model !== own.model && result.trace) result.trace.fallback_from = own.model;
+      return result;
+    } catch (err) {
+      if (!MODEL_GONE.test(err.message)) throw err;
+      unavailable.add(model);
+      lastErr = err;
+    }
+  }
+  throw lastErr;
+}
 // step: 'feedback' or 'grounding'. Sessions saved before these had their own setting used the turn model.
-async function withModelFallback(session, call, step = 'feedback') {
+function withModelFallback(session, call, step = 'feedback') {
   const st = session.settings || {};
-  const own = {
+  return withFallback(step, {
     model: st[`${step}_model`] || st.feedback_model || st.turn_model || DEFAULTS[`${step}_model`],
     reasoningEffort: st[`${step}_effort`] || st.feedback_effort || st.turn_effort || DEFAULTS[`${step}_effort`],
-  };
-  try { return await call(own); } catch (err) {
-    if (!MODEL_GONE.test(err.message) || own.model === DEFAULTS[`${step}_model`]) throw err;
-    return call({ model: DEFAULTS[`${step}_model`], reasoningEffort: DEFAULTS[`${step}_effort`] });
-  }
+  }, call);
 }
 
 async function groundRewrites(session, feedback, traces) {
@@ -244,12 +267,12 @@ async function answerLocked(session, body) {
   const system = readPrompt('turn');
   const runTurn = async (payload) => {
     const user = JSON.stringify(payload);
-    const result = await callStructured({
-      apiKey: apiKey(), baseUrl: BASE_URL, model: session.settings.turn_model, reasoningEffort: session.settings.turn_effort,
+    const result = await withFallback('turn', { model: session.settings.turn_model, reasoningEffort: session.settings.turn_effort }, (m) => callStructured({
+      apiKey: apiKey(), baseUrl: BASE_URL, ...m,
       system, user, schemaName: 'interview_turn',
       // The decision can only be one the engine allows this turn, and a pivot only an offered topic.
       schema: turnSchemaFor(payload.allowed_decisions, payload.pivot_options.map((p) => p.slot_id)),
-    });
+    }));
     return result;
   };
   await engine.handleAnswer(session, body.answer, runTurn);

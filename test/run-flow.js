@@ -209,6 +209,15 @@ const get = async (p) => (await fetch(BASE + p)).json();
     check(fbCalls.length >= 1 && fbCalls.every((t) => t.model === 'gpt-6-fb-test' && t.reasoning_effort === 'medium')
       && grCalls.length >= 1 && grCalls.every((t) => t.model === 'gpt-6-gr-test' && t.reasoning_effort === 'medium'),
       `feedback and the rewrite check use their own models; the check's effort follows feedback (${ft.map((t) => `${t.model}/${t.reasoning_effort}`).join(', ')})`);
+    // A model the key can't use falls back to the next model for that prompt, for the plan and every turn.
+    const fbSess = await post('/api/sessions', { resume_text: resume, jd_text: jd, target_role: '', interview_type: 'hiring_manager', style: 'balanced', length: 'short',
+      settings: { planner_model: 'gpt-6-no-access', turn_model: 'gpt-6-no-access-turn' } });
+    await post(`/api/sessions/${fbSess.id}/answers`, { answer: 'A fine week, thanks.' });
+    const fbTr = await get(`/api/sessions/${fbSess.id}/trace`);
+    const turnTrace = fbTr.turns[0].calls[0].trace;
+    check(fbTr.plan_trace.model !== 'gpt-6-no-access' && fbTr.plan_trace.fallback_from === 'gpt-6-no-access'
+      && turnTrace.model !== 'gpt-6-no-access-turn' && turnTrace.fallback_from === 'gpt-6-no-access-turn',
+      `a model the key can't use falls back for the plan and the turns (plan ${fbTr.plan_trace.model}, turn ${turnTrace.model})`);
     const cfg = await get('/api/config');
     check(['planner', 'turn', 'feedback', 'grounding'].every((s) => cfg.defaults[`${s}_model`] && cfg.defaults[`${s}_effort`]), 'config reports a default model and effort for every prompt');
     const src = fs.readFileSync(path.join(__dirname, '..', 'server.js'), 'utf8');
@@ -384,7 +393,8 @@ const get = async (p) => (await fetch(BASE + p)).json();
   await post(`/api/sessions/${v2.id}/answers`, { answer: "I'm not sure about it" });
   t3 = await get(`/api/sessions/${v2.id}/trace`);
   const [firstNs, secondNs] = t3.turns.slice(-2);
-  check(firstNs.slot_id === claimId && firstNs.allowed_decisions.includes('probe'), 'first "not sure" still allows one follow-up');
+  check(firstNs.slot_id === claimId && firstNs.allowed_decisions.join() === 'clarify,move_on' && /simpler, narrower version/.test(firstNs.calls[0].payload.note || ""),
+    `first "not sure" allows only a simpler version of the same question, or moving on (got ${firstNs.allowed_decisions.join()})`);
   check(secondNs.slot_id === claimId && !secondNs.allowed_decisions.some((d) => ['probe', 'clarify', 'rephrase'].includes(d)), 'second "not sure" in a topic removes follow-ups');
   check(t3.slots[t3.current].id !== claimId, 'interview moves on after the second "not sure"');
 

@@ -76,6 +76,10 @@ function turnOutput(p) {
     if (allowed.includes('answer_candidate_question') && !answer.includes('no questions')) return { ...base, decision: 'answer_candidate_question', utterance: 'Typically the team works in two-week cycles. Anything else you would like to know?' };
     return { ...base, decision: 'close', slot_summary: 'Asked about team.', utterance: 'Thanks for your time. That is the end of the interview, and your feedback is ready.' };
   }
+  // After a first "not sure" the engine offers only clarify or move_on: a real model asks a simpler version.
+  if (allowed.includes('clarify') && !allowed.includes('probe') && !answer.includes('[done]')) {
+    return { ...base, decision: 'clarify', utterance: 'Even one small part you handled is fine. What was it?' };
+  }
   if (allowed.includes('probe') && !answer.includes('[done]')) {
     const praise = /flagged/.test(p.note || '') ? '' : ' This is a great answer.';
     const rung = slot.required_next_rung || ['result', 'how', 'decision'].find((r) => !(slot.rungs_already_used || []).includes(r)) || 'result';
@@ -162,6 +166,11 @@ http.createServer((req, res) => {
     if (r.reasoning_effort && r.model.includes('noeffort')) {
       res.writeHead(400, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify({ error: { message: 'Unrecognized request argument supplied: reasoning_effort' } }));
+    }
+    // A model this key "has no access to" (the fallback test), as OpenAI words it.
+    if (/no-access/.test(r.model)) {
+      res.writeHead(403, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: { message: `Project \`proj_test\` does not have access to model \`${r.model}\`` } }));
     }
     // Grounding check: anything mentioning "greedy" is an unsupported claim.
     const out = name === 'rewrite_grounding' ? { unsupported_claims: /greedy/i.test(input.rewrite) ? ['used greedy matching to settle balances'] : [] }
