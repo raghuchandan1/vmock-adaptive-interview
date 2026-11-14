@@ -678,6 +678,8 @@ const get = async (p) => (await fetch(BASE + p)).json();
       && E.secondChanceQuestion({ core_question: 'How did you decide which features to cut for the launch?' }) === 'Tell me about another time you had to decide which features to cut for the launch, a different example from the one you shared.'
       && /^Earlier you told me about the time you identified a pricing error pattern\. /.test(E.secondChanceQuestion({ core_question: 'Tell me about the pricing error pattern you found.', anchor_text: 'Identified a pricing error pattern that saved the company Rs 2.4 crore annually' }))
       && E.secondChanceQuestion({ core_question: 'Your resume says you owned it end to end. What problem were you solving?', anchor_text: 'Treasurer, Coding Club: managed a budget' }) === neutral
+      && /the time you identified a pricing error pattern\. /.test(E.secondChanceQuestion({ core_question: 'I see you identified a pricing error pattern that saved Kitecart Rs 2.4 crore. What did you find?' }))
+      && /the time you owned the checkout redesign end to end\. /.test(E.secondChanceQuestion({ core_question: 'What problem were you solving?', anchor_text: 'Owned the checkout redesign end to end, cutting cart abandonment from 71% to 58%' }))
       && !/problem solving|like that/i.test(sc + neutral)
       && trace.slots.filter((x) => x.kind === 'second_chance').every((x) => /^(Tell me about another|Earlier you told me about the time you [a-z])/.test(x.core_question)),
     'a second-chance topic opens on its own kind of work and names the earlier story when it can (engine-written question); an opening about another kind of story is caught');
@@ -1025,8 +1027,17 @@ const get = async (p) => (await fetch(BASE + p)).json();
       await E.handleAnswer(s, 'I added validation checks before catalogue updates went live, and I reviewed the flagged ones daily.', stub([
         out({ decision: 'probe', probe_rung: 'how', utterance: 'You set a clear guardrail there. What could have gone wrong with that approach?' }),
         out({ decision: 'probe', probe_rung: 'how', utterance: 'What could have gone wrong with that approach, and how did you guard against it?' })]));
-      check(s.transcript.at(-1).text === 'What could have gone wrong with that approach?' && s.turns.at(-1).guards.some((g) => /Cut the message after the rewrite/.test(g)),
-        'a rewrite that still asks two things is cut to its first question');
+      // A move-on keeps its last question: the next topic's opening.
+      const m = noSecondChance(clone());
+      live(m, 's2', { budget: 0 });
+      const nextQ = 'How did you bring engineering and marketing to agreement on a priority?';
+      m.slots.find((x) => x.id === 's3').core_question = nextQ;
+      await E.handleAnswer(m, 'I added validation checks before catalogue updates went live, and I reviewed the flagged ones daily.', stub([
+        out({ utterance: `That is a great answer. Was that the main result? Let's switch gears. ${nextQ}` }),
+        out({ utterance: `Was that the main result? Let's switch gears. ${nextQ}` })]));
+      check(s.transcript.at(-1).text === 'What could have gone wrong with that approach?' && s.turns.at(-1).guards.some((g) => /Cut the message after the rewrite/.test(g))
+        && m.transcript.at(-1).text === `Let's switch gears. ${nextQ}`,
+      'a rewrite that still asks two things is cut to its first question, or for a move-on to its last (the next topic\'s opening)');
     }
 
     // R3-8. "the <up to six words> reported on my resume" and a rewrite naming the line's measure word without its number.
