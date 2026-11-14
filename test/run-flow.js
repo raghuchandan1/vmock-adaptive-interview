@@ -670,7 +670,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
       && scGap === 'Tell me about another time you had to resolve competing priorities across engineering, design and marketing, a different example from the one you shared.'
       && E.leakCheck(sc).length === 0 && E.leakCheck(scGap).length === 0
       && E.openerOffLine(scSlot, 'Tell me about another time you had to disagree with someone or take a clear stance, using a different example.')
-      && !E.openerOffLine(scSlot, 'Tell me about another time you had to clean up messy data.')
+      && !E.openerOffLine(scSlot, 'Tell me about another time you had to clean up messy data.') && !E.openerOffLine({ ...scSlot, core_question: sc }, sc)
       && E.secondChanceQuestion({ core_question: 'How did you decide which features to cut for the launch?' }) === 'Tell me about another time you had to decide which features to cut for the launch, a different example from the one you shared.'
       && E.secondChanceQuestion({ competency_name: 'Structured problem solving', core_question: 'How did you get to the Rs 2 crore figure?' }) === sc && !/problem solving/i.test(sc)
       && trace.slots.filter((x) => x.kind === 'second_chance').every((x) => /^Tell me about another/.test(x.core_question)),
@@ -922,10 +922,12 @@ const get = async (p) => (await fetch(BASE + p)).json();
       };
       const strengths = level(mk({ kind: 'gap', question_type: 'past_behaviour', core_question: 'What would your teammates say is your biggest strength?' }, 'how'), 'action');
       const failure = level(mk({ kind: 'gap', question_type: 'past_behaviour', core_question: 'Tell me about a time you failed at something that mattered.' }, 'how'), 'action');
-      const reflect = level(mk({ kind: 'claim', question_type: 'past_behaviour', core_question: 'What did you own in the internship?', anchor_text: 'Summer intern line' }, 'setback'), 'reflection');
+      const reflect = level(mk({ kind: 'claim', question_type: 'past_behaviour', core_question: 'What did you own in the internship?', anchor_text: 'Summer intern line', finals_internship: true }, 'setback'), 'reflection');
+      const deepDive = mk({ kind: 'claim', question_type: 'past_behaviour', core_question: 'What did you own?', anchor_text: 'A line' }, 'setback');
       check(strengths[0] === 'good_job' && failure[0] === 'on_track' && reflect.join() === 'good_job,reflection'
-        && E.rungDimension({ kind: 'claim', rungs_used: ['setback'] }, 'setback') === 'reflection' && !E.rubricFor({ kind: 'claim', rungs_used: [] }).some(([k]) => k === 'reflection'),
-      'the "what would you do differently" reply is rated as reflection; it and the strengths fit question are not capped after a follow-up');
+        && E.rungDimension({ kind: 'claim', finals_internship: true, rungs_used: ['setback'] }, 'setback') === 'reflection' && !E.rubricFor({ kind: 'claim', finals_internship: true, rungs_used: [] }).some(([k]) => k === 'reflection')
+        && !E.rubricFor(deepDive.slots[0]).some(([k]) => k === 'reflection') && E.rungDimension(deepDive.slots[0], 'setback') === null,
+      'the finals-internship "what would you do differently" reply is rated as reflection (not a setback follow-up elsewhere); it and the strengths fit question are not capped after a follow-up');
     }
 
     // R2-11. A rewrite that names the line's measure without its number is sent back.
