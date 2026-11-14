@@ -19,6 +19,7 @@
   const firstSentence = (x) => (String(x || '').match(/^.*?[.!?](\s|$)/) || [String(x || '')])[0].trim();
   // The one line shown for a question in the Summary: what to fix, or for a strong answer what went well.
   function rowLine(t) {
+    if (t.ended_early) return 'This topic ended after two "not sure" or "repeat" answers. Open it to see how to answer next time.';
     if (t.too_short) return 'Your answer was too short to give feedback on. Open it to see how to answer next time.';
     if (t.verdict === 'good_job' && t.went_well) return firstSentence(t.went_well);
     return firstSentence(t.to_fix || t.went_well || (t.answer_plan || [])[0] || '');
@@ -107,7 +108,7 @@
   // Previous / Next between the items in the list (Overall is item 0, question i is item i + 1); the last one goes back
   // to the Summary.
   const paneNav = (k, total) => `<div class="fb-pane-nav">${k > 0 ? `<button class="vm-btn outline sm" type="button" data-go="${k - 1}">${k === 1 ? 'Overall' : 'Previous question'}</button>` : '<span></span>'}${k < total - 1 ? `<button class="vm-btn primary sm" type="button" data-go="${k + 1}">Next question</button>` : '<button class="vm-btn primary sm" type="button" data-to-summary>Back to summary</button>'}</div>`;
-  const resultChip = (t) => (t.too_short ? '<span class="fb-chip none">Too short</span>' : chip(t.verdict));
+  const resultChip = (t) => (t.too_short && !t.ended_early ? '<span class="fb-chip none">Too short</span>' : chip(t.verdict));
 
   // One question: the question as asked, how to answer it next time, what the student did, then the detail folded away.
   function question(s, t, i, n, open) {

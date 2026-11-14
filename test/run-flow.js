@@ -397,6 +397,13 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const sqGuards = [];
   applyTimeRule(sq, sqGuards);
   check(sq.events.length === 0 && sq.slots.slice(1).every((x) => x.budget === 1) && sqGuards.some((g) => /one follow-up each/.test(g)), 'time rule limits follow-ups on must-have topics before dropping any');
+  // ...but keeps the follow-ups a topic still owes (a finals internship's measurement and "what would you do differently")
+  const intern = { ...slot('bain', 'claim', true, 1), status: 'active', follow_ups_used: 1, rungs_used: ['role'], probe_angle: 'test_claim',
+    anchor_text: 'Built market sizing model across 4 customer segments', anchor_parent: 'Summer Consultant, Bain & Company' };
+  const owe = { current: 0, interviewer_turns: 0, max_turns: 8, events: [], inputs: { stage: 'finals', interview_type: 'back_your_resume' },
+    slots: [intern, slot('mh1', 'claim', true, 2), slot('mh2', 'gap', true, 3)] };
+  applyTimeRule(owe, []);
+  check(intern.budget === 3, `time rule keeps the follow-ups a topic still owes (budget ${intern.budget}, owes measurement and "what would you do differently")`);
 
   // Repeated stock openers are varied
   const { varyOpener } = require('../lib/engine');
@@ -427,6 +434,23 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const t0 = Date.now();
   DONT_KNOW.test(redos);
   check(Date.now() - t0 < 500 && DONT_KNOW.test("No, that's all, thank you.") && DONT_KNOW.test('No, that\'s all, thanks.'), 'the "not sure" check stays fast on adversarial input and still matches plain declines');
+  check(DONT_KNOW.test("Honestly I'm not sure, sorry.") && DONT_KNOW.test('Sorry, I don\'t know.') && !DONT_KNOW.test('Honestly the hardest part was pricing.'),
+    'a short hedge before "not sure" still counts as not sure');
+  check(leakCheck("Let's switch to a financing judgment question. How would you fund it?").length > 0 && leakCheck('How did you judge the risk?').length === 0,
+    'naming the question type ("a judgment question") is an agenda leak');
+  const { CLOSING_PATTERN, closestResumeLine, questionAsked } = require('../lib/engine');
+  check(CLOSING_PATTERN.test("I'll end the interview here. Take care.") && !CLOSING_PATTERN.test('Who took care of the vendor contracts?') && !CLOSING_PATTERN.test('How did the project end?'),
+    'spots a goodbye, not ordinary words like "took care of"');
+  const cvText = 'Bain & Company, Summer Consultant\n• Built market sizing model across 4 customer segments and 3 geographies, estimating a $2.4B serviceable addressable market.\n• Presented findings to the partner team.';
+  const near = closestResumeLine('Built a market-sizing model across four customer segments and three geographies, estimating a $2.4B serviceable addressable market.', cvText);
+  check(near.score >= 0.6 && near.line.startsWith('Built market sizing model across 4') && closestResumeLine('Led a subscription retention workstream for a telecom', cvText).score < 0.4,
+    'a paraphrased claim finds its resume line; an invented one does not');
+  const bridged = { slots: [{ id: 's2', anchor_text: 'Managed 3 analysts on an operating model redesign for a $6B retailer, identifying $45M in savings', core_question: 'How was the $45M estimate calculated?' }],
+    transcript: [{ role: 'interviewer', slot_id: 's2', text: 'The two estimates were about $2.4 billion and $2.6 billion. Turning to your Deloitte operating model work, how was the $45 million in annual run-rate savings calculated?' }] };
+  const kept = { slots: [{ id: 's1', anchor_text: 'Built market sizing model, estimating a $2.4B serviceable addressable market', core_question: '' }],
+    transcript: [{ role: 'interviewer', slot_id: 's1', text: 'Thanks for walking me through that. I see you estimated a serviceable addressable market at Bain. How did you arrive at that figure?' }] };
+  check(questionAsked(bridged, 's2').startsWith('Turning to your Deloitte') && questionAsked(kept, 's1') === 'I see you estimated a serviceable addressable market at Bain. How did you arrive at that figure?',
+    'the question asked drops the bridge from the previous topic and keeps a lead-in about this topic');
   const { openerOffLine } = require('../lib/engine');
   const caseComp = { kind: 'claim', anchor_text: 'National Runners Up, 2/400+ teams, Corp. ConQuest 3.0, DEI Case Comp.', core_question: 'I see you were a national runner-up in the Corp. ConQuest case competition. What was your contribution to the case?' };
   const discharge = { kind: 'claim', anchor_text: 'Modernised OP/IP discharge flow, 8+ stakeholders, AI-Enabled 5+ processes, cut discharge TAT by 40%', core_question: 'How did the discharge-flow project come about at PwC?' };

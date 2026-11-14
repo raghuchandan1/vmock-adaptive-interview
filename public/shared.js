@@ -77,7 +77,7 @@
     return html ? `<h2 class="section-title">Conversation</h2>${html}` : '';
   }
 
-  const verdictHtml = (t) => (t.too_short ? '<span class="lv lv-none">Not enough to judge</span>' : t.verdict ? `<span class="lv ${LEVEL[t.verdict][1]}">${LEVEL[t.verdict][0]}</span>` : '');
+  const verdictHtml = (t) => (t.too_short && !t.ended_early ? '<span class="lv lv-none">Not enough to judge</span>' : t.verdict ? `<span class="lv ${LEVEL[t.verdict][1]}">${LEVEL[t.verdict][0]}</span>` : '');
 
   function renderFeedback(panel, s, fb) {
     const [goal, ...more] = fb.priorities;

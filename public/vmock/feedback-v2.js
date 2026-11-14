@@ -19,6 +19,7 @@
   const firstSentence = (x) => (String(x || '').match(/^.*?[.!?](\s|$)/) || [String(x || '')])[0].trim();
   // The one line shown for a question in the Summary: what to fix, or for a strong answer what went well.
   function rowLine(t) {
+    if (t.ended_early) return 'This topic ended after two "not sure" or "repeat" answers. Open it to see how to answer next time.';
     if (t.too_short) return 'Your answer was too short to give feedback on. Open it to see how to answer next time.';
     if (t.verdict === 'good_job' && t.went_well) return firstSentence(t.went_well);
     return firstSentence(t.to_fix || t.went_well || (t.answer_plan || [])[0] || '');
@@ -485,7 +486,7 @@
   const levelsFor = (t, sig) => {
     const p = sig.perQ.get(t.slot_id);
     return {
-      content: t.too_short ? 'too_short' : t.verdict || null,
+      content: t.too_short && !t.ended_early ? 'too_short' : t.verdict || null,
       delivery: p ? moduleLevel(p.delivery.map((x) => x.level)) : null,
       nonverbal: p ? moduleLevel(p.nonverbal.map((x) => x.level)) : null,
     };

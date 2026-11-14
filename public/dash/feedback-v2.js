@@ -27,12 +27,13 @@
   const sentences = (x, n) => (String(x || '').match(/[\s\S]+?[.!?](?=\s+[A-Z"“(\[]|\s*$)/g) || [String(x || '')]).slice(0, n).join(' ').replace(/\s+/g, ' ').trim();
 
   const pill = (level, cls = '') => (LEVEL[level] ? `<span class="d-pill ${LEVEL[level][1]} ${cls}">${LEVEL[level][0]}</span>` : '');
-  const resultPill = (t, cls = '') => (t.too_short ? `<span class="d-pill none ${cls}">Too short</span>` : pill(t.verdict, cls));
+  const resultPill = (t, cls = '') => (t.too_short && !t.ended_early ? `<span class="d-pill none ${cls}">Too short</span>` : pill(t.verdict, cls));
   const topicName = (t) => (t.kind === 'second_chance' ? `${t.topic || 'Earlier topic'} (second try)` : t.topic || KIND[t.kind] || 'Question');
   // A quote is a button: it scrolls the transcript to the line it came from.
   const quote = (q) => (q ? `<button class="dr-quote" type="button" data-quote="${esc(q)}">“${esc(q)}”</button>` : '');
   const blanks = (text) => esc(text).replace(/\[([^\]]+)\]/g, '<span class="dr-blank"><span class="sr">fill in: </span>$1</span>');
   function rowLine(t) {
+    if (t.ended_early) return 'This topic ended after two "not sure" or "repeat" answers. Open it to see how to answer next time.';
     if (t.too_short) return 'Your answer was too short to give feedback on. Open the topic to see how to answer next time.';
     if (t.verdict === 'good_job' && t.went_well) return firstSentence(t.went_well);
     return firstSentence(t.to_fix || t.went_well || (t.answer_plan || [])[0] || '');
@@ -374,7 +375,7 @@
 
     const open = firstOpenOf(fb);
     const detailed = `<div class="dr-view" id="dr-view-detailed" role="tabpanel" aria-labelledby="dr-tab-detailed" hidden>
-      <div class="dr-qbar" role="tablist" aria-label="Topics">${fb.topics.map((t, i) => `<button class="dr-qp ${t.too_short ? '' : (LEVEL[t.verdict] || [])[1] || ''}" type="button" role="tab" id="dr-qpill-${i}" aria-controls="dr-q-${i}" aria-selected="${i === open}" data-q="${i}" title="${esc(topicName(t))}" aria-label="Topic ${i + 1}, ${esc(topicName(t))}, ${t.too_short ? 'too short' : esc((LEVEL[t.verdict] || [''])[0])}">Topic ${i + 1}</button>`).join('')}</div>
+      <div class="dr-qbar" role="tablist" aria-label="Topics">${fb.topics.map((t, i) => `<button class="dr-qp ${t.too_short && !t.ended_early ? '' : (LEVEL[t.verdict] || [])[1] || ''}" type="button" role="tab" id="dr-qpill-${i}" aria-controls="dr-q-${i}" aria-selected="${i === open}" data-q="${i}" title="${esc(topicName(t))}" aria-label="Topic ${i + 1}, ${esc(topicName(t))}, ${t.too_short ? 'too short' : esc((LEVEL[t.verdict] || [''])[0])}">Topic ${i + 1}</button>`).join('')}</div>
       ${fb.topics.map((t, i) => topicPane(s, t, i, fb.topics.length, i === open)).join('')}
     </div>`;
     panel.innerHTML = summaryHtml(s, fb, judged, goal, more) + detailed;
