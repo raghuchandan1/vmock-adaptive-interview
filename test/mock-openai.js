@@ -173,10 +173,18 @@ http.createServer((req, res) => {
       res.writeHead(403, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify({ error: { message: `Project \`proj_test\` does not have access to model \`${r.model}\`` } }));
     }
+    // Early-start tests: a resume marked MOCK_FAIL_PLAN gets a planner error, one marked MOCK_SLOW_PLAN a slow plan.
+    if (name === 'interview_plan' && /MOCK_FAIL_PLAN/.test(input.resume_text || '')) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: { message: 'Mock planner failure' } }));
+    }
+    const delay = name === 'interview_plan' && /MOCK_SLOW_PLAN/.test(input.resume_text || '') ? 1500 : 0;
     // Grounding check: anything mentioning "greedy" is an unsupported claim.
     const out = name === 'rewrite_grounding' ? { unsupported_claims: /greedy/i.test(input.rewrite) ? ['used greedy matching to settle balances'] : [] }
       : name === 'interview_plan' ? plannerOutput(input) : name === 'interview_feedback' ? feedbackOutput(input) : turnOutput(input);
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ choices: [{ message: { content: JSON.stringify(out) }, finish_reason: 'stop' }], usage: { prompt_tokens: 1000, completion_tokens: 200 } }));
+    setTimeout(() => {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ choices: [{ message: { content: JSON.stringify(out) }, finish_reason: 'stop' }], usage: { prompt_tokens: 1000, completion_tokens: 200 } }));
+    }, delay);
   });
 }).listen(PORT, () => console.log(`mock openai on ${PORT}`));

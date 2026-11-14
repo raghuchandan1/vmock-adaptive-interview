@@ -127,11 +127,27 @@
       remember(view.id);
       renderBrief(view.pre_brief);
       show('brief');
+      if (view.pre_brief.planning) waitForPlan(view.id);
     } catch (err) {
       show('setup');
       setupError(`We couldn't prepare the interview. Your resume and settings are still here, so you can try again. (${err.message})`);
     } finally {
       state.preparing = false;
+    }
+  }
+
+  // Early start: the interview opens before its plan is ready; the brief is filled in (company, a resume mismatch note)
+  // when the plan arrives. A failed plan shows on the first answer.
+  async function waitForPlan(id) {
+    for (;;) {
+      await new Promise((r) => setTimeout(r, 2000));
+      if (state.sessionId !== id) return;
+      let v;
+      try { v = await api(`/api/sessions/${id}`); } catch (_) { continue; }
+      if (v.pre_brief.planning) continue;
+      if (state.view) state.view.pre_brief = v.pre_brief;
+      if (!v.pre_brief.plan_error) renderBrief(v.pre_brief);
+      return;
     }
   }
 

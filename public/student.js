@@ -133,6 +133,7 @@
       renderBrief(state.view.pre_brief);
       $('briefBody').hidden = false;
       $('startBtn').disabled = false;
+      if (state.view.pre_brief.planning) waitForPlan(run, view.id);
     } catch (err) {
       if (run !== state.prepRun) return;
       setHost('failed', 'Couldn\'t join');
@@ -142,6 +143,25 @@
     } finally {
       clearInterval(stepTimer);
       if (run === state.prepRun) state.busy = false;
+    }
+  }
+
+  // Early start: the interview opens before its plan is ready. The brief is shown at once and filled in (company, a
+  // resume mismatch note) when the plan arrives; a failed plan is shown here, or on the first answer once started.
+  async function waitForPlan(run, id) {
+    for (;;) {
+      await new Promise((r) => setTimeout(r, 2000));
+      if (run !== state.prepRun || state.sessionId !== id) return;
+      let v;
+      try { v = await api(`/api/sessions/${id}`); } catch (_) { continue; }
+      if (v.pre_brief.planning) continue;
+      if (state.view) state.view.pre_brief = v.pre_brief;
+      if (v.pre_brief.plan_error) {
+        if (!state.startedAt) { $('startBtn').disabled = true; setHost('failed', 'Couldn\'t join'); showError('briefError', `We couldn't prepare the interview. (${v.pre_brief.plan_error})`); }
+        return;
+      }
+      renderBrief(v.pre_brief);
+      return;
     }
   }
 

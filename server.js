@@ -134,15 +134,42 @@ async function createInterview(body) {
   };
   const system = readPrompt('planner');
   const user = JSON.stringify(plannerInput); // compact: indentation only costs tokens
-  const { data: plan, trace } = await withFallback('planner', { model: settings.planner_model, reasoningEffort: settings.planner_effort }, (m) => callStructured({
-    apiKey: apiKey(), baseUrl: BASE_URL, ...m,
-    system, user, schemaName: 'interview_plan', schema: plannerSchema,
-  }));
-  trace.request_user_message = user;
+  const runPlanner = async () => {
+    const { data: plan, trace } = await withFallback('planner', { model: settings.planner_model, reasoningEffort: settings.planner_effort }, (m) => callStructured({
+      apiKey: apiKey(), baseUrl: BASE_URL, ...m,
+      system, user, schemaName: 'interview_plan', schema: plannerSchema,
+    }));
+    trace.request_user_message = user;
+    return { plan, trace };
+  };
 
-  const session = engine.createSession({ inputs, settings, plan, planTrace: trace, resolvedStyle });
+  if (!EARLY_START) {
+    const { plan, trace } = await runPlanner();
+    const session = engine.createSession({ inputs, settings, plan, planTrace: trace, resolvedStyle });
+    saveSession(session);
+    return engine.publicView(session);
+  }
+  // Early start: the greeting and a scripted warm-up go out now; the plan follows in the background, and the first
+  // answer waits for it (`planReady`).
+  const session = engine.createEarlySession({ inputs, settings, resolvedStyle });
   saveSession(session);
+  planning.set(session.id, runPlanner()
+    .then(({ plan, trace }) => { engine.attachPlan(session, plan, trace); })
+    .catch((err) => { session.plan_error = err.message || 'The planner failed.'; delete session.planning; })
+    .finally(() => { saveSession(session); planning.delete(session.id); }));
   return engine.publicView(session);
+}
+
+// EARLY_START=0 restores planning before the interview opens.
+const EARLY_START = process.env.EARLY_START !== '0';
+const planning = new Map(); // session id -> the planner still running for it
+// Waits for a session's plan; a failed or lost plan is an error for the caller.
+async function planReady(session) {
+  if (session.plan) return;
+  if (planning.has(session.id)) await planning.get(session.id);
+  if (session.plan) return;
+  if (session.plan_error) throw httpError(502, `We couldn't prepare the interview. (${session.plan_error})`);
+  throw httpError(409, 'This interview was still being prepared when the server restarted. Please start a new one.');
 }
 
 const inFlight = new Set(); // one answer or end per interview at a time (double-click, two tabs)
@@ -155,7 +182,10 @@ async function answer(id, body) {
   if (String(body.answer || '').length > MAX_ANSWER_CHARS) throw httpError(400, 'That answer is too long. Please shorten it.');
   if (inFlight.has(id)) throw httpError(409, 'Your last answer is still being processed. Please wait a moment.');
   inFlight.add(id);
-  try { return await answerLocked(session, body); } finally { inFlight.delete(id); }
+  try {
+    await planReady(session);
+    return await answerLocked(session, body);
+  } finally { inFlight.delete(id); }
 }
 
 // Second model call per rewrite: a "stronger version" may only contain facts from the resume or the student's

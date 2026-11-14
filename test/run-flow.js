@@ -22,9 +22,13 @@ async function post(p, body) {
   const r = await fetch(BASE + p, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body || {}) });
   const d = await r.json();
   if (!r.ok) throw new Error(d.error);
+  // A new interview opens before its plan is ready (early start); most checks read the plan, so they wait for it.
+  if (p === '/api/sessions' && d.id) await ready(d.id);
   return d;
 }
 const get = async (p) => (await fetch(BASE + p)).json();
+// Early start: the plan arrives after the session is created; wait for it before reading the plan from the trace.
+const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await get(`/api/sessions/${id}`); if (!v.pre_brief?.planning) return v; await new Promise((r) => setTimeout(r, 50)); } throw new Error('plan never arrived'); };
 
 (async () => {
   check(strictOk(plannerSchema) === null, `planner schema is strict-mode valid ${strictOk(plannerSchema) || ''}`);
@@ -224,7 +228,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
     check(['PLANNER', 'TURN', 'FEEDBACK'].every((s) => new RegExp(`process\\.env\\.${s}_MODEL \\|\\| 'gpt-6-sol'`).test(src)), 'the code defaults every prompt to gpt-6-sol (a local .env can override)');
   }
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 20 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 21 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
@@ -733,7 +737,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
       const m2 = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, s2).feedback.moments.find((m) => m.slot_id === 'conduct');
       check(shaped.moments.some((m) => m.slot_id === 'conduct' && /rude to the interviewer/.test(m.note) && m.quote === '')
         && m2 && /something else/.test(m2.note) && !/rude/.test(m2.note) && E.buildFeedbackPayload(s).conduct.join() === 'abusive'
-        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 20,
+        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 21,
       'an abusive answer or a refusal gets a plain derived note (none otherwise), and the feedback model is told');
     }
 
@@ -1663,6 +1667,32 @@ const get = async (p) => (await fetch(BASE + p)).json();
         && E.trimUtterance("Let's turn to the tests. Walk me through the hypothesis and the part you personally handled.", true) === "Let's turn to the tests. Walk me through the hypothesis.",
       'one test\'s change on an aggregate line is not sent back; a removed to-fix sentence leaves a bracket; "walk me through X and the Y" is two asks');
     }
+  }
+
+  // R10-5. Early start: the interview opens before the plan is in; the first answer waits for it; a failed plan surfaces
+  // on the first answer.
+  {
+    const E = require('../lib/engine');
+    const raw = async (p, body) => { const r = await fetch(BASE + p, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); return { status: r.status, body: await r.json() }; };
+    const inputs = (mark) => ({ resume_text: `${resume}\n${mark}`, jd_text: jd, target_role: '', interview_type: 'hiring_manager', style: 'balanced', length: 'standard' });
+    const t0 = Date.now();
+    const early = await raw('/api/sessions', inputs('MOCK_SLOW_PLAN'));
+    const createdIn = Date.now() - t0;
+    const v = early.body;
+    const before = await get(`/api/sessions/${v.id}/trace`);
+    const t1 = Date.now();
+    const a = await raw(`/api/sessions/${v.id}/answers`, { answer: 'Lately I have been reading about onboarding experiments.' });
+    const waited = Date.now() - t1;
+    const after = await get(`/api/sessions/${v.id}/trace`);
+    const failed = (await raw('/api/sessions', inputs('MOCK_FAIL_PLAN'))).body;
+    const fa = await raw(`/api/sessions/${failed.id}/answers`, { answer: 'Lately I have been reading about onboarding experiments.' });
+    const fv = await get(`/api/sessions/${failed.id}`);
+    check(early.status === 200 && createdIn < 1000 && v.pre_brief.planning === true && v.pre_brief.topics === 4 && /^Hi Rohan,/.test(v.transcript[0].text)
+      && E.WARMUP_QUESTIONS.some((q) => v.transcript[0].text.endsWith(q)) && before.plan === null
+      && a.status === 200 && waited > 500 && a.body.transcript.length === 3 && after.plan && after.slots[0].core_question === before.slots[0].core_question
+      && a.body.transcript[2].text.length > 0 && after.slots.some((x) => x.id === 'background' && x.status === 'active')
+      && fa.status === 502 && /Mock planner failure/.test(fa.body.error) && fv.pre_brief.planning === false && /Mock planner failure/.test(fv.pre_brief.plan_error),
+    `early start: the interview opens before the plan (${createdIn} ms), the first answer waits for it (${waited} ms), and a failed plan surfaces on the first answer`);
   }
 
   const list = await get('/api/sessions');
