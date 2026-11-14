@@ -224,7 +224,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
     check(['PLANNER', 'TURN', 'FEEDBACK'].every((s) => new RegExp(`process\\.env\\.${s}_MODEL \\|\\| 'gpt-6-sol'`).test(src)), 'the code defaults every prompt to gpt-6-sol (a local .env can override)');
   }
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 17 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 18 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
@@ -733,7 +733,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
       const m2 = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, s2).feedback.moments.find((m) => m.slot_id === 'conduct');
       check(shaped.moments.some((m) => m.slot_id === 'conduct' && /rude to the interviewer/.test(m.note) && m.quote === '')
         && m2 && /something else/.test(m2.note) && !/rude/.test(m2.note) && E.buildFeedbackPayload(s).conduct.join() === 'abusive'
-        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 17,
+        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 18,
       'an abusive answer or a refusal gets a plain derived note (none otherwise), and the feedback model is told');
     }
 
@@ -1389,6 +1389,93 @@ const get = async (p) => (await fetch(BASE + p)).json();
         && E.trimUtterance('The attendance process was clear, including how you consolidated repeat attendees. What happened next?') === 'What happened next?'
         && E.trimUtterance('Okay. Tell me about one test you ran, including what it was intended to change.', true) === 'Okay. Tell me about one test you ran.',
       '"the X was clear" acknowledgements, passive "calculated and attributed" and ", including…" on an instruction are flagged and cut');
+    }
+
+    // QA round 7.
+    // R7-1. A second abusive warm-up answer ends the interview; a move-on that re-asks the current question is refused and
+    // the scripted opener asks the next topic's question.
+    {
+      const at = '2026-01-01T00:00:00.000Z';
+      const warm = (redirect) => {
+        const s = noSecondChance(clone());
+        const w = live(s, 'warmup', { rephrase_used: redirect });
+        s.slots.find((x) => x.id === 'background').status = 'pending';
+        if (redirect) s.turns.push({ n: 99, slot_id: 'warmup', decision: 'rephrase', output: { evidence: { answer_type: 'abusive' } } });
+        s.transcript.push({ role: 'interviewer', slot_id: 'warmup', text: 'What kind of problems do you like working on lately?', at });
+        return { s, w };
+      };
+      const a = warm(true);
+      await E.handleAnswer(a.s, 'Shut up. This is garbage and so are you.', stub([out({ decision: 'move_on', ev: { answer_type: 'abusive', on_topic: 'off' }, utterance: 'Please keep to the interview. What kind of problems do you like working on lately?' })]));
+      const b = warm(false);
+      const repeat = out({ decision: 'move_on', ev: { on_topic: 'on' }, utterance: 'Thanks. What kind of problems do you like working on lately?' });
+      await E.handleAnswer(b.s, 'I like messy data problems where the question is not clear at first.', stub([repeat, repeat]));
+      const bg = b.s.slots.find((x) => x.id === 'background');
+      check(a.s.status === 'ended' && a.s.ended_by === 'end_session' && a.s.turns.at(-1).allowed_decisions.includes('end_session')
+        && b.s.turns.at(-1).guards.some((g) => /asks the current question again/.test(g)) && b.s.transcript.at(-1).text.includes(bg.core_question) && b.s.transcript.at(-1).slot_id === 'background',
+      'a second abusive warm-up answer ends the interview; a move-on re-asking the warm-up is refused and the background question is asked');
+    }
+
+    // R7-2/4. "Not sure" with adverbs; more acknowledgements and passive two-asks are flagged; the brevity lead-in is not
+    // an option list.
+    {
+      const { DONT_KNOW } = E;
+      const flags = (t, o) => E.leakCheck(t, o).join(' ');
+      check(["Sorry, I really don't know.", 'I really have no idea.', 'I genuinely can’t remember.', 'I am really not sure.'].every((t) => DONT_KNOW.test(t))
+        && !DONT_KNOW.test('I really know this one: we cut costs.')
+        && /evaluative/.test(flags('That distinction between a quick signal and stronger evidence is useful. What did you do next?'))
+        && !/evaluative/.test(flags('That part of the role is important here.', { noAck: true })) && !/evaluative/.test(flags('How did you know this change was useful?'))
+        && /two asks/.test(flags('How was the 9% calculated and compared with the baseline?')) && flags('To keep us on time, in a sentence or two: what was the result?') === '',
+      '"not sure" with adverbs counts; "that … is useful" and "calculated and compared" are flagged; the brevity lead-in is allowed');
+    }
+
+    // R7-3/5. A vague follow-up reply is not "given"; a topic on track only through the after-a-follow-up cap gets an
+    // engine-written to-fix quoting the student's reply, with no model call.
+    {
+      const at = (m) => `2026-01-01T00:0${m}:00.000Z`;
+      const reply = 'The variant lifted completed orders by four percent over two weeks, so I recommended shipping it to everyone.';
+      const mk = (spec) => ({ inputs: { resume_text: 'Resume', jd_text: '', interview_type: 'hiring_manager' }, plan: {}, candidate_questions_asked: 0,
+        slots: [{ id: 's3', kind: 'gap', question_type: 'past_behaviour', status: 'done', competency_name: 'Experimentation', core_question: 'Tell me about a time you ran an experiment.', follow_ups_used: 1, rungs_used: ['result'] }],
+        transcript: [{ role: 'interviewer', slot_id: 's3', text: 'Tell me about a time you ran an experiment.', at: at(1) },
+          { role: 'candidate', slot_id: 's3', text: 'I ran a test on the checkout page with the designer, changing the delivery date message for new shoppers.', at: at(2) },
+          { role: 'interviewer', slot_id: 's3', text: 'What changed because of it?', at: at(3) }, { role: 'candidate', slot_id: 's3', text: spec === 'general' ? 'We all chipped in, it is hard to separate who did what, but the outcome was good.' : reply, at: at(4) }],
+        turns: [{ slot_id: 's3', decision: 'probe', output: { probe_rung: 'result', evidence: { answer_type: 'example' } } }, { slot_id: 's3', decision: 'move_on', output: { probe_rung: 'none', evidence: { answer_type: 'example', specificity: spec, ownership: 'clear_i' } } }] });
+      const good = (dim, found, quote = '') => ({ dimension: dim, reason: 'Clear.', level: 'good_job', found, quote });
+      const run = (spec) => checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: 's3', ratings: [good('situation', 'first_answer'), good('task', 'first_answer'), good('action', 'first_answer'), good('result', 'after_follow_up', spec === 'general' ? 'the outcome was good' : 'lifted completed orders by four percent over two weeks')],
+        went_well: '', went_well_quote: '', to_fix: '', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }] }, mk(spec));
+      const vague = run('general').feedback.topics[0];
+      const capped = run('concrete');
+      const t = capped.feedback.topics[0];
+      check(vague.follow_ups[0].given === false && t.follow_ups[0].given === true
+        && t.to_fix === 'You gave the result only when asked. Put it in your first answer.' && t.to_fix_quote === 'lifted completed orders by four percent over two weeks' && t.stronger_version === t.to_fix_quote
+        && capped.problems.length === 0,
+      'a vague follow-up reply is not shown as given; a topic on track only through the cap gets an engine-written to-fix from the student\'s own reply');
+    }
+
+    // R7-6. After an answer past two minutes the interviewer is told to keep it short and, once, to ask for brevity.
+    {
+      const s = noSecondChance(clone());
+      live(s, 's2', { budget: 3, anchor_flags: [], probe_angle: 'find_substance' });
+      const long = Array(300).fill('word').join(' ');
+      const payloads = [];
+      await E.handleAnswer(s, long, stub([out({ decision: 'probe', probe_rung: 'how', utterance: 'To keep us on time, in a sentence or two: what did you do first?' }), out({ decision: 'probe', probe_rung: 'decision', utterance: 'Which choice was yours?' })], payloads));
+      const firstNote = payloads[0].note;
+      const firstGuards = s.turns.at(-1).guards;
+      await E.handleAnswer(s, long, stub([out({ decision: 'probe', probe_rung: 'decision', utterance: 'Which choice was yours?' })], payloads));
+      check(/ran past two minutes/.test(firstNote) && /To keep us on time, in a sentence or two/.test(firstNote) && s.brevity_asked === true && !firstGuards.some((g) => /Rewrote|options/.test(g))
+        && /ran past two minutes/.test(payloads.at(-1).note) && !/To keep us on time/.test(payloads.at(-1).note),
+      'a long answer gets a short next question, and the brevity ask comes once per interview');
+    }
+
+    // R7-9. A second example the time rule dropped gets a derived moment, and the earlier topic says it was not revisited.
+    {
+      const s = clone();
+      const target = s.slots.find((x) => x.id === rated[0].slot_id);
+      s.slots.push({ id: `second_chance_${target.competency_id}`, kind: 'second_chance', competency_id: target.competency_id, competency_name: target.competency_name, status: 'dropped', rungs_used: [], follow_ups_used: 0 });
+      const r = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: target.id, ratings: [], went_well: '', went_well_quote: '', to_fix: 'The result was vague.', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }] }, s).feedback;
+      const t = r.topics.find((x) => x.slot_id === target.id);
+      check(r.moments.some((m) => m.slot_id === 'second_example' && new RegExp(`second example for ${target.competency_name}`).test(m.note)) && t.not_revisited && /ran out of time/.test(t.to_fix)
+        && !checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, { ...clone(), slots: trace.slots.filter((x) => x.status !== 'dropped') }).feedback.moments.some((m) => m.slot_id === 'second_example'),
+      'a dropped second example gets a derived moment and the earlier topic notes it was not revisited');
     }
   }
 

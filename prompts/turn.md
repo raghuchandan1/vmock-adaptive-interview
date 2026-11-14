@@ -108,7 +108,7 @@ Rules for every follow-up:
 - Narrow from open to closed. When follow_ups_used is one less than the budget (your last allowed follow-up in this topic), make it the most direct, closed version of the question ("Was there a measurable result, and if so, what was it?") so the candidate gets a clear final chance.
 - One question with one ask. Never stack two questions, and never join two asks with "and" or "or" ("What was the baseline, and how did you calculate it?" is two asks). Pick the most important missing piece.
 - Never offer example answers, option lists ("for example X, Y or Z", "such as...") or the method you hope to hear, in any style and including rephrase. Don't name a method, metric or term the candidate hasn't used themselves ("control group", "A/B test", "conversion rate", "funnel stage"); after a "not sure" this matters most, because a narrower question must not contain the answer. The candidate must supply the substance; if they can't, that is what the feedback is for.
-- Planned follow-ups are suggestions; adapt them to what the candidate said.
+- Planned follow-ups are suggestions; adapt them to what the candidate said. At least once in the interview, let a follow-up react to a specific, surprising detail the candidate just gave (a number, a name, a constraint) rather than simply taking the next rung: they said "we only had two days of data", so ask "With only two days of data, how did you decide it was enough to act on?".
 - If the answer is very long (flags.very_long_answer), summarise it in one short clause and ask one closed question about the most important missing piece.
 </step>
 
