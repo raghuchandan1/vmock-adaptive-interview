@@ -655,7 +655,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
     const live = (s, slotId, patch = {}) => {
       const i = s.slots.findIndex((x) => x.id === slotId);
       Object.assign(s, { current: i, status: 'active', interviewer_turns: 4, max_turns: 20 });
-      Object.assign(s.slots[i], { status: 'active', follow_ups_used: 0, rungs_used: [], dont_know_count: 0, repeat_count: 0, rephrase_used: false, answer_return_count: 0, contradiction_used: false }, patch);
+      Object.assign(s.slots[i], { status: 'active', follow_ups_used: 0, rungs_used: [], dont_know_count: 0, repeat_count: 0, rephrase_used: false, answer_return_count: 0, contradiction_used: false, react_tried: false, length_intervened: false }, patch);
       return s.slots[i];
     };
     const ev = (extra = {}) => ({ situation: true, task: true, action: true, result: false, ownership: 'clear_i', specificity: 'concrete', anchor_fit: 'not_applicable', technical_reasoning: 'not_applicable', on_topic: 'on', answer_type: 'example', new_hook: { present: false, description: '', competency_id: null }, ...extra });
@@ -1619,6 +1619,49 @@ const get = async (p) => (await fetch(BASE + p)).json();
         && !E.FEEDBACK_LEAK.test("This is how you'll be assessed by interviewers.") && !E.FEEDBACK_LEAK.test('Interviewers assess your answers on evidence.')
         && E.FEEDBACK_LEAK.test('Our rubric rewards structure.') && E.FEEDBACK_LEAK.test("This interview's scoring criteria favour detail.") && E.leakCheck('You will be assessed on this.').length > 0,
       'the length moment names topics dropped for time; assessment by real interviewers is fine in feedback, this interview\'s rubric is not');
+    }
+
+    // QA round 10.
+    // R10-1. The reaction check sees through a hook ("When you <their phrase>, <stock question>"), never runs on a
+    // non-answer, and still passes real reactions.
+    {
+      const slot = { anchor_text: 'Identified a pricing error pattern that saved the company Rs 2.4 crore annually', core_question: 'How did you find the pattern?', likely_probes: ['Which part was yours?'] };
+      const ans = 'We traced the mismatches through the seller workflow in Looker, slicing by SKU and promotion status, and found renewal-value concerns.';
+      const r = (u) => E.reactsToAnswer(slot, ans, u).ok;
+      check(!r('When you traced those mismatches through the workflow, what analysis did you personally carry out?')
+        && !r('When you used Looker to slice the data by SKU, what made you choose that approach?')
+        && !r('After you found the promotion status issue, what changed in the team\'s work?')
+        && !r('When you found the mismatches, what part of changing the guidance was personally yours?')
+        && r('When you found renewal-value concerns, how did you decide which theme deserved attention first?')
+        && r('How did slicing by SKU in Looker show you which sellers to contact first?'),
+      'the reaction check sees through a "When you…," hook to a stock question and still passes real reactions');
+      const s = noSecondChance(clone());
+      const ids = [...new Set(s.transcript.filter((e) => e.role === 'interviewer').map((e) => e.slot_id))].filter((id) => ['claim', 'gap', 'motivation', 'concerns', 'second_chance'].includes((s.slots.find((x) => x.id === id) || {}).kind));
+      const sl = live(s, ids[1], { budget: 3, anchor_flags: [], probe_angle: 'find_substance' });
+      const p = [];
+      await E.handleAnswer(s, "Honestly I'm not sure, I don't remember that part.", stub([out({ decision: 'clarify', ev: { answer_type: 'honest_unknown' }, utterance: 'Which part of that work did you handle?' })], p));
+      check(p[0].flags.react_to_detail === false && !sl.react_tried && !s.reacted_to_detail,
+        'no reaction is asked for after a "not sure"; it waits for the next follow-up');
+    }
+
+    // R10-2/3/4. A bracket for one test's change on an aggregate line is not sent back; a grounding removal of the sentence
+    // that answered the to-fix leaves a bracket in its place; "walk me through X and the Y" is two asks.
+    {
+      const s = clone();
+      const sl = s.slots.find((x) => x.id === rated[0].slot_id);
+      sl.anchor_text = 'Ran 14 A/B tests on the product listing page; shipped 5 winners that together lifted conversion by 9%';
+      const probs = (text) => shape({ slot_id: sl.id, to_fix: 'x', to_fix_quote: rated[0].to_fix_quote, stronger_version: text }, s).problems.filter((x) => /stronger_version/.test(x));
+      const rw = 'I worked with design and engineering to define the variants, and I chose the more conservative design because it isolated the hypothesis. We used conversion as the primary metric. This test was one of the shipped winners that together lifted conversion by 9%.';
+      const tf = 'The first answer did not identify the particular design or test decision you owned.';
+      const flags = (t) => E.leakCheck(t).join(' ');
+      check(probs('The winning variant improved listing-to-purchase conversion versus control by [the individual test lift]. We shipped it after reaching the planned sample size and checking add-to-cart and checkout conversion.').length === 0
+        && probs("The variant produced [this test's conversion change] against its randomized control.").length === 0
+        && probs('The tests lifted [conversion by amount].').length === 1 && probs('Conversion improved across the listing page.').length === 1
+        && E.applyGrounding(rw, ['I chose the more conservative design'], 'resume 9% conversion', tf) === 'I [the decision you made and why]. We used conversion as the primary metric. This test was one of the shipped winners that together lifted conversion by 9%.'
+        && /two asks/.test(flags("Let's turn to the tests. Walk me through the hypothesis and the part you personally handled."))
+        && !/two asks/.test(flags('Walk me through the design and testing.')) && !/two asks/.test(flags('Walk me through the steps you and the team took.'))
+        && E.trimUtterance("Let's turn to the tests. Walk me through the hypothesis and the part you personally handled.", true) === "Let's turn to the tests. Walk me through the hypothesis.",
+      'one test\'s change on an aggregate line is not sent back; a removed to-fix sentence leaves a bracket; "walk me through X and the Y" is two asks');
     }
   }
 
