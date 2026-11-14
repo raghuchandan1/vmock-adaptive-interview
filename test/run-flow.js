@@ -1661,6 +1661,8 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
       check(probs('The winning variant improved listing-to-purchase conversion versus control by [the individual test lift]. We shipped it after reaching the planned sample size and checking add-to-cart and checkout conversion.').length === 0
         && probs("The variant produced [this test's conversion change] against its randomized control.").length === 0
         && probs('The tests lifted [conversion by amount].').length === 1 && probs('Conversion improved across the listing page.').length === 1
+        && probs('This lifted conversion across the listing page.').length === 1
+        && E.resumeName('CURRICULUM VITAE\nRohan Mehta') === null && E.resumeName('PERSONAL DETAILS') === null && E.resumeName('ROHAN MEHTA') === 'Rohan'
         && E.applyGrounding(rw, ['I chose the more conservative design'], 'resume 9% conversion', tf) === 'I [the decision you made and why]. We used conversion as the primary metric. This test was one of the shipped winners that together lifted conversion by 9%.'
         && /two asks/.test(flags("Let's turn to the tests. Walk me through the hypothesis and the part you personally handled."))
         && !/two asks/.test(flags('Walk me through the design and testing.')) && !/two asks/.test(flags('Walk me through the steps you and the team took.'))
@@ -1679,6 +1681,7 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
     const early = await raw('/api/sessions', inputs('MOCK_SLOW_PLAN'));
     const createdIn = Date.now() - t0;
     const v = early.body;
+    if (v.pre_brief.planning === undefined) console.log('SKIP  early start is off (EARLY_START=0)');
     const before = await get(`/api/sessions/${v.id}/trace`);
     const t1 = Date.now();
     const a = await raw(`/api/sessions/${v.id}/answers`, { answer: 'Lately I have been reading about onboarding experiments.' });
@@ -1687,7 +1690,7 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
     const failed = (await raw('/api/sessions', inputs('MOCK_FAIL_PLAN'))).body;
     const fa = await raw(`/api/sessions/${failed.id}/answers`, { answer: 'Lately I have been reading about onboarding experiments.' });
     const fv = await get(`/api/sessions/${failed.id}`);
-    check(early.status === 200 && createdIn < 1000 && v.pre_brief.planning === true && v.pre_brief.topics === 4 && /^Hi Rohan,/.test(v.transcript[0].text)
+    if (v.pre_brief.planning !== undefined) check(early.status === 200 && createdIn < 1000 && v.pre_brief.planning === true && v.pre_brief.topics === 4 && /^Hi Rohan,/.test(v.transcript[0].text)
       && E.WARMUP_QUESTIONS.some((q) => v.transcript[0].text.endsWith(q)) && before.plan === null
       && a.status === 200 && waited > 500 && a.body.transcript.length === 3 && after.plan && after.slots[0].core_question === before.slots[0].core_question
       && a.body.transcript[2].text.length > 0 && after.slots.some((x) => x.id === 'background' && x.status === 'active')

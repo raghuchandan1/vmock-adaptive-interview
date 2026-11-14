@@ -139,7 +139,7 @@
   // Early start: the interview opens before its plan is ready; the brief is filled in (company, a resume mismatch note)
   // when the plan arrives. A failed plan shows on the first answer.
   async function waitForPlan(id) {
-    for (;;) {
+    for (let i = 0; i < 60; i++) { // about two minutes; a server restart leaves a plan that never arrives
       await new Promise((r) => setTimeout(r, 2000));
       if (state.sessionId !== id) return;
       let v;
