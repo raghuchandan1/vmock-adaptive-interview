@@ -62,7 +62,7 @@
   // VMock's Content Strength groups, filled with our ratings. Which groups appear depends on the question type, as on
   // VMock (stories get STAR/HSAR; knowledge and scenario questions get Depth & Clarity and Practical Application).
   const GROUPS = {
-    behavioural: [['STAR/HSAR', ['situation', 'task', 'action', 'result']], ['Depth & Clarity', ['technical']]],
+    behavioural: [['STAR/HSAR', ['situation', 'task', 'action', 'result']], ['Depth & Clarity', ['technical']], ['Learning & Reflection', ['reflection']]],
     situational: [['Depth & Clarity', ['first_step', 'reasoning']], ['Practical Application', ['success_measure']]],
     knowledge: [['Depth & Clarity', ['accuracy', 'depth']], ['Practical Application', ['application']]],
     motivation: [['Motivation & Fit', ['reason', 'fit', 'evidence']]],

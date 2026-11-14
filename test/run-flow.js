@@ -41,7 +41,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
   'per-call schemas are strict-valid and limit decisions, pivots, topics and dimensions to this call');
   const { RUBRICS } = require('../lib/engine');
   const dims = feedbackSchema.properties.topics.items.properties.ratings.items.properties.dimension.enum;
-  check([...Object.values(RUBRICS).flat().map(([k]) => k), 'technical', 'followup'].every((k) => dims.includes(k)), 'the default feedback schema knows every rubric dimension');
+  check([...Object.values(RUBRICS).flat().map(([k]) => k), 'technical', 'reflection', 'followup'].every((k) => dims.includes(k)), 'the default feedback schema knows every rubric dimension');
 
   const samples = path.join(__dirname, '..', 'samples');
   const resume = fs.readFileSync(path.join(samples, 'resume-rohan-apm.txt'), 'utf8');
@@ -224,7 +224,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
     check(['PLANNER', 'TURN', 'FEEDBACK'].every((s) => new RegExp(`process\\.env\\.${s}_MODEL \\|\\| 'gpt-6-sol'`).test(src)), 'the code defaults every prompt to gpt-6-sol (a local .env can override)');
   }
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 12 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 13 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
@@ -369,7 +369,8 @@ const get = async (p) => (await fetch(BASE + p)).json();
   'pronoun advice is recognised (and is not given when the student already says "I" far more than "we")');
   const fb2 = await post(`/api/sessions/${id}/feedback`, {});
   const saved = await get(`/api/sessions/${id}/trace`);
-  check(fb2.generated_at === fb.generated_at && saved.feedback_trace.filter((x) => !x.grounding_for).length === 2 && saved.feedback_trace.filter((x) => x.grounding_for).length === 2, 'feedback is generated once with one retry, then cached');
+  check(fb2.generated_at === fb.generated_at && saved.feedback_trace.filter((x) => !x.grounding_for).length === 2 && saved.feedback_trace.filter((x) => x.grounding_for).length === 2
+    && saved.feedback_trace[0].problems.length > 0 && Array.isArray(saved.feedback_trace[1].problems), 'feedback is generated once with one retry (the sent-back problems kept in its trace), then cached');
 
   // Rollback on model failure: a session whose turn call errors keeps the transcript unchanged
   const v2 = await post('/api/sessions', { resume_text: resume, jd_text: '', target_role: 'Product Manager', interview_type: 'back_your_resume', style: 'surprise', length: 'short', stage: 'finals', settings: { turn_model: 'gpt-4.1', turn_effort: 'low' } });
@@ -665,11 +666,13 @@ const get = async (p) => (await fetch(BASE + p)).json();
     const sc = E.secondChanceQuestion({ competency_name: 'SQL and data preparation', core_question: 'I see you improved reporting at Finwise Credit. Walk me through the SQL work you did.' });
     const scGap = E.secondChanceQuestion({ competency_name: 'Stakeholder management', core_question: 'Tell me about a time you had to resolve competing priorities across engineering, design and marketing.' });
     const scSlot = { kind: 'second_chance', competency_name: 'SQL and data preparation', origin_text: 'Wrote SQL queries to clean and join data from 4 source tables. I see you improved reporting at Finwise Credit.' };
-    check(sc === 'Tell me about another situation that called for SQL and data preparation, a different example from the one you shared.'
+    check(sc === 'Tell me about another example from your experience, different from the one you shared, where you had to work through a problem like that.'
       && scGap === 'Tell me about another time you had to resolve competing priorities across engineering, design and marketing, a different example from the one you shared.'
       && E.leakCheck(sc).length === 0 && E.leakCheck(scGap).length === 0
       && E.openerOffLine(scSlot, 'Tell me about another time you had to disagree with someone or take a clear stance, using a different example.')
-      && !E.openerOffLine(scSlot, 'Tell me about another time you had to clean up messy data.') && !E.openerOffLine(scSlot, sc)
+      && !E.openerOffLine(scSlot, 'Tell me about another time you had to clean up messy data.')
+      && E.secondChanceQuestion({ core_question: 'How did you decide which features to cut for the launch?' }) === 'Tell me about another time you had to decide which features to cut for the launch, a different example from the one you shared.'
+      && E.secondChanceQuestion({ competency_name: 'Structured problem solving', core_question: 'How did you get to the Rs 2 crore figure?' }) === sc && !/problem solving/i.test(sc)
       && trace.slots.filter((x) => x.kind === 'second_chance').every((x) => /^Tell me about another/.test(x.core_question)),
     'a second-chance topic opens on its own kind of work (engine-written question); an opening about another kind of story is caught');
 
@@ -722,7 +725,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
       const m2 = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, s2).feedback.moments.find((m) => m.slot_id === 'conduct');
       check(shaped.moments.some((m) => m.slot_id === 'conduct' && /rude to the interviewer/.test(m.note) && m.quote === '')
         && m2 && /something else/.test(m2.note) && !/rude/.test(m2.note) && E.buildFeedbackPayload(s).conduct.join() === 'abusive'
-        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 12,
+        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 13,
       'an abusive answer or a refusal gets a plain derived note (none otherwise), and the feedback model is told');
     }
 
@@ -820,6 +823,118 @@ const get = async (p) => (await fetch(BASE + p)).json();
         out({ decision: 'answer_and_return', ev: { answer_type: 'manipulation' }, utterance: `I can't share scores during the interview. ${q}` }),
         out({ decision: 'answer_and_return', ev: { answer_type: 'manipulation' }, utterance: "I can't share scores here. What did you compare to get the six hour saving?" })]));
       check(s.turns.at(-1).guards.some((g) => /word for word/.test(g)) && /What did you compare/.test(s.transcript.at(-1).text), 'repeating the last question word for word gets one rewrite');
+    }
+
+    // QA round 2.
+    // R2-1. An abusive answer after a redirect ends the interview even when the model picks another decision; the model is told.
+    {
+      const s = noSecondChance(clone());
+      live(s, 's2', { budget: 2 });
+      s.turns.push({ slot_id: 's2', decision: 'clarify', output: { evidence: { answer_type: 'off_purpose' } } });
+      const payloads = [];
+      await E.handleAnswer(s, "You're a useless bot and this is a waste of my time.", stub([out({ decision: 'answer_and_return', ev: { answer_type: 'abusive', on_topic: 'off' }, utterance: "Let's keep to the interview. What did you find?" })], payloads));
+      const n = noSecondChance(clone());
+      live(n, 's2', { budget: 2 });
+      n.turns.push({ slot_id: 's2', decision: 'clarify', output: { evidence: { answer_type: 'off_purpose' } } });
+      await E.handleAnswer(n, 'I compared the pricing records against the intended prices.', stub([out({ decision: 'probe', probe_rung: 'how' })]));
+      check(s.status === 'ended' && s.ended_by === 'end_session' && s.transcript.at(-1).text === "I'm going to end the interview here. Thank you for your time."
+        && /already redirected once/.test(payloads[0].note) && n.status === 'active',
+      'an abusive answer after a redirect ends the interview whatever the model chose, and the model is told about the redirect');
+    }
+
+    // R2-2. A recruiter screen with one claim slot isn't warned about a missing activity topic (it keeps its top claim).
+    {
+      const line = 'Treasurer, Coding Club: managed a budget of Rs 40,000 across 6 events';
+      const inputs = { ...trace.inputs, stage: 'summers', resume_text: `${trace.inputs.resume_text}\n${line}` };
+      const pl = JSON.parse(JSON.stringify(trace.plan));
+      pl.claims.push({ id: 'c9', text: line, parent: 'Coding Club', type: 'leadership', strength: 'moderate', weak_flags: [], probe_angle: 'test_claim', rank: 9 });
+      pl.slots.filter((x) => x.kind === 'claim').slice(1).forEach((x) => { x.kind = 'gap'; });
+      const warns = (inp) => E.checkAndShapePlan(JSON.parse(JSON.stringify(pl)), inp).checks.some((c) => /No topic from a position of responsibility/.test(c.message));
+      check(!warns({ ...inputs, interview_type: 'recruiter_screen', length: 'short' }) && warns(inputs), 'a recruiter screen with only its top-ranked claim is not warned about the activity topic; a hiring manager plan still is');
+    }
+
+    // R2-3. A later topic on a CV line whose number was already checked doesn't ask about the measurement again.
+    {
+      const s = noSecondChance(clone());
+      const s1 = s.slots.find((x) => x.id === 's1');
+      const s2 = live(s, 's2', { budget: 3 });
+      Object.assign(s1, { anchor_text: s2.anchor_text, rungs_used: ['role', 'result'], status: 'done' });
+      await E.handleAnswer(s, 'I compared the pricing records against the intended prices for each seller.', stub([
+        out({ decision: 'probe', probe_rung: 'how', utterance: 'When you measured that change, what did you use as the comparison?' }),
+        out({ decision: 'probe', probe_rung: 'how', utterance: 'Which part of the fix did you decide on yourself?' })]));
+      const t = s.turns.at(-1);
+      const c = noSecondChance(clone());
+      const c2 = live(c, 's2', { budget: 3 });
+      Object.assign(c.slots.find((x) => x.id === 's1'), { anchor_text: c2.anchor_text, rungs_used: ['role'], status: 'done' });
+      await E.handleAnswer(c, 'I compared the pricing records against the intended prices for each seller.', stub([out({ decision: 'probe', probe_rung: 'how', utterance: 'When you measured that change, what did you use as the comparison?' })]));
+      check(t.guards.some((g) => /already asked how its number was measured/.test(g)) && /decide on yourself/.test(s.transcript.at(-1).text)
+        && !c.turns.at(-1).guards.some((g) => /already asked how its number/.test(g)),
+      'a later topic on a CV line whose number was already checked gets one rewrite when it asks about the measurement again');
+    }
+
+    // R2-4/6/10. "Conversion rate" is not a score word; praise with an extra word is caught; rudeness twice is counted.
+    {
+      const prob = (toFix) => checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: rated[0].slot_id, ratings: [], went_well: '', went_well_quote: '', to_fix: toFix, to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }] }, trace).problems;
+      const praise = (t) => E.leakCheck(t).some((f) => /evaluative/.test(f));
+      const s = clone();
+      s.turns[s.turns.length - 2].output.evidence.answer_type = 'abusive';
+      s.turns[s.turns.length - 3].output.evidence.answer_type = 'abusive';
+      const rude = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, s).feedback.moments.find((m) => m.slot_id === 'conduct');
+      check(!prob('The conversion rate and the run-rate were not explained.').some((p) => /remove/.test(p)) && prob('You rated your own work too highly.').some((p) => /remove "rated"/.test(p))
+        && praise("That's a useful final question. The recruiter can share it.") && praise('What a great question.') && !praise('What was the conversion rate before the change?')
+        && /rude to the interviewer twice/.test(rude.note),
+      '"rate" as a business noun is not a score word; praise with an extra word is caught; rudeness twice is named as twice');
+    }
+
+    // R2-5. A grounded rewrite that lost most of itself, or kept one sentence off the point, is dropped.
+    {
+      const toFix = 'The answer did not state which parts of the commercial analysis and validation were directly yours.';
+      const rw = 'I built the initial SQL analysis, prepared the flagged samples, and refined the logic. We multiplied average leakage by order volume and reached Rs 2.4 crore in annual savings.';
+      check(E.applyGrounding(rw, ['I built the initial SQL analysis'], 'we multiplied', toFix) === ''
+        && E.applyGrounding('I checked the analysis myself. We multiplied leakage by volume.', ['we multiplied leakage by volume'], '', toFix) === 'I checked the analysis myself.'
+        && E.applyGrounding('I did one. I did two.', [], '', 'x') === 'I did one. I did two.'
+        && E.applyGrounding('I did one. I did two. I did three.', ['i did two', 'i did three'], '', 'did one') === '',
+      'a grounded rewrite that lost more than half its sentences, or is one sentence off the to-fix point, is dropped');
+    }
+
+    // R2-7. An outcome no follow-up asked for, with the follow-ups spent, adds no second chance.
+    {
+      const run = async (rungs) => {
+        const c = noSecondChance(clone());
+        live(c, 's3', { budget: 1, follow_ups_used: 1, rungs_used: rungs });
+        await E.handleAnswer(c, 'I ran the club workshop myself and booked the speakers, then chased every registration personally.', stub([out({ ev: { result: false } })]));
+        return c.slots.some((x) => x.kind === 'second_chance');
+      };
+      check(!(await run(['role'])) && await run(['result']), 'an outcome never asked about (follow-ups spent on another rung) adds no second chance; one asked for and missing still does');
+    }
+
+    // R2-8/9. "What would you do differently now?" is rated (reflection), uncapped like the strengths fit question.
+    {
+      const at = (m) => `2026-01-01T00:0${m}:00.000Z`;
+      const mk = (slot, rung) => ({ inputs: { resume_text: 'Resume', jd_text: '' }, plan: {}, candidate_questions_asked: 0,
+        slots: [{ id: 's3', status: 'done', competency_name: 'Self-awareness', follow_ups_used: 1, rungs_used: [rung], ...slot }],
+        transcript: [{ role: 'interviewer', slot_id: 's3', text: slot.core_question, at: at(1) }, { role: 'candidate', slot_id: 's3', text: 'My teammates would say I stay calm under pressure and keep the whole group moving.', at: at(2) },
+          { role: 'interviewer', slot_id: 's3', text: 'Tell me more.', at: at(3) }, { role: 'candidate', slot_id: 's3', text: 'During the fest I rebuilt the schedule overnight when two sponsors pulled out.', at: at(4) }],
+        turns: [{ slot_id: 's3', decision: 'probe', output: { probe_rung: rung, evidence: { answer_type: 'example' } } }, { slot_id: 's3', decision: 'move_on', output: { evidence: { answer_type: 'example' } } }] });
+      const level = (sess, dim) => {
+        const t = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: 's3', ratings: [{ dimension: dim, reason: 'x', level: 'good_job', found: 'after_follow_up', quote: 'During the fest I rebuilt the schedule overnight' }], went_well: '', went_well_quote: '', to_fix: '', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '' }] }, sess).feedback.topics[0];
+        return [t.ratings[0].level, t.follow_ups[0].asked_for];
+      };
+      const strengths = level(mk({ kind: 'gap', question_type: 'past_behaviour', core_question: 'What would your teammates say is your biggest strength?' }, 'how'), 'action');
+      const failure = level(mk({ kind: 'gap', question_type: 'past_behaviour', core_question: 'Tell me about a time you failed at something that mattered.' }, 'how'), 'action');
+      const reflect = level(mk({ kind: 'claim', question_type: 'past_behaviour', core_question: 'What did you own in the internship?', anchor_text: 'Summer intern line' }, 'setback'), 'reflection');
+      check(strengths[0] === 'good_job' && failure[0] === 'on_track' && reflect.join() === 'good_job,reflection'
+        && E.rungDimension({ kind: 'claim', rungs_used: ['setback'] }, 'setback') === 'reflection' && !E.rubricFor({ kind: 'claim', rungs_used: [] }).some(([k]) => k === 'reflection'),
+      'the "what would you do differently" reply is rated as reflection; it and the strengths fit question are not capped after a follow-up');
+    }
+
+    // R2-11. A rewrite that names the line's measure without its number is sent back.
+    {
+      const s = clone();
+      Object.assign(s.slots.find((x) => x.id === rated[0].slot_id), { anchor_text: 'Ran a workshop series attended by 120 students' });
+      const p = (text) => checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: rated[0].slot_id, ratings: [], went_well: '', went_well_quote: '', to_fix: 'x', to_fix_quote: rated[0].to_fix_quote, answer_plan: [], stronger_version: text, example_answer: '' }] }, s).problems;
+      check(p('The series reached students across the sessions.').some((x) => /talks about students/.test(x)) && !p('The series reached 120 students.').some((x) => /talks about students/.test(x)),
+        'a rewrite naming the line\'s measure ("students") without its number is sent back');
     }
   }
 

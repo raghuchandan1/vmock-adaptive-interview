@@ -49,7 +49,7 @@
 
   // Our ratings under VMock's Content Strength names, by question type (same groups as feedback v3).
   const GROUPS = {
-    behavioural: [['STAR/HSAR', ['situation', 'task', 'action', 'result']], ['Depth & Clarity', ['technical']]],
+    behavioural: [['STAR/HSAR', ['situation', 'task', 'action', 'result']], ['Depth & Clarity', ['technical']], ['Learning & Reflection', ['reflection']]],
     situational: [['Depth & Clarity', ['first_step', 'reasoning']], ['Practical Application', ['success_measure']]],
     knowledge: [['Depth & Clarity', ['accuracy', 'depth']], ['Practical Application', ['application']]],
     motivation: [['Motivation & Fit', ['reason', 'fit', 'evidence']]],

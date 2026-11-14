@@ -209,7 +209,7 @@ async function groundRewrites(session, feedback, traces) {
         system, user: JSON.stringify({ resume_text: session.inputs.resume_text, job_description: session.inputs.jd_text, student_answers: String(answers[t.slot_id] || '').trim(), rewrite: t.stronger_version }),
         schemaName: 'rewrite_grounding', schema: groundingSchema,
       }), 'grounding');
-      const kept = engine.applyGrounding(t.stronger_version, data.unsupported_claims, `${session.inputs.resume_text} ${session.inputs.jd_text} ${answers[t.slot_id] || ''}`);
+      const kept = engine.applyGrounding(t.stronger_version, data.unsupported_claims, `${session.inputs.resume_text} ${session.inputs.jd_text} ${answers[t.slot_id] || ''}`, t.to_fix || '');
       traces.push({ ...trace, grounding_for: t.slot_id, unsupported: data.unsupported_claims, checked_rewrite: t.stronger_version, kept });
       t.stronger_version = kept;
     } catch (err) {
@@ -250,10 +250,11 @@ async function feedback(id) {
       return { ...result, shaped: engine.checkAndShapeFeedback(result.data, session) };
     };
     let result = await run();
-    const traces = [result.trace];
+    // Each call's trace keeps the problems found in its output (the first call's were sent back), for review.
+    const traces = [{ ...result.trace, problems: result.shaped.problems }];
     if (result.shaped.problems.length) {
       result = await run(`Rewrite without these problems: ${result.shaped.problems.join('; ')}. Give no scores or ratings.`);
-      traces.push(result.trace);
+      traces.push({ ...result.trace, problems: result.shaped.problems });
     }
     await groundRewrites(session, result.shaped.feedback, traces);
     session.feedback = result.shaped.feedback;

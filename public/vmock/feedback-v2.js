@@ -62,7 +62,7 @@
   // VMock's Content Strength groups, filled with our ratings. Which groups appear depends on the question type, as on
   // VMock (stories get STAR/HSAR; knowledge and scenario questions get Depth & Clarity and Practical Application).
   const GROUPS = {
-    behavioural: [['STAR/HSAR', ['situation', 'task', 'action', 'result']], ['Depth & Clarity', ['technical']]],
+    behavioural: [['STAR/HSAR', ['situation', 'task', 'action', 'result']], ['Depth & Clarity', ['technical']], ['Learning & Reflection', ['reflection']]],
     situational: [['Depth & Clarity', ['first_step', 'reasoning']], ['Practical Application', ['success_measure']]],
     knowledge: [['Depth & Clarity', ['accuracy', 'depth']], ['Practical Application', ['application']]],
     motivation: [['Motivation & Fit', ['reason', 'fit', 'evidence']]],
@@ -440,7 +440,8 @@
       reason: (topics.find((x) => x.level !== 'good_job') || topics[0]).reason }];
     if (t.rubric === 'behavioural') {
       const lv = pick();
-      out.push({ id: 'learning', name: 'Learning & Reflection', level: lv, checks: [['Insight', lv], ['Future action', lv === 'good_job' ? 'good_job' : pick()]],
+      // No placeholder when the topic has a real "What you'd do differently" rating (shown under the same name).
+      if (!(t.ratings || []).some((x) => x.dimension === 'reflection')) out.push({ id: 'learning', name: 'Learning & Reflection', level: lv, checks: [['Insight', lv], ['Future action', lv === 'good_job' ? 'good_job' : pick()]],
         reason: lv === 'good_job' ? 'You closed with what you took away from the experience and how you use it now.' : 'You did not say what you learned from this experience or what you would do differently. Close the story with one lesson and how you use it now.',
         sample: 'Looking back, the biggest lesson was [the lesson]. Since then I [what you do differently], which helped when [a later situation].' });
       const skills = [...new Set([t.topic, ...(fb.jd_coverage || []).filter((c) => c.status === 'covered').map((c) => c.name)].filter(Boolean))].slice(0, 3);
