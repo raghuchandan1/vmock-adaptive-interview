@@ -209,8 +209,11 @@ async function groundRewrites(session, feedback, traces) {
         system, user: JSON.stringify({ resume_text: session.inputs.resume_text, job_description: session.inputs.jd_text, student_answers: String(answers[t.slot_id] || '').trim(), rewrite: t.stronger_version }),
         schemaName: 'rewrite_grounding', schema: groundingSchema,
       }), 'grounding');
-      const kept = engine.applyGrounding(t.stronger_version, data.unsupported_claims, `${session.inputs.resume_text} ${session.inputs.jd_text} ${answers[t.slot_id] || ''}`, t.to_fix || '');
-      traces.push({ ...trace, grounding_for: t.slot_id, unsupported: data.unsupported_claims, checked_rewrite: t.stronger_version, kept });
+      // A scenario or knowledge rewrite is a plan, not a story: only factual flags count and the stub rule is off.
+      const plan = ['situational', 'knowledge'].includes(t.rubric);
+      const flags = plan ? engine.hypotheticalFlags(data.unsupported_claims) : data.unsupported_claims;
+      const kept = engine.applyGrounding(t.stronger_version, flags, `${session.inputs.resume_text} ${session.inputs.jd_text} ${answers[t.slot_id] || ''}`, plan ? undefined : t.to_fix || '');
+      traces.push({ ...trace, grounding_for: t.slot_id, unsupported: data.unsupported_claims, ...(plan ? { applied: flags } : {}), checked_rewrite: t.stronger_version, kept });
       t.stronger_version = kept;
     } catch (err) {
       traces.push({ grounding_for: t.slot_id, error: err.message });

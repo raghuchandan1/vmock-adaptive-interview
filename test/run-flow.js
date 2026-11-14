@@ -224,7 +224,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
     check(['PLANNER', 'TURN', 'FEEDBACK'].every((s) => new RegExp(`process\\.env\\.${s}_MODEL \\|\\| 'gpt-6-sol'`).test(src)), 'the code defaults every prompt to gpt-6-sol (a local .env can override)');
   }
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 19 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 20 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
@@ -733,7 +733,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
       const m2 = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, s2).feedback.moments.find((m) => m.slot_id === 'conduct');
       check(shaped.moments.some((m) => m.slot_id === 'conduct' && /rude to the interviewer/.test(m.note) && m.quote === '')
         && m2 && /something else/.test(m2.note) && !/rude/.test(m2.note) && E.buildFeedbackPayload(s).conduct.join() === 'abusive'
-        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 19,
+        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 20,
       'an abusive answer or a refusal gets a plain derived note (none otherwise), and the feedback model is told');
     }
 
@@ -1455,26 +1455,40 @@ const get = async (p) => (await fetch(BASE + p)).json();
     {
       const s = noSecondChance(clone());
       live(s, 's2', { budget: 3, anchor_flags: [], probe_angle: 'find_substance' });
+      s.reacted_to_detail = true; // the react-to-detail rewrite is checked on its own below
       const long = Array(300).fill('word').join(' ');
       const payloads = [];
       await E.handleAnswer(s, long, stub([out({ decision: 'probe', probe_rung: 'how', utterance: 'To keep us on time, in a sentence or two: what did you do first?' }), out({ decision: 'probe', probe_rung: 'decision', utterance: 'Which choice was yours?' })], payloads));
       const firstNote = payloads[0].note;
       const firstGuards = s.turns.at(-1).guards;
-      // R8-5: a second long answer may get one cut-in ("Let me stop you there."), then neither; a lead-in on the
-      // walkthrough question is cut.
-      await E.handleAnswer(s, long, stub([out({ decision: 'probe', probe_rung: 'decision', utterance: 'Let me stop you there. Which choice was yours?' })], payloads));
+      // R8-5/R9-3: at most one per topic; a later topic's long answer gets one cut-in ("Let me stop you there."), a third
+      // ("Briefly, please:") only past halfway; a lead-in on the walkthrough question is cut.
+      await E.handleAnswer(s, long, stub([out({ decision: 'probe', probe_rung: 'result', utterance: 'Let me stop you there. Which choice was yours?' })], payloads));
+      const sameTopicNote = payloads.at(-1).note;
+      const sameTopicText = s.transcript.at(-1).text;
+      const ids = [...new Set(s.transcript.filter((e) => e.role === 'interviewer').map((e) => e.slot_id))].filter((id) => ['claim', 'gap'].includes((s.slots.find((x) => x.id === id) || {}).kind) && id !== 's2');
+      live(s, ids[0], { budget: 3, anchor_flags: [], probe_angle: 'find_substance' });
+      s.interviewer_turns = 4;
+      await E.handleAnswer(s, long, stub([out({ decision: 'probe', probe_rung: 'how', utterance: 'Let me stop you there. Which store came first?' })], payloads));
       const secondNote = payloads.at(-1).note;
-      await E.handleAnswer(s, long, stub([out({ decision: 'probe', probe_rung: 'result', utterance: 'What changed after the launch?' })], payloads));
+      live(s, ids[1], { budget: 3, anchor_flags: [], probe_angle: 'find_substance' });
+      s.interviewer_turns = 4;
+      await E.handleAnswer(s, long, stub([out({ decision: 'probe', probe_rung: 'how', utterance: 'What changed after the launch?' })], payloads));
+      const earlyThird = payloads.at(-1).note;
+      live(s, s.slots.find((x) => ['claim', 'gap', 'motivation'].includes(x.kind) && !['s2', ids[0], ids[1]].includes(x.id)).id, { budget: 3, anchor_flags: [], probe_angle: 'find_substance' });
+      s.interviewer_turns = 12;
+      await E.handleAnswer(s, long, stub([out({ decision: 'probe', probe_rung: 'how', utterance: 'Briefly, please: what did you change first?' })], payloads));
+      const thirdNote = payloads.at(-1).note;
       const w = noSecondChance(clone());
       live(w, 'warmup');
       w.slots.find((x) => x.id === 'background').status = 'pending';
       const wp = [];
       await E.handleAnswer(w, long, stub([out({ decision: 'move_on', utterance: 'To keep us on time, in a sentence or two: walk me through your background.' })], wp));
       check(/ran past two minutes/.test(firstNote) && /To keep us on time, in a sentence or two/.test(firstNote) && !firstGuards.some((g) => /Rewrote|options/.test(g))
-        && /Let me stop you there/.test(secondNote) && !/To keep us on time/.test(secondNote) && s.length_interventions === 2
-        && /ran past two minutes/.test(payloads.at(-1).note) && !/To keep us on time|Let me stop/.test(payloads.at(-1).note)
+        && /ran past two minutes/.test(sameTopicNote) && !/Let me stop|To keep us on time/.test(sameTopicNote) && sameTopicText === 'Which choice was yours?'
+        && /Let me stop you there/.test(secondNote) && !/Briefly|Let me stop/.test(earlyThird) && /Briefly, please/.test(thirdNote) && s.length_interventions === 3
         && !/keep us on time|stop you there/i.test(wp[0].note) && w.transcript.at(-1).text === 'Walk me through your background.',
-      'a long answer gets a short next question; a brevity ask, then one cut-in, at most, and never on the warm-up or walkthrough');
+      'a long answer gets a short next question; length interventions are one per topic, a cut-in in a later topic, a third only past halfway, never on the warm-up or walkthrough');
     }
 
     // R7-9. A second example the time rule dropped gets a derived moment, and the earlier topic says it was not revisited.
@@ -1561,6 +1575,50 @@ const get = async (p) => (await fetch(BASE + p)).json();
       check(payloads[0].flags.react_to_detail === true && s.reacted_to_detail === true && s.turns.at(-2).guards.some((g) => /react to a detail/.test(g))
         && again[0].flags.react_to_detail === false && second.follow_ups_used === 1,
       'the second scored topic\'s first follow-up is asked to react to a detail, and the session records that it did');
+    }
+
+    // QA round 9.
+    // R9-1. A scenario rewrite is a plan: only factual flags (a past-tense fact, a number, a name) apply, and the stub rule
+    // never empties it.
+    {
+      const rw = 'Before launch, I’d define which acquisition sources and learner types we need to examine and set the decision rule. I’d use the overall activation result for the main decision, then use those segments and learner feedback to understand why the effect differed.';
+      const flags = ['Before launch, I’d define which acquisition sources and learner types we need to examine', 'set the decision rule', 'why the effect differed'];
+      check(E.hypotheticalFlags(flags).length === 0 && E.applyGrounding(rw, E.hypotheticalFlags(flags), 'resume', undefined) === rw
+        && E.hypotheticalFlags(['At Kitecart we ran 14 tests', 'I built the dashboard', 'set the decision rule']).length === 2,
+      'a scenario rewrite keeps its plan: only past-tense facts, numbers or names count as unsupported, and the stub rule is off');
+    }
+
+    // R9-2. A due reaction is checked in code: a stock or planned follow-up is reworded once, naming a term from the
+    // answer; a miss is carried to the next topic's first follow-up.
+    {
+      const s = noSecondChance(clone());
+      const ids = [...new Set(s.transcript.filter((e) => e.role === 'interviewer').map((e) => e.slot_id))].filter((id) => ['claim', 'gap', 'motivation', 'concerns', 'second_chance'].includes((s.slots.find((x) => x.id === id) || {}).kind));
+      live(s, ids[1], { budget: 3, anchor_flags: [], probe_angle: 'find_substance' });
+      const ans = 'The hardest was a badge test during the Diwali sale. We only had two days of data, so I checked the weekend orders by hand.';
+      const p1 = [];
+      await E.handleAnswer(s, ans, stub([out({ decision: 'probe', probe_rung: 'role', reacts_to_detail: true, utterance: 'Which decisions in that test were yours?' }), out({ decision: 'probe', probe_rung: 'role', utterance: 'Which decisions in that test were yours personally?' })], p1));
+      const missed = !s.reacted_to_detail && /only takes the next rung/.test(p1[1]?.note || '') && /Diwali/.test(p1[1]?.note || '');
+      live(s, ids[2], { budget: 3, anchor_flags: [], probe_angle: 'find_substance' });
+      const p2 = [];
+      await E.handleAnswer(s, ans, stub([out({ decision: 'probe', probe_rung: 'how', utterance: 'With only two days of data, how did you decide it was enough to act on?' })], p2));
+      check(missed && p2[0].flags.react_to_detail === true && s.reacted_to_detail === true && s.turns.at(-1).guards.some((g) => /the follow-up does/.test(g)),
+      'a due reaction is checked in code: a stock follow-up is reworded once with a term from the answer, and a miss is carried to the next topic');
+    }
+
+    // R9-3/4. The length moment names topics the time rule dropped; "how you'll be assessed by interviewers" in feedback is
+    // fine, this interview's rubric is not.
+    {
+      const s = clone();
+      const long = Array(320).fill('word').join(' ');
+      s.transcript.find((x) => x.role === 'candidate' && x.slot_id === rated[0].slot_id).text = long;
+      const drop = s.slots.find((x) => ['claim', 'gap'].includes(x.kind) && x.id !== rated[0].slot_id);
+      drop.status = 'dropped';
+      const r = checkAndShapeFeedback({ overall: "This is how you'll be assessed by interviewers. Our rubric rewards structure.", moments: [], topics: [] }, s);
+      const m = r.feedback.moments.find((x) => x.slot_id === 'answer_length');
+      check(m && new RegExp(`Because answers ran long, we didn't get to [^.]*${drop.competency_name}`).test(m.note)
+        && !E.FEEDBACK_LEAK.test("This is how you'll be assessed by interviewers.") && !E.FEEDBACK_LEAK.test('Interviewers assess your answers on evidence.')
+        && E.FEEDBACK_LEAK.test('Our rubric rewards structure.') && E.FEEDBACK_LEAK.test("This interview's scoring criteria favour detail.") && E.leakCheck('You will be assessed on this.').length > 0,
+      'the length moment names topics dropped for time; assessment by real interviewers is fine in feedback, this interview\'s rubric is not');
     }
   }
 
