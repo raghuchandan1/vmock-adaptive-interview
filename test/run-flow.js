@@ -503,6 +503,19 @@ const get = async (p) => (await fetch(BASE + p)).json();
   check(leakCheck('The exact priority is team-specific, so the recruiter or hiring team can confirm those. Anything else?').some((f) => /outside the hiring team/.test(f))
     && leakCheck('The recruiter can share those. Is there anything else you\'d like to know?').length === 0,
     'speaking as if outside the hiring team is flagged; the recruiter alone is fine');
+  check(['Thanks, that gives me the timeline. Which part was yours?', "That's helpful. What did you do next?", 'That helps. What changed?'].every((t) => leakCheck(t).some((f) => /evaluative/.test(f)))
+    && ['Thanks. What did you do next?', 'Which part of the launch helped sign-ups most?', 'How did the redesign help users?'].every((t) => leakCheck(t).length === 0),
+    'remarks on what the answer gave ("that gives me the timeline", "that\'s helpful") are evaluative; questions using "help" are not');
+  check(['The recruiter or product team can share the current definition. Anything else?', 'The product team can confirm the activation event.', 'The growth lead will share the roadmap.'].every((t) => leakCheck(t).some((f) => /outside the hiring team/.test(f)))
+    && ['How did the product team decide what to build?', 'What did the team share at the review?'].every((t) => leakCheck(t).length === 0),
+    'any "the … team can confirm" or "recruiter or … team" is flagged; questions about the student\'s team are not');
+  {
+    const { unaskedRungs } = require('../lib/engine');
+    const sl = { kind: 'claim', anchor_text: 'Identified a pricing error pattern that saved Rs 2.4 crore annually', probe_angle: 'test_claim', rungs_used: ['role'], budget: 2, follow_ups_used: 2, anchor_flags: [] };
+    const ss = { slots: [sl], inputs: { interview_type: 'hiring_manager', stage: '' }, interviewer_turns: 5, max_turns: 20 };
+    check(unaskedRungs(ss, sl).join() === 'result' && unaskedRungs(ss, { ...sl, rungs_used: ['role', 'result'] }).length === 0,
+      'feedback is told which required follow-up was never asked, even after the follow-ups ran out');
+  }
   {
     const imp = { slots: [{ id: 's3', anchor_text: '', core_question: 'Tell me about a time you had to learn an unfamiliar customer domain before making a product decision.' }],
       transcript: [{ role: 'interviewer', slot_id: 's3', text: "Thanks. Let's move to a different kind of product challenge. Tell me about a time you had to learn an unfamiliar customer domain before making a product decision. It could be from logistics or e-commerce." }] };
