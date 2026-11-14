@@ -253,8 +253,12 @@ async function feedback(id) {
     // Each call's trace keeps the problems found in its output (the first call's were sent back), for review.
     const traces = [{ ...result.trace, problems: result.shaped.problems }];
     if (result.shaped.problems.length) {
-      result = await run(`Rewrite without these problems: ${result.shaped.problems.join('; ')}. Give no scores or ratings.`);
-      traces.push({ ...result.trace, problems: result.shaped.problems });
+      // Only numbers in the text are forbidden: "Give no scores or ratings." made a live resend drop every rating.
+      const first = result;
+      result = await run(`Rewrite without these problems: ${result.shaped.problems.join('; ')}. Keep a level for every rubric element of every topic; put no numeric scores or grades in the text.`);
+      const second = result.shaped;
+      result.shaped = engine.pickResend(first.shaped, second, session);
+      traces.push({ ...result.trace, problems: second.problems, kept: result.shaped.kept });
     }
     await groundRewrites(session, result.shaped.feedback, traces);
     session.feedback = result.shaped.feedback;

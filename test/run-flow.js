@@ -224,7 +224,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
     check(['PLANNER', 'TURN', 'FEEDBACK'].every((s) => new RegExp(`process\\.env\\.${s}_MODEL \\|\\| 'gpt-6-sol'`).test(src)), 'the code defaults every prompt to gpt-6-sol (a local .env can override)');
   }
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 13 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 14 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
@@ -370,7 +370,8 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const fb2 = await post(`/api/sessions/${id}/feedback`, {});
   const saved = await get(`/api/sessions/${id}/trace`);
   check(fb2.generated_at === fb.generated_at && saved.feedback_trace.filter((x) => !x.grounding_for).length === 2 && saved.feedback_trace.filter((x) => x.grounding_for).length === 2
-    && saved.feedback_trace[0].problems.length > 0 && Array.isArray(saved.feedback_trace[1].problems), 'feedback is generated once with one retry (the sent-back problems kept in its trace), then cached');
+    && saved.feedback_trace[0].problems.length > 0 && Array.isArray(saved.feedback_trace[1].problems) && saved.feedback_trace[1].kept === 'second'
+    && saved.feedback_trace[1].problems.length < saved.feedback_trace[0].problems.length, 'feedback is generated once with one retry (the sent-back problems kept in its trace, and the better resend kept), then cached');
 
   // Rollback on model failure: a session whose turn call errors keeps the transcript unchanged
   const v2 = await post('/api/sessions', { resume_text: resume, jd_text: '', target_role: 'Product Manager', interview_type: 'back_your_resume', style: 'surprise', length: 'short', stage: 'finals', settings: { turn_model: 'gpt-4.1', turn_effort: 'low' } });
@@ -666,15 +667,20 @@ const get = async (p) => (await fetch(BASE + p)).json();
     const sc = E.secondChanceQuestion({ competency_name: 'SQL and data preparation', core_question: 'I see you improved reporting at Finwise Credit. Walk me through the SQL work you did.' });
     const scGap = E.secondChanceQuestion({ competency_name: 'Stakeholder management', core_question: 'Tell me about a time you had to resolve competing priorities across engineering, design and marketing.' });
     const scSlot = { kind: 'second_chance', competency_name: 'SQL and data preparation', origin_text: 'Wrote SQL queries to clean and join data from 4 source tables. I see you improved reporting at Finwise Credit.' };
-    check(sc === 'Tell me about another example from your experience, different from the one you shared, where you had to work through a problem like that.'
+    // R3-9: with no "Tell me about a time" or usable "How did you…", it names the earlier story's subject, so it stands on
+    // its own after other topics; with no subject either, a fully neutral ask with nothing to refer back to.
+    const neutral = E.secondChanceQuestion({ competency_name: 'Structured problem solving', core_question: 'How did you get to the Rs 2 crore figure?' });
+    check(sc === 'Earlier you told me about the time you improved reporting at Finwise Credit. Tell me about another example from your experience, different from that one, where you had to do similar work.'
       && scGap === 'Tell me about another time you had to resolve competing priorities across engineering, design and marketing, a different example from the one you shared.'
-      && E.leakCheck(sc).length === 0 && E.leakCheck(scGap).length === 0
+      && E.leakCheck(sc).length === 0 && E.leakCheck(scGap).length === 0 && E.leakCheck(neutral).length === 0
       && E.openerOffLine(scSlot, 'Tell me about another time you had to disagree with someone or take a clear stance, using a different example.')
-      && !E.openerOffLine(scSlot, 'Tell me about another time you had to clean up messy data.') && !E.openerOffLine({ ...scSlot, core_question: sc }, sc)
+      && !E.openerOffLine(scSlot, 'Tell me about another time you had to clean up messy data.') && !E.openerOffLine({ ...scSlot, core_question: sc }, sc) && !E.openerOffLine({ ...scSlot, core_question: neutral }, neutral)
       && E.secondChanceQuestion({ core_question: 'How did you decide which features to cut for the launch?' }) === 'Tell me about another time you had to decide which features to cut for the launch, a different example from the one you shared.'
-      && E.secondChanceQuestion({ competency_name: 'Structured problem solving', core_question: 'How did you get to the Rs 2 crore figure?' }) === sc && !/problem solving/i.test(sc)
-      && trace.slots.filter((x) => x.kind === 'second_chance').every((x) => /^Tell me about another/.test(x.core_question)),
-    'a second-chance topic opens on its own kind of work (engine-written question); an opening about another kind of story is caught');
+      && /^Earlier you told me about the time you identified a pricing error pattern\. /.test(E.secondChanceQuestion({ core_question: 'Tell me about the pricing error pattern you found.', anchor_text: 'Identified a pricing error pattern that saved the company Rs 2.4 crore annually' }))
+      && E.secondChanceQuestion({ core_question: 'Your resume says you owned it end to end. What problem were you solving?', anchor_text: 'Treasurer, Coding Club: managed a budget' }) === neutral
+      && !/problem solving|like that/i.test(sc + neutral)
+      && trace.slots.filter((x) => x.kind === 'second_chance').every((x) => /^(Tell me about another|Earlier you told me about the time you [a-z])/.test(x.core_question)),
+    'a second-chance topic opens on its own kind of work and names the earlier story when it can (engine-written question); an opening about another kind of story is caught');
 
     // 2. Topics on the same CV line: the earlier topic's questions go to the model, and its role/decision/result rungs aren't asked again.
     {
@@ -725,7 +731,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
       const m2 = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, s2).feedback.moments.find((m) => m.slot_id === 'conduct');
       check(shaped.moments.some((m) => m.slot_id === 'conduct' && /rude to the interviewer/.test(m.note) && m.quote === '')
         && m2 && /something else/.test(m2.note) && !/rude/.test(m2.note) && E.buildFeedbackPayload(s).conduct.join() === 'abusive'
-        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 13,
+        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 14,
       'an abusive answer or a refusal gets a plain derived note (none otherwise), and the feedback model is told');
     }
 
@@ -735,17 +741,35 @@ const get = async (p) => (await fetch(BASE + p)).json();
       const mot = (used = 0, rungs = [], budget = 2) => ({ kind: 'motivation', rungs_used: rungs, follow_ups_used: used, budget, likely_probes: [] });
       const rsS = sess('recruiter_screen', 'summers');
       check(E.budgetFor('motivation', rsS) === 2 && E.budgetFor('motivation', sess('recruiter_screen', 'finals')) === 1 && E.budgetFor('motivation', sess('recruiter_screen', '', 'probing')) === 2
-        && E.unaskedRungs(rsS, mot()).join() === 'domain_prep,hr_round' && E.requiredNextRung(rsS, mot()) === 'domain_prep' && E.requiredRung(rsS, mot(1, ['domain_prep'])) === 'hr_round'
+        && E.unaskedRungs(rsS, mot()).join() === 'hr_round,domain_prep' && E.requiredNextRung(rsS, mot()) === 'hr_round' && E.requiredRung(rsS, mot(1, ['hr_round'])) === 'domain_prep'
         && E.unaskedRungs(sess('recruiter_screen', 'finals'), mot()).join() === 'hr_round' && E.unaskedRungs(sess('recruiter_screen', ''), mot()).length === 0
-        && E.unaskedRungs(sess('hiring_manager', 'summers'), mot()).length === 0 && E.rungDimension({ kind: 'motivation' }, 'domain_prep') === 'evidence',
-      'a recruiter-screen motivation topic with a placement stage owes the HR-round probe, and in summers the MBA probe, with a follow-up for each');
+        && E.unaskedRungs(sess('hiring_manager', 'summers'), mot()).length === 0 && E.rungDimension({ kind: 'motivation' }, 'domain_prep') === 'evidence'
+        // R3-2: laterals owe "why now?" in any interview type.
+        && E.unaskedRungs(sess('hiring_manager', 'laterals'), mot()).join() === 'why_now' && E.unaskedRungs(sess('recruiter_screen', 'laterals'), mot()).join() === 'why_now,hr_round'
+        && E.budgetFor('motivation', sess('hiring_manager', 'laterals', 'balanced')) === 1 && E.rungDimension({ kind: 'motivation' }, 'why_now') === 'reason',
+      'a recruiter-screen motivation topic with a placement stage owes the HR-round probe, in summers then the MBA probe, and in laterals "why now?" (any type), with a follow-up for each');
       const s = noSecondChance(clone());
       s.inputs = { ...s.inputs, interview_type: 'recruiter_screen', stage: 'summers' };
       const s4 = live(s, 's4', { budget: 2, likely_probes: ['What about Brightpath interests you most?', 'What have you done in your MBA so far towards product?', 'What other roles or companies are you considering?'] });
       const payloads = [];
-      await E.handleAnswer(s, 'I like growth work and Brightpath helps learners, which matters to me.', stub([out({ decision: 'probe', probe_rung: 'domain_prep', utterance: 'What have you done in your MBA so far towards product?' })], payloads));
-      check(!payloads[0].allowed_decisions.includes('move_on') && payloads[0].current_slot.owed_follow_up === 'What have you done in your MBA so far towards product?' && s4.rungs_used.join() === 'domain_prep',
+      await E.handleAnswer(s, 'I like growth work and Brightpath helps learners, which matters to me.', stub([out({ decision: 'probe', probe_rung: 'hr_round', utterance: 'What other roles or companies are you considering?' })], payloads));
+      check(!payloads[0].allowed_decisions.includes('move_on') && payloads[0].current_slot.owed_follow_up === 'What other roles or companies are you considering?' && s4.rungs_used.join() === 'hr_round',
         'the turn model is told which planned motivation probe is owed, and the topic cannot close before it');
+      // R3-4: a "not sure" on one owed probe gets a simpler version that spends no follow-up while another is still owed.
+      await E.handleAnswer(s, "Sorry, I don't know.", stub([out({ decision: 'clarify', probe_rung: 'hr_round', utterance: 'Even one other kind of role you have looked at is fine. What is it?' })]));
+      const after = [];
+      await E.handleAnswer(s, 'Mostly product analyst roles at fintech companies, and a couple of consulting firms.', stub([out({ decision: 'probe', probe_rung: 'domain_prep', utterance: 'What have you done in your MBA so far towards product?' })], after));
+      check(after[0].current_slot.required_next_rung === 'domain_prep' && !after[0].allowed_decisions.includes('move_on') && s4.rungs_used.at(-1) === 'domain_prep' && s4.follow_ups_used === 2,
+        'a "not sure" on an owed motivation probe gets a simpler version without spending the follow-up the other owed probe needs');
+      // R3-2: a laterals motivation topic is told which planned "why now?" probe is owed.
+      const l = noSecondChance(clone());
+      l.inputs = { ...l.inputs, interview_type: 'hiring_manager', stage: 'laterals' };
+      live(l, 's4', { budget: 1, likely_probes: ["What part of Harbor Payroll's small-business focus is most compelling to you?", 'Why is now the right time for this move?', 'How do you view the move from Group Product Manager to this scope?'] });
+      const lp = [];
+      await E.handleAnswer(l, 'Payroll is high-stakes for small businesses, and I like measurable onboarding problems.', stub([out({ decision: 'probe', probe_rung: 'transfer' }), out({ decision: 'probe', probe_rung: 'why_now', utterance: 'Why is now the right time for this move?' })], lp));
+      check(lp[0].current_slot.required_next_rung === 'why_now' && lp[0].current_slot.owed_follow_up === 'Why is now the right time for this move?' && /probe rung must be "why_now" first/.test(l.turns.at(-1).guards.join())
+        && l.transcript.at(-1).text === 'Why is now the right time for this move?',
+      'a laterals motivation topic owes the planned "why now?" follow-up before it closes');
     }
 
     // 7 and 17. An unasked measurement is not faulted (any interview type, rating reasons too), and a topic whose core story
@@ -937,6 +961,111 @@ const get = async (p) => (await fetch(BASE + p)).json();
       const p = (text) => checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ slot_id: rated[0].slot_id, ratings: [], went_well: '', went_well_quote: '', to_fix: 'x', to_fix_quote: rated[0].to_fix_quote, answer_plan: [], stronger_version: text, example_answer: '' }] }, s).problems;
       check(p('The series reached students across the sessions.').some((x) => /talks about students/.test(x)) && !p('The series reached 120 students.').some((x) => /talks about students/.test(x)),
         'a rewrite naming the line\'s measure ("students") without its number is sent back');
+    }
+
+    // QA round 3.
+    const shape = (topic, sess = trace) => checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [{ ratings: [], went_well: '', went_well_quote: '', to_fix: '', to_fix_quote: '', answer_plan: [], stronger_version: '', example_answer: '', ...topic }] }, sess);
+    // R3-1. A resend with more problems, or one that drops a topic's ratings, doesn't replace the first; "your selection
+    // criteria" in a hiring story is the student's own, while the interview's criteria still count.
+    {
+      const ids = E.feedbackSlots(trace).map((x) => x.id);
+      const r = [{ dimension: 'situation', level: 'good_job' }];
+      const mk = (topics, problems) => ({ feedback: { overall: 'x', topics }, problems });
+      const first = mk([{ slot_id: ids[0], ratings: r, n: 1 }, { slot_id: ids[1], ratings: r, n: 1 }], ['a', 'b']);
+      const worse = E.pickResend(first, mk([{ slot_id: ids[0], ratings: [], n: 2 }], ['a', 'b', 'c']), trace);
+      const mixed = E.pickResend(first, mk([{ slot_id: ids[0], ratings: [], n: 2 }], ['a']), trace);
+      const better = E.pickResend(first, mk([{ slot_id: ids[0], ratings: r, n: 2 }, { slot_id: ids[1], ratings: r, n: 2 }], []), trace);
+      const fx = (toFix) => shape({ slot_id: rated[0].slot_id, to_fix: toFix }).problems.some((p) => /remove/.test(p));
+      check(worse.kept === 'first' && worse.feedback.topics.every((t) => t.n === 1) && mixed.feedback.topics.map((t) => t.n).join() === '1,1' && /first for/.test(mixed.kept)
+        && better.kept === 'second' && better.feedback.topics.every((t) => t.n === 2)
+        && !fx('The first answer gave your selection criteria but did not state the trade-off.') && !fx('You named the hiring criteria you used for the PM role.')
+        && fx('The interview\'s selection criteria favour clear results.') && fx('Think about the scoring criteria.')
+        && ['What criteria did you personally use to make that hire?', 'What were your criteria for choosing the vendor?', 'What selection criteria did you set for the role?'].every((t) => leakCheck(t).length === 0),
+      'a resend with more problems or without a topic\'s ratings keeps the first; the student\'s own selection or hiring criteria are not agenda words');
+    }
+
+    // R3-3. A knowledge or scenario gap topic is never a pivot target.
+    {
+      const s = noSecondChance(clone());
+      live(s, 's1');
+      s.slots.filter((x) => ['s2', 's3', 's4'].includes(x.id)).forEach((x) => { x.status = 'pending'; });
+      const story =E.pivotOptions(s).some((p) => p.slot_id === 's3');
+      s.slots.find((x) => x.id === 's3').question_type = 'knowledge';
+      const knowledge = E.pivotOptions(s).some((p) => p.slot_id === 's3');
+      s.slots.find((x) => x.id === 's3').question_type = 'situational';
+      check(story && !knowledge && !E.pivotOptions(s).some((p) => p.slot_id === 's3'), 'a knowledge or scenario gap topic is never offered as a pivot target');
+    }
+
+    // R3-5. A later topic on a CV line whose measurement an earlier topic asked: its intent, planned follow-ups and missing
+    // leave the measurement out, its feedback is told and may not fault it; a plan measuring one line twice is warned.
+    {
+      const s = noSecondChance(clone());
+      const s2 = live(s, 's2', { budget: 3, likely_probes: ['What business action followed from the finding?', 'How was the Rs 2.4 crore annual figure calculated?', 'Over what period did you compare the rates?'] });
+      Object.assign(s.slots.find((x) => x.id === 's1'), { anchor_text: s2.anchor_text, rungs_used: ['role', 'result'], status: 'done' });
+      const payloads = [];
+      await E.handleAnswer(s, 'I compared the pricing records against the intended prices for each seller.', stub([out({ decision: 'probe', probe_rung: 'how', utterance: 'Which part of the fix did you decide on yourself?', missing: ['how the annual saving was calculated', 'their own decision'] })], payloads));
+      const cs = payloads[0].current_slot;
+      const fp = E.buildFeedbackPayload(s).topics.find((t) => t.slot_id === 's2');
+      const plan = (anchor) => { const pl = JSON.parse(JSON.stringify(trace.plan)); pl.slots.find((x) => x.id === 's2').anchor_claim_id = anchor; return E.checkAndShapePlan(pl, trace.inputs).checks.some((c) => /both plan how its number was measured/.test(c.message)); };
+      const sh = shape({ slot_id: 's2', to_fix: 'You did not explain how the annual saving was calculated.' }, s);
+      check(/already asked in an earlier topic/.test(cs.intent) && cs.planned_follow_ups.join('|') === 'What business action followed from the finding?'
+        && s.turns.at(-1).output.missing.join() === 'their own decision' && /covered in topic|asked in topic s1/.test(fp.covered_in_other_topic.join()) && /already asked/.test(fp.what_a_complete_answer_needs)
+        && sh.problems.some((p) => /covered in topic s1/.test(p)) && plan('c1') && !plan('c3'),
+      'a later topic on a CV line whose measurement was asked earlier leaves it out of its intent, follow-ups, missing and feedback; a plan measuring one line twice is warned');
+    }
+
+    // R3-6/7. New praise forms are caught (not ordinary questions with "clear"); a rewrite that still asks two things is cut.
+    {
+      const praise = (t) => E.leakCheck(t).some((f) => /evaluative/.test(f));
+      check(praise('Thanks, that comparison makes the time saving clear.') && praise('You set a clear outcome and support guardrail. When would you stop the test?') && praise('This makes it very clear. What next?')
+        && !praise('How did you make the trade-off clear to the team?') && !praise('How did you set a clear goal for the team?') && !praise('What made the problem clear to you?'),
+      'praise that the answer made something clear, or that "you set a clear…", is caught; questions using "clear" are not');
+      const s = noSecondChance(clone());
+      live(s, 's2', { budget: 3 });
+      await E.handleAnswer(s, 'I added validation checks before catalogue updates went live, and I reviewed the flagged ones daily.', stub([
+        out({ decision: 'probe', probe_rung: 'how', utterance: 'You set a clear guardrail there. What could have gone wrong with that approach?' }),
+        out({ decision: 'probe', probe_rung: 'how', utterance: 'What could have gone wrong with that approach, and how did you guard against it?' })]));
+      check(s.transcript.at(-1).text === 'What could have gone wrong with that approach?' && s.turns.at(-1).guards.some((g) => /Cut the message after the rewrite/.test(g)),
+        'a rewrite that still asks two things is cut to its first question');
+    }
+
+    // R3-8. "the <up to six words> reported on my resume" and a rewrite naming the line's measure word without its number.
+    {
+      const s = clone();
+      Object.assign(s.slots.find((x) => x.id === rated[0].slot_id), { anchor_text: 'Owned the checkout redesign end to end, cutting cart abandonment from 71% to 58% across 2 million monthly sessions' });
+      const p = (text) => shape({ slot_id: rated[0].slot_id, to_fix: 'x', to_fix_quote: rated[0].to_fix_quote, stronger_version: text }, s).problems;
+      check(p('The result was the observed reduction in checkout abandonment reported on my resume.').some((x) => /instead of "the observed reduction in checkout abandonment reported on my resume"/.test(x))
+        && p('The result was a clear drop in abandonment after launch.').some((x) => /talks about abandonment/.test(x))
+        && !p('The result was abandonment falling from 71% to 58%.').some((x) => /talks about abandonment/.test(x)),
+      'a rewrite pointing at the resume with several words in between, or naming the line\'s measure ("abandonment") without its number, is sent back');
+    }
+
+    // R3-11/12. Two topics on one competency are warned; "?." is cleaned; ", then" in one action is not a list.
+    {
+      const pl = JSON.parse(JSON.stringify(trace.plan));
+      pl.slots.find((x) => x.id === 's3').competency_id = 'k1';
+      const warns = (p) => E.checkAndShapePlan(p, trace.inputs).checks.some((c) => /share competency/.test(c.message));
+      const s = noSecondChance(clone());
+      live(s, 's4', { budget: 2 });
+      await E.handleAnswer(s, 'I want to work on learner growth because I enjoyed the referral work at Kitecart.', stub([out({ decision: 'probe', probe_rung: 'how', utterance: 'What has made product analytics appealing to you?.' })]));
+      check(warns(pl) && !warns(trace.plan) && s.transcript.at(-1).text === 'What has made product analytics appealing to you?'
+        && !E.severalActions('Pause, then choose the closest relevant project') && E.severalActions('Pause, then choose a project, then state its link'),
+      'two topics on one competency are warned; "?." is cleaned from what the interviewer says; one action in sequence is not a list');
+    }
+
+    // R3-13 and R3-2. A manipulation attempt gets a brief neutral conduct note; an unasked "why now?" is not faulted.
+    {
+      const s = clone();
+      s.turns[s.turns.length - 2].output.evidence.answer_type = 'manipulation';
+      const m = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, s).feedback.moments.find((x) => x.slot_id === 'conduct');
+      const w = clone();
+      w.inputs = { ...w.inputs, stage: 'laterals' };
+      Object.assign(w.slots.find((x) => x.id === rated[0].slot_id), { kind: 'motivation', rungs_used: [] });
+      const whyNow = (toFix) => shape({ slot_id: rated[0].slot_id, to_fix: toFix }, w).problems.some((p) => /never asked why now/.test(p));
+      check(m && /At one point you asked for the score or the interview plan/.test(m.note) && !/rude/.test(m.note) && E.buildFeedbackPayload(s).conduct.join() === 'manipulation'
+        && whyNow('You did not say why now is the right time for this move.') && !whyNow('You gave no reason tied to the company.')
+        && E.buildFeedbackPayload(w).topics.find((t) => t.slot_id === rated[0].slot_id).not_asked.some((x) => /why now/.test(x)),
+      'a manipulation attempt gets a brief neutral conduct note; a "why now?" nobody asked is in not_asked and is not faulted');
     }
   }
 
