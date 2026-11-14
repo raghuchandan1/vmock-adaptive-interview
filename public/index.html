@@ -212,7 +212,27 @@
           <select id="turnEffort"><option>none</option><option>minimal</option><option>low</option><option>medium</option><option>high</option></select>
         </div>
       </div>
-      <p class="hint">Reasoning is only sent to reasoning models (gpt-5 and o-series). Use a faster model for turns to keep replies quick.</p>
+      <div class="two">
+        <div class="field">
+          <label for="feedbackModel">Feedback model</label>
+          <input id="feedbackModel" type="text">
+        </div>
+        <div class="field">
+          <label for="feedbackEffort">Feedback reasoning</label>
+          <select id="feedbackEffort"><option>none</option><option>minimal</option><option>low</option><option>medium</option><option>high</option></select>
+        </div>
+      </div>
+      <div class="two">
+        <div class="field">
+          <label for="groundingModel">Rewrite check model</label>
+          <input id="groundingModel" type="text">
+        </div>
+        <div class="field">
+          <label for="groundingEffort">Rewrite check reasoning</label>
+          <select id="groundingEffort"><option>none</option><option>minimal</option><option>low</option><option>medium</option><option>high</option></select>
+        </div>
+      </div>
+      <p class="hint">Reasoning is only sent to reasoning models (o-series, gpt-5 and later). Use a fast model for turns to keep replies quick. The rewrite check verifies the improved answers in the feedback.</p>
       <label class="check"><input type="checkbox" id="showAgendaDefault"> Open the hidden agenda during interviews by default</label>
       <div class="dialog-actions">
         <button class="secondary" value="cancel" type="submit">Cancel</button>

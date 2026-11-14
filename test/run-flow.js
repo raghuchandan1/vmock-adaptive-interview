@@ -51,7 +51,7 @@ const get = async (p) => (await fetch(BASE + p)).json();
   try { await post('/api/sessions', { resume_text: 'short', interview_type: 'hiring_manager', style: 'balanced', length: 'standard' }); check(false, 'rejects short resume'); }
   catch (e) { check(/200\+ characters/.test(e.message), 'rejects short resume with a clear message'); }
 
-  const view = await post('/api/sessions', { resume_text: resume, jd_text: jd, target_role: '', interview_type: 'hiring_manager', style: 'balanced', length: 'standard', settings: { planner_model: 'gpt-5-noeffort', planner_effort: 'medium', turn_model: 'gpt-5-mini', turn_effort: 'low' } });
+  const view = await post('/api/sessions', { resume_text: resume, jd_text: jd, target_role: '', interview_type: 'hiring_manager', style: 'balanced', length: 'standard', settings: { planner_model: 'gpt-5-noeffort', planner_effort: 'medium', turn_model: 'gpt-5-mini', turn_effort: 'low', feedback_model: 'gpt-6-fb-test', feedback_effort: 'medium', grounding_model: 'gpt-6-gr-test' } });
   const id = view.id;
   check(view.pre_brief.topics === 4, `pre-brief shows 4 topics (got ${view.pre_brief.topics})`);
   check(view.transcript.length === 1 && /^Hi Rohan,/.test(view.transcript[0].text), 'opening greets the candidate by name');
@@ -202,6 +202,18 @@ const get = async (p) => (await fetch(BASE + p)).json();
   const answersText = norm(trace.transcript.filter((e) => e.role === 'candidate').map((e) => e.text).join(' '));
   const fbText = JSON.stringify([fb.overall, fb.topics.map((t) => [t.went_well, t.to_fix, t.answer_plan, (t.ratings || []).map((r) => r.reason), t.stronger_version]), fb.moments]);
   const rated = fb.topics.filter((t) => !t.too_short);
+  {
+    const ft = (await get(`/api/sessions/${id}/trace`)).feedback_trace;
+    const fbCalls = ft.filter((t) => t.model && !t.grounding_for);
+    const grCalls = ft.filter((t) => t.grounding_for && t.model);
+    check(fbCalls.length >= 1 && fbCalls.every((t) => t.model === 'gpt-6-fb-test' && t.reasoning_effort === 'medium')
+      && grCalls.length >= 1 && grCalls.every((t) => t.model === 'gpt-6-gr-test' && t.reasoning_effort === 'medium'),
+      `feedback and the rewrite check use their own models; the check's effort follows feedback (${ft.map((t) => `${t.model}/${t.reasoning_effort}`).join(', ')})`);
+    const cfg = await get('/api/config');
+    check(['planner', 'turn', 'feedback', 'grounding'].every((s) => cfg.defaults[`${s}_model`] && cfg.defaults[`${s}_effort`]), 'config reports a default model and effort for every prompt');
+    const src = fs.readFileSync(path.join(__dirname, '..', 'server.js'), 'utf8');
+    check(['PLANNER', 'TURN', 'FEEDBACK'].every((s) => new RegExp(`process\\.env\\.${s}_MODEL \\|\\| 'gpt-6-sol'`).test(src)), 'the code defaults every prompt to gpt-6-sol (a local .env can override)');
+  }
   const { rubricFor, rubricKey } = require('../lib/engine');
   check(fb.version === 11 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');

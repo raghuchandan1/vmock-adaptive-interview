@@ -35,25 +35,20 @@
   }
 
   // ---------- Settings ----------
+  // One model and reasoning effort per prompt; fields are named plannerModel, plannerEffort, feedbackModel, ...
+  const MODEL_FIELDS = ['planner', 'turn', 'feedback', 'grounding'].flatMap((s) => [`${s}_model`, `${s}_effort`]);
+  const fieldId = (f) => f.replace(/_(\w)/, (_, c) => c.toUpperCase());
   function loadSettings() {
     let saved = {};
     try { saved = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}'); } catch (_) { /* ignore */ }
     const d = state.config.defaults;
-    state.settings = {
-      planner_model: saved.planner_model || d.planner_model,
-      planner_effort: saved.planner_effort || d.planner_effort,
-      turn_model: saved.turn_model || d.turn_model,
-      turn_effort: saved.turn_effort || d.turn_effort,
-      show_agenda: Boolean(saved.show_agenda),
-    };
+    state.settings = { show_agenda: Boolean(saved.show_agenda) };
+    for (const f of MODEL_FIELDS) state.settings[f] = saved[f] || d[f];
   }
 
   function openSettings() {
     const s = state.settings;
-    $('plannerModel').value = s.planner_model;
-    $('plannerEffort').value = s.planner_effort;
-    $('turnModel').value = s.turn_model;
-    $('turnEffort').value = s.turn_effort;
+    for (const f of MODEL_FIELDS) $(fieldId(f)).value = s[f];
     $('showAgendaDefault').checked = s.show_agenda;
     $('apiKey').value = '';
     $('keyStatus').textContent = state.config.has_key
@@ -63,13 +58,8 @@
   }
 
   async function saveSettings() {
-    state.settings = {
-      planner_model: $('plannerModel').value.trim() || state.config.defaults.planner_model,
-      planner_effort: $('plannerEffort').value,
-      turn_model: $('turnModel').value.trim() || state.config.defaults.turn_model,
-      turn_effort: $('turnEffort').value,
-      show_agenda: $('showAgendaDefault').checked,
-    };
+    state.settings = { show_agenda: $('showAgendaDefault').checked };
+    for (const f of MODEL_FIELDS) state.settings[f] = $(fieldId(f)).value.trim() || state.config.defaults[f];
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(state.settings));
     const key = $('apiKey').value.trim();
     if (key) {

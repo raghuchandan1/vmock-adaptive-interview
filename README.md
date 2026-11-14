@@ -123,8 +123,10 @@ A decision the model is not allowed to make is rejected and requested again, the
 | Variable | Default | Notes |
 | --- | --- | --- |
 | `OPENAI_API_KEY` | none | Required (or paste it in Settings on `/`) |
-| `PLANNER_MODEL`, `PLANNER_REASONING_EFFORT` | `gpt-5`, `medium` | One call per interview |
-| `TURN_MODEL`, `TURN_REASONING_EFFORT` | `gpt-5-mini`, `low` | One call per answer; also writes the feedback. Old sessions whose saved model the key can no longer use fall back to the current one |
+| `PLANNER_MODEL`, `PLANNER_REASONING_EFFORT` | `gpt-6-sol`, `medium` | One call per interview |
+| `TURN_MODEL`, `TURN_REASONING_EFFORT` | `gpt-6-sol`, `low` | One call per answer |
+| `FEEDBACK_MODEL`, `FEEDBACK_REASONING_EFFORT` | `gpt-6-sol`, `low` | Writes the feedback. Old sessions whose saved model the key can no longer use fall back to the current default; sessions saved before this setting existed use their turn model |
+| `GROUNDING_MODEL`, `GROUNDING_REASONING_EFFORT` | the feedback model and effort | Checks each improved answer in the feedback |
 | `MARKET` | `india` | `us` for US recruiting; a request's `market` field overrides it |
 | `VOICE_PROVIDER` | `openai` | `browser` uses the browser's speech (Chrome, Edge) |
 | `OPENAI_API_TTS_STT_KEY` | `OPENAI_API_KEY` | Optional separate key for speech and transcription |

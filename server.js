@@ -17,12 +17,19 @@ loadDotEnv(path.join(ROOT, '.env'));
 
 const PORT = Number(process.env.PORT || 3000);
 const BASE_URL = process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1';
+// One model per prompt. Defaults from the 2026-11-14 playground comparison (quality first, then time):
+// docs/research/2026-11-14-playground-model-comparison/. Grounding (the rewrite check) follows feedback unless set.
 const DEFAULTS = {
-  planner_model: process.env.PLANNER_MODEL || 'gpt-5',
+  planner_model: process.env.PLANNER_MODEL || 'gpt-6-sol',
   planner_effort: process.env.PLANNER_REASONING_EFFORT || 'medium',
-  turn_model: process.env.TURN_MODEL || 'gpt-5-mini',
+  turn_model: process.env.TURN_MODEL || 'gpt-6-sol',
   turn_effort: process.env.TURN_REASONING_EFFORT || 'low',
+  feedback_model: process.env.FEEDBACK_MODEL || 'gpt-6-sol',
+  feedback_effort: process.env.FEEDBACK_REASONING_EFFORT || 'low',
 };
+DEFAULTS.grounding_model = process.env.GROUNDING_MODEL || DEFAULTS.feedback_model;
+DEFAULTS.grounding_effort = process.env.GROUNDING_REASONING_EFFORT || DEFAULTS.feedback_effort;
+const STEPS = ['planner', 'turn', 'feedback', 'grounding'];
 const VOICE = {
   provider: process.env.VOICE_PROVIDER === 'browser' ? 'browser' : 'openai', // browser: the page uses the browser's own speech
   tts_model: process.env.TTS_MODEL || 'gpt-4o-mini-tts-2025-12-15',
@@ -67,13 +74,15 @@ function getSession(id) {
 }
 
 function cleanSettings(raw = {}) {
-  const pick = (v, d) => (typeof v === 'string' && v.trim() ? v.trim() : d);
-  return {
-    planner_model: pick(raw.planner_model, DEFAULTS.planner_model),
-    planner_effort: pick(raw.planner_effort, DEFAULTS.planner_effort),
-    turn_model: pick(raw.turn_model, DEFAULTS.turn_model),
-    turn_effort: pick(raw.turn_effort, DEFAULTS.turn_effort),
-  };
+  const pick = (v, d) => (typeof v === 'string' && v.trim() ? v.trim().slice(0, 80) : d);
+  const out = Object.fromEntries(STEPS.flatMap((s) => [
+    [`${s}_model`, pick(raw[`${s}_model`], DEFAULTS[`${s}_model`])],
+    [`${s}_effort`, pick(raw[`${s}_effort`], DEFAULTS[`${s}_effort`])],
+  ]));
+  // The rewrite check follows the feedback setting unless it is set itself (in the request or in .env).
+  out.grounding_model = pick(raw.grounding_model, process.env.GROUNDING_MODEL || out.feedback_model);
+  out.grounding_effort = pick(raw.grounding_effort, process.env.GROUNDING_REASONING_EFFORT || out.feedback_effort);
+  return out;
 }
 
 // ---------- Handlers ----------
@@ -154,11 +163,16 @@ async function answer(id, body) {
 // Feedback is written later than the interview, sometimes much later: when the model saved on an old session is no
 // longer available to this key, it is written with the current default model instead (the session keeps its own).
 const MODEL_GONE = /OpenAI API error (403|404)\b.*model|model_not_found|does not have access to model|does not exist/i;
-async function withModelFallback(session, call) {
-  const own = { model: session.settings.turn_model, reasoningEffort: session.settings.turn_effort };
+// step: 'feedback' or 'grounding'. Sessions saved before these had their own setting used the turn model.
+async function withModelFallback(session, call, step = 'feedback') {
+  const st = session.settings || {};
+  const own = {
+    model: st[`${step}_model`] || st.feedback_model || st.turn_model || DEFAULTS[`${step}_model`],
+    reasoningEffort: st[`${step}_effort`] || st.feedback_effort || st.turn_effort || DEFAULTS[`${step}_effort`],
+  };
   try { return await call(own); } catch (err) {
-    if (!MODEL_GONE.test(err.message) || own.model === DEFAULTS.turn_model) throw err;
-    return call({ model: DEFAULTS.turn_model, reasoningEffort: DEFAULTS.turn_effort });
+    if (!MODEL_GONE.test(err.message) || own.model === DEFAULTS[`${step}_model`]) throw err;
+    return call({ model: DEFAULTS[`${step}_model`], reasoningEffort: DEFAULTS[`${step}_effort`] });
   }
 }
 
@@ -171,7 +185,7 @@ async function groundRewrites(session, feedback, traces) {
         apiKey: apiKey(), baseUrl: BASE_URL, ...m,
         system, user: JSON.stringify({ resume_text: session.inputs.resume_text, job_description: session.inputs.jd_text, student_answers: String(answers[t.slot_id] || '').trim(), rewrite: t.stronger_version }),
         schemaName: 'rewrite_grounding', schema: groundingSchema,
-      }));
+      }), 'grounding');
       const kept = engine.applyGrounding(t.stronger_version, data.unsupported_claims, `${session.inputs.resume_text} ${session.inputs.jd_text} ${answers[t.slot_id] || ''}`);
       traces.push({ ...trace, grounding_for: t.slot_id, unsupported: data.unsupported_claims, checked_rewrite: t.stronger_version, kept });
       t.stronger_version = kept;
@@ -448,5 +462,5 @@ server.listen(PORT, process.env.HOST || 'localhost', () => {
   console.log(`\nVMock adaptive interview prototype running at http://localhost:${PORT}`);
   console.log(`Student voice interview: http://localhost:${PORT}/student (voice: ${VOICE.provider}${VOICE.provider === 'openai' ? `, ${process.env.OPENAI_API_TTS_STT_KEY ? 'own key' : 'main key'}` : ''})`);
   console.log(`OpenAI key: ${apiKey() ? 'found in environment' : 'not set yet (add it in Settings in the page, or in .env)'}`);
-  console.log(`Planner model: ${DEFAULTS.planner_model} (${DEFAULTS.planner_effort})  Turn model: ${DEFAULTS.turn_model} (${DEFAULTS.turn_effort})\n`);
+  console.log(`${STEPS.map((s) => `${s[0].toUpperCase()}${s.slice(1)}: ${DEFAULTS[`${s}_model`]} (${DEFAULTS[`${s}_effort`]})`).join('  ')}\n`);
 });
