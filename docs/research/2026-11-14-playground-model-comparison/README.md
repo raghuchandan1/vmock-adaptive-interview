@@ -2,7 +2,11 @@
 
 Run on the deployed playground (`dashboard-sahil.vmock.dev/interviews/adaptive/playground`), driven through its own UI. The playground runs the deployed engine, without the fixes on branch `worktree-playground-test-fixes`. Its prompts are the deployed copies: planner 32,612 characters (the repo's is shorter), turn 27,812, feedback 13,292, grounding 2,144. Costs are the playground's list-price figures; times are its "AI time" per step. Most cells are one run.
 
-## Recommendation
+## Recommendation, quality first, then time
+
+gpt-6-sol for all three: planner (medium, 27-39s), turns (low, 3.1s average, 3.6s worst), feedback (low, 15-22s). In a graded transcript with known right verdicts, gpt-6-sol, gpt-6.1-terra and gpt-6-luna all judged correctly; gpt-6-sol was the fastest, and medium effort changed nothing. gpt-5.6-sol broke once ("None of your answers was long enough to judge"). `.env`: `PLANNER_MODEL=gpt-6-sol`, `TURN_MODEL=gpt-6-sol`. About $0.30 for a short interview. The full report: https://claude.ai/artifact/VcXmKCDUQTvvqDrswsAZpb
+
+## Recommendation, cost-weighted (earlier)
 
 | Step | Model | Effort | Why |
 |---|---|---|---|
