@@ -1638,6 +1638,16 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
       const nextP = praised.slots[praised.slots.indexOf(p1) + 1];
       nextP.status = 'pending';
       await E.handleAnswer(praised, 'We compared the old and new reports for a month and the store managers stopped asking for manual pulls.', stub([out({ evidence_sufficient: true, decision: 'move_on', utterance: 'Great answer. Tell me about something else?' })]));
+      // Follow-up: a claim whose story the student already told keeps the model's own opener on one part of it.
+      const told = noSecondChance(clone());
+      const t1 = live(told, 's1', { budget: 1, follow_ups_used: 1 });
+      const nextT = told.slots[told.slots.indexOf(t1) + 1];
+      nextT.status = 'pending';
+      const own = `You mentioned ${nextT.anchor_text.split(' ').slice(0, 6).join(' ')} earlier. What was the hardest part of that work?`;
+      await E.handleAnswer(told, `Before that, ${nextT.anchor_text}. We compared the old and new reports for a month.`, stub([out({ evidence_sufficient: true, decision: 'move_on', utterance: own })]));
+      check(told.transcript.at(-1).text.endsWith('What was the hardest part of that work?') && told.transcript.at(-1).text !== `Thanks. ${nextT.core_question}`
+        && told.turns.at(-1).guards.some((g) => /Opener: the model's own/.test(g)) && claim.turns.at(-1).guards.some((g) => /Opener: the planned question word for word/.test(g)),
+      'a claim whose story the student already told keeps the model\'s own opener (logged); otherwise the planned question is asked word for word');
       check(s.transcript.at(-1).text === `Thanks. ${bg.core_question}` && kept.transcript.at(-1).text === `Thanks. ${bg.core_question}`
         && claim.transcript.at(-1).text === `Let's switch to your time at Kitecart. ${nextClaim.core_question}` && praised.transcript.at(-1).text === `Thanks. ${nextP.core_question}`,
       'a move-on into a planned topic asks its planned question word for word, after a short clean lead-in or "Thanks."');
