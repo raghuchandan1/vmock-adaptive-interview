@@ -228,7 +228,7 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
     check(['PLANNER', 'TURN', 'FEEDBACK'].every((s) => new RegExp(`process\\.env\\.${s}_MODEL \\|\\| 'gpt-6-sol'`).test(src)), 'the code defaults every prompt to gpt-6-sol (a local .env can override)');
   }
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 23 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 24 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
@@ -737,7 +737,7 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
       const m2 = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, s2).feedback.moments.find((m) => m.slot_id === 'conduct');
       check(shaped.moments.some((m) => m.slot_id === 'conduct' && /rude to the interviewer/.test(m.note) && m.quote === '')
         && m2 && /something else/.test(m2.note) && !/rude/.test(m2.note) && E.buildFeedbackPayload(s).conduct.join() === 'abusive'
-        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 23,
+        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 24,
       'an abusive answer or a refusal gets a plain derived note (none otherwise), and the feedback model is told');
     }
 
@@ -1627,7 +1627,8 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
       live(kept, 'warmup');
       Object.assign(kept.slots.find((x) => x.id === 'background'), { status: 'pending', core_question: bg.core_question });
       await E.handleAnswer(kept, 'Lately I have been reading about onboarding experiments in learning apps.', stub([out({ decision: 'move_on', utterance: 'Thanks. Walk me through your path from Northline Logistics to Kitecart.' })]));
-      // R12-2: every move-on into a planned topic asks its planned question word for word, after a short clean lead-in.
+      // R12-2/R13-1: every move-on into a planned topic asks its planned question word for word, after a fixed lead-in.
+      const planned = (text, core) => text === core || text === `Next, ${core.charAt(0).toLowerCase()}${core.slice(1)}` || ['Thanks.', "Let's move on.", 'Thank you.'].some((l) => text === `${l} ${core}`);
       const claim = noSecondChance(clone());
       const c1 = live(claim, 's1', { budget: 1, follow_ups_used: 1 });
       const nextClaim = claim.slots[claim.slots.indexOf(c1) + 1];
@@ -1649,7 +1650,8 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
         && told.turns.at(-1).guards.some((g) => /Opener: the model's own/.test(g)) && claim.turns.at(-1).guards.some((g) => /Opener: the planned question word for word/.test(g)),
       'a claim whose story the student already told keeps the model\'s own opener (logged); otherwise the planned question is asked word for word');
       check(s.transcript.at(-1).text === `Thanks. ${bg.core_question}` && kept.transcript.at(-1).text === `Thanks. ${bg.core_question}`
-        && claim.transcript.at(-1).text === `Let's switch to your time at Kitecart. ${nextClaim.core_question}` && praised.transcript.at(-1).text === `Thanks. ${nextP.core_question}`,
+        && planned(claim.transcript.at(-1).text, nextClaim.core_question) && planned(praised.transcript.at(-1).text, nextP.core_question)
+        && !/switch to your time|Great answer/.test(claim.transcript.at(-1).text + praised.transcript.at(-1).text),
       'a move-on into a planned topic asks its planned question word for word, after a short clean lead-in or "Thanks."');
     }
 
@@ -1720,9 +1722,11 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
     {
       const pl = JSON.parse(JSON.stringify(trace.plan));
       pl.background_question = 'Walk me through your career so far.';
-      const warned = E.checkAndShapePlan(pl, { ...trace.inputs, stage: 'summers' }).checks.some((c) => /Summers background question/.test(c.message));
+      const mba = { ...trace.inputs, stage: 'summers', resume_text: `${trace.inputs.resume_text}\nMBA, Indian Institute of Management (2025-2027)` };
+      const warned = E.checkAndShapePlan(pl, mba).checks.some((c) => /Summers background question/.test(c.message));
+      const noMba = E.checkAndShapePlan(pl, { ...trace.inputs, stage: 'summers' }).checks.some((c) => /Summers background question/.test(c.message));
       pl.background_question = 'Walk me through your background, up to how your first term at the MBA has gone.';
-      check(warned && !E.checkAndShapePlan(pl, { ...trace.inputs, stage: 'summers' }).checks.some((c) => /Summers background question/.test(c.message)),
+      check(warned && !noMba && !E.checkAndShapePlan(pl, mba).checks.some((c) => /Summers background question/.test(c.message)),
         'a summers walkthrough that does not end with the MBA so far is warned');
     }
 
@@ -1744,6 +1748,38 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
       check((!short || r.priorities[0].slot_id === ids[1]) && r.priorities[0].action === 'When you are asked about an experiment, name the one test you ran and say what you decided about it.'
         && fixed.priorities.length === 1 && fixed.priorities[0].slot_id === null && /two-minute story for each resume line/.test(fixed.priorities[0].action),
       'the goal moves off a topic too short to judge, a thin action becomes a plan step, and with nothing judged but a topic ended early the goal is fixed and unlinked');
+    }
+
+    // QA round 13.
+    // R13-1/2/3. Fixed rotating lead-ins (none before a planned transition); a react question that is a measurement or role
+    // check is no react, and evasive words are never specifics; an ownership to-fix is not sent back for the line's number.
+    {
+      const opener = async (core, lastLead) => {
+        const s = noSecondChance(clone());
+        const c = live(s, 's1', { budget: 1, follow_ups_used: 1 });
+        const n = s.slots[s.slots.indexOf(c) + 1];
+        Object.assign(n, { status: 'pending', core_question: core });
+        s.last_lead = lastLead;
+        await E.handleAnswer(s, 'We compared the old and new reports for a month and the store managers stopped asking for manual pulls.', stub([out({ evidence_sufficient: true, decision: 'move_on', utterance: 'That comparison gives useful context. Tell me about the redesign?' })]));
+        return s.transcript.at(-1).text;
+      };
+      const a = await opener('Tell me about the pricing error pattern you found.', 'Thanks.');
+      const b = await opener("Let's turn to your Kitecart work. What problem were you solving?", 'Thanks.');
+      const c = await opener('I see you led the redesign. What problem were you solving?', 'Thank you.');
+      const slot = { anchor_text: 'Owned the checkout redesign end to end, cutting cart abandonment from 71% to 58%' };
+      const s3 = clone();
+      const sl = s3.slots.find((x) => x.id === rated[0].slot_id);
+      sl.anchor_text = 'Ran 14 A/B tests on the product listing page; shipped 5 winners that together lifted conversion by 9%';
+      const fix = (toFix) => shape({ slot_id: sl.id, to_fix: toFix, to_fix_quote: rated[0].to_fix_quote, stronger_version: 'I was responsible for prioritising hypotheses. I defined completed purchase conversion as the primary metric because clicks could rise without improving it.' }, s3).problems.some((x) => /write it in where the rewrite talks about/.test(x));
+      check(!a.startsWith('Thanks.') && /That comparison/.test(a) === false && /pricing error pattern you found\.$/.test(a)
+        && b === "Let's turn to your Kitecart work. What problem were you solving?" && !/^Next,/.test(c) && !c.startsWith('Thank you.') && c.endsWith('I see you led the redesign. What problem were you solving?')
+        && !E.asksAboutSpecific('When you report roughly 71% to 58%, how did you establish that change?', ['71% to 58%'], slot)
+        && !E.asksAboutSpecific('With the 71% to 58% drop, what decision did you personally make?', ['71% to 58%'], slot)
+        && E.asksAboutSpecific('With guest checkout added, how did returning shoppers react?', ['guest checkout'], slot)
+        && E.realSpecifics(['mostly a team thing', 'guest checkout'], 'It was mostly a team thing, but I added guest checkout.').join() === 'guest checkout'
+        && !fix('The opening answer did not establish your responsibility for choosing hypotheses or designing the tests.')
+        && fix('The result stayed general: the answer did not give the conversion lift.'),
+      'fixed lead-ins rotate and give way to a planned transition; disguised measurement or role reacts and evasive specifics are refused; an ownership to-fix is not sent back for the number');
     }
   }
 
