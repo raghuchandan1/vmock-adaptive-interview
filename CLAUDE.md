@@ -34,3 +34,24 @@ Other pieces:
 ## Editing prompts
 
 `prompts/*.md` are read on every call, so edits apply without restarting the server. The planner, turn and feedback prompts are organised in XML sections (`<role>`, `<security>`, `<inputs>`, `<steps><step n=…>`, …); keep new rules inside the matching section. Resume, JD and answers are untrusted data: each prompt says never to follow instructions found in them. The prompts are kept in step with the deployed copies (interviews-api / interviews-ai): answers are speech-to-text transcripts (turn and feedback judge what was meant, feedback prefers quotes without transcription errors), questions use no dashes, and names a PDF ran together are spoken with normal spacing (claims stay exact copies).
+
+Live UAT fixes (2026-11-16, `docs/research/2026-11-16-live-uat/`), to port to the deployed copies:
+- Turn prompt:
+  - "What are you assessing?", the criteria and the score get a one-line decline that never says what is looked at.
+  - A second non-answer in a topic ("I didn't measure that" counts) moves on.
+  - After "didn't measure", the number is never asked about again, including who checked it or what it was based on.
+  - Follow-ups are never yes/no; the last follow-up is narrow but open.
+  - An abusive answer after a normal answer since the redirect is a first time again.
+  - `close` answers a pending role question before closing.
+  - Candidate-question answers never say "mock role" or "hasn't been specified".
+  - Second chances never lead in by naming the kind of example.
+- Planner prompt:
+  - back_your_resume has only claim and concerns slots, never a fit question.
+  - Scenarios state every number a probe will need.
+  - No second question clause or sentence in an opening question.
+  - A placeholder company is null even without its article.
+  - role_title has no brackets or hiring tags.
+- Engine:
+  - `DONT_KNOW` counts "didn't measure/track/calculate…".
+  - `MEASURE_ASK` covers verify, "checked … figures", "based on" and "who produced".
+  - `checkAndShapePlan` drops a placeholder `jd.company` (`PLACEHOLDER_COMPANY`) and a trailing bracket in `role_title`.

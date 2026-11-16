@@ -1432,6 +1432,21 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
       '"not sure" with adverbs counts; "that … is useful" and "calculated and compared" are flagged; the brevity lead-in is allowed');
     }
 
+    // UAT 2026-11-16: "I didn't measure that" counts as "not sure"; who checked a figure or what it was based on is the
+    // measurement asked again; a placeholder company and a bracketed hiring tag never reach the spoken greeting.
+    {
+      const slot = { anchor_text: 'Redesigned checkout, cutting cart abandonment from 71% to 58%' };
+      const plan = { jd: { company: 'leading FMCG company', role_title: 'Product Analyst (Graduate hire)' }, claims: [], competencies: [], slots: [] };
+      const named = { jd: { company: 'Global Payments', role_title: 'Product Analyst' }, claims: [], competencies: [], slots: [] };
+      E.checkAndShapePlan(plan, { resume_text: '' });
+      E.checkAndShapePlan(named, { resume_text: '' });
+      check(["I genuinely didn't measure that.", "Honestly I don't know, I didn't track it myself."].every((t) => E.DONT_KNOW.test(t))
+        && ['Who, if anyone, checked those abandonment figures after the rollout?', 'What, if anything, did the analyst use to verify those abandonment figures?', 'What was the 30% figure based on?', 'Who produced the 30% figure?'].every((q) => E.asksMeasurement(slot, q))
+        && !E.asksMeasurement(slot, 'What part of the checkout redesign did you personally own?') && !E.asksMeasurement(slot, 'How did you check in with the team each week?')
+        && plan.jd.company === null && plan.jd.role_title === 'Product Analyst' && named.jd.company === 'Global Payments',
+      '"didn\'t measure" counts as "not sure"; "who checked" or "based on" is the measurement again; placeholder company and bracketed hiring tag are dropped');
+    }
+
     // R7-3/5. A vague follow-up reply is not "given"; a topic on track only through the after-a-follow-up cap gets an
     // engine-written to-fix quoting the student's reply, with no model call.
     {
