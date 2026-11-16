@@ -1,0 +1,42 @@
+# UAT report: Mock Interviews -> CareerBuddy, tile variety (flow `mock2`, window acct-mock)
+(Saved by the lead from uat-mock2's messages. Interviews 109, 113, 122, 132, 138; all typed. Times IST; T# = interviewer line number. Screenshots /tmp/claude-502/uat/shots/mock2-*.png)
+
+## Entry path (summary)
+Home: SMART Coach modal + 5-step tour (tour blocks clicks on the Mock Interviews card until Skip, F13) > Mock Interviews "Start Exploring" > first visit "Choose your Career preferences" (up to 3; "You have picked 3. Deselect one to choose another.") > tiles (Mock Interview | Company Interview | Update Preferences, Search Interviews) > dialog "How do you want to practice?" (CareerBuddy | Record at your pace; "Change length" without resume / "Change resume or length" with one: resume (rohan default | Don't use a resume), length 12/18 (default)/25). Lobby: "Ready to Start? … You can switch off video or audio to just use the audio or text mode", no topic count; header "Practice With CareerBuddy · N mins · <title> · Standard · Mock interview" (or "Mock interview · Amazon"). Other entries: Company Interview (Amazon: "How they hire", Job Roles), Search ("Supply Chain" 22 results), Bookmarks drawer (starts directly, no resume/length choice). No Recents / Attempted (F10).
+
+## Results
+S1 | No resume, Entry "Associate Business Analyst", 12 min | No invented resume facts; resume_line null; quotes verbatim; salary/team size to recruiter. Feedback 0% ~20 min (F1) | PASS content / FAIL F1 | Major | id 109
+S2 | Senior HR "HR Business Partner" + Rohan PM resume, 12 min | No invented HR claims; T7 20:00 "Let's shift to your background. Which parts of your experience transfer most directly…" covers the switch. Resume otherwise unused; greeting no name (F4); multi-ask (F3); feedback faults a number never given (F5) | PASS mismatch / FAIL F3,F5 | Major | id 113
+S3+S6 | Search "Supply Chain" > "Supply Chain Planning Manager" (Mid) + resume, 12 min | Same dialog; questions fit role (S&OP week, forecast bias by city tier, pharma allocation). No resume line used, no PM->SCM switch question (F4). Two asks T6 (F3). Quotes verbatim; joining bonus/planning system to recruiter | PARTIAL | Major | id 122
+S4 | Company Interview > Amazon > Product Management + resume, 12 min | CareerBuddy offered; PPO rate, salary, Bengaluru team size to recruiter; Leadership Principles answered "In general". Feedback: empty to-fix on q2 (F6); "Role Fit 100/100" for a question never asked (F7); two asks T1 (F3) | PASS facts / FAIL F6,F7 | Minor | id 132
+S5 | Bookmark "HR Manager" > Bookmarks drawer > Start with CareerBuddy | Works (6 topics). No dialog: forced 18 min + default resume, no "Don't use a resume". Drawer "10 Questions · 20 mins" vs lobby "18 mins" (F8). No Recents, no Attempted badge (F10) | FAIL | Minor | id 138
+Feedback rules, all | Quotes verbatim same topic (scripted check 109,113,122,132); every goal has slot_id. Numeric scores everywhere: 74/100, "Role Fit 40/100", 86/100, 76/100 (F2) | FAIL | Major | all
+Previously Recorded | All 5 listed under "Practice with CareerBuddy" and open; minor copy (F10) | PASS | Minor
+Voice | Not tested (voice paused by user)
+
+## Findings
+F1 Major | id 109 | Ended T13 19:45 ("Thank you for your time. That's the end of the interview, and your feedback is ready."); feedback page "Preparing your audio debrief / This usually takes around 30 seconds / Your Score is being calculated / Overall Progress 0%" until ~20:05. API feedback_status "success" but parts {categorized, coaching, ideal, debrief} "queued". 113/122/132 took 1-2 min. Cause UNCONFIRMED.
+F2 Major (confirm intent) | 113 "Score 74 /100 · Good", "Role Fit 40/100 · Needs Work", "Your Stories 85/100", "HR Expertise 83/100", "Problem Solving 67/100", "Interview Presence 98/100"; 109 86/100; 132 76/100.
+F3 Major | Multi-ask questions, mostly planned openers. Every mock-tile interview opens with the same two-part question: 109 T1 19:35 "What development area are you actively working on, and how could it affect your performance when several stakeholders need different analyses before a high-pressure monthly business review?"; 113 T1 19:55; 122 T1 20:12; 138 T1 21:12. Others: 113 T3 19:57 (three asks) "Describe a time you made an important decision with incomplete information and conflicting stakeholder expectations. How did you manage the ambiguity, protect critical outcomes and reflect afterward?"; 113 T7 20:00; 122 T6 20:17 "How would you diagnose the issue and decide which level should drive the plan?"; 132 T1 20:45 "Pick one Amazon product or feature. Critique it and suggest improvements."; 138 T3 21:14 "Which two strengths would help you partner effectively, and where have you demonstrated each?"; 138 T13 21:19. Follow-ups were always one ask, no praise.
+F4 Major (UNCONFIRMED if intended) | ids 113,122,132,138 (resume_id 375206 Rohan): no question named a resume line; resume_line null everywhere; greeting never names the student ("Hi, good to meet you." / "Hi, thanks for joining." / "Hi, thanks for making the time."); 122 and 132 no background/career-switch question; 113 T7 and 138 T13 generic "what transfers".
+F5 Major | id 113 | T4 19:58 "Let's switch to a warehouse scenario. Absenteeism is at 12% against a 6% plan before the festive peak. How would you respond first?" (no headcount). T6 20:00 "…what headcount gap would you plan around against the 6% target?" Student assumed 500/shift (correct arithmetic). Transcript why for T7: "Your calculation used a 500-person shift rather than the 400-person warehouse in the scenario" (400 never said). Feedback to-fix "You introduced an assumed shift size, which changed the scenario's expected staffing gap…"; goal "Use the same baseline for headcount"; Driver Diagnosis "…did not match gap implied by scenario."
+F6 Minor (API only) | id 132 q2 (T4 20:53 "You have 10 feature requests and limited engineering capacity. How do you prioritise?"): verdict on_track, to_fix "" but to_fix_quote and stronger_version filled; q4 empty went_well_quote.
+F7 Minor | id 132 | "Role Fit 100/100 · Good Job — How you connect your experience and values to the role" with no fit/motivation question asked (from one "Role Contribution" item on the product-critique topic).
+F8 Minor | id 138 21:11 | Bookmarks drawer starts directly: forced 18 min / 6 topics, default resume, no "Don't use a resume"; drawer "10 Questions · 20 mins" vs lobby "18 mins".
+F9 Minor | Length not remembered (dialog says "We'll remember your choice."); resets to 18 min (113,122,132 after choosing 12 for 109).
+F10 Minor | No Recents, no Attempted badge after CareerBuddy attempts; Previously Recorded opens on "No Previous Recording"; CareerBuddy only under its chip; Amazon row shows "Product Management" without company; only HR Manager row shows its function.
+F11 Minor | id 109 | Next step "Confirm shared definitions first: … same date cutoff, sales definition, and distributor list" though student said it at T8 19:41.
+F12 Minor | ids 113,132 | Detailed feedback for typed interviews: every line "0:00" and "Not recorded"; 132 "Ran 21 of 12 min".
+F13 Minor (outside CareerBuddy) | Dashboard tour blocks clicks on Mock Interviews card until Skip.
+
+## Passed (evidence)
+No invented company facts: 109 T12 19:44 "I don't have confirmed salary or team-size details, so the recruiter can share those with you."; 113 T10 20:03; 122 T13 20:29; 132 T14 21:04 "I don't have verified figures for PM intern conversion rates or starting salary… Our recruiting team can confirm…"; 132 T15 21:05. No praise (closest 138 T15 21:20 "Thanks for explaining what drew you to people decisions."). Follow-ups react (109 T6). Questions fit role titles. No plan/criteria/score leak. No resume line cited with no resume (109).
+
+## Interview IDs
+109 | S1 no resume, Entry "Associate Business Analyst" (IT & Analytics > BI) | 12 min | created 19:19, 19:35-19:45, feedback stuck 0% until ~20:05
+113 | S2 Senior "HR Business Partner" + PM resume | 12 min | 19:54-20:04
+122 | S3+S6 Mid "Supply Chain Planning Manager" via search | 12 min | 20:09-20:31
+132 | S4 Amazon > Product Management | 12 min | 20:45-21:06
+138 | S5 Bookmark "HR Manager" | 18 min forced | 21:11-21:21, feedback still processing at stop
+Evidence: raw feedback JSON /tmp/claude-502/uat/mock2bin/fb<id>.json; turn-numbered transcripts /tmp/claude-502/uat/mock2bin/an<id>.txt.
+Not tested: voice; Record at your pace / End mid-way (uat-mock); feedback content of 138; F6 in UI.

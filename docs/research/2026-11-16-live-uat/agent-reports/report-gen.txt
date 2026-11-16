@@ -1,0 +1,424 @@
+UAT REPORT: Custom Interviews > Generate Interview > CareerBuddy   (flow gen, browser -s=uat-gen)
+Date 2026-11-16, local times IST. Turn numbers = interviewer lines in order (T1 = greeting).
+Times are taken from the feedback page clock and screenshot times, accurate to about +/-1 min (not from server logs).
+Screenshots: /tmp/claude-502/uat/shots/ (files starting gen-)
+Saved texts: /tmp/claude-502/uat/gen-room105-transcript.txt, gen-fb105*.txt, gen-fb116-t*.txt
+
+SUMMARY
+- Happy path, skipped JD, different resume and wizard navigation all work end to end; both interviews reached feedback.
+- The serious findings are in the feedback, not the interview:
+  (a) every feedback page shows numeric scores out of 100 (F1);
+  (b) the audio debrief faults a detail the interviewer never asked about (F2);
+  (c) the debrief contradicts the topic ratings (F3).
+
+==================================================================
+1. ENTRY PATH MAP
+==================================================================
+Start: Dashboard /dashboard/smart-interviews/practice/career-interviews
+Click "+ Generate Interview" (also listed under Custom Interviews). A full-screen wizard opens with steps 1, 2, 3.
+
+STEP 1  "Upload Job Description"
+  Subtitle: "If you have a particular job in mind, type/paste the job description here"
+  Inputs:
+  - Text box, placeholder "Type job description here".
+  - "Attach Job Description" button; the file picker accepts PDF only.
+    After attaching, the button reads "Update Attachment" and the PDF's text appears in the box.
+  - "Previously added job descriptions": a JD used before shows as a card; clicking it fills the box.
+  Buttons: Skip, Next. Next is disabled while the box is empty.
+  Validation: a 3-word JD ("hello test test") shows, in red:
+    "The job description does not have enough content!"
+  While Next runs: "Please wait! Processing Job Description ..."
+
+STEP 2  "Select Resume"
+  - JD skipped: subtitle "You skipped the job description, so pick a resume to build your interview from".
+    There is no Skip button, so a resume is required.
+    The newest resume is preselected; clicking it again does not unselect it.
+  - List: columns Name / Upload/Time / Module, a search box "Search by resume name",
+    "+ Upload New Resume (N left)", and a preview on the right.
+  - Account with no resume: "Upload Resume / Drop your PDF file here / or / Choose a File / 10 uploads left".
+  - JD given and resume skipped: goes to the old question set ("Interview Questions": Q1-Q7 at 120 sec,
+    "+ Add Question", "Start Practicing"). CareerBuddy is never offered on that path.
+  - After the first format choice, the footer shows: Back, "Switch format", "Start with CareerBuddy".
+
+FORMAT CHOOSER  "How do you want to practice?"
+  Options:
+  - "Practice with CareerBuddy" (NEW / Current): "CareerBuddy asks out loud and follows up on what you say."
+  - "Record at your pace": "See the questions first, then record an answer to each one."
+  Without a JD, two fields are required:
+  - "Target role" (placeholder "For example: Product Analyst")
+  - "Function": Consulting, Finance & BFSI, Human Resources, IT & Analytics,
+    Operations & Supply Chain, Product Management, Sales & Marketing,
+    Strategy & General Management, Sustainability & ESG
+  - Hint: "There's no job description, so CareerBuddy needs a role and a function."
+  - "Start with CareerBuddy" stays disabled with only a role, with only a function,
+    or with a role of only spaces.
+  - The footer "Start with CareerBuddy" behind the chooser is always enabled,
+    but without a JD it reopens the chooser instead of starting.
+  "Change length": About 10 min / About 15 min (default 15).
+  Not offered anywhere in this flow: interview type (always "Hiring manager round"),
+  placement stage, style, or a 30-minute option.
+
+LOBBY  "Ready to start?"
+  Example: "Data Analyst · Hiring manager round / 10 minutes · 3 topics, then your questions"
+  Then "THIS PANEL LOOKS FOR" (4 items), "QUICK TIPS" (3 items), progress lines, "Start conversation".
+
+ROOM  /interviews/adaptive/room/<id>
+  Typing: click "Switch to text mode" (the mic icon) and a box appears ("Ask me anything about your career.....").
+  Enter sends; the Send button sends; Send is disabled when the box is empty.
+
+==================================================================
+2. SCENARIOS
+==================================================================
+Columns: # | scenario | steps | expected | actual | result | severity | interview | screenshot
+
+1 | Happy path with JD
+  Steps: Brightpath JD pasted, Rohan resume, CareerBuddy, About 10 min.
+         Answers by voice; the last answer typed after rejoining.
+  Expected: topics from JD/resume, one question at a time, no praise, real answer to my question, feedback.
+  Actual: topics came from Rohan's CV lines (referral 30%, Rs 2.4 crore pricing, 40-item backlog),
+          with measurement and decision follow-ups. No praise, no plan or criteria leak.
+          My question about the role was answered from the JD, nothing invented (105 T16, 19:15).
+          Feedback quotes are mine and from the right topic.
+  Result: PASS, with F1, F4, F6, F10 | interview 105 | gen-fb105-summary-score.png
+
+1b | Losing login mid-interview
+  Cause UNCONFIRMED (probably the lead's cookie copy).
+  Steps: 401s, then End Session, then logged back in, then Rejoin.
+  Expected: session kept.
+  Actual:
+  - 19:33 room shows "Connection lost / We couldn't stay connected to your interviewer ... / End Session".
+  - Then "Ending interview / Saving the last of your recording and preparing your feedback...".
+  - Then the login page /iimmumbai/login.
+  - After logging in, /interviews/adaptive/feedback/105 said
+    "This interview hasn't finished yet. Go back to the interview." (19:43).
+  - "Rejoin Conversation" worked; the session finished at 19:46.
+  Result: PASS, with F6 | Minor | 105 | gen-s1-before-close.png, gen-room105-rejoin.png
+
+2 | Skip JD
+  Steps: Skip, then Start without role/function, then fill them, then a short typed interview.
+  Expected: role/function required; no invented company.
+  Actual: validation as described in the path map.
+          Greeting (116 T1, 19:56): "I'm on the hiring team for the Data Analyst role", no company.
+          Asked which company it was (116 T10, 20:10): no company invented, but see F5.
+  Result: PASS, with F5 | 116 | gen-s2-switchformat.png, gen-s2-footer-start.png
+
+7 | Different resume
+  Steps: uploaded resume-ananya-fresher.pdf and used it in 116.
+  Expected: plan uses the new resume; the list shows both.
+  Actual: the list shows both, Ananya preselected.
+          Every topic came from Ananya's CV (T3 SQL joins, T5 churn model) or was a scenario question (T7).
+          Nothing from Rohan.
+  Result: PASS | 116 | gen-s7-two-resumes.png
+
+8a | Close (X) mid-wizard, then reopen
+  Expected: clean reset, no stuck modal.
+  Actual: reopens at step 1 with an empty box. Earlier JDs still listed. No leftover overlay; page scrolls normally.
+  Result: PASS
+
+8b | Wizard Back from step 2
+  Expected: JD text kept.  Actual: JD text kept.
+  Result: PASS
+
+8c | Browser Back mid-wizard (~19:52)
+  Steps: typed the LumenPay JD, Next, then browser Back while "Processing" showed.
+  Expected: stay on the wizard, or warn before losing input.
+  Actual: left the dashboard for the previous page (/interviews/adaptive/feedback/105) with no warning.
+          The typed JD was lost and not saved to "Previously added".
+  Result: FAIL | Minor
+
+- | 90 s silence after a follow-up (typed)
+  Steps: no answer after 116 T3 (19:58).
+  Expected: no swap and no pile-on.
+  Actual: no new interviewer line after 90 s.
+          "Session paused" appeared about 300 s after T3 (~20:03).
+          Resume kept the transcript; the answer typed next got the T4 follow-up.
+  Result: PASS | 116 | gen-s2-paused-typed.png
+
+- | Typing box
+  Steps: Enter, Send button, empty Send.
+  Actual: Enter sends (answer to 116 T1, 19:57).
+          Empty Send is disabled; Enter on an empty box does nothing (~20:09).
+  Result: PASS, with F8 | 116
+
+- | Previously Recorded (20:17)
+  URL: /dashboard/smart-interviews/prev-record?view=aiInterviewer
+  Expected: both sessions listed; feedback opens.
+  Actual: both listed ("Data Analyst / Hiring manager round / IT & Analytics / 10 answers / Get Feedback",
+          "Product Manager, Learner Growth / Hiring manager round / 14 answers / View").
+          "Get Feedback" opens the existing feedback.
+  Result: PASS, with F7 | Minor | 105, 116 | gen-prev-recorded.png
+
+NOT TESTED, now owned by other agents:
+- 3: JD/resume combination rule, attached JD, garbage JD matrix.
+- 4: length/style/type matrix.
+- 5: abuse and redirect.
+- 6: company facts at the end.
+- 9: phone width.
+Early passes from those areas (18:39-18:47):
+- Garbage JD validation (gen-jd-garbage.png).
+- PDF attach with text extracted (gen-jd-pdf-attached.png).
+- Lengths 10 and 15 only (gen-change-length.png).
+- Phone 390px on step 1: no sideways scroll, scrollWidth 390 (gen-phone-step1.png).
+
+NOT TESTED (voice paused by user): spoken answers split into turns, and switching between voice and typing.
+
+==================================================================
+FINDINGS
+==================================================================
+F1  Numeric scores on every feedback page.
+    Severity: Blocker by the brief's rule. It may be an intended VMock design; the lead should rule on it.
+    No interviewer line: this is in the feedback UI.
+    105 feedback (19:47): "83 /100 • Good", "Score83 /100", "Motivation & Fit 64/100 • On Track",
+        "Role Skills 73/100", "Clear Examples 88/100", "Growth & Reflection 100/100".
+    116 feedback (20:15): "98 /100", "Evidence & Examples 93/100", "Communication 98/100".
+    Waiting screen in both (19:47, 20:11): "Your Score is being calculated".
+
+F2  The audio debrief faults a detail nobody asked about.
+    Severity: Major.
+    116 debrief (~20:13): "On the churn model, you recognized that accuracy can mislead, yet did not explain
+        how you would compare results with a simple baseline."
+    What was asked:
+        T5 (20:04) "Got it. Let's turn to your churn project. For your telecom churn model, why did logistic
+            regression fit the question you were trying to answer?"
+        T6 (20:05) "Right. How did you measure the model's 81% accuracy?"
+    No baseline was ever asked.
+
+F3  Debrief and ratings disagree.
+    Severity: Minor.
+    116 debrief (~20:13): "Your closing questions stayed broad, so they revealed little about what you want to learn."
+    Topic 5 (T9, 20:09, "Okay. That's everything from my side. What questions do you have for me?")
+        is rated Good Job on every element, and Communication is 98/100.
+
+F4  Interview 105's debrief and Topic 4 rest on a split-off voice fragment.
+    Severity: Major. UNCONFIRMED, voice only.
+    105 T13 (19:08, feedback clock 21:46): "When you reviewed the scores with the engineering lead and designer,
+        which decisions about the final order were yours?"
+    The script pairs it with the reply "Kept everyone aligned because the tradeoff was visible."
+        That was the tail of my previous answer, split off after T12 "I see." (19:08).
+    105 T14 (19:08, 21:59): "Okay. What changed for customers after the payment bug was fixed?"
+    105 debrief (19:47): "your account of who made the final backlog decisions stayed vague".
+    The same split elsewhere:
+        T5 (19:02, 15:01) "Thanks for walking me through your path. At Kitecart, how did you calculate the 30%
+            increase in new-user sign-ups after the referral launch?" is paired with my fragment
+            "And attach for working professionals is a problem I care about."
+        T6 (19:02, 15:08) "Mm-hm. Let me put that another way. What numbers did you compare to get the 30% increase?"
+    In typed mode, the same silent stretch did not cause a question swap (see the 90 s test).
+
+F5  "Mock role" breaks the panel's voice.
+    Severity: Minor.
+    116 T10 (20:10): "Got it. The company name hasn't been specified for this mock role. For data analyst teams,
+        SQL, Python, and a BI tool such as Power BI are common, though the exact stack varies.
+        Is there anything else you'd like to know?"
+    No company was invented, but "mock role" speaks from outside the hiring team.
+
+F6  Transcript not restored after Rejoin.
+    Severity: Minor.
+    105 (19:45): after Rejoin the room showed only T16 ("We'd expect the new PM to use learner and funnel data
+        to identify the biggest opportunity across those areas ... Is there anything else you'd like to know?").
+    The full history was still in the feedback.
+
+F7  Inconsistent labels in Previously Recorded (20:17).
+    Severity: Minor. No interviewer line: UI finding.
+    Interview 116 shows "Get Feedback" and interview 105 shows "View". Both are finished with feedback.
+
+F8  Typing mode is hard to find.
+    Severity: Minor.
+    It is reached only through an icon-only mic button (aria-label "Switch to text mode").
+    105 (~18:55): after Resume from the inactivity pause (during T2, "Okay. Take me through your path so far,
+        and what has brought you here."), the room came back in text mode and needed "Switch to voice mode".
+
+F9  The question shown for Topic 4 includes the previous topic's bridge.
+    Severity: Minor.
+    116 T7 (20:08): "Mm-hm. You also looked at recall because churners were only about a quarter of the data.
+        Let's switch to a credit app scenario: completed applications drop 15% in a week. How would you find the
+        cause before the team changes the flow?"
+    The whole line is shown as Topic 4's question in Topic Feedback.
+
+F10 Topic counts disagree.
+    Severity: Minor.
+    The lobby says "10 minutes · 3 topics, then your questions" (105 at 18:48, 116 at 19:55).
+    The feedback lists 5 topics and says "5 of 5 reached" (105 at 19:50).
+
+OBSERVATIONS (not failures)
+- Greeting uses the account's first name, never the resume name:
+    105 T1 (18:49) "Hi Test, thanks for making the time. I'm on the team hiring for the Product Manager,
+        Learner Growth role at Brightpath Learning. ..."
+    116 T1 (19:56) "Hi Test, thanks for joining. ..."
+- Inactivity pause comes about 300 s after the last interviewer line (116, ~20:03).
+  The modal reads "Session paused / We paused your session because there was no activity for a while.
+  Pick up right where you left off." with a Resume button.
+- Every scored topic shows a "SAMPLE RESPONSE", including experience questions.
+- Withdrawn: the earlier "no scored resume" finding (this is a separate, new account).
+- Still UNCONFIRMED: the early 105 oddities, i.e. repeated "leave page?" dialogs (~19:20-19:33)
+  and two interviewer lines back to back (T5/T6 19:02, T13/T14 19:08).
+  Possible causes: voice splitting, or commands from the overwritten shared helper scripts.
+
+==================================================================
+3. TRANSCRIPT EXCERPTS FOR FAIL AND MAJOR ITEMS
+==================================================================
+F2 (interview 116)
+  T6 (20:05) AI: "Right. How did you measure the model's 81% accuracy?"
+  Me: "I split the dataset 80 20 into training and test sets, stratified by churn, and accuracy is the share of
+       test customers it classified correctly. Since only about a quarter of customers churned, I also looked at
+       recall on churners, which was around 55 percent, so accuracy alone overstated how good it was."
+  T7 (20:08) AI: "Mm-hm. You also looked at recall because churners were only about a quarter of the data.
+       Let's switch to a credit app scenario: ..."
+  No baseline question was asked anywhere in the interview.
+
+F4 (interview 105, voice)
+  T11 (19:07) AI: "Mm-hm. Let's switch to the backlog you prioritised each sprint. How did you decide what to
+       move to the top of the 40-item backlog at Kitecart?"
+  Me: "... So I showed both numbers. And we fixed the bug first and shipped a simpler banner."
+  T12 (19:08) AI: "I see."
+  Me (the fragment): "Kept everyone aligned because the tradeoff was visible."
+  T13 (19:08) AI: "When you reviewed the scores with the engineering lead and designer, which decisions about the
+       final order were yours?"
+  T14 (19:08) AI: "Okay. What changed for customers after the payment bug was fixed?"
+
+F5 (interview 116)
+  Me: "Yes, two questions. Which company is this role with, and what tools does the analytics team mainly use
+       day to day?"
+  T10 (20:10) AI: quoted in full under F5.
+
+8c: no interview; this was a browser navigation at about 19:52.
+
+==================================================================
+4. FEEDBACK LATENCY
+==================================================================
+105: ended ~19:46 (after rejoin). The processing screen showed the debrief at once ("Your Score is being
+     calculated", Overall Progress 68%). The full feedback page was ready ~19:47 (about 1 min).
+116: ended ~20:11. The debrief was ready ~20:13 (progress 57%). Scores and topics complete ~20:15 (about 4 min).
+Both are well under the 15-minute Major threshold.
+
+==================================================================
+5. INTERVIEW IDS
+==================================================================
+105 | Scenario 1, happy path: Brightpath PM JD, Rohan resume, About 10 min.
+      Voice, with the last answer typed after rejoining. Also the login-loss case (1b).
+    | Finished, feedback viewed. Started 18:48, ended ~19:46, feedback ~19:47.
+    | https://dashboard-uat-us.vmock.dev/interviews/adaptive/room/105
+116 | Scenarios 2 + 7, JD skipped: Data Analyst / IT & Analytics, Ananya resume (new upload), About 10 min, typed.
+      Also the 90 s silence test and the pause timing.
+    | Finished, feedback viewed. Started 19:55, ended ~20:11, feedback complete ~20:15.
+    | https://dashboard-uat-us.vmock.dev/interviews/adaptive/room/116
+Feedback pages: same URLs with /feedback/ in place of /room/.
+
+Resumes uploaded on this account: 2 (Rohan, Ananya); 8 uploads left.
+
+Not done: a fully typed happy path with a JD (105 was mostly voice).
+Turn times are reconstructed from the feedback clock and screenshot times, not taken from server logs.
+F1 needs a product decision on whether /100 scores are intended in this UI.
+
+==================================================================
+ADDENDUM: fully typed happy path with JD (interview 131)
+==================================================================
+Setup: Generate Interview, LumenPay Product Analyst JD pasted, resume-rohan-apm.pdf, Switch format,
+       Practice with CareerBuddy, About 15 min.
+Times: room created 20:42; Start conversation 20:45; ended 21:03 (answer to T14).
+Answers: all typed (Send button; Enter tested earlier in 116).
+Transcript: /tmp/claude-502/uat/gen-room131-transcript.txt is the processing screen only (captured too late);
+            the lines below were read live.
+Turns (interviewer lines, IST):
+  T1  20:45 greeting + "What kind of problems do you like working on?"
+  T2  20:47 "Okay. Walk me through your background and the experiences that brought you here."
+  T3  20:50 "Got it. You report cart abandonment fell from 71% to 58% after Kitecart's checkout redesign.
+            How did you establish that the redesign caused the change?"
+  T4  20:51 "Right. How did you define and calculate an abandoned checkout in each group?"
+  T5  20:53 "Mm-hm. You wrote the SQL and checked it against Amplitude. What specific change to the checkout
+            flow did you personally own?"
+  T6  20:54 "I see. You also worked across teams to prioritise a 40-item backlog each sprint. How did you work
+            with engineering, design and marketing to make those decisions?"
+  T7  20:55 "Okay. Which prioritization decisions were ultimately yours to make?"
+  T8  20:57 "Got it. Did fixing the UPI bug first produce a measurable change in completed orders?"
+  T9  20:57 "Right. Let's switch gears. Merchants are starting onboarding at the usual rate, but fewer finish
+            this week. What data would you look at first?"
+  T10 20:58 "Mm-hm. How would you use SQL to check that onboarding events are firing consistently before
+            comparing completion by step?"
+  T11 21:00 "I see. If event records were missing for part of the week, how would you decide whether the
+            comparison is still usable?"
+  T12 21:00 "Okay. If neither source is reliable, you'd be clear about that. After moving from operations
+            analytics into product, what draws you to Lumen Pay's Product Analyst role?"
+  T13 21:01 "Got it. That's everything from my side. What questions do you have for me?"
+  T14 21:02 "Right. In product teams generally, we first check that the feature reached the intended users and
+            that the metric is reliable, then look at user feedback and any effects on other important
+            measures. If there's a clear issue we can address, we may iterate and measure again; if not, we may
+            stop investing in it. Is there anything else you'd like to know?"
+  Note on T14: it is clearly labelled "In product teams generally"; no company facts invented. PASS.
+
+CHECK 1  Do "/100" scores appear again?
+  YES. F1 reproduces (feedback page 21:04).
+  - Header: "Product Analyst (Graduate hire) · Lumen Pay" "92 /100 • Good"
+  - Header button aria-label: "score 92 out of 100, Good. Hover for the breakdown."
+  - Big card: "Score92 /100"
+  - Level cards: "Motivation & Fit 89/100•Good Job", "Experience & Evidence 94/100•Good Job",
+    "Problem Solving 98/100•Good Job", "Learning & Reflection 75/100•Good Job", "Communication 98/100•Good Job"
+  - "High Impact steps to improve your level score"
+  - Waiting screen (21:03): "Your Score is being calculated"
+  Screenshot: gen-fb131-summary.png
+
+CHECK 2  Does the debrief fault anything never asked?
+  YES, partly. Major; same pattern as F2.
+  Debrief (21:04): "You came across as analytical and well prepared, especially when you defined checkout
+    abandonment and explained how you checked your query against Amplitude. You were too certain that the redesign
+    caused the full drop: you did not explain how sessions were assigned or whether the result was statistically
+    reliable. You also could have mentioned guardrail measures. Tightening that evidence would make your
+    recommendations more credible."
+  - Asked: causation was asked (T3), so faulting attribution is defensible.
+  - Never asked: session assignment, statistical significance, guardrail metrics.
+    The interviewer moved on after T4 (definition) and T5 (own part).
+  Next Steps item 2: "State your objective and limits: Before describing your approach, name the goal and one
+    factor that could limit how confidently you attribute the result."
+    This faults attribution limits again; no follow-up asked about limits.
+  The topic ratings themselves are all Good Job, and no to-fix faults an unasked item.
+
+CHECK 3  Lobby topic count vs feedback topic count.
+  MISMATCH again (F10 reproduces). Minor.
+  - Lobby (20:42): "15 minutes · 4 topics, then your questions".
+  - Topic Feedback lists 6 topics:
+      Your background; Product and funnel analysis; Cross-functional collaboration;
+      SQL and large-dataset analysis; Motivation and fit; Your questions for the interviewer.
+  - Detailed tab: "Topics 6 of 6 reached".
+  - The 4 scored topics match the lobby. The feedback also counts the background walkthrough and the end questions.
+  Also on the Detailed tab:
+  - "Duration: Ran 24 of 15 min". The conversation ran 20:45-21:03, about 18 min;
+    24 min only fits counting from before room creation. Minor, UNCONFIRMED how it is measured.
+  - "Job description coverage: 2 of 5 must-haves covered".
+
+CHECK 4  Are follow-ups open (no yes/no)?
+  ONE FAIL. Minor/Major per the product rule against yes/no follow-ups.
+  - Interview 131, T8, 20:57: "Got it. Did fixing the UPI bug first produce a measurable change in completed
+    orders?" This is a closed yes/no follow-up with no question word. My answer started "Yes."
+  - All other follow-ups were open: T3, T4, T5, T7, T10, T11.
+
+OTHER OBSERVATIONS (interview 131)
+- Role title not cleaned (Minor). The JD title keeps "(Graduate hire)".
+  T1 20:45: "I'm on the team hiring for the Product Analyst (Graduate hire) role at Lumen Pay."
+  The lobby and feedback header show the same.
+- Bridge kept in the topic question (F9 reproduces, Minor). Topic 5's question is shown as
+  "If neither source is reliable, you'd be clear about that. After moving from operations analytics into product,
+  what draws you to Lumen Pay's Product Analyst role?" (T12, 21:00). The first sentence restates my previous answer.
+- No praise, no leak of plan or criteria, one question per turn throughout.
+- Motivation topic (T12) had no follow-up, e.g. no "why now".
+  Rohan has 2.5 years as an APM and is applying to a graduate-hire analyst role; the seniority mismatch was never probed.
+  Observation only.
+- Feedback quotes are the student's own words from the right topic (checked all 6 topics).
+
+FEEDBACK LATENCY (131)
+  Ended 21:03. The waiting screen appeared at once (18%).
+  Debrief, scores and topics were complete by 21:04 (about 1 min).
+
+INTERVIEW IDS (updated)
+  105 | scenario 1 + 1b (voice, JD)                    | finished, feedback viewed
+  116 | scenarios 2 + 7 (typed, no JD, Ananya)         | finished, feedback viewed
+  131 | addendum: typed happy path, LumenPay JD, Rohan, 15 min | finished, feedback viewed; started 20:42, ended 21:03, feedback 21:04
+
+UPDATE (cross-window check, from uat-mock)
+- uat-mock reports none of their commands reached the uat-gen window during room 105 (19:00-19:30 IST).
+  Their only command through the overwritten shared pw.sh was at about 18:39 IST, and it hit their own dialog.
+  From about 18:40 IST they used only mockbin (hard-coded to -s=uat-mock); every eval returned their own pages.
+- Effect on room 105 (F4, double interviewer lines T5/T6 19:02 and T13/T14 19:08):
+  cross-window commands are unlikely. The most likely cause is split voice turns:
+  the feedback script shows each extra AI line answering a split-off tail of my spoken answer.
+  Still UNCONFIRMED: not reproducible in typed mode (interviews 116 and 131 had none), and voice is paused.
+- The repeated beforeunload dialogs (~19:20-19:33) coincide with the auth loss (401s); probable cause is the session
+  invalidation, not another tester. UNCONFIRMED.
