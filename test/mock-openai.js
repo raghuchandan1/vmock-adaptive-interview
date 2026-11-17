@@ -102,6 +102,7 @@ function feedbackOutput(input) {
     const real = ans ? ans.text.split(/\s+/).slice(0, 4).join(' ') : '';
     return {
       slot_id: t.slot_id,
+      checking: 'This question checks whether you can show your own part and how the result was worked out.',
       // found cycles through the three states (plus an invalid one on the first call); every quote is the first answer's
       // opening words, so the guard must drop it where the element was only given after a follow-up.
       ratings: t.rubric.map((r, i) => ({
@@ -123,7 +124,7 @@ function feedbackOutput(input) {
     overall: bad ? 'You scored 7/10 overall.' : 'You gave concrete examples and can tighten the results.',
     topics: [
       ...input.topics.filter((t) => t.usable_answer).slice(0, 2).map(topic),
-      ...input.topics.filter((t) => !t.usable_answer).map((t) => ({ slot_id: t.slot_id, ...empty, went_well: '', answer_plan: ['Give one real example.'] })),
+      ...input.topics.filter((t) => !t.usable_answer).map((t) => ({ slot_id: t.slot_id, ...empty, checking: 'This question checks for one real example from your work.', went_well: '', answer_plan: ['Give one real example.'] })),
       { slot_id: 'warmup', ...empty },
     ],
     moments: [

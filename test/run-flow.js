@@ -228,8 +228,12 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
     check(['PLANNER', 'TURN', 'FEEDBACK'].every((s) => new RegExp(`process\\.env\\.${s}_MODEL \\|\\| 'gpt-6-sol'`).test(src)), 'the code defaults every prompt to gpt-6-sol (a local .env can override)');
   }
   const { rubricFor, rubricKey } = require('../lib/engine');
-  check(fb.version === 24 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
+  check(fb.version === 25 && rated.length >= 1 && fb.topics.every((t) => t.slot_id !== 'warmup'), 'feedback drops topics that are not scored slots');
   check(rated.every((t) => t.ratings.length && t.ratings.every((r) => ['good_job', 'on_track', 'needs_work'].includes(r.level))), 'ratings use only the three levels (invalid level dropped)');
+  check(feedbackSchema.properties.topics.items.required.includes('checking')
+    && fb.topics.every((t) => typeof t.checking === 'string' && Array.isArray(t.expect_next) && t.expect_next.every((q) => /\?$/.test(q)))
+    && fb.topics.some((t) => t.checking) && !fb.topics.some((t) => /plan|criteria|rubric|prob(e|ing)/i.test(t.checking)),
+  'every topic says what its question was checking (no agenda words) and lists follow-ups a panel may also ask, as questions');
   check(rated.every((t) => { const s = trace.slots.find((x) => x.id === t.slot_id); return t.ratings.every((r) => rubricFor(s).some(([k]) => k === r.dimension)); }), 'ratings follow the rubric for the question type');
   check(rated.every((t) => ['good_job', 'on_track', 'needs_work'].includes(t.verdict) && t.question && t.answer_plan.length === 3), 'each topic has a verdict, the question asked and an answer plan');
   check(rated.every((t) => answersText.includes(norm(t.to_fix_quote)) && (!t.went_well_quote || answersText.includes(norm(t.went_well_quote)))), 'feedback keeps only verbatim quotes (invented quote dropped on retry)');
@@ -737,7 +741,7 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
       const m2 = checkAndShapeFeedback({ overall: 'ok', moments: [], topics: [] }, s2).feedback.moments.find((m) => m.slot_id === 'conduct');
       check(shaped.moments.some((m) => m.slot_id === 'conduct' && /rude to the interviewer/.test(m.note) && m.quote === '')
         && m2 && /something else/.test(m2.note) && !/rude/.test(m2.note) && E.buildFeedbackPayload(s).conduct.join() === 'abusive'
-        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 24,
+        && !fb.moments.some((m) => m.slot_id === 'conduct') && E.FEEDBACK_VERSION === 25,
       'an abusive answer or a refusal gets a plain derived note (none otherwise), and the feedback model is told');
     }
 
