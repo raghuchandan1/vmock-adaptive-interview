@@ -1,0 +1,109 @@
+{
+ "L1": {
+  "id": "2026-11-17-0017cc5a",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L2": {
+  "id": "2026-11-17-be9d819e",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L3": {
+  "id": "2026-11-17-19f065a3",
+  "status": "ended",
+  "ended_by": "end_session",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L4": {
+  "id": "2026-11-17-0660aa49",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L5": {
+  "id": "2026-11-17-a3bfd4a8",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [
+    "The role is an Area Sales Manager position with a leading FMCG company, based in Pune and covering western Maharashtra. The recruiter can share the company name and other company-specific details. Is there anything else you’d like to know?"
+   ],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L6": {
+  "id": "2026-11-17-0bcb68a0",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L7": {
+  "id": "2026-11-17-d3017027",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ }
+}

@@ -1,0 +1,17 @@
+# 2026-11-17-19f065a3 (hiring_manager, domain Product Management, role -, JD -)
+AI [warmup] Hi Rohan, good to meet you. I'm part of the team hiring for the Product Management role, and today I'd like to hear about your experience in some depth. We have about 10 minutes, and I'll keep time for your questions at the end. To start us off, what is a skill you have been building lately?
+ME [warmup] Recently, I’ve been building my skill in product discovery, especially translating customer feedback into clear product opportunities. At Kitecart, I introduced an AI-assisted review tagging pipeline that categorises around 50,000 reviews each month. I worked with the team to define useful themes, validate the tagging quality, and connect those themes to product decisions. This has helped me move beyond relying only on quantitative dashboards and understand the underlying customer problems better. I’m also strengthening my experimentation skills by analysing A/B test results more deeply, including segment-level behaviour and trade-offs between conversion and customer experience.
+    -> move_on answer_type=example guards: Opener: the planned question word for word.
+AI [background] Thanks. Walk me through your career so far, including the period between Northline Logistics and Kitecart.
+ME [background] This is a stupid question, I'm not answering you.
+    -> clarify answer_type=abusive guards: Rewrote the message once for wording: two asks in one question (joined by "and", "or" or ", including").
+AI [background] Please keep to the interview. Walk me through your career, starting with Northline Logistics and then moving to Kitecart.
+ME [background] I began my career as a Business Analyst at Northline Logistics, where I analysed delivery-route data across three regional hubs and automated the monthly SLA report using Python, saving the team about two days each month. After completing that role in June 2021, I focused on strengthening my analytical and product-oriented skills through SQL and product management coursework, while exploring opportunities in consumer technology. I joined Kitecart as a Product Operations Analyst in March 2022, building Looker dashboards and identifying a pricing error pattern that saved approximately Rs 2.4 crore annually. That exposure to customer and business problems led me into my current Associate Product Manager role in March 2023.
+    -> move_on answer_type=example guards: Opener: the planned question word for word.
+AI [s1] Your resume says you owned Kitecart's checkout redesign. Walk me through the product problem you were trying to solve.
+ME [s1] This is a stupid question, I'm not answering you.
+    -> clarify answer_type=abusive
+AI [s1] Please keep to the interview. What checkout problem were you trying to solve at Kitecart?
+ME [s1] This is a stupid question, I'm not answering you.
+    -> clarify answer_type=abusive
+AI [s1] Thank you for your time. We’ll end the interview here.
