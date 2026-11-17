@@ -20,6 +20,8 @@
   const KIND = { claim: 'From your CV', gap: 'For the role', motivation: 'Motivation and fit', concerns: 'About your CV', second_chance: 'Second try', background: 'Your background' };
   const FOUND = { first_answer: 'In your first answer', after_follow_up: 'After a follow-up', not_given: 'Not given' };
   const JD = { covered: ['Covered', 'good'], partly: ['Partly covered', 'track'], not_reached: ['Not reached', 'none'] };
+  // Rubric elements a complete first answer gives unprompted: a follow-up asking for one is a habit to fix.
+  const FIRST_ANSWER_PARTS = ['situation', 'task', 'action', 'result', 'reason', 'explanation'];
   const MOMENT = { warmup: 'Warm-up', background: 'Your background', candidate_questions: 'Your questions at the end', conduct: 'Keeping to the interview', second_example: 'A second example' };
   const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
   const firstSentence = (x) => (String(x || '').match(/^.*?[.!?](\s|$)/) || [String(x || '')])[0].trim();
@@ -209,6 +211,11 @@
       html += `<div class="dr-sample"><span class="dr-sample-tag">SAMPLE RESPONSE</span><p>${esc(t.example_answer)}</p>
         <p class="dr-muted">From a sample candidate, to show the approach. Use your own example.</p></div>`;
     }
+    // Follow-ups the interviewer meant to ask but didn't get to: a real panel will ask them, so prepare an answer.
+    if ((t.expect_next || []).length) {
+      html += `<div class="dr2-expect"><span class="dr2-where-h">A panel may also ask</span><ul>${t.expect_next.map((q) => `<li>“${esc(q)}”</li>`).join('')}</ul>
+        <p class="dr-muted">We didn't get to ${t.expect_next.length === 1 ? 'this' : 'these'} today. Prepare a short answer to ${t.expect_next.length === 1 ? 'it' : 'each'}.</p></div>`;
+    }
     return html || '<p class="dr-muted">No steps for this topic.</p>';
   }
   function didBody(t) {
@@ -239,7 +246,7 @@
   // Each follow-up (what it asked for, whether the reply added it), then how the follow-ups were handled overall.
   function followUpsBody(t) {
     const handled = (t.ratings || []).find((r) => r.dimension === 'followup');
-    const list = (t.follow_ups || []).length ? `<ul class="dr-fus">${t.follow_ups.map((f) => `<li><p class="dr-fu-q">“${esc(f.question)}”</p>${f.why ? `<p class="dr-muted">${esc(f.why)}</p>` : ''}
+    const list = (t.follow_ups || []).length ? `<ul class="dr-fus">${t.follow_ups.map((f) => `<li><p class="dr-fu-q">“${esc(f.question)}”</p>${f.why ? `<p class="dr-fu-why"><span>Why the interviewer asked</span>${esc(f.why)}</p>` : ''}
       ${f.unanswered ? '<span class="d-pill sm">Not answered (the interview ended)</span>' : f.react ? '<span class="d-pill sm">A detail you mentioned</span>' : f.asked_for_label && f.given !== null ? `<span class="d-pill sm ${f.given ? 'good' : 'work'}">${f.given ? 'You added' : 'Still missing'}: ${esc(f.asked_for_label.toLowerCase())}</span>` : ''}</li>`).join('')}</ul>` : '';
     const how = handled ? `<div class="dr2-handled"><div class="dr2-handled-head"><strong>How you handled them</strong>${pill(handled.level)}</div><p>${esc(handled.reason)}</p>${quote(handled.quote)}</div>` : '';
     return list + how;
@@ -270,7 +277,7 @@
     return `<article class="dr-qpane" id="dr-q-${i}" data-q="${i}" role="tabpanel" aria-labelledby="dr-qpill-${i}"${open ? '' : ' hidden'}>
       <div class="dr2-topic">
         <div class="dr2-topic-main"><p class="dr2-eyebrow">Topic ${i + 1} of ${n} · ${esc(topicName(t))}${fus ? ` · ${plural(fus, 'follow-up')}` : ''}</p>
-          <p class="dr2-q">${esc(t.question || topicName(t))}</p>${source}${t.too_short ? '' : glance(t)}</div>
+          <p class="dr2-q">${esc(t.question || topicName(t))}</p>${t.checking ? `<p class="dr2-checking"><span>What this question was checking</span>${esc(t.checking)}</p>` : ''}${source}${t.too_short ? '' : glance(t)}</div>
         <div class="dr2-topic-side">${resultPill(t)}${t.resume_line ? `<button class="d-btn outline sm" type="button" data-practise="${i}">Practise this line again</button>` : ''}</div>
       </div>
       <div class="dr-qgrid">
@@ -287,6 +294,15 @@
   // Across the interview, on the Summary after Content Strength: talking about your own work, moments, JD coverage.
   function acrossSection(fb) {
     const parts = [];
+    // What the follow-ups asked for: the ones that asked for a part a complete first answer already gives.
+    const fus = fb.topics.flatMap((t) => (t.follow_ups || []).filter((f) => !f.unanswered));
+    if (fus.length) {
+      const core = fus.filter((f) => FIRST_ANSWER_PARTS.includes(f.asked_for));
+      const names = [...new Set(core.map((f) => (f.asked_for_label || '').toLowerCase()).filter(Boolean))];
+      parts.push(`<div class="dr-card"><h3>Follow-ups</h3>
+        <p>${core.length ? `${core.length} of your ${plural(fus.length, 'follow-up')} asked for ${esc(names.join(', ').replace(/, ([^,]*)$/, ' or $1'))}. A complete first answer gives ${core.length === 1 ? 'it' : 'these'} without being asked, so put ${core.length === 1 ? 'it' : 'them'} in your first answer.`
+          : `The interviewer followed up ${plural(fus.length, 'time')}, for extra detail rather than for parts your first answers left out.`}</p></div>`);
+    }
     const own = fb.ownership || { i: 0, we: 0 };
     if (own.i + own.we > 0) {
       const pct = Math.round((own.i / (own.i + own.we)) * 100);
