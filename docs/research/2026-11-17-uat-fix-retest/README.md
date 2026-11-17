@@ -29,3 +29,10 @@ Yes. Twelve plans across Product Management, Human Resources, Finance & BFSI, Sa
 2. A judging acknowledgement got through: "Your move from analytics into product is clear." (L7). `ACK_JUDGE` allows at most four words between "Your" and "is clear", and this phrase has five. Minor.
 3. The plan check flags "your assessment" in two planned follow-ups (D8, D12: "What changed because of your assessment?"). That is the student's own assessment, not the interview's, so it is a false positive of the check, not a leak.
 4. L1 asked the same own-part question twice in a row in different words ("Which checkout decision did you personally make…?" then "Which decisions in the checkout redesign were specifically yours to make?"), because the first was re-asked after each declined manipulation line. Minor.
+
+## Fixes for the new findings (same day)
+
+- Finding 1: before the plan, a domain with no target role or JD title is said as a field ("a role in Finance & BFSI"), never as a job title (`openingText`).
+- Finding 2: `ACK_JUDGE` allows up to six words between "Your"/"The" and "is clear" ("Your move from analytics into product is clear." is flagged).
+- Finding 4: the turn prompt's answer_and_return rule keeps the reworded question's intent, so it never turns into a follow-up the topic will ask later.
+- Finding 3 needs no fix (a false positive of the plan check).
