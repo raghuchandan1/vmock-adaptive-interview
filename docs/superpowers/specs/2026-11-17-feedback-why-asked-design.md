@@ -69,10 +69,11 @@ Claude picked B: specific where specificity matters (one sentence, model-written
    checking"). `expect_next` shows at the end of "How to answer it next time" as "A panel may also ask", with one line
    saying to prepare an answer. In `followUpsBody`, each `why` gets a small label "Why the interviewer asked" and normal
    text colour.
-4. **Summary line.** In `acrossSection`, a card "Follow-ups": counts follow-ups across judged topics and how many asked
-   for an element a complete first answer gives (`asked_for` in situation, task, action, result, reason, explanation),
-   naming the elements ("3 of your 6 follow-ups asked for your role or the result. Put them in your first answer.").
-   Hidden when there were no follow-ups; when none asked for such an element the card says so.
+4. **Summary line.** In `acrossSection`, a card "Follow-ups": how many follow-ups there were, and which parts of a
+   complete first answer (situation, task, action, result, reason, explanation) the student gave only after one, from
+   the ratings of judged topics (`found === 'after_follow_up'`, as the glance strip shows them). Built from ratings, not
+   from what each follow-up asked, so a measurement follow-up (extra detail, never faulted) never counts. Hidden when
+   there were no follow-ups; when no such part came late the card says so.
 5. **Tests.** `test/mock-openai.js` returns `checking` (strict schema); `test/run-flow.js` asserts `checking` and
    `expect_next` exist on the feedback topics.
 6. **Docs.** CLAUDE.md feedback paragraph: one sentence for the new version.

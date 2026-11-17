@@ -294,14 +294,17 @@
   // Across the interview, on the Summary after Content Strength: talking about your own work, moments, JD coverage.
   function acrossSection(fb) {
     const parts = [];
-    // What the follow-ups asked for: the ones that asked for a part a complete first answer already gives.
+    // Follow-ups across the interview: which parts of a complete first answer came only after one (from the ratings of
+    // judged topics, as the glance strip shows them). A measurement follow-up is extra detail and never counts here.
     const fus = fb.topics.flatMap((t) => (t.follow_ups || []).filter((f) => !f.unanswered));
     if (fus.length) {
-      const core = fus.filter((f) => FIRST_ANSWER_PARTS.includes(f.asked_for));
-      const names = [...new Set(core.map((f) => (f.asked_for_label || '').toLowerCase()).filter(Boolean))];
+      const late = fb.topics.filter((t) => !t.too_short)
+        .flatMap((t) => (t.ratings || []).filter((r) => FIRST_ANSWER_PARTS.includes(r.dimension) && r.found === 'after_follow_up'));
+      const labels = [...new Set(late.map((r) => String(r.label || '').toLowerCase()).filter(Boolean))];
+      const names = labels.join(', ').replace(/, ([^,]*)$/, ' and $1');
       parts.push(`<div class="dr-card"><h3>Follow-ups</h3>
-        <p>${core.length ? `${core.length} of your ${plural(fus.length, 'follow-up')} asked for ${esc(names.join(', ').replace(/, ([^,]*)$/, ' or $1'))}. A complete first answer gives ${core.length === 1 ? 'it' : 'these'} without being asked, so put ${core.length === 1 ? 'it' : 'them'} in your first answer.`
-          : `The interviewer followed up ${plural(fus.length, 'time')}, for extra detail rather than for parts your first answers left out.`}</p></div>`);
+        <p>The interviewer followed up ${plural(fus.length, 'time')}.${late.length ? ` You gave ${esc(names)} only after a follow-up. A complete first answer gives ${labels.length === 1 ? 'it' : 'these'} without being asked.`
+          : ' They asked for extra detail, not for parts your first answers left out.'}</p></div>`);
     }
     const own = fb.ownership || { i: 0, we: 0 };
     if (own.i + own.we > 0) {

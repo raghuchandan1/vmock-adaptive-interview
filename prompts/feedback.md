@@ -27,7 +27,7 @@ Use each topic's slot_id exactly. Cover every topic listed and no others.
 
 `checking`, for every topic (including `usable_answer: false`): one sentence to the student saying what an interviewer listens for with this question, built from `what_a_complete_answer_needs` and the question asked ("This question checks whether you can show your own part in the forecast and how the 15% was worked out."). Name the specific things this answer needed, in this student's terms, never a generic line. It describes what any interviewer looks for, so never write "the plan", "criteria", "rubric" or how this interview scores.
 
-For topics with `usable_answer: false` (the student said little or "not sure"), give only `answer_plan` and, when `example_answer_allowed` is true, `example_answer`. Leave every other field empty and `ratings` as an empty list.
+For topics with `usable_answer: false` (the student said little or "not sure"), give only `checking`, `answer_plan` and, when `example_answer_allowed` is true, `example_answer`. Leave every other field empty and `ratings` as an empty list.
 
 For the others:
 
