@@ -36,3 +36,25 @@ Yes. Twelve plans across Product Management, Human Resources, Finance & BFSI, Sa
 - Finding 2: `ACK_JUDGE` allows up to six words between "Your"/"The" and "is clear" ("Your move from analytics into product is clear." is flagged).
 - Finding 4: the turn prompt's answer_and_return rule keeps the reworded question's intent, so it never turns into a follow-up the topic will ask later.
 - Finding 3 needs no fix (a false positive of the plan check).
+
+## "Why this domain / why switch": when it is asked (`switch.js`)
+
+Placement panels ask "why this domain / company / switch" far more than "why MBA" (`2026-11-06-iim-placement-interview-questions.md`), and it is the question a switcher must expect. 44 plans (8 MBA switchers and 3 non-switch controls, each as hiring manager 10 and 15 min, recruiter screen and Resume Deep Dive), then live probing-style interviews with a talkative student.
+
+Before the fix (`out/switch-plans.json`, `out/switch-live.json`):
+
+| Shape | Switchers asked | Non-switchers asked | When (live) |
+|---|---|---|---|
+| Recruiter screen | 8/8 | 3/3 | First topic (interviewer turn 3 of 12) |
+| Hiring manager, 15 min | 8/8 | 3/3 | Last topic before the student's questions (turn 9-11 of 12-13) |
+| Resume Deep Dive | 8/8 | 0/3 (correct: no switch, the deep dive stays on the CV) | Last topic (turn 7 of 10) |
+| Hiring manager, 10 min | 1/8 | 0/3 (by product decision: only on a switch) | Not asked (chem plant to GM) |
+
+Two gaps: the 10-minute hiring manager template trimmed the motivation slot off the end even when the planner had found a switch; and an industry change in the same function (auto plant to FMCG supply chain, Army to corporate operations) was not seen as a switch at all. The time rule dropped nothing in these runs, but it ranked motivation as the first topic to drop.
+
+Fixes:
+- Planner: an industry change counts as a switch (auto plant to FMCG, manufacturing to consulting, armed forces to corporate), judged against the pre-MBA job when a placement stage is set.
+- Planner: with a switch, a 3-slot hiring manager plan keeps the motivation slot last and drops slot 2 (the second claim or the fit question; for a switcher "why this move" is the fit question). The gap or knowledge slot stays.
+- Engine: the time rule drops the motivation topic last in any interview (`applyTimeRule`); `checkAndShapePlan` warns when a switch concern has no motivation or concerns topic.
+
+After the fix (`out/switch-plans-after.json`, `out/switch-live-after.json`): 10-minute hiring manager 8/8 switchers (topics: claim, knowledge, why this move), 0/3 non-switchers; auto to FMCG and Army to operations now detected as switches in every shape. Live: asked at interviewer turn 6 of 10 and 8 of 10 (10-min), 10 of 12 (15-min), with one follow-up on what they have done in the MBA towards the field in summers. Examples: "You've spent three years in plant operations. What's pulling you toward a strategy and general management career?", "After leading maintenance operations in the Indian Army, what's pulling you toward a corporate career in operations and supply chain?"

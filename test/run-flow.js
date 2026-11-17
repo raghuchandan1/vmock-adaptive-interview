@@ -411,7 +411,7 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
     slots: [{ ...slot('now', 'claim', true, 1), status: 'active' }, slot('mh', 'gap', true, 4), slot('mot', 'motivation', false, 1), slot('sc', 'second_chance', true, 0)] };
   for (const turns of [9, 6, 3]) { tr.max_turns = turns; applyTimeRule(tr, []); }
   const dropped = tr.events.map((e) => e.slot_id).join();
-  check(dropped === 'sc,mot,mh', `time rule drops second chance, then non-must-have, then must-have (got ${dropped})`);
+  check(dropped === 'sc,mh,mot', `time rule drops second chance, then non-must-have, then must-have, and the motivation ("why this role") topic last (got ${dropped})`);
 
   // A stay-decision whose message asks the next topic's question is rejected and re-requested
   await post(`/api/sessions/${v2.id}/answers`, { answer: '[leaknext] vague answer' });

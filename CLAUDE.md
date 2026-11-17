@@ -55,3 +55,8 @@ Live UAT fixes (2026-11-16, `docs/research/2026-11-16-live-uat/`), to port to th
   - `DONT_KNOW` counts "didn't measure/track/calculate…".
   - `MEASURE_ASK` covers verify, "checked … figures", "based on" and "who produced".
   - `checkAndShapePlan` drops a placeholder `jd.company` (`PLACEHOLDER_COMPANY`) and a trailing bracket in `role_title`.
+- Switch question (2026-11-17, `docs/research/2026-11-17-uat-fix-retest/`):
+  - An industry change in the same function counts as a switch (auto plant to FMCG, armed forces to corporate).
+  - A 3-slot hiring manager plan with a switch keeps motivation last and drops slot 2 (the second claim or the fit question).
+  - `applyTimeRule` drops the motivation topic last; `checkAndShapePlan` warns when a switch is never raised.
+  - Before the plan, a lone domain is said as "a role in <domain>"; `ACK_JUDGE` spans up to six words.
