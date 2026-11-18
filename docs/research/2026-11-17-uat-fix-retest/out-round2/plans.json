@@ -1,0 +1,992 @@
+{
+ "D11": {
+  "id": "2026-11-18-1dbc12e0",
+  "input": {
+   "domain": "IT & Analytics",
+   "type": "hiring_manager",
+   "jd": null
+  },
+  "greeting": "Hi Ananya, good to meet you. I'm part of the team hiring for a role in IT & Analytics, and today I'd like to hear about your experience in some depth. We have about 15 minutes, and I'll keep time for your questions at the end. To start us off, what does a typical week look like for you right now?",
+  "plan_error": null,
+  "company": null,
+  "role_title": null,
+  "role_family": "technical",
+  "competencies": [
+   "Data analysis",
+   "Technical depth in SQL, Python and BI tools",
+   "Problem solving and execution",
+   "Communication with stakeholders",
+   "Leadership and collaboration",
+   "Motivation and fit"
+  ],
+  "slots": [
+   {
+    "kind": "background",
+    "qtype": null,
+    "competency": null,
+    "q": "Walk me through your background: your studies and the experiences that led you toward IT and analytics.",
+    "probes": [],
+    "anchor": null
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Technical depth in SQL, Python and BI tools",
+    "q": "I see you streamlined reporting at Finwise Credit. Walk me through how you built that data workflow.",
+    "probes": [
+     "Which parts of the SQL workflow did you personally design?",
+     "Why did you choose that join structure for the four tables?",
+     "What was the six-hour reduction compared against?"
+    ],
+    "anchor": "Wrote SQL queries to clean and join data from 4 source tables, reducing manual reporting time by 6 hours a week"
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Leadership and collaboration",
+    "q": "Your resume lists you as treasurer of the Coding Club. Tell me about a decision you made in that role.",
+    "probes": [
+     "What part of that decision was yours?",
+     "What information did you use to make the choice?",
+     "What changed because of your decision?"
+    ],
+    "anchor": "Managed the club budget and organised events"
+   },
+   {
+    "kind": "gap",
+    "qtype": "past_behaviour",
+    "competency": "Communication with stakeholders",
+    "q": "Tell me about a time you adapted a technical explanation for a nontechnical audience. It could be from an internship, a college project or a club.",
+    "probes": [
+     "What did you personally change in the explanation?",
+     "How did you decide what to leave out?",
+     "What response showed whether the explanation worked?"
+    ],
+    "anchor": null
+   },
+   {
+    "kind": "motivation",
+    "qtype": "motivation",
+    "competency": "Motivation and fit",
+    "q": "What draws you to starting your career in IT and analytics?",
+    "probes": [
+     "Which experience most influenced this choice?",
+     "What type of analytics problem do you want to work on first?",
+     "What have you done to understand this career beyond your projects and internships?"
+    ],
+    "anchor": null
+   }
+  ],
+  "checks": [
+   "All claims are quoted from the resume and all topics are valid."
+  ]
+ },
+ "D8": {
+  "id": "2026-11-18-33f99450",
+  "input": {
+   "domain": "Strategy & General Management",
+   "type": "back_your_resume",
+   "stage": "summers",
+   "jd": null
+  },
+  "greeting": "Hi Kabir, thanks for joining. Today we'll walk through your resume in some detail. We have about 15 minutes, with time for your questions at the end. To start us off, what has been keeping you busy lately?",
+  "plan_error": null,
+  "company": null,
+  "role_title": null,
+  "role_family": "other",
+  "competencies": [
+   "Strategic problem solving",
+   "Analytical decision making",
+   "Leadership and execution",
+   "Stakeholder and customer insight",
+   "Communication and influence",
+   "Motivation and fit"
+  ],
+  "slots": [
+   {
+    "kind": "background",
+    "qtype": null,
+    "competency": null,
+    "q": "Walk me through your background, up to how your first term at the MBA has gone.",
+    "probes": [],
+    "anchor": null
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Stakeholder and customer insight",
+    "q": "Your resume says dealer and fleet operator findings changed the client's launch city priorities. What did you personally do to turn those interviews into a recommendation?",
+    "probes": [
+     "Which parts of the interview work were personally yours?",
+     "How did you decide which findings deserved the most weight?",
+     "What would you do differently if you repeated the work now?"
+    ],
+    "anchor": "Interviewed 35 dealers and 12 fleet operators; findings shifted the client's launch city list from Delhi NCR first to Pune and Bengaluru first"
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Strategic problem solving",
+    "q": "You won HUL L.I.M.E. with a rural distribution proposal for premium detergent. What was the central strategic choice in your team's solution?",
+    "probes": [
+     "What part of the solution did you personally develop?",
+     "What alternative distribution approach did you reject?",
+     "What evidence supported the premium detergent proposition in rural markets?"
+    ],
+    "anchor": "National Winner, HUL L.I.M.E. Season 16 (2026): rural distribution of a premium detergent; 1 of 3 winners from 21,000 teams"
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Leadership and execution",
+    "q": "I see you led a 30-member Commerce Society team at SRCC. Tell me about the most consequential people decision you made for the annual fest.",
+    "probes": [
+     "What did you personally do after making that decision?",
+     "How did that decision affect the team's delivery?",
+     "How was the INR 8 lakh sponsorship total recorded?"
+    ],
+    "anchor": "General Secretary, Commerce Society, SRCC (2023-24): led a 30-member team; raised INR 8 lakh in sponsorship for the annual fest"
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Analytical decision making",
+    "q": "At Kotak Mahindra Bank, you benchmarked credit card rewards across six banks. How did you decide which reward categories should be cut?",
+    "probes": [
+     "Which parts of the benchmarking were personally yours?",
+     "What criterion had the greatest influence on your recommendation?",
+     "What evidence showed those two categories were low use?"
+    ],
+    "anchor": "Benchmarked 6 private banks' credit card rewards programs and recommended cutting 2 low-use reward categories"
+   }
+  ],
+  "checks": [
+   "All claims are quoted from the resume and all topics are valid."
+  ]
+ },
+ "D7": {
+  "id": "2026-11-18-fd22ac9d",
+  "input": {
+   "domain": "Human Resources",
+   "type": "back_your_resume",
+   "stage": "summers",
+   "jd": null
+  },
+  "greeting": "Hi Ritika, thanks for joining. Today I'd like to go through your resume in some detail and hear the stories behind it. We have about 15 minutes, with time for your questions at the end. To start us off, what has been keeping you busy lately?",
+  "plan_error": null,
+  "company": null,
+  "role_title": null,
+  "role_family": "other",
+  "competencies": [
+   "HR analytics and employee relations",
+   "Talent acquisition",
+   "Learning and employee experience",
+   "Stakeholder management",
+   "Leadership and execution",
+   "Structured problem solving",
+   "Motivation and fit"
+  ],
+  "slots": [
+   {
+    "kind": "background",
+    "qtype": null,
+    "competency": null,
+    "q": "Walk me through your background, including what you've focused on since starting your MBA.",
+    "probes": [],
+    "anchor": null
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "HR analytics and employee relations",
+    "q": "I see you analysed shop floor exits at Mahindra's Nashik plant. Walk me through how you turned the data into a recommendation.",
+    "probes": [
+     "What part of the analysis did you personally carry out?",
+     "What alternatives did you consider before proposing the preference window?",
+     "How did you determine that 58% of first year exits cited shift allocation?"
+    ],
+    "anchor": "Analysed exit interviews of 380 shop-floor associates; found 58% of first-year exits cited shift allocation, and proposed a shift-preference window that the plant HR head approved for 2 lines"
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Talent acquisition",
+    "q": "I see you supported fellowship recruitment at Teach For India. How did you decide which candidates should progress?",
+    "probes": [
+     "Which screening decisions were yours?",
+     "What evidence mattered most when a candidate's application was mixed?",
+     "How did you check whether your recommendations were consistent?"
+    ],
+    "anchor": "Screened 600 applications and conducted 40 first-round phone interviews"
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Structured problem solving",
+    "q": "You were a national winner in Tata Steel's HRchitect competition. How did your team approach the central HR problem in the case?",
+    "probes": [
+     "What part of the case solution was personally yours?",
+     "What option did you argue against?",
+     "What evidence supported the practicality of your solution?"
+    ],
+    "anchor": "National winner, Tata Steel HR case competition \"HRchitect\" 2026"
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Stakeholder management",
+    "q": "Your resume lists you as a Placement Committee member at IIM Ranchi. Tell me about a specific recruiter interaction you coordinated.",
+    "probes": [
+     "What did you personally do in that interaction?",
+     "What judgement call did you make?",
+     "What changed because of your coordination?"
+    ],
+    "anchor": "Placement Committee member, IIM Ranchi (2025-26): coordinate with 18 recruiters for HR and general management roles"
+   }
+  ],
+  "checks": [
+   "All claims are quoted from the resume and all topics are valid."
+  ]
+ },
+ "D5": {
+  "id": "2026-11-18-8c88f655",
+  "input": {
+   "domain": "Operations & Supply Chain",
+   "target_role": "Supply Chain Analyst",
+   "type": "hiring_manager",
+   "jd": null
+  },
+  "greeting": "Hi Rohan, thanks for making the time. I'm on the team hiring for the Supply Chain Analyst role. Over the next 15 minutes or so I'd like to go into your experience, and you'll have time for questions at the end. To start us off, what is something you worked on recently that you found interesting?",
+  "plan_error": null,
+  "company": null,
+  "role_title": null,
+  "role_family": "technical",
+  "competencies": [
+   "Supply chain data analysis",
+   "Demand and inventory planning",
+   "Stakeholder management",
+   "Process improvement",
+   "Prioritization and execution",
+   "Motivation and fit"
+  ],
+  "slots": [
+   {
+    "kind": "background",
+    "qtype": null,
+    "competency": null,
+    "q": "Walk me through your career so far, including what you focused on between Northline Logistics and Kitecart.",
+    "probes": [],
+    "anchor": null
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Supply chain data analysis",
+    "q": "I see you automated the SLA report at Northline Logistics. What did you have to figure out first?",
+    "probes": [
+     "Which parts of the automation did you personally design?",
+     "Why did you choose Python for this workflow?",
+     "How did you establish the two days saved each month?"
+    ],
+    "anchor": "Automated the monthly SLA report using Python, saving the team 2 days each month"
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Stakeholder management",
+    "q": "At Kitecart, you worked with sellers on catalogue quality. Tell me about a specific seller issue you helped resolve.",
+    "probes": [
+     "What was your own part in resolving that issue?",
+     "What did you do first after identifying the catalogue problem?",
+     "What changed because of your work?"
+    ],
+    "anchor": "Worked closely with sellers to improve catalogue quality"
+   },
+   {
+    "kind": "gap",
+    "qtype": "past_behaviour",
+    "competency": "Demand and inventory planning",
+    "q": "Tell me about a time you used uncertain demand or operational data to make a planning recommendation.",
+    "probes": [
+     "What part of the recommendation was yours?",
+     "How did you account for variability in the data?",
+     "What changed because of the recommendation?"
+    ],
+    "anchor": null
+   },
+   {
+    "kind": "motivation",
+    "qtype": "motivation",
+    "competency": "Motivation and fit",
+    "q": "You've moved from logistics analytics into product management. What's pulling you toward a Supply Chain Analyst role now?",
+    "probes": [
+     "Which experience most shaped your interest in returning to supply chain work?",
+     "What part of supply chain analysis do you want to develop further?",
+     "How does this role fit the direction you want your career to take?"
+    ],
+    "anchor": null
+   }
+  ],
+  "checks": [
+   "All claims are quoted from the resume and all topics are valid."
+  ]
+ },
+ "D9": {
+  "id": "2026-11-18-10af7d21",
+  "input": {
+   "type": "hiring_manager",
+   "jd": "Area Sales Manager – a leading FMCG company (Pune / Field role)"
+  },
+  "greeting": "Hi Rohan, thanks for joining. I'm on the hiring team for the Area Sales Manager role, and I'd like to understand your experience in some depth. We have about 15 minutes, with time for your questions at the end. To start us off, what is something in your field that has caught your attention recently?",
+  "plan_error": null,
+  "company": null,
+  "role_title": "Area Sales Manager",
+  "role_family": "other",
+  "competencies": [
+   "Field sales and channel execution",
+   "People leadership and coaching",
+   "Sales analytics and commercial numeracy",
+   "Stakeholder and distributor relationship management",
+   "Sales planning and control",
+   "Motivation and fit"
+  ],
+  "slots": [
+   {
+    "kind": "background",
+    "qtype": null,
+    "competency": null,
+    "q": "Walk me through your career so far, including what you focused on between Northline Logistics and Kitecart.",
+    "probes": [],
+    "anchor": null
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Sales analytics and commercial numeracy",
+    "q": "I see you uncovered a pricing error pattern at Kitecart. Walk me through how you found it.",
+    "probes": [
+     "What part of the analysis did you personally carry out?",
+     "What action did you recommend after finding the pattern?",
+     "How was the Rs 2.4 crore annual saving calculated?"
+    ],
+    "anchor": "Identified a pricing error pattern that saved the company Rs 2.4 crore annually"
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Stakeholder and distributor relationship management",
+    "q": "Your resume describes cross-functional backlog planning at Kitecart. Tell me about a priority that required alignment across teams.",
+    "probes": [
+     "What was your specific role in setting that priority?",
+     "What trade-off drove your recommendation?",
+     "What changed after the teams aligned on it?"
+    ],
+    "anchor": "Partnered with engineering, design and marketing to prioritise a 40-item backlog every sprint"
+   },
+   {
+    "kind": "gap",
+    "qtype": "past_behaviour",
+    "competency": "People leadership and coaching",
+    "q": "Tell me about a time you helped a colleague improve their performance.",
+    "probes": [
+     "What did you do first to understand what support was needed?",
+     "How did you choose the support you provided?",
+     "What changed in the person's performance?"
+    ],
+    "anchor": null
+   },
+   {
+    "kind": "motivation",
+    "qtype": "motivation",
+    "competency": "Motivation and fit",
+    "q": "You've built your career in logistics analytics and e-commerce product. What's pulling you toward an FMCG field sales role?",
+    "probes": [
+     "What have you done to understand distributor-led field sales?",
+     "What appeals to you about working across tier-2 and tier-3 towns?",
+     "Why is now the right time for this move?"
+    ],
+    "anchor": null
+   }
+  ],
+  "checks": [
+   "All claims are quoted from the resume and all topics are valid."
+  ]
+ },
+ "D3": {
+  "id": "2026-11-18-067dfbe0",
+  "input": {
+   "domain": "Finance & BFSI",
+   "type": "recruiter_screen",
+   "jd": null
+  },
+  "greeting": "Hi Rohan, thanks for making time today. This is an initial conversation about a role in Finance & BFSI. We have about 15 minutes, and I'll leave time for your questions at the end. To start us off, what does a typical week look like for you right now?",
+  "plan_error": null,
+  "company": null,
+  "role_title": null,
+  "role_family": "finance",
+  "competencies": [
+   "Data analysis and decision making",
+   "Ownership and execution",
+   "Risk and regulatory judgment",
+   "Stakeholder management",
+   "Adaptability and career direction",
+   "Motivation and fit"
+  ],
+  "slots": [
+   {
+    "kind": "background",
+    "qtype": null,
+    "competency": null,
+    "q": "Walk me through your career so far, with a focus on your move from logistics analytics into product management.",
+    "probes": [],
+    "anchor": null
+   },
+   {
+    "kind": "motivation",
+    "qtype": "motivation",
+    "competency": "Motivation and fit",
+    "q": "You've built your career in logistics and consumer e-commerce. What's pulling you toward financial services now?",
+    "probes": [
+     "Which problems in financial services are you most interested in solving?",
+     "What have you done to understand product work in a regulated business?",
+     "How does your product experience prepare you for the work you want to do in financial services?"
+    ],
+    "anchor": null
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Data analysis and decision making",
+    "q": "At Kitecart, your resume says you found a recurring pricing error. Walk me through how you uncovered it.",
+    "probes": [
+     "What part of the investigation did you personally handle?",
+     "What action followed from your finding?",
+     "How was the Rs 2.4 crore annual saving calculated?"
+    ],
+    "anchor": "Identified a pricing error pattern that saved the company Rs 2.4 crore annually"
+   },
+   {
+    "kind": "gap",
+    "qtype": "past_behaviour",
+    "competency": "Risk and regulatory judgment",
+    "q": "Tell me about a time you had to make a business decision within a strict policy constraint. It could be from e-commerce or logistics.",
+    "probes": [
+     "What was your personal responsibility in that situation?",
+     "What did you do first to understand the constraint?",
+     "What changed because of your decision?"
+    ],
+    "anchor": null
+   },
+   {
+    "kind": "concerns",
+    "qtype": "concern",
+    "competency": "Adaptability and career direction",
+    "q": "There's a period between Northline Logistics ending in June 2021 and Kitecart starting in March 2022. What were you focused on during that time?",
+    "probes": [
+     "What did you choose to prioritise during that period?",
+     "What outcome from that period influenced what you pursued next?"
+    ],
+    "anchor": null
+   }
+  ],
+  "checks": [
+   "All claims are quoted from the resume and all topics are valid."
+  ]
+ },
+ "D4": {
+  "id": "2026-11-18-9bb03543",
+  "input": {
+   "domain": "Sales & Marketing",
+   "type": "back_your_resume",
+   "jd": null
+  },
+  "greeting": "Hi Rohan, thanks for joining. Today I'd like to go through your resume in some detail and hear the stories behind it. We have about 15 minutes, with time for your questions at the end. To start us off, what first got you interested in this field?",
+  "plan_error": null,
+  "company": null,
+  "role_title": null,
+  "role_family": "other",
+  "competencies": [
+   "Growth strategy and customer acquisition",
+   "Commercial and pricing judgement",
+   "Data-driven experimentation",
+   "Cross-functional influence",
+   "Analytical problem solving and execution",
+   "Motivation and fit"
+  ],
+  "slots": [
+   {
+    "kind": "background",
+    "qtype": null,
+    "competency": null,
+    "q": "Walk me through your career so far, including the period between Northline Logistics and Kitecart.",
+    "probes": [],
+    "anchor": null
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Growth strategy and customer acquisition",
+    "q": "I see you led Kitecart's referral programme. What were you trying to solve with that launch?",
+    "probes": [
+     "What part of the referral launch did you personally own?",
+     "What major option did you decide against?",
+     "What baseline was the 30% increase compared with?"
+    ],
+    "anchor": "Led the launch of a referral programme that increased new-user sign-ups by 30% in the first quarter"
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Commercial and pricing judgement",
+    "q": "Your resume says you found a pricing error pattern at Kitecart. Walk me through how you uncovered it.",
+    "probes": [
+     "What steps did you personally take after spotting the pattern?",
+     "What decision did your analysis change?",
+     "How was the Rs 2.4 crore annual saving calculated?"
+    ],
+    "anchor": "Identified a pricing error pattern that saved the company Rs 2.4 crore annually"
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Analytical problem solving and execution",
+    "q": "At Northline Logistics, you automated the monthly SLA report. What did you have to figure out first?",
+    "probes": [
+     "Which part of the Python automation did you build personally?",
+     "What trade-off shaped your implementation?",
+     "How did you establish that it saved two days each month?"
+    ],
+    "anchor": "Automated the monthly SLA report using Python, saving the team 2 days each month"
+   },
+   {
+    "kind": "concerns",
+    "qtype": "concern",
+    "competency": "Motivation and fit",
+    "q": "Your background is in product and operations analytics. What's drawing you toward sales and marketing now?",
+    "probes": [
+     "Which part of sales and marketing interests you most?",
+     "What have you done so far to prepare for this move?"
+    ],
+    "anchor": null
+   }
+  ],
+  "checks": [
+   "All claims are quoted from the resume and all topics are valid."
+  ]
+ },
+ "D1": {
+  "id": "2026-11-18-bb7494e3",
+  "input": {
+   "domain": "Product Management",
+   "target_role": "Associate Product Manager",
+   "type": "hiring_manager",
+   "jd": null
+  },
+  "greeting": "Hi Rohan, thanks for making the time. I'm on the team hiring for the Associate Product Manager role. Over the next 15 minutes or so I'd like to go into your experience, and you'll have time for questions at the end. To start us off, what does a typical week look like for you right now?",
+  "plan_error": null,
+  "company": null,
+  "role_title": null,
+  "role_family": "technical",
+  "competencies": [
+   "Product execution and prioritization",
+   "Data analysis and experimentation",
+   "Product strategy and discovery",
+   "Cross-functional stakeholder management",
+   "Technical fluency",
+   "Motivation and fit"
+  ],
+  "slots": [
+   {
+    "kind": "background",
+    "qtype": null,
+    "competency": null,
+    "q": "Walk me through your career so far, including the period between Northline Logistics and Kitecart, with a focus on your last two roles.",
+    "probes": [],
+    "anchor": null
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Product execution and prioritization",
+    "q": "I see you owned Kitecart's checkout redesign. What was the hardest product decision you made during that work?",
+    "probes": [
+     "What part of the redesign did you personally own?",
+     "What trade-off shaped your final checkout flow?",
+     "How did you calculate cart abandonment across the 2 million monthly sessions?"
+    ],
+    "anchor": "Owned the checkout redesign end to end, cutting cart abandonment from 71% to 58% across 2 million monthly sessions"
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Data analysis and experimentation",
+    "q": "At Kitecart, your resume says you found a pricing error pattern. Walk me through how you investigated it.",
+    "probes": [
+     "What part of the analysis was yours?",
+     "Why did you choose that method for isolating the pattern?",
+     "What assumptions drove the Rs 2.4 crore annual estimate?"
+    ],
+    "anchor": "Identified a pricing error pattern that saved the company Rs 2.4 crore annually"
+   },
+   {
+    "kind": "gap",
+    "qtype": "past_behaviour",
+    "competency": "Product strategy and discovery",
+    "q": "Tell me about a time you uncovered a user problem that was not obvious at first.",
+    "probes": [
+     "What was your personal role in uncovering the problem?",
+     "What did you do first to understand it?",
+     "What changed because of your finding?"
+    ],
+    "anchor": null
+   },
+   {
+    "kind": "motivation",
+    "qtype": "motivation",
+    "competency": "Motivation and fit",
+    "q": "After moving from operations analytics into product, what is driving your next step as an Associate Product Manager?",
+    "probes": [
+     "What experience first convinced you that product was the right direction?",
+     "What kind of product problems do you want this role to give you?",
+     "How does this role fit the product career you want over the next three to five years?"
+    ],
+    "anchor": null
+   }
+  ],
+  "checks": [
+   "All claims are quoted from the resume and all topics are valid."
+  ]
+ },
+ "D12": {
+  "id": "2026-11-18-2ddd6500",
+  "input": {
+   "domain": "Sustainability & ESG",
+   "type": "recruiter_screen",
+   "stage": "finals",
+   "jd": null
+  },
+  "greeting": "Hi Vikram, thanks for joining. Today is a short first chat about a role in Sustainability & ESG, about 15 minutes, with time at the end for anything you'd like to ask. To start us off, what has been keeping you busy lately?",
+  "plan_error": null,
+  "company": null,
+  "role_title": null,
+  "role_family": "other",
+  "competencies": [
+   "Sustainability and ESG judgement",
+   "Data analysis and decision support",
+   "Stakeholder management",
+   "Operational governance and execution",
+   "Leadership and people management",
+   "Motivation and fit"
+  ],
+  "slots": [
+   {
+    "kind": "background",
+    "qtype": null,
+    "competency": null,
+    "q": "Walk me through your path from the Army to your MBA, including your summer internship at Tata Steel.",
+    "probes": [],
+    "anchor": null
+   },
+   {
+    "kind": "motivation",
+    "qtype": "motivation",
+    "competency": "Motivation and fit",
+    "q": "Your experience has centered on military maintenance and industrial operations. What's pulling you toward sustainability and ESG?",
+    "probes": [
+     "Which part of sustainability and ESG work interests you most?",
+     "What have you done since your internship to explore this field?",
+     "How does a sustainability and ESG role compare with the operations path you explored at Tata Steel?"
+    ],
+    "anchor": null
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Data analysis and decision support",
+    "q": "At Tata Steel, you built a stocking model for mill spares. What problem were you trying to solve?",
+    "probes": [
+     "What part of the model did you personally build?",
+     "What was the INR 3.2 crore projection compared against?",
+     "What would you do differently now?"
+    ],
+    "anchor": "Built a criticality-based spares stocking model for 312 hot strip mill spares; projected INR 3.2 crore reduction in inventory holding with no rise in breakdown risk"
+   },
+   {
+    "kind": "gap",
+    "qtype": "past_behaviour",
+    "competency": "Sustainability and ESG judgement",
+    "q": "Tell me about a time you had to account for an environmental or social consequence in an operational decision. It could be from the Army, your internship or your MBA.",
+    "probes": [
+     "What part did you personally play in that decision?",
+     "What did you examine first to understand the consequence?",
+     "What changed because of your input?"
+    ],
+    "anchor": null
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Operational governance and execution",
+    "q": "Your resume says you managed spares across three Army depots. How did you maintain control over that inventory?",
+    "probes": [
+     "Which control did you personally introduce?",
+     "What trade-off shaped your inventory decisions?",
+     "How were zero discrepancies verified in the annual audits?"
+    ],
+    "anchor": "Managed spares inventory worth INR 14 crore across 3 depots; brought audit discrepancies down to zero in two consecutive annual audits"
+   }
+  ],
+  "checks": [
+   "All claims are quoted from the resume and all topics are valid."
+  ]
+ },
+ "D10": {
+  "id": "2026-11-18-078a7baa",
+  "input": {
+   "type": "hiring_manager",
+   "jd": "Product Analyst (Graduate hire) – Lumen Pay, Bengaluru"
+  },
+  "greeting": "Hi Rohan, thanks for making the time. I'm on the team hiring for the Product Analyst role. Over the next 15 minutes or so I'd like to go into your experience, and you'll have time for questions at the end. To start us off, what first got you interested in this field?",
+  "plan_error": null,
+  "company": "Lumen Pay",
+  "role_title": "Product Analyst",
+  "role_family": "technical",
+  "competencies": [
+   "SQL and data analysis",
+   "BI dashboards",
+   "Structured problem solving",
+   "Cross-functional communication",
+   "Python analysis",
+   "Experimentation and impact measurement",
+   "Fintech and payments interest",
+   "Motivation and fit"
+  ],
+  "slots": [
+   {
+    "kind": "background",
+    "qtype": null,
+    "competency": null,
+    "q": "Walk me through your career so far, including the period between Northline Logistics and Kitecart, up to your current role.",
+    "probes": [],
+    "anchor": null
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Structured problem solving",
+    "q": "I see you owned Kitecart's checkout redesign. What problem were you trying to solve?",
+    "probes": [
+     "What decisions in the redesign were yours?",
+     "What option did you decide against?",
+     "How did you isolate the redesign's effect on cart abandonment?"
+    ],
+    "anchor": "Owned the checkout redesign end to end, cutting cart abandonment from 71% to 58% across 2 million monthly sessions"
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "BI dashboards",
+    "q": "At Kitecart, you built weekly operations dashboards in Looker. Walk me through the analysis those dashboards supported.",
+    "probes": [
+     "What parts of the dashboards did you build yourself?",
+     "Why did you structure the dashboards that way?",
+     "What changed after the dashboards became available?"
+    ],
+    "anchor": "Built weekly operations dashboards in Looker for the category management team"
+   },
+   {
+    "kind": "gap",
+    "qtype": "past_behaviour",
+    "competency": "SQL and data analysis",
+    "q": "Tell me about a time you used SQL to make sense of a large, messy dataset.",
+    "probes": [
+     "What did you do first when you encountered the messy data?",
+     "Why did you structure the SQL analysis that way?",
+     "What decision changed because of the analysis?"
+    ],
+    "anchor": null
+   },
+   {
+    "kind": "motivation",
+    "qtype": "motivation",
+    "competency": "Motivation and fit",
+    "q": "You're currently an Associate Product Manager. What draws you to the Product Analyst role at Lumen Pay?",
+    "probes": [
+     "What about small merchant payments makes this domain compelling to you?",
+     "Which part of this role builds most directly on your recent experience?",
+     "How does this role fit the direction you want your career to take over the next three to five years?"
+    ],
+    "anchor": null
+   }
+  ],
+  "checks": [
+   "All claims are quoted from the resume and all topics are valid."
+  ]
+ },
+ "D6": {
+  "id": "2026-11-18-a0f4a9a9",
+  "input": {
+   "domain": "Consultancy",
+   "type": "hiring_manager",
+   "stage": "summers",
+   "jd": null
+  },
+  "greeting": "Hi Ananya, thanks for making the time. I'm on the team hiring for a role in Consultancy. Over the next 15 minutes or so I'd like to go into your experience, and you'll have time for questions at the end. To start us off, what does a typical week look like for you right now?",
+  "plan_error": null,
+  "company": null,
+  "role_title": null,
+  "role_family": "other",
+  "competencies": [
+   "Structured problem solving",
+   "Data analysis",
+   "Communication",
+   "Teamwork and leadership",
+   "Business judgment under uncertainty",
+   "Self-awareness",
+   "Motivation and fit"
+  ],
+  "slots": [
+   {
+    "kind": "background",
+    "qtype": null,
+    "competency": null,
+    "q": "Walk me through your background: your studies and the experiences that led you to apply for consulting.",
+    "probes": [],
+    "anchor": null
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Teamwork and leadership",
+    "q": "I see you managed the Coding Club's budget. Tell me about a decision you made as treasurer.",
+    "probes": [
+     "What part of the budget work did you personally handle?",
+     "What did you do first to understand the club's needs?",
+     "What changed because of your approach?"
+    ],
+    "anchor": "Managed the club budget and organised events"
+   },
+   {
+    "kind": "gap",
+    "qtype": "past_behaviour",
+    "competency": "Self-awareness",
+    "q": "What would your teammates or classmates say is your biggest strength?",
+    "probes": [
+     "Tell me about a specific moment when that strength made a difference.",
+     "What did you personally do in that moment?",
+     "What changed because of your contribution?"
+    ],
+    "anchor": null
+   },
+   {
+    "kind": "gap",
+    "qtype": "past_behaviour",
+    "competency": "Business judgment under uncertainty",
+    "q": "Tell me about a time you had to make a recommendation with incomplete evidence. It could be from an internship, a college project or a club.",
+    "probes": [
+     "What part of the recommendation was yours?",
+     "What did you do first to reduce the uncertainty?",
+     "What outcome followed from your recommendation?"
+    ],
+    "anchor": null
+   },
+   {
+    "kind": "motivation",
+    "qtype": "motivation",
+    "competency": "Motivation and fit",
+    "q": "What draws you to consulting at this point in your studies?",
+    "probes": [
+     "Which experience most shaped your interest in consulting?",
+     "What have you done during your studies to explore consulting?",
+     "What kind of consulting problems would you most like to work on?"
+    ],
+    "anchor": null
+   }
+  ],
+  "checks": [
+   "All claims are quoted from the resume and all topics are valid."
+  ]
+ },
+ "D2": {
+  "id": "2026-11-18-532dcce2",
+  "input": {
+   "domain": "Human Resources",
+   "type": "hiring_manager",
+   "jd": null
+  },
+  "greeting": "Hi Rohan, thanks for joining. I'm on the hiring team for a role in Human Resources, and I'd like to understand your experience in some depth. We have about 15 minutes, with time for your questions at the end. To start us off, what has been keeping you busy lately?",
+  "plan_error": null,
+  "company": null,
+  "role_title": null,
+  "role_family": "other",
+  "competencies": [
+   "Stakeholder management",
+   "HR judgment and employee focus",
+   "Data analysis and people metrics",
+   "Ownership and execution",
+   "Communication and influence",
+   "Motivation and fit"
+  ],
+  "slots": [
+   {
+    "kind": "background",
+    "qtype": null,
+    "competency": null,
+    "q": "Walk me through your career from Northline Logistics to Kitecart, including what you focused on between June 2021 and March 2022.",
+    "probes": [],
+    "anchor": null
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Stakeholder management",
+    "q": "At Kitecart, you worked across engineering, design and marketing on sprint priorities. How did you bring those groups into the prioritisation process?",
+    "probes": [
+     "What was your personal role in setting the priorities?",
+     "How did you decide whose input should change the backlog?",
+     "What result showed the prioritisation process was working?"
+    ],
+    "anchor": "Partnered with engineering, design and marketing to prioritise a 40-item backlog every sprint"
+   },
+   {
+    "kind": "claim",
+    "qtype": "past_behaviour",
+    "competency": "Data analysis and people metrics",
+    "q": "Your resume says you found a pricing error pattern at Kitecart. Walk me through how you investigated it.",
+    "probes": [
+     "What part of the analysis did you personally handle?",
+     "What action did you recommend after finding the pattern?",
+     "How did you calculate the Rs 2.4 crore annual saving?"
+    ],
+    "anchor": "Identified a pricing error pattern that saved the company Rs 2.4 crore annually"
+   },
+   {
+    "kind": "gap",
+    "qtype": "past_behaviour",
+    "competency": "HR judgment and employee focus",
+    "q": "Tell me about a time a colleague's concern challenged a team rule. It could be from product, analytics or another team setting.",
+    "probes": [
+     "What did you do first after hearing the concern?",
+     "How did you decide what was fair to the wider team?",
+     "What changed after your response?"
+    ],
+    "anchor": null
+   },
+   {
+    "kind": "motivation",
+    "qtype": "motivation",
+    "competency": "Motivation and fit",
+    "q": "Your career has been in product and analytics. What's pulling you toward Human Resources?",
+    "probes": [
+     "Which experience most influenced your interest in Human Resources?",
+     "What have you done to understand day-to-day HR work?",
+     "What part of Human Resources do you want to build depth in first?"
+    ],
+    "anchor": null
+   }
+  ],
+  "checks": [
+   "All claims are quoted from the resume and all topics are valid."
+  ]
+ }
+}

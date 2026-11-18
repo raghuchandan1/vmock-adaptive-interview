@@ -450,7 +450,7 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
   }
   // ...but keeps the follow-ups a topic still owes (a finals internship's measurement and "what would you do differently")
   const intern = { ...slot('bain', 'claim', true, 1), status: 'active', follow_ups_used: 1, rungs_used: ['role'], probe_angle: 'test_claim',
-    anchor_text: 'Built market sizing model across 4 customer segments', anchor_parent: 'Summer Consultant, Bain & Company' };
+    anchor_text: 'Built market sizing model across 4 customer segments, sizing the market at Rs 1,200 crore', anchor_parent: 'Summer Consultant, Bain & Company' };
   const owe = { current: 0, interviewer_turns: 0, max_turns: 8, events: [], inputs: { stage: 'finals', interview_type: 'back_your_resume' },
     slots: [intern, slot('mh1', 'claim', true, 2), slot('mh2', 'gap', true, 3)] };
   applyTimeRule(owe, []);
@@ -1445,6 +1445,15 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
         && !E.asksMeasurement(slot, 'What part of the checkout redesign did you personally own?') && !E.asksMeasurement(slot, 'How did you check in with the team each week?')
         && plan.jd.company === null && plan.jd.role_title === 'Product Analyst' && named.jd.company === 'Global Payments',
       '"didn\'t measure" counts as "not sure"; "who checked" or "based on" is the measurement again; placeholder company and bracketed hiring tag are dropped');
+      const owes = (anchor, q, flags = []) => E.requiredRung({ interviewer_turns: 0, max_turns: 20, inputs: { interview_type: 'hiring_manager' }, slots: [] },
+        { kind: 'claim', anchor_text: anchor, core_question: q, probe_angle: 'test_claim', anchor_flags: flags, rungs_used: [], follow_ups_used: 0, budget: 3 });
+      check(owes('Ran a live case competition with 140 teams', 'Tell me about the competition.') === null
+        && owes('Identified a pricing error pattern that saved Rs 2.4 crore annually', 'What problem were you solving?') === 'result'
+        && owes('Led the launch with 3 teams', 'Tell me about a decision you made in the launch.', ['inflated_scope']) === null
+        && owes('Led the launch with 3 teams', 'What problem were you solving?', ['inflated_scope']) === 'role'
+        && E.asksMeasurement(slot, 'What was counted to arrive at the 71% and 58% figures?')
+        && E.leakCheck("Let's turn to another claim from your time in product.").length > 0 && E.leakCheck('Thanks, that gives me the progression. What drew you to product?').length > 0,
+      'a count (140 teams) owes no number check but money does; an opening asking for their decision owes no "your part"; "what was counted to arrive at" is a measurement; "another claim" and "that gives me the progression" are flagged');
     }
 
     // R7-3/5. A vague follow-up reply is not "given"; a topic on track only through the after-a-follow-up cap gets an

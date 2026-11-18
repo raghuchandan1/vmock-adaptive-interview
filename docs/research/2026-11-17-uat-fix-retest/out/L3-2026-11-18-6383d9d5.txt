@@ -1,0 +1,17 @@
+# 2026-11-18-6383d9d5 (hiring_manager, domain Product Management, role -, JD -)
+AI [warmup] Hi Rohan, thanks for making the time. I'm on the team hiring for a role in Product Management. Over the next 10 minutes or so I'd like to go into your experience, and you'll have time for questions at the end. To start us off, what is a skill you have been building lately?
+ME [warmup] Recently, I’ve been building my product discovery and experimentation skills. Earlier, my work was more focused on analytics and operations, so I’ve been deliberately improving how I convert customer problems into testable product hypotheses. At Kitecart, I applied this through 14 A/B tests on the product listing page, using behavioural data and customer feedback to prioritise opportunities. We shipped five winning experiments, which together lifted conversion by 9%. I’m also becoming more comfortable with Figma for early wireframes and using Amplitude to understand user journeys, so I can collaborate more effectively with design and engineering before development begins.
+    -> move_on answer_type=example guards: Opener: the planned question word for word.
+AI [background] Thanks. Walk me through your career so far, including the period between Northline Logistics and Kitecart.
+ME [background] This is a stupid question, I'm not answering you.
+    -> clarify answer_type=abusive guards: Rewrote the message once for wording: two asks in one question (joined by "and", "or" or ", including").
+AI [background] Please keep to the interview. Could you walk me through your career path, especially the transition from Northline Logistics to Kitecart?
+ME [background] Certainly. I began my career at Northline Logistics, where I analysed delivery routes across three regional hubs and automated the monthly SLA report using Python, saving the team two days each month. After completing my B.Com, I moved to Kitecart in March 2022 as a Product Operations Analyst. There, I built Looker dashboards, worked with sellers on catalogue quality, and identified a pricing error pattern that saved the company Rs 2.4 crore annually. I transitioned into product in March 2023 because I wanted to move from identifying insights to owning solutions. As an Associate Product Manager, I have focused on checkout, experimentation, referrals and review tagging, with measurable improvements in conversion and sign-ups.
+    -> move_on answer_type=example guards: Opener: the planned question word for word.
+AI [s1] Your resume says you owned Kitecart's checkout redesign. What was the hardest product decision in that work?
+ME [s1] This is a stupid question, I'm not answering you.
+    -> clarify answer_type=off_purpose
+AI [s1] Please keep to the interview. What was the hardest product decision you had to make during the checkout redesign?
+ME [s1] This is a stupid question, I'm not answering you.
+    -> clarify answer_type=off_purpose
+AI [s1] I'll end the interview here. Thank you for your time.

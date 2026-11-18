@@ -1,0 +1,95 @@
+[
+ {
+  "profile": "chem_plant_to_gm",
+  "shape": "hm_short",
+  "id": "2026-11-18-d12b6285",
+  "status": "ended",
+  "slots": "warmup:done background:done claim:done gap:done motivation:done candidate_questions:done",
+  "dropped": [],
+  "asked": {
+   "interviewer_turn": 8,
+   "of": 11,
+   "text": "You spent three years in plant operations. What's pulling you toward Strategy and General Management?"
+  },
+  "follow_ups": []
+ },
+ {
+  "profile": "auto_to_fmcg",
+  "shape": "hm_standard",
+  "id": "2026-11-18-10fb8aee",
+  "status": "ended",
+  "slots": "warmup:done background:done claim:done claim:done gap:done motivation:done candidate_questions:done",
+  "dropped": [],
+  "asked": {
+   "interviewer_turn": 11,
+   "of": 13,
+   "text": "Thanks. You worked in automotive production planning before your MBA. What's pulling you toward FMCG supply chain?"
+  },
+  "follow_ups": []
+ },
+ {
+  "profile": "ca_to_marketing",
+  "shape": "hm_standard",
+  "id": "2026-11-18-5923152c",
+  "status": "ended",
+  "slots": "warmup:done background:done claim:done gap:done gap:done motivation:done candidate_questions:done",
+  "dropped": [],
+  "asked": {
+   "interviewer_turn": 8,
+   "of": 12,
+   "text": "Your experience has been in audit. What's pulling you toward sales and marketing?"
+  },
+  "follow_ups": [
+   "Since starting your MBA, what have you done to explore sales and marketing more directly?"
+  ]
+ },
+ {
+  "profile": "civil_to_gm",
+  "shape": "rs_short",
+  "id": "2026-11-18-a2757d48",
+  "status": "ended",
+  "slots": "warmup:done background:done motivation:done claim:done gap:done candidate_questions:done",
+  "dropped": [],
+  "asked": {
+   "interviewer_turn": 3,
+   "of": 14,
+   "text": "You've worked in construction delivery at Larsen & Toubro. What's pulling you toward strategy and general management?"
+  },
+  "follow_ups": [
+   "What other roles are you considering for your summer internship?",
+   "What have you done since starting your MBA to explore strategy and general management?"
+  ]
+ },
+ {
+  "profile": "pm_to_hr",
+  "shape": "bdr_short",
+  "id": "2026-11-18-1a2f3e51",
+  "status": "ended",
+  "slots": "warmup:done background:done claim:done claim:done concerns:done candidate_questions:done",
+  "dropped": [],
+  "asked": {
+   "interviewer_turn": 8,
+   "of": 11,
+   "text": "Let's move on. Your experience has been in product and analytics. What is driving your move into Human Resources?"
+  },
+  "follow_ups": [
+   "What have you done so far to prepare for Human Resources work?"
+  ]
+ },
+ {
+  "profile": "ctl_credit_finance",
+  "shape": "hm_standard",
+  "id": "2026-11-18-50a84798",
+  "status": "ended",
+  "slots": "warmup:done background:done claim:done claim:done gap:done motivation:done candidate_questions:done",
+  "dropped": [],
+  "asked": {
+   "interviewer_turn": 10,
+   "of": 14,
+   "text": "What is drawing you toward the next stage of your career in finance and BFSI?"
+  },
+  "follow_ups": [
+   "You have described the broader direction you want after building your credit foundation. Why is now the right time for you to make this move?"
+  ]
+ }
+]

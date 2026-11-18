@@ -1,0 +1,345 @@
+[
+ {
+  "profile": "auto_to_fmcg",
+  "shape": "hm_short",
+  "id": "2026-11-17-7efac50d",
+  "switch": "auto plant to FMCG",
+  "plan_error": null,
+  "concerns": [
+   "switch: The candidate is moving from automotive production planning toward FMCG supply chain after the MBA and summer in"
+  ],
+  "switch_q": {
+   "pos": 3,
+   "of": 3,
+   "kind": "motivation",
+   "q": "You worked in automotive production planning before interning in FMCG supply chain. What's pulling you toward an FMCG supply chain role now?"
+  },
+  "motivation_q": {
+   "pos": 3,
+   "of": 3,
+   "q": "You worked in automotive production planning before interning in FMCG supply chain. What's pulling you toward an FMCG supply chain role now?"
+  },
+  "background_q": "Walk me through your path from mechanical engineering to production planning, your MBA, and your recent supply chain internship."
+ },
+ {
+  "profile": "auto_to_fmcg",
+  "shape": "hm_standard",
+  "id": "2026-11-17-6ab2af0f",
+  "switch": "auto plant to FMCG",
+  "plan_error": null,
+  "concerns": [
+   "gap: No role or education is shown between Maruti Suzuki ending in June 2023 and the PGDM beginning in 2025.",
+   "switch: The target represents an industry move from automotive production planning to FMCG supply chain."
+  ],
+  "switch_q": {
+   "pos": 4,
+   "of": 4,
+   "kind": "motivation",
+   "q": "Your background spans automotive production planning and an FMCG internship. What's pulling you toward an FMCG supply chain career?"
+  },
+  "motivation_q": {
+   "pos": 4,
+   "of": 4,
+   "q": "Your background spans automotive production planning and an FMCG internship. What's pulling you toward an FMCG supply chain career?"
+  },
+  "background_q": "Walk me through your path from Maruti Suzuki to IIM Mumbai, including the period in between."
+ },
+ {
+  "profile": "auto_to_fmcg",
+  "shape": "rs_short",
+  "id": "2026-11-17-fb0626a9",
+  "switch": "auto plant to FMCG",
+  "plan_error": null,
+  "concerns": [
+   "gap: The resume shows Maruti Suzuki ending in June 2023 and the PGDM beginning in 2025, leaving an unexplained period of",
+   "switch: The target represents an industry move from automotive production planning to FMCG supply chain, although the Hi"
+  ],
+  "switch_q": {
+   "pos": 1,
+   "of": 3,
+   "kind": "motivation",
+   "q": "You moved from automotive production planning into an FMCG supply chain internship. What's drawing you to build your career in FMCG supply chain?"
+  },
+  "motivation_q": {
+   "pos": 1,
+   "of": 3,
+   "q": "You moved from automotive production planning into an FMCG supply chain internship. What's drawing you to build your career in FMCG supply chain?"
+  },
+  "background_q": "Walk me through your path from Maruti Suzuki to your MBA, including the period between June 2023 and starting IIM Mumbai."
+ },
+ {
+  "profile": "auto_to_fmcg",
+  "shape": "bdr_short",
+  "id": "2026-11-17-3817fe26",
+  "switch": "auto plant to FMCG",
+  "plan_error": null,
+  "concerns": [
+   "gap: The resume shows Maruti Suzuki ending in June 2023 and the PGDM beginning in 2025, leaving an unexplained period of",
+   "switch: The target role moves from automotive production planning into the FMCG industry, although the Hindustan Unileve"
+  ],
+  "switch_q": {
+   "pos": 3,
+   "of": 3,
+   "kind": "concerns",
+   "q": "You worked in automotive production planning before interning in FMCG supply chain. What's drawing you toward FMCG supply chain now?"
+  },
+  "motivation_q": null,
+  "background_q": "Walk me through your path from mechanical engineering through Maruti Suzuki to your MBA and summer internship."
+ },
+ {
+  "profile": "ca_to_marketing",
+  "shape": "hm_short",
+  "id": "2026-11-17-1d47a3ad",
+  "switch": "CA to marketing",
+  "plan_error": null,
+  "concerns": [
+   "switch: The target domain is sales and marketing, while Aditi's pre-MBA full-time experience was in audit and assurance."
+  ],
+  "switch_q": {
+   "pos": 3,
+   "of": 3,
+   "kind": "motivation",
+   "q": "You've worked in audit and are now pursuing an MBA. What's pulling you toward sales and marketing?"
+  },
+  "motivation_q": {
+   "pos": 3,
+   "of": 3,
+   "q": "You've worked in audit and are now pursuing an MBA. What's pulling you toward sales and marketing?"
+  },
+  "background_q": "Walk me through your background, from your commerce and audit experience to what you've focused on since starting your MBA."
+ },
+ {
+  "profile": "biotech_to_marketing",
+  "shape": "hm_short",
+  "id": "2026-11-17-5121e0ca",
+  "switch": "biotech degree to marketing",
+  "plan_error": null,
+  "concerns": [
+   "academics: The Term 1 PGP CGPA is 5.9/10.",
+   "academics: The undergraduate degree in biotechnology is unrelated to the target sales and marketing domain.",
+   "switch: The candidate is moving from a biotechnology background toward sales and marketing."
+  ],
+  "switch_q": {
+   "pos": 3,
+   "of": 3,
+   "kind": "motivation",
+   "q": "You studied biotechnology before your MBA. What's pulling you toward sales and marketing?"
+  },
+  "motivation_q": {
+   "pos": 3,
+   "of": 3,
+   "q": "You studied biotechnology before your MBA. What's pulling you toward sales and marketing?"
+  },
+  "background_q": "Walk me through your background, up to how your first term at the MBA has gone."
+ },
+ {
+  "profile": "civil_to_gm",
+  "shape": "hm_short",
+  "id": "2026-11-17-e373c8f0",
+  "switch": "construction to general management",
+  "plan_error": null,
+  "concerns": [
+   "switch: The candidate is moving from construction execution toward strategy and general management.",
+   "academics: The undergraduate degree in civil engineering is not directly related to the target domain."
+  ],
+  "switch_q": {
+   "pos": 3,
+   "of": 3,
+   "kind": "motivation",
+   "q": "You spent nearly three years in construction execution. What's pulling you toward strategy and general management?"
+  },
+  "motivation_q": {
+   "pos": 3,
+   "of": 3,
+   "q": "You spent nearly three years in construction execution. What's pulling you toward strategy and general management?"
+  },
+  "background_q": "Walk me through your path from civil engineering to L&T, up to how your first term at the MBA has gone."
+ },
+ {
+  "profile": "chem_plant_to_gm",
+  "shape": "hm_short",
+  "id": "2026-11-17-72402efa",
+  "switch": "plant engineering to general management",
+  "plan_error": null,
+  "concerns": [
+   "switch: The candidate is moving from plant production engineering toward strategy and general management."
+  ],
+  "switch_q": {
+   "pos": 3,
+   "of": 3,
+   "kind": "motivation",
+   "q": "You spent three years in plant operations. What's pulling you toward strategy and general management?"
+  },
+  "motivation_q": {
+   "pos": 3,
+   "of": 3,
+   "q": "You spent three years in plant operations. What's pulling you toward strategy and general management?"
+  },
+  "background_q": "Walk me through your path from chemical engineering through Asian Paints to your MBA."
+ },
+ {
+  "profile": "army_to_ops",
+  "shape": "hm_short",
+  "id": "2026-11-17-3b117e7e",
+  "switch": "Army to corporate operations",
+  "plan_error": null,
+  "concerns": [
+   "switch: The candidate is moving from military maintenance and logistics leadership into a corporate operations and suppl"
+  ],
+  "switch_q": {
+   "pos": 3,
+   "of": 3,
+   "kind": "motivation",
+   "q": "After leading maintenance operations in the Indian Army, what's pulling you toward a corporate career in operations and supply chain?"
+  },
+  "motivation_q": {
+   "pos": 3,
+   "of": 3,
+   "q": "After leading maintenance operations in the Indian Army, what's pulling you toward a corporate career in operations and supply chain?"
+  },
+  "background_q": "Walk me through your path from the Indian Army to your MBA, focusing on the experiences that shaped your interest in operations."
+ },
+ {
+  "profile": "army_to_ops",
+  "shape": "hm_standard",
+  "id": "2026-11-17-e6696314",
+  "switch": "Army to corporate operations",
+  "plan_error": null,
+  "concerns": [
+   "switch: The candidate is moving from military maintenance leadership into corporate operations and supply chain roles."
+  ],
+  "switch_q": {
+   "pos": 4,
+   "of": 4,
+   "kind": "motivation",
+   "q": "After leading maintenance operations in the Army and interning at Tata Steel, what is drawing you to a corporate operations and supply chain career?"
+  },
+  "motivation_q": {
+   "pos": 4,
+   "of": 4,
+   "q": "After leading maintenance operations in the Army and interning at Tata Steel, what is drawing you to a corporate operations and supply chain career?"
+  },
+  "background_q": "Walk me through your career so far, from the Army through your MBA and Tata Steel internship."
+ },
+ {
+  "profile": "army_to_ops",
+  "shape": "rs_short",
+  "id": "2026-11-17-799a4fa9",
+  "switch": "Army to corporate operations",
+  "plan_error": null,
+  "concerns": [
+   "switch: The candidate is moving from military engineering and maintenance into corporate operations and supply chain rol"
+  ],
+  "switch_q": {
+   "pos": 1,
+   "of": 3,
+   "kind": "motivation",
+   "q": "After five years in the Indian Army, what's pulling you toward operations roles in industry?"
+  },
+  "motivation_q": {
+   "pos": 1,
+   "of": 3,
+   "q": "After five years in the Indian Army, what's pulling you toward operations roles in industry?"
+  },
+  "background_q": "Walk me through your path from the Indian Army through your PGP to the Tata Steel internship."
+ },
+ {
+  "profile": "army_to_ops",
+  "shape": "bdr_short",
+  "id": "2026-11-17-3cab226a",
+  "switch": "Army to corporate operations",
+  "plan_error": null,
+  "concerns": [
+   "switch: The candidate is moving from Army maintenance operations into corporate operations and supply chain roles."
+  ],
+  "switch_q": {
+   "pos": 3,
+   "of": 3,
+   "kind": "concerns",
+   "q": "You've moved from Army maintenance operations into an MBA and a Tata Steel internship. What's drawing you toward corporate operations and supply chain?"
+  },
+  "motivation_q": null,
+  "background_q": "Walk me through your path from Army maintenance operations to your MBA and recent Tata Steel internship."
+ },
+ {
+  "profile": "pm_to_hr",
+  "shape": "hm_short",
+  "id": "2026-11-17-91be4fc0",
+  "switch": "product to HR",
+  "plan_error": null,
+  "concerns": [
+   "gap: No work or education entry is shown between Northline Logistics ending in June 2021 and Kitecart starting in March ",
+   "switch: The candidate is moving from product management and operations analytics into human resources."
+  ],
+  "switch_q": {
+   "pos": 3,
+   "of": 3,
+   "kind": "motivation",
+   "q": "You've built your career in analytics and product. What's pulling you toward human resources now?"
+  },
+  "motivation_q": {
+   "pos": 3,
+   "of": 3,
+   "q": "You've built your career in analytics and product. What's pulling you toward human resources now?"
+  },
+  "background_q": "Walk me through your career so far, including the period between Northline Logistics and Kitecart."
+ },
+ {
+  "profile": "pm_to_sales",
+  "shape": "hm_short",
+  "id": "2026-11-17-d938c860",
+  "switch": "product to sales and marketing",
+  "plan_error": null,
+  "concerns": [
+   "gap: There is an unexplained period of more than six months between Northline Logistics ending in June 2021 and Kitecart",
+   "switch: The candidate is moving from analytics and product management into Sales and Marketing."
+  ],
+  "switch_q": {
+   "pos": 3,
+   "of": 3,
+   "kind": "motivation",
+   "q": "You've built your career in analytics and product. What's pulling you toward Sales and Marketing now?"
+  },
+  "motivation_q": {
+   "pos": 3,
+   "of": 3,
+   "q": "You've built your career in analytics and product. What's pulling you toward Sales and Marketing now?"
+  },
+  "background_q": "Walk me through your career so far, including the period between Northline Logistics and Kitecart."
+ },
+ {
+  "profile": "ctl_credit_finance",
+  "shape": "hm_short",
+  "id": "2026-11-17-1ac70814",
+  "switch": null,
+  "plan_error": null,
+  "concerns": [],
+  "switch_q": null,
+  "motivation_q": null,
+  "background_q": "Walk me through your career so far, with a focus on your progression in credit risk."
+ },
+ {
+  "profile": "ctl_hr",
+  "shape": "hm_short",
+  "id": "2026-11-17-a17c83b9",
+  "switch": null,
+  "plan_error": null,
+  "concerns": [],
+  "switch_q": null,
+  "motivation_q": null,
+  "background_q": "Walk me through your background: your studies and the experiences that led you toward a career in human resources."
+ },
+ {
+  "profile": "ctl_analytics",
+  "shape": "hm_short",
+  "id": "2026-11-17-60ddbff4",
+  "switch": null,
+  "plan_error": null,
+  "concerns": [
+   "gap: The resume identifies a career break from March 2022 to May 2023 between Mu Sigma and freelance work."
+  ],
+  "switch_q": null,
+  "motivation_q": null,
+  "background_q": "Walk me through your path from Mu Sigma, including the period before freelancing, through your PGP and recent analytics internship."
+ }
+]

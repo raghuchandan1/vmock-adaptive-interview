@@ -1,6 +1,6 @@
 {
  "L1": {
-  "id": "2026-11-17-0017cc5a",
+  "id": "2026-11-18-bd14728a",
   "status": "ended",
   "ended_by": "close",
   "flags": {
@@ -15,7 +15,7 @@
   }
  },
  "L2": {
-  "id": "2026-11-17-be9d819e",
+  "id": "2026-11-18-9e9084a3",
   "status": "ended",
   "ended_by": "close",
   "flags": {
@@ -30,7 +30,7 @@
   }
  },
  "L3": {
-  "id": "2026-11-17-19f065a3",
+  "id": "2026-11-18-6383d9d5",
   "status": "ended",
   "ended_by": "end_session",
   "flags": {
@@ -45,7 +45,7 @@
   }
  },
  "L4": {
-  "id": "2026-11-17-0660aa49",
+  "id": "2026-11-18-e7a4c593",
   "status": "ended",
   "ended_by": "close",
   "flags": {
@@ -60,16 +60,14 @@
   }
  },
  "L5": {
-  "id": "2026-11-17-a3bfd4a8",
+  "id": "2026-11-18-d67d4063",
   "status": "ended",
   "ended_by": "close",
   "flags": {
    "yes_no_follow_ups": [],
    "leaks": [],
    "describes_assessment": [],
-   "placeholder_company": [
-    "The role is an Area Sales Manager position with a leading FMCG company, based in Pune and covering western Maharashtra. The recruiter can share the company name and other company-specific details. Is there anything else you’d like to know?"
-   ],
+   "placeholder_company": [],
    "graduate_hire": [],
    "mock_role": [],
    "hiring_team_deflect": [],
@@ -77,7 +75,7 @@
   }
  },
  "L6": {
-  "id": "2026-11-17-0bcb68a0",
+  "id": "2026-11-18-7cb61f2c",
   "status": "ended",
   "ended_by": "close",
   "flags": {
@@ -92,7 +90,7 @@
   }
  },
  "L7": {
-  "id": "2026-11-17-d3017027",
+  "id": "2026-11-18-f0a7da2f",
   "status": "ended",
   "ended_by": "close",
   "flags": {

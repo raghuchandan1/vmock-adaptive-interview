@@ -1,0 +1,127 @@
+plan D11 2026-11-18-1dbc12e0 done
+plan D8 2026-11-18-33f99450 done
+plan D7 2026-11-18-fd22ac9d done
+plan D5 2026-11-18-8c88f655 done
+plan D9 2026-11-18-10af7d21 done
+plan D3 2026-11-18-067dfbe0 done
+plan D4 2026-11-18-9bb03543 done
+plan D1 2026-11-18-bb7494e3 done
+plan D12 2026-11-18-2ddd6500 done
+plan D10 2026-11-18-078a7baa done
+plan D6 2026-11-18-a0f4a9a9 done
+plan D2 2026-11-18-532dcce2 done
+live L3 2026-11-18-21bed630 ended
+live L5 2026-11-18-b7c24a4d ended
+live L4 2026-11-18-ce470fb0 ended
+live L6 2026-11-18-c8a245fd ended
+live L2 2026-11-18-69d75cb9 ended
+live L1 2026-11-18-ca04a1f4 ended
+live L7 2026-11-18-80ee1f61 ended
+{
+ "L1": {
+  "id": "2026-11-18-ca04a1f4",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L2": {
+  "id": "2026-11-18-69d75cb9",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L3": {
+  "id": "2026-11-18-21bed630",
+  "status": "ended",
+  "ended_by": "end_session",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L4": {
+  "id": "2026-11-18-ce470fb0",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L5": {
+  "id": "2026-11-18-b7c24a4d",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L6": {
+  "id": "2026-11-18-c8a245fd",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L7": {
+  "id": "2026-11-18-80ee1f61",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ }
+}
+RETEST_DONE

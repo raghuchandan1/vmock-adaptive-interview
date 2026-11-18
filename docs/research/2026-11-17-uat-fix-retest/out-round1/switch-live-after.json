@@ -1,0 +1,46 @@
+[
+ {
+  "profile": "chem_plant_to_gm",
+  "shape": "hm_short",
+  "id": "2026-11-17-bb19d463",
+  "status": "ended",
+  "slots": "warmup:done background:done claim:done gap:done motivation:done candidate_questions:done",
+  "dropped": [],
+  "asked": {
+   "interviewer_turn": 8,
+   "of": 10,
+   "text": "You've spent three years in plant operations. What's pulling you toward a strategy and general management career?"
+  },
+  "follow_ups": []
+ },
+ {
+  "profile": "ca_to_marketing",
+  "shape": "hm_short",
+  "id": "2026-11-17-b57b42b0",
+  "status": "ended",
+  "slots": "warmup:done background:done claim:done gap:done motivation:done candidate_questions:done",
+  "dropped": [],
+  "asked": {
+   "interviewer_turn": 6,
+   "of": 10,
+   "text": "Thank you. You spent several years in audit. What's pulling you toward Sales and Marketing?"
+  },
+  "follow_ups": [
+   "What have you pursued during your MBA so far to explore Sales and Marketing?"
+  ]
+ },
+ {
+  "profile": "army_to_ops",
+  "shape": "hm_standard",
+  "id": "2026-11-17-b032e99b",
+  "status": "ended",
+  "slots": "warmup:done background:done claim:done claim:done gap:done motivation:done candidate_questions:done",
+  "dropped": [],
+  "asked": {
+   "interviewer_turn": 10,
+   "of": 12,
+   "text": "Let's move on. After five years in the Indian Army and your MBA, what's pulling you toward operations and supply chain?"
+  },
+  "follow_ups": []
+ }
+]

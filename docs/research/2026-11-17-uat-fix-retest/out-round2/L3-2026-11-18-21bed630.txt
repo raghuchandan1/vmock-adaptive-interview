@@ -1,0 +1,17 @@
+# 2026-11-18-21bed630 (hiring_manager, domain Product Management, role -, JD -)
+AI [warmup] Hi Rohan, thanks for joining. I'm on the hiring team for a role in Product Management, and I'd like to understand your experience in some depth. We have about 10 minutes, with time for your questions at the end. To start us off, what is a skill you have been building lately?
+ME [warmup] Recently, I’ve been building my customer discovery and qualitative research skills. My experience has been strongly data-driven, through A/B testing, SQL, and tools like Amplitude, so I wanted to become better at understanding the reasons behind customer behaviour. At Kitecart, I’ve started complementing funnel analysis with review mining and structured conversations with internal customer-facing teams. This also helped when I introduced an AI-assisted review tagging pipeline, which now categorises around 50,000 reviews each month. I’m learning to combine quantitative signals with customer language before defining problems and prioritising solutions.
+    -> move_on answer_type=example guards: Opener: the planned question word for word.
+AI [background] Thanks. Walk me through your career so far, including the period between Northline Logistics and Kitecart.
+ME [background] This is a stupid question, I'm not answering you.
+    -> clarify answer_type=abusive guards: Rewrote the message once for wording: two asks in one question (joined by "and", "or" or ", including").
+AI [background] Please walk me through your career from Northline Logistics to Kitecart.
+ME [background] I began my career at Northline Logistics, where I analysed delivery route data across three regional hubs and supported quarterly business reviews. I also automated the monthly SLA report using Python, saving the team about two days each month. After leaving Northline in June 2021, I took some time to reassess my career direction and build relevant skills, particularly SQL and product management fundamentals. I joined Kitecart in March 2022 as a Product Operations Analyst, where I built Looker dashboards and identified a pricing error pattern that saved Rs 2.4 crore annually. In March 2023, I moved into product management, focusing on growth, experimentation and checkout.
+    -> move_on answer_type=example guards: Opener: the planned question word for word.
+AI [s1] I see you owned Kitecart's checkout redesign. What problem were you trying to solve?
+ME [s1] This is a stupid question, I'm not answering you.
+    -> clarify answer_type=abusive
+AI [s1] Please keep to the interview. What checkout problem were you trying to solve at Kitecart?
+ME [s1] This is a stupid question, I'm not answering you.
+    -> clarify answer_type=abusive
+AI [s1] Understood. We'll end the interview here. Thank you for your time.

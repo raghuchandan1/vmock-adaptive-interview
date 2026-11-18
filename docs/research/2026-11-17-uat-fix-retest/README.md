@@ -58,3 +58,21 @@ Fixes:
 - Engine: the time rule drops the motivation topic last in any interview (`applyTimeRule`); `checkAndShapePlan` warns when a switch concern has no motivation or concerns topic.
 
 After the fix (`out/switch-plans-after.json`, `out/switch-live-after.json`): 10-minute hiring manager 8/8 switchers (topics: claim, knowledge, why this move), 0/3 non-switchers; auto to FMCG and Army to operations now detected as switches in every shape. Live: asked at interviewer turn 6 of 10 and 8 of 10 (10-min), 10 of 12 (15-min), with one follow-up on what they have done in the MBA towards the field in summers. Examples: "You've spent three years in plant operations. What's pulling you toward a strategy and general management career?", "After leading maintenance operations in the Indian Army, what's pulling you toward a corporate career in operations and supply chain?"
+
+## Question quality against real panels (independent reviewer, 2026-11-18)
+
+Same reviewer brief each round (IIM/ISB placement panelist; 4-5 = real-interview quality; yardstick: the 2026-11-06 placement research). Outputs per round: `out-round2/`, `out/` (round 3).
+
+| | Round 2 (before) | Round 3 (after fixes) |
+|---|---|---|
+| All rated | 83% of 982 | 88.2% of 960 (planned items mostly default-scored 4, exceptions read in full) |
+| Planned questions | ~85% | 90.4% |
+| Live interviewer turns | 78% of 159 | 75.5% of 139; 85.0% without answers to the student's questions |
+| Answers to student questions | 48% | 15.8% (JD-only rule: recruiter deflections that echo the student's list) |
+| Motivation / switch | 97% | 88.8% incl. probes; openings 93.8% planned, 91.7% live |
+| Background / warm-up | 79% | 97.9% |
+| Scenario / knowledge probes | 51% | 83.9% |
+
+Fixed between rounds: "didn't measure" re-ask (L2 now moves on), number checks only on result numbers, scenario-specific probes, JD-only answers, short walkthrough, warm-up, no own-part after a decision opener, motivation for people already in the role, react drift, "claim" and "that gives me the progression" caught.
+
+Still pulling quality down: recruiter deflections that list the student's points back and repeat "Is there anything else you'd like to know?"; a stock follow-up set on claims (own part, "what did you decide against", how you arrived at the number); abstract strategy scenarios; the "What did you have to figure out first?" opener; the HR-round posting probe in a summers hiring manager plan; a story told earlier accepted again as a new example; 6 of 43 live topics closed with no follow-up.
