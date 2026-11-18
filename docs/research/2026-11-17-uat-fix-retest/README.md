@@ -76,3 +76,22 @@ Same reviewer brief each round (IIM/ISB placement panelist; 4-5 = real-interview
 Fixed between rounds: "didn't measure" re-ask (L2 now moves on), number checks only on result numbers, scenario-specific probes, JD-only answers, short walkthrough, warm-up, no own-part after a decision opener, motivation for people already in the role, react drift, "claim" and "that gives me the progression" caught.
 
 Still pulling quality down: recruiter deflections that list the student's points back and repeat "Is there anything else you'd like to know?"; a stock follow-up set on claims (own part, "what did you decide against", how you arrived at the number); abstract strategy scenarios; the "What did you have to figure out first?" opener; the HR-round posting probe in a summers hiring manager plan; a story told earlier accepted again as a new example; 6 of 43 live topics closed with no follow-up.
+
+### Round 4 (after the second set of fixes)
+
+Every item scored individually (no defaults): all 13 live interviews, all 12 domain plans and 14 of the 44 switch plans. Outputs: `out/` (round 4), `out-round3/`, `out-round2/`, `out-round1/`.
+
+| | Round 2 | Round 3 | Round 4 |
+|---|---|---|---|
+| Live interviewer turns | 78% | 75.5% | **90.5%** (158) |
+| Live without answers to student questions | | 85.0% | 90.3% (134) |
+| Planned items | ~85% | 90.4%* | 90.4% (405) |
+| All | 83% | 88.2%* | **90.4%** (563) |
+| Answers to student questions | 48% | 15.8% | 91.7% |
+| Live follow-ups | 79% | 79.2% | 87.0% |
+
+\* round 3 scored most planned items at a default 4.
+
+Second set of fixes: recruiter deferrals in a few words without listing the question back, a varied "anything else?"; decision follow-ups name the choice; number checks only on results the candidate achieved, no hedges copied from the CV; a retold story is not recited back, and a story reused in a later topic gets one request for a different example; strategy scenarios set in a business the student can picture; no "What did you have to figure out first?" opener, no "or took a stance", no "this field" warm-ups; the HR-round posting probe only in recruiter screens.
+
+Still pulling quality down (round 4 reviewer): uneven probing (7 topics with no follow-up, including a failure story and a scenario, while another topic got 4); resume lines chosen without regard to the domain (the pricing-error line opens 6 HR, sales and finance plans); a checklist feel across the follow-ups (own part 12%, "how did you arrive at" 7% of planned probes); a retold story still probed instead of asking for another; the same decline line repeated word for word; deferrals that still restate the student's question in L1, L2, L6 and L7. Design trade-off: after "I didn't measure that" the number is never tested again (the UAT pile-on fix), which a real panel might challenge.

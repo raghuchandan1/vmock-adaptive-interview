@@ -1,0 +1,97 @@
+[
+ {
+  "profile": "chem_plant_to_gm",
+  "shape": "hm_short",
+  "id": "2026-11-18-a2410356",
+  "status": "ended",
+  "slots": "warmup:done background:done claim:done gap:done motivation:done candidate_questions:done",
+  "dropped": [],
+  "asked": {
+   "interviewer_turn": 9,
+   "of": 12,
+   "text": "Thanks. You spent three years in plant operations before moving into strategy during your MBA. What's pulling you toward strategy and general management now?"
+  },
+  "follow_ups": [
+   "Which part of evaluating chemical-business adjacencies or building the 50 KTPA business case most changed how you viewed strategy work?"
+  ]
+ },
+ {
+  "profile": "auto_to_fmcg",
+  "shape": "hm_standard",
+  "id": "2026-11-18-0ee96d47",
+  "status": "ended",
+  "slots": "warmup:done background:done claim:done claim:done gap:done motivation:done candidate_questions:done",
+  "dropped": [],
+  "asked": {
+   "interviewer_turn": 10,
+   "of": 12,
+   "text": "Thank you. You moved from automotive production planning to an FMCG supply chain internship. What is pulling you toward a long term role in FMCG supply chain?"
+  },
+  "follow_ups": []
+ },
+ {
+  "profile": "ca_to_marketing",
+  "shape": "hm_standard",
+  "id": "2026-11-18-4539a177",
+  "status": "ended",
+  "slots": "warmup:done background:done claim:done gap:done gap:done motivation:done candidate_questions:done",
+  "dropped": [],
+  "asked": {
+   "interviewer_turn": 10,
+   "of": 13,
+   "text": "Let's move on. You've built your experience in audit and assurance. What's pulling you toward sales and marketing?"
+  },
+  "follow_ups": [
+   "Since starting your MBA, what have you done to explore sales and marketing further?"
+  ]
+ },
+ {
+  "profile": "civil_to_gm",
+  "shape": "rs_short",
+  "id": "2026-11-18-c0469e7e",
+  "status": "ended",
+  "slots": "warmup:done background:done motivation:done claim:done gap:done candidate_questions:done",
+  "dropped": [],
+  "asked": {
+   "interviewer_turn": 3,
+   "of": 10,
+   "text": "You spent nearly three years in construction management. What's pulling you toward strategy and general management?"
+  },
+  "follow_ups": [
+   "Which other roles or companies are you considering as you make this transition?",
+   "What have you done during your MBA so far to explore strategy and general management?"
+  ]
+ },
+ {
+  "profile": "pm_to_hr",
+  "shape": "bdr_short",
+  "id": "2026-11-18-c2b53450",
+  "status": "ended",
+  "slots": "warmup:done background:done claim:done claim:done concerns:done candidate_questions:done",
+  "dropped": [],
+  "asked": {
+   "interviewer_turn": 9,
+   "of": 12,
+   "text": "Thanks. Your recent experience is in product and analytics. What's drawing you toward human resources now?"
+  },
+  "follow_ups": [
+   "Which area of human resources would you most want to pursue?"
+  ]
+ },
+ {
+  "profile": "ctl_credit_finance",
+  "shape": "hm_standard",
+  "id": "2026-11-18-6ba0f7a7",
+  "status": "ended",
+  "slots": "warmup:done background:done claim:done claim:done gap:done motivation:done candidate_questions:done",
+  "dropped": [],
+  "asked": {
+   "interviewer_turn": 12,
+   "of": 15,
+   "text": "You've spent seven years in bank credit risk. What are you looking for in your next finance role?"
+  },
+  "follow_ups": [
+   "Why is now the right time for you to move from credit risk into broader finance and business decision-making?"
+  ]
+ }
+]

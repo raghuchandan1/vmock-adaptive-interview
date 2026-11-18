@@ -1,0 +1,17 @@
+# 2026-11-18-f43e4a98 (hiring_manager, domain Product Management, role -, JD -)
+AI [warmup] Hi Rohan, good to meet you. I'm part of the team hiring for a role in Product Management, and today I'd like to hear about your experience in some depth. We have about 10 minutes, and I'll keep time for your questions at the end. To start us off, what kind of problems do you most like working on?
+ME [warmup] I most enjoy solving customer problems where behaviour and business impact can both be measured. In my current role at Kitecart, I particularly liked working on checkout friction because customers were dropping off at a critical moment. I owned the redesign end to end, using funnel data, customer feedback and usability inputs to prioritise changes. After launch, cart abandonment reduced from 71% to 58% across around 2 million monthly sessions. I also enjoy growth problems, such as our referral programme, where I worked with marketing and engineering to improve acquisition and increased new-user sign-ups by 30% in the first quarter.
+    -> move_on answer_type=example guards: Opener: the planned question word for word.
+AI [background] Thanks. Walk me through your career so far, including the period between Northline Logistics and Kitecart.
+ME [background] This is a stupid question, I'm not answering you.
+    -> clarify answer_type=abusive guards: Rewrote the message once for wording: two asks in one question (joined by "and", "or" or ", including").
+AI [background] Please walk me through your career from Northline Logistics to Kitecart.
+ME [background] I started my career at Northline Logistics after completing my B.Com from St. Xavier’s College, Mumbai. As a Business Analyst, I analysed delivery routes across three regional hubs and automated the monthly SLA report using Python, saving the team about two days each month. I then joined Kitecart in March 2022 as a Product Operations Analyst, where I built Looker dashboards and identified a pricing error pattern that saved the company Rs 2.4 crore annually. In March 2023, I moved into my current Associate Product Manager role, taking ownership of checkout, experimentation and growth initiatives.
+    -> move_on answer_type=example guards: Opener: the model's own (the student already told the story behind "Owned the checkout redesign end to end, cutting cart abandonment from 71% to 58% across 2 million monthly sessions").
+AI [s1] I see you owned Kitecart's checkout redesign. Walk me through the product problem you were trying to solve.
+ME [s1] This is a stupid question, I'm not answering you.
+    -> clarify answer_type=off_purpose guards: Rewrote the message once for wording: two asks in one question (joined by "and", "or" or ", including").
+AI [s1] Please keep to the interview. What product problem were you trying to solve with the checkout redesign?
+ME [s1] This is a stupid question, I'm not answering you.
+    -> clarify answer_type=off_purpose guards: Rewrote the message once for wording: two asks in one question (joined by "and", "or" or ", including").
+AI [s1] Understood. We’ll end the interview here. Thank you for your time.

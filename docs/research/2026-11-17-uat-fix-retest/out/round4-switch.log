@@ -1,0 +1,51 @@
+ca_to_marketing bdr_short switch q at 3/3
+auto_to_fmcg hm_short switch q at 3/3
+auto_to_fmcg bdr_short switch q at 3/3
+ca_to_marketing hm_short switch q at 3/3
+ca_to_marketing rs_short switch q at 1/3
+auto_to_fmcg rs_short switch q at 1/3
+ca_to_marketing hm_standard switch q at 4/4
+auto_to_fmcg hm_standard switch q at 4/4
+biotech_to_marketing hm_short switch q at 3/3
+biotech_to_marketing rs_short switch q at 1/3
+biotech_to_marketing bdr_short switch q at 3/3
+civil_to_gm hm_short switch q at 3/3
+biotech_to_marketing hm_standard switch q at 4/4
+civil_to_gm rs_short switch q at 1/3
+civil_to_gm hm_standard switch q at 4/4
+civil_to_gm bdr_short switch q at 3/3
+chem_plant_to_gm hm_short switch q at 3/3
+chem_plant_to_gm rs_short switch q at 1/3
+army_to_ops hm_short switch q at 3/3
+chem_plant_to_gm hm_standard switch q at 4/4
+chem_plant_to_gm bdr_short switch q at 3/3
+army_to_ops hm_standard switch q at 4/4
+army_to_ops rs_short switch q at 1/3
+army_to_ops bdr_short switch q at 3/3
+pm_to_hr hm_short switch q at 3/3
+pm_to_hr hm_standard switch q at 4/4
+pm_to_hr bdr_short switch q at 3/3
+pm_to_sales hm_short switch q at 3/3
+pm_to_hr rs_short switch q at 1/3
+pm_to_sales rs_short switch q at 1/3
+pm_to_sales hm_standard switch q at 4/4
+pm_to_sales bdr_short switch q at 3/3
+ctl_credit_finance hm_short NONE
+ctl_credit_finance rs_short why q at 1/3
+ctl_credit_finance bdr_short NONE
+ctl_credit_finance hm_standard why q at 4/4
+ctl_hr hm_short NONE
+ctl_hr rs_short switch q at 1/3
+ctl_hr hm_standard why q at 4/4
+ctl_hr bdr_short NONE
+ctl_analytics hm_short NONE
+ctl_analytics bdr_short switch q at 3/3
+ctl_analytics rs_short why q at 1/3
+ctl_analytics hm_standard why q at 4/4
+live chem_plant_to_gm hm_short 2026-11-18-54fc7de7: asked at interviewer turn 6/8
+live civil_to_gm rs_short 2026-11-18-872c86e6: asked at interviewer turn 3/11
+live pm_to_hr bdr_short 2026-11-18-332f0145: asked at interviewer turn 8/11
+live ctl_credit_finance hm_standard 2026-11-18-a4beb7b0: asked at interviewer turn 9/12
+live auto_to_fmcg hm_standard 2026-11-18-ccd79546: asked at interviewer turn 11/13
+live ca_to_marketing hm_standard 2026-11-18-4e5237cb: asked at interviewer turn 12/16
+SWITCH_DONE
