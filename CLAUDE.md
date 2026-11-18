@@ -60,3 +60,10 @@ Live UAT fixes (2026-11-16, `docs/research/2026-11-16-live-uat/`), to port to th
   - A 3-slot hiring manager plan with a switch keeps motivation last and drops slot 2 (the second claim or the fit question).
   - `applyTimeRule` drops the motivation topic last; `checkAndShapePlan` warns when a switch is never raised.
   - Before the plan, a lone domain is said as "a role in <domain>"; `ACK_JUDGE` spans up to six words.
+- Question quality (2026-11-18, independent panel review 83% -> 90%; `docs/research/2026-11-17-uat-fix-retest/`):
+  - Number checks only on results the candidate achieved (`RESULT_NUMBER`); no owed role follow-up when the opening already asks for their decision (`OWN_ASK`).
+  - A "not sure" to a measurement question moves on.
+  - Answers to the student's questions come from the JD only, as the team; anything else goes to the recruiter in a few words. A repeated short recruiter line is swapped (`varyRecruiterLine`).
+  - Wording rewrites: a repeated decline or answer, and a recruiter line over 12 words.
+  - The turn input has `rungs_used_in_interview`, and every scored topic gets at least one follow-up (prompt rule).
+  - The planner ranks claims by relevance to the target domain and writes scenario-specific probes.

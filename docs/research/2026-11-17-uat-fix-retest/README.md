@@ -95,3 +95,18 @@ Every item scored individually (no defaults): all 13 live interviews, all 12 dom
 Second set of fixes: recruiter deferrals in a few words without listing the question back, a varied "anything else?"; decision follow-ups name the choice; number checks only on results the candidate achieved, no hedges copied from the CV; a retold story is not recited back, and a story reused in a later topic gets one request for a different example; strategy scenarios set in a business the student can picture; no "What did you have to figure out first?" opener, no "or took a stance", no "this field" warm-ups; the HR-round posting probe only in recruiter screens.
 
 Still pulling quality down (round 4 reviewer): uneven probing (7 topics with no follow-up, including a failure story and a scenario, while another topic got 4); resume lines chosen without regard to the domain (the pricing-error line opens 6 HR, sales and finance plans); a checklist feel across the follow-ups (own part 12%, "how did you arrive at" 7% of planned probes); a retold story still probed instead of asking for another; the same decline line repeated word for word; deferrals that still restate the student's question in L1, L2, L6 and L7. Design trade-off: after "I didn't measure that" the number is never tested again (the UAT pile-on fix), which a real panel might challenge.
+
+### Round 5: the four weak spots (`weakcheck.js`)
+
+| Weak spot | Round 4 | Round 5 |
+|---|---|---|
+| Scored topics in live interviews closed with no follow-up | 7 of 37 | 0 of 37 |
+| Follow-up mix in live topics | result 14, react 7, decision 2 | result 15, react 12, decision 12, setback 4, technical 3 |
+| Planned own-part probes on claims | 20% | 16% |
+| Recruiter lines over 12 words (restating the student's question) | 17 | 0 |
+| Repeated non-question sentences | 1 | 8, all "The recruiter will share those details." (now rotated in code, `varyRecruiterLine`) |
+| First resume line for HR / sales / FMCG field sales | pricing error in 6 such plans | cross-team prioritisation (HR), referral launch (sales), work with sellers (field sales); the pricing saving only in finance |
+
+All 7 scripted interviews and 56 plans passed; all 32 switcher plans ask the switch question.
+
+Fixes: the turn prompt asks for at least one follow-up on every claim, gap, scenario, fit and motivation topic before moving on (enforced in the prompt only: an engine rule broke the scripted tests of other features); the turn input carries `rungs_used_in_interview` and the prompt prefers the follow-up kinds asked least; the planner ranks claims by relevance to the target domain and spreads own-part and number probes; a repeated decline or answer is rewritten, a recruiter line over 12 words is rewritten, and a repeated short recruiter line is swapped in code.

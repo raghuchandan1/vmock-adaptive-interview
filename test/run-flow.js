@@ -1454,6 +1454,11 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
         && E.asksMeasurement(slot, 'What was counted to arrive at the 71% and 58% figures?')
         && E.leakCheck("Let's turn to another claim from your time in product.").length > 0 && E.leakCheck('Thanks, that gives me the progression. What drew you to product?').length > 0,
       'a count (140 teams) owes no number check but money does; an opening asking for their decision owes no "your part"; "what was counted to arrive at" is a measurement; "another claim" and "that gives me the progression" are flagged');
+      const rs = { transcript: [{ role: 'interviewer', text: 'The recruiter will share those details. Anything else?' }] };
+      const again = E.varyRecruiterLine(rs, 'The recruiter will share those details. What else would you like to know?');
+      check(!/^The recruiter will share those details\./.test(again) && /recruiter/i.test(again) && /What else would you like to know\?$/.test(again)
+        && E.varyRecruiterLine(rs, 'Good question. In this role you own onboarding.') === 'Good question. In this role you own onboarding.',
+      'a recruiter line already said in the interview is swapped for one not yet used; other lines are untouched');
     }
 
     // R7-3/5. A vague follow-up reply is not "given"; a topic on track only through the after-a-follow-up cap gets an

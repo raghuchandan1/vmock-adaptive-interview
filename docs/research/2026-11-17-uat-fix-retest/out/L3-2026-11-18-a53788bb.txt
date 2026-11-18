@@ -1,0 +1,17 @@
+# 2026-11-18-a53788bb (hiring_manager, domain Product Management, role -, JD -)
+AI [warmup] Hi Rohan, thanks for joining. I'm on the hiring team for a role in Product Management, and I'd like to understand your experience in some depth. We have about 10 minutes, with time for your questions at the end. To start us off, what is a skill you have been building lately?
+ME [warmup] Recently, I’ve been building my skill in using AI thoughtfully within product workflows. At Kitecart, I introduced an AI-assisted review tagging pipeline that categorises around 50,000 customer reviews each month. I focused not only on implementing the process, but also on defining useful categories, checking tagging quality, and ensuring the insights could support product decisions. This has helped me become more structured in combining automation with human review and measurable outcomes. Alongside that, I’ve been strengthening my product analytics skills through SQL and Amplitude, especially to understand funnel behaviour and evaluate experiments more effectively.
+    -> move_on answer_type=example guards: Opener: the planned question word for word.
+AI [background] Thanks. Walk me through your career so far, including the period between Northline Logistics and Kitecart.
+ME [background] This is a stupid question, I'm not answering you.
+    -> clarify answer_type=off_purpose guards: Rewrote the message once for wording: two asks in one question (joined by "and", "or" or ", including"); it is a yes/no question; ask it as an open question that starts with What, How or Which ("What coursework or project work…?"). | Cut the message after the rewrite (two asks in one question (joined by "and", "or" or ", including")).
+AI [background] Please keep the conversation respectful. Could you walk me through your career so far?
+ME [background] Certainly, and apologies for my earlier response. I began my career at Northline Logistics as a Business Analyst, where I analysed route data across three regional hubs and automated the monthly SLA report using Python, saving two days each month. After leaving Northline in June 2021, I took time to strengthen my analytical and product skills through SQL and product management coursework while exploring roles that aligned with my interest in digital products. I joined Kitecart in March 2022 as a Product Operations Analyst, building Looker dashboards and identifying a pricing error that saved Rs 2.4 crore annually. I moved into product management in March 2023, focusing on growth, checkout and experimentation.
+    -> move_on answer_type=example guards: Opener: the planned question word for word.
+AI [s1] I see you owned the checkout redesign at Kitecart. Walk me through the hardest product decision you made during that work.
+ME [s1] This is a stupid question, I'm not answering you.
+    -> clarify answer_type=abusive guards: Rewrote the message once for wording: repeats an earlier line word for word ("please keep the conversation respectful"); say it in different words.
+AI [s1] Let's keep the conversation focused on your experience. What was the hardest product decision you made during the checkout redesign?
+ME [s1] This is a stupid question, I'm not answering you.
+    -> clarify answer_type=abusive guards: Rewrote the message once for wording: repeats an earlier line word for word ("please keep the conversation respectful"); say it in different words.
+AI [s1] I’m going to end the interview here. Thank you for your time.

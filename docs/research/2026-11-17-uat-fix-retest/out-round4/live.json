@@ -1,0 +1,107 @@
+{
+ "L1": {
+  "id": "2026-11-18-ff2287b6",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L2": {
+  "id": "2026-11-18-8f18a632",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L3": {
+  "id": "2026-11-18-f43e4a98",
+  "status": "ended",
+  "ended_by": "end_session",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L4": {
+  "id": "2026-11-18-d9582393",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L5": {
+  "id": "2026-11-18-730b6e9f",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L6": {
+  "id": "2026-11-18-57693a03",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ },
+ "L7": {
+  "id": "2026-11-18-9cbcbab3",
+  "status": "ended",
+  "ended_by": "close",
+  "flags": {
+   "yes_no_follow_ups": [],
+   "leaks": [],
+   "describes_assessment": [],
+   "placeholder_company": [],
+   "graduate_hire": [],
+   "mock_role": [],
+   "hiring_team_deflect": [],
+   "who_checked": []
+  }
+ }
+}
