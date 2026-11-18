@@ -341,3 +341,10 @@ mark.dr2-new { padding: 1px 2px; border-radius: 3px; color: var(--d-ink-2); back
 @media (max-width: 720px) {
   #dr-view-summary .dr-sum-main, #dr-view-summary .dr-sum-side { padding: 18px; }
 }
+
+/* What the question was checking, follow-up reasons and "A panel may also ask" (feedback v25). */
+#dr-view-detailed .dr2-checking { max-width: 80ch; margin-top: 10px; font-size: 14px; line-height: 21px; color: var(--d-ink-2); }
+.dr2-checking span, .dr-fu-why span { display: block; margin-bottom: 2px; font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--d-blue); }
+.dr-fu-why { font-size: 13.5px; line-height: 20px; color: var(--d-ink-2); }
+.dr2-expect { margin-top: 16px; padding: 14px 16px; border: 1px dashed var(--m-edge, var(--d-line)); border-radius: 12px; display: grid; gap: 8px; }
+.dr2-expect ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 14px; line-height: 21px; font-weight: 500; }
