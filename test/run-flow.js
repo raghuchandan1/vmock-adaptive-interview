@@ -163,6 +163,12 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
     check(E.companyProfile({ inputs: {}, plan: { jd: { company: 'Acme Foods' } }, company_lookup: { found: true, company: 'Other Co', summary: 'x' } }) === null
       && E.companyProfile({ inputs: {}, plan: { jd: { company: null } }, company_lookup: { found: true, company: 'Acme Foods', summary: 'x' } }) === null,
       'a lookup about another company, or with no company left after the placeholder check, gives no profile');
+    check(E.companyProfile({ inputs: { company: 'Indian Bank' }, plan: { jd: { company: 'Indian Bank' } }, company_lookup: { found: true, company: 'Indian Bank', summary: 'x' } })?.summary === 'x'
+      && E.companyProfile({ inputs: {}, plan: { jd: { company: 'EY' } }, company_lookup: { found: true, company: 'Honeywell', summary: 'x' } }) === null
+      && ['N/A', 'na', 'Confidential', ' - ', 'none'].every((c) => E.typedCompany(c) === '') && E.typedCompany('  Indian Bank ') === 'Indian Bank',
+      'a typed real name keeps its profile even if it reads like a JD placeholder ("Indian Bank"); "N/A" or "Confidential" typed is dropped; names match on whole words only');
+    const na = await post('/api/sessions', { resume_text: resume, jd_text: '', target_role: 'Brand Manager', domain: 'Marketing', company: 'N/A', interview_type: 'hiring_manager', style: 'balanced', length: 'standard' });
+    check(!/at N\/A/.test(na.transcript[0].text) && !na.pre_brief.company, 'a typed "N/A" is never spoken or shown as the company');
     check(E.companyProfile({ inputs: { company: 'hul' }, plan: { jd: { company: 'hul' } }, company_lookup: { found: true, company: 'Hindustan Unilever', summary: 'x' } })?.summary === 'x'
       && E.companyProfile({ inputs: { company: 'hul' }, plan: null, company_lookup: { found: true, company: 'Hindustan Unilever', summary: 'x' } })?.summary === 'x',
       'a typed company\'s lookup is used even when the model tidies the name ("hul" to "Hindustan Unilever")');

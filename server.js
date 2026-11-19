@@ -93,7 +93,7 @@ async function createInterview(body) {
     jd_text: String(body.jd_text || '').trim(),
     target_role: String(body.target_role || '').trim().slice(0, 200),
     // The employer, typed by the student when there is no job description (the JD names it otherwise); optional.
-    company: String(body.company || '').trim().slice(0, 100),
+    company: engine.typedCompany(body.company),
     domain: String(body.domain || '').trim().slice(0, 100),
     stage: String(body.stage || ''), // placement stage: '' (not for placements), summers, finals or laterals
     market: String(body.market || process.env.MARKET || 'india'), // which country's recruiting the plan follows
@@ -171,16 +171,15 @@ async function createInterview(body) {
     const late = new Promise((resolve) => { timer = setTimeout(() => resolve(null), COMPANY_WAIT_MS); });
     const company = await Promise.race([companyRun, late]);
     clearTimeout(timer);
-    return company ? engine.profileOf(company.data) : null;
+    return company ? engine.profileOf(company.data, true) : null;
   };
 
   if (!EARLY_START) {
     const companyRun = runCompany();
     const { plan, trace } = await runPlanner(await plannerProfile(companyRun));
-    const company = await companyRun;
     const session = engine.createSession({ inputs, settings, plan, planTrace: trace, resolvedStyle });
-    if (company) engine.attachCompany(session, company.data, company.trace);
     saveSession(session);
+    attachWhenDone(session, companyRun);
     return engine.publicView(session);
   }
   // Early start: the greeting and a scripted warm-up go out now; the plan follows in the background, and the first
@@ -188,11 +187,7 @@ async function createInterview(body) {
   const session = engine.createEarlySession({ inputs, settings, resolvedStyle });
   saveSession(session);
   const companyRun = runCompany();
-  companyRun.then((company) => {
-    if (!company) return;
-    engine.attachCompany(session, company.data, company.trace);
-    saveSession(session);
-  });
+  attachWhenDone(session, companyRun);
   planning.set(session.id, plannerProfile(companyRun).then(runPlanner)
     .then(({ plan, trace }) => { engine.attachPlan(session, plan, trace); })
     .catch((err) => { session.plan_error = err.message || 'The planner failed.'; delete session.planning; })
@@ -200,10 +195,19 @@ async function createInterview(body) {
   return engine.publicView(session);
 }
 
+// The company lookup lands on the session whenever it finishes; a failed save is logged, never a crash.
+function attachWhenDone(session, companyRun) {
+  companyRun.then((company) => {
+    if (!company) return;
+    engine.attachCompany(session, company.data, company.trace);
+    saveSession(session);
+  }).catch((err) => console.error(`company lookup for ${session.id} not saved: ${err.message}`));
+}
+
 // EARLY_START=0 restores planning before the interview opens.
 const EARLY_START = process.env.EARLY_START !== '0';
 // How long the planner waits for the company lookup on the no-JD path (the lookup usually takes a few seconds).
-const COMPANY_WAIT_MS = Number(process.env.COMPANY_WAIT_MS) || 8000;
+const COMPANY_WAIT_MS = Number.isFinite(Number(process.env.COMPANY_WAIT_MS)) && process.env.COMPANY_WAIT_MS !== '' ? Number(process.env.COMPANY_WAIT_MS) : 8000;
 const planning = new Map(); // session id -> the planner still running for it
 // Waits for a session's plan; a failed or lost plan is an error for the caller.
 async function planReady(session) {
