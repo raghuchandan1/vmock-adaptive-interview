@@ -5,6 +5,13 @@ const http = require('http');
 const PORT = Number(process.env.MOCK_PORT || 4010);
 let turnCount = 0;
 
+function companyOutput(input) {
+  const company = input.company || (input.jd_text ? 'Brightpath Learning' : null);
+  return /^(acme foods|brightpath learning)$/i.test(company || '')
+    ? { company, found: true, industry: 'Consumer goods', summary: `${company} makes everyday products for Indian households.`, businesses: ['Snacks', 'Beverages'] }
+    : { company, found: false, industry: '', summary: '', businesses: [] };
+}
+
 function plannerOutput(input) {
   const resume = input.resume_text;
   const line = (start) => resume.split('\n').map((l) => l.replace(/^[-\s]+/, '').trim()).find((l) => l.startsWith(start)) || start;
@@ -179,9 +186,15 @@ http.createServer((req, res) => {
       res.writeHead(400, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify({ error: { message: 'Mock planner failure' } }));
     }
+    // Company lookup: "MOCK_FAIL_COMPANY" fails; Acme Foods and the sample JD's Brightpath Learning are known.
+    if (name === 'company_profile' && /MOCK_FAIL_COMPANY/.test(input.company || '')) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: { message: 'Mock company lookup failure' } }));
+    }
     const delay = name === 'interview_plan' && /MOCK_SLOW_PLAN/.test(input.resume_text || '') ? 1500 : 0;
     // Grounding check: anything mentioning "greedy" is an unsupported claim.
     const out = name === 'rewrite_grounding' ? { unsupported_claims: /greedy/i.test(input.rewrite) ? ['used greedy matching to settle balances'] : [] }
+      : name === 'company_profile' ? companyOutput(input)
       : name === 'interview_plan' ? plannerOutput(input) : name === 'interview_feedback' ? feedbackOutput(input) : turnOutput(input);
     setTimeout(() => {
       res.writeHead(200, { 'Content-Type': 'application/json' });

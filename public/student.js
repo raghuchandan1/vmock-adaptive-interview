@@ -83,7 +83,7 @@
 
   function readSetup() {
     const val = (name) => document.querySelector(`input[name="${name}"]:checked`)?.value;
-    return { resume_text: $('resume').value, jd_text: $('jd').value, target_role: $('role').value, domain: $('domain').value, stage: $('stage') ? $('stage').value : '', interview_type: val('type'), style: val('style'), length: val('length'), focus_lines: state.focusLines || [] };
+    return { resume_text: $('resume').value, jd_text: $('jd').value, target_role: $('role').value, company: $('company') ? $('company').value : '', domain: $('domain').value, stage: $('stage') ? $('stage').value : '', interview_type: val('type'), style: val('style'), length: val('length'), focus_lines: state.focusLines || [] };
   }
 
   async function prepare() {
@@ -833,6 +833,7 @@
     $('jd').value = String(inputs.jd_text || '');
     $('jdDetails').open = Boolean($('jd').value);
     $('role').value = String(inputs.target_role || '');
+    if ($('company')) $('company').value = String(inputs.company || '');
     $('domain').value = String(inputs.domain || '');
     if ($('stage')) $('stage').value = String(inputs.stage || '');
     for (const name of ['type', 'style', 'length']) {

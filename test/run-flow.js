@@ -119,6 +119,45 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
     check(JSON.stringify(cvSent.focus_lines) === JSON.stringify(lines) && cvSent.resume_text === resume.trim() && JSON.stringify(hmSent.focus_lines) === '[]',
       'CV Deep Dive passes the chosen lines (strings only) with the whole resume; other types ignore them');
   }
+  // Company: typed without a JD (or named by the JD), looked up from model knowledge alongside the planner. An unknown
+  // company or a failed lookup leaves the name only; the interview never waits on or fails with the lookup.
+  {
+    const co = (company, jdText = '') => post('/api/sessions', { resume_text: resume, jd_text: jdText, target_role: jdText ? '' : 'Brand Manager', domain: jdText ? '' : 'Marketing', company, interview_type: 'hiring_manager', style: 'balanced', length: 'standard' });
+    const lookedUp = async (id) => {
+      for (let i = 0; i < 100; i++) { const t = await get(`/api/sessions/${id}/trace`); if (t.company_lookup) return t; await new Promise((r) => setTimeout(r, 20)); }
+      return get(`/api/sessions/${id}/trace`);
+    };
+    const firstTurn = async (id) => {
+      await lookedUp(id);
+      await post(`/api/sessions/${id}/answers`, { answer: 'Busy with my summer project, thanks.' });
+      const t = await get(`/api/sessions/${id}/trace`);
+      return { t, profile: t.turns[0].calls[0].payload.interview.company_profile };
+    };
+    const known = await co('  Acme Foods  ');
+    const knownTurn = await firstTurn(known.id);
+    check(/the Brand Manager role at Acme Foods/.test(known.transcript[0].text) && known.pre_brief.company === 'Acme Foods',
+      'a typed company is in the greeting and the brief before the plan');
+    check(JSON.parse(knownTurn.t.plan_trace.request_user_message).company === 'Acme Foods' && knownTurn.t.plan.jd.company === 'Acme Foods',
+      'the planner gets the typed company, and it is the plan\'s company');
+    check(knownTurn.t.company_lookup.found && /Acme Foods/.test(knownTurn.profile?.summary || '') && JSON.parse(knownTurn.t.company_lookup.trace.request_user_message).company === 'Acme Foods',
+      'a known company is looked up and its profile reaches the interviewer');
+    const unknown = await firstTurn((await co('Zyxw Labs')).id);
+    check(unknown.t.company_lookup.found === false && unknown.profile === null && unknown.t.turns.length === 1,
+      'an unknown company gives no profile (name only) and the interview goes on');
+    const failed = await firstTurn((await co('MOCK_FAIL_COMPANY Ltd')).id);
+    check(/Mock company lookup failure/.test(failed.t.company_lookup.error || '') && failed.profile === null && failed.t.plan && failed.t.turns.length === 1,
+      'a failed company lookup is recorded and the interview still plans and runs');
+    const fromJd = await firstTurn((await co('', jd)).id);
+    check(fromJd.t.plan.jd.company === 'Brightpath Learning' && /Brightpath/.test(fromJd.profile?.summary || ''),
+      'with a JD, the JD\'s company is looked up too');
+    const typedOverJd = await firstTurn((await co('Acme Foods', jd)).id);
+    check(typedOverJd.t.plan.jd.company === 'Acme Foods' && /Acme Foods/.test(typedOverJd.profile?.summary || ''),
+      'a typed company wins over the company the JD names');
+    const E = require('../lib/engine');
+    check(E.companyProfile({ inputs: { company: 'Acme Foods' }, plan: { jd: { company: 'Acme Foods' } }, company_lookup: { found: true, company: 'Other Co', summary: 'x' } }) === null
+      && E.companyProfile({ inputs: {}, plan: { jd: { company: null } }, company_lookup: { found: true, company: 'Acme Foods', summary: 'x' } }) === null,
+      'a lookup about another company, or with no company left after the placeholder check, gives no profile');
+  }
   const { fitAngle, FIT_ANGLES } = require('../lib/engine');
   check(JSON.parse(trace.plan_trace.request_user_message).fit_angle === fitAngle(trace.inputs.seed) && new Set([0, 1, 2].map(fitAngle)).size === FIT_ANGLES.length,
     'the planner gets a fit question angle that rotates across sessions');

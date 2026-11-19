@@ -145,7 +145,7 @@ All under `http://localhost:3000/api/`:
 | `GET config` | Whether a key is set, default models, voice provider |
 | `POST key` | Set the key for this server run |
 | `GET samples` | The sample resumes and JDs |
-| `GET sessions` / `POST sessions` | List interviews / plan and start one (inputs: `resume_text`, `jd_text`, `target_role`, `domain`, `stage`, `interview_type`, `style`, `length`, `market`, `focus_lines`) |
+| `GET sessions` / `POST sessions` | List interviews / plan and start one (inputs: `resume_text`, `jd_text`, `target_role`, `company`, `domain`, `stage`, `interview_type`, `style`, `length`, `market`, `focus_lines`) |
 | `GET sessions/:id` | The student view of one interview (never the plan) |
 | `POST sessions/:id/answers` | Send an answer, get the next question |
 | `POST sessions/:id/end` | End early |

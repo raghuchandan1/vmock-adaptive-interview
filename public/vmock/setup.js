@@ -83,6 +83,7 @@
     document.querySelectorAll('.wz-choice').forEach((c) => c.setAttribute('aria-checked', String(c.dataset.path === state.path)));
     const last = state.step === 'details';
     $('backBtn').hidden = state.step === 'start';
+    $('companyField').hidden = state.path !== 'resume'; // with a JD the company comes from it
     $('nextBtn').disabled = !canGoOn();
     $('nextBtn').firstChild.textContent = last ? 'Prepare Interview' : 'Next';
     const jdLen = $('jd').value.length;
@@ -112,6 +113,7 @@
       resume_name: resume ? resume.name : '',
       jd_text: state.path === 'both' ? $('jd').value.trim() : '',
       target_role: $('role').value.trim(),
+      company: state.path === 'resume' ? $('company').value.trim() : '',
       domain: $('domain').value,
       stage: (document.querySelector('input[name="stage"]:checked') || {}).value || '',
       interview_type: document.querySelector('input[name="type"]:checked').value,
@@ -148,6 +150,7 @@
     state.path = last.jd_text ? 'both' : 'resume';
     $('jd').value = String(last.jd_text || '');
     $('role').value = String(last.target_role || '');
+    $('company').value = String(last.company || '');
     $('domain').value = String(last.domain || '');
     for (const [name, key] of [['stage', 'stage'], ['type', 'interview_type'], ['style', 'style'], ['length', 'length']]) {
       const radio = document.querySelector(`input[name="${name}"][value="${CSS.escape(String(last[key] || ''))}"]`);

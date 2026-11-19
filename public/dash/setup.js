@@ -169,6 +169,7 @@
     };
     mark('domain', dom);
     mark('role', req);
+    $('companyField').hidden = !req; // with a JD the company comes from it
   }
 
   // Stepper as on the dashboard: numbered circles joined by dashes, the current one labelled, done ones ticked.
@@ -266,6 +267,7 @@
       resume_name: resume ? resume.name : '',
       jd_text: hasJd() ? $('jd').value.trim() : '',
       target_role: $('role').value.trim(),
+      company: needsRoleAndDomain() ? $('company').value.trim() : '',
       domain: $('domain').value,
       stage: (document.querySelector('input[name="stage"]:checked') || {}).value || '',
       interview_type: entry === 'cv' ? 'back_your_resume' : document.querySelector('input[name="type"]:checked').value,
@@ -294,6 +296,7 @@
     if (!last || typeof last !== 'object' || !last.resume_text || (last.entry || 'mock') !== entry) return;
     if (entry === 'mock') $('jd').value = String(last.jd_text || '');
     $('role').value = String(last.target_role || '');
+    $('company').value = String(last.company || '');
     $('domain').value = String(last.domain || '');
     for (const [name, key] of [['stage', 'stage'], ['type', 'interview_type'], ['style', 'style'], ['length', 'length']]) {
       const radio = document.querySelector(`input[name="${name}"][value="${CSS.escape(String(last[key] || ''))}"]`);

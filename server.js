@@ -7,7 +7,7 @@ const path = require('path');
 const crypto = require('crypto');
 
 const { callStructured } = require('./lib/openai');
-const { plannerSchema, turnSchemaFor, feedbackSchemaFor, groundingSchema } = require('./lib/schemas');
+const { plannerSchema, turnSchemaFor, feedbackSchemaFor, groundingSchema, companyProfileSchema } = require('./lib/schemas');
 const engine = require('./lib/engine');
 const voice = require('./lib/voice');
 const { Readable } = require('stream');
@@ -92,6 +92,8 @@ async function createInterview(body) {
     resume_text: String(body.resume_text || '').trim(),
     jd_text: String(body.jd_text || '').trim(),
     target_role: String(body.target_role || '').trim().slice(0, 200),
+    // The employer, typed by the student when there is no job description (the JD names it otherwise); optional.
+    company: String(body.company || '').trim().slice(0, 100),
     domain: String(body.domain || '').trim().slice(0, 100),
     stage: String(body.stage || ''), // placement stage: '' (not for placements), summers, finals or laterals
     market: String(body.market || process.env.MARKET || 'india'), // which country's recruiting the plan follows
@@ -120,6 +122,7 @@ async function createInterview(body) {
   const resolvedStyle = engine.resolveStyle(inputs.style);
   const plannerInput = {
     target_role: engine.roleWithDomain(inputs.target_role, inputs.domain),
+    company: inputs.company || null,
     interview_type: inputs.interview_type,
     placement_stage: inputs.stage || null,
     market: inputs.market,
@@ -142,10 +145,27 @@ async function createInterview(body) {
     trace.request_user_message = user;
     return { plan, trace };
   };
+  // What the company does, from model knowledge, alongside the planner (no added wait). Never fails the interview: an
+  // error is stored as not found, and the interview then uses the company's name only.
+  const runCompany = async () => {
+    if (!inputs.company && !inputs.jd_text) return null;
+    const companyUser = JSON.stringify({ company: inputs.company || null, jd_text: inputs.jd_text });
+    try {
+      const { data, trace } = await withFallback('turn', { model: settings.turn_model, reasoningEffort: settings.turn_effort }, (m) => callStructured({
+        apiKey: apiKey(), baseUrl: BASE_URL, ...m,
+        system: readPrompt('company'), user: companyUser, schemaName: 'company_profile', schema: companyProfileSchema,
+      }));
+      trace.request_user_message = companyUser;
+      return { data, trace };
+    } catch (err) {
+      return { data: { found: false, error: err.message || 'The company lookup failed.' }, trace: null };
+    }
+  };
 
   if (!EARLY_START) {
-    const { plan, trace } = await runPlanner();
+    const [{ plan, trace }, company] = await Promise.all([runPlanner(), runCompany()]);
     const session = engine.createSession({ inputs, settings, plan, planTrace: trace, resolvedStyle });
+    if (company) engine.attachCompany(session, company.data, company.trace);
     saveSession(session);
     return engine.publicView(session);
   }
@@ -153,6 +173,11 @@ async function createInterview(body) {
   // answer waits for it (`planReady`).
   const session = engine.createEarlySession({ inputs, settings, resolvedStyle });
   saveSession(session);
+  runCompany().then((company) => {
+    if (!company) return;
+    engine.attachCompany(session, company.data, company.trace);
+    saveSession(session);
+  });
   planning.set(session.id, runPlanner()
     .then(({ plan, trace }) => { engine.attachPlan(session, plan, trace); })
     .catch((err) => { session.plan_error = err.message || 'The planner failed.'; delete session.planning; })
@@ -236,13 +261,13 @@ async function groundRewrites(session, feedback, traces) {
     try {
       const { data, trace } = await withModelFallback(session, (m) => callStructured({
         apiKey: apiKey(), baseUrl: BASE_URL, ...m,
-        system, user: JSON.stringify({ resume_text: session.inputs.resume_text, job_description: session.inputs.jd_text, student_answers: String(answers[t.slot_id] || '').trim(), rewrite: t.stronger_version }),
+        system, user: JSON.stringify({ resume_text: session.inputs.resume_text, job_description: session.inputs.jd_text, company: session.plan?.jd?.company || null, company_profile: engine.companyProfile(session), student_answers: String(answers[t.slot_id] || '').trim(), rewrite: t.stronger_version }),
         schemaName: 'rewrite_grounding', schema: groundingSchema,
       }), 'grounding');
       // A scenario or knowledge rewrite is a plan, not a story: only factual flags count and the stub rule is off.
       const plan = ['situational', 'knowledge'].includes(t.rubric);
       const flags = plan ? engine.hypotheticalFlags(data.unsupported_claims) : data.unsupported_claims;
-      const kept = engine.applyGrounding(t.stronger_version, flags, `${session.inputs.resume_text} ${session.inputs.jd_text} ${answers[t.slot_id] || ''}`, plan ? undefined : t.to_fix || '');
+      const kept = engine.applyGrounding(t.stronger_version, flags, `${session.inputs.resume_text} ${session.inputs.jd_text} ${session.plan?.jd?.company || ''} ${JSON.stringify(engine.companyProfile(session) || '')} ${answers[t.slot_id] || ''}`, plan ? undefined : t.to_fix || '');
       traces.push({ ...trace, grounding_for: t.slot_id, unsupported: data.unsupported_claims, ...(plan ? { applied: flags } : {}), checked_rewrite: t.stronger_version, kept });
       t.stronger_version = kept;
     } catch (err) {
