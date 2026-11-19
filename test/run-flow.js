@@ -124,7 +124,7 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
   {
     const co = (company, jdText = '') => post('/api/sessions', { resume_text: resume, jd_text: jdText, target_role: jdText ? '' : 'Brand Manager', domain: jdText ? '' : 'Marketing', company, interview_type: 'hiring_manager', style: 'balanced', length: 'standard' });
     const lookedUp = async (id) => {
-      for (let i = 0; i < 100; i++) { const t = await get(`/api/sessions/${id}/trace`); if (t.company_lookup) return t; await new Promise((r) => setTimeout(r, 20)); }
+      for (let i = 0; i < 150; i++) { const t = await get(`/api/sessions/${id}/trace`); if (t.company_lookup) return t; await new Promise((r) => setTimeout(r, 20)); }
       return get(`/api/sessions/${id}/trace`);
     };
     const firstTurn = async (id) => {
@@ -137,8 +137,9 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
     const knownTurn = await firstTurn(known.id);
     check(/the Brand Manager role at Acme Foods/.test(known.transcript[0].text) && known.pre_brief.company === 'Acme Foods',
       'a typed company is in the greeting and the brief before the plan');
-    check(JSON.parse(knownTurn.t.plan_trace.request_user_message).company === 'Acme Foods' && knownTurn.t.plan.jd.company === 'Acme Foods',
-      'the planner gets the typed company, and it is the plan\'s company');
+    const knownSent = JSON.parse(knownTurn.t.plan_trace.request_user_message);
+    check(knownSent.company === 'Acme Foods' && knownTurn.t.plan.jd.company === 'Acme Foods' && /Acme Foods/.test(knownSent.company_profile?.summary || ''),
+      'the planner gets the typed company and waits for its profile, and it is the plan\'s company');
     check(knownTurn.t.company_lookup.found && /Acme Foods/.test(knownTurn.profile?.summary || '') && JSON.parse(knownTurn.t.company_lookup.trace.request_user_message).company === 'Acme Foods',
       'a known company is looked up and its profile reaches the interviewer');
     const unknown = await firstTurn((await co('Zyxw Labs')).id);
@@ -147,8 +148,13 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
     const failed = await firstTurn((await co('MOCK_FAIL_COMPANY Ltd')).id);
     check(/Mock company lookup failure/.test(failed.t.company_lookup.error || '') && failed.profile === null && failed.t.plan && failed.t.turns.length === 1,
       'a failed company lookup is recorded and the interview still plans and runs');
+    check(JSON.parse(unknown.t.plan_trace.request_user_message).company_profile === null, 'an unknown company gives the planner no profile');
+    const slow = await firstTurn((await co('Acme Foods MOCK_SLOW_COMPANY')).id);
+    check(JSON.parse(slow.t.plan_trace.request_user_message).company_profile === null && /Acme Foods/.test(slow.profile?.summary || ''),
+      'a lookup slower than the wait leaves the planner the name only, and still reaches the interviewer when it lands');
     const fromJd = await firstTurn((await co('', jd)).id);
-    check(fromJd.t.plan.jd.company === 'Brightpath Learning' && /Brightpath/.test(fromJd.profile?.summary || ''),
+    check(fromJd.t.plan.jd.company === 'Brightpath Learning' && /Brightpath/.test(fromJd.profile?.summary || '')
+      && JSON.parse(fromJd.t.plan_trace.request_user_message).company_profile === null,
       'with a JD, the JD\'s company is looked up too, matching despite a legal suffix ("Pvt Ltd")');
     const typedOverJd = await firstTurn((await co('Acme Foods', jd)).id);
     check(typedOverJd.t.plan.jd.company === 'Acme Foods' && /Acme Foods/.test(typedOverJd.profile?.summary || ''),

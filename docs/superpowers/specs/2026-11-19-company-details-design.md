@@ -64,10 +64,11 @@ Date: 2026-11-19. Status: built (branch `worktree-company-input`).
   - Turn input: `interview.company_profile`.
   - Feedback input: `company_profile`.
   - Grounding: added to its input and to the source text.
-  - The planner gets the name only.
+  - The planner gets the profile for a typed company with no JD. It waits at most `COMPANY_WAIT_MS` (8 s); a slower lookup leaves it the name only. With a JD it never waits, and gets `company_profile: null`.
+- **Another source:** a company API can replace the model in `runCompany` if it returns the `companyProfileSchema` shape. On the JD path it would need the company's name first (from the model or from `plan.jd.company`).
 
 ## Calls made by the builder
 
 - The lookup uses the turn model, with no new setting.
-- The planner does not wait for the profile. The only gain would be a sharper motivation question, at the cost of more wait after the warm-up.
+- The planner waits for the profile only on the no-JD path, where it otherwise knows nothing about the company. The wait is capped so a slow lookup never holds up the interview.
 - The feedback cache version is unchanged. The change only affects new interviews.

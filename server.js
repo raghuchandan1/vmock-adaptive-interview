@@ -136,8 +136,8 @@ async function createInterview(body) {
     focus_lines: inputs.focus_lines,
   };
   const system = readPrompt('planner');
-  const user = JSON.stringify(plannerInput); // compact: indentation only costs tokens
-  const runPlanner = async () => {
+  const runPlanner = async (companyProfile = null) => {
+    const user = JSON.stringify({ ...plannerInput, company_profile: companyProfile }); // compact: indentation only costs tokens
     const { data: plan, trace } = await withFallback('planner', { model: settings.planner_model, reasoningEffort: settings.planner_effort }, (m) => callStructured({
       apiKey: apiKey(), baseUrl: BASE_URL, ...m,
       system, user, schemaName: 'interview_plan', schema: plannerSchema,
@@ -145,8 +145,8 @@ async function createInterview(body) {
     trace.request_user_message = user;
     return { plan, trace };
   };
-  // What the company does, from model knowledge, alongside the planner (no added wait). Never fails the interview: an
-  // error is stored as not found, and the interview then uses the company's name only.
+  // What the company does, from model knowledge. Never fails the interview: an error is stored as not found, and the
+  // interview then uses the company's name only.
   const runCompany = async () => {
     if (!inputs.company && !inputs.jd_text) return null;
     const companyUser = JSON.stringify({ company: inputs.company || null, jd_text: inputs.jd_text });
@@ -162,8 +162,22 @@ async function createInterview(body) {
     }
   };
 
+  // Without a JD the planner knows a typed company by name only, so it waits for the lookup, at most COMPANY_WAIT_MS; a
+  // slower lookup still reaches the interviewer and feedback when it lands. With a JD the planner reads the company
+  // from it and never waits.
+  const plannerProfile = async (companyRun) => {
+    if (!inputs.company || inputs.jd_text) return null;
+    let timer;
+    const late = new Promise((resolve) => { timer = setTimeout(() => resolve(null), COMPANY_WAIT_MS); });
+    const company = await Promise.race([companyRun, late]);
+    clearTimeout(timer);
+    return company ? engine.profileOf(company.data) : null;
+  };
+
   if (!EARLY_START) {
-    const [{ plan, trace }, company] = await Promise.all([runPlanner(), runCompany()]);
+    const companyRun = runCompany();
+    const { plan, trace } = await runPlanner(await plannerProfile(companyRun));
+    const company = await companyRun;
     const session = engine.createSession({ inputs, settings, plan, planTrace: trace, resolvedStyle });
     if (company) engine.attachCompany(session, company.data, company.trace);
     saveSession(session);
@@ -173,12 +187,13 @@ async function createInterview(body) {
   // answer waits for it (`planReady`).
   const session = engine.createEarlySession({ inputs, settings, resolvedStyle });
   saveSession(session);
-  runCompany().then((company) => {
+  const companyRun = runCompany();
+  companyRun.then((company) => {
     if (!company) return;
     engine.attachCompany(session, company.data, company.trace);
     saveSession(session);
   });
-  planning.set(session.id, runPlanner()
+  planning.set(session.id, plannerProfile(companyRun).then(runPlanner)
     .then(({ plan, trace }) => { engine.attachPlan(session, plan, trace); })
     .catch((err) => { session.plan_error = err.message || 'The planner failed.'; delete session.planning; })
     .finally(() => { saveSession(session); planning.delete(session.id); }));
@@ -187,6 +202,8 @@ async function createInterview(body) {
 
 // EARLY_START=0 restores planning before the interview opens.
 const EARLY_START = process.env.EARLY_START !== '0';
+// How long the planner waits for the company lookup on the no-JD path (the lookup usually takes a few seconds).
+const COMPANY_WAIT_MS = Number(process.env.COMPANY_WAIT_MS) || 8000;
 const planning = new Map(); // session id -> the planner still running for it
 // Waits for a session's plan; a failed or lost plan is an error for the caller.
 async function planReady(session) {

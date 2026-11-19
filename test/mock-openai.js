@@ -8,7 +8,7 @@ let turnCount = 0;
 function companyOutput(input) {
   // The JD's company comes back with a legal suffix, as a live model may word it ("... Pvt Ltd").
   const company = input.company || (input.jd_text ? 'Brightpath Learning Pvt Ltd' : null);
-  return /^(acme foods|brightpath learning( pvt ltd)?|hindustan unilever)$/i.test(company || '')
+  return /^(acme foods( mock_slow_company)?|brightpath learning( pvt ltd)?|hindustan unilever)$/i.test(company || '')
     ? { company, found: true, industry: 'Consumer goods', summary: `${company} makes everyday products for Indian households.`, businesses: ['Snacks', 'Beverages'] }
     : { company, found: false, industry: '', summary: '', businesses: [] };
 }
@@ -192,7 +192,8 @@ http.createServer((req, res) => {
       res.writeHead(400, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify({ error: { message: 'Mock company lookup failure' } }));
     }
-    const delay = name === 'interview_plan' && /MOCK_SLOW_PLAN/.test(input.resume_text || '') ? 1500 : 0;
+    const delay = (name === 'interview_plan' && /MOCK_SLOW_PLAN/.test(input.resume_text || ''))
+      || (name === 'company_profile' && /MOCK_SLOW_COMPANY/.test(input.company || '')) ? 1500 : 0;
     // Grounding check: anything mentioning "greedy" is an unsupported claim.
     const out = name === 'rewrite_grounding' ? { unsupported_claims: /greedy/i.test(input.rewrite) ? ['used greedy matching to settle balances'] : [] }
       : name === 'company_profile' ? companyOutput(input)
