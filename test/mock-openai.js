@@ -6,8 +6,9 @@ const PORT = Number(process.env.MOCK_PORT || 4010);
 let turnCount = 0;
 
 function companyOutput(input) {
-  const company = input.company || (input.jd_text ? 'Brightpath Learning' : null);
-  return /^(acme foods|brightpath learning)$/i.test(company || '')
+  // The JD's company comes back with a legal suffix, as a live model may word it ("... Pvt Ltd").
+  const company = input.company || (input.jd_text ? 'Brightpath Learning Pvt Ltd' : null);
+  return /^(acme foods|brightpath learning( pvt ltd)?|hindustan unilever)$/i.test(company || '')
     ? { company, found: true, industry: 'Consumer goods', summary: `${company} makes everyday products for Indian households.`, businesses: ['Snacks', 'Beverages'] }
     : { company, found: false, industry: '', summary: '', businesses: [] };
 }

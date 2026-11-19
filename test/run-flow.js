@@ -149,14 +149,17 @@ const ready = async (id) => { for (let i = 0; i < 100; i++) { const v = await ge
       'a failed company lookup is recorded and the interview still plans and runs');
     const fromJd = await firstTurn((await co('', jd)).id);
     check(fromJd.t.plan.jd.company === 'Brightpath Learning' && /Brightpath/.test(fromJd.profile?.summary || ''),
-      'with a JD, the JD\'s company is looked up too');
+      'with a JD, the JD\'s company is looked up too, matching despite a legal suffix ("Pvt Ltd")');
     const typedOverJd = await firstTurn((await co('Acme Foods', jd)).id);
     check(typedOverJd.t.plan.jd.company === 'Acme Foods' && /Acme Foods/.test(typedOverJd.profile?.summary || ''),
       'a typed company wins over the company the JD names');
     const E = require('../lib/engine');
-    check(E.companyProfile({ inputs: { company: 'Acme Foods' }, plan: { jd: { company: 'Acme Foods' } }, company_lookup: { found: true, company: 'Other Co', summary: 'x' } }) === null
+    check(E.companyProfile({ inputs: {}, plan: { jd: { company: 'Acme Foods' } }, company_lookup: { found: true, company: 'Other Co', summary: 'x' } }) === null
       && E.companyProfile({ inputs: {}, plan: { jd: { company: null } }, company_lookup: { found: true, company: 'Acme Foods', summary: 'x' } }) === null,
       'a lookup about another company, or with no company left after the placeholder check, gives no profile');
+    check(E.companyProfile({ inputs: { company: 'hul' }, plan: { jd: { company: 'hul' } }, company_lookup: { found: true, company: 'Hindustan Unilever', summary: 'x' } })?.summary === 'x'
+      && E.companyProfile({ inputs: { company: 'hul' }, plan: null, company_lookup: { found: true, company: 'Hindustan Unilever', summary: 'x' } })?.summary === 'x',
+      'a typed company\'s lookup is used even when the model tidies the name ("hul" to "Hindustan Unilever")');
   }
   const { fitAngle, FIT_ANGLES } = require('../lib/engine');
   check(JSON.parse(trace.plan_trace.request_user_message).fit_angle === fitAngle(trace.inputs.seed) && new Set([0, 1, 2].map(fitAngle)).size === FIT_ANGLES.length,
