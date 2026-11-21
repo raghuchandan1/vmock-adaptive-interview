@@ -50,3 +50,8 @@
 298 | update | ended normally (close) 12:37:45 | feedback ready by 12:39 (~1 min) | 70/100 numeric; 'Learning & Reflection: The interview ended before you got to this, so it is not rated.' despite normal end; Next Steps link to Topic 1/5 work; voice+mic live at start and after rejoin, nothing auto-submitted in 35s; listed in Prev Recorded at 12:41:28 (not at 12:40:16)
 274 | update | 12:28 practice attempt on Topic 3 'Practise this line again' (in-page dialog) | score 94 -> 93 (Storytelling 95->91, STAR/HSAR text rewritten from practice answer)
 300 update | q-guard | ended by 2nd consecutive abusive at topic 3 ('Understood. We'll end the interview here.') | 12:43 | feedback ready 12:45 | 83/100; Communication & Presence 100/100 Good Job, tone 'neutral, professional terms'
+q-mock | update 13:47 | acct-mock | window logged out again (dashboard redirects to /login, no auth cookie in context); no interview run; blocked (no credentials)
+q-cvdd | update 13:48 | acct-review | window logged out (career-interviews redirects to /login); no interview run; BLOCKED (no credentials)
+q-mock | update 13:48 | uat-mock | window logged out (dashboard redirects /login); no interview run; BLOCKED (no credentials) | shot shots/q-mock-loggedout.png
+q-mock | update 13:49 | uat-mock + acct-mock | both windows logged out (dashboard redirects /login); no interview run; BLOCKED (no credentials) | shot shots/q-mock-loggedout-2.png
+q-cvdd | update 13:50 | uat-cvdd + acct-review | both windows redirect to /login (career-interviews); no interview run; BLOCKED (no credentials)
