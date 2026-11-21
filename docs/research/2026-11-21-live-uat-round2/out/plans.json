@@ -1,0 +1,170 @@
+{
+ "pm_to_sales": {
+  "id": "2026-11-21-8a2cbf57",
+  "error": null,
+  "slots": [
+   {
+    "kind": "claim",
+    "q": "At Kitecart, you worked with sellers to improve catalogue quality. What did that involve in practice?",
+    "probes": [
+     "What did you personally do with the sellers?",
+     "How did you decide which catalogue issues to address first?",
+     "What changed after your work?"
+    ]
+   },
+   {
+    "kind": "claim",
+    "q": "Your CV says the referral programme increased new-user sign-ups by 30% in its first quarter. What growth problem were you trying to solve?",
+    "probes": [
+     "Which launch decision was yours?",
+     "Why did you choose a referral programme for that problem?",
+     "How did you arrive at the 30% increase?"
+    ]
+   },
+   {
+    "kind": "gap",
+    "q": "Tell me about a time you led people who didn't report to you toward a demanding target.",
+    "probes": [
+     "What did you do first to establish direction?",
+     "How did you keep progress visible?",
+     "What result did the group achieve?"
+    ]
+   },
+   {
+    "kind": "motivation",
+    "q": "You've built your career in logistics analytics and e-commerce product. What's pulling you toward an Area Sales Manager role?",
+    "probes": [
+     "Which experience in your career most shaped this move?",
+     "What have you done to understand the day-to-day realities of managing a sales territory?",
+     "What are you looking for in your next role that product management does not provide?"
+    ]
+   }
+  ]
+ },
+ "pm_fmcg_jd": {
+  "id": "2026-11-21-b3e2bf6b",
+  "error": null,
+  "slots": [
+   {
+    "kind": "claim",
+    "q": "Your CV says you worked closely with sellers to improve catalogue quality. What did that work involve day to day?",
+    "probes": [
+     "What did you personally do when a seller's catalogue needed improvement?",
+     "How did you decide which seller issues to address first?",
+     "What changed for sellers or customers because of your work?"
+    ]
+   },
+   {
+    "kind": "claim",
+    "q": "At Northline Logistics, you analysed delivery route data for 3 regional hubs. What decision was that analysis intended to support?",
+    "probes": [
+     "What steps did you take to analyse the route data?",
+     "Which finding mattered most to the regional team?",
+     "What changed because of the analysis?"
+    ]
+   },
+   {
+    "kind": "gap",
+    "q": "Tell me about a time you helped a colleague improve their performance.",
+    "probes": [
+     "What did you do first?",
+     "How did you adapt your support to that person?",
+     "What changed in their performance?"
+    ]
+   },
+   {
+    "kind": "motivation",
+    "q": "You've built your career in logistics analytics and e-commerce product. What's pulling you toward an FMCG field sales role now?",
+    "probes": [
+     "What experience has most shaped your interest in working with distributors and retailers?",
+     "How do you feel about travel across western Maharashtra and working in the field?",
+     "What would make this move successful for you over the next three years?"
+    ]
+   }
+  ]
+ },
+ "pm_to_hr": {
+  "id": "2026-11-21-751f536a",
+  "error": null,
+  "slots": [
+   {
+    "kind": "claim",
+    "q": "At Kitecart, you prioritised a 40-item backlog with three functions. How did you organise input from each function?",
+    "probes": [
+     "Which prioritisation decision was yours?",
+     "What trade-off did you make in one sprint?",
+     "What changed because of the process you introduced?"
+    ]
+   },
+   {
+    "kind": "claim",
+    "q": "At Northline Logistics, automating the monthly SLA report saved two days each month. How did you approach that process change?",
+    "probes": [
+     "Which step in the reporting process did you change first?",
+     "How did you make the new process usable for the team?",
+     "How did you arrive at the two-day saving?"
+    ]
+   },
+   {
+    "kind": "gap",
+    "q": "Tell me about a time you responded to a sensitive concern raised by a colleague. It could be from your product or operations work.",
+    "probes": [
+     "What did you do first to understand the concern?",
+     "What information did you verify before acting?",
+     "What outcome followed from your response?"
+    ]
+   },
+   {
+    "kind": "motivation",
+    "q": "You've worked in logistics, operations analytics and product. What's pulling you toward an HR Generalist role now?",
+    "probes": [
+     "Which part of HR Generalist work connects most closely with your experience?",
+     "What have you done to prepare for the move into HR?",
+     "Why is now the right time for this move?"
+    ]
+   }
+  ]
+ },
+ "pm_brightpath_jd": {
+  "id": "2026-11-21-94bccb32",
+  "error": null,
+  "slots": [
+   {
+    "kind": "claim",
+    "q": "The referral programme at Kitecart increased new-user sign-ups by 30% in its first quarter. What product decision most shaped that outcome?",
+    "probes": [
+     "How did you turn that decision into the launched programme?",
+     "What trade-off most influenced the programme design?",
+     "How did you arrive at the 30% increase?"
+    ]
+   },
+   {
+    "kind": "claim",
+    "q": "At Kitecart, you identified a pricing error pattern that saved Rs 2.4 crore annually. How did you isolate it?",
+    "probes": [
+     "What data did you examine first?",
+     "How did you distinguish genuine pricing errors from valid exceptions?",
+     "How did you arrive at the Rs 2.4 crore?"
+    ]
+   },
+   {
+    "kind": "gap",
+    "q": "Suppose only 45% of new Brightpath learners complete a lesson in their first week. How would you decide what to improve first?",
+    "probes": [
+     "What data would you examine before changing the onboarding?",
+     "How would you involve learner research in that decision?",
+     "How would you know the change improved first-week activation?"
+    ]
+   },
+   {
+    "kind": "motivation",
+    "q": "You're moving from e-commerce product work into learner growth. What draws you to this Product Manager role at Brightpath Learning?",
+    "probes": [
+     "Which aspect of learner growth at Brightpath Learning best fits what you want next?",
+     "What from your e-commerce growth experience would transfer most directly to learner activation?",
+     "What would you need to learn first about serving working professionals preparing for certifications?"
+    ]
+   }
+  ]
+ }
+}

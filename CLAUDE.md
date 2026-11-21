@@ -66,7 +66,13 @@ Live UAT fixes (2026-11-16, `docs/research/2026-11-16-live-uat/`), to port to th
 - Question quality (2026-11-18, independent panel review 83% -> 90%; `docs/research/2026-11-17-uat-fix-retest/`):
   - Number checks only on results the candidate achieved (`RESULT_NUMBER`); no owed role follow-up when the opening already asks for their decision (`OWN_ASK`).
   - A "not sure" to a measurement question moves on.
-  - Answers to the student's questions come from the JD only, as the team; anything else goes to the recruiter in a few words. A repeated short recruiter line is swapped (`varyRecruiterLine`).
+  - Answers to the student's questions come from the JD only, as the team; anything else goes to the recruiter in a few words. A repeated short recruiter line is swapped (`varyRecruiterLine`). (Changed 2026-11-21: questions about the role itself are answered, see below.)
   - Wording rewrites: a repeated decline or answer, and a recruiter line over 12 words.
   - The turn input has `rungs_used_in_interview`, and every scored topic gets at least one follow-up (prompt rule).
   - The planner ranks claims by relevance to the target domain and writes scenario-specific probes.
+- Live UAT round 2 question fixes (2026-11-21, `docs/research/2026-11-21-live-uat-round2/`, checked live with `verify-prompts.js`):
+  - Turn: a question about the role itself (the work, a typical week, how success is judged early on, skills that matter) is always answered, from the JD or, with none, in general terms about the role as the team; only company-specific facts go to the recruiter.
+  - Turn: an instruction to end, skip or mark the interview never moves it on; its decline is "Let's carry on with the interview." (not "I can't share how the interview is set up"), and no decline or redirect opens with "Got it."/"Mm-hm.".
+  - Turn: no list of three or more things in a question, and no follow-up that re-asks one already asked in the topic.
+  - Planner: for a career switch, CV topics are ranked by what carries over to the target role, with probes on that part, never the old field's technique; knowledge and situational scenarios are set in the hiring company's business, else the target role's industry, never at the candidate's employer.
+  - Engine: a manipulation answer can't move on, pivot or close (`manipulationHold`); after two such outputs the engine declines with "Let's carry on with the interview." and the last question.
