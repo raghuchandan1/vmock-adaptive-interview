@@ -98,3 +98,21 @@ At panel level: follow-up chains (274[2], 275[10], 291[12-16], 280[16]); domain 
   - Room starts in voice after Start CONFIRMED (both).
   - End confirm: none in 297 (3 topics answered); 299 had one (0 answers). Confirm appears only when no feedback would be generated -> PARTLY FIXED.
   - 297 warm-up follow-up lists three things ("engineering capacity, customer experience, and unit economics").
+
+## Re-check with fresh logins (2026-11-21, 13:54-14:04)
+- q-mock (uat-mock) 301: Mock > HR Business Partner (Senior, HR), Rohan resume, 12 min, clean, normal close, feedback 14:04:16 (~1 min), 80/100.
+  - Why HR never asked: CONFIRMED (student raised it; follow-up skipped it).
+  - Resume unused on Mock tiles (#21): CONFIRMED; generic HR questions and scenarios (₹3 crore people-cost cut at a three-plant auto-components business).
+  - Greeting: no name; opener one question ("What is one development area you are actively working on?").
+  - End questions all to recruiter (live still has the old rule): "The recruiter will share those details." (success), "Our recruiter can tell you more about that." (typical week), stipend to recruiter. Feedback faults asking: "you moved from role success and a typical week to stipend, which weakened the close"; stipend question rated NEEDS WORK.
+  - Voice after Start: CONFIRMED.
+  - Numeric score shown (80/100); no 0/100 contradiction; no "not rated" this time.
+  - SYSTEM line: stayed on topic; "Mm-hm. I can't share how the interview is set up. …" (acknowledgement + ill-fitting decline: fixed in prototype, not ported). Line not graded.
+  - Company Interview tab and "Don't use a resume" exist. "Next, tell me about yourself." asked after scored questions (odd order). ~80% real-interview quality.
+- q-cvdd (uat-cvdd) 302: Resume Deep Dive, chosen lines (checkout 71%->58%, Rs 2.4 crore), Rohan, HR, 13:55-14:00, 92/100:
+  - Line picker loads (FIXED); only chosen lines asked (PASS); no switch question; greeting "Hi Test" (CONFIRMED); success Q to recruiter (CONFIRMED), stipend to recruiter (PASS); feedback says success Q "was focused on the role" though unanswered.
+  - Topic 1: three measurement follow-ups in a row (drilling). Picker "picked" badges sit beside wrong rows (minor).
+- q-cvdd 303: whole resume, "CURRICULUM VITAE"/Priya Raman, Sales & Marketing, 14:01-14:07, feedback ~1 min, 75/100:
+  - Greeting "Hi Test" (not "Curriculum Vitae", not "Priya"). Questions fit Sales & Marketing (Asian Paints tinting scheme, Marico sachet, why sales). No yes/no or two-part questions. Motivation topic got no follow-up.
+  - "not rated, interview ended" on normal end CONFIRMED in 302 and 303, beside scores. Practise this line again and linked Next Steps PASS.
+  - ~95% real-panel quality.

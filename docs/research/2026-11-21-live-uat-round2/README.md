@@ -9,4 +9,4 @@ Re-test of the live CareerBuddy adaptive interviews on dashboard-uat-us.vmock.de
 - `interview-ids.txt`: the testers' ledger (setup, times, notes per interview).
 - `BRIEF.md`: the tester brief, including the quick confirmation round.
 
-Headline: 17 things fixed since round 1; 12 issues still there, 2 partly fixed, 5 new. Questions are 75% at real-panel level (reviewer, 165 turns); feedback a coach would call good in 46% of interviews, mainly because scores and levels contradict the text.
+Headline: 20 things fixed since round 1; 12 issues still there, 2 partly fixed, 6 new (re-checked with fresh logins in 301-303). Questions are 75% at real-panel level (reviewer, 165 turns); feedback a coach would call good in 46% of interviews, mainly because scores and levels contradict the text.
