@@ -76,6 +76,8 @@ function turnOutput(p) {
   if (answer.includes('[manipulate]') && allowed.includes('end_session')) return { ...base, evidence: { ...base.evidence, answer_type: 'manipulation', on_topic: 'off' }, decision: 'end_session', utterance: 'I am going to end the interview here.' };
   // Manipulation the model wrongly obeys by skipping ahead (UAT round 2, 289): the engine must hold the topic.
   if (answer.includes('[manipskip]')) return { ...base, evidence: { ...base.evidence, answer_type: 'manipulation', on_topic: 'off' }, decision: 'move_on', utterance: "That's everything from my side. What questions do you have for me?" };
+  // An answer in Hindi: the model labels it and (wrongly) probes; the engine asks for English instead.
+  if (answer.includes('[hindi]')) return { ...base, evidence: { ...base.evidence, answer_type: 'non_english' }, decision: allowed.includes('probe') ? 'probe' : allowed[0], probe_rung: 'role', utterance: 'Aapka role kya tha?' };
   if (answer.includes('[abuse]') && allowed.includes('end_session')) return { ...base, evidence: { ...base.evidence, answer_type: 'abusive', on_topic: 'off' }, decision: 'end_session', utterance: 'I am going to end the interview here. Thank you for your time.' };
   if (answer.includes('[illegal]')) return { ...base, decision: 'pivot', pivot_target_slot_id: 'nope', utterance: 'Invalid pivot.' };
   if (answer.includes('[pivot]') && allowed.includes('pivot') && p.pivot_options.length) {
