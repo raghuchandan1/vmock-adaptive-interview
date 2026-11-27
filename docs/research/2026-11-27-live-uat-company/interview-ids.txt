@@ -1,0 +1,12 @@
+c-gen A 332 HUL 17:17
+c-jd A: 331 (Brightpath, 17:16)
+c-edge A 333 Amazon PM mock 12min 17:23
+c-gen A 332 BLOCKED: logged out in lobby (Start conversation disabled), 17:56
+c-gen 334 accidental (Start with CareerBuddy jumped straight to room, no company) 18:20
+c-gen 335 accidental (same jump) 18:20
+c-gen A 337 HUL Area Sales Manager 10min 18:22 (336 likely an accidental start)
+c-jd B: 338 (FMCG placeholder, 18:31)
+c-edge B 339 Generate noJD Financial Analyst Finance company=injection 10min 18:37
+c-gen B 341 Zentrix Quantaloop (made up) 10min 18:39
+c-edge 342 accidental (Generate remembered role/function, company blank; abandoned in lobby) 18:49
+c-edge C 344 Generate noJD Financial Analyst company='Tata Consultancy Services (TCS)' lobby/greeting only 18:48
